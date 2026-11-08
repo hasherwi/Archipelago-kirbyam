@@ -173,6 +173,14 @@ def test_synthetic_rom_fixture_supplies_complete_patch_smoke_contract() -> None:
 
     rom = fixture.build_dummy_rom()
     assert len(rom) == 0x1000000
+    patch_rom.validate_minny_swallow_callsite(rom)
+    patch_rom.validate_mini_star_callsite(rom)
+    _, requests, starts = patch_rom.discover_runtime_callsites(
+        rom, 0x08000000, {"boss_already_owned_hook_target": 0x0815E100}
+    )
+    assert 0x9C69C in requests
+    assert 0x9C6AA in requests
+    assert starts
     offset = patch_rom.AUTOMATIC_TRANSITION_GUARD_OFFSET
     assert rom[offset:offset + len(patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL)] == (
         patch_rom.AUTOMATIC_TRANSITION_GUARD_ORIGINAL

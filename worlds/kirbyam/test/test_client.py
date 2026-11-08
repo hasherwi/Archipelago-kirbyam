@@ -10,6 +10,7 @@ from unittest.mock import AsyncMock, Mock, call, patch
 from typing import Any
 
 import pytest
+from NetUtils import NetworkItem
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
@@ -234,16 +235,22 @@ def test_abilities_command_lists_every_ability_when_gating_is_disabled(mock_bizh
 
 
 @pytest.mark.parametrize("slot_data", [None, {}, {"ability_gating": True}, {"ability_gating": False}])
-def test_abilities_command_hides_wait_without_removing_real_abilities(mock_bizhawk_context, slot_data):
+@pytest.mark.parametrize("received_cutter", [False, True])
+def test_abilities_command_hides_wait_without_removing_real_abilities(
+    mock_bizhawk_context, slot_data, received_cutter,
+):
     mock_bizhawk_context.game = KirbyAmClient.game
     mock_bizhawk_context.slot_data = slot_data
-    mock_bizhawk_context.items_received = []
+    mock_bizhawk_context.items_received = (
+        [NetworkItem(3860106, -2, 0)] if received_cutter else []
+    )
 
     output = _run_abilities_command(mock_bizhawk_context)
 
     assert "Wait" not in output
     assert "Beam" in output
-    assert "Cutter" in output
+    gating = not isinstance(slot_data, dict) or slot_data.get("ability_gating", True)
+    assert ("Cutter" in output) == (received_cutter or not gating)
     assert output[1:] == sorted(set(output[1:]))
     # Wait is still needed by native ability logic; hide it only in this display.
     assert "Wait" in ABILITY_NAME_TO_ID
@@ -6411,20 +6418,3 @@ async def test_minor_chest_reset_recovers_retained_sources_until_ack(mock_bizhaw
         ctx.checked_locations.add(target.location_id)
         await client._poll_minor_chest_locations(ctx)
         assert ctx.send_msgs.await_count == 2
-
-
-@pytest.mark.asyncio
-async def test_single_save_watcher_defers_all_data_work_until_authenticated_start(mock_bizhawk_context):
-    client = KirbyAmClient()
-    client.initialize_client()
-    mock_bizhawk_context.slot_data['shared_save_protocol_version'] = 1
-    with patch.object(client, '_health_protocol_ready', new=AsyncMock(return_value=True)), \
-         patch('worlds.kirbyam.client.read_shared_snapshot', new=AsyncMock(return_value=None)) as snapshot, \
-         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as read, \
-         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as write, \
-         patch.object(client, '_sync_hub_connection_item_ownership', new_callable=AsyncMock) as sync:
-        await client.game_watcher(mock_bizhawk_context)
-        snapshot.assert_awaited_once_with(mock_bizhawk_context)
-        read.assert_not_awaited()
-        write.assert_not_awaited()
-        sync.assert_not_awaited()

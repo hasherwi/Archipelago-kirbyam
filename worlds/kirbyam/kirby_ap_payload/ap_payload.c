@@ -2,8 +2,8 @@
 
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
-#include "shared_save.h"
-AP_SHARED_EXT void ap_goal_poll(void);
+#include "copy_room.h"
+AP_COPY_EXT void ap_goal_poll(void);
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -337,7 +337,6 @@ static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr
 
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_set_hub_switch_flag(uint32_t bit) {
-    if (!ap_shared_epoch()) return;
     if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
     AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
     switch (ap_hub_save_action(*(volatile uint32_t*)0x0203AD10u,
@@ -562,6 +561,8 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_key
  */
 __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
+
+    if (source_room == 801u && destination_room == 970u) return ap_copy_room_owned();
 
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
         return 1u;
@@ -1149,7 +1150,7 @@ typedef void (*KirbyStartGameFn)(
     const uint32_t *flags
 );
 /* Thumb entry for native sub_080332BC, which creates the Kirby players. */
-#define KIRBY_START_GAME_FN ((KirbyStartGameFn)0x080332BDu)
+#define KIRBY_START_GAME_FN ap_copy_room_start
 
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
@@ -1246,7 +1247,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_enemy_
 
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
-// including dropped ability-star transitions. Direct statue touches bypass this
+// except verified raw Mini recovery stars. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
 /* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
 __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_ability_transition_c(
@@ -1264,7 +1265,8 @@ __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_
         source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
     }
 
-    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
+    if (ap_is_mini_star_recovery(caller_pc, source_obj_ptr, ability_flags) == 0u
+        && ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
         && ap_enemy_seed_source_allows(caller_pc, source_obj_ptr, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
@@ -1583,7 +1585,7 @@ static uint32_t ap_get_effective_starting_kirby_color(void) {
 __attribute__((used)) uint32_t ap_on_treasure_paint_selection(uint8_t *menu) {
     uint32_t index = menu[0x2A];
     if ((KIRBY_PRESSED_KEYS & 1u) && index < 40u && menu[2u + index]
-        && KIRBY_SAVE_ID == 0u && ap_shared_can_save_paint()) {
+        && KIRBY_SAVE_ID < 3u) {
         uint32_t tag = ((const uint16_t*)0x08386A50u)[index * 2u];
         uint32_t paint = tag - 0x101u;
         if (tag == 0x100u || (ap_native_color_valid(paint)
@@ -1643,7 +1645,7 @@ __attribute__((used)) void ap_on_start_single_player_game(
     KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
     AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
-    ap_shared_start(mode, arg1, rooms, positions, flags);
+    KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
     AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
 
@@ -1895,7 +1897,6 @@ static void ap_trap_battery_drain(void) {
 #define HUB_EXT __attribute__((noinline, long_call, section(".aphub")))
 
 static HUB_EXT uint8_t ap_hub_pending_ready(void) {
-    if (!ap_shared_epoch()) return 0u;
     uint32_t hud;
     uint16_t animation = *(volatile uint16_t *)(KIRBY_STRUCTS_ADDR + 0xD4u);
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE
@@ -1957,6 +1958,8 @@ HUB_EXT void ap_hub_tasks(void) {
 
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
+    /* Only authenticated complete history may grant this access item. */
+    if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -2133,8 +2136,8 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 }
 
 
-AP_SHARED_EXT void ap_poll_mailbox_c(void) {
-    ap_shared_poll();
+AP_COPY_EXT void ap_poll_mailbox_c(void) {
+    ap_copy_room_poll();
     ap_goal_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
@@ -2190,8 +2193,6 @@ AP_SHARED_EXT void ap_poll_mailbox_c(void) {
         }
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
-
-    if (!ap_shared_epoch()) return;
 
     // Rebuild AP-owned native connection state from the client's complete item history.
     // Restore only seed-bound physical checks, never infer them from item doors.

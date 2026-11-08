@@ -147,6 +147,16 @@ def validate_minny_swallow_callsite(rom: bytes | bytearray) -> None:
         raise SystemExit("Error: unverified Minny source ABI at ordinary swallow callsite")
 
 
+def validate_mini_star_callsite(rom: bytes | bytearray) -> None:
+    """Verify r5 raw-ability load, native star flag, and original request BL."""
+    offset = 0x0009C69C
+    expected = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c") + thumb_bl_bytes(
+        0x08000000 + offset, ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
+    )
+    if rom[offset - 12:offset + 4] != expected:
+        raise SystemExit("Error: unverified Mini star source ABI at star swallow callsite")
+
+
 # ----------------------------
 # Logging (tee stdout/stderr)
 # ----------------------------
@@ -1012,19 +1022,18 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
-        "single_save_target": resolve_elf_symbol_address(payload_elf_path, "ap_single_save_entry"),
-
         "goal_transition_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_transition_entry"),
         "goal_start_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_start_callback"),
         "goal_landed_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_landed_callback"),
-        "shared_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_load_entry"),
-        "shared_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_shared_clear_entry"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_vitality_collection_menu_count"),
         "initial_health_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_initial_health_capacity"),
+        "copy_room_load_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_load_entry"),
+        "copy_room_clear_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_clear_entry"),
+        "copy_room_state_target": resolve_elf_symbol_address(payload_elf_path, "ap_copy_room_state_entry"),
         "health_hud_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_draw_health_hud"),
         "hub_trap_hook_target": resolve_elf_symbol_address(payload_elf_path, "ap_after_tasks"),
@@ -1085,6 +1094,10 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "goal_transition_target": "Goal Game doorway transition",
+    "copy_room_load_target": "Copy Room load guard",
+    "copy_room_clear_target": "Copy Room clear guard",
+    "copy_room_state_target": "Copy Room state guard",
     "health_hud_hook_target": "health HUD trailing-tile cleanup",
     "treasure_paint_hook_target": "explicit treasure paint choice",
     "initial_health_hook_target": "configured native initial health",
@@ -1103,11 +1116,6 @@ _PAYLOAD_TARGET_LABELS = {
     "hub_switch_init_state_hook_target": "hub switch initialization state hook",
     "small_switch_effect_hook_target": "lever small-switch effect hook",
     "special_door_state_hook_target": "Area Key mirror visual-state hook",
-    "single_save_target": "single save startup",
-
-    "goal_transition_target": "Goal Game doorway transition",
-    "shared_load_target": "shared save load",
-    "shared_clear_target": "shared save clear",
     "automatic_transition_guard_target": "Area Key automatic-transition guard",
     "button_special_transition_hook_target": "Area Key button-transition hook",
     "explicit_room_transition_hook_target": "Area Key explicit-room-transition hook",
@@ -1130,10 +1138,6 @@ def validate_payload_targets(
     payload_rom_end: int,
 ) -> None:
     for name, target in hook_targets.items():
-        if name in ("goal_start_target", "goal_landed_target"):
-            if not 0x09000000 <= target < 0x0900FFDC:
-                raise SystemExit("Goal Game callback outside extension")
-            continue
         if not (payload_rom_start <= target < payload_rom_end):
             raise SystemExit(
                 "Error: "
@@ -1160,43 +1164,33 @@ def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> d
     return writes
 
 
-SHARED_SAVE_NATIVE_CALLS = (
-    (0x0800A91C, "shared_load_target", (0x222, 0x242, 0x32384, 0x138CB2,
-      0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
-    (0x0800AC00, "shared_clear_target", (0x22E, 0x250, 0x270, 0x25F9E,
-      0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
+COPY_ROOM_NATIVE_CALLS = (
+    (0x0800A91C, "copy_room_load_target", (0x222, 0x242, 0x32384, 0x138CB2,
+     0x13CA80, 0x140430, 0x141CA0, 0x142638, 0x1428AE)),
+    (0x0800AC00, "copy_room_clear_target", (0x22E, 0x250, 0x270, 0x25F9E,
+     0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
+    (0x08002888, "copy_room_state_target", (0x1E5B2,)),
 )
 
 
-def build_shared_save_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
-    """Exact USA loader/clear calls; adventure activation composes with color startup."""
+def build_copy_room_context_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    """Wrap exact USA calls, preserving native selector, bounds and save layout."""
     writes = {}
-    for native, key, offsets in SHARED_SAVE_NATIVE_CALLS:
+    for native, key, offsets in COPY_ROOM_NATIVE_CALLS:
         for offset in offsets:
             validate_expected_instruction_sequence(
                 rom, offset, thumb_bl_bytes(0x08000000 + offset, native), key)
             writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets[key])
-    for offset, before, after in (
-        (0x14A802, thumb_bl_bytes(0x0814A802, 0x08138B44),
-         thumb_bl_bytes(0x0814A802, targets["single_save_target"])),
-        # Mode-menu Back exits to title instead of reopening the file selector.
-        (0x13D8A0, bytes.fromhex("15c41308"), bytes.fromhex("a1211408")),
-        (0x26A, bytes.fromhex("022c"), bytes.fromhex("002c")),
-        (0x278, bytes.fromhex("0f2e"), bytes.fromhex("032e")),
-    ):
-        validate_expected_instruction_sequence(rom, offset, before, "single save startup")
-        writes[offset] = after
-    validate_expected_instruction_sequence(rom, 0x2D91FC, bytes.fromhex(
-        "f08b020220000000108c020280000000a08c02023e0200006089030224000000"
-        "d029020204000000d8290202040000002cad030202000000ffffffffffffffff"),
-        "native WORLD descriptor layout")
-    # Every retail descriptor reference, including native checksum/clear helpers.
-    for offset in (0xA9EC, 0xAA18, 0xAADC, 0xAB04, 0xABF4, 0xAD4C,
-                   0x325DC, 0x32640, 0x3280C):
-        validate_expected_instruction_sequence(rom, offset, bytes.fromhex("fc912d08"),
-                                               "WORLD descriptor table")
-        writes[offset] = bytes.fromhex("80ff0009")
     return writes
+
+
+def build_copy_room_native_grant_writes(rom: bytes | bytearray) -> dict[int, bytes]:
+    """Keep native switch progress/cleanup without all-switch room ownership."""
+    validate_expected_instruction_sequence(rom, 0x12630A, bytes.fromhex(
+        "0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60"), "Copy Room native grant")
+    validate_expected_instruction_sequence(rom, 0x12639C, bytes.fromhex(
+        "03 48 00 68 2c f0 4c fc 13 f7 64 f9"), "Copy Room native cleanup")
+    return {0x12630C: bytes.fromhex("46 e0")}
 
 
 # USA native register contracts: full-room scanner holds template/LevelInfo in
@@ -1598,6 +1592,7 @@ def discover_runtime_callsites(
     }
 
     validate_minny_swallow_callsite(rom)
+    validate_mini_star_callsite(rom)
 
     ability_transition_target_candidates = {
         ORIGINAL_ABILITY_TRANSITION_FN_ADDR,
@@ -1744,8 +1739,9 @@ def patch_rom_with_payload(
         "extended payload retail zero padding",
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
-    regression_writes.update(build_shared_save_writes(rom, hook_targets))
+    regression_writes.update(build_copy_room_context_writes(rom, hook_targets))
     regression_writes.update(build_goal_game_writes(rom, hook_targets))
+    regression_writes.update(build_copy_room_native_grant_writes(rom))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))

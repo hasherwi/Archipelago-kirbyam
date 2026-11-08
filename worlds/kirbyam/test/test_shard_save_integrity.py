@@ -3,7 +3,6 @@
 This is host execution of payload C, not emulator or native save/load acceptance.
 Unrelated ROM callbacks and ARM register reads are replaced; shard paths are not.
 """
-from .native_payload_sources import link_payload_modules
 from pathlib import Path
 import re
 import shutil
@@ -20,6 +19,7 @@ def test_shard_paths_preserve_all_save_bytes(tmp_path):
     if not compiler or not sys.platform.startswith("linux"):
         pytest.skip("requires Linux mapped memory and a C compiler")
     source = (WORLD / "kirby_ap_payload/ap_payload.c").read_text()
+    source += "\n" + (WORLD / "kirby_ap_payload/copy_room.c").read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -36,20 +36,18 @@ def test_shard_paths_preserve_all_save_bytes(tmp_path):
     source += r'''
 #define SAVE ((unsigned char *)0x0E000000u)
 static unsigned char before[0x8000];
-#define CHECK(x) do { if (!(x)) {printf("failed line %d native=%u authority=%u\n", __LINE__, KIRBY_SHARD_FLAGS, AP_DELIVERED_SHARD_BITFIELD);return 1;} } while(0)
+#define CHECK(x) do { if (!(x)) {printf("failed line %d\n", __LINE__);return 1;} } while(0)
 static void reset(unsigned flags) {
     memset((void *)0x02000000u, 0, 0x40000);
     KIRBY_SHARD_FLAGS = flags;
     AP_DELIVERED_SHARD_BITFIELD = flags;
     AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     AI_KIRBY_STATE = AI_STATE_NORMAL;
-    host_shared_active();
 }
 int main(void) {
-    CHECK(mmap((void*)0x03000000u,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x03000000u);
-    CHECK(mmap((void*)0x08F00000u,4096,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
     CHECK(mmap((void*)0x02000000u,0x40000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02000000u);
-    CHECK(mmap(SAVE,0x8000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==SAVE);
+    CHECK(mmap(SAVE,0x8000,PROT_READ|PROT_WRITE,
+        MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==SAVE);
     for(unsigned i=0;i<sizeof(before);i++) before[i]=(unsigned char)(i*37u+13u);
     memcpy(SAVE,before,sizeof(before));
     for(unsigned old=0;old<256;old++) for(unsigned bit=0;bit<8;bit++) {
@@ -73,12 +71,12 @@ int main(void) {
         CHECK(KIRBY_SHARD_FLAGS==old && AP_BOSS_TEMP_SHARD_BITFIELD==0);
         CHECK(memcmp(SAVE,before,sizeof(before))==0);
     }
-    puts("2048 prior-state/shard cases: mailbox grant/replay, boss grant and gameplay scrub preserve all 32768 SRAM bytes");
+    puts("2048 prior-state/shard cases: mailbox grant/replay, boss grant and gameplay scrub "
+         "preserve all 32768 SRAM bytes");
     return 0;
 }
 '''
     cfile, exe = tmp_path / "save-integrity.c", tmp_path / "save-integrity"
-    source = link_payload_modules(source, WORLD / 'kirby_ap_payload')
     cfile.write_text(source)
     result = subprocess.run([compiler, "-std=gnu99", "-w", "-I", str(WORLD / "kirby_ap_payload"),
                              str(cfile), "-o", str(exe)], capture_output=True, text=True)

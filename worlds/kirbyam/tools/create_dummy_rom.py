@@ -66,11 +66,11 @@ def build_dummy_rom() -> bytearray:
     put_bl(0x55DF0, 0x080562D0)
     rom[0xC5F0:0xC5F4] = (0x0800DCAD).to_bytes(4, "little")
     rom[0xD2DC:0xD2E0] = (0x0800D2E1).to_bytes(4, "little")
-
-    # Shared save lifecycle requires exact loader and clear calls.
-    for target, _key, offsets in patch_rom.SHARED_SAVE_NATIVE_CALLS:
+    for target, _key, offsets in patch_rom.COPY_ROOM_NATIVE_CALLS:
         for offset in offsets:
             put_bl(offset, target)
+    rom[0x12630A:0x12631C] = bytes.fromhex("0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60")
+    rom[0x12639C:0x1263A8] = bytes.fromhex("03 48 00 68 2c f0 4c fc 13 f7 64 f9")
 
     # Current main's delayed chest, lever, ability and health hooks.
     rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
@@ -89,6 +89,10 @@ def build_dummy_rom() -> bytearray:
     for index in range(15):
         offset = 0x34BDBC + index * 4
         rom[offset:offset + 4] = (0x08126405 + index * 12).to_bytes(4, "little")
+
+    # Native Mini-star source load, flag, and request ABI.
+    rom[0x9C690:0x9C69C] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")
+    put_bl(0x9C69C, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)
 
     # Minny enemy ABI and native treasure-menu paint selection.
     rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")
@@ -109,8 +113,6 @@ def build_dummy_rom() -> bytearray:
     # Exact checked native hub excerpts are shared with the regression fixtures.
     hub_fixture = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/hub_transition_fixture.py"))
     hub_fixture["populate_hub_transition_fixture"](rom)
-    single = runpy.run_path(str(ROOT / "worlds/kirbyam/test/native/single_save_fixture.py"))
-    single["populate_single_save_fixture"](rom, patch_rom.thumb_bl_bytes)
     return rom
 
 

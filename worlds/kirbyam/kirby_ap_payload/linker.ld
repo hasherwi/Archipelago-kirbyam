@@ -37,10 +37,10 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apsharedinfo)) KEEP(*(.apgoalinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     ap_extension_code_end = .;
-    . = 0xFF80;
-    KEEP(*(.apsavedesc))
+    . = 0xFFD4;
+    KEEP(*(.apcopyinfo))
     . = 0xFFDC;
     KEEP(*(.apsourceconfig))
   }
@@ -53,7 +53,9 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
 
-ASSERT(ap_extension_code_end <= 0x0900FF80, "Enemy source config overlaps extension code")
+ASSERT(ap_extension_code_end <= 0x0900FFD4, "Enemy source config overlaps extension code")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
-ASSERT(ap_single_save_descriptors == 0x0900FF80, "Single-save descriptor ABI moved")
+ASSERT(ap_copy_room_marker == 0x0900FFD4, "Copy Room marker address changed")
+
+ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")

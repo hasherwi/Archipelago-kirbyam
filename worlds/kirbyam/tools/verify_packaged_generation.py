@@ -40,7 +40,6 @@ def matrix_cases():
             'ability_randomization_no_ability_weight': (0, 55, 100)[index % 3],
             'ability_randomization_boss_spawns': index % 2,
             'ability_randomization_minibosses': (index // 2) % 2,
-            'ability_randomization_minny': (index // 3) % 2,
             'ability_randomization_passive_enemies': (index // 4) % 2,
             'ability_randomization_statues': (index // 5) % 2,
             'progression_balancing': (0, 50, 99)[index % 3],
@@ -53,6 +52,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--seeds', type=int, nargs='+', default=[935, 202610120972, 0])
     parser.add_argument('--limit', type=int)
+    parser.add_argument('--copy-room-precollection', action='store_true')
     args = parser.parse_args()
     # Resolve the AP runtime, not the directory containing this verification tool.
     sys.path.insert(0, str(Path.cwd()))
@@ -77,6 +77,11 @@ def main():
     assert len(room_ids) == 263
     args.output.mkdir(parents=True, exist_ok=True)
     cases = list(matrix_cases())[:args.limit]
+    if args.copy_room_precollection:
+        baseline = next(matrix_cases())[1]
+        cases = [(index, {**baseline, 'room_sanity': index,
+                          'start_inventory': {'Copy Ability Room Access': 1}})
+                 for index in range(2)]
     passed = slots = 0
     coverage: dict[str, set[str]] = {}
     started = time.monotonic()
@@ -116,6 +121,15 @@ def main():
                     decoded = Context.decompress(archive.read(md[0]))
                     for player in range(1, players + 1):
                         actual = set(decoded['locations'][player]) & room_ids
+                        slot = decoded['slot_data'][player]
+                        assert slot['copy_ability_room_protocol_version'] == 2
+                        expected_start = args.copy_room_precollection
+                        assert slot['starting_copy_ability_room_access'] is expected_start
+                        assert decoded['precollected_items'][player].count(3860500) == int(expected_start)
+                        assert 'shared_save_protocol_version' not in slot
+                        assert sum(entry[0] == 3860500 and entry[1] == player
+                                   for locations in decoded['locations'].values()
+                                   for entry in locations.values()) == 1
                         enabled = decoded['slot_data'][player]['room_sanity']
                         core_ids = {loc.location_id for loc in data.locations.values()
                                     if 'CoreLandmark' in loc.tags}

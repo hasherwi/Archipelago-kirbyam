@@ -64,9 +64,9 @@ def classify(run, jobs, pending, tag, sha):
         return ('build-only success' if run.get('conclusion') == 'success' else 'build-only'), 'Select the exact tag-push run, not a branch or manual build.'
     publisher = next((j for j in jobs if j['name'] == 'release-apworld'), None)
     if publisher and publisher.get('conclusion') == 'skipped':
-        return 'publisher skipped', 'Inspect tag protection and build result; a skipped writer staged nothing.'
+        return 'publisher skipped', 'Inspect the build result and tagged workflow policy; a skipped writer staged nothing.'
     if pending:
-        return 'awaiting approval', 'Required environment reviewer must inspect source and build before approval.'
+        return 'awaiting approval', 'An existing environment rule needs approval; follow it or ask the owner to review the setting.'
     if not publisher or publisher.get('status') != 'completed':
         return 'staging pending', 'Wait for the exact run; inspect missing jobs or interrupted attempts.'
     if publisher.get('conclusion') != 'success':
@@ -111,9 +111,22 @@ def release_snapshot(release):
     ]}
 
 
+def check_remote_tag(tag, source):
+    """Check GitHub's peeled ref, not a local tag or release target_commitish."""
+    ref = api(f'git/ref/tags/{tag}')['object']
+    while ref['type'] == 'tag':
+        ref = api(f'git/tags/{ref["sha"]}')['object']
+    if ref['type'] != 'commit' or ref['sha'] != source:
+        raise ValueError('remote tag does not resolve to reviewed source; do not move it')
+
+
 def inspect(args, report):
     source_check(args.tag, args.source)
-    report['prerequisites'] = prerequisites(json.loads(args.owner_evidence.read_text()), args.tag, args.source)
+    # Single-maintainer mode needs no settings changes or hand-written evidence file.
+    # Supplying evidence explicitly retains the earlier strict settings policy.
+    report['policy'] = 'strict' if args.owner_evidence else 'single-maintainer'
+    report['prerequisites'] = (prerequisites(json.loads(args.owner_evidence.read_text()), args.tag, args.source)
+                               if args.owner_evidence else {})
     missing = [key for key, value in report['prerequisites'].items() if value != 'verified']
     report['missing_prerequisites'] = missing
     if missing:
@@ -122,12 +135,7 @@ def inspect(args, report):
     if args.preflight:
         report.update(status='preflight complete', action='Create/inspect the draft, then push the exact tag using the runbook. This is not release readiness.')
         return True
-    # Get ref identity from GitHub rather than trusting a local tag or release target_commitish.
-    ref = api(f'git/ref/tags/{args.tag}')['object']
-    while ref['type'] == 'tag':
-        ref = api(f'git/tags/{ref["sha"]}')['object']
-    if ref['type'] != 'commit' or ref['sha'] != args.source:
-        raise ValueError('remote tag does not resolve to reviewed source; do not move it')
+    check_remote_tag(args.tag, args.source)
     release = api(f'releases/tags/{args.tag}')
     if release['tag_name'] != args.tag:
         raise ValueError('release tag mismatch')
@@ -135,8 +143,13 @@ def inspect(args, report):
     report['missing_assets'] = sorted(set(artifacts.ASSETS) - {a['name'] for a in release['assets']})
     if not release['draft'] and not args.public:
         raise ValueError('release already published; preserve evidence and use public verification/recovery')
-    if args.public and (release['draft'] or release.get('immutable') is not True):
-        raise ValueError('public verification requires a published immutable release')
+    report['immutable'] = release.get('immutable')
+    report['warnings'] = ([] if release.get('immutable') is True else [
+        'Server-side immutability is not verified. This verifies a snapshot, not protection against later changes.'])
+    if args.public and release['draft']:
+        raise ValueError('public verification requires a published release')
+    if args.public and args.owner_evidence and release.get('immutable') is not True:
+        raise ValueError('strict public verification requires a published immutable release')
     run = api(f'actions/runs/{args.run_id}')
     if run.get('repository', {}).get('full_name') != REPO or run['id'] != args.run_id:
         raise ValueError('unexpected run repository or identity')
@@ -151,7 +164,8 @@ def inspect(args, report):
         return False
     with tempfile.TemporaryDirectory() as tmp:
         verify_download(Path(tmp), release, args.tag, args.source, run, args.public)
-    # Detect concurrent state/asset changes; this is not an atomic publication lock.
+    # Detect concurrent tag/state/asset changes; this is not an atomic publication lock.
+    check_remote_tag(args.tag, args.source)
     if release_snapshot(api(f'releases/tags/{args.tag}')) != release_snapshot(release):
         raise ValueError('release changed during verification; inspect and repeat')
     report.update(status='published-and-verified' if args.public else 'staged-and-verified',
@@ -165,8 +179,9 @@ def main():
     parser.add_argument('--tag', required=True)
     parser.add_argument('--source', required=True)
     parser.add_argument('--run-id', type=int)
-    parser.add_argument('--preflight', action='store_true', help='Check source and owner prerequisites before draft/tag creation')
-    parser.add_argument('--owner-evidence', required=True, type=Path)
+    parser.add_argument('--preflight', action='store_true', help='Check source before draft/tag creation')
+    parser.add_argument('--owner-evidence', type=Path,
+                        help='Opt into strict settings verification using a fresh owner inspection record')
     parser.add_argument('--public', action='store_true', help='Verify unauthenticated public downloads after publication')
     args = parser.parse_args()
     if not args.preflight and args.run_id is None:

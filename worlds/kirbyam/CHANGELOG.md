@@ -8,25 +8,28 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
+## v0.5.1
 
 ### New Features
-- All sixteen Goal Games now award a check when completed, including runs with no prizes. Checks persist offline and report on reconnect, independently of Room Sanity and chests.
+- All sixteen Goal Games award a check when completed, including runs with no prizes. Checks persist per native save file and report on reconnect, independently of Room Sanity and chests.
+- Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
-- Remove save file selection, always use File 1 while retaining the game-mode menu, and add 4 KiB of storage for AP game data.
+- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
+- Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
-- Native linked-GBA multiplayer within a single world is not currently supported. Ordinary Archipelago multiworld uses separate player worlds.
 - Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance. Mirrors and warp stars locked by Area Keys have no visual indicator.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
+- When enemies are set to shuffled, some may still have vanilla abilities. Most notably the first waddle doo in room 1-01.
 
 ### Bug Fixes
-- None.
+- Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
-- Added a shared, seed-authenticated save record and active-save context for the separate Goal Game and Copy Room features (#1000, #1002), preventing cached state from being attributed to another seed or save slot and fencing asynchronous client operations to the active adventure.
+- Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0
 
@@ -40,14 +43,15 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add Defeat a Number of Area Bosses: defeat any 1–8 distinct area bosses, default 3 (Issue #973). Other goals ignore the count. New count-goal seeds require the updated KirbyAM client; older clients interpret the new goal as Dark Mind.
 
 ### Improvements
-- Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Owner settings verification and a live release rehearsal remain pending.
+- Add a release-preparation runbook, read-only readiness checks and staging status reporting, with consistent exact-version or matching base-version changelog selection for release candidates (Issue #1012). Support a single-maintainer review path without mandatory settings evidence or a separate reviewer; a live release rehearsal remains pending.
 
 ### Known Limitations
 - Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance. Mirrors and warp stars locked by Area Keys have no visual indicator.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 
 ### Bug Fixes
+- Correct Rainbow Route 1-06’s small chest to the lower cave, preventing the upper path from granting access (Issue #1032).
 - Avoid a misleading ROM compatibility warning when disconnecting from the server.
 - Resume item delivery and gameplay polling when continuing a completed save, while keeping ending, title and demo screens deferred (Issue #1004).
 - Keep duplicate incoming DeathLinks suppressed when reconnecting to the same seed and slot.
@@ -73,8 +77,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Preserve compiled Hub switch mapping with generated lookup tables, fixed configuration addresses and explicit overlap checks. Historical native door aliases remain unchanged.
 - Verify the complete wheel inventory and SHA-256 bytes before offline Kirby ROM-smoke dependency installation (Issue #980; broader dependency matrices remain open).
 - Pin Kirby workflow actions to audited commit identities and reject mutable action references (Issue #981; interpreter/toolchain downloads remain separate).
-- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and owner immutability prerequisites are documented.
-- Gate Kirby publication on protected tags, release-environment approval and trusted-main validation; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
+- Add draft-artifact receipts, signed provenance and download verification; refuse published-asset replacement (Issue #983). Plugin-trust guidance and optional immutability safeguards are documented.
+- Gate Kirby staging on release-tag pushes and trusted-main validation, preserving existing environment restrictions with optional tag protection; remove publisher PR authority and limit self-hosted smoke runs to main (Issue #982).
 - Carry the abandoned v0.4.2 security work into v0.5.0; see the [integration plan](dev-docs/v050-security-integration.md) for dependencies and pending acceptance gates.
 - Execute the full native mailbox/ACK path for all 24 Spray Paint/Music Sheet IDs and Vitality grants for all four player structures, including duplicate delivery and dead-state safety (Issues #971, #953).
 - Exercise all eight shard receipts through twelve cold client/transport restarts, partial native saves and interleaved acknowledged food receipts (Issue #974).

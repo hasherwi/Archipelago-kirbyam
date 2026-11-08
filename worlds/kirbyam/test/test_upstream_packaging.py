@@ -77,6 +77,18 @@ def test_built_apworld_generates_single_and_multi_player_archives(tmp_path):
     assert summary['archives'] == 32
     assert summary['slots'] == 48
     assert summary['option_values']['room_sanity'] == ['0', '1']
+    # Real YAML generation, not a manually injected precollection or slot flag.
+    result = subprocess.run(
+        [sys.executable, '-c', bootstrap, str(world_root / 'tools/verify_packaged_generation.py'),
+         '--apworld', str(installed), '--output', str(tmp_path / 'precollection'),
+         '--copy-room-precollection', '--seeds', '1002'],
+        cwd=runtime, env=env, stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=180,
+    )
+    assert result.returncode == 0, result.stdout[-8000:]
+    summary = json.loads((tmp_path / 'precollection/summary.json').read_text())
+    assert summary['archives'] == 2
+    assert summary['slots'] == 3
 
 
 def test_packaged_data_listing_uses_a_package_anchor(monkeypatch, tmp_path):

@@ -20,11 +20,12 @@ from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
-from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
-from . import shared_watcher as shared_io
-from .shared_save_protocol import SHARED_MARKER, SHARED_MARKER_OFFSET, shared_slot_version, read_shared_snapshot
-
+from .copy_room_protocol import (
+    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
+    copy_room_slot_version, sync_copy_room_ownership,
+)
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
+from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
@@ -975,7 +976,7 @@ class KirbyAmClient(BizHawkClient):
             return None
 
         read_width = _ROOM_VISIT_FLAGS_ENTRY_COUNT * 2
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(room_visit_addr, read_width, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(room_visit_addr, read_width, "System Bus")]))[0]
 
         if len(raw) != read_width:
             self._log_verbose(
@@ -1181,13 +1182,13 @@ class KirbyAmClient(BizHawkClient):
 
         desired_bits = self._ap_owned_area_key_bits(ctx)
         current_raw = (
-            await shared_io.read(ctx.bizhawk_ctx, [(area_key_addr, 4, "System Bus")])
+            await bizhawk.read(ctx.bizhawk_ctx, [(area_key_addr, 4, "System Bus")])
         )[0]
         current_bits = self._u32_le(current_raw)
         if current_bits == desired_bits:
             return
 
-        await shared_io.write(
+        await bizhawk.write(
             ctx.bizhawk_ctx,
             [(area_key_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
         )
@@ -1218,7 +1219,7 @@ class KirbyAmClient(BizHawkClient):
             reads.append((native_addr, 1, "System Bus"))
         if delivered_addr is not None:
             reads.append((delivered_addr, 4, "System Bus"))
-        raw_values = await shared_io.read(ctx.bizhawk_ctx, reads)
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
 
         next_index = 0
         current_native = 0
@@ -1255,7 +1256,7 @@ class KirbyAmClient(BizHawkClient):
             )
             return
 
-        await shared_io.write(ctx.bizhawk_ctx, writes)
+        await bizhawk.write(ctx.bizhawk_ctx, writes)
         self._log_verbose(
             "info",
             "KirbyAM: reconciled shard ownership (native=0x%02X, delivered=0x%02X, desired=0x%02X, delivered_item_index=%s)",
@@ -1289,7 +1290,7 @@ class KirbyAmClient(BizHawkClient):
         if map_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(map_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(map_addr, 4, "System Bus")]))[0]
         current_bits = self._u32_le(raw)
         desired_map_bits = self._ap_owned_native_map_bits(ctx)
         desired_managed_bits = (current_bits & _MANAGED_NATIVE_MAP_BITMASK) | desired_map_bits
@@ -1305,7 +1306,7 @@ class KirbyAmClient(BizHawkClient):
             )
             return
 
-        await shared_io.write(
+        await bizhawk.write(
             ctx.bizhawk_ctx,
             [(map_addr, desired_bits.to_bytes(4, "little"), "System Bus")],
         )
@@ -1560,7 +1561,7 @@ class KirbyAmClient(BizHawkClient):
             return True
         if self._curated_color_rom_confirmed is None:
             try:
-                marker = (await shared_io.read(ctx.bizhawk_ctx, [(0x1000000, 8, "ROM")]))[0]
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(0x1000000, 8, "ROM")]))[0]
             except bizhawk.RequestFailedError:
                 return False
             expected = b"APCOL03\0" if slot_data["kirby_color_catalog_version"] == 3 else b"APCOL02\0"
@@ -1598,7 +1599,7 @@ class KirbyAmClient(BizHawkClient):
         # the next room change; only an invalid/reset sentinel restores the generated
         # initial color.
         current_raw = (
-            await shared_io.read(ctx.bizhawk_ctx, [(color_transport_addr, 4, "System Bus")])
+            await bizhawk.read(ctx.bizhawk_ctx, [(color_transport_addr, 4, "System Bus")])
         )[0]
         current_color_id = int.from_bytes(current_raw, "little")
         if (
@@ -1611,7 +1612,7 @@ class KirbyAmClient(BizHawkClient):
             self._starting_kirby_color_synced_id = color_id
             return
 
-        await shared_io.write(
+        await bizhawk.write(
             ctx.bizhawk_ctx,
             [(color_transport_addr, int(color_id).to_bytes(4, "little"), "System Bus")],
         )
@@ -1899,7 +1900,7 @@ class KirbyAmClient(BizHawkClient):
             )
 
         try:
-            title_bytes, game_code_bytes, maker_code_bytes = await shared_io.read(
+            title_bytes, game_code_bytes, maker_code_bytes = await bizhawk.read(
                 ctx.bizhawk_ctx,
                 [
                     (0xA0, 12, "ROM"),
@@ -1933,7 +1934,7 @@ class KirbyAmClient(BizHawkClient):
         health_protocol_version = 2 if rom_title == HEALTH_ROM_TITLE.decode().lower() else 1
         if health_protocol_version == 2:
             try:
-                config_raw = (await shared_io.read(ctx.bizhawk_ctx, [
+                config_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
                     (HEALTH_CONFIG_OFFSET, 4, "ROM")]))[0]
                 if len(config_raw) != 4:
                     raise ValueError("truncated health config")
@@ -1949,7 +1950,7 @@ class KirbyAmClient(BizHawkClient):
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
         try:
-            auth_raw = (await shared_io.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
+            auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         except bizhawk.RequestFailedError as exc:
             self._log_verbose("info", "KirbyAM: ROM auth read failed during validation: %s", exc)
             return await _fail("auth_read_failed", "Unable to load ROM: could not read patch metadata.")
@@ -1974,7 +1975,7 @@ class KirbyAmClient(BizHawkClient):
 
         # Require the expected patched callsite so we only claim explicitly KirbyAM-patched ROMs.
         try:
-            hook_bytes = (await shared_io.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
+            hook_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(_MAIN_HOOK_OFFSET, 4, "ROM")]))[0]
             if not is_thumb_bl_instruction(bytes(hook_bytes)):
                 self._log_client(
                     "error",
@@ -2032,7 +2033,7 @@ class KirbyAmClient(BizHawkClient):
             raise Exception("Missing rom address 'gArchipelagoInfo' in worlds/kirbyam/data/addresses.json")
         auth_addr = _normalize_gba_rom_address(auth_addr)
 
-        auth_raw = (await shared_io.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
+        auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         ctx.auth = base64.b64encode(auth_raw).decode("utf-8")
 
     async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:
@@ -2075,15 +2076,19 @@ class KirbyAmClient(BizHawkClient):
                     return False
                 if bytes(marker) != GOAL_MARKER:
                     raise ValueError("ROM and slot Goal Game versions differ")
-            if shared_slot_version(slot):
-                marker = (await shared_io.read(ctx.bizhawk_ctx, [(SHARED_MARKER_OFFSET, 8, "ROM")]))[0]
+            copy_room_version = copy_room_slot_version(slot)
+            if copy_room_version:
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
                 if session_expired():
                     return False
-                if bytes(marker) != SHARED_MARKER:
-                    raise ValueError("ROM and slot shared save versions differ")
+                if bytes(marker) != COPY_ROOM_MARKER:
+                    raise ValueError("ROM and slot Copy Ability Room versions differ")
+            elif any(getattr(item, "item", 0) == COPY_ROOM_ITEM_ID
+                     for item in getattr(ctx, "items_received", ())):
+                raise ValueError("Copy Ability Room item received without a compatible slot")
             hub_version = hub_slot_version(slot)
             if hub_version:
-                marker = (await shared_io.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
                 if session_expired():
                     return False
                 if bytes(marker) != HUB_MARKER:
@@ -2106,7 +2111,7 @@ class KirbyAmClient(BizHawkClient):
             if version not in (1, 2) or self._health_rom_auth is None:
                 raise ValueError("unvalidated health protocol")
             auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
-            title, config, auth = await shared_io.read(ctx.bizhawk_ctx, [
+            title, config, auth = await bizhawk.read(ctx.bizhawk_ctx, [
                 (0xA0, 12, "ROM"), (HEALTH_CONFIG_OFFSET, 4, "ROM"),
                 (auth_addr, _AUTH_TOKEN_SIZE, "ROM")])
             if session_expired():
@@ -2122,8 +2127,14 @@ class KirbyAmClient(BizHawkClient):
             else:
                 validate_health_protocol(bytes(title).rstrip(b"\0"),
                                          int.from_bytes(config, "little"), slot_version, plan)
+                if not copy_room_version:
+                    marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
+                    if session_expired():
+                        return False
+                    if bytes(marker) == COPY_ROOM_MARKER:
+                        raise ValueError("Copy Ability Room ROM requires a compatible slot")
                 if not hub_version:
-                    marker = (await shared_io.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
+                    marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
                     if session_expired():
                         return False
                     if bytes(marker) == HUB_MARKER:
@@ -2171,25 +2182,6 @@ class KirbyAmClient(BizHawkClient):
         if not await self._health_protocol_ready(ctx):
             return
 
-        # Single-save ROMs publish an authenticated epoch only after genuine
-        # adventure startup. Keep all AP data work behind that boundary.
-        snapshot = None
-        if shared_slot_version(ctx.slot_data):
-            snapshot = await read_shared_snapshot(ctx)
-            if snapshot is None:
-                self._mark_bizhawk_watcher_transport_error("shared_save_context_inactive")
-                return
-            identity = (snapshot.epoch, ctx.auth, ctx.bizhawk_ctx)
-            if getattr(self, "_shared_watcher_identity", None) != identity:
-                self._mark_bizhawk_watcher_transport_error("shared_save_context_changed")
-                self._shared_watcher_identity = identity
-        try:
-            with shared_io.shared_watcher(ctx, snapshot):
-                await self._watch_active_game(ctx)
-        except shared_io.SharedContextChanged:
-            self._mark_bizhawk_watcher_transport_error("shared_save_context_changed")
-
-    async def _watch_active_game(self, ctx: "BizHawkClientContext") -> None:
         self._load_notification_settings(ctx)
         self._load_debug_settings(ctx)
         self._log_slot_metadata_once(ctx)
@@ -2287,6 +2279,7 @@ class KirbyAmClient(BizHawkClient):
                 await self._display_client_message(ctx, "Item sending resumed")
                 self._last_runtime_gate_reason = None
 
+            await sync_copy_room_ownership(ctx, self._hub_connection_item_history_ready)
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
             await self._reconcile_vitality_ownership(ctx)
@@ -2318,7 +2311,6 @@ class KirbyAmClient(BizHawkClient):
 
             await self._reconcile_lever_activations(ctx)
             await poll_goal_games(ctx)
-
             # Physical lever checks remain independent of native wall ownership.
             await self._poll_lever_locations(ctx)
 
@@ -2517,7 +2509,7 @@ class KirbyAmClient(BizHawkClient):
                 return
             self._ability_runtime_config_revalidate_counter = 0
 
-            mode_raw, seed_lo_raw, seed_hi_raw, weight_raw, mask_raw, gate_raw, unlock_raw = await shared_io.read(ctx.bizhawk_ctx, [
+            mode_raw, seed_lo_raw, seed_hi_raw, weight_raw, mask_raw, gate_raw, unlock_raw = await bizhawk.read(ctx.bizhawk_ctx, [
                 (mode_addr, 4, "System Bus"),
                 (seed_lo_addr, 4, "System Bus"),
                 (seed_hi_addr, 4, "System Bus"),
@@ -2556,7 +2548,7 @@ class KirbyAmClient(BizHawkClient):
                 unlocked_mask & 0xFFFFFFFF,
             )
 
-        await shared_io.write(ctx.bizhawk_ctx, [
+        await bizhawk.write(ctx.bizhawk_ctx, [
             (mode_addr, int(mode).to_bytes(4, "little"), "System Bus"),
             (seed_lo_addr, int(seed_lo).to_bytes(4, "little"), "System Bus"),
             (seed_hi_addr, int(seed_hi).to_bytes(4, "little"), "System Bus"),
@@ -2583,7 +2575,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         try:
-            cookie_raw, counter_raw = (await shared_io.read(ctx.bizhawk_ctx, [
+            cookie_raw, counter_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
                 (cookie_addr, 4, "System Bus"),
                 (counter_addr, 4, "System Bus"),
             ]))
@@ -2618,7 +2610,7 @@ class KirbyAmClient(BizHawkClient):
         for sequence in range(first, event_counter + 1):
             slot_addr = ring_addr + ((sequence % 8) * 12)
             try:
-                raw = (await shared_io.read(ctx.bizhawk_ctx, [
+                raw = (await bizhawk.read(ctx.bizhawk_ctx, [
                     (slot_addr, 12, "System Bus"),
                 ]))[0]
             except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
@@ -2667,7 +2659,7 @@ class KirbyAmClient(BizHawkClient):
                 # stay silent rather than naming the wrong key.
                 room_props_addr = _ROOM_PROPS_ROM_BASE + destination_room * _ROOM_PROPS_STRIDE
                 try:
-                    doors_idx_raw = (await shared_io.read(ctx.bizhawk_ctx, [
+                    doors_idx_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
                         (room_props_addr + _ROOM_PROPS_DOORS_IDX_OFFSET, 2, "System Bus"),
                     ]))[0]
                 except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
@@ -2707,7 +2699,7 @@ class KirbyAmClient(BizHawkClient):
         callsite_pc_addr = self._transport_addr("ability_reroll_callsite_pc_runtime")
         kirby_index_addr = self._transport_addr("ability_reroll_kirby_index_runtime")
 
-        counter_raw = (await shared_io.read(ctx.bizhawk_ctx, [
+        counter_raw = (await bizhawk.read(ctx.bizhawk_ctx, [
             (counter_addr, 4, "System Bus"),
         ]))[0]
         event_counter = self._u32_le(counter_raw)
@@ -2730,7 +2722,7 @@ class KirbyAmClient(BizHawkClient):
             payload_reads.append((callsite_pc_addr, 4, "System Bus"))
         if kirby_index_addr is not None:
             payload_reads.append((kirby_index_addr, 4, "System Bus"))
-        payload_raw = await shared_io.read(ctx.bizhawk_ctx, payload_reads)
+        payload_raw = await bizhawk.read(ctx.bizhawk_ctx, payload_reads)
 
         source_raw = payload_raw[0]
         ability_raw = payload_raw[1]
@@ -2818,12 +2810,12 @@ class KirbyAmClient(BizHawkClient):
         if lives_addr is None:
             return
 
-        current_lives_raw = (await shared_io.read(ctx.bizhawk_ctx, [(lives_addr, 1, "System Bus")]))[0]
+        current_lives_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(lives_addr, 1, "System Bus")]))[0]
         current_lives = int.from_bytes(current_lives_raw[:1], "little", signed=False)
         if current_lives == 0:
             return
 
-        await shared_io.write(ctx.bizhawk_ctx, [(lives_addr, (0).to_bytes(1, "little"), "System Bus")])
+        await bizhawk.write(ctx.bizhawk_ctx, [(lives_addr, (0).to_bytes(1, "little"), "System Bus")])
 
         self._log_verbose(
             "info",
@@ -2860,7 +2852,7 @@ class KirbyAmClient(BizHawkClient):
         if vitality_addr is None or hp_addr is None or max_hp_addr is None:
             return
 
-        results = await shared_io.read(ctx.bizhawk_ctx, [
+        results = await bizhawk.read(ctx.bizhawk_ctx, [
             (vitality_addr, _KIRBY_VITALITY_COUNTER_READ_WIDTH, "System Bus"),
             (hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus"),
             (max_hp_addr, _KIRBY_MAX_HP_READ_WIDTH, "System Bus"),
@@ -2885,7 +2877,7 @@ class KirbyAmClient(BizHawkClient):
         if writes:
             # Guard the snapshot atomically: a hit/death/respawn or vitality
             # delivery between read and write must not be overwritten or revived.
-            applied = await shared_io.guarded_write(ctx.bizhawk_ctx, writes, [
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
                 (vitality_addr, vitality_raw, "System Bus"),
                 (hp_addr, hp_raw, "System Bus"),
                 (max_hp_addr, max_hp_raw, "System Bus"),
@@ -2944,7 +2936,7 @@ class KirbyAmClient(BizHawkClient):
                 return
             self._challenge_runtime_config_revalidate_counter = 0
 
-            one_hit_raw, no_extra_lives_raw = await shared_io.read(ctx.bizhawk_ctx, [
+            one_hit_raw, no_extra_lives_raw = await bizhawk.read(ctx.bizhawk_ctx, [
                 (one_hit_addr, 4, "System Bus"),
                 (no_extra_lives_addr, 4, "System Bus"),
             ])
@@ -2955,7 +2947,7 @@ class KirbyAmClient(BizHawkClient):
                 return
 
         self._challenge_runtime_config_revalidate_counter = 0
-        await shared_io.write(ctx.bizhawk_ctx, [
+        await bizhawk.write(ctx.bizhawk_ctx, [
             (one_hit_addr, one_hit_mode.to_bytes(4, "little"), "System Bus"),
             (no_extra_lives_addr, no_extra_lives.to_bytes(4, "little"), "System Bus"),
         ])
@@ -3076,14 +3068,14 @@ class KirbyAmClient(BizHawkClient):
         if hp_addr is None:
             return
 
-        current_hp_raw = (await shared_io.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
+        current_hp_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
         current_hp = self._s8(current_hp_raw)
         if current_hp <= 0:
             self._incoming_death_link_pending = False
             self._last_local_alive_state = False
             return
 
-        await shared_io.write(ctx.bizhawk_ctx, [(hp_addr, (0).to_bytes(1, "little"), "System Bus")])
+        await bizhawk.write(ctx.bizhawk_ctx, [(hp_addr, (0).to_bytes(1, "little"), "System Bus")])
         self._incoming_death_link_pending = False
         self._suppress_next_local_death_send = True
         self._log_verbose("info", "KirbyAM: applied incoming DeathLink (hp_addr=0x%08X)", hp_addr)
@@ -3097,7 +3089,7 @@ class KirbyAmClient(BizHawkClient):
         if hp_addr is None:
             return
 
-        hp_raw = (await shared_io.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
+        hp_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(hp_addr, _KIRBY_HP_READ_WIDTH, "System Bus")]))[0]
         hp_value = self._s8(hp_raw)
         alive_now = hp_value > 0
 
@@ -3136,7 +3128,7 @@ class KirbyAmClient(BizHawkClient):
         if hp_addr is None or room_addr is None or demo_addr is None:
             return False
         owner_addr = hp_addr + _KIRBY_TASK_OFFSET_FROM_HP
-        values = await shared_io.read(ctx.bizhawk_ctx, [
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
             (owner_addr, 4, "System Bus"),
             (room_addr, 2, "System Bus"),
             (hp_addr + _KIRBY_ROOM_OFFSET_FROM_HP, 2, "System Bus"),
@@ -3147,7 +3139,7 @@ class KirbyAmClient(BizHawkClient):
         room = int.from_bytes(values[1], "little")
         if not room or values[1] != values[2] or task & 3 or not 0x03000000 <= task <= 0x03007FEC:
             return False
-        headers = await shared_io.read(ctx.bizhawk_ctx, [(task, 20, "System Bus")])
+        headers = await bizhawk.read(ctx.bizhawk_ctx, [(task, 20, "System Bus")])
         if len(headers) != 1 or len(headers[0]) != 20:
             return False
         header = headers[0]
@@ -3163,7 +3155,7 @@ class KirbyAmClient(BizHawkClient):
             payload = 0x03000000 + offset
         else:
             return False
-        final = await shared_io.read(ctx.bizhawk_ctx, [
+        final = await bizhawk.read(ctx.bizhawk_ctx, [
             (payload, 1, "System Bus"), (owner_addr, 4, "System Bus"), (task, 20, "System Bus"),
             (demo_addr, 4, "System Bus"), (hp_addr, 1, "System Bus"),
             (room_addr, 2, "System Bus"), (hp_addr + _KIRBY_ROOM_OFFSET_FROM_HP, 2, "System Bus"),
@@ -3201,7 +3193,7 @@ class KirbyAmClient(BizHawkClient):
         if self._debug_logging_enabled and heartbeat_addr is not None:
             reads.append((heartbeat_addr, 4, "System Bus"))
 
-        raw_values = await shared_io.read(ctx.bizhawk_ctx, reads)
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
         ai_state = self._u32_le(raw_values[0])
         next_read_index = 1
 
@@ -3296,7 +3288,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         values: dict[str, int] = {}
-        raw_preflight = await shared_io.read(ctx.bizhawk_ctx, preflight_reads)
+        raw_preflight = await bizhawk.read(ctx.bizhawk_ctx, preflight_reads)
         for label, raw in zip(preflight_labels, raw_preflight):
             values[label] = self._u32_le(raw)
 
@@ -3329,7 +3321,7 @@ class KirbyAmClient(BizHawkClient):
             detail_labels.append(label)
 
         if detail_reads:
-            raw_details = await shared_io.read(ctx.bizhawk_ctx, detail_reads)
+            raw_details = await bizhawk.read(ctx.bizhawk_ctx, detail_reads)
             for label, raw in zip(detail_labels, raw_details):
                 values[label] = self._u32_le(raw) if len(raw) >= 4 else int.from_bytes(raw, "little")
 
@@ -3425,7 +3417,7 @@ class KirbyAmClient(BizHawkClient):
             # payload treats this sentinel as unknown and waits for a complete
             # ReceivedItems index-zero replay before applying door ownership.
             if socket is not None and self._hub_connection_unknown_mask_socket is not socket:
-                await shared_io.write(
+                await bizhawk.write(
                     ctx.bizhawk_ctx,
                     [(mask_addr, (0xFFFFFFFF).to_bytes(4, "little"), "System Bus")],
                 )
@@ -3441,7 +3433,7 @@ class KirbyAmClient(BizHawkClient):
             if door_index is not None and 1 <= door_index <= 15:
                 item_mask |= 1 << door_index
 
-        await shared_io.write(
+        await bizhawk.write(
             ctx.bizhawk_ctx,
             [(mask_addr, item_mask.to_bytes(4, "little"), "System Bus")],
         )
@@ -3481,7 +3473,7 @@ class KirbyAmClient(BizHawkClient):
         addr = self._transport_addr(key)
         if addr is None:
             return
-        await shared_io.write(ctx.bizhawk_ctx, [(addr, int(value & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus")])
+        await bizhawk.write(ctx.bizhawk_ctx, [(addr, int(value & 0xFFFFFFFF).to_bytes(4, "little"), "System Bus")])
 
     async def _load_persistent_state(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
@@ -3501,7 +3493,7 @@ class KirbyAmClient(BizHawkClient):
         if not reads:
             return
 
-        raw_list = await shared_io.read(ctx.bizhawk_ctx, reads)
+        raw_list = await bizhawk.read(ctx.bizhawk_ctx, reads)
 
         for key, raw in zip(keys_in_order, raw_list):
             val = self._u32_le(raw)
@@ -3538,7 +3530,7 @@ class KirbyAmClient(BizHawkClient):
         if boss_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(boss_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(boss_addr, 4, "System Bus")]))[0]
         boss_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
@@ -3559,7 +3551,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_boss_poll_log = boss_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             boss_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if boss_log_state != self._last_boss_poll_log:
@@ -3596,7 +3588,7 @@ class KirbyAmClient(BizHawkClient):
         if chest_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
         chest_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
@@ -3619,7 +3611,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_major_chest_poll_log = chest_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_major_chest_poll_log:
@@ -3644,7 +3636,7 @@ class KirbyAmClient(BizHawkClient):
         if chest_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
         chest_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
@@ -3666,7 +3658,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_vitality_chest_poll_log = chest_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_vitality_chest_poll_log:
@@ -3695,7 +3687,7 @@ class KirbyAmClient(BizHawkClient):
         if not self._server_session_ready(ctx) or not active or address is None:
             return
         session = self._authenticated_session_key(ctx)
-        values = await shared_io.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
+        values = await bizhawk.read(ctx.bizhawk_ctx, [(address, 16, "System Bus")])
         if (len(values) != 1 or len(values[0]) != 16
                 or session != self._authenticated_session_key(ctx)):
             return
@@ -3706,7 +3698,7 @@ class KirbyAmClient(BizHawkClient):
             checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
         missing = sorted(checks - ctx.checked_locations)
         if missing:
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
 
     async def _start_inventory_cursor_ready(self, ctx):
         """Adopt prefixed history only at a fresh mailbox, or resume its marker.
@@ -3725,7 +3717,7 @@ class KirbyAmClient(BizHawkClient):
         addresses = [self._transport_addr(key) for key in keys]
         if any(address is None for address in addresses):
             return False
-        raw = await shared_io.read(ctx.bizhawk_ctx, [(address, 4, "System Bus") for address in addresses])
+        raw = await bizhawk.read(ctx.bizhawk_ctx, [(address, 4, "System Bus") for address in addresses])
         if (len(raw) != 5 or any(len(value) != 4 for value in raw)
                 or session != self._authenticated_session_key(ctx)):
             return False
@@ -3741,7 +3733,7 @@ class KirbyAmClient(BizHawkClient):
                                  "do not load a savestate made with the older client.")
                 self._legacy_start_inventory_warned = True
             return False
-        applied = await shared_io.guarded_write(ctx.bizhawk_ctx, [
+        applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, [
             (addresses[0], (bits | _START_INVENTORY_HISTORY_BIT).to_bytes(4, "little"), "System Bus")
         ], [(address, value, "System Bus") for address, value in zip(addresses, raw)])
         if applied:
@@ -3798,7 +3790,7 @@ class KirbyAmClient(BizHawkClient):
         if any(address is None for address in addresses):
             return
         widths = [4, 2, 1, 1]
-        values = await shared_io.read(ctx.bizhawk_ctx, [
+        values = await bizhawk.read(ctx.bizhawk_ctx, [
             (address, width, "System Bus") for address, width in zip(addresses, widths)])
         if (len(values) != 4 or any(len(value) != width for value, width in zip(values, widths))
                 or session != self._authenticated_session_key(ctx)):
@@ -3819,7 +3811,7 @@ class KirbyAmClient(BizHawkClient):
         writes = [(address, value, "System Bus") for address, value, before
                   in zip(addresses, desired, values) if value != before]
         if writes:
-            applied = await shared_io.guarded_write(ctx.bizhawk_ctx, writes, [
+            applied = await bizhawk.guarded_write(ctx.bizhawk_ctx, writes, [
                 (address, value, "System Bus") for address, value in zip(addresses, values)])
             if applied:
                 self._log_verbose("info", "KirbyAM: restored unique Vitality ownership mask=0x%X count=%s", mask, count)
@@ -3859,7 +3851,7 @@ class KirbyAmClient(BizHawkClient):
         if counter_addr is None or ring_addr is None:
             return
 
-        raw_values = await shared_io.read(
+        raw_values = await bizhawk.read(
             ctx.bizhawk_ctx,
             [
                 (counter_addr, 4, "System Bus"),
@@ -3937,7 +3929,7 @@ class KirbyAmClient(BizHawkClient):
             self._pending_minor_chest_locations.intersection_update(active_location_ids)
         self._pending_minor_chest_locations.difference_update(ctx.checked_locations)
         if self._pending_minor_chest_locations:
-            await shared_io.send_msgs(ctx, [{
+            await ctx.send_msgs([{
                 "cmd": "LocationChecks", "locations": sorted(self._pending_minor_chest_locations),
             }])
 
@@ -3952,7 +3944,7 @@ class KirbyAmClient(BizHawkClient):
         if chest_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(chest_addr, 4, "System Bus")]))[0]
         chest_bits = self._u32_le(raw)
 
         mapped_checked_locations: set[int] = set()
@@ -3974,7 +3966,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_sound_player_chest_poll_log = chest_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             chest_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if chest_log_state != self._last_sound_player_chest_poll_log:
@@ -3999,7 +3991,7 @@ class KirbyAmClient(BizHawkClient):
         if switch_addr is None:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(switch_addr, 4, "System Bus")]))[0]
         switch_bits = self._u32_le(raw)
 
         # Keep baseline across AP reconnects, but re-baseline on BizHawk/ROM stream
@@ -4052,7 +4044,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_hub_switch_poll_log = switch_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             switch_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if switch_log_state != self._last_hub_switch_poll_log:
@@ -4092,7 +4084,7 @@ class KirbyAmClient(BizHawkClient):
         if not mask or lever_addr is None or cookie_addr is None:
             return
         connector, server = ctx.bizhawk_ctx, ctx.server
-        raw = await shared_io.read(connector, [
+        raw = await bizhawk.read(connector, [
             (lever_addr, 4, "System Bus"), (cookie_addr, 4, "System Bus")])
         if (len(raw) != 2 or any(len(value) != 4 for value in raw)
                 or self._u32_le(raw[1]) != 0x4B41504D
@@ -4108,7 +4100,7 @@ class KirbyAmClient(BizHawkClient):
         # ROM auth is guarded in the same request, preventing a ROM/slot swap
         # after the watcher's identity check from receiving the previous mask.
         auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
-        await shared_io.guarded_write(connector, [
+        await bizhawk.guarded_write(connector, [
             (lever_addr, (bits | mask).to_bytes(4, "little"), "System Bus")
         ], [(lever_addr, raw[0], "System Bus"),
             (cookie_addr, raw[1], "System Bus"), (auth_addr, auth, "ROM")])
@@ -4125,7 +4117,7 @@ class KirbyAmClient(BizHawkClient):
         if lever_addr is None or not self._lever_location_ids_by_bit:
             return
 
-        raw = (await shared_io.read(ctx.bizhawk_ctx, [(lever_addr, 4, "System Bus")]))[0]
+        raw = (await bizhawk.read(ctx.bizhawk_ctx, [(lever_addr, 4, "System Bus")]))[0]
         if len(raw) != 4:
             return
         lever_bits = self._u32_le(raw)
@@ -4152,7 +4144,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_lever_poll_log = lever_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             lever_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if lever_log_state != self._last_lever_poll_log:
@@ -4212,7 +4204,7 @@ class KirbyAmClient(BizHawkClient):
         )
 
         try:
-            await shared_io.write(
+            await bizhawk.write(
                 ctx.bizhawk_ctx,
                 [
                     (
@@ -4261,7 +4253,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         try:
-            raw = (await shared_io.read(
+            raw = (await bizhawk.read(
                 ctx.bizhawk_ctx,
                 [(current_room_addr, 2, "System Bus")],
             ))[0]
@@ -4302,7 +4294,7 @@ class KirbyAmClient(BizHawkClient):
             return
 
         try:
-            raw = (await shared_io.read(ctx.bizhawk_ctx, [(current_room_addr, 2, "System Bus")]))[0]
+            raw = (await bizhawk.read(ctx.bizhawk_ctx, [(current_room_addr, 2, "System Bus")]))[0]
         except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
             # Room-entry diagnostics are best-effort and must never block watcher progress.
             return
@@ -4326,7 +4318,7 @@ class KirbyAmClient(BizHawkClient):
         # Resolve doorsIdx via gRoomProps[native_room_id].doorsIdx (ROM read).
         rom_doors_idx_addr = _ROOM_PROPS_ROM_BASE + native_room_id * _ROOM_PROPS_STRIDE + _ROOM_PROPS_DOORS_IDX_OFFSET
         try:
-            doors_raw = (await shared_io.read(ctx.bizhawk_ctx, [(rom_doors_idx_addr, 2, "ROM")]))[0]
+            doors_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(rom_doors_idx_addr, 2, "ROM")]))[0]
         except (bizhawk.RequestFailedError, bizhawk.ConnectorError, bizhawk.SyncError, TypeError, AttributeError):
             logger.info(
                 "KirbyAM: room entry — native=0x%04x (doorsIdx lookup failed)",
@@ -4355,7 +4347,7 @@ class KirbyAmClient(BizHawkClient):
 
         if ctx.slot is not None and send_pending:
             try:
-                await shared_io.send_msgs(ctx, [{
+                await ctx.send_msgs([{
                     "cmd": "Bounce",
                     "slots": [ctx.slot],
                     "data": {
@@ -4380,7 +4372,7 @@ class KirbyAmClient(BizHawkClient):
 
         if tracker_room_pending and room_key:
             try:
-                await shared_io.send_msgs(ctx, [{
+                await ctx.send_msgs([{
                     "cmd": "Set",
                     "key": room_key,
                     "default": "0_S",
@@ -4501,7 +4493,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_room_sanity_poll_log = room_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             room_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if room_log_state != self._last_room_sanity_poll_log:
@@ -4555,7 +4547,7 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._last_area_visit_poll_log = area_log_state
 
-            await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": missing_on_server}])
+            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing_on_server}])
         elif mapped_checked_locations:
             area_log_state = ("dedupe", tuple(), tuple(already_acknowledged))
             if area_log_state != self._last_area_visit_poll_log:
@@ -4589,7 +4581,7 @@ class KirbyAmClient(BizHawkClient):
             self._boss_probe_stream_marker = stream_marker
             self._last_boss_probe_snapshot = None
 
-        raw = (await shared_io.read(
+        raw = (await bizhawk.read(
             ctx.bizhawk_ctx,
             [(base_addr, _BOSS_MIRROR_TABLE_PROBE_BYTES, "System Bus")],
         ))[0]
@@ -4652,7 +4644,7 @@ class KirbyAmClient(BizHawkClient):
             self._unsafe_delivery_probe_stream_marker = stream_marker
             self._last_unsafe_delivery_counter_values = {}
 
-        raw_values = await shared_io.read(ctx.bizhawk_ctx, reads)
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
 
         for label, raw in zip(labels, raw_values):
             current_value = self._u32_le(raw)
@@ -4680,7 +4672,7 @@ class KirbyAmClient(BizHawkClient):
         if hp_address is None:
             return False
         kirby = hp_address - 0x100
-        room, task, flags, hp = await shared_io.read(ctx.bizhawk_ctx, [
+        room, task, flags, hp = await bizhawk.read(ctx.bizhawk_ctx, [
             (kirby + 0x60, 2, "System Bus"), (kirby + 0xCC, 4, "System Bus"),
             (kirby + 0x0C, 4, "System Bus"), (hp_address, 1, "System Bus"),
         ])
@@ -4693,7 +4685,7 @@ class KirbyAmClient(BizHawkClient):
         addresses = [self._native_addr(key) for key in keys]
         if any(address is None for address in addresses):
             return False
-        room, demo, hp = await shared_io.read(ctx.bizhawk_ctx, [
+        room, demo, hp = await bizhawk.read(ctx.bizhawk_ctx, [
             (addresses[0], 2, "System Bus"), (addresses[1], 4, "System Bus"),
             (addresses[2], 1, "System Bus"),
         ])
@@ -4752,7 +4744,7 @@ class KirbyAmClient(BizHawkClient):
             reads.append((frame_addr, 4, "System Bus"))
         if heartbeat_addr is not None:
             reads.append((heartbeat_addr, 4, "System Bus"))
-        raw_values = await shared_io.read(ctx.bizhawk_ctx, reads)
+        raw_values = await bizhawk.read(ctx.bizhawk_ctx, reads)
 
         if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
             return
@@ -4966,7 +4958,7 @@ class KirbyAmClient(BizHawkClient):
                             "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0; payload hook may be inactive in the loaded ROM patch"
                         )
                     self._delivery_payload_stall_warned = True
-                await shared_io.write(ctx.bizhawk_ctx, [
+                await bizhawk.write(ctx.bizhawk_ctx, [
                     (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
                 ])
                 self._delivery_pending = False
@@ -5134,7 +5126,7 @@ class KirbyAmClient(BizHawkClient):
                 if (mask is None or mask_addr is None or not mask & (1 << hub_door)
                         or not hub_offer_current()):
                     return
-                if not await shared_io.guarded_write(ctx.bizhawk_ctx, offer, [
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [
                     (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
                     (flag_addr, bytes(4), "System Bus"),
                 ]):
@@ -5142,7 +5134,7 @@ class KirbyAmClient(BizHawkClient):
                 if not hub_offer_current():
                     return  # An in-flight offer may have committed; reconcile by readback.
             else:
-                await shared_io.write(ctx.bizhawk_ctx, offer)
+                await bizhawk.write(ctx.bizhawk_ctx, offer)
             if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):
                 return  # An outstanding transient reservation remains explicitly unresolved.
             self._receipt_active = pending_receipt
@@ -5171,7 +5163,7 @@ class KirbyAmClient(BizHawkClient):
             if ai_state_addr is None:
                 return False
 
-            raw = (await shared_io.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
+            raw = (await bizhawk.read(ctx.bizhawk_ctx, [(ai_state_addr, _AI_STATE_ADDR_WIDTH, "System Bus")]))[0]
             ai_state = self._u32_le(raw)
 
         if slot_goal != Goal.option_dark_mind:
@@ -5345,7 +5337,7 @@ class KirbyAmClient(BizHawkClient):
                 slot_goal,
             )
             await self._display_client_message(ctx, "Goal complete")
-            await shared_io.send_msgs(ctx, [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             ctx.finished_game = True
             self._goal_reported = True
             return
@@ -5364,7 +5356,7 @@ class KirbyAmClient(BizHawkClient):
                     "KirbyAM: sending goal location check (location_id=%s)",
                     goal_location_id,
                 )
-                await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": [goal_location_id]}])
+                await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [goal_location_id]}])
                 locations_checked.add(goal_location_id)
             else:
                 if not self._goal_location_reported:
@@ -5373,7 +5365,7 @@ class KirbyAmClient(BizHawkClient):
                         "KirbyAM: sending goal location check (location_id=%s)",
                         goal_location_id,
                     )
-                    await shared_io.send_msgs(ctx, [{"cmd": "LocationChecks", "locations": [goal_location_id]}])
+                    await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [goal_location_id]}])
                     self._goal_location_reported = True
             return
 
@@ -5381,7 +5373,7 @@ class KirbyAmClient(BizHawkClient):
             from NetUtils import ClientStatus
             self._log_verbose("info", "KirbyAM: goal complete; sending CLIENT_GOAL status (goal_option=%s)", slot_goal)
             await self._display_client_message(ctx, "Goal complete")
-            await shared_io.send_msgs(ctx, [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             ctx.finished_game = True
             self._goal_reported = True
 

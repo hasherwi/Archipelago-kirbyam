@@ -526,7 +526,7 @@ def test_statues_always_grant_ability_even_with_full_no_ability_weight() -> None
     assert all(value != ABILITY_NAME_TO_ID["Normal"] for value in statue_values)
 
 
-def test_statues_respect_minny_toggle() -> None:
+def test_statues_preserve_default_mini_exclusion() -> None:
     policy = build_enemy_copy_ability_policy(
         random.Random(20260412),
         AbilityRandomizationMode.option_completely_random,
@@ -578,7 +578,7 @@ def test_statue_runtime_mask_matches_custom_whitelist_exactly() -> None:
     assert build_statue_runtime_allowed_mask(policy, include_statues=True) == expected
 
 
-def test_statue_runtime_mask_respects_minny_toggle_without_other_option_leakage() -> None:
+def test_statue_runtime_mask_ignores_legacy_minny_toggle_without_other_option_leakage() -> None:
     with_minny = build_enemy_copy_ability_policy(
         random.Random(3),
         AbilityRandomizationMode.option_completely_random,
@@ -600,9 +600,8 @@ def test_statue_runtime_mask_respects_minny_toggle_without_other_option_leakage(
         whitelist=("Beam", "Mini"),
     )
 
-    mini_bit = 1 << ABILITY_NAME_TO_ID["Mini"]
     beam_bit = 1 << ABILITY_NAME_TO_ID["Beam"]
-    assert build_statue_runtime_allowed_mask(with_minny, include_statues=True) == (beam_bit | mini_bit)
+    assert build_statue_runtime_allowed_mask(with_minny, include_statues=True) == beam_bit
     assert build_statue_runtime_allowed_mask(without_minny, include_statues=True) == beam_bit
 
 

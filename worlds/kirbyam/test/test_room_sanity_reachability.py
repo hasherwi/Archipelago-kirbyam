@@ -32,10 +32,14 @@ def test_each_compartment_reaches_one_physical_check_without_traversal(parent, e
         for destination in definition.exits:
             if destination in regions:
                 requirement = definition.exit_requirements.get(destination)
+                # This isolated fixture does not install source-aware traversal
+                # rules. Hold those edges closed while testing the check sink.
+                traversal = any(row.get("exit") == destination
+                                for row in definition.traversal.get("targets", ()))
                 regions[name].connect(
                     regions[destination],
-                    rule=lambda state, requirement=requirement:
-                        evaluate_room_logic_requirement(requirement, state, 1),
+                    rule=lambda state, requirement=requirement, traversal=traversal:
+                        not traversal and evaluate_room_logic_requirement(requirement, state, 1),
                 )
         for key in definition.locations:
             location = data.locations[key]
@@ -48,7 +52,14 @@ def test_each_compartment_reaches_one_physical_check_without_traversal(parent, e
     assert checks[0].can_reach(state)
     assert checks[0].parent_region.name == check_name
     assert not regions[check_name].exits
-    assert {name for name in names if regions[name].can_reach(state)} == {entry, check_name}
+    expected = {entry, check_name}
+    if entry in {"REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+                 "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
+                 "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY"}:
+        # These compartments have reviewed ordinary one-way egress to main.
+        # In Mustard 5, the right-side bomb opens the return path to the left.
+        expected.add(parent)
+    assert {name for name in names if regions[name].can_reach(state)} == expected
 
 
 def test_physical_room_location_ids_and_bits_stay_unique():

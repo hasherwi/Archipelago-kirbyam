@@ -21,7 +21,7 @@
   },
   "Cutter": {
     "runtime_ability_id": 6,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Cupid": {
     "runtime_ability_id": 19,
@@ -58,7 +58,7 @@
   },
   "Mini": {
     "runtime_ability_id": 23,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Missile": {
     "runtime_ability_id": 25,
@@ -107,7 +107,7 @@
   },
   "Wheel": {
     "runtime_ability_id": 4,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Wait": {
     "runtime_ability_id": 27,

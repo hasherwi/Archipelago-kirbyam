@@ -39,8 +39,16 @@ def _parse_address(value: Any) -> int:
     raise ValueError(f"unsupported address value type: {type(value).__name__}")
 
 
-# Fixed initial permissions, independent of randomized ability assignment.
+# Historical starting permissions retained for old seed receipt handling.
+# New seeds use starting_copy_abilities() instead.
 STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
+
+
+def starting_copy_abilities(mode: int) -> tuple[str, ...]:
+    """Cutter, Mini and Wheel use source-backed progression in every mode."""
+    return tuple(
+        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Cutter", "Mini", "Wheel"}
+    )
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")

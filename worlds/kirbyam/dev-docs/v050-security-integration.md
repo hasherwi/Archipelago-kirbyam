@@ -1,5 +1,11 @@
 # v0.5.0 security and reconnect integration plan
 
+Current release procedure: the [single-maintainer runbook](../docs/release-preparation.md)
+supersedes this historical plan's mandatory tag/environment/immutability prerequisites.
+One owner may perform every review; existing settings remain enforced, and signed
+artifact checks remain mandatory. The mapping below records the original integration
+requirements, not a demand to enable new security settings before each release.
+
 The owner abandoned the unpublished v0.4.2 release on October 26, 2026. Its security content belongs in upcoming v0.5.0. This document is planning and source integration, not release acceptance. Removal of draft release 422918553 and tag `kirbyam-v0.4.2` is a separate operation; do not infer deletion from this document. Preserve v0.4.1 and all source branches and commits. Do not merge the obsolete v0.4.2 version-only PR #984; select v0.5.0 metadata at the final integration stage.
 
 ## Source mapping
