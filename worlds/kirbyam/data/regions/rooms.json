@@ -9547,6 +9547,121 @@
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_18": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_20": null
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_216_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_216:215_arrival",
+              "native_room": 215
+            },
+            {
+              "id": "metal_216:212_arrival",
+              "native_room": 212
+            },
+            {
+              "id": "metal_216:216_right_arrival",
+              "native_room": 216
+            },
+            {
+              "id": "metal_216:chest",
+              "native_room": 216
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_216:215_arrival",
+              "to": "metal_216:212_arrival",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay."
+            },
+            {
+              "from": "metal_216:212_arrival",
+              "to": "metal_216:216_right_arrival",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. Actual212-to216 transition is independently controller-proven in dev-docs/ordinary-216-imported-burning-acceptance.json at both100% and500% enemy health, retaining Burning."
+            },
+            {
+              "from": "metal_216:216_right_arrival",
+              "to": "metal_216:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/ordinary-216-imported-burning-acceptance.json: from actual212 arrival(696,280.996), retain Burning through the lower corridor and shaft, land at(441.996,104.996), then low rightward dash through F5x28..30/y5..6. Float to chest0x088C1380 and holdUp30/release90 for native flag36 mask16. Default and500% use continuous no-loss traces. High launches into the solid cap are not accepted; no downward Burning, other provider, source reacquisition or permanent opened flag is inferred."
+              },
+              "evidence": "Exact same-room carrier/attack/collection sequence is atomic and terminal; no independent access to intermediate geometry or reusable post-check equipment is exported. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_216_chest",
+          "kind": "metal",
+          "native_room": 216,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_19",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_216_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_291",
+                  "to": "metal_216:215_arrival",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_216:chest"
+              ]
+            },
+            "peppermint291_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_216_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_291",
+                  "to": "metal_216:215_arrival",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+                }
+              ],
+              "starts": [
+                "hub_291"
+              ],
+              "required_targets": [
+                "metal_216:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_20": {

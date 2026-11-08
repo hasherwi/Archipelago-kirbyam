@@ -1948,3 +1948,20 @@ The base item definition remains useful for other configurations. Full and
 minimal accessibility use the same applicability predicate. The sanitized
 `frozen_goal2_upper_arena` record is separate from the four actual-entry underwater
 runs in `block-hit-acceptance.json` and contains no private paths or ROM bytes.
+
+### metal_216_chest
+
+Peppermint Palace Room19's exact1-Up chest `0x088C1380` now uses one unconditional
+source-backed target. Central and independently reached291 access are OR alternatives,
+reusing `ordinary_hub_statues` and the existing291->215->212 carrier from `rope_217_6_5`.
+Native291 statue `0x088C263C` supplies Burning under the actual source policy; the
+synthetic212 imported-equipment fixture is not a production source.
+
+The accepted low rightward Burning dash clears F5x28..30/y5..6, then actual chest
+interaction sets flag36 mask16. Fresh native100%/500% enemy-health traces have no
+HP loss; the existing Normal/Burning source argument supplies the positive-HP
+qualification, not a direct AP1HP replay. The terminal action exports neither
+opened-block persistence nor a reusable equipment postcondition. Both ordinary
+exits and RoomSanity remain unchanged; unsupported source assignments stay closed.
+See [the bounded source/carrier contract](../dev-docs/ordinary-216-source-carrier-contract.md).
+Starting Burning/Stone removal and other unreviewed ordinary-metal routes remain pending.

@@ -321,6 +321,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[str, Grant] = {}
+    expanded_sources: set[tuple[str, frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
@@ -342,25 +343,32 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
             queue.append(Position(position.node, "Normal", position.opened, position.consumed))
-        for source in sources[position.node]:
-            if not source.requirements <= owned:
-                continue
-            identity = source.identity or f"{source.node}:{source.source_key}"
-            if identity in position.consumed:
-                continue
-            consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = source_grant(source.source_key)
-            abilities = grant.guaranteed
-            if (allow_documented_retries and source.renewable and source.retry_evidence
-                    and grant.randomized and grant.abilities):
-                abilities = grant.abilities
-                assumptions.add(source.retry_evidence)
-            for granted_ability in abilities:
-                queue.append(Position(position.node, granted_ability, position.opened, consumed))
-            if not grant.can_fail and grant.abilities and not abilities:
-                # Player receives one of these, not all of them. Retain the
-                # uncertainty: a subsequent edge must work for EVERY outcome.
-                queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+        # Acquiring a source replaces equipment; its successors depend only on
+        # this physical phase and the fixed policy/permissions, not what is held.
+        # Keep both phase sets: finite source use and opened barriers must never
+        # be merged. Route, drop and recovery expansion still uses every Position.
+        source_phase = (position.node, position.opened, position.consumed)
+        if source_phase not in expanded_sources:
+            expanded_sources.add(source_phase)
+            for source in sources[position.node]:
+                if not source.requirements <= owned:
+                    continue
+                identity = source.identity or f"{source.node}:{source.source_key}"
+                if identity in position.consumed:
+                    continue
+                consumed = position.consumed if source.renewable else position.consumed | {identity}
+                grant = source_grant(source.source_key)
+                abilities = grant.guaranteed
+                if (allow_documented_retries and source.renewable and source.retry_evidence
+                        and grant.randomized and grant.abilities):
+                    abilities = grant.abilities
+                    assumptions.add(source.retry_evidence)
+                for granted_ability in abilities:
+                    queue.append(Position(position.node, granted_ability, position.opened, consumed))
+                if not grant.can_fail and grant.abilities and not abilities:
+                    # Player receives one of these, not all of them. Retain the
+                    # uncertainty: a subsequent edge must work for EVERY outcome.
+                    queue.append(Position(position.node, grant.abilities, position.opened, consumed))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue

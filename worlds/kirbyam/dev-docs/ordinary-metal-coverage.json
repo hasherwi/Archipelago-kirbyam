@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback. Native216 now has one unconditional source-backed chest target using real hub statues and the reviewed291 carrier; other providers and arrivals remain unvalidated. Starting-inventory removal remains blocked.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -337,15 +337,17 @@
         {
           "id": "216:28,5",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "Peppermint Room 19 1-Up chest, not an untracked loose 1-Up.",
+          "status": "reviewed_source_witness",
+          "note": "Exact1-Up chest0x088C1380, native flag36. Source-backed Burning via independently reached291 or Central hub network; ordinary exits and room check are unchanged. Synthetic212 imported-equipment fixture is not a production source. No additional provider/direction or fullAP/direct1HP replay accepted.",
           "tile_count": 6,
           "bounds": [
             28,
             5,
             30,
             6
-          ]
+          ],
+          "evidence": "dev-docs/ordinary-216-source-carrier-contract.md",
+          "accepted_target": "metal_216_chest"
         }
       ]
     },

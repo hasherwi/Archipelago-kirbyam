@@ -1,0 +1,379 @@
+{
+  "python": "3.12.14",
+  "reference": "181c6e9faeb97040723d0786d4b6f1fc31156441",
+  "scope": "Paired full-result evaluations; same graph, policy and owned items; compilation/imports excluded",
+  "samples": 7,
+  "evaluations_per_sample": 50,
+  "cases": {
+    "707_native": {
+      "target": "metal_707_to_712",
+      "witness": "central_statues",
+      "nodes": 19,
+      "routes": 33,
+      "sources": 30,
+      "positions": 290,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 1265,
+        "appends": 1264
+      },
+      "optimized_queue": {
+        "pops": 815,
+        "appends": 814
+      },
+      "reference_samples_ms": [
+        1.83901584,
+        1.54632754,
+        1.81497736,
+        1.5594822,
+        1.83856076,
+        1.58438574,
+        1.6796781
+      ],
+      "optimized_samples_ms": [
+        1.01711686,
+        1.0237640799999999,
+        1.04739934,
+        1.04620052,
+        1.08964286,
+        1.0644074,
+        1.3260708799999998
+      ],
+      "reference_median_ms": 1.6796781,
+      "optimized_median_ms": 1.04739934
+    },
+    "707_live_finite": {
+      "target": "metal_707_to_712",
+      "witness": "central_statues",
+      "nodes": 19,
+      "routes": 33,
+      "sources": 30,
+      "positions": 36,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 143,
+        "appends": 142
+      },
+      "optimized_queue": {
+        "pops": 113,
+        "appends": 112
+      },
+      "reference_samples_ms": [
+        0.32487066,
+        0.33031266,
+        0.32548718,
+        0.31607038,
+        0.33369255999999997,
+        0.33198056,
+        0.33315174
+      ],
+      "optimized_samples_ms": [
+        0.29401812,
+        0.29322892,
+        0.28899352,
+        0.29768884,
+        0.28630848,
+        0.28296946,
+        0.28188440000000003
+      ],
+      "reference_median_ms": 0.33031266,
+      "optimized_median_ms": 0.28899352
+    },
+    "707_live_retries": {
+      "target": "metal_707_to_712",
+      "witness": "central_statues",
+      "nodes": 19,
+      "routes": 33,
+      "sources": 30,
+      "positions": 452,
+      "retry_assumptions": 1,
+      "reference_queue": {
+        "pops": 19235,
+        "appends": 19234
+      },
+      "optimized_queue": {
+        "pops": 1955,
+        "appends": 1954
+      },
+      "reference_samples_ms": [
+        19.626123800000002,
+        19.919379420000002,
+        19.06347988,
+        19.14245222,
+        18.986726899999997,
+        19.210909960000002,
+        18.64878734
+      ],
+      "optimized_samples_ms": [
+        2.35663044,
+        2.6477509599999998,
+        2.61279708,
+        2.2572301,
+        2.5178582599999997,
+        2.22530356,
+        2.53552812
+      ],
+      "reference_median_ms": 19.14245222,
+      "optimized_median_ms": 2.5178582599999997
+    },
+    "216_native": {
+      "target": "metal_216_chest",
+      "witness": "central_statues",
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "positions": 306,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 1296,
+        "appends": 1295
+      },
+      "optimized_queue": {
+        "pops": 846,
+        "appends": 845
+      },
+      "reference_samples_ms": [
+        1.84798458,
+        1.61641868,
+        1.6265303400000002,
+        1.61770144,
+        1.5993152800000001,
+        1.64830358,
+        1.6213381
+      ],
+      "optimized_samples_ms": [
+        1.07709996,
+        1.07722194,
+        1.40259072,
+        1.09701498,
+        1.4003213,
+        1.0982855200000001,
+        1.48042034
+      ],
+      "reference_median_ms": 1.6213381,
+      "optimized_median_ms": 1.0982855200000001
+    },
+    "216_live_finite": {
+      "target": "metal_216_chest",
+      "witness": "central_statues",
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "positions": 38,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 146,
+        "appends": 145
+      },
+      "optimized_queue": {
+        "pops": 116,
+        "appends": 115
+      },
+      "reference_samples_ms": [
+        0.333316,
+        0.32406624,
+        0.32666216,
+        0.31810844,
+        0.3241021,
+        0.32584914000000004,
+        0.31848162
+      ],
+      "optimized_samples_ms": [
+        0.30485865999999995,
+        0.30691096,
+        0.28681044,
+        0.29123271999999994,
+        0.28324906,
+        0.3003773,
+        0.2880481
+      ],
+      "reference_median_ms": 0.3241021,
+      "optimized_median_ms": 0.29123271999999994
+    },
+    "216_live_retries": {
+      "target": "metal_216_chest",
+      "witness": "central_statues",
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "positions": 477,
+      "retry_assumptions": 1,
+      "reference_queue": {
+        "pops": 19284,
+        "appends": 19283
+      },
+      "optimized_queue": {
+        "pops": 2004,
+        "appends": 2003
+      },
+      "reference_samples_ms": [
+        19.67985686,
+        18.50413678,
+        18.683131600000003,
+        18.827907579999998,
+        18.5552623,
+        18.67227862,
+        18.442883379999998
+      ],
+      "optimized_samples_ms": [
+        2.23962454,
+        2.46315374,
+        2.4752071200000003,
+        2.27382734,
+        2.4517040800000003,
+        2.1940203599999997,
+        2.49317302
+      ],
+      "reference_median_ms": 18.67227862,
+      "optimized_median_ms": 2.4517040800000003
+    },
+    "742_native": {
+      "target": "metal_742_sparerib",
+      "witness": "clean_carry",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 10,
+        "appends": 9
+      },
+      "optimized_queue": {
+        "pops": 10,
+        "appends": 9
+      },
+      "reference_samples_ms": [
+        0.02429064,
+        0.02408632,
+        0.02697028,
+        0.02438998,
+        0.023317380000000002,
+        0.02634394,
+        0.02369534
+      ],
+      "optimized_samples_ms": [
+        0.02508984,
+        0.023928900000000003,
+        0.02420012,
+        0.023683919999999997,
+        0.02708346,
+        0.02404446,
+        0.02402644
+      ],
+      "reference_median_ms": 0.02429064,
+      "optimized_median_ms": 0.02404446
+    },
+    "557_native": {
+      "target": "metal_557_goal1_tomato",
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 10,
+        "appends": 9
+      },
+      "optimized_queue": {
+        "pops": 10,
+        "appends": 9
+      },
+      "reference_samples_ms": [
+        0.02560902,
+        0.02796278,
+        0.023660880000000002,
+        0.024109560000000002,
+        0.02336344,
+        0.02325048,
+        0.02344998
+      ],
+      "optimized_samples_ms": [
+        0.02414202,
+        0.0248589,
+        0.023709360000000002,
+        0.02429966,
+        0.02563406,
+        0.02495064,
+        0.02409574
+      ],
+      "reference_median_ms": 0.023660880000000002,
+      "optimized_median_ms": 0.02429966
+    },
+    "peg605_native": {
+      "target": "peg_605_12_24",
+      "witness": "carry",
+      "nodes": 6,
+      "routes": 5,
+      "sources": 2,
+      "positions": 17,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 31,
+        "appends": 30
+      },
+      "optimized_queue": {
+        "pops": 27,
+        "appends": 26
+      },
+      "reference_samples_ms": [
+        0.04624154,
+        0.04489152,
+        0.04515132,
+        0.046027019999999995,
+        0.050468120000000005,
+        0.045338800000000005,
+        0.0446161
+      ],
+      "optimized_samples_ms": [
+        0.04177922,
+        0.04215638,
+        0.04522142,
+        0.043835519999999996,
+        0.04239114,
+        0.0414425,
+        0.0418257
+      ],
+      "reference_median_ms": 0.045338800000000005,
+      "optimized_median_ms": 0.04215638
+    },
+    "mini134_native": {
+      "target": "mini_134_ocean_spray",
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 7,
+      "retry_assumptions": 0,
+      "reference_queue": {
+        "pops": 7,
+        "appends": 6
+      },
+      "optimized_queue": {
+        "pops": 7,
+        "appends": 6
+      },
+      "reference_samples_ms": [
+        0.0218163,
+        0.021481200000000002,
+        0.02107398,
+        0.02196574,
+        0.02141832,
+        0.02125546,
+        0.02341072
+      ],
+      "optimized_samples_ms": [
+        0.024831259999999997,
+        0.02453182,
+        0.02296744,
+        0.02157334,
+        0.02201442,
+        0.0220749,
+        0.022184259999999997
+      ],
+      "reference_median_ms": 0.021481200000000002,
+      "optimized_median_ms": 0.022184259999999997
+    }
+  }
+}

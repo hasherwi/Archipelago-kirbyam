@@ -409,5 +409,130 @@
         }
       }
     }
+  },
+  "source_backed_216": {
+    "scope": "Five warmed samples; native minimal1000 evaluations/sample, full-native100/sample, full-live50/sample. No kernel change. Full-inventory707/216 comparison uses the same evaluator and source policy, not a before/after optimization. Compile/catalog cache remains enabled; each evaluation recomputes reachability.",
+    "base_commit": "181c6e9faeb97040723d0786d4b6f1fc31156441",
+    "gating": false,
+    "allow_documented_retries": true,
+    "graphs": {
+      "metal_216_chest/central_statues": {
+        "nodes": 20,
+        "routes": 34,
+        "sources": 30,
+        "cases": {
+          "minimal_native_items": {
+            "positions": 32,
+            "iterations_per_sample": 1000,
+            "microseconds": [
+              132.996027,
+              129.842684,
+              133.56357500000001,
+              143.404894,
+              132.995688
+            ],
+            "median_microseconds": 132.996027
+          },
+          "all_native_items": {
+            "positions": 306,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1697.491,
+              1642.20042,
+              1717.1173000000001,
+              1744.8705400000001,
+              1687.89543
+            ],
+            "median_microseconds": 1697.491
+          },
+          "all_live_items": {
+            "positions": 477,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              18402.82462,
+              19134.96352,
+              19292.82154,
+              18748.4288,
+              18408.79746
+            ],
+            "median_microseconds": 18748.4288
+          }
+        }
+      },
+      "metal_216_chest/peppermint291_statues": {
+        "nodes": 20,
+        "routes": 34,
+        "sources": 30,
+        "cases": {
+          "minimal_native_items": {
+            "positions": 14,
+            "iterations_per_sample": 1000,
+            "microseconds": [
+              61.581661999999994,
+              61.948566,
+              59.723349999999996,
+              60.318898000000004,
+              77.446937
+            ],
+            "median_microseconds": 61.581661999999994
+          },
+          "all_native_items": {
+            "positions": 306,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1904.22588,
+              1981.03516,
+              1642.38806,
+              1730.49902,
+              1644.77515
+            ],
+            "median_microseconds": 1730.49902
+          },
+          "all_live_items": {
+            "positions": 477,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              19324.15248,
+              18497.29168,
+              18862.352,
+              19307.90054,
+              18331.138440000002
+            ],
+            "median_microseconds": 18862.352
+          }
+        }
+      },
+      "metal_707_to_712/central_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "all_native_items": {
+            "positions": 290,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1569.9296000000002,
+              1727.73839,
+              1736.28348,
+              1628.83304,
+              1694.1283999999998
+            ],
+            "median_microseconds": 1694.1283999999998
+          },
+          "all_live_items": {
+            "positions": 452,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              18441.94294,
+              19273.152899999997,
+              20173.25662,
+              19323.92696,
+              18327.93422
+            ],
+            "median_microseconds": 19273.152899999997
+          }
+        }
+      }
+    }
   }
 }
