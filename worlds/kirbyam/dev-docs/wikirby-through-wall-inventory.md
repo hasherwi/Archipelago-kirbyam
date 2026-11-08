@@ -213,7 +213,7 @@ a hit. Thus the Area Map is not documented as exclusively wall-piercing-gated.
 ## Ability evidence and its limits
 
 The investigation starts with Beam, UFO, and Master as requested candidates;
-Smash remains unconfirmed. This does not assert that those three are sufficient
+Smash's landing shockwave now has source-level terrain-bypass evidence (see follow-up below). This does not assert that those three are sufficient
 for every row, or that no other ability works.
 
 | Ability | What WiKirby supports | What remains unverified |
@@ -221,7 +221,7 @@ for every row, or that no other ability works.
 | Beam | Treasure guide identifies it for Cabbage Cavern Room 6; Room 28 explicitly describes its use for Green Spray Paint | Other individual triggers, angles, and safe positions |
 | UFO | [Amazing Mirror moveset](https://wikirby.com/wiki/UFO#Kirby_&_The_Amazing_Mirror) says the long-hold Piercing Heat Beam pierces walls | Specific targets and applicable charge/move; do not equate every UFO attack with this property |
 | Master | [Article](https://wikirby.com/wiki/Master#Kirby_&_The_Amazing_Mirror) describes a charged energy wave and broad puzzle-solving capability except Mini puzzles | Exact move and collision behavior per target; the broad claim is not a controller witness |
-| Smash | [Amazing Mirror moveset](https://wikirby.com/wiki/Smash_Bros.#Kirby_&_The_Amazing_Mirror) includes Final Cutter and its shockwave | No reviewed statement establishes wall penetration or success at these targets; do not add it as confirmed |
+| Smash | [Amazing Mirror moveset](https://wikirby.com/wiki/Smash_Bros.#Kirby_&_The_Amazing_Mirror) includes Final Cutter and its shockwave | WiKirby alone did not establish wall penetration; the pinned source follow-up establishes terrain bypass, but not per-target success |
 | Spark | Rainbow Route Room 28 explicitly describes a closer-position solution | Room 8 is a lead only; exact moves and collision behavior still need testing |
 | Ice | Treasure guide supplies the frozen-Waddle-Dee solution for Olive Goal 2 | Exact enemy/source/position and switch timing under randomization |
 
@@ -274,8 +274,9 @@ The [per-room coverage manifest](wikirby-through-wall-coverage.json) records all
 263 titles/URLs and screening status. Prose screening is not an exhaustive
 mechanics audit: wording can omit a constraint, and a non-hit is not evidence of
 absence. No room-map pixels, ROM geometry, collision code, or controller tests
-were inspected for this document. The new matches are text-supported candidates,
-not retroactively claimed runtime verification.
+were inspected during the initial prose sweep. Subsequent source analysis and one
+qualified native Spark witness are linked below; they do not retroactively verify
+all prose candidates.
 
 Next, inspect candidate maps and validate each
 candidate from every relevant entry. Record move/charge, attack origin and target,
@@ -287,8 +288,8 @@ Only then propose source-aware logic and regression tests.
 ## Range investigation: source evidence versus measurements
 
 The comparison must be move-specific, not a single global "ignores collision"
-flag. No numeric maximum range has yet been measured for any of the six
-abilities. A successful target hit is a lower bound, not a maximum; a failed
+flag. Source-derived numeric envelopes are now available in the linked follow-up, but
+no maximum-distance target-hit sweep has been measured for all six abilities. A successful target hit is a lower bound, not a maximum; a failed
 hit can reflect alignment or chain state rather than range.
 
 | Ability/move | Evidence applicable to Amazing Mirror | Range and per-room comparison still needed |
@@ -315,3 +316,16 @@ For projectiles, also record frames alive and camera position. Freeze-and-kick
 trials must identify the actual enemy and source; do not substitute an injected
 ice projectile for proof that the room supplies one. A synthetic geometry test
 can measure a move but must not be represented as natural room accessibility.
+
+
+## Native follow-up and expanded small-switch scope
+
+- [Move-specific source ranges](collision-avoiding-attack-ranges.md): Spark reaches 23 pixels sideways; Beam's forward envelope is 59; Master wave 118; Smash landing shockwave about 86. These are source-derived attack edges, not universal target-center distances or demonstrated maximum-distance switch hits. UFO and kicked frozen enemies are camera-limited rather than governed by a fixed flight timer. Laser and Cupid are terrain-colliding remote options.
+- [Rainbow Route Room 8 Spark witness](rainbow-route-8-spark-witness.md): a continuous qualified vanilla-engine replay opened the intended wall-separated trigger and reached Room 9 (native 554). A no-attack replay stayed in 110. Startup placement and an essence substitution mean this proves physical feasibility after acquiring Spark, not source-aware randomized accessibility.
+- [Exhaustive native small-switch inventory](small-switch-inventory.md): 23 instances in 19 native rooms, all 983 slots and 287 object lists scanned. Room-by-room WiKirby classifications distinguish ordinary contact/timing, remote alternatives, cooperation and separated targets. Moonlight Mansion Room 19 is a clear-static-row ranged alternative; Mustard Chest/Room 15 require additional trajectory/timing work. No blanket Laser, Cupid, Ice, UFO or Phone grant is implemented.
+
+Spark's Room 8 success and WiKirby's Room 28 solution do **not** prove that it
+replaces Beam at every target. Other room/move witnesses and the 13 failed prose
+retrievals remain open. The small-switch scan is exhaustive for static native
+templates (including the 18 native spawners checked), not every possible dynamic
+object creation or every gameplay solution.
