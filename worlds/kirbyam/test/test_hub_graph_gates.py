@@ -126,16 +126,22 @@ def test_candy_overland_arrival_does_not_grant_its_central_connection(room_sanit
     """Preserve the emulator-proven 705->409->427->404->407->401->407->490 route."""
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating})
+    route = ('REGION_MOONLIGHT_MANSION/ROOM_2_WARP', *(
+        f'REGION_CANDY_CONSTELLATION/ROOM_9_{suffix}'
+        for suffix in ('04', '02', '01', '07', '06', '07', 'HUB')))
+    # Isolate the accepted downstream topology at 705. Ability permissions do
+    # not supply the actual 707 carrier, and adding source Hub items can open
+    # unrelated routes into Candy instead of exercising this continuation.
+    menu = world.get_region('Menu', 1)
+    menu.exits.clear()
+    menu.connect(world.get_region(route[0], 1), 'Begin Candy overland fixture at 705')
     state = _with_area_keys(world, CollectionState(world))
-    state.collect(world.worlds[1].create_item('Moonlight Mansion 2-11 - Lever Wall'), True)
-    # This regression concerns topology, not acquisition of each copy ability.
-    # The runtime route used normally acquired Missile and Burning with gating off.
-    for item in world.itempool:
-        if item.name.endswith(' Ability'):
-            state.collect(item, True)
     state.sweep_for_advancements()
-    hub = 'REGION_CANDY_CONSTELLATION/ROOM_9_HUB'
+    for source, destination in zip(route, route[1:]):
+        assert world.get_entrance(f'{source} -> {destination}', 1).can_reach(state)
+    hub = route[-1]
     assert world.get_region(hub, 1).can_reach(state)
+    assert not state.has('Candy Constellation - Hub Connection', 1)
     connection = world.get_entrance(f'{hub} -> {CENTRAL}', 1)
     assert not connection.access_rule(state)
     state.collect(world.worlds[1].create_item('Candy Constellation - Hub Connection'), True)
