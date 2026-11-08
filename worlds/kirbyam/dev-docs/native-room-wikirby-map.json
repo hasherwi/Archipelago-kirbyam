@@ -3305,7 +3305,8 @@
       "completion_index": 199,
       "object_list_index": 199,
       "ap_keys": [
-        "REGION_OLIVE_OCEAN/ROOM_6_12"
+        "REGION_OLIVE_OCEAN/ROOM_6_12",
+        "REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT"
       ],
       "wiki_title": "Olive Ocean - Room 12",
       "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_12",

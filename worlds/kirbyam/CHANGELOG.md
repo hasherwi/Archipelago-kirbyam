@@ -14,6 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
@@ -304,5 +305,3 @@ First Public Build!
 - Align the public-release contract by normalizing ability-randomization naming/defaults, removing legacy compatibility paths and aliases, and cleaning up pre-public template output so the shipped option surface matches current behavior.
 - Expand protocol, slot-data, patching, reconnect-chaos, release-metadata, snapshot, and negative-path test coverage across the world, client, and payload pipeline to support the first public version.
 - Establish the pre-public build and release workflow baseline, including ROM patch rebuild smoke coverage, release integrity checks, and maintainer validation/documentation needed for the `v0.1.0` release line.
-
-- Correct Olive Ocean Room12's directional upper-left arrival and record its Normal cannon routes; bind Room21's source-free Normal underwater bypass. Model swimming attacks and finite frozen-enemy hits without crediting Mini attacks or permanent timed-switch openings. Goal2/Room9 chest bindings remain unchanged pending complete evidence.

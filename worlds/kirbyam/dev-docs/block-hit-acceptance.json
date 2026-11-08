@@ -2006,5 +2006,840 @@
       ]
     }
   ],
-  "coordinate_convention": "startup_fixture.pixel_spawn records effective in-game spawn. Initial ROM table coordinates are +8 on each axis; reconstruction with this offset reproduces all four recorded fixture hashes."
+  "coordinate_convention": "startup_fixture.pixel_spawn records effective in-game spawn. Initial ROM table coordinates are +8 on each axis; reconstruction with this offset reproduces all four recorded fixture hashes.",
+  "frozen_goal2_upper_arena": {
+    "rom_base_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "fixture_sha256": "b42eb4dea15babdd9012216098a97360e1ec705bae5aab58de47407e652bf522",
+    "decomp_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "fixture": {
+      "starting_room": 825,
+      "starting_position": [
+        168,
+        104
+      ],
+      "native_actual_incoming_position": [
+        280,
+        296
+      ],
+      "description": "Only initial Kirby0 room and spawn changed. Upper-arena controlled entry, not actual lower arrival. Fresh blank battery, Normal ability, native health/progress. No runtime writes or save-state reloads.",
+      "changed_rom_offsets": [
+        2985144,
+        2985169,
+        2985173
+      ]
+    },
+    "execution": {
+      "frames": 6651,
+      "runtime_writes": [],
+      "state_loads": 0,
+      "cold_replays": 2,
+      "end_room": 825,
+      "end_hp": 2,
+      "end_ability": 2,
+      "chest66_address": "0x02038968",
+      "chest66_mask": 4,
+      "chest66_read_masked": 4,
+      "music_field_address": "0x02038978",
+      "music_field_value": "0x400"
+    },
+    "objects": {
+      "frosty": {
+        "template": "0x088CD3F0",
+        "position": [
+          280,
+          104
+        ]
+      },
+      "pengy": {
+        "template": "0x088CD384",
+        "position": [
+          384,
+          296
+        ]
+      },
+      "waddle_dee": {
+        "template": "0x088CD318",
+        "position": [
+          528,
+          136
+        ]
+      },
+      "button": {
+        "template": "0x088CD360",
+        "position": [
+          656,
+          144
+        ]
+      },
+      "door": {
+        "template": "0x088CD33C",
+        "position": [
+          600,
+          112
+        ]
+      },
+      "chest": {
+        "template": "0x088CD2F4",
+        "position": [
+          656,
+          104
+        ],
+        "flag": 66
+      }
+    },
+    "observations": [
+      {
+        "frame": 3689,
+        "event": "Defeated Frosty swallowed; actual equipped Ice2"
+      },
+      {
+        "frame": 6043,
+        "event": "Kirby grounded503.074,136.996; live Waddle529.246,134.996"
+      },
+      {
+        "frame": 6113,
+        "event": "After70frames B frozen object ready522.496,134.996; flags0x50304102 mask0x10880007"
+      },
+      {
+        "frame": 6138,
+        "event": "After25frames Right launched block562.496,134.996; mask0x20000043 flags0x20304102"
+      },
+      {
+        "frame": 6188,
+        "event": "Instrumented earlier replay: buttonflags0x12608002\u21920x12618002 and door retracted"
+      },
+      {
+        "frame": 6299,
+        "event": "Final route passed timed door, Kirby628.734,104.996"
+      },
+      {
+        "frame": 6324,
+        "event": "Reached chest661.156,104.996"
+      },
+      {
+        "frame": 6651,
+        "event": "Cold repeat readback chest66 bit set and music field0x400"
+      }
+    ],
+    "controller_bits": {
+      "A": 1,
+      "B": 2,
+      "Select": 4,
+      "Start": 8,
+      "Right": 16,
+      "Left": 32,
+      "Up": 64,
+      "Down": 128
+    },
+    "controller_inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 1085,
+        "frames": 40,
+        "keys": 16
+      },
+      {
+        "start": 1125,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1215,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1216,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1217,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1237,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1327,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1328,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1329,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1349,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1439,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1440,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1441,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1461,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1551,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1552,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1553,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1573,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1663,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1664,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1665,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1685,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1775,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1776,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1777,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1797,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1887,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1888,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1889,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 1909,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 1999,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2000,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2001,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2021,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2111,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2112,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2113,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2133,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2223,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2224,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2225,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2245,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2335,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2336,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2337,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2357,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2447,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2448,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2449,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2469,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2559,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2560,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2561,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2581,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2671,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2672,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2673,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2693,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2783,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2784,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2785,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2805,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 2895,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 2896,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2897,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 2917,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 3007,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 3008,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3009,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3029,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 3119,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 3120,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3121,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3141,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 3231,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 3232,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3233,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3253,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 3343,
+        "frames": 60,
+        "keys": 16
+      },
+      {
+        "start": 3403,
+        "frames": 60,
+        "keys": 16
+      },
+      {
+        "start": 3463,
+        "frames": 15,
+        "keys": 32
+      },
+      {
+        "start": 3478,
+        "frames": 60,
+        "keys": 128
+      },
+      {
+        "start": 3538,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3539,
+        "frames": 90,
+        "keys": 2
+      },
+      {
+        "start": 3629,
+        "frames": 60,
+        "keys": 128
+      },
+      {
+        "start": 3689,
+        "frames": 80,
+        "keys": 64
+      },
+      {
+        "start": 3769,
+        "frames": 100,
+        "keys": 80
+      },
+      {
+        "start": 3869,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3870,
+        "frames": 65,
+        "keys": 0
+      },
+      {
+        "start": 3935,
+        "frames": 35,
+        "keys": 0
+      },
+      {
+        "start": 3970,
+        "frames": 45,
+        "keys": 0
+      },
+      {
+        "start": 4015,
+        "frames": 80,
+        "keys": 64
+      },
+      {
+        "start": 4095,
+        "frames": 200,
+        "keys": 96
+      },
+      {
+        "start": 4295,
+        "frames": 200,
+        "keys": 80
+      },
+      {
+        "start": 4495,
+        "frames": 130,
+        "keys": 128
+      },
+      {
+        "start": 4625,
+        "frames": 15,
+        "keys": 16
+      },
+      {
+        "start": 4640,
+        "frames": 40,
+        "keys": 2
+      },
+      {
+        "start": 4680,
+        "frames": 40,
+        "keys": 16
+      },
+      {
+        "start": 4720,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 4780,
+        "frames": 80,
+        "keys": 64
+      },
+      {
+        "start": 4860,
+        "frames": 250,
+        "keys": 96
+      },
+      {
+        "start": 5110,
+        "frames": 165,
+        "keys": 80
+      },
+      {
+        "start": 5275,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 5276,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 5277,
+        "frames": 100,
+        "keys": 0
+      },
+      {
+        "start": 5377,
+        "frames": 80,
+        "keys": 64
+      },
+      {
+        "start": 5457,
+        "frames": 190,
+        "keys": 96
+      },
+      {
+        "start": 5647,
+        "frames": 190,
+        "keys": 80
+      },
+      {
+        "start": 5837,
+        "frames": 35,
+        "keys": 32
+      },
+      {
+        "start": 5872,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 5873,
+        "frames": 100,
+        "keys": 0
+      },
+      {
+        "start": 5973,
+        "frames": 35,
+        "keys": 16
+      },
+      {
+        "start": 6008,
+        "frames": 35,
+        "keys": 0
+      },
+      {
+        "start": 6043,
+        "frames": 70,
+        "keys": 2
+      },
+      {
+        "start": 6113,
+        "frames": 25,
+        "keys": 16
+      },
+      {
+        "start": 6138,
+        "frames": 1,
+        "keys": 17
+      },
+      {
+        "start": 6139,
+        "frames": 95,
+        "keys": 16
+      },
+      {
+        "start": 6234,
+        "frames": 65,
+        "keys": 17
+      },
+      {
+        "start": 6299,
+        "frames": 15,
+        "keys": 16
+      },
+      {
+        "start": 6314,
+        "frames": 10,
+        "keys": 16
+      },
+      {
+        "start": 6324,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 6325,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 6445,
+        "frames": 35,
+        "keys": 32
+      },
+      {
+        "start": 6480,
+        "frames": 65,
+        "keys": 32
+      },
+      {
+        "start": 6545,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 6546,
+        "frames": 15,
+        "keys": 0
+      },
+      {
+        "start": 6561,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 6591,
+        "frames": 60,
+        "keys": 2
+      }
+    ],
+    "limitations": [
+      "Native unmodified mechanics, not AP live/randomized-source acceptance.",
+      "Upper-arena fixture does not prove incoming831\u2192825 lower arrival to battle, full campaign, or hub Ice carry.",
+      "Both shafts have non-droppable0F bridges at rows8 and13. Post-boss Pengy access/repeat not proved; do not assume reverse traversal.",
+      "Separate real-arrival test proves local Pengy can provide Ice before boss; retaining Ice through Frosty not established.",
+      "Waddle repeatedly respawned after camera excursions to x265..294 and back; swallowing that same Waddle for randomized Ice was not tested. Do not equate one-shot finite random grants with guaranteed Ice.",
+      "Frosty is distinct from frozen Waddle; acquisition consumes the source. Do not use one consumed target for both acquisition and freezing without a verified reset.",
+      "Small switch opens timed door; slow aerial detour failed, held-A jump-right succeeded.",
+      "Exploratory runtime includes safe retries and camera excursions; full input stream retained rather than minimizing an untested route.",
+      "No Beam/other through-wall attack alternative tested."
+    ],
+    "verification_date": "2026-11-08",
+    "scope": "Upper-arena native replay only; real-arrival route supplied separately by WiKirby room description. No Pengy carry, renewal, or randomized-source replay claim."
+  }
 }

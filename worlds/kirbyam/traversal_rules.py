@@ -28,6 +28,26 @@ def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset
     return bool(graph.required_targets) and all(result.reaches(target) for target in graph.required_targets)
 
 
+def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
+    """Scope partial witnesses without rejecting unsupported source policies."""
+    condition = row.get("requires_guaranteed_source")
+    return condition is None or policy.grant(
+        condition["source_key"], lambda _: True,
+    ).guaranteed == frozenset({condition["ability"]})
+
+
+def goal2_ice_is_progression(world: Any) -> bool:
+    """Only the enabled, guaranteed-Frosty chest rule needs an Ice permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_MUSIC_NOTE_10"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("MR_FROSTY", lambda _: True).guaranteed == frozenset({"Ice"})
+
+
 def static_extra_witness(policy: SourcePolicy) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 
@@ -36,7 +56,7 @@ def static_extra_witness(policy: SourcePolicy) -> bool:
     supply the capability; they must document the independent ordinary bypass.
     """
     return all(
-        not row.get("required_for_generation", True)
+        not target_applies(row, policy) or not row.get("required_for_generation", True)
         or any(graph_succeeds(graph, policy, graph_items(graph), False, retries=False)
                for graph in target_graphs(row, False))
         for row in extra_traversal_targets()
@@ -52,6 +72,8 @@ def install_extra_traversal_rules(world: Any) -> None:
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
+        if not target_applies(row, policy):
+            continue
         if row.get("exit"):
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
         else:

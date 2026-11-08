@@ -1823,9 +1823,9 @@ through its gate, not a permanently opened event.
 
 ### Accepted production scope
 
-Only the Normal Room 21 bypass and Room 12 directional topology below are bound.
-Goal 2's Sound Effects chest, Room 9's Cherry chest, and Ice item classification
-are unchanged. No global incoming-ability carry route is inferred.
+The Normal Room 21 bypass and Room 12 directional topology below are bound.
+Goal 2 has the conditional Frosty-only binding described below. Room 9 remains
+unchanged; no global incoming-ability carry route is inferred.
 
 **Olive Room 21 / native 819:** from the actual effective entry pixel `(40,72)`,
 Normal swims to the central bomb at tile `(27,12)`, fires Water Gun upward,
@@ -1875,7 +1875,7 @@ position-table coordinates are **8 greater on each axis**. Reconstructing with
 that offset reproduces the four recorded fixture hashes; do not treat effective
 coordinates as direct table bytes.
 
-### Frozen Goal 2 evidence retained without production binding
+### Frozen Goal 2 evidence and conditional production binding
 
 The accepted local chest replay starts in native 825's upper arena at `(168,104)`,
 not its real incoming `(280,296)` spawn. It defeats and swallows Mr Frosty
@@ -1887,10 +1887,51 @@ Pengy `0x088CD384` is at the lower arrival before the boss; nondroppable platfor
 prevent assuming a postboss return. Ice damage source code is not a completed
 Pengy-to-chest carry replay. A narrow postboss Ice-preserving Waddle viewport loop
 was observed, but is not generalized into renewable-resource semantics here.
-Consequently no Goal 2 production graph, Ice progression change, or source-policy
-rejection is introduced from the incomplete arrival/randomization witness.
+The subsequent WiKirby arrival evidence supports the narrow conditional binding
+below, not a general incoming-equipment or randomized-source witness.
 
 Fresh Pi replay verification on **2026-11-08** reproduced all four underwater
 fixture hashes and expected destination rooms, plus the separately scoped
 upper-arena frozen Goal 2 chest/music readbacks. This does not expand the
 production scope or prove the missing real-arrival/randomized sequence.
+
+### Supplementary WiKirby route evidence
+
+[Goal 2](https://wikirby.com/wiki/Olive_Ocean_-_Goal_2) describes the lower
+arrival chute, ascent to Mr Frosty, and subsequent gated Sound Effects chest.
+[Room 14](https://wikirby.com/wiki/Olive_Ocean_-_Room_14) confirms the one-way
+approach into Goal 2. The Sound Effects entry in
+[Treasure](https://wikirby.com/wiki/Treasure) specifies freezing the nearby
+Waddle Dee and kicking its body through the wall into the switch. These sources
+corroborate the intended vanilla sequence and agree with native room extraction
+and the upper-arena controller replay.
+
+The supplementary sources do not establish arbitrary incoming ability retention,
+randomized Frosty grants, live-random retry guarantees, or a postboss Pengy return.
+The scoped Frosty witness checks that the finalized physical source assignment
+guarantees Ice, not merely that inventory allows Ice. Uncertain randomized
+assignments retain their previous access behavior and are not rejected by this
+partial witness.
+
+### Guaranteed-Frosty applicability
+
+`requires_guaranteed_source` enables the Goal 2 graph only when the finalized
+`SourcePolicy.grant("MR_FROSTY", lambda _: True).guaranteed` is exactly `{Ice}`.
+The same predicate runs before assignment feasibility and access-rule installation.
+It accepts vanilla/excluded-miniboss grants, fixed Ice assignments and an Ice-only
+live pool with no failure chance. Fixed non-Ice, mixed live pools and any live
+no-ability chance preserve the previous rule exactly. This is deliberately a
+conditional repair, not complete randomized Goal 2 logic.
+
+The graph starts Normal at the actual arrival, follows WiKirby's documented
+ascent, uses the native-proven Normal Frosty defeat/acquisition, and freezes the
+distinct finite Waddle. It credits neither prebattle Pengy equipment nor renewal.
+The native replay still begins in the upper arena; the documentation source,
+not a fabricated controller run, supports the arrival segment.
+
+Ice is classified as progression only when this guaranteed-source rule applies,
+the physical Sound Effects location exists, and ability gating is enabled.
+The base item definition remains useful for other configurations. Full and
+minimal accessibility use the same applicability predicate. The sanitized
+`frozen_goal2_upper_arena` record is separate from the four actual-entry underwater
+runs in `block-hit-acceptance.json` and contains no private paths or ROM bytes.

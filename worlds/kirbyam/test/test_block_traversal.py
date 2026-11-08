@@ -223,11 +223,13 @@ def test_compiler_rejects_permanent_frozen_hit(projectile_payload):
         compile_traversal_graph(projectile_payload)
 
 
-def test_goal2_and_ice_classification_are_not_changed_by_partial_witness():
+def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
     import json
     import pkgutil
     from ..traversal_data import room_traversal_targets
-    assert {row['id'] for row in room_traversal_targets('block')} == {'underwater_819_exit'}
+    assert {row['id'] for row in room_traversal_targets('block')} == {
+        'underwater_819_exit', 'frozen_825_sound_effects',
+    }
     items = json.loads(pkgutil.get_data('worlds.kirbyam', 'data/items.json'))
     assert items['ABILITY_UNLOCK_ICE']['classification'] == 'USEFUL'
 

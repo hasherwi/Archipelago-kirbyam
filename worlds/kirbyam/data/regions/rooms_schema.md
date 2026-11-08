@@ -206,3 +206,9 @@ freeze/kick/target sequence. It cannot have `opens`, refer to renewable sources,
 or be applied through an unrelated capability. No implicit object refresh is
 supported. Room-local consumption prevents swallowed or fired targets from
 being reused.
+
+A target may specify `requires_guaranteed_source` with `source_key: "MR_FROSTY"`
+and `ability: "Ice"` for the conditional Goal 2 witness. Both feasibility and rule
+installation skip this partial witness unless the finalized source policy
+unconditionally grants Ice. Unsupported configurations preserve prior behavior;
+this condition does not assert they are impossible.
