@@ -1,0 +1,3428 @@
+{
+  "schema_version": 1,
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "fixture": {
+    "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+    "changes": [
+      "Startup room array [790,101,101,101], P1 position (80,48). Cold FF SRAM.",
+      "Existing native790 Bomb statue at ROM offset0x8BDDF0 subtype6 changed to1 to grant Burning. This is synthetic imported equipment, NOT a production Burning source."
+    ],
+    "qualification": "Production enemy_health_scaling.scale_enemy_health_tables(ROM,500) applied once, pinned module a062278eea84ce3c2a6a7bbc601262cda0f3fab2. Native source-equivalent transformation, not full AP patch or direct 1HP config. Real592 statue acquisition and 592→801→790 carry remain separate upstream evidence. No terrain, attack or runtime-state writes.",
+    "scaling_module_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "Doo_HP_check": {
+      "original": 4,
+      "scaled": 20
+    }
+  },
+  "result": "Actual790→706→707→712, Burning retained. 707 button/door crossed atomically, both F5 tiles destroyed rightward. No persistent door-opening assumption.",
+  "mechanism": {
+    "button_template": "0x088BCD6C",
+    "button_position": [
+      560,
+      304
+    ],
+    "slot": 1,
+    "template_u16_0x18": 0,
+    "template_u16_0x22": 8,
+    "door_template": "0x088BCD00",
+    "door_position": [
+      616,
+      304
+    ],
+    "note": "Not the742120-frame button. Controller crossing is established; full zero-duration/flag8 persistence semantics not claimed."
+  },
+  "segments": [
+    {
+      "segment": "all500-carrier707boot",
+      "parent_controller_state": null,
+      "inputs": [
+        {
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 180,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "1",
+          "frame": 181,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "2",
+          "frame": 301,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "3",
+          "frame": 302,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "4",
+          "frame": 422,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "5",
+          "frame": 423,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "6",
+          "frame": 663,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "7",
+          "frame": 664,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "8",
+          "frame": 844,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "9",
+          "frame": 845,
+          "room": 0,
+          "x": 0,
+          "y": 0,
+          "hp": 0,
+          "ability": 0
+        },
+        {
+          "label": "10",
+          "frame": 1085,
+          "room": 790,
+          "x": 72,
+          "y": 41.14453125,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "11",
+          "frame": 1086,
+          "room": 790,
+          "x": 72,
+          "y": 41.14453125,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "12",
+          "frame": 1176,
+          "room": 790,
+          "x": 72,
+          "y": 128.83203125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 1176,
+          "room": 790,
+          "x": 72,
+          "y": 128.83203125,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706entry",
+      "parent_controller_state": "all500-carrier707boot",
+      "inputs": [
+        {
+          "frames": 95,
+          "keys": 16
+        },
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 95,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 105,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 125,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 126,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 246,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 246,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier790right",
+      "parent_controller_state": "all500-carrier706entry",
+      "inputs": [
+        {
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "frames": 35,
+          "keys": 1
+        },
+        {
+          "frames": 85,
+          "keys": 17
+        },
+        {
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "frames": 60,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 1,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 91,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 92,
+          "room": 790,
+          "x": 118.28125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 102,
+          "room": 790,
+          "x": 120.7109375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 137,
+          "room": 790,
+          "x": 142.1484375,
+          "y": 75.31640625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 222,
+          "room": 790,
+          "x": 240,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "6",
+          "frame": 223,
+          "room": 790,
+          "x": 238.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "7",
+          "frame": 283,
+          "room": 790,
+          "x": 203.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 283,
+          "room": 790,
+          "x": 203.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706actual",
+      "parent_controller_state": "all500-carrier790right",
+      "inputs": [
+        {
+          "frames": 17,
+          "keys": 16
+        },
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 17,
+          "room": 790,
+          "x": 221.03125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 27,
+          "room": 790,
+          "x": 227.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 47,
+          "room": 790,
+          "x": 227.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 48,
+          "room": 790,
+          "x": 227.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 168,
+          "room": 706,
+          "x": 56,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 168,
+          "room": 706,
+          "x": 56,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706lower",
+      "parent_controller_state": "all500-carrier706actual",
+      "inputs": [
+        {
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 1,
+          "room": 706,
+          "x": 56,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 91,
+          "room": 706,
+          "x": 56,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 111,
+          "room": 706,
+          "x": 77.015625,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 201,
+          "room": 706,
+          "x": 89.99609375,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 201,
+          "room": 706,
+          "x": 89.99609375,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706ladder",
+      "parent_controller_state": "all500-carrier706lower",
+      "inputs": [
+        {
+          "frames": 75,
+          "keys": 128
+        },
+        {
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "frames": 10,
+          "keys": 16
+        },
+        {
+          "frames": 70,
+          "keys": 128
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 75,
+          "room": 706,
+          "x": 88,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 105,
+          "room": 706,
+          "x": 55.1875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 115,
+          "room": 706,
+          "x": 49.09375,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 185,
+          "room": 706,
+          "x": 49.171875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 185,
+          "room": 706,
+          "x": 49.171875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706bottom",
+      "parent_controller_state": "all500-carrier706ladder",
+      "inputs": [
+        {
+          "frames": 7,
+          "keys": 32
+        },
+        {
+          "frames": 5,
+          "keys": 16
+        },
+        {
+          "frames": 80,
+          "keys": 128
+        },
+        {
+          "frames": 28,
+          "keys": 16
+        },
+        {
+          "frames": 60,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 7,
+          "room": 706,
+          "x": 45.671875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 12,
+          "room": 706,
+          "x": 43.171875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 92,
+          "room": 706,
+          "x": 43.046875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 120,
+          "room": 706,
+          "x": 73.265625,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 180,
+          "room": 706,
+          "x": 88,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 180,
+          "room": 706,
+          "x": 88,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706ladder2",
+      "parent_controller_state": "all500-carrier706bottom",
+      "inputs": [
+        {
+          "frames": 34,
+          "keys": 32
+        },
+        {
+          "frames": 10,
+          "keys": 16
+        },
+        {
+          "frames": 80,
+          "keys": 128
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 34,
+          "room": 706,
+          "x": 48.828125,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 44,
+          "room": 706,
+          "x": 42.734375,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 124,
+          "room": 706,
+          "x": 42.8125,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 124,
+          "room": 706,
+          "x": 42.8125,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706ladder3",
+      "parent_controller_state": "all500-carrier706ladder2",
+      "inputs": [
+        {
+          "frames": 4,
+          "keys": 32
+        },
+        {
+          "frames": 80,
+          "keys": 128
+        },
+        {
+          "frames": 28,
+          "keys": 16
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 4,
+          "room": 706,
+          "x": 41.5625,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 84,
+          "room": 706,
+          "x": 40,
+          "y": 168.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 112,
+          "room": 706,
+          "x": 70.21875,
+          "y": 168.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 212,
+          "room": 706,
+          "x": 89.99609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 212,
+          "room": 706,
+          "x": 89.99609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706hall",
+      "parent_controller_state": "all500-carrier706ladder3",
+      "inputs": [
+        {
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 30,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 180,
+          "room": 706,
+          "x": 265.99609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 190,
+          "room": 706,
+          "x": 259.24609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 220,
+          "room": 706,
+          "x": 245.58984375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 220,
+          "room": 706,
+          "x": 245.58984375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706bomb",
+      "parent_controller_state": "all500-carrier706hall",
+      "inputs": [
+        {
+          "frames": 6,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        },
+        {
+          "frames": 140,
+          "keys": 16
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 6,
+          "room": 706,
+          "x": 248.96484375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 7,
+          "room": 706,
+          "x": 247.08984375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 107,
+          "room": 706,
+          "x": 389.83203125,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 247,
+          "room": 706,
+          "x": 393.99609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 247,
+          "room": 706,
+          "x": 393.99609375,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706middle",
+      "parent_controller_state": "all500-carrier706bomb",
+      "inputs": [
+        {
+          "frames": 8,
+          "keys": 1
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        },
+        {
+          "frames": 100,
+          "keys": 16
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 8,
+          "room": 706,
+          "x": 393.99609375,
+          "y": 189.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 9,
+          "room": 706,
+          "x": 392.12109375,
+          "y": 189.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 109,
+          "room": 706,
+          "x": 539.75390625,
+          "y": 216.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 209,
+          "room": 706,
+          "x": 663.74609375,
+          "y": 279.45703125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 209,
+          "room": 706,
+          "x": 663.74609375,
+          "y": 279.45703125,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706scarfy",
+      "parent_controller_state": "all500-carrier706middle",
+      "inputs": [
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "frames": 65,
+          "keys": 1
+        },
+        {
+          "frames": 105,
+          "keys": 16
+        },
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 65,
+          "keys": 1
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 12,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 60,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 1,
+          "room": 706,
+          "x": 665.68359375,
+          "y": 278.25390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 11,
+          "room": 706,
+          "x": 683.33984375,
+          "y": 270.94921875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 76,
+          "room": 706,
+          "x": 720.0859375,
+          "y": 186.16796875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 181,
+          "room": 706,
+          "x": 798.38671875,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 191,
+          "room": 706,
+          "x": 804.28515625,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 256,
+          "room": 706,
+          "x": 804.7734375,
+          "y": 229.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "6",
+          "frame": 257,
+          "room": 706,
+          "x": 804.9609375,
+          "y": 229.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "7",
+          "frame": 269,
+          "room": 706,
+          "x": 805.4296875,
+          "y": 242.51171875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "8",
+          "frame": 270,
+          "room": 706,
+          "x": 803.5546875,
+          "y": 242.51171875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "9",
+          "frame": 330,
+          "room": 706,
+          "x": 947.53125,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 330,
+          "room": 706,
+          "x": 947.53125,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier706snooterinhale",
+      "parent_controller_state": "all500-carrier706scarfy",
+      "inputs": [
+        {
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 60,
+          "keys": 2
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 1,
+          "room": 706,
+          "x": 948.1484375,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 2,
+          "room": 706,
+          "x": 949.015625,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 62,
+          "room": 706,
+          "x": 1077.546875,
+          "y": 251.22265625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 62,
+          "room": 706,
+          "x": 1077.546875,
+          "y": 251.22265625,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707entry",
+      "parent_controller_state": "all500-carrier706snooterinhale",
+      "inputs": [
+        {
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "frames": 30,
+          "keys": 1
+        },
+        {
+          "frames": 65,
+          "keys": 17
+        },
+        {
+          "frames": 10,
+          "keys": 33
+        },
+        {
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 20,
+          "room": 706,
+          "x": 1097.859375,
+          "y": 291.68359375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 21,
+          "room": 706,
+          "x": 1098.546875,
+          "y": 293.71484375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 31,
+          "room": 706,
+          "x": 1103.703125,
+          "y": 304.96484375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 61,
+          "room": 706,
+          "x": 1105.51953125,
+          "y": 270.74609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 126,
+          "room": 706,
+          "x": 1168.53515625,
+          "y": 185.43359375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 136,
+          "room": 706,
+          "x": 1174.43359375,
+          "y": 181.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "6",
+          "frame": 137,
+          "room": 706,
+          "x": 1174.60546875,
+          "y": 181.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "7",
+          "frame": 197,
+          "room": 706,
+          "x": 1174.99609375,
+          "y": 283.75390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "8",
+          "frame": 198,
+          "room": 706,
+          "x": 1174.99609375,
+          "y": 282.33984375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "9",
+          "frame": 318,
+          "room": 706,
+          "x": 1174.99609375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 318,
+          "room": 706,
+          "x": 1174.99609375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707actual",
+      "parent_controller_state": "all500-carrier707entry",
+      "inputs": [
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 7,
+          "keys": 16
+        },
+        {
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 10,
+          "room": 706,
+          "x": 1166.94921875,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 17,
+          "room": 706,
+          "x": 1161.37109375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 37,
+          "room": 706,
+          "x": 1160.93359375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 38,
+          "room": 706,
+          "x": 1160.93359375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 158,
+          "room": 707,
+          "x": 24,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 158,
+          "room": 707,
+          "x": 24,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707left",
+      "parent_controller_state": "all500-carrier707actual",
+      "inputs": [
+        {
+          "frames": 6,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        },
+        {
+          "frames": 100,
+          "keys": 16
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 6,
+          "room": 707,
+          "x": 27.375,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 7,
+          "room": 707,
+          "x": 25.5,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 107,
+          "room": 707,
+          "x": 168.2421875,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 207,
+          "room": 707,
+          "x": 201.99609375,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 207,
+          "room": 707,
+          "x": 201.99609375,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707bombs",
+      "parent_controller_state": "all500-carrier707left",
+      "inputs": [
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "frames": 50,
+          "keys": 1
+        },
+        {
+          "frames": 90,
+          "keys": 17
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 1,
+          "room": 707,
+          "x": 200.12109375,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 101,
+          "room": 707,
+          "x": 342.86328125,
+          "y": 152.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 102,
+          "room": 707,
+          "x": 342.86328125,
+          "y": 148.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 112,
+          "room": 707,
+          "x": 342.86328125,
+          "y": 146.08203125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 162,
+          "room": 707,
+          "x": 342.86328125,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 252,
+          "room": 707,
+          "x": 432.44140625,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 252,
+          "room": 707,
+          "x": 432.44140625,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707under",
+      "parent_controller_state": "all500-carrier707bombs",
+      "inputs": [
+        {
+          "frames": 10,
+          "keys": 33
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 70,
+          "keys": 0
+        },
+        {
+          "frames": 6,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 10,
+          "room": 707,
+          "x": 438.33984375,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 11,
+          "room": 707,
+          "x": 438.73046875,
+          "y": 85.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 81,
+          "room": 707,
+          "x": 440.87109375,
+          "y": 159.41015625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 87,
+          "room": 707,
+          "x": 444.80859375,
+          "y": 173.11328125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 88,
+          "room": 707,
+          "x": 442.93359375,
+          "y": 173.11328125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 188,
+          "room": 707,
+          "x": 600.43359375,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 188,
+          "room": 707,
+          "x": 600.43359375,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-carrier707button",
+      "parent_controller_state": "all500-carrier707under",
+      "inputs": [
+        {
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "frames": 10,
+          "keys": 16
+        },
+        {
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 30,
+          "room": 707,
+          "x": 565.88671875,
+          "y": 249.44140625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 40,
+          "room": 707,
+          "x": 559.48046875,
+          "y": 260.57421875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 100,
+          "room": 707,
+          "x": 560.04296875,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 101,
+          "room": 707,
+          "x": 558.16796875,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 181,
+          "room": 707,
+          "x": 700.91015625,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "final",
+          "frame": 181,
+          "room": 707,
+          "x": 700.91015625,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-knightpulse98",
+      "parent_controller_state": "all500-carrier707button",
+      "inputs": [
+        {
+          "frames": 98,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "frames": 180,
+          "keys": 1
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "final",
+          "frame": 490,
+          "room": 707,
+          "x": 1127.625,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-rightshaftfixed",
+      "parent_controller_state": "all500-knightpulse98",
+      "inputs": [
+        {
+          "frames": 55,
+          "keys": 33
+        },
+        {
+          "frames": 10,
+          "keys": 17
+        },
+        {
+          "frames": 80,
+          "keys": 1
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 55,
+          "room": 707,
+          "x": 1075.234375,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 65,
+          "room": 707,
+          "x": 1069.3359375,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 145,
+          "room": 707,
+          "x": 1068.85546875,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-shaftcenter",
+      "parent_controller_state": "all500-rightshaftfixed",
+      "inputs": [
+        {
+          "frames": 10,
+          "keys": 33
+        },
+        {
+          "frames": 10,
+          "keys": 17
+        },
+        {
+          "frames": 80,
+          "keys": 1
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 10,
+          "room": 707,
+          "x": 1064.12890625,
+          "y": 114.28515625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 20,
+          "room": 707,
+          "x": 1060.26171875,
+          "y": 101.16015625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 100,
+          "room": 707,
+          "x": 1060.26171875,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-707metal",
+      "parent_controller_state": "all500-shaftcenter",
+      "inputs": [
+        {
+          "frames": 18,
+          "keys": 17
+        },
+        {
+          "frames": 10,
+          "keys": 33
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "frames": 100,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 18,
+          "room": 707,
+          "x": 1073.33984375,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 28,
+          "room": 707,
+          "x": 1079.23828125,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 29,
+          "room": 707,
+          "x": 1079.62890625,
+          "y": 21.15234375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 64,
+          "room": 707,
+          "x": 1081.76953125,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 65,
+          "room": 707,
+          "x": 1079.89453125,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 165,
+          "room": 707,
+          "x": 1143.66015625,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-712approach",
+      "parent_controller_state": "all500-707metal",
+      "inputs": [
+        {
+          "frames": 20,
+          "keys": 1
+        },
+        {
+          "frames": 12,
+          "keys": 17
+        },
+        {
+          "frames": 10,
+          "keys": 33
+        },
+        {
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 20,
+          "room": 707,
+          "x": 1143.66015625,
+          "y": 21.19921875,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 32,
+          "room": 707,
+          "x": 1159.50390625,
+          "y": 23.14453125,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 42,
+          "room": 707,
+          "x": 1168.87890625,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 43,
+          "room": 707,
+          "x": 1170.75390625,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 93,
+          "room": 707,
+          "x": 1174.40625,
+          "y": 31.1484375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "5",
+          "frame": 94,
+          "room": 707,
+          "x": 1174.8125,
+          "y": 33.34375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "6",
+          "frame": 214,
+          "room": 707,
+          "x": 1176.125,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    },
+    {
+      "segment": "all500-712final",
+      "parent_controller_state": "all500-712approach",
+      "inputs": [
+        {
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "frames": 7,
+          "keys": 16
+        },
+        {
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 10,
+          "room": 707,
+          "x": 1168.078125,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "1",
+          "frame": 17,
+          "room": 707,
+          "x": 1162.5,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "2",
+          "frame": 37,
+          "room": 707,
+          "x": 1162.0625,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "3",
+          "frame": 38,
+          "room": 707,
+          "x": 1162.0625,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        {
+          "label": "4",
+          "frame": 158,
+          "room": 712,
+          "x": 24,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 3
+        }
+      ],
+      "writes": []
+    }
+  ],
+  "per_frame_hp_audit": [
+    {
+      "segment": "all500-carrier706entry",
+      "frames": 246,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier790right",
+      "frames": 283,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706actual",
+      "frames": 168,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706lower",
+      "frames": 201,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706ladder",
+      "frames": 185,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706bottom",
+      "frames": 180,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706ladder2",
+      "frames": 124,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706ladder3",
+      "frames": 212,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706hall",
+      "frames": 220,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706bomb",
+      "frames": 247,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706middle",
+      "frames": 209,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706scarfy",
+      "frames": 330,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier706snooterinhale",
+      "frames": 62,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707entry",
+      "frames": 318,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707actual",
+      "frames": 158,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707left",
+      "frames": 207,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707bombs",
+      "frames": 252,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707under",
+      "frames": 188,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-carrier707button",
+      "frames": 181,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-knightpulse98",
+      "frames": 490,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-rightshaftfixed",
+      "frames": 145,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-shaftcenter",
+      "frames": 100,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-707metal",
+      "frames": 165,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-712approach",
+      "frames": 214,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    },
+    {
+      "segment": "all500-712final",
+      "frames": 158,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        3
+      ]
+    }
+  ],
+  "observations": {
+    "all500-carrier707actual": {
+      "label": "all500-carrier707actual",
+      "frame": 0,
+      "room": 707,
+      "x": 24,
+      "y": 152.99609375,
+      "hp": 6,
+      "ability": 3,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "F5_bank": [
+        {
+          "x": 69,
+          "y": 4,
+          "tile": 245
+        },
+        {
+          "x": 70,
+          "y": 4,
+          "tile": 245
+        }
+      ]
+    },
+    "all500-707metal": {
+      "label": "all500-707metal",
+      "frame": 0,
+      "room": 707,
+      "x": 1143.66015625,
+      "y": 72.99609375,
+      "hp": 6,
+      "ability": 3,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "F5_bank": [
+        {
+          "x": 69,
+          "y": 4,
+          "tile": 0
+        },
+        {
+          "x": 70,
+          "y": 4,
+          "tile": 0
+        }
+      ]
+    },
+    "all500-712final": {
+      "label": "all500-712final",
+      "frame": 0,
+      "room": 712,
+      "x": 24,
+      "y": 456.99609375,
+      "hp": 6,
+      "ability": 3,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "notes": [
+    "Segment carrier706snooterinhale is a historical scratch label: Select was ignored during Burning recovery, ability stayed3, and B performed another Burning attack. No inhale or source reacquisition occurred.",
+    "Some harmless alignment attempts and central790 map-button interaction remain in the recorded prefix.",
+    "At500% default east-corridor timing lostHP at HeavyKnight and was rejected. Accepted replacement walks98frames from button endpoint then repeatedly pulses Right+B with alternating Right-only frames for200frames, flies after recovery, centers in right shaft, then clears F5. Burning remains3 on every audited frame; no dropped-star resource or local source used."
+  ]
+}

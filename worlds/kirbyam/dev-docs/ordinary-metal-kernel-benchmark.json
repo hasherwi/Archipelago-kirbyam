@@ -1,7 +1,7 @@
 {
   "python": "3.12.14",
   "baseline": "1cdde1a",
-  "current": "ordinary-metal-with-conditional557-176-141-and742",
+  "current": "ordinary-metal-through-unconditional707",
   "scope": "Paired in-process direct fixed-point evaluation; same graph/policy/items; compile and imports excluded",
   "existing": {
     "mini_134_ocean_spray/local": {
@@ -309,6 +309,105 @@
         20.3814214
       ],
       "current_us_median": 20.1644416
+    }
+  },
+  "source_backed_707": {
+    "scope": "Five warmed samples per inventory:1000 evaluations for native policy,200 for included live statues with the full pool and documented retries. Reused ordinary_hub_statues, no kernel change. Input-size/policy comparison, not a before/after speedup or whole-generation benchmark. Earlier paired kernel baseline retained unchanged.",
+    "graphs": {
+      "central_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "minimal_vanilla_items": {
+            "positions": 27,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              129.44347,
+              135.562693,
+              143.120494,
+              127.965633,
+              128.29008100000001
+            ],
+            "current_us_median": 129.44347
+          },
+          "all_route_items": {
+            "positions": 290,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              1707.613759,
+              1717.558496,
+              1671.362025,
+              1729.215691,
+              1746.120228
+            ],
+            "current_us_median": 1717.558496
+          },
+          "all_live_route_items": {
+            "positions": 452,
+            "iterations_per_sample": 200,
+            "current_us": [
+              19307.9895,
+              20194.05141,
+              20592.8,
+              19274.831465,
+              18527.30923
+            ],
+            "current_us_median": 19307.9895,
+            "mode": 2,
+            "include_statues": true,
+            "ability_pool_size": 25,
+            "allow_documented_retries": true
+          }
+        }
+      },
+      "cabbage592_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "minimal_vanilla_items": {
+            "positions": 25,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              118.687829,
+              114.225523,
+              116.858252,
+              115.749911,
+              113.970819
+            ],
+            "current_us_median": 115.749911
+          },
+          "all_route_items": {
+            "positions": 290,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              1637.117635,
+              1571.6038629999998,
+              1602.546364,
+              1738.630239,
+              1749.628659
+            ],
+            "current_us_median": 1637.117635
+          },
+          "all_live_route_items": {
+            "positions": 452,
+            "iterations_per_sample": 200,
+            "current_us": [
+              18698.43326,
+              18193.99915,
+              18989.89341,
+              18791.998895,
+              18196.323525
+            ],
+            "current_us_median": 18698.43326,
+            "mode": 2,
+            "include_statues": true,
+            "ability_pool_size": 25,
+            "allow_documented_retries": true
+          }
+        }
+      }
     }
   }
 }

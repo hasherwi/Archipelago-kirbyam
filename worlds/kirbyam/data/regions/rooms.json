@@ -3193,6 +3193,111 @@
           "can_break_metal"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_707_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_707:706_hub_arrival",
+              "native_room": 706
+            },
+            {
+              "id": "metal_707:707_left_arrival",
+              "native_room": 707
+            },
+            {
+              "id": "metal_707:712_door",
+              "native_room": 707
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_707:706_hub_arrival",
+              "to": "metal_707:707_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier706lower through carrier707actual: controller-earned Burning retained through ladders, ordinary blocks/Bombs and actual706 door0x88358A ->707 left arrival24,152.996. This is a carrier edge, not a separately accepted Normal bypass. There are no source placements or recovery actions anywhere in the suffix, so its final Burning-only action enforces continuous equipment. dev-docs/ordinary-707-all500-acceptance.json supplies the qualified high-enemy-health continuation; dev-docs/ordinary-707-source-carrier-contract.md states the source and health qualification."
+            },
+            {
+              "from": "metal_707:707_left_arrival",
+              "to": "metal_707:712_door",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier707left through carrier712actual: retained Burning crosses Bomb partitions, button/door atomically, lower-right hazards and upper shaft, breaks F5(69,4)/(70,4) rightward and activates native707 door0x8836F4 ->712. No source, dropped-star recovery, persistent door-open flag or room-reset assumption. dev-docs/ordinary-707-all500-acceptance.json all500-knightpulse98 through all500-712final: repeated Burning and ordinary flight avoid durable Heavy Knight, with every audited frame HP6 and ability3. No temporary Normal or dropped-star recovery."
+              },
+              "evidence": "Whole same-room carrier is atomic because only this exact Burning sequence is reviewed. Terminal node records successful712 departure, not reusable equipment or independently reachable intermediate timer/shaft states. dev-docs/ordinary-707-all500-acceptance.json supplies the qualified high-enemy-health continuation; dev-docs/ordinary-707-source-carrier-contract.md states the source and health qualification."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_707_to_712",
+          "kind": "metal",
+          "native_room": 707,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_707:712_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_707:712_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07": {

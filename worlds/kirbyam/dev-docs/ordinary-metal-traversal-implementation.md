@@ -318,3 +318,31 @@ measure19.07 microseconds for chest and20.16 for Warp (median fixed-point cost).
 The prefix is serialized once; each terminal action cites its own accepted
 continuation and the joint-completion proof. This is not a whole-generation
 performance measurement.
+
+## Native707: unconditional statue-backed exit
+
+[The707 contract](ordinary-707-source-carrier-contract.md) adds one target with
+two OR graph alternatives, using independent Central Circle or Cabbage592 access.
+Both reuse actual ordinary hub statues and exact hub/key guards, then import
+Burning through790→706→707 to the712 exit. The physical suffix has no source,
+recovery, reset or persistent-open credit. Its terminal action accepts only Burning.
+Unsupported policies remain closed, with existing bounded shuffled-policy search
+and documented live-statue retouch fairness; there is no legacy fallback here.
+
+Default and production-scaled500% native carrier traces retain Burning without
+health loss through the actual712 transition. They supply imported equipment via
+a disclosed synthetic790 statue and do not impersonate the separate real592
+acquisition/hub-prefix proof. No local enemy or alternate709 arrival is accepted.
+Starting-inventory removal still awaits remaining route and option coverage.
+
+Each graph reuses19 nodes,33 routes and30 renewable statue placements. Minimal
+vanilla items visit27/25 states in129/116 microseconds median; all route items
+visit290 states in1.72/1.64 milliseconds. Five warmed1,000-evaluation samples
+measure fixed-point cost only. The larger bounded search preserves legitimate
+shuffled statue alternatives without duplicating policy or adding state dimensions.
+The full live-statue pool with documented retries visits452 states and costs
+19.31/18.70 milliseconds median (five samples of200 evaluations). Compilation and
+per-evaluation grants are cached, not the inventory-dependent fixed point. There
+is no existing post-guarantee output filter; permission-based pruning would be
+unsound for mixed finite grants. This bounded cost is disclosed rather than hidden
+behind a new kernel feature or duplicated source-specific paths.

@@ -291,12 +291,17 @@ def replay_rejected_fuzz_case(
     return multiworld
 
 
-def test_exact_fuzz_69_minimal_rejects_stranded_fill_but_preserves_source_policy(
+def test_exact_fuzz_69_minimal_closes_all_checks_and_preserves_source_policy(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
+    # The reviewed707 source gate changes this exact placement order. It now
+    # closes all checks; mixed-player fixtures below still exercise guard rejection.
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
+    from ..check_accessibility import validate_all_checks
+
+    validate_all_checks(multiworld, (1,))
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()

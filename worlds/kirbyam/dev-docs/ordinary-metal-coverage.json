@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -1253,15 +1253,16 @@
         {
           "id": "707:69,4",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Upper Room 13 door. Throw cannot carry the distant lower Heavy Knight to this launch chamber.",
+          "status": "reviewed_source_witness",
+          "note": "Unconditional source-backed Burning carrier to native712. Existing ordinary hub statue acquisition plus no-loss native790\u2192706\u2192707\u2192712 at100% and500% enemy health; exact statue policy, hub/key guards and independent Central/592 access required. Synthetic790 fixture is not a production source. No local enemy, other provider,709 arrival, reset or finite-enemy retry accepted. See ordinary-707-source-carrier-contract.md.",
           "tile_count": 2,
           "bounds": [
             69,
             4,
             70,
             4
-          ]
+          ],
+          "accepted_target": "metal_707_to_712"
         }
       ]
     },

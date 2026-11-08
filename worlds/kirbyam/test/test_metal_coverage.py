@@ -75,7 +75,8 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
         for cluster in room["clusters"]:
             assert cluster["classification"] in matrix["categories"]
             assert cluster["status"] in {
-                "pending_route_acceptance", "existing_normal_bypass", "conditional_source_witness"}
+                "pending_route_acceptance", "existing_normal_bypass", "conditional_source_witness",
+                "reviewed_source_witness"}
             assert cluster["note"].strip()
             if cluster["status"] == "existing_normal_bypass":
                 assert room["native_room"] in {814, 819}
@@ -87,14 +88,18 @@ def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
     targets = {row["id"]: row for row in room_traversal_targets("metal")}
     for room in read("dev-docs/ordinary-metal-coverage.json")["rooms"]:
         for cluster in room["clusters"]:
-            if cluster["status"] != "conditional_source_witness":
+            if cluster["status"] not in {"conditional_source_witness", "reviewed_source_witness"}:
                 continue
             identities = cluster.get("accepted_targets") or [cluster["accepted_target"]]
             assert identities and len(identities) == len(set(identities))
             for identity in identities:
                 row = targets[identity]
                 assert row["native_room"] == room["native_room"]
-                assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
+                if cluster["status"] == "conditional_source_witness":
+                    assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
+                else:
+                    assert "requires_guaranteed_source" not in row
+                    assert "requires_guaranteed_source" not in cluster
 
 
 def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() -> None:
