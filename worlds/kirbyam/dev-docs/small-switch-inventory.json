@@ -1,0 +1,2982 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "decomp_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "source_map_checked_on": "2026-11-01",
+  "checked_on": "2026-11-08",
+  "scope": "All 983 native room slots and all 287 object lists. Static object templates selecting spawn table 1/type 0x6D; not an exhaustive dynamic-spawn proof.",
+  "scan": {
+    "room_slots": 983,
+    "populated_rooms": 286,
+    "unused_sentinel_slots": 697,
+    "object_lists": 287,
+    "object_template_count": 1900,
+    "switch_rooms": 19,
+    "switch_instances": 23,
+    "orphan_object_lists": [
+      {
+        "object_list_index": 4,
+        "switches": []
+      }
+    ],
+    "native_object_spawners_checked": 18,
+    "spawners_targeting_small_switch": 0
+  },
+  "small_switch_object_type": "0x6D",
+  "small_switch_constructor": "0x081191C4",
+  "constructor_pointer_verified": "0x081191C5",
+  "rooms": [
+    {
+      "native_id": 147,
+      "completion_index": 63,
+      "object_list_index": 63,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 19",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_19",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x009348A4",
+      "switches": [
+        {
+          "index": 7,
+          "rom_offset": "0x008BBD64",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 520,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 1,
+            "unk_05": 0,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 35,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 35,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            8
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 8,
+              "y_pixel": 106,
+              "y_tile": 6,
+              "cells": [
+                {
+                  "x_tile": 32,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 33,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 34,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 35,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 36,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 37,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 38,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 39,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 63,
+        "rle_rom_offset": "0x00882604",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_with_clear_remote_alternative",
+        "in_scope": true,
+        "wiki_summary": "Gate can be reached by a quick, careful run, or the switch can be struck from near the gate with a ranged attack.",
+        "assessment": "Strong wall-independent ranged-alternative example: the initial static collision row at switch height is all 0x00 between switch and gate. A Gordo is a separate hazard. Ranged ability is not established as mandatory.",
+        "unresolved": "Specific attacks, range, approach position, Gordo interference and helper behavior remain untested."
+      },
+      "vertical_gates": [
+        {
+          "index": 8,
+          "rom_offset": "0x008BBD88",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 632,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 209,
+      "completion_index": 92,
+      "object_list_index": 92,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ],
+      "wiki_title": "Peppermint Palace - Chest",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Chest",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x00935254",
+      "switches": [
+        {
+          "index": 3,
+          "rom_offset": "0x008BF35C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 288,
+          "y": 624,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 100,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 100,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            4
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 4,
+              "y_pixel": 618,
+              "y_tile": 38,
+              "cells": [
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x50"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x50"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 92,
+        "rle_rom_offset": "0x0088816C",
+        "width_tiles_16px": 31,
+        "height_tiles_16px": 43,
+        "expanded_byte_count": 1333,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "geometry_dependent_pending",
+        "in_scope": true,
+        "wiki_summary": "Intertwining chambers require different entrances for the map and smaller chests. The article does not describe this small switch.",
+        "assessment": "Existing AP map-chest rule says can_hit_far_switch. Native gate is (224,608), switch (288,624), counter parameter 100. The horizontal sample crosses raised-floor code 0x50, so do not equate this placeholder with an unobstructed shot.",
+        "unresolved": "Verify the entry-side route and firing position before deciding whether wall collision, height, timing or remote activation is the actual requirement."
+      },
+      "vertical_gates": [
+        {
+          "index": 4,
+          "rom_offset": "0x008BF380",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 224,
+          "y": 608,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 228,
+      "completion_index": 99,
+      "object_list_index": 99,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ],
+      "wiki_title": "Peppermint Palace - Room 9",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_9",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093554C",
+      "switches": [
+        {
+          "index": 7,
+          "rom_offset": "0x008C04B4",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 160,
+          "y": 208,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 60,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 60,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            6
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 6,
+              "y_pixel": 202,
+              "y_tile": 12,
+              "cells": [
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0xF2"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 99,
+        "rle_rom_offset": "0x0088A500",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 33,
+        "expanded_byte_count": 1518,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_alternate_exit_gate",
+        "in_scope": true,
+        "wiki_summary": "Three exits lead to Room 10: the left is switch-gated, the middle is unguarded, and the right has Mirra.",
+        "assessment": "Include the switch in the inventory, but do not make ranged activation a blanket Room 10 requirement. The existing alternate exits matter.",
+        "unresolved": "The switch-specific trajectory and timing have not been tested."
+      },
+      "vertical_gates": [
+        {
+          "index": 6,
+          "rom_offset": "0x008C0490",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 200,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 310,
+      "completion_index": 128,
+      "object_list_index": 128,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "wiki_title": "Mustard Mountain - Chest",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Chest",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093621C",
+      "switches": [
+        {
+          "index": 2,
+          "rom_offset": "0x008C3F14",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 312,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 138,
+              "y_tile": 8,
+              "cells": [
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 27,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 128,
+        "rle_rom_offset": "0x0088FFA4",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 598,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "remote_or_cooperative_timing",
+        "in_scope": true,
+        "wiki_summary": "The map-chest gate closes almost immediately after switch activation; the article proposes remote activation or another Kirby.",
+        "assessment": "Confirmed remote/cooperation candidate. Switch (312,144), gate (440,144), counter parameter 0. Static 0x0D tiles intervene at switch height, so a generic horizontal non-wall-piercing attack is not proven by the wiki description.",
+        "unresolved": "Separate helper positioning, delayed attacks and arcing/angled trajectories. Ice, Laser, UFO and Cupid each need an actual route and attack witness."
+      },
+      "vertical_gates": [
+        {
+          "index": 3,
+          "rom_offset": "0x008C3F38",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 440,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 404,
+      "completion_index": 146,
+      "object_list_index": 146,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+      ],
+      "wiki_title": "Candy Constellation - Room 1",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x009370CC",
+      "switches": [
+        {
+          "index": 3,
+          "rom_offset": "0x008C600C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 440,
+          "y": 64,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 0,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 0,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            4
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 4,
+              "y_pixel": 58,
+              "y_tile": 3,
+              "cells": [
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 27,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 146,
+        "rle_rom_offset": "0x00893F7C",
+        "width_tiles_16px": 91,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 1183,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "falling_switch_timing",
+        "in_scope": true,
+        "wiki_summary": "Bomb Blocks beneath the switch must be broken to reveal the Chest 2 door, but doing so drops the switch into a pit. The gate must be crossed before it closes.",
+        "assessment": "A timing plus destructible-support puzzle, not simply a permanent remote target. The initial switch-height corridor to the gate is all 0x00, but the switch and objective move/change after the Bomb Blocks break.",
+        "unresolved": "Activation order, falling trajectory and whether a candidate attack also breaks the support must be verified."
+      },
+      "vertical_gates": [
+        {
+          "index": 4,
+          "rom_offset": "0x008C6030",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 360,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 0,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 427,
+      "completion_index": 168,
+      "object_list_index": 168,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "wiki_title": "Candy Constellation - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x00937464",
+      "switches": [
+        {
+          "index": 4,
+          "rom_offset": "0x008C89D4",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 56,
+          "y": 240,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 300,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 300,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            7
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 7,
+              "y_pixel": 234,
+              "y_tile": 14,
+              "cells": [
+                {
+                  "x_tile": 3,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 4,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 5,
+                  "tile_code": "0xF0"
+                },
+                {
+                  "x_tile": 6,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x0B"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 27,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 28,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 29,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 30,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 31,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 32,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 33,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 34,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 35,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 36,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 37,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "rom_offset": "0x008C89F8",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 424,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 120,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 120,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            6
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 6,
+              "y_pixel": 138,
+              "y_tile": 8,
+              "cells": [
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 22,
+                  "tile_code": "0x0F"
+                },
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x1B"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 168,
+        "rle_rom_offset": "0x0089B170",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 24,
+        "expanded_byte_count": 1104,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "two_ordinary_timing_gates",
+        "in_scope": true,
+        "wiki_summary": "One switch can be lowered by removing crumbling blocks to help reach the Red Spray Paint chest. Another requires a run across the room to the gate leading to Room 3.",
+        "assessment": "Two distinct switches and objectives: index 5 / slot 1 / counter 120 controls gate 6 near the chest; index 4 / slot 2 / counter 300 controls gate 7 on the Room 3 route. Keep them separate.",
+        "unresolved": "Ranged alternatives may help, but changing support geometry and intervening platforms prevent one generic distance-only witness."
+      },
+      "vertical_gates": [
+        {
+          "index": 6,
+          "rom_offset": "0x008C8A1C",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 328,
+          "y": 272,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 7,
+          "rom_offset": "0x008C8A40",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 600,
+          "y": 240,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 527,
+      "completion_index": 184,
+      "object_list_index": 184,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x00938404",
+      "switches": [
+        {
+          "index": 2,
+          "rom_offset": "0x008CA544",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 856,
+          "y": 192,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 100,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 100,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [],
+          "static_horizontal_probes": []
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 184,
+        "rle_rom_offset": "0x0089E434",
+        "width_tiles_16px": 71,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1633,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_puzzle",
+        "in_scope": true,
+        "wiki_summary": "The chest route involves pressing the switch, passing a gate quickly, defeating Sword Knight, breaking a Bomb Block and dashing to the Sapphire paint chest.",
+        "assessment": "Timed route with follow-on obstacles. No type 0x71 gate template shares this switch list; do not infer that the switch is unrelated just because the gate is tile-driven.",
+        "unresolved": "Trace the tile-driven gate state and route before allowing specific ranged alternatives."
+      },
+      "vertical_gates": []
+    },
+    {
+      "native_id": 533,
+      "completion_index": 117,
+      "object_list_index": 117,
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ],
+      "wiki_title": "Mustard Mountain - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_15",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x009384F4",
+      "switches": [
+        {
+          "index": 2,
+          "rom_offset": "0x008C26F0",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 312,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            1
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 1,
+              "y_pixel": 138,
+              "y_tile": 8,
+              "cells": [
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 117,
+        "rle_rom_offset": "0x0088DE10",
+        "width_tiles_16px": 41,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 943,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "remote_or_delayed_timing",
+        "in_scope": true,
+        "wiki_summary": "The Room 16 gate resets quickly, and the nearby Foley can be used to solve the timing problem.",
+        "assessment": "Confirmed delayed/remote candidate. Switch (312,144), gate (152,128), counter parameter 0. Static 0x0D tiles lie between them at switch height. Foley is an environmental route to investigate, not evidence that every projectile works.",
+        "unresolved": "Verify Foley timing/position and distinguish delayed, angled, wall-piercing and helper alternatives."
+      },
+      "vertical_gates": [
+        {
+          "index": 1,
+          "rom_offset": "0x008C26CC",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 152,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 1,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 608,
+      "completion_index": 231,
+      "object_list_index": 231,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "wiki_title": "Radish Ruins - Room 11",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_11",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x009390AC",
+      "switches": [
+        {
+          "index": 4,
+          "rom_offset": "0x008D0474",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 328,
+          "y": 96,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 5,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 200,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 5,
+          "release_counter_parameter": 200,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [],
+          "static_horizontal_probes": []
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 231,
+        "rle_rom_offset": "0x008AB99C",
+        "width_tiles_16px": 76,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1748,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_puzzle_geometry_pending",
+        "in_scope": true,
+        "wiki_summary": "Interconnected corridors contain switch gates and Bomb Block barriers; a small switch puzzle guards the 1-Up chest.",
+        "assessment": "Counter parameter 200 and room-state slot 5. No type 0x71 gate template is in this room's object list, so identify the tile-driven effect before assigning a gate or range.",
+        "unresolved": "The article does not establish a mandatory ranged or cooperative solution."
+      },
+      "vertical_gates": []
+    },
+    {
+      "native_id": 610,
+      "completion_index": 225,
+      "object_list_index": 225,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+      ],
+      "wiki_title": "Radish Ruins - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x009390FC",
+      "switches": [
+        {
+          "index": 4,
+          "rom_offset": "0x008CFDD0",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 432,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 120,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 120,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 122,
+              "y_tile": 7,
+              "cells": [
+                {
+                  "x_tile": 23,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 24,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 25,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 26,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 27,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 225,
+        "rle_rom_offset": "0x008AA2E4",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 598,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_one_way_exit",
+        "in_scope": true,
+        "wiki_summary": "After collecting Vitality, Kirby passes a one-way switch gate and Noddy to reach Room 5.",
+        "assessment": "Ordinary exit gate; no remotely activated ability requirement is established. Static switch-to-gate row is all 0x00 and counter parameter is 120.",
+        "unresolved": "No gameplay acceptance test performed; do not turn simple switch presence into an ability lock."
+      },
+      "vertical_gates": [
+        {
+          "index": 3,
+          "rom_offset": "0x008CFDAC",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 376,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 707,
+      "completion_index": 71,
+      "object_list_index": 71,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 4",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093A024",
+      "switches": [
+        {
+          "index": 6,
+          "rom_offset": "0x008BCD6C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 560,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 298,
+              "y_tile": 18,
+              "cells": [
+                {
+                  "x_tile": 35,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 36,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 37,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 38,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 71,
+        "rle_rom_offset": "0x008835A8",
+        "width_tiles_16px": 75,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1725,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "clear_static_corridor_timing_pending",
+        "in_scope": true,
+        "wiki_summary": "The article describes hallways, Bomb Block barriers and the lower-right routes but omits the small switch.",
+        "assessment": "Switch (560,304), gate (616,304), counter parameter 0. The direct static collision row is all 0x00. Existing AP compartments distinguish the switch-wall side, but that name is not proof of a projectile collision requirement.",
+        "unresolved": "Establish entry side, ordinary contact timing and dynamic gate traversal. Do not classify as a through-wall attack solely from the AP region name."
+      },
+      "vertical_gates": [
+        {
+          "index": 3,
+          "rom_offset": "0x008BCD00",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 616,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 712,
+      "completion_index": 76,
+      "object_list_index": 76,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 13",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_13",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093A0EC",
+      "switches": [
+        {
+          "index": 5,
+          "rom_offset": "0x008BD564",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 344,
+          "y": 464,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 100,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 100,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            9
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 9,
+              "y_pixel": 458,
+              "y_tile": 28,
+              "cells": [
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 20,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 21,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 76,
+        "rle_rom_offset": "0x00884518",
+        "width_tiles_16px": 31,
+        "height_tiles_16px": 33,
+        "expanded_byte_count": 1023,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_gate",
+        "in_scope": true,
+        "wiki_summary": "A Flamer guards a switch gate that requires quick passage before the rest of the room and optional Boxy fight.",
+        "assessment": "Counter parameter 100. The static sample at switch height is all 0x00, though gate and switch elevations differ. Wiki establishes speed, not a mandatory ranged attack.",
+        "unresolved": "Candidate attacks and approach positions remain untested."
+      },
+      "vertical_gates": [
+        {
+          "index": 9,
+          "rom_offset": "0x008BD5F4",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 288,
+          "y": 416,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 8,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 720,
+      "completion_index": 267,
+      "object_list_index": 267,
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "wiki_title": "Carrot Castle - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093A22C",
+      "switches": [
+        {
+          "index": 1,
+          "rom_offset": "0x008D486C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 600,
+          "y": 96,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 1,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 30,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 30,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            2
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 2,
+              "y_pixel": 90,
+              "y_tile": 5,
+              "cells": [
+                {
+                  "x_tile": 32,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 33,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 34,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 35,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 36,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 37,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 267,
+        "rle_rom_offset": "0x008B37A4",
+        "width_tiles_16px": 121,
+        "height_tiles_16px": 13,
+        "expanded_byte_count": 1573,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_gate",
+        "in_scope": true,
+        "wiki_summary": "A switch gate precedes the Shotzo, low-ceiling and spike section. The pit leads to Room 13, and the far route reaches Room 15.",
+        "assessment": "Short counter parameter 30 with switch (600,96) and gate (520,128). Elevation is part of the geometry; the article does not establish a remote-only condition.",
+        "unresolved": "Verify the short timing window and any optional remote solution without treating range alone as sufficient."
+      },
+      "vertical_gates": [
+        {
+          "index": 2,
+          "rom_offset": "0x008D4890",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 520,
+          "y": 128,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 742,
+      "completion_index": 79,
+      "object_list_index": 79,
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+      ],
+      "wiki_title": "Moonlight Mansion - Room 15",
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093A59C",
+      "switches": [
+        {
+          "index": 5,
+          "rom_offset": "0x008BDBCC",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 280,
+          "y": 464,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 120,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 120,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            9
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 9,
+              "y_pixel": 458,
+              "y_tile": 28,
+              "cells": [
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x1C"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x1C"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 79,
+        "rle_rom_offset": "0x00885148",
+        "width_tiles_16px": 31,
+        "height_tiles_16px": 33,
+        "expanded_byte_count": 1023,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "ordinary_timing_and_hazard_gate",
+        "in_scope": true,
+        "wiki_summary": "A timed switch gate and spike pit precede a dangerous landing near another pit and Waddle Doo.",
+        "assessment": "Counter parameter 120. Hazard and solid tiles appear on the sampled row. This is not evidence for a simple flat free-air projectile route.",
+        "unresolved": "Ordinary race versus specific ranged alternatives needs a route-level witness."
+      },
+      "vertical_gates": [
+        {
+          "index": 9,
+          "rom_offset": "0x008BDC5C",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 200,
+          "y": 464,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 8,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 815,
+      "completion_index": 200,
+      "object_list_index": 200,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "wiki_title": "Olive Ocean - Chest 1",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Chest_1",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093B104",
+      "switches": [
+        {
+          "index": 6,
+          "rom_offset": "0x008CCD44",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 312,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 6,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 20,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32768
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8000",
+          "linked_vertical_gate_indices": [
+            5
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 5,
+              "y_pixel": 74,
+              "y_tile": 4,
+              "cells": [
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 18,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 19,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "rom_offset": "0x008CCD68",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 168,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 7,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 10,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 32768
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 0,
+          "mode_flags": "0x8000",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 138,
+              "y_tile": 8,
+              "cells": [
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 14,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 15,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 16,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 17,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 200,
+        "rle_rom_offset": "0x008A35B8",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "staged_inhale_spit_puzzle",
+        "in_scope": true,
+        "wiki_summary": "The upper puzzle leading to Vitality can be solved with inhale/spit and quick movement; the underwater lower route skips it.",
+        "assessment": "Two zero-counter switches, each using mode 0x8000, cross-control vertically separated gates: index 6 at (312,80) sets slot 2 for lower gate 5, and index 7 at (168,144) sets slot 1 for upper gate 3. Do not collapse into one remote attack check.",
+        "unresolved": "Trace stage progression and ordinary spit sources; no blanket Copy Ability requirement is established."
+      },
+      "vertical_gates": [
+        {
+          "index": 3,
+          "rom_offset": "0x008CCCD8",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 280,
+          "y": 80,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 5,
+          "rom_offset": "0x008CCD20",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 280,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 825,
+      "completion_index": 203,
+      "object_list_index": 203,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ],
+      "wiki_title": "Olive Ocean - Goal 2",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Goal_2",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093B294",
+      "switches": [
+        {
+          "index": 5,
+          "rom_offset": "0x008CD360",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 656,
+          "y": 144,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 255,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 255,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            4
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 4,
+              "y_pixel": 138,
+              "y_tile": 8,
+              "cells": [
+                {
+                  "x_tile": 37,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 38,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 39,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 40,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 41,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 203,
+        "rle_rom_offset": "0x008A45F8",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "wall_separated_target",
+        "in_scope": true,
+        "wiki_summary": "The Sound Effects chest and its switch are both inside a gate-locked chamber after Mr. Frosty.",
+        "assessment": "Confirmed separated-target candidate for the wall-aware part of #1052. The initial horizontal sample to switch (656,144) crosses 0x0D tiles. Keep distinct from free-air ranged timing alternatives.",
+        "unresolved": "The article hints at Ice but does not prove which Ice move or projectile path succeeds; all ability alternatives require exact witnesses."
+      },
+      "vertical_gates": [
+        {
+          "index": 4,
+          "rom_offset": "0x008CD33C",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 600,
+          "y": 112,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 831,
+      "completion_index": 209,
+      "object_list_index": 209,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_14"
+      ],
+      "wiki_title": "Olive Ocean - Room 14",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_14",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "room_props_offset": "0x0093B384",
+      "switches": [
+        {
+          "index": 4,
+          "rom_offset": "0x008CDE08",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 472,
+          "y": 224,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 240,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 240,
+          "mode_flags": "0x0000",
+          "linked_vertical_gate_indices": [
+            5
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 5,
+              "y_pixel": 218,
+              "y_tile": 13,
+              "cells": [
+                {
+                  "x_tile": 29,
+                  "tile_code": "0x48"
+                },
+                {
+                  "x_tile": 30,
+                  "tile_code": "0x48"
+                },
+                {
+                  "x_tile": 31,
+                  "tile_code": "0x48"
+                },
+                {
+                  "x_tile": 32,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 33,
+                  "tile_code": "0x0D"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 209,
+        "rle_rom_offset": "0x008A6214",
+        "width_tiles_16px": 76,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1748,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "optional_timing_or_explosive_route",
+        "in_scope": true,
+        "wiki_summary": "An optional 1-Up sits behind a timed gate; quick movement or an explosive approach can solve it. The room contains dry/wet passages and currents.",
+        "assessment": "Counter parameter 240. The article's image caption also describes Kirby using his blowhole to activate the switch. This supports an ordinary interaction candidate, not a mandatory acquired Copy Ability.",
+        "unresolved": "Confirm water/air state and exact attack trajectory before adopting non-water-capable ability alternatives."
+      },
+      "vertical_gates": [
+        {
+          "index": 5,
+          "rom_offset": "0x008CDE2C",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 536,
+          "y": 272,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 911,
+      "completion_index": 272,
+      "object_list_index": 272,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Intermediate puzzle room (area 3); shared level article, not a numbered room page",
+      "room_props_offset": "0x0093C004",
+      "switches": [
+        {
+          "index": 1,
+          "rom_offset": "0x008D529C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 56,
+          "y": 256,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 1,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 60,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 60,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            0
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 0,
+              "y_pixel": 250,
+              "y_tile": 15,
+              "cells": [
+                {
+                  "x_tile": 3,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 4,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "rom_offset": "0x008D52C0",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 136,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 2,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 90,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 2,
+          "release_counter_parameter": 90,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            4
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 4,
+              "y_pixel": 298,
+              "y_tile": 18,
+              "cells": [
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": true,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "rom_offset": "0x008D532C",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 72,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 3,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 80,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 3,
+          "release_counter_parameter": 80,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            3
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 3,
+              "y_pixel": 298,
+              "y_tile": 18,
+              "cells": [
+                {
+                  "x_tile": 4,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 5,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 6,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x0D"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x0D"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 272,
+        "rle_rom_offset": "0x008B4268",
+        "width_tiles_16px": 31,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 713,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "sequential_timing_puzzle",
+        "in_scope": true,
+        "wiki_summary": "The third Dimension Mirror area resembles Radish Ruins and contains a switch puzzle.",
+        "assessment": "Three switches, state slots 1/2/3 and counter parameters 60/90/80, controlling three separate vertical gates. Native room is retained despite having no AP room key. Two switches sit in the lower recess, so approach and sequence matter.",
+        "unresolved": "The shared article does not document the full sequence or mandatory remote alternatives. Master availability and side paths must be considered separately."
+      },
+      "vertical_gates": [
+        {
+          "index": 0,
+          "rom_offset": "0x008D5278",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 72,
+          "y": 256,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 0,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 3,
+          "rom_offset": "0x008D52E4",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 216,
+          "y": 256,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 3,
+            "unk_04": 3,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        },
+        {
+          "index": 4,
+          "rom_offset": "0x008D5308",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 136,
+          "y": 256,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 2,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    },
+    {
+      "native_id": 915,
+      "completion_index": 276,
+      "object_list_index": 276,
+      "ap_keys": [],
+      "wiki_title": "Dimension Mirror (level)",
+      "wiki_url": "https://wikirby.com/wiki/Dimension_Mirror_(level)",
+      "verification": "shared",
+      "note": "Intermediate puzzle room (area 7); shared level article, not a numbered room page",
+      "room_props_offset": "0x0093C0A4",
+      "switches": [
+        {
+          "index": 7,
+          "rom_offset": "0x008D5700",
+          "spawn_table": 1,
+          "type": 109,
+          "x": 120,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 5,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 180,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 8
+          },
+          "room_state_slot": 1,
+          "release_counter_parameter": 180,
+          "mode_flags": "0x0008",
+          "linked_vertical_gate_indices": [
+            6
+          ],
+          "static_horizontal_probes": [
+            {
+              "gate_index": 6,
+              "y_pixel": 298,
+              "y_tile": 18,
+              "cells": [
+                {
+                  "x_tile": 7,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 8,
+                  "tile_code": "0x50"
+                },
+                {
+                  "x_tile": 9,
+                  "tile_code": "0x50"
+                },
+                {
+                  "x_tile": 10,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 11,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 12,
+                  "tile_code": "0x00"
+                },
+                {
+                  "x_tile": 13,
+                  "tile_code": "0x00"
+                }
+              ],
+              "all_tile_codes_zero": false,
+              "limit": "Initial static collision only, not dynamic gate bounds, moving objects, attack trajectories, or player approach proof."
+            }
+          ]
+        }
+      ],
+      "collision_decode": {
+        "solidity_index": 276,
+        "rle_rom_offset": "0x008B4548",
+        "width_tiles_16px": 46,
+        "height_tiles_16px": 23,
+        "expanded_byte_count": 1058,
+        "rle_length_validated": true
+      },
+      "assessment": {
+        "classification": "timing_geometry_pending",
+        "in_scope": true,
+        "wiki_summary": "The seventh Dimension Mirror area resembles Peppermint Palace and contains several obstacles.",
+        "assessment": "One switch (120,304), gate (216,304), counter parameter 180. The static horizontal row includes raised-floor code 0x50. Native room is retained despite having no AP room key.",
+        "unresolved": "Shared article is too general to prove a remote-only solution; establish the obstacle route and attack trajectory."
+      },
+      "vertical_gates": [
+        {
+          "index": 6,
+          "rom_offset": "0x008D56DC",
+          "spawn_table": 1,
+          "type": 113,
+          "x": 216,
+          "y": 304,
+          "fields": {
+            "unk_01": 36,
+            "unk_02": 0,
+            "unk_03": 4,
+            "unk_04": 1,
+            "unk_05": 1,
+            "unk_0A": 255,
+            "unk_0B": 255,
+            "unk_0D": 255,
+            "unk_0E": 0,
+            "unk_0F": 0,
+            "unk_10": 0,
+            "unk_11": 0,
+            "unk_12": 0,
+            "unk_14": 0,
+            "unk_16": 0,
+            "unk_18": 0,
+            "unk_1A": 0,
+            "unk_1C": 0,
+            "unk_1E": 0,
+            "unk_20": 0,
+            "unk_22": 0
+          }
+        }
+      ]
+    }
+  ],
+  "ability_alternatives": {
+    "status": "not_granted_by_this_inventory",
+    "candidates": [
+      "calling other Kirbys",
+      "Ice",
+      "Laser",
+      "UFO",
+      "Cupid"
+    ],
+    "required_evidence": "Per-target, per-move proof of pre-target source acquisition, stance and trajectory, contact with switch bounds, sustained/remote timing where needed, and gate traversal. Phone helper positioning/behavior requires its own witness."
+  },
+  "source_geometry_limit": "RLE collision probes are initial single-row samples. They are evidence against assuming clear horizontal sight, not full dynamic collision, projectile simulation, reachability or gameplay acceptance.",
+  "web_verification": {
+    "unique_articles_read": 18,
+    "success": "WiKirby article text read through web tool on 2026-11-08",
+    "gallery_attempt": "Direct HTTPS page fetch for Peppermint Palace Chest returned HTTP 403; route stopped without retry or bypass. No gallery images acquired."
+  }
+}
