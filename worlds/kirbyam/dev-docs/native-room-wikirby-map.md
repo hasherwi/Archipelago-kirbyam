@@ -481,7 +481,7 @@ if no equivalent exists.
 | 805 / `0x325` | 3 | [Labyrinth Entrance Stage](https://wikirby.com/wiki/Labyrinth_Entrance_Stage) | **shared**: Tutorial room 3; shared article | `REGION_TUTORIAL/ROOM_0_03` |
 | 810 / `0x32A` | 214 | [Olive Ocean - Room 19](https://wikirby.com/wiki/Olive_Ocean_-_Room_19) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_19` |
 | 811 / `0x32B` | 198 | [Olive Ocean - Room 10](https://wikirby.com/wiki/Olive_Ocean_-_Room_10) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_10` |
-| 814 / `0x32E` | 199 | [Olive Ocean - Room 12](https://wikirby.com/wiki/Olive_Ocean_-_Room_12) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_12` |
+| 814 / `0x32E` | 199 | [Olive Ocean - Room 12](https://wikirby.com/wiki/Olive_Ocean_-_Room_12) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_12`<br>`REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT` |
 | 815 / `0x32F` | 200 | [Olive Ocean - Chest 1](https://wikirby.com/wiki/Olive_Ocean_-_Chest_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_CHEST_1` |
 | 816 / `0x330` | 215 | [Olive Ocean - Chest 2](https://wikirby.com/wiki/Olive_Ocean_-_Chest_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_CHEST_2` |
 | 819 / `0x333` | 216 | [Olive Ocean - Room 21](https://wikirby.com/wiki/Olive_Ocean_-_Room_21) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_21` |

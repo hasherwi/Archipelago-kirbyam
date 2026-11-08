@@ -1316,9 +1316,14 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
+        classification = get_item_classification(item_code)
+        if self.item_id_to_name[item_code] == "Ice Ability":
+            from .traversal_rules import goal2_ice_is_progression
+            if goal2_ice_is_progression(self):
+                classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
-            get_item_classification(item_code),
+            classification,
             item_code,
             self.player,
         )

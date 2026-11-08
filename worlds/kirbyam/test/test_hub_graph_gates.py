@@ -102,8 +102,22 @@ def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_ga
     state.collect(world.worlds[1].create_item('Olive Ocean 6-13 - Lever Wall'), True)
     state.sweep_for_advancements()
     assert world.get_region(olive, 1).can_reach(state)
-    assert world.get_region('REGION_OLIVE_OCEAN/ROOM_6_12', 1).can_reach(state)
-    assert world.get_region('REGION_CABBAGE_CAVERN/ROOM_3_HUB_1', 1).can_reach(state)
+    # Room 13 enters native 814 at (40, 40), above nondroppable 0x0F floors.
+    # Opening the Room 13 lever grants this upper-left compartment, not the
+    # lower Room 12 corridors (see block-hit-acceptance.json and traversal docs).
+    room12 = 'REGION_OLIVE_OCEAN/ROOM_6_12'
+    upper_left = world.get_region(room12 + '__LOGIC__UPPER_LEFT', 1)
+    assert upper_left.can_reach(state)
+    assert not world.get_region(room12, 1).can_reach(state)
+    room12_check = world.get_region(room12 + '__ROOM_CHECK', 1)
+    assert room12_check.can_reach(state)
+    assert not data.regions[room12_check.name].exits
+    assert all(exit.connected_region.name == 'REGION_OLIVE_OCEAN/MAIN' for exit in room12_check.exits)
+    assert len(room12_check.locations) == room_sanity
+    # The former Room 12 -> 11 -> 10 -> Olive hub -> Cabbage hub escape also
+    # requires the inaccessible lower compartment; the lever alone cannot grant it.
+    assert not world.get_region('REGION_OLIVE_OCEAN/ROOM_6_HUB', 1).can_reach(state)
+    assert not world.get_region('REGION_CABBAGE_CAVERN/ROOM_3_HUB_1', 1).can_reach(state)
 
 
 @pytest.mark.parametrize('room_sanity', [0, 1])

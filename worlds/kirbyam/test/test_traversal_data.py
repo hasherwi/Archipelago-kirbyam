@@ -160,6 +160,9 @@ def test_target_catalog_counts_and_provider_separation():
         "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
         "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
         "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
+        "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+        "frozen_enemy_hit": frozenset({"Ice"}),
+        "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     }
 
 
