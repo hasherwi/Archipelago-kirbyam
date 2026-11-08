@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Only native557 Goal1 tomato has a bounded MASTER_HAND-guarantees-Smash witness. Other source assignments and room clusters remain unvalidated; starting-inventory removal remains blocked.",
+  "implementation_status": "Only native557 Goal1 tomato (MASTER_HAND guarantees Smash) and native176 Goal2 drink (BATAFIRE guarantees Burning) have bounded conditional witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -212,15 +212,20 @@
         {
           "id": "176:16,35",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "Energy Drink chest; Batafire output is policy-dependent, not guaranteed Burning.",
+          "status": "conditional_source_witness",
+          "note": "Conditional Burning witness: actual175 entry and Normal approach; native defeated-Batafire source and scroll-boundary release contracts; disclosed post-defeat essence/boundary fixture proves airborne horizontal charge and exact AP chest event. No actual defeat/acquisition replay or other source-policy claim.",
           "tile_count": 6,
           "bounds": [
             16,
             35,
             18,
             36
-          ]
+          ],
+          "accepted_target": "metal_176_goal2_drink",
+          "requires_guaranteed_source": {
+            "source_key": "BATAFIRE",
+            "ability": "Burning"
+          }
         }
       ]
     },
@@ -324,7 +329,7 @@
           "id": "228:27,23",
           "classification": "ap_target",
           "status": "pending_route_acceptance",
-          "note": "Right-hand metal branch protects one Room 9 chest; exact chest identity and destructive branch interactions pending.",
+          "note": "Right-hand metal branch protects MINOR_CHEST_PEPPERMINT_PALACE_7_09, template0x088C046C (1-Up). Accepted rope_228_11_21 documentation identifies separate OBJECT_02 chest0x088C04D8; metal entry/source and destructive branch interactions still require acceptance.",
           "tile_count": 2,
           "bounds": [
             27,

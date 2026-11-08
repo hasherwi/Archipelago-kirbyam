@@ -936,6 +936,83 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_floating_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_176_goal2_drink",
+          "kind": "metal",
+          "native_room": 176,
+          "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01",
+          "requires_guaranteed_source": {
+            "source_key": "BATAFIRE",
+            "ability": "Burning"
+          },
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_176_goal2_drink:entry",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:defeated_arena",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:launch",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:chest",
+                  "native_room": 176
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_176_goal2_drink:entry",
+                  "to": "metal_176_goal2_drink:defeated_arena",
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json entry_approach and arena_release_contract: actual175 door0x880934 arrives456,40.996; Normal controller descent reaches actual Batafire floor184.652,616.996. Existing ordinary miniboss-combat assumption defeats Batafire; native shared state slot1 deletes scroll-lock0x8BAEBC and restores boundaries. Actual defeat is source-established, not a completed controller replay."
+                },
+                {
+                  "from": "metal_176_goal2_drink:defeated_arena",
+                  "to": "metal_176_goal2_drink:launch",
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json native_source_contract.capture_to_launch: in-arena capture then ordinary floor/slopes connect to the right launch. Normal reaches active boundary248,592.996; isolated post-defeat Burning walks to249.996,591 without another ability or metal break."
+                },
+                {
+                  "from": "metal_176_goal2_drink:launch",
+                  "to": "metal_176_goal2_drink:chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-176-burning-acceptance.json isolated_post_defeat_burning_to_chest: from249.996,591 hold A2 frames then Right+B; one airborne dry horizontal charge clears all six F5 atx16..18,y35..36. Walk right and Up emits exact AP chest event0x088BAEE0, native flag9."
+                  },
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json Physical fixture replaces Batafire with a Burning essence and relocates only the scroll lock to simulate source-proven post-defeat release. No terrain, attack or chest edits; no actual acquisition or other provider proof."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088BAE50",
+                  "node": "metal_176_goal2_drink:defeated_arena",
+                  "source_key": "BATAFIRE",
+                  "acquisition_evidence": "dev-docs/ordinary-176-burning-acceptance.json native_source_contract: actual type0x3B at40,544, table0x351BD6=Burning3; shared defeated-miniboss inhale/swallow mechanism under actual source policy. Normal entry and capture-to-launch floor/slopes precede F5. Ordinary boss-combat assumption, not a full defeat/acquisition replay."
+                }
+              ],
+              "starts": [
+                "metal_176_goal2_drink:entry"
+              ],
+              "required_targets": [
+                "metal_176_goal2_drink:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3": {

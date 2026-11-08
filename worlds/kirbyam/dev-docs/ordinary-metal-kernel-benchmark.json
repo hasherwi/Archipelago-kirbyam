@@ -1,7 +1,7 @@
 {
   "python": "3.12.14",
   "baseline": "1cdde1a",
-  "current": "ordinary-metal-with-conditional557",
+  "current": "ordinary-metal-with-conditional557-and176",
   "scope": "Paired in-process direct fixed-point evaluation; same graph/policy/items; compile and imports excluded",
   "existing": {
     "mini_134_ocean_spray/local": {
@@ -161,5 +161,31 @@
     ],
     "median_us": 18.0105504,
     "scope": "Guaranteed native Master Hand Smash, owned permission; compile/imports excluded"
+  },
+  "conditional176": {
+    "target": "metal_176_goal2_drink",
+    "witness": "local",
+    "policy": "native BATAFIRE Burning, owned Burning permission; production Burning remains ungated",
+    "nodes": 4,
+    "routes": 3,
+    "sources": 1,
+    "positions": 9,
+    "iterations_per_sample": 5000,
+    "current_us": [
+      19.2783528,
+      19.8561996,
+      21.020440999999998,
+      21.171615000000003,
+      21.345933799999997,
+      19.512566,
+      19.4792606,
+      19.007913000000002,
+      19.282699400000002,
+      19.1164024,
+      18.8660228,
+      19.074315
+    ],
+    "current_us_median": 19.38098,
+    "scope": "New graph evaluation only; existing paired measurements unchanged because kernel unchanged. No full-generation performance claim."
   }
 }

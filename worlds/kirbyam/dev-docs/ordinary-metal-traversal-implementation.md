@@ -1,9 +1,9 @@
 # Ordinary-metal traversal implementation checkpoint
 
 This checkpoint prepares directional ordinary-metal rules without pretending
-that the complete 33-room audit is finished. **Only native557 has a bounded
-Master Hand-to-Smash witness; removing forced Stone/Burning is not safe on
-this evidence.** Other assignments and rooms remain unvalidated. Runtime
+that the complete 33-room audit is finished. **Only native 557 (Master Hand-to-Smash) and native 176
+(Batafire-to-Burning) have bounded conditional witnesses; removing forced
+Stone/Burning is not safe on this evidence.** Other assignments and rooms remain unvalidated. Runtime
 patches, starting inventory and item classification are unchanged here. The
 foundation baseline is `1cdde1a`.
 
@@ -151,6 +151,46 @@ contract was independently reread at native revision
 [`object.c`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c):
 `InitObject`, `sub_0809C48C`, and `sub_0809D060`/`sub_0809D1E0`.
 
+## Native 176 Goal 2 drink: defeat boundary and Burning
+
+`metal_176_goal2_drink` binds only
+`MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01`, when finalized `BATAFIRE`
+guarantees Burning. Its four nodes distinguish entry, defeated arena, launch and
+chest. Other source assignments remain unvalidated. The nine upper-left F5
+singletons and the existing goal exit are not gated by this witness.
+
+[The acceptance record](ordinary-176-burning-acceptance.json) keeps these layers
+separate:
+
+1. Actual 175 door `0x880934` enters 176 at `(456,40.996)`. Controller-only Normal
+   descent reaches the native boss floor `(184.652,616.996)` and walks to the
+   active arena boundary `(248,592.996)`, still at 6 HP.
+2. Native Batafire `0x088BAE50`, type `0x3B`, uses table `0x351BD6` (Burning 3),
+   subject to the actual randomized source policy. Shared defeated-miniboss
+   handling and swallowing supply the copy. Defeat also increments matching room
+   state slot 1. `sub_0811D508` consumes that state and deletes scroll lock
+   `0x088BAEBC`; `ScrollLockDestroy` restores camera and motion boundaries.
+   Ordinary boss combat and successful in-arena capture remain explicit source
+   assumptions. This is not a combined defeat/acquisition replay.
+3. The isolated AP-patched fixture substitutes a Burning essence and relocates
+   only that scroll lock outside the room to simulate the source-proven
+   post-defeat state. Terrain, attacks and chest are unchanged. Walk to
+   `(249.996,591)`, press A for two frames, then Right+B. One airborne horizontal
+   charge clears all six F5 tiles at `(16–18,35–36)`. Walking right and Up emits
+   chest event `0x088BAEE0` and sets native flag 9. The negative essence-only
+   control stayed clamped at x248 despite clearing the first column, showing why
+   the defeat boundary cannot be omitted.
+
+Burning remains runtime-ungated/precollected at this checkpoint. Tests separately
+simulate later Burning gating to check missing permission, physical source and
+self-lock behavior without changing production inventory or classification.
+The fixture does not prove randomized unlock handling, server acknowledgement,
+battery reload, or a full actual-source playthrough.
+
+Source release logic was independently checked at native revision
+`7d969fbce14fdc838d2c1ea01389717fb96c3189` in `src/object.c` and
+[`src/scroll_lock.c`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/scroll_lock.c).
+
 ## Cost and verification
 
 The [paired Python 3.12 benchmark](ordinary-metal-kernel-benchmark.json) compares
@@ -163,6 +203,9 @@ A synthetic two-node Throw action reaches four states and takes 10.34
 microseconds median. It measures kernel cost, not native room acceptance.
 The new conditional557 graph reaches nine states and takes 18.01 microseconds
 median with the reviewed source assignment and owned Smash permission.
+The native176 graph also reaches nine states; a separate twelve-sample warm
+measurement is 19.38 microseconds median. The kernel is unchanged, so the earlier
+paired baseline samples are retained rather than presented as a new comparison.
 
 Focused tests cover provider narrowing, unreachable sources, permission versus
 equipment, source-policy uncertainty, physical ammunition availability and
