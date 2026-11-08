@@ -1202,7 +1202,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint32_t ap_mix_u
     return x;
 }
 
-static uint32_t ap_next_rng_u32(void) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint32_t ap_next_rng_u32(void) {
     uint32_t state = AP_ABILITY_RANDOMIZATION_RNG_STATE;
     if (state == 0u) {
         uint32_t seed_lo = AP_ABILITY_RANDOMIZATION_SEED_LO;
@@ -1224,7 +1224,7 @@ static uint32_t ap_next_rng_u32(void) {
     return state;
 }
 
-static uint8_t ap_select_random_allowed_ability(uint32_t allowed_mask, uint32_t random_u32) {
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_select_random_allowed_ability(uint32_t allowed_mask, uint32_t random_u32) {
     uint8_t ids[32];
     uint32_t count = 0u;
     uint32_t i;
@@ -1263,6 +1263,16 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_enemy_
     return ap_enemy_source_policy_allows(gApEnemySourceConfig, caller_pc, source_ptr, source_type);
 }
 
+static __attribute__((noinline, long_call, section(".aphub"))) uint32_t ap_enemy_restore_shuffled_ability(
+    uint32_t mode, uint32_t caller_pc, uint32_t source_ptr,
+    uint32_t source_type, uint32_t ability_flags
+) {
+    return ap_enemy_shuffled_ability_flags(
+        gApEnemySourceConfig, mode, caller_pc, source_ptr, source_type, ability_flags,
+        (const volatile uint8_t *)(0x08000000u + ENEMY_ABILITY_TABLE_BASE_ADDR)
+    );
+}
+
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
 // except verified raw Mini recovery stars. Direct statue touches bypass this
@@ -1281,6 +1291,16 @@ __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_
     uint8_t source_type = 0xFFu;
     if (ap_enemy_has_verified_source(caller_pc, source_obj_ptr) != 0u) {
         source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
+    }
+
+    /* Restore only eligible, verified ordinary enemy grants. Stars, statues,
+     * legacy seeds and excluded sources retain their existing semantics.
+     * The authoritative ability gate below still applies to the restored ID.
+     */
+    if (mode == ABILITY_RANDOMIZATION_MODE_SHUFFLED) {
+        rewritten_flags = ap_enemy_restore_shuffled_ability(
+            mode, caller_pc, source_obj_ptr, source_type, ability_flags
+        );
     }
 
     if (ap_is_mini_star_recovery(caller_pc, source_obj_ptr, ability_flags) == 0u

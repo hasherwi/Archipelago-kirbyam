@@ -29,7 +29,8 @@ def test_mini_star_native_hook(tmp_path: Path):
     source = (PAYLOAD_DIR / "ap_payload.c").read_text(encoding="utf-8")
     names = ("ap_mix_u32", "ap_next_rng_u32", "ap_select_random_allowed_ability",
              "ap_is_locked_gated_ability", "ap_select_random_allowed_ability_excluding",
-             "ap_enemy_seed_source_allows", "ap_on_request_copy_ability_transition_c")
+             "ap_enemy_seed_source_allows", "ap_enemy_restore_shuffled_ability",
+             "ap_on_request_copy_ability_transition_c")
     functions = "\n".join(_function(source, name) for name in names)
     functions = functions.replace("noinline, long_call,", "noinline,")
     constants = source[source.index("#define ABILITY_RANDOMIZATION_MODE_SHUFFLED"):

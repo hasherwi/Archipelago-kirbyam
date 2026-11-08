@@ -1,0 +1,503 @@
+{
+  "issue": 1049,
+  "kind": "native-emulator-controlled-fixture",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "baseline_commit": "76c2e94816e4ef30a7c8ac3157ea208faa70fd1c",
+  "candidate_source_commit": "ac4d2de43f6adf02a48cc9e9c61ea4fe69da2662",
+  "baseline_patch_sha256": "56985f839a63505cdc1bb35c0e7332fb4444f06997f7bdbd5508fb70df380ce5",
+  "candidate_patch_sha256": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea",
+  "test_only_setup": {
+    "cold_save": "32768 bytes of FF",
+    "initial_room_table_0x2d8cb8": [
+      101,
+      101,
+      101,
+      101
+    ],
+    "initial_position_table_0x2d8cd0": [
+      12288,
+      20480,
+      12288,
+      20480,
+      12288,
+      20480,
+      12288,
+      20480
+    ],
+    "seed_identity_0xf00000": "0102030405060708090a0b0c0d0e0f10",
+    "policy": {
+      "mode": 1,
+      "seed": 1049,
+      "allowed_abilities": [
+        "Sword"
+      ],
+      "ability_randomization_no_ability_weight": 0,
+      "ability_randomization_passive_enemies": false,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_boss_spawns": true
+    },
+    "rom_assignment": "production build_enemy_copy_runtime_patch_writes and build_enemy_source_runtime_config",
+    "runtime_setup": "production KirbyAmClient._sync_enemy_copy_ability_runtime_config through recorded emulator transport; gating disabled",
+    "gameplay_memory_edits": false
+  },
+  "runs": {
+    "baseline": {
+      "rom_sha256": "d7be6c26153e95099f47ade06d365d809495d86536dff7b5755fee88cc6876d2",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 140,
+          "keys": 16
+        },
+        {
+          "start": 2388,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 2508,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 2509,
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2248,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "19040000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000400",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        }
+      ],
+      "result": {
+        "label": "result",
+        "frame": 2629,
+        "room": 101,
+        "x": 231.375,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 7,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129316352,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "candidate": {
+      "rom_sha256": "755b03b26dcad210f985900b113b9deea16064f094b604e3aecbf0c25468d3fe",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 140,
+          "keys": 16
+        },
+        {
+          "start": 2388,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 2508,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 2509,
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2248,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "19040000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000400",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-copy-room-client"
+        }
+      ],
+      "result": {
+        "label": "result",
+        "frame": 2629,
+        "room": 101,
+        "x": 231.375,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 18,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129316352,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Controlled initial room and seed, not a randomly generated full playthrough.",
+    "Native verification covers the first Waddle Doo in room 1-01 only; other boundaries use host regressions."
+  ]
+}
