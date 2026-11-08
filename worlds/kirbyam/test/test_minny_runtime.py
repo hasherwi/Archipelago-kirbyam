@@ -36,7 +36,8 @@ def test_minny_native_hook(tmp_path: Path) -> None:
     source = (PAYLOAD_DIR / "ap_payload.c").read_text(encoding="utf-8")
     names = ("ap_mix_u32", "ap_next_rng_u32", "ap_select_random_allowed_ability",
              "ap_is_locked_gated_ability", "ap_select_random_allowed_ability_excluding",
-             "ap_enemy_seed_source_allows", "ap_on_request_copy_ability_transition_c")
+             "ap_enemy_seed_source_allows", "ap_enemy_restore_shuffled_ability",
+             "ap_on_request_copy_ability_transition_c")
     functions = "\n".join(_function(source, name) for name in names)
     # ARM call-distance annotation has no host-compiler counterpart.
     functions = functions.replace("noinline, long_call,", "noinline,")
@@ -56,7 +57,7 @@ static uint32_t AP_ABILITY_REROLL_SOURCE_ADDR, AP_ABILITY_REROLL_ABILITY_ID;
 static uint32_t AP_ABILITY_REROLL_SOURCE_KIND, AP_ABILITY_REROLL_CALLSITE_PC;
 static uint32_t AP_ABILITY_REROLL_KIRBY_INDEX, AP_ABILITY_REROLL_EVENT_COUNTER;
 static uint32_t KIRBY_CURRENT_PLAYER, result, calls;
-static const uint32_t gApEnemySourceConfig[9] = { AP_ENEMY_SOURCE_CONFIG_LEGACY };
+static uint32_t gApEnemySourceConfig[9] = { AP_ENEMY_SOURCE_CONFIG_LEGACY };
 static void native_transition(void *kirby, uint32_t flags) { (void)kirby; result = flags; calls++; }
 #define KIRBY_REQUEST_ABILITY_TRANSITION_FN native_transition
 '''
@@ -129,6 +130,33 @@ int main(void) {
         grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 23u);
         CHECK(result == 23 && AP_ABILITY_RANDOMIZATION_RNG_STATE == before);
     }
+    /* #1049: execute the actual wrapper against GBA-mapped ROM table bytes.
+     * Unlike the pure helper test this catches file-offset/runtime-address drift. */
+    uint8_t *rom = mmap((void*)0x08351000u, 0x3000, PROT_READ | PROT_WRITE,
+                       MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
+    CHECK(rom != MAP_FAILED);
+    rom[0x7FE] = 18; /* Waddle Doo's table assignment: Sword. */
+    object[0x82] = 18; /* OBJ_WADDLE_DOO */
+    gApEnemySourceConfig[0] = AP_ENEMY_SOURCE_CONFIG_MAGIC;
+    gApEnemySourceConfig[1] = 1u << 18;
+    AP_ABILITY_RANDOMIZATION_MODE = 1;
+    AP_ABILITY_GATE_MASK = 1u << 18;
+    AP_ABILITY_UNLOCK_MASK = 0;
+    grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7); /* native Beam reset */
+    CHECK(result == 0); /* The restored Sword is still locked. */
+    AP_ABILITY_UNLOCK_MASK = 1u << 18;
+    grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7);
+    CHECK(result == 18);
+    grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 5); /* native Parasol reset */
+    CHECK(result == 18);
+    CHECK(AP_ABILITY_RANDOMIZATION_RNG_STATE == before);
+    gApEnemySourceConfig[1] = 0;
+    grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7);
+    CHECK(result == 7);
+    gApEnemySourceConfig[1] = 1u << 18;
+    rom[0x7FE] = 0;
+    grant(AP_ENEMY_SWALLOW_CALLSITE, 0x02000000u, 7);
+    CHECK(result == 0);
     return 0;
 }
 '''
