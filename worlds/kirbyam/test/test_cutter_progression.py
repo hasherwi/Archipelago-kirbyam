@@ -1,0 +1,210 @@
+"""Cutter permission is progression, not automatic equipment or starting inventory."""
+
+from argparse import Namespace
+from collections import Counter
+from io import BytesIO
+import zipfile
+
+import pytest
+from BaseClasses import CollectionState, ItemClassification, PlandoOptions
+
+from ..enemy_ability_data import starting_copy_abilities
+from ..rom import ABILITY_GATE_MASK_INITIAL_ROM_OFFSET
+from ..traversal import SourcePolicy
+from ..traversal_data import room_traversal_graph
+from ..traversal_rules import graph_items, graph_succeeds
+from .support.integration_generation import load_multidata_from_archive
+from .test_mini_traversal import make_world
+
+
+CUTTER = 3860106
+FIXED = {3860103, 3860107, 3860108}
+SEEDS = (1042, 20261107, 8675309)
+
+
+@pytest.mark.parametrize("mode", [0, 1, 2])
+@pytest.mark.parametrize("gating", [False, True])
+def test_new_starting_set_and_cutter_collection(mode, gating):
+    world = make_world(mode, gating)
+    assert starting_copy_abilities(mode) == ("Beam", "Burning", "Stone")
+    state = CollectionState(world.multiworld)
+    assert not state.has("Cutter Ability", 1)
+    item = world.create_item("Cutter Ability")
+    assert item.code == CUTTER and item.classification == ItemClassification.progression
+    assert world.collect(state, item) and state.has(item.name, 1)
+    assert world.remove(state, item) and not state.has(item.name, 1)
+
+
+@pytest.mark.parametrize("gating", [False, True])
+def test_cutter_source_requires_permission_and_permission_requires_source(gating):
+    from dataclasses import replace
+
+    graph = room_traversal_graph("rope_143_23_14", "local")
+    policy = SourcePolicy({"mode": 0})
+    items = graph_items(graph)
+    assert graph_succeeds(graph, policy, items, gating, retries=False) == (not gating)
+    assert graph_succeeds(graph, policy, items | {"Cutter Ability"}, gating, retries=False)
+    assert not graph_succeeds(replace(graph, placements=()), policy,
+                              items | {"Cutter Ability"}, gating, retries=False)
+
+
+def _generate(monkeypatch, tmp_path, seed, options):
+    import Generate
+    import Main
+    import Utils
+    import settings
+
+    players = tmp_path / "players"
+    players.mkdir()
+    for player, values in enumerate(options, 1):
+        lines = [f"name: Cutter Test {player}", "game: Kirby & The Amazing Mirror",
+                 "Kirby & The Amazing Mirror:"]
+        for name, value in values.items():
+            if isinstance(value, dict):
+                lines.append(f"  {name}:")
+                lines.extend(f"    {item}: {count}" for item, count in value.items())
+            else:
+                lines.append(f"  {name}: {value}")
+        (players / f"{player}.yaml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    output = tmp_path / "output"
+    output.mkdir()
+    monkeypatch.setattr(settings, "no_gui", True)
+    monkeypatch.setattr(settings, "skip_autosave", True)
+    monkeypatch.setattr(Utils, "init_logging", lambda *args, **kwargs: None)
+    args = Namespace(
+        weights_file_path=settings.get_settings().generator.weights_file_path,
+        sameoptions=False, player_files_path=str(players), seed=seed, multi=len(options), spoiler=1,
+        outputpath=str(output), allow_quantity=False, race=False, meta_file_path="meta-doesnt-exist.yaml",
+        log_level="info", yaml_output=1,
+        plando=PlandoOptions.items | PlandoOptions.connections | PlandoOptions.texts | PlandoOptions.bosses,
+        skip_prog_balancing=False, skip_output=False, csv_output=False, log_time=False, spoiler_only=False,
+    )
+    generated, actual_seed = Generate.main(args)
+    assert actual_seed == seed
+    multiworld = Main.main(generated, actual_seed)
+    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
+    archive, = output.glob("*.zip")
+    return multiworld, load_multidata_from_archive(archive), archive
+
+
+def _gate_words(archive):
+    words = {}
+    with zipfile.ZipFile(archive) as outer:
+        for name in outer.namelist():
+            if not name.endswith(".apkirbyam"):
+                continue
+            with zipfile.ZipFile(BytesIO(outer.read(name))) as patch:
+                import json
+                manifest = json.loads(patch.read("archipelago.json"))
+                data = patch.read("token_data.bin")
+                offset = 4
+                for _ in range(int.from_bytes(data[:4], "little")):
+                    token = data[offset]
+                    address = int.from_bytes(data[offset + 1:offset + 5], "little")
+                    size = int.from_bytes(data[offset + 5:offset + 9], "little")
+                    payload = data[offset + 9:offset + 9 + size]
+                    offset += 9 + size
+                    if address == ABILITY_GATE_MASK_INITIAL_ROM_OFFSET:
+                        assert token == 0 and size == 4
+                        words[manifest["player"]] = int.from_bytes(payload, "little")
+    return words
+
+
+def _assert_slot_contract(multiworld, decoded, gates, player, explicit=0):
+    world = multiworld.worlds[player]
+    gating = bool(world.options.ability_gating.value)
+    inventory = Counter(decoded["precollected_items"][player])
+    assert all(inventory[code] == 1 for code in FIXED)
+    assert inventory[CUTTER] == explicit
+    pooled = Counter(item.code for location in multiworld.get_locations()
+                     if (item := location.item) is not None and item.player == player)
+    assert pooled[CUTTER] == int(gating)
+    assert not FIXED.intersection(pooled)
+    slot = decoded["slot_data"][player]
+    assert ("Cutter" in slot["ability_gateable_abilities"]) == gating
+    assert slot["ability_unlock_items"]["Cutter"] == "Cutter Ability"
+    assert bool(gates[player] & (1 << 6)) == gating
+    assert gates[player] & ((1 << 3) | (1 << 7) | (1 << 8)) == 0
+
+
+@pytest.mark.parametrize("seed", SEEDS)
+@pytest.mark.parametrize("mode", [0, 1, 2])
+@pytest.mark.parametrize("gating,accessibility", [(0, "full"), (1, "full"), (1, "minimal")])
+def test_generated_seed_matrix(monkeypatch, tmp_path, seed, mode, gating, accessibility):
+    variant = SEEDS.index(seed)
+    options = {
+        "ability_randomization_mode": mode, "ability_gating": gating, "accessibility": accessibility,
+        "ability_randomization_no_ability_weight": (0, 99, 100)[variant],
+        "ability_randomization_statues": variant % 2,
+        "ability_randomization_passive_enemies": variant % 2,
+        "ability_randomization_minibosses": variant % 2,
+        "ability_randomization_boss_spawns": variant % 2,
+        "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
+    }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
+    _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
+
+
+@pytest.mark.parametrize("seed", SEEDS)
+def test_mixed_multiworld_and_explicit_cutter_inventory(monkeypatch, tmp_path, seed):
+    options = [
+        {"ability_randomization_mode": 0, "ability_gating": 1, "accessibility": "full"},
+        {"ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
+         "ability_randomization_statues": 1, "start_inventory": {"Cutter Ability": 2}},
+        {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
+         "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
+    ]
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
+    gates = _gate_words(archive)
+    for player in multiworld.player_ids:
+        _assert_slot_contract(multiworld, decoded, gates, player, explicit=2 if player == 2 else 0)
+
+
+@pytest.mark.parametrize("gating", [0, 1])
+def test_explicit_cutter_start_keeps_requested_count(monkeypatch, tmp_path, gating):
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 1042, [{
+        "ability_gating": gating, "start_inventory": {"Cutter Ability": 3},
+    }])
+    _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1, explicit=3)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("legacy", [False, True])
+async def test_client_cutter_gate_respects_seed_policy_and_received_history(mock_bizhawk_context, legacy):
+    from unittest.mock import patch
+    from NetUtils import NetworkItem
+    from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+    from .test_start_inventory_protocol import validated_client
+
+    ctx = mock_bizhawk_context
+    client = await validated_client(ctx)
+    ctx.slot_data = {
+        "ability_gating": True,
+        "ability_gateable_abilities": [name for name in GATEABLE_ENEMY_COPY_ABILITIES
+                                       if not legacy or name != "Cutter"],
+        "ability_unlock_items": {"Cutter": "Cutter Ability"},
+    }
+    memory = {}
+
+    async def read(_ctx, requests):
+        return [memory.get(address, bytes(size)) for address, size, _domain in requests]
+
+    async def write(_ctx, requests):
+        for address, value, _domain in requests:
+            memory[address] = value
+
+    with patch("worlds.kirbyam.client.bizhawk.read", side_effect=read), \
+            patch("worlds.kirbyam.client.bizhawk.write", side_effect=write):
+        for received in ([], [NetworkItem(CUTTER, -2, 0)]):
+            ctx.items_received = received
+            for _ in range(2):
+                memory.clear()  # Cold runtime recovery and repeated authoritative history.
+                client.on_package(ctx, "Connected", {})
+                client.on_package(ctx, "ReceivedItems", {"index": 0, "items": received})
+                await client._sync_enemy_copy_ability_runtime_config(ctx)
+                gate = int.from_bytes(memory[client._transport_addr("ability_gate_mask_runtime")], "little")
+                unlocked = int.from_bytes(memory[client._transport_addr("ability_unlock_mask_runtime")], "little")
+                assert bool(gate & (1 << 6)) == (not legacy)
+                assert bool(unlocked & (1 << 6)) == bool(received)
+                from ..data import data
+                assert set(memory) <= set(data.transport_ram_addresses.values())

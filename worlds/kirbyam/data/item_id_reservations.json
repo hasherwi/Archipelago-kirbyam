@@ -2,7 +2,8 @@
   "checked_at": "2026-10-25",
   "main_commit": "99c63e3a505131d5ab16db60350a4c9c9daae54d",
   "reserved_items": {
-    "TRAP_HUB_TELEPORT": 3860300
+    "TRAP_HUB_TELEPORT": 3860300,
+    "COPY_ABILITY_ROOM_ACCESS": 3860500
   },
   "baseline_catalog": {
     "1_UP": 3860001,

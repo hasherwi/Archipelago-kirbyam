@@ -2,6 +2,7 @@
 
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
+#include "copy_room.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -303,7 +304,8 @@ static void ap_collect_small_chest_native(uint32_t chest_index) {
         (uint8_t)(1u << (chest_index & 7u));
 }
 
-static uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
+static __attribute__((noinline, long_call, section(".aphub")))
+uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
     return ap_lever_bit_for_chest(
         *(volatile uint32_t*)(chest_obj_ptr + 0xB0u),
         *(volatile uint16_t*)(chest_obj_ptr + 0xE0u),
@@ -326,7 +328,9 @@ void ap_set_lever_activation_flag(uint32_t lever_bit) {
     AP_LEVER_ACTIVATION_FLAGS = ap_lever_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
 }
 
-static void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
+/* Keep physical-check persistence outside the fixed retail payload window. */
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
     uint32_t source_ptr = *(volatile uint32_t*)(chest_obj_ptr + 0xB0u);
     uint32_t chest_index = (uint32_t)(*(volatile uint8_t*)(chest_obj_ptr + 0xE2u));
 
@@ -575,6 +579,8 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_key
  */
 __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
+
+    if (source_room == 801u && destination_room == 970u) return ap_copy_room_owned();
 
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
         return 1u;
@@ -1162,7 +1168,7 @@ typedef void (*KirbyStartGameFn)(
     const uint32_t *flags
 );
 /* Thumb entry for native sub_080332BC, which creates the Kirby players. */
-#define KIRBY_START_GAME_FN ((KirbyStartGameFn)0x080332BDu)
+#define KIRBY_START_GAME_FN ap_copy_room_start
 
 typedef void (*KirbyGiveInvincibilityFn)(void *kirby, uint16_t duration);
 #define KIRBY_GIVE_INVINCIBILITY_FN ((KirbyGiveInvincibilityFn)0x0808324Du)
@@ -1259,7 +1265,7 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_enemy_
 
 // Hook target for all callsites that request Kirby ability transition.
 // In completely-random mode, this rerolls a fresh ability for each request,
-// including dropped ability-star transitions. Direct statue touches bypass this
+// except verified raw Mini recovery stars. Direct statue touches bypass this
 // function and are handled by ap_on_start_copy_ability_transition below.
 /* Assembly entry snapshots incoming r5/LR before any C prologue or RNG call. */
 __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_ability_transition_c(
@@ -1277,7 +1283,8 @@ __attribute__((used, section(".text.ap_request_impl"))) void ap_on_request_copy_
         source_type = *(volatile uint8_t*)(source_obj_ptr + OBJECT2_TYPE_OFFSET);
     }
 
-    if (ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
+    if (ap_is_mini_star_recovery(caller_pc, source_obj_ptr, ability_flags) == 0u
+        && ap_enemy_should_reroll(mode, gApRandomizeMinny, source_type) != 0u
         && ap_enemy_seed_source_allows(caller_pc, source_obj_ptr, source_type) != 0u) {
         uint32_t no_ability_weight = AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT;
         uint32_t allowed_mask = AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
@@ -1969,6 +1976,8 @@ HUB_EXT void ap_hub_tasks(void) {
 
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
+    /* Only authenticated complete history may grant this access item. */
+    if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -2146,6 +2155,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 
 void ap_poll_mailbox_c(void) {
+    ap_copy_room_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;

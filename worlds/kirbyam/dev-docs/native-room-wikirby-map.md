@@ -16,9 +16,9 @@ No gameplay, region logic, locations, ROM patch or item pool changes accompany i
 | Unpopulated sentinel slots, in 58 inclusive ranges | 697 |
 | Populated records with a physical AP RoomSanity check | 263 |
 | Other populated records | 23 |
-| Top-level AP room keys accounted for | 321 |
-| Generated logical subregion aliases accounted for | 14 |
-| Total AP keys in the table | 335 |
+| Top-level AP room keys accounted for | 322 |
+| Generated logical subregion aliases accounted for | 20 |
+| Total AP keys in the table | 342 |
 | Additional logical compartment keys sharing physical records | 55 |
 | Tutorial keys without RoomSanity checks | 3 |
 
@@ -29,7 +29,7 @@ once. The table has no populated record for index 4. Native **806** (`0x326`)
 is a sentinel even though the decompilation's Dimension Mirror world-map list
 mentions it; a map-list entry alone does not establish a loadable room.
 
-The 55 top-level AP compartments and 14 generated logical subregions are aliases for purposes of this lookup, not additional
+The 55 top-level AP compartments and 20 generated logical subregions are aliases for purposes of this lookup, not additional
 native rooms. The table retains every full AP key, including the `parent__LOGIC__key` names
 constructed by [data.py](../data.py) from nested `logical_subregions`. For example, Rainbow Route
 Room 3's upper/lower logic keys both resolve to native 107 and completion 25.
@@ -313,7 +313,7 @@ if no equivalent exists.
 | 224 / `0x0E0` | 114 | [Peppermint Palace - Goal 2](https://wikirby.com/wiki/Peppermint_Palace_-_Goal_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2` |
 | 225 / `0x0E1` | 115 | [Peppermint Palace - Room 15](https://wikirby.com/wiki/Peppermint_Palace_-_Room_15) | **category**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_15` |
 | 226 / `0x0E2` | 97 | [Carrot Castle - Room 4](https://wikirby.com/wiki/Carrot_Castle_-_Room_4) | **category**: Completion-index join; AP compartments share this native room | `REGION_CARROT_CASTLE/ROOM_5_04` |
-| 227 / `0x0E3` | 98 | [Peppermint Palace - Room 6](https://wikirby.com/wiki/Peppermint_Palace_-_Room_6) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_06` |
+| 227 / `0x0E3` | 98 | [Peppermint Palace - Room 6](https://wikirby.com/wiki/Peppermint_Palace_-_Room_6) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_06`<br>`REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY` |
 | 228 / `0x0E4` | 99 | [Peppermint Palace - Room 9](https://wikirby.com/wiki/Peppermint_Palace_-_Room_9) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_09` |
 | 229 / `0x0E5` | 100 | [Peppermint Palace - Room 10](https://wikirby.com/wiki/Peppermint_Palace_-_Room_10) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_10` |
 | 230 / `0x0E6` | 101 | [Peppermint Palace - Warp](https://wikirby.com/wiki/Peppermint_Palace_-_Warp) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_WARP` |
@@ -321,7 +321,7 @@ if no equivalent exists.
 | 232 / `0x0E8` | 103 | [Peppermint Palace - Room 14](https://wikirby.com/wiki/Peppermint_Palace_-_Room_14) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_14` |
 | 290 / `0x122` | 104 | [Peppermint Palace - Hub 1](https://wikirby.com/wiki/Peppermint_Palace_-_Hub_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1` |
 | 291 / `0x123` | 116 | [Peppermint Palace - Hub 2](https://wikirby.com/wiki/Peppermint_Palace_-_Hub_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2` |
-| 300 / `0x12C` | 125 | [Mustard Mountain - Room 14](https://wikirby.com/wiki/Mustard_Mountain_-_Room_14) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_14` |
+| 300 / `0x12C` | 125 | [Mustard Mountain - Room 14](https://wikirby.com/wiki/Mustard_Mountain_-_Room_14) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_14`<br>`REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT` |
 | 304 / `0x130` | 126 | [Mustard Mountain - Room 4](https://wikirby.com/wiki/Mustard_Mountain_-_Room_4) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_04` |
 | 308 / `0x134` | 127 | [Mustard Mountain - Room 9](https://wikirby.com/wiki/Mustard_Mountain_-_Room_9) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_09` |
 | 310 / `0x136` | 128 | [Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST` |
@@ -331,9 +331,9 @@ if no equivalent exists.
 | 316 / `0x13C` | 132 | [Mustard Mountain - Room 10](https://wikirby.com/wiki/Mustard_Mountain_-_Room_10) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_10` |
 | 317 / `0x13D` | 133 | [Mustard Mountain - Room 17](https://wikirby.com/wiki/Mustard_Mountain_-_Room_17) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_17`<br>`REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT` |
 | 318 / `0x13E` | 134 | [Mustard Mountain - Warp](https://wikirby.com/wiki/Mustard_Mountain_-_Warp) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP` |
-| 321 / `0x141` | 135 | [Mustard Mountain - Room 5](https://wikirby.com/wiki/Mustard_Mountain_-_Room_5) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_05` |
+| 321 / `0x141` | 135 | [Mustard Mountain - Room 5](https://wikirby.com/wiki/Mustard_Mountain_-_Room_5) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_05`<br>`REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY` |
 | 322 / `0x142` | 136 | [Mustard Mountain - Room 11](https://wikirby.com/wiki/Mustard_Mountain_-_Room_11) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_11` |
-| 323 / `0x143` | 137 | [Mustard Mountain - Room 13](https://wikirby.com/wiki/Mustard_Mountain_-_Room_13) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_13` |
+| 323 / `0x143` | 137 | [Mustard Mountain - Room 13](https://wikirby.com/wiki/Mustard_Mountain_-_Room_13) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_13`<br>`REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT` |
 | 324 / `0x144` | 138 | [Mustard Mountain - Boss](https://wikirby.com/wiki/Mustard_Mountain_-_Boss) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS` |
 | 325 / `0x145` | 139 | [Mustard Mountain - Room 16](https://wikirby.com/wiki/Mustard_Mountain_-_Room_16) | **category**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_16` |
 | 326 / `0x146` | 140 | [Mustard Mountain - Goal 2](https://wikirby.com/wiki/Mustard_Mountain_-_Goal_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2` |
@@ -379,7 +379,7 @@ if no equivalent exists.
 | 512 / `0x200` | 178 | [Cabbage Cavern - Room 4](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_4) | **category**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_04`<br>`REGION_CABBAGE_CAVERN/ROOM_3_04_SUB` |
 | 513 / `0x201` | 179 | [Cabbage Cavern - Room 13](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_13) | **category**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_13`<br>`REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER` |
 | 514 / `0x202` | 180 | [Cabbage Cavern - Room 7](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_7) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_07` |
-| 515 / `0x203` | 181 | [Cabbage Cavern - Room 15](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_15) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_15`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY` |
+| 515 / `0x203` | 181 | [Cabbage Cavern - Room 15](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_15) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_15`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST`<br>`REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13` |
 | 516 / `0x204` | 174 | [Cabbage Cavern - Boss](https://wikirby.com/wiki/Cabbage_Cavern_-_Boss) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_BOSS` |
 | 517 / `0x205` | 182 | [Cabbage Cavern - Room 6](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_6) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_06` |
 | 523 / `0x20B` | 183 | [Cabbage Cavern - Room 1](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_CABBAGE_CAVERN/ROOM_3_01` |
@@ -481,7 +481,7 @@ if no equivalent exists.
 | 805 / `0x325` | 3 | [Labyrinth Entrance Stage](https://wikirby.com/wiki/Labyrinth_Entrance_Stage) | **shared**: Tutorial room 3; shared article | `REGION_TUTORIAL/ROOM_0_03` |
 | 810 / `0x32A` | 214 | [Olive Ocean - Room 19](https://wikirby.com/wiki/Olive_Ocean_-_Room_19) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_19` |
 | 811 / `0x32B` | 198 | [Olive Ocean - Room 10](https://wikirby.com/wiki/Olive_Ocean_-_Room_10) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_10` |
-| 814 / `0x32E` | 199 | [Olive Ocean - Room 12](https://wikirby.com/wiki/Olive_Ocean_-_Room_12) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_12` |
+| 814 / `0x32E` | 199 | [Olive Ocean - Room 12](https://wikirby.com/wiki/Olive_Ocean_-_Room_12) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_12`<br>`REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT` |
 | 815 / `0x32F` | 200 | [Olive Ocean - Chest 1](https://wikirby.com/wiki/Olive_Ocean_-_Chest_1) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_CHEST_1` |
 | 816 / `0x330` | 215 | [Olive Ocean - Chest 2](https://wikirby.com/wiki/Olive_Ocean_-_Chest_2) | **page**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_CHEST_2` |
 | 819 / `0x333` | 216 | [Olive Ocean - Room 21](https://wikirby.com/wiki/Olive_Ocean_-_Room_21) | **category**: Completion-index join; AP compartments share this native room | `REGION_OLIVE_OCEAN/ROOM_6_21` |
@@ -514,7 +514,7 @@ if no equivalent exists.
 | 956 / `0x3BC` | 283 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 3 encounter: Batafire and object spawner; native 956 is an explicit Boss Challenge Door destination | — |
 | 957 / `0x3BD` | 284 | [Boss Endurance](https://wikirby.com/wiki/Boss_Endurance) | **shared**: Boss Endurance Mid-Bosses 2 encounter: Waddle Dee and object spawner; native 957 is an explicit Boss Challenge Door destination | — |
 | 969 / `0x3C9` | 285 | No established wiki equivalent | **internal**: Boss Endurance nonparticipant holding room: initializer assigns native 969 to nonhuman slots; no separately verified WiKirby room target, not an unused table slot | — |
-| 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | — |
+| 970 / `0x3CA` | 286 | [Copy Ability Room](https://wikirby.com/wiki/Copy_Ability_Room) | **shared**: Copy Ability Room linked to Central Circle: ability statues and return transition to native 801; shared article, distinct from native 950 Boss Endurance variant | `REGION_COPY_ABILITY_ROOM/MAIN` |
 | 980 / `0x3D4` | 5 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 981 / `0x3D5` | 6 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |
 | 982 / `0x3D6` | 7 | [Goal Game](https://wikirby.com/wiki/Goal_Game) | **shared**: Goal Game variant; shared general article, no individual room page established | — |

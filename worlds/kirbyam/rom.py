@@ -211,7 +211,7 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
 
     # Keep the source inclusion policy in the generated ROM, independently of
     # client connection/reset timing. Match the static policy's legacy default.
-    randomize_minny = bool(policy.get("ability_randomization_minny", True)) if isinstance(policy, dict) else False
+    randomize_minny = False  # Reserved legacy config word; Minny now always grants Mini.
     patch.write_token(
         APTokenTypes.WRITE,
         ABILITY_RANDOMIZATION_MINNY_ROM_OFFSET,

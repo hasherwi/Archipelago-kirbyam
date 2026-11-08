@@ -10,6 +10,7 @@ from unittest.mock import AsyncMock, Mock, call, patch
 from typing import Any
 
 import pytest
+from NetUtils import NetworkItem
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.context import _game_watcher, AuthStatus, BizHawkClientCommandProcessor
@@ -234,16 +235,22 @@ def test_abilities_command_lists_every_ability_when_gating_is_disabled(mock_bizh
 
 
 @pytest.mark.parametrize("slot_data", [None, {}, {"ability_gating": True}, {"ability_gating": False}])
-def test_abilities_command_hides_wait_without_removing_real_abilities(mock_bizhawk_context, slot_data):
+@pytest.mark.parametrize("received_cutter", [False, True])
+def test_abilities_command_hides_wait_without_removing_real_abilities(
+    mock_bizhawk_context, slot_data, received_cutter,
+):
     mock_bizhawk_context.game = KirbyAmClient.game
     mock_bizhawk_context.slot_data = slot_data
-    mock_bizhawk_context.items_received = []
+    mock_bizhawk_context.items_received = (
+        [NetworkItem(3860106, -2, 0)] if received_cutter else []
+    )
 
     output = _run_abilities_command(mock_bizhawk_context)
 
     assert "Wait" not in output
     assert "Beam" in output
-    assert "Cutter" in output
+    gating = not isinstance(slot_data, dict) or slot_data.get("ability_gating", True)
+    assert ("Cutter" in output) == (received_cutter or not gating)
     assert output[1:] == sorted(set(output[1:]))
     # Wait is still needed by native ability logic; hide it only in this display.
     assert "Wait" in ABILITY_NAME_TO_ID

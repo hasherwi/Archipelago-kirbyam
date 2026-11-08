@@ -40,11 +40,11 @@ EWRAM Layout (0x02000000 - 0x02040000):
 
     0x02000000 - 0x02040000   EWRAM Region (256 KB)
         ├─ 0x02000000 - 0x0202BFFF   Native game state
-        ├─ 0x0203B000 - 0x0203B13B   AP Mailbox (reserved, 316-byte span)
+        ├─ 0x0203B000 - 0x0203B16F   AP Mailboxes and Copy Room context (368 bytes)
         └─ Remaining EWRAM (excluding AP mailbox block)
 ```
 
-### AP Mailbox Block (0x0203B000 - 0x0203B13B)
+### Base AP Mailbox Block (0x0203B000 - 0x0203B13B)
 
 **Transport Layer: Client ↔ ROM Communication**
 
@@ -157,7 +157,7 @@ All item IDs use **BASE_OFFSET = 3860000** for safety (avoids collision with Arc
 | LEVER_WALL_MOONLIGHT_MANSION_2_11 .. LEVER_WALL_RADISH_RUINS_8_12 | 3860037 - 3860040 | Progression items that independently set the four native lever-controlled wall bits (Issue #859) |
 | AREA_KEY_2 .. AREA_KEY_9 | 3860041 - 3860048 | Progression items that unlock inter-area mirror destinations for Moonlight Mansion through Candy Constellation (bits `2..9` in `area_key_bitfield_runtime`) |
 | HUB_CONNECTION_RAINBOW_ROUTE_EAST .. HUB_CONNECTION_CANDY_CONSTELLATION | 3860401 - 3860415 | Progression items mapped in `WorldMapDoor` enum order; IDs `BASE_OFFSET + 400 + door_index` for native door indices 1..15 |
-| ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 19 gateable unlocks and six guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
+| ABILITY_UNLOCK_* | 3860101 - 3860125 | Explicit ability items in `data/items.json`, preserving `BASE_OFFSET + 100 + runtime_ability_id`: 21 gateable unlocks and four guaranteed starting abilities. `Normal`, `Master`, and `Wait` have no AP item. |
 | SPRAY_PAINT_01 .. SPRAY_PAINT_14 | 3860200 - 3860213 | Unique useful collection items; OR native Spray Paint ownership bits 0..13 |
 | MUSIC_SHEET_01 .. MUSIC_SHEET_10 | 3860214 - 3860223 | Unique useful collection items; OR native Music Player/Sheets bits 1..10, leaving bit 0 unchanged |
 | TRAP_HUB_TELEPORT | 3860300 | Explicit stable reservation; native warp-star return with receipt deferral |
@@ -280,6 +280,8 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `copy_ability_room_protocol_version` (int): `2` requires the native three-file Copy Room ROM capability and authenticated ownership mailbox; prototype version `1` must regenerate.
+- `starting_copy_ability_room_access` (bool): true only when the access item was explicitly precollected; false by default.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
 - `hub_connection_protocol_version` (int): `2` for Hub seeds; requires ROM marker `APHUB02\0` at file offset `0x1000008`. Earlier Hub drafts without this version must regenerate seed and patch together.
 - `minimum_health` (int): starting HP capacity (`1..10`, default `6`), embedded in new ROMs for native initialization and reconciled by the connected client after the tutorial. This is not a current-HP floor. Legacy nonzero presets take precedence for old slots.
@@ -291,10 +293,9 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_mode` (int): enemy copy-ability mode (`0=off`, `1=shuffled`, `2=completely_random`).
 - `ability_randomization_boss_spawns` (bool): include/exclude ability-granting boss-spawned objects.
 - `ability_randomization_minibosses` (bool): include/exclude mini-boss ability grants.
-- `ability_randomization_minny` (bool): include/exclude Minny from copy-ability randomization. Enemy and statue randomization both respect this toggle when enabled.
 - `ability_randomization_passive_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization. Default: `true`.
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
-- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`, but do respect `ability_randomization_minny`).
+- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`; their default pool excludes Mini).
 - `room_sanity` (bool): enables/disables the full room-visit location set (`Room X-<room code>`, 263 checks). The eight keyed-area hub landmarks remain active when this option is off.
 - `area_keys` (bool): default-on Area Key destination gates. Off removes all eight keys from the generated pool and rebalances filler while retaining Hub, lever, ability and Dimension Mirror rules. Missing means enabled for older Area Key seeds.
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`; this value is zero when `area_keys` is false.
@@ -303,16 +304,22 @@ Server → Client: ConnectionRefused | Connected
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
-- `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including six guaranteed starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
+- `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including the starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
 - `stake_gated_transitions` (list[str]): directional entrance names that require the shared hammer-peg/stake gate, derived from room-level `transitions` overrides in `data/regions/rooms.json`.
 - `locations` (dict): tracker-facing location metadata keyed by KirbyAM location key.
 - `rooms` (dict): tracker-facing room metadata keyed by room region key, exported regardless of `room_sanity` option.
 - `unique_items` (list[str]): tracker-facing list of KirbyAM unique item labels.
 
+Minny traversal compatibility:
+- Minny is invariant and is no longer a configurable randomization source. The removed top-level `ability_randomization_minny` option is not emitted. The nested policy retains a false legacy field for older consumers; old `include_minny` builder arguments are accepted but ignored.
+- New static patch plans omit Minny from randomized assignments and always write zero to its legacy ROM option word and exclude its native type from the source bitmap. This applies to newly generated ROMs. Old already-randomized ROMs are not repaired by ignoring an old slot key: regenerate/repatch from the supported original ROM.
+- Mini remains in unrelated enemy output pools. Regular statues retain the previous default pool, excluding Mini. No general randomization option was removed.
+- See `docs/traversal-logic.md` for exact activated routes and remaining draft acceptance gaps.
+
 Compatibility note (Issue #398 option-key reorganization):
 - Legacy keys `enemy_copy_ability_randomization`, `randomize_boss_spawned_ability_grants`, and `randomize_miniboss_ability_grants` are intentionally not emitted in `slot_data` during the pre-public (`< v0.1.0`) phase.
-- Canonical keys are `ability_randomization_mode`, `ability_randomization_boss_spawns`, `ability_randomization_minibosses`, `ability_randomization_minny`, `ability_randomization_passive_enemies`, `ability_randomization_no_ability_weight`, and `ability_randomization_statues`.
+- Canonical keys are `ability_randomization_mode`, `ability_randomization_boss_spawns`, `ability_randomization_minibosses`, `ability_randomization_passive_enemies`, `ability_randomization_no_ability_weight`, and `ability_randomization_statues`.
 - If compatibility aliases are needed after public release, this section will be updated with an explicit deprecation/removal timeline.
 
 Goal runtime behavior contract:
@@ -377,7 +384,7 @@ no RAM reads, location sends, item writes, or goal reports occur.
 
 When runtime gate classifies non-gameplay:
 - Defer location polling and boss-defeat polling.
-- Defer new mailbox item writes, except the six guaranteed starting-ability precollect receipts during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
+- Defer new mailbox item writes, except precollect receipts for the six legacy starting-ability item IDs during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
 - Continue mailbox ACK/recovery handling for already-pending deliveries.
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 
@@ -920,3 +927,79 @@ Hub item names match physical destinations: 3860401 is Rainbow Route East (801�
 The client waits before reserving or offering Candy (`3860029`) while its native effect cannot start. Native code independently checks the live player, normal gameplay, positive HP, an inactive Candy effect, and the retail room restrictions before acknowledging. Room 801, rooms 324/710/417/822/219/516/738/129, and IDs above 899 reject the native effect. The patcher verifies the retail exclusion table. If a room transition races client preflight, the mailbox remains pending in order; Candy shares Hub Teleport Trap's timeout protection against clearing and reoffering a still-pending item. Two legitimate Candy receipts remain separate and wait for the preceding effect to finish.
 
 This preserves existing conservative transient-receipt recovery. A reset that loses a pending native offer can still require explicit receipt resolution; it does not establish exactly-once delivery across unsaved power loss.
+
+
+## Copy Ability Room access (issue #1002, protocol 2)
+
+**Copy Ability Room Access** (`3860500`) is one progression item replacing one
+filler. It gates only Adventure Central Circle 801 → 970. There is no new
+RoomSanity check: the optional catalog remains 263. No starting grant is added;
+explicit precollection and complete received-item history use the same permanent
+grant path. Access permits entering the room, not acquiring individual copy
+abilities. Ordinary statues, Hub Connections, Big Switch checks, Collection and
+Boss Endurance 950 remain independent.
+
+The native three-file selector, mode-menu Back behavior, slot validation, WORLD
+descriptors, 788-byte saved WORLD copies, checksum rules and backup offsets are
+unchanged. Each selected native file stores its own seed-authenticated ownership
+in previously unused WORLD words 22–26 (`0x02028C68`): words 22–25 hold the full
+16-byte ROM auth token, word 26 is `0x43500000 | owned` with ownership exactly
+zero or one. Native WORLD word 18 is derived, never authority. A vanilla unlock,
+a mismatching seed, or the old prototype record never grants access. Hub words
+27–31 are untouched. There is no single-save bypass, 4 KiB extension or shared-save
+protocol dependency. Preserve original saves; the deferred prototype's expanded
+save format is not migrated by this feature.
+
+The ROM capability marker `APCPY02\0` is at file offset `0x100FFD4`, immediately
+before the existing source configuration. Slots require
+`copy_ability_room_protocol_version: 2`. Prototype version 1, mixed ROM/slot
+capabilities and a shared-save slot fail closed. Regenerate seeds and patches
+and update clients together. Legacy slots without this item retain their matching
+legacy ROM support.
+
+The runtime uses `0x0203B13C`–`0x0203B15F` for nine 32-bit context words:
+`epoch`, `serial`, `slot`, `dirty`, `loaded_slot`, `task`, `owned`, `cookie`,
+`retry`. Epoch zero is inactive. A valid context requires a successful native
+WORLD load/clear and an actual single-player Adventure start in the same native
+file 0, 1 or 2, a live local Kirby task, matching seed auth and no demo/linked or
+non-Adventure mode flags. Exact-site wrappers preserve the original load, clear
+and Adventure startup behavior. File previews deactivate before loading; they
+never publish a context or accept ownership commands. Invalid slots never fall
+back to File 1.
+
+The feature mailbox occupies `0x0203B160`–`0x0203B16F`:
+- `0x160`: client request epoch, written last; zero is idle.
+- `0x164`: grant request, exactly one. Zero and all other values are ignored.
+- `0x168`: last accepted epoch.
+- `0x16C`: last accepted ownership.
+
+The client waits for the current socket's complete item history and uses positive
+receipt or explicit precollection evidence to grant access. It never sends a
+revocation: empty history produces no write, and a saved grant is permanent
+within its authenticated seed and native file. Session identity, history, native
+epoch, selected file and ROM authentication are fenced before a guarded mailbox
+write. The runtime checks the live context again and accepts only a grant value
+of one; even a current-epoch zero cannot clear ownership. The ordinary
+item-delivery mailbox only acknowledges this item after authenticated ownership
+has arrived; a stale receipt cannot grant access. Disconnect and incomplete or empty replay preserve authenticated offline
+ownership. Duplicate grants do not make new dirty saves. Changing files or
+leaving Adventure deactivates only the live context, not its saved grant. A fresh
+file or a mismatching seed initializes a separate unowned record; this prevents
+identity leakage and does not revoke ownership in a matching saved file. Native save failures retry only the active file; changes
+not yet saved can be lost on reset or leaving that context. Arbitrary save-state
+rollback is not a durability guarantee.
+
+The special mirror lookup at USA `0x0801E5B2` is intercepted before collision
+mutation, and the actual 801 → 970 transition checks authenticated ownership.
+Receipt while already in 801 opens the still-active native mirror initializer.
+Ownership is grant-only; there is no live revocation or cosmetic-closing path.
+The actual transition still rejects inactive, mismatched-seed or wrong-file
+contexts. No forced respawn or live tile rewrite is used. The vanilla all-switch branch at ROM
+`0x12630C` changes from `46 D1` to `46 E0`: switch saving has already occurred,
+and cleanup at `0x12639C` runs without the automatic word-18 grant, redundant save
+or misleading unlock presentation. Exact retail-byte guards reject unexpected
+sources. Native linked-GBA multiplayer is unsupported; AP multiworld is separate.
+
+Host lifecycle/transport regressions are not native emulator or real-server
+acceptance. See [native acceptance and limits](dev-docs/copy-room-native-save-acceptance.md)
+for the tested patch identity and actual replay coverage.

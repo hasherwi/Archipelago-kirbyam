@@ -151,3 +151,33 @@ ap_area_door_decoration_entry:
     bx r3
 1:  .word ap_area_door_decoration
 .size ap_area_door_decoration_entry, .-ap_area_door_decoration_entry
+
+.section .text.ap_copy_room_load_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_load_entry
+.type ap_copy_room_load_entry, %function
+.thumb_func
+ap_copy_room_load_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_load
+
+.section .text.ap_copy_room_clear_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_clear_entry
+.type ap_copy_room_clear_entry, %function
+.thumb_func
+ap_copy_room_clear_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_clear
+
+.section .text.ap_copy_room_state_entry,"ax",%progbits
+.balign 4
+.global ap_copy_room_state_entry
+.type ap_copy_room_state_entry, %function
+.thumb_func
+ap_copy_room_state_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_copy_room_state

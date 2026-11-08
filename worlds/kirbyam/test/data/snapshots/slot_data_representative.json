@@ -2,13 +2,13 @@
   "ability_gating": true,
   "ability_randomization_boss_spawns": true,
   "ability_randomization_minibosses": false,
-  "ability_randomization_minny": false,
   "ability_randomization_mode": 1,
   "ability_randomization_no_ability_weight": 55,
   "ability_randomization_passive_enemies": false,
   "ability_randomization_statues": false,
   "area_keys": true,
   "configured_area_boss": 7,
+  "copy_ability_room_protocol_version": 2,
   "core_landmark_location_ids": [
     3961070,
     3961094,
@@ -386,7 +386,7 @@
       "location_id": 3960411,
       "tags": [
         "HubSwitch",
-        "MAP_RAINBOW_ROUTE"
+        "MAP_MOONLIGHT_MANSION"
       ]
     },
     "HUB_SWITCH_RAINBOW_ROUTE_NORTH": {
@@ -3573,7 +3573,7 @@
     "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER": {
       "exits": [
         "REGION_CABBAGE_CAVERN/ROOM_3_13",
-        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13"
       ],
       "label": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
       "parent_region": "REGION_CABBAGE_CAVERN",
@@ -3600,7 +3600,8 @@
     },
     "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY": {
       "exits": [
-        "REGION_CABBAGE_CAVERN/ROOM_3_15"
+        "REGION_CABBAGE_CAVERN/ROOM_3_15",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST"
       ],
       "label": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
       "parent_region": "REGION_CABBAGE_CAVERN",
@@ -4129,6 +4130,14 @@
       "parent_region": "REGION_CARROT_CASTLE",
       "room_sanity_location_id": 3961260
     },
+    "REGION_COPY_ABILITY_ROOM/MAIN": {
+      "exits": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+      ],
+      "label": "REGION_COPY_ABILITY_ROOM/MAIN",
+      "parent_region": "REGION_COPY_ABILITY_ROOM",
+      "room_sanity_location_id": null
+    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
@@ -4603,7 +4612,8 @@
     "REGION_MUSTARD_MOUNTAIN/ROOM_4_05": {
       "exits": [
         "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY"
       ],
       "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
       "parent_region": "REGION_MUSTARD_MOUNTAIN",
@@ -4661,7 +4671,8 @@
     },
     "REGION_MUSTARD_MOUNTAIN/ROOM_4_12": {
       "exits": [
-        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13"
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT"
       ],
       "label": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
       "parent_region": "REGION_MUSTARD_MOUNTAIN",
@@ -5153,7 +5164,8 @@
       "exits": [
         "REGION_PEPPERMINT_PALACE/ROOM_7_06",
         "REGION_PEPPERMINT_PALACE/ROOM_7_11",
-        "REGION_PEPPERMINT_PALACE/ROOM_7_13"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
       "parent_region": "REGION_PEPPERMINT_PALACE",
@@ -6108,6 +6120,7 @@
     },
     "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
       "exits": [
+        "REGION_COPY_ABILITY_ROOM/MAIN",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
         "REGION_RAINBOW_ROUTE/ROOM_1_01",
         "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
@@ -6246,9 +6259,11 @@
     "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
     "REGION_CANDY_CONSTELLATION/ROOM_9_06 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
     "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09",
+    "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
     "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
   ],
   "starting_area_key_bitfield": 0,
+  "starting_copy_ability_room_access": false,
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
   "starting_kirby_color_randomize_on_room_transition": false,
@@ -6333,5 +6348,5 @@
     "Vitality Counter #8",
     "Vitality Counter #9"
   ],
-  "world_version": "0.5.0"
+  "world_version": "0.5.1"
 }

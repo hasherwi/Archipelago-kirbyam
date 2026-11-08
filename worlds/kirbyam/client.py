@@ -20,6 +20,10 @@ from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
+from .copy_room_protocol import (
+    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
+    copy_room_slot_version, sync_copy_room_ownership,
+)
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -2082,6 +2086,16 @@ class KirbyAmClient(BizHawkClient):
                     return False
                 if bytes(marker) != FULL_COMPLETION_MARKER:
                     raise ValueError("physical check persistence requires a regenerated ROM patch")
+            copy_room_version = copy_room_slot_version(slot)
+            if copy_room_version:
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(marker) != COPY_ROOM_MARKER:
+                    raise ValueError("ROM and slot Copy Ability Room versions differ")
+            elif any(getattr(item, "item", 0) == COPY_ROOM_ITEM_ID
+                     for item in getattr(ctx, "items_received", ())):
+                raise ValueError("Copy Ability Room item received without a compatible slot")
             hub_version = hub_slot_version(slot)
             if hub_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
@@ -2123,6 +2137,12 @@ class KirbyAmClient(BizHawkClient):
             else:
                 validate_health_protocol(bytes(title).rstrip(b"\0"),
                                          int.from_bytes(config, "little"), slot_version, plan)
+                if not copy_room_version:
+                    marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
+                    if session_expired():
+                        return False
+                    if bytes(marker) == COPY_ROOM_MARKER:
+                        raise ValueError("Copy Ability Room ROM requires a compatible slot")
                 if not hub_version:
                     marker = (await bizhawk.read(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")]))[0]
                     if session_expired():
@@ -2269,6 +2289,7 @@ class KirbyAmClient(BizHawkClient):
                 await self._display_client_message(ctx, "Item sending resumed")
                 self._last_runtime_gate_reason = None
 
+            await sync_copy_room_ownership(ctx, self._hub_connection_item_history_ready)
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
             await self._reconcile_vitality_ownership(ctx)

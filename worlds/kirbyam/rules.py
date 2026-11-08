@@ -45,6 +45,7 @@ from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
 from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
+from .traversal import CAPABILITY_ABILITIES
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -86,14 +87,15 @@ _BOSS_DEFEAT_LOCATION_LABELS = [
 _DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
-# These capability gates retain the current permissive policy until their
-# source-backed predicates are finalized. Ability items already exist in the pool.
+# Room-specific traversal installers enforce reviewed source witnesses. These
+# legacy compact capability labels cannot equip an inventory unlock by themselves;
+# unrelated movement/block requirements retain their existing policy.
 _ABILITY_GATE_PLACEHOLDER_SOURCES = {
-    "CanCutRopes": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
+    "CanCutRopes": CAPABILITY_ABILITIES["rope"],
     "CanBreakBlocks": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
-    "CanUseMini": frozenset({"Mini"}),
-    "CanLightFuses": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master"}),
-    "CanPoundPegs": frozenset({"Hammer", "Stone", "Smash", "Master"}),
+    "CanUseMini": CAPABILITY_ABILITIES["mini_corridor"],
+    "CanLightFuses": CAPABILITY_ABILITIES["fuse"],
+    "CanPoundPegs": CAPABILITY_ABILITIES["peg"],
 }
 
 _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
@@ -440,6 +442,15 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         applied_stake_gates,
         ", ".join(get_stake_breaking_abilities()),
     )
+
+    from .mini_traversal import install_mini_rules
+    install_mini_rules(world)
+    from .peg_traversal import install_peg_rules
+    install_peg_rules(world)
+    from .wheel_traversal import install_wheel_rules
+    install_wheel_rules(world)
+    from .traversal_rules import install_extra_traversal_rules
+    install_extra_traversal_rules(world)
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
         try:

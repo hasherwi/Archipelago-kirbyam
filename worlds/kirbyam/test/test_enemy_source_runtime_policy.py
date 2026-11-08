@@ -32,7 +32,7 @@ def test_source_bitmap_matches_option_exclusions(mode, bosses, minibosses, minny
         enabled = mode != 0
         enabled &= source.kind != "enemy" or source.can_be_swallowed
         enabled &= source.default_ability_id != 0 or passive
-        enabled &= source.key != "MINNY" or minny
+        enabled &= source.key != "MINNY"
         enabled &= source.kind != "miniboss" or minibosses
         enabled &= source.kind != "boss_spawned" or bosses
         if enabled:

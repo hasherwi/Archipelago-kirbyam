@@ -45,6 +45,7 @@ def test_shipping_color_precedence_and_lifecycle(tmp_path: Path) -> None:
         pytest.skip('requires Linux mapped-memory C harness')
     assert cc is not None
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
+    source += "\n" + (WORLD / 'kirby_ap_payload/copy_room.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')

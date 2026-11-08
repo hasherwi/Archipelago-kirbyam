@@ -149,7 +149,7 @@ def test_exported_stake_entrances_exist_in_generated_world() -> None:
 
     world = setup_solo_multiworld(KirbyAmWorld, seed=914)
     names = get_stake_gated_transition_entrance_names()
-    assert len(names) == 5
+    assert len(names) == 6
     for name in names:
         entrance = world.get_entrance(name, 1)
         assert entrance.connected_region is not None

@@ -63,6 +63,12 @@ def build_dummy_rom() -> bytearray:
     for offset in patch_rom.STARTING_COLOR_START_GAME_CALL_OFFSETS:
         put_bl(offset, patch_rom.ORIGINAL_START_GAME_FN_ADDR)
 
+    for target, _key, offsets in patch_rom.COPY_ROOM_NATIVE_CALLS:
+        for offset in offsets:
+            put_bl(offset, target)
+    rom[0x12630A:0x12631C] = bytes.fromhex("0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60")
+    rom[0x12639C:0x1263A8] = bytes.fromhex("03 48 00 68 2c f0 4c fc 13 f7 64 f9")
+
     # Current main's delayed chest, lever, ability and health hooks.
     rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
     initializer = 0x351648 + 0x81 * 0x18 + 0x10
@@ -80,6 +86,10 @@ def build_dummy_rom() -> bytearray:
     for index in range(15):
         offset = 0x34BDBC + index * 4
         rom[offset:offset + 4] = (0x08126405 + index * 12).to_bytes(4, "little")
+
+    # Native Mini-star source load, flag, and request ABI.
+    rom[0x9C690:0x9C69C] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")
+    put_bl(0x9C69C, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)
 
     # Minny enemy ABI and native treasure-menu paint selection.
     rom[0x9C6A2:0x9C6AA] = bytes.fromhex("2c 1c 84 34 21 78 30 1c")

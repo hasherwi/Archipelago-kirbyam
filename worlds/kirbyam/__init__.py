@@ -30,7 +30,10 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES, starting_copy_abilities
+from .mini_traversal import validate_mini_sources
+from .peg_traversal import peg_logic_enabled, validate_peg_assignment
+from .traversal_data import requires_all_traversal_witnesses
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -475,7 +478,7 @@ class KirbyAmWorld(World):
             mode = int(self.options.ability_randomization_mode.value)
             randomize_boss_spawned = bool(self.options.ability_randomization_boss_spawns.value)
             randomize_miniboss = bool(self.options.ability_randomization_minibosses.value)
-            randomize_minny = bool(self.options.ability_randomization_minny.value)
+            randomize_minny = False  # Minny is no longer a configurable randomized source.
             randomize_non_ability = bool(self.options.ability_randomization_passive_enemies.value)
             randomize_statues = bool(self.options.ability_randomization_statues.value)
             no_ability_weight = int(self.options.ability_randomization_no_ability_weight.value)
@@ -488,6 +491,20 @@ class KirbyAmWorld(World):
                 include_passive_enemies=randomize_non_ability,
                 no_ability_weight=no_ability_weight,
             )
+            self._enemy_copy_ability_policy = validate_peg_assignment(
+                self._enemy_copy_ability_policy,
+                lambda: build_enemy_copy_ability_policy(
+                    self.random, mode, randomize_boss_spawned, randomize_miniboss,
+                    include_minny=False, include_passive_enemies=randomize_non_ability,
+                    no_ability_weight=no_ability_weight,
+                ), randomize_statues, require_all_witnesses=requires_all_traversal_witnesses(self),
+            )
+            validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
+            if not peg_logic_enabled(self._enemy_copy_ability_policy):
+                logger.warning(
+                    "[P%s] Live-random traversal uses only reviewed repeatable sources with positive ability support; "
+                    "eventual eligible draws are conditional, not bounded guarantees.", self.player,
+                )
             allowed_abilities = tuple(
                 self._enemy_copy_ability_policy.get("allowed_abilities", ())
             )
@@ -566,7 +583,7 @@ class KirbyAmWorld(World):
             # requested multiplicity, but do not add another automatic copy.
             starting_inventory = getattr(self.options, "start_inventory", None)
             explicit_starting = getattr(starting_inventory, "value", {})
-            for ability_name in STARTING_COPY_ABILITIES:
+            for ability_name in starting_copy_abilities(mode):
                 label = f"{ability_name} Ability"
                 if explicit_starting.get(label, 0) <= 0:
                     self.push_precollected(self.create_item(label))
@@ -809,7 +826,10 @@ class KirbyAmWorld(World):
                     )
 
                 starting_ability_codes = {
-                    self.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES
+                    self.item_name_to_id[f"{name} Ability"]
+                    for name in starting_copy_abilities(int(getattr(
+                        getattr(self.options, "ability_randomization_mode", None), "value", 0
+                    )))
                 }
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes if code not in starting_ability_codes
@@ -1164,7 +1184,6 @@ class KirbyAmWorld(World):
             "ability_randomization_mode",
             "ability_randomization_boss_spawns",
             "ability_randomization_minibosses",
-            "ability_randomization_minny",
             "ability_randomization_passive_enemies",
             "ability_randomization_no_ability_weight",
             "ability_randomization_statues",
@@ -1177,6 +1196,7 @@ class KirbyAmWorld(World):
         slot_data["physical_check_save_version"] = 1
         slot_data["health_protocol_version"] = 2
         slot_data["hub_connection_protocol_version"] = 2
+        slot_data["copy_ability_room_protocol_version"] = 2
         resolved_color_id, resolved_color_name = self._get_resolved_starting_kirby_color()
         slot_data["kirby_color_catalog_version"] = 3
         slot_data["starting_kirby_color"] = resolved_color_id
@@ -1190,6 +1210,9 @@ class KirbyAmWorld(World):
         if multiworld is not None:
             precollected_by_player = getattr(multiworld, "precollected_items", {})
             precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())
+        slot_data["starting_copy_ability_room_access"] = any(
+            item.name == "Copy Ability Room Access" for item in precollected_items
+        )
         slot_data["area_keys"] = self._area_keys_enabled()
         slot_data["starting_area_key_bitfield"] = (
             area_key_bitfield_from_items(precollected_items) if slot_data["area_keys"] else 0
@@ -1297,9 +1320,14 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
+        classification = get_item_classification(item_code)
+        if self.item_id_to_name[item_code] == "Ice Ability":
+            from .traversal_rules import goal2_ice_is_progression
+            if goal2_ice_is_progression(self):
+                classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
-            get_item_classification(item_code),
+            classification,
             item_code,
             self.player,
         )
