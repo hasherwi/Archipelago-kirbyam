@@ -99,6 +99,23 @@ progress or asynchronous items not yet saved may require replay. Keep each seed/
 on a fresh, isolated native save; do not share saves or savestates between seeds.
 
 
+## Optional PopTracker
+
+Use [BlameMateo's Kirby & The Amazing Mirror PopTracker pack](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker)
+for an optional map tracker with Archipelago autotracking. Download the pack from its
+[releases page](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker/releases)
+and follow the maintained [installation and support instructions](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker/blob/main/kirby_and_the_amazing_mirror/README.md).
+
+After loading the pack in PopTracker, connect its Archipelago autotracker using your AP server's
+address and port, your KirbyAM slot name, and the room password if required. Keep the game client
+and emulator connector running as described above; the tracker does not replace them.
+
+Check the pack's release notes and manifest for current requirements. At the time of writing,
+pack v0.3.1 declares PopTracker 0.25.9 as its minimum and 0.36.0 as its target version; it does not
+publish an APWorld version compatibility range. These declarations are not a guarantee that every
+APWorld/pack combination has been tested. For tracker problems, use the pack's GitHub issues or
+the Kirby & The Amazing Mirror thread on the Archipelago Discord, as directed by its README.
+
 ## Standalone mGBA (draft v0.4.0 integration)
 
 This candidate uses the same **Archipelago BizHawk Client** application. Current
