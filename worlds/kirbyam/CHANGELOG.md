@@ -8,23 +8,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
-
-### New Features
-- None.
-
-### Improvements
-- None.
-
-### Known Limitations
-- The shuffled-enemy correction requires a newly generated patch with a source eligibility bitmap; legacy patches without that bitmap retain their previous behavior.
-
-### Bug Fixes
-- Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
-
-### Internal Changes
-- Restore verified, eligible ordinary-swallow grants from the seed's ROM table before ability ownership gating. Keep vanilla, completely-random, excluded sources, recovery stars and statue behavior unchanged.
-
 ## v0.5.1
 
 ### New Features
@@ -37,6 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - None.
 
 ### Bug Fixes
+- Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
