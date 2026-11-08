@@ -141,7 +141,7 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "reinforced"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)

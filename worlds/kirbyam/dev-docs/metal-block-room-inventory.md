@@ -108,8 +108,9 @@ context without naming that class. The review JSON preserves the recovered
 revision IDs and retrieval method.
 This pass reviewed prose/captions, not every composite-map pixel.
 
-No new traversal rules, ability-item classification, starting inventory, or runtime
-patches are introduced. The isolated Hammer acceptance is recorded separately. In particular:
+The follow-up implements only the reviewed native 102 Heave-Ho mechanism route
+to Battle Notes. Ordinary-metal rules remain deferred; ability-item classification,
+starting inventory, and runtime patches are unchanged. In particular:
 
 - Preserve the previously demonstrated Normal exits in Olive Ocean Rooms 12 and 21.
 - Aerial Hammer cleared the isolated no-side floor plug in native room 205.
@@ -123,7 +124,8 @@ patches are introduced. The isolated Hammer acceptance is recorded separately. I
 
 O = ordinary metal; E = generic F7 environmental class, not necessarily metal.
 The native JSON retains coordinates/counts. The last column is a contextual
-research note and next check, **not a validated traversal rule**.
+research note and next check, **not itself a traversal rule**. The native 102
+exception has a separate controller acceptance and directed room witness.
 
 | Native ID | WiKirby room | Class | WiKirby review | Context and next check |
 | --- | --- | --- | --- | --- |

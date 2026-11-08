@@ -29,6 +29,9 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # must still establish direction, reach, source and water state.
     "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
     "frozen_enemy_hit": frozenset({"Ice"}),
+    # Normal suction moves an existing Heave-Ho into a reviewed disposal path.
+    # This is not an attack against metal or an inventory-granted ability.
+    "heave_ho_pull": frozenset({"Normal"}),
     "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
@@ -254,6 +257,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
         attack_provider("Normal", route.water_state)
+        if route.capability == "heave_ho_pull":
+            if route.water_state != "dry":
+                raise ValueError("Heave-Ho pulling needs a dry Normal suction approach")
+            if route.opens is not None:
+                raise ValueError("Heave-Ho pulling does not model a persistent opens event")
+            if route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room:
+                raise ValueError("Heave-Ho pulling must be a local mechanism sequence")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
         if (route.capability == "frozen_enemy_hit") != (route.uses_object is not None):
@@ -415,12 +425,21 @@ class TraversalGraph:
         )
 
 
+def _validate_heave_ho_evidence(row: Mapping[str, Any]) -> None:
+    if row.get("capability") == "heave_ho_pull":
+        evidence = row.get("heave_ho_evidence")
+        if not isinstance(evidence, str) or not evidence.strip():
+            raise ValueError("Heave-Ho pulling requires object, approach and disposal evidence")
+    elif "heave_ho_evidence" in row:
+        raise ValueError("Heave-Ho evidence requires the local pulling mechanism")
+
+
 def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     if set(row) - {
         "from", "to", "capability", "opens", "items", "area_key_items", "evidence",
         "allowed_abilities", "recover_dropped_ability", "room_transition",
         "room_instance", "reset_evidence", "water_state", "uses_object",
-        "frozen_enemy_evidence",
+        "frozen_enemy_evidence", "heave_ho_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -441,6 +460,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     for key in ("recover_dropped_ability", "room_transition"):
         if not isinstance(row.get(key, False), bool):
             raise ValueError(f"{key} must be a boolean")
+    _validate_heave_ho_evidence(row)
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
     if capability == "fuse" and row.get("opens") is not None:

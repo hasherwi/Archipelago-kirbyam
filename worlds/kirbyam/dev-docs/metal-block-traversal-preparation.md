@@ -2,9 +2,10 @@
 
 Status: preparation only, 2026-11-08. Baseline: `370dbb431bd0c81949a12c0be36df12b0c8879f6`.
 
-This document preserves the ability research for a later directional, room-by-room
-metal-block audit. It does not add traversal edges, change starting abilities,
-change item classification, or claim that every metal barrier has been mapped.
+This document preserves ordinary-metal ability research for a later directional,
+room-by-room audit. Ordinary-metal traversal edges remain deferred. The separate
+reinforced/Heave-Ho follow-up adds only the reviewed native 102 mechanism witness;
+starting abilities and item classification are unchanged.
 The later isolated Hammer floor test is recorded below; room-by-room traversal
 acceptance remains separate from the presence inventory.
 

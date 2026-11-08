@@ -15,7 +15,7 @@ from .traversal_data import (
 
 def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
     return (room_traversal_targets("fuse") + room_traversal_targets("rope")
-            + room_traversal_targets("block"))
+            + room_traversal_targets("block") + room_traversal_targets("reinforced"))
 
 
 def target_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:

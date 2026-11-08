@@ -10256,6 +10256,68 @@
     },
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_23": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "reinforced_102_battle_notes",
+          "native_room": 102,
+          "exit": null,
+          "location": "MINOR_CHEST_MUSIC_NOTE_04",
+          "kind": "reinforced",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "reinforced_102_battle_notes:arrival",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:right_approach",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:cleared_corridor",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:target",
+                  "native_room": 102
+                }
+              ],
+              "routes": [
+                {
+                  "from": "reinforced_102_battle_notes:arrival",
+                  "to": "reinforced_102_battle_notes:right_approach",
+                  "evidence": "dev-docs/heave-ho-entry-acceptance.json and dev-docs/reinforced-traversal-implementation.md: native room 113 transition 0x008AF41E enters room 102 at spawn (74,8). Normal float-left, descend to the lower corridor and approach Heave-Ho from its right. Controller-only traversal begins in room 113, enters room 102 at (1176,120.996), reaches the approach and chest target with 4 HP from 6; no ability or enemy acquisition. Not a damage-free or one-hit witness."
+                },
+                {
+                  "from": "reinforced_102_battle_notes:right_approach",
+                  "to": "reinforced_102_battle_notes:cleared_corridor",
+                  "capability": "heave_ho_pull",
+                  "evidence": "dev-docs/heave-ho-native-acceptance.json and dev-docs/reinforced-traversal-implementation.md: Normal right-hand suction and leftward passage.",
+                  "heave_ho_evidence": "Native room 102 type 0x79 template 0x008D21C8 starts at (488,280). Pull from its right into disposal shaft column 31; falling attack flag 0x800 removes F7 at (31,19..22). The cleared target corridor is left, not down through the shaft. Controller proof retains Normal and crosses left; no carried-ability preservation or room-reload lifetime assumed."
+                },
+                {
+                  "from": "reinforced_102_battle_notes:cleared_corridor",
+                  "to": "reinforced_102_battle_notes:target",
+                  "evidence": "Controller walks left along the now-clear tunnel to native Battle Notes chest 0x008D230C at (208,296). Target position reached with Normal; collection-save acceptance is separate."
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "reinforced_102_battle_notes:arrival"
+              ],
+              "required_targets": [
+                "reinforced_102_battle_notes:target"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_23": {

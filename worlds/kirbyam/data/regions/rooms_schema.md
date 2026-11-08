@@ -212,3 +212,24 @@ and `ability: "Ice"` for the conditional Goal 2 witness. Both feasibility and ru
 installation skip this partial witness unless the finalized source policy
 unconditionally grants Ice. Unsupported configurations preserve prior behavior;
 this condition does not assert they are impossible.
+
+### Reinforced barriers and Heave-Ho movement
+
+The `reinforced` target kind records reviewed environmental traversal witnesses.
+It does not infer a gate from every native `0xF7` tile: that collision class also
+backs crumbling platforms and cannon paths. Ordinary `metal` providers must not
+be used to clear this separate class.
+
+A `heave_ho_pull` route is one directed, dry, same-room sequence using Normal
+suction to move the identified Heave-Ho into its reviewed disposal path. It needs
+nonempty `heave_ho_evidence` identifying the object, accessible approach and
+resulting clearance, in addition to the usual route evidence. There is no
+ability item or randomized enemy source for this mechanism. Carried abilities
+must be dropped before this sequence, so they are not silently preserved.
+
+No `opens` event is exposed by this route: the graph records the one-way action
+and resulting compartment, without granting persistent switch credit or an
+unreviewed reverse path. Native disposal persistence is a separate fact from
+room-instance lifetime. A partial pull that permits jumping over the object is
+not evidence that reinforced tiles were destroyed. The existing Olive Ocean
+Room 6 Mini/drop/recovery witness remains independent of full disposal.
