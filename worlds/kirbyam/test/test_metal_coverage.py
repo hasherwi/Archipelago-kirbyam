@@ -89,9 +89,12 @@ def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
         for cluster in room["clusters"]:
             if cluster["status"] != "conditional_source_witness":
                 continue
-            row = targets[cluster["accepted_target"]]
-            assert row["native_room"] == room["native_room"]
-            assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
+            identities = cluster.get("accepted_targets") or [cluster["accepted_target"]]
+            assert identities and len(identities) == len(set(identities))
+            for identity in identities:
+                row = targets[identity]
+                assert row["native_room"] == room["native_room"]
+                assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
 
 
 def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() -> None:

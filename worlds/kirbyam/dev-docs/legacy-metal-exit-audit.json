@@ -7,15 +7,30 @@
   "evidence_files": {
     "legacy-exit-native-evidence.json": {
       "github_blob": "406a1af7589ae4633420348acc10552341e9a54f",
-      "sha256": "acba7966c4b6f086e1728991be40f439c2cccf21e2abe7c61f38b85cf3f2090f"
+      "sha256": "acba7966c4b6f086e1728991be40f439c2cccf21e2abe7c61f38b85cf3f2090f",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/406a1af7589ae4633420348acc10552341e9a54f",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
     },
     "moonlight-native-evidence.json": {
       "github_blob": "c737e3d49b340984bf39376ab323e8f40f064bae",
-      "sha256": "eb2b365acc3dfd9857fc88d093af28660fc7d55207af364d9ffef8912bb750f0"
+      "sha256": "eb2b365acc3dfd9857fc88d093af28660fc7d55207af364d9ffef8912bb750f0",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/c737e3d49b340984bf39376ab323e8f40f064bae",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
     },
     "742-708-bounded-mutations.json": {
       "github_blob": "560323b5f1cfbf36770937535300d79bf459bc04",
-      "sha256": "6d07e6ce52186bbcd24b0c202b554572a44cd807029b36220007075b3682f140"
+      "sha256": "6d07e6ce52186bbcd24b0c202b554572a44cd807029b36220007075b3682f140",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/560323b5f1cfbf36770937535300d79bf459bc04",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
     }
   },
   "map_review": "Actual full composite pixels inspected for141,205,707,708,742 and adjacent706,704,712,740,741. Coordinates use16 pixels/tile. Composite maps omit final two native rows; native 141 full grid supplied independently. Native objects, not sprite resemblance, identify ability sources.",
@@ -1089,5 +1104,20 @@
     ]
   },
   "remaining_blocker": "Static source/door/geometry research is complete for the nine edges. No tool action is denied or pending. Exact movement, acquisition, attack, body clearance and target controller acceptance remain unperformed; the recorded source/geometry candidates must not be installed as reviewed witnesses solely from this report.",
-  "evidence_files_note": "These are hashes of research extraction records, not bundled ROM data. The derived findings and public source references are recorded below."
+  "reproducibility": {
+    "public_map_manifest": "legacy-metal-public-map-references.json",
+    "public_native_manifest": "legacy-metal-public-source-references.json",
+    "portable_validator": "validate_legacy_metal_audit.py",
+    "instructions": "legacy-metal-reproducibility.md",
+    "published_only_scope": "Nine historical edge records, six F5 banks, named source registry grants and ten inspected map references are checkable from the published derived files. This is consistency validation, not independent native extraction or gameplay proof.",
+    "optional_local_rom_scope": "The validator includes a new independent bounded reader for the unchanged USA ROM. It checks source templates, door records, F5 coordinates and selected 742 mutation assertions without saving assets or grids. This reader was not run against a ROM in the cloud audit environment.",
+    "historical_validation": "The earlier scratch validate_report.py relied on nonbundled extraction files. It is superseded for published reproducibility by validate_legacy_metal_audit.py and is not required or claimed to be bundled.",
+    "remaining_limits": [
+      "Original programs and exact commands that created the three supplemental extracts were not provided; their byte-for-byte recreation is not claimed.",
+      "Pinned decomp source explains the data layout but does not replace the proprietary USA data when independently checking native coordinates.",
+      "Map article revisions are pinned. CDN image URLs may change; byte hashes detect drift but do not guarantee historical retrieval.",
+      "Neither consistency checks nor scalar re-extraction prove source capture, carried movement, attack contact, reset semantics or collectability."
+    ]
+  },
+  "evidence_files_note": "These are hashes of supplemental, nonbundled research extraction records. The derived findings and public source references are separately bundled; full grids and assets are excluded."
 }

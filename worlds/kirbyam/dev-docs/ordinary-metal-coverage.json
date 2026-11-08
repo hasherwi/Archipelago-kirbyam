@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Only native557 Goal1 tomato (MASTER_HAND guarantees Smash) and native176 Goal2 drink (BATAFIRE guarantees Burning) have bounded conditional witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink and three directed native141 metal passages have bounded guaranteed-source witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 outward Mirra doors and reverse left-trigger Bomb crossing are not controller-accepted.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -20,11 +20,12 @@
         {
           "region": "REGION_RAINBOW_ROUTE/ROOM_1_41",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_RAINBOW_ROUTE/ROOM_1_40",
             "REGION_RAINBOW_ROUTE/ROOM_1_42",
-            "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+            "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK"
           ]
         },
         {
@@ -32,38 +33,78 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-            "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-            "REGION_RAINBOW_ROUTE/ROOM_1_41"
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
         {
           "id": "141:5,7",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Upper-left and main compartments; the exact direction and source path are pending.",
+          "status": "conditional_source_witness",
+          "note": "Independent forward lower-Flamer and reverse upper-Flamer controller witnesses, only when actual FLAMER guarantees Burning. Incoming native144/545 do not grant lower-compartment entry.",
           "tile_count": 4,
           "bounds": [
             5,
             7,
             6,
             8
+          ],
+          "requires_guaranteed_source": {
+            "source_key": "FLAMER",
+            "ability": "Burning"
+          },
+          "accepted_targets": [
+            "metal_141_left_forward",
+            "metal_141_left_reverse"
           ]
         },
         {
           "id": "141:27,9",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Upper-right route toward Moonlight Mansion Room 16; direction and approach are pending.",
+          "status": "conditional_source_witness",
+          "note": "Actual lower-Flamer copy retained through both forward banks. This edge requires independently reachable lower source access and ends east of bank2; no native144/Mirra doorway success is inferred.",
           "tile_count": 4,
           "bounds": [
             27,
             9,
             28,
             10
-          ]
+          ],
+          "requires_guaranteed_source": {
+            "source_key": "FLAMER",
+            "ability": "Burning"
+          },
+          "accepted_target": "metal_141_right_forward"
         }
       ]
     },
@@ -329,7 +370,21 @@
           "id": "228:27,23",
           "classification": "ap_target",
           "status": "pending_route_acceptance",
-          "note": "Right-hand metal branch protects MINOR_CHEST_PEPPERMINT_PALACE_7_09, template0x088C046C (1-Up). Accepted rope_228_11_21 documentation identifies separate OBJECT_02 chest0x088C04D8; metal entry/source and destructive branch interactions still require acceptance.",
+          "note": "Right-hand metal branch protects MINOR_CHEST_PEPPERMINT_PALACE_7_09, location 3960571, template 0x088C046C (1-Up). Accepted rope_228_11_21 documentation identifies separate OBJECT_02 chest 0x088C04D8, location 3960592 (Sparerib); metal entry/source and destructive branch interactions still require acceptance.",
+          "target_identity": {
+            "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+            "location_id": 3960571,
+            "object_template": "0x088C046C",
+            "source_rom_offset": "0x008C046C",
+            "native_reward_id": 0,
+            "native_chest_flag_index": 30
+          },
+          "identity_evidence": [
+            "data/locations.json: MINOR_CHEST_PEPPERMINT_PALACE_7_09 and MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02",
+            "data/chest_recovery.json: sources 0x008C046C and 0x008C04D8",
+            "data/minor_chest_manifest.json: entry_index 25 and 26",
+            "docs/traversal-logic.md#rope_228_11_21"
+          ],
           "tile_count": 2,
           "bounds": [
             27,

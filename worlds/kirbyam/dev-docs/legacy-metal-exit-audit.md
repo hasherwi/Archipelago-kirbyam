@@ -2,7 +2,7 @@
 
 Baseline: `bee5a93`. Native source revision: `7d969fbce14fdc838d2c1ea01389717fb96c3189`.
 
-This is research, not production route acceptance. This audit itself changes no production route, world data, or starting inventory. The complete structured result is `legacy-metal-exit-audit.json`, keyed by all nine exact directed AP edges. The structured report records hashes of independent native extraction records and derived object identities, coordinates, and door endpoints. Raw collision grids and map assets are not bundled. Public map and native-source references are retained in the report.
+This is research, not production route acceptance. This audit itself changes no production route, world data, or starting inventory. The complete structured result is `legacy-metal-exit-audit.json`, keyed by all nine exact directed AP edges. Three supplemental native extracts were read independently and are not bundled publication dependencies. Their content-addressed retrieval URLs and retention/access limits are in the audit JSON. All ten inspected map images now have URLs, article revisions and byte hashes in `legacy-metal-public-map-references.json`. Actual map pixels were inspected.
 
 ## Findings that change implementation
 
@@ -40,3 +40,9 @@ This is research, not production route acceptance. This audit itself changes no 
 - Native141: controller proof from each lower entry to the lower Flamer, then the two directed horizontal banks. Resolve144/545 arrival compartments before using them as starts.
 - Native708: exact low-throat move from each side, plus actual source carrier and Bomb order. Treat Throw as a separate unresolved capture experiment.
 - Native205: production source to the dry plug, the exact vertical attack, then the water/Bomb route to209.
+
+## Reproducibility and implementation follow-up
+
+See `legacy-metal-reproducibility.md`, `legacy-metal-public-source-references.json`, and the portable `validate_legacy_metal_audit.py`. Published consistency validation is not independent native reproduction. The optional local-ROM reader was not executed in this audit environment. The original extraction commands were not supplied; their byte-for-byte recreation is not claimed.
+
+The isolated `moonlight-742-implementation-design.md` proposes explicit clean/altered action-state nodes, separate chest/Warp targets, and existing graph-part reuse. Its `check_742_design_semantics.py` passed 35 kernel assertions at `32d1c44`, with hypothetical physical movement edges only. It does not authorize marking those routes reviewed.

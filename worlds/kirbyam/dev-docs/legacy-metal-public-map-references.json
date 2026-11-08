@@ -1,0 +1,96 @@
+{
+  "reviewed_on": "2026-11-08",
+  "scope": "All ten composite maps whose actual pixels were inspected. Article revisions are pinned; CDN map URLs may be mutable. SHA-256 identifies the reviewed bytes and detects later changes, but this manifest does not promise historical CDN retrieval. No image is bundled.",
+  "maps": [
+    {
+      "native_room": 141,
+      "article_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41",
+      "article_revision": 574512,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Rainbow_Route_-_Room_41&oldid=574512",
+      "map_url": "https://cdn.wikirby.com/3/34/KaTAM_1-41_Map.png",
+      "map_sha256": "ce737a4ed53af7c6a1902f33d894293472cf14cfdba4d6b8ca96996523494f9f",
+      "map_bytes": 92185
+    },
+    {
+      "native_room": 205,
+      "article_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
+      "article_revision": 575720,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Peppermint_Palace_-_Room_7&oldid=575720",
+      "map_url": "https://cdn.wikirby.com/b/bd/KaTAM_7-7_Map.png",
+      "map_sha256": "8fb7dc876531594f817b0a3bcc25378dda99d1be0b71a9d2fc9ca177edde13bf",
+      "map_bytes": 57366
+    },
+    {
+      "native_room": 707,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4",
+      "article_revision": 574539,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_4&oldid=574539",
+      "map_url": "https://cdn.wikirby.com/c/cb/KaTAM_2-4_Map.png",
+      "map_sha256": "88c213738fa3fbf3aeac349e55c379d1ec78ef95965662ba89b87023ff3d5ebd",
+      "map_bytes": 62785
+    },
+    {
+      "native_room": 708,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
+      "article_revision": 574536,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_1&oldid=574536",
+      "map_url": "https://cdn.wikirby.com/6/6b/KaTAM_2-1_Map.png",
+      "map_sha256": "1239566af6f34a68e0f67e90939550299e30da3309c21fa0445650c6b55b756e",
+      "map_bytes": 79473
+    },
+    {
+      "native_room": 742,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "article_revision": 591792,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_15&oldid=591792",
+      "map_url": "https://cdn.wikirby.com/e/e1/KaTAM_2-15_Map.png",
+      "map_sha256": "35d0ef5a320255611c5eb93c4b0ec1762be3121bfd3be984f4f7f7a9f4b0e7b1",
+      "map_bytes": 66379
+    },
+    {
+      "native_room": 704,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_8",
+      "article_revision": 574547,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_8&oldid=574547",
+      "map_url": "https://cdn.wikirby.com/d/da/KaTAM_2-8_Map.png",
+      "map_sha256": "f66dc44d7c08a8b76cd3ce738a7b1d29a92628a506a0f26dee0c30efc9fe3ea2",
+      "map_bytes": 47661
+    },
+    {
+      "native_room": 706,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_3",
+      "article_revision": 574538,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_3&oldid=574538",
+      "map_url": "https://cdn.wikirby.com/d/d9/KaTAM_2-3_Map.png",
+      "map_sha256": "833ecef66d16bec740df61307ad8a976b800770a3f37a36b5fa677c3ea7c43dd",
+      "map_bytes": 54783
+    },
+    {
+      "native_room": 712,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_13",
+      "article_revision": 587525,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_13&oldid=587525",
+      "map_url": "https://cdn.wikirby.com/a/ad/KaTAM_2-13_Map.png",
+      "map_sha256": "aa4006d0434c2509939da58f2757c44d8bcd752aaf2f58634bb84c7bcf8d3d2d",
+      "map_bytes": 64480
+    },
+    {
+      "native_room": 740,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_2",
+      "article_revision": 587551,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_2&oldid=587551",
+      "map_url": "https://cdn.wikirby.com/1/13/KaTAM_2-2_Map.png",
+      "map_sha256": "bc2d6a993ae6cd365b941de12e331a306081eb3f847beb943f890515995792a9",
+      "map_bytes": 47233
+    },
+    {
+      "native_room": 741,
+      "article_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_14",
+      "article_revision": 587538,
+      "article_revision_url": "https://wikirby.com/w/index.php?title=Moonlight_Mansion_-_Room_14&oldid=587538",
+      "map_url": "https://cdn.wikirby.com/b/bc/KaTAM_2-14_Map.png",
+      "map_sha256": "8527b5b13f28d4bbe9c42f228b1a233abed1925bf391c4ab8209dfdd72b2d16c",
+      "map_bytes": 37220
+    }
+  ]
+}

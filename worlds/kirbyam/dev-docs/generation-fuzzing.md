@@ -42,10 +42,39 @@ launcher also writes `fuzz_output/metadata.json` with the Archipelago commit,
 pinned fuzzer revision, Python/platform details, arguments, and subprocess exit
 code.
 
-The launcher fails when any generation fails or times out. It is stricter than
-the upstream script and also fails when an `OptionError` is reported as
-ignored. `--allow-ignored` exists for deliberate investigation only; it must
-not be used by CI without reviewing and documenting the ignored cases.
+By default, the launcher fails when any generation fails or times out. It also
+fails when an `OptionError` is reported as ignored. `--allow-ignored` exists for
+deliberate investigation only and is not enabled in CI.
+
+CI explicitly passes `--classify-minimal-rejections`. This adds a distinct
+**unsafe rejected** outcome; it never changes the pinned fuzzer's raw report,
+counts a rejection as successful generation, or relaxes the production guard.
+Each classified rejection must have all of the following evidence:
+
+- A unique case ID with its saved YAML and log, matched to the report.
+- Exactly one terminal `KirbyAmCheckAccessibilityError` traceback through the
+  final `stage_pre_output` guard, without chained or grouped exceptions.
+- Logged, actually rolled options for one Kirby player selecting minimal.
+- No unfilled checks and no checks unreachable with all inventory.
+- A nonempty exact list of checks stranded by the actual placed progression.
+
+Missing/malformed evidence, other exception types, full accessibility,
+multiworld cases, theoretical source/route closures, timeouts, and ignored
+option errors remain failures. The classifier is intentionally narrow, so a
+future logging or guard-message format change requires review. It writes
+`classified_outcomes.json` alongside the unchanged raw artifacts, with case
+IDs, seeds, actual options, stranded checks, artifact hashes, and reasons for
+unclassified failures.
+
+At least **50% of all attempts must still succeed** when this policy accepts
+rejections. This is a generation-success regression tripwire, not a universal
+seed guarantee. An all-rejected batch stays red. Before random fuzzing, CI also
+runs the deterministic 36-case output/rejection matrix: three randomization
+modes, two gating settings, full/minimal, and three source/option profiles.
+All full cases and at least one known safe minimal archive for each mode/gating
+pair must actually generate and pass independent fresh-state all-check audits.
+Rejected cases must stop before archive output. This preserves both playable
+output coverage and deliberate safety-rejection coverage.
 
 Archipelago-fuzzer 0.6.2 does not expose a master RNG seed. A failing YAML and
 log are therefore the primary reproducer. Copy only the `.yaml` files from one
@@ -77,3 +106,23 @@ interval. Thus it exercises all supported pairs without treating intentionally
 invalid combinations as generation bugs. Deterministic tests separately cover
 every supported pair and invalid-pair rejection. `--sample-from` bypasses this
 metadata so saved reproductions, including invalid user YAML, are not rewritten.
+
+
+## Reviewed safety rejections on PR #1051
+
+[Run 42519129270](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42519129270)
+tested merge `ca7aee9097cf574878af1e589fb3bd604313f507` for published head
+`5a01bb955db1cf8d781491979922605364eedf1e`. It reported 395 successful
+generations, 105 failures, no timeouts, and no ignored cases. Review of every
+saved YAML/log pair found that all 105 were minimal placed-progression
+rejections with no unfilled or all-inventory-unreachable checks. These were
+unsafe seeds correctly rejected, not 105 playable outputs or source failures.
+`generation-fuzz-42519129270-audit.json` retains per-case seeds, counts, hashes,
+and original artifact provenance. The exact original case 1 YAML and seed
+271418054 are pinned in regression tests; an independent sweep reproduces its
+44 stranded checks while the selected goal remains beatable.
+
+The default strict launcher still returns failure on those raw artifacts.
+Only the explicit, evidence-checked CI classification accepts the batch as a
+successful safeguard test. Starting Stone/Burning, source filtering, final
+all-check validation, and native traversal rules remain unchanged.

@@ -6,7 +6,7 @@ from typing import cast
 import pytest
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region
 from Options import Accessibility, PerGameCommonOptions
-from worlds.AutoWorld import World
+from test.general import TestWorld
 
 from .support.check_accessibility import audit_local_checks
 
@@ -15,13 +15,20 @@ def fixture_world(players: int = 1) -> MultiWorld:
     multiworld = MultiWorld(players)
     multiworld.player_name = {player: f"Player {player}" for player in multiworld.player_ids}
     for player in multiworld.player_ids:
-        world = World(multiworld, player)
+        world = TestWorld(multiworld, player)
+        # Other loaded worlds' CollectionState mixins inspect every world's game.
+        multiworld.game[player] = world.game
         world.options = cast(PerGameCommonOptions, SimpleNamespace(accessibility=Accessibility.from_any("minimal")))
         multiworld.worlds[player] = world
         multiworld.regions.append(Region("Menu", player, multiworld))
         multiworld.completion_condition[player] = lambda state: True
     multiworld.state = CollectionState(multiworld)
     return multiworld
+
+
+def test_fixture_world_has_game_identity_for_global_logic_mixins() -> None:
+    multiworld = fixture_world(2)
+    assert {player: world.game for player, world in multiworld.worlds.items()} == multiworld.game
 
 
 def add_check(multiworld: MultiWorld, name: str, player: int = 1) -> Location:

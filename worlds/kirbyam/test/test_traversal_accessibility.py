@@ -25,6 +25,7 @@ from .test_mini_traversal import make_world
 
 FIXTURES = Path(__file__).with_name("data") / "traversal_accessibility"
 FUZZ_CASES = {
+    1: (271418054, "4d450086f2e39d6056ccc5fc5bf7bc9290e616a555ac915d39941f4ef3d2cf1d"),
     69: (108836542, "0a25d61c00d636bd9c02c0a4dcb74ee6a7447d4d0686ed71be9a802a25e62b36"),
     95: (321375454, "f9a2bc967e178e691cc53095c96c6fb9dc3c326a5cdd611d231d90d4530ae90e"),
 }
@@ -351,3 +352,18 @@ def test_mixed_accessibility_rejects_stranded_fill_and_keeps_copy_room_per_playe
     assert has_graph_access(full, state, graph)
     assert not multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 1).access_rule(state)
     assert multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 2).access_rule(state)
+
+
+def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    import json
+    from .support.check_accessibility import audit_local_checks
+
+    expected = json.loads((FIXTURES / "1-expected.json").read_text())
+    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 1)
+    assert multiworld.worlds[1].options.accessibility.value == Accessibility.option_minimal
+    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
+    audit = audit_local_checks(multiworld, 1)
+    assert audit.unfilled == audit.inventory_unreachable == ()
+    assert list(audit.progression_unreachable) == expected["stranded_checks"]

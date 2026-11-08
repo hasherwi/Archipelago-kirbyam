@@ -627,12 +627,14 @@
       "object_list_index": 29,
       "ap_keys": [
         "REGION_RAINBOW_ROUTE/ROOM_1_41",
-        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT"
       ],
       "wiki_title": "Rainbow Route - Room 41",
       "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41",
       "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Completion-index join; lower, inner/upper-left, top-right Mustard and east Moonlight compartments share this native room. Incoming native144/545 retain their separate physical sides."
     },
     {
       "native_id": 142,

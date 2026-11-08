@@ -1,9 +1,9 @@
 # Ordinary-metal traversal implementation checkpoint
 
 This checkpoint prepares directional ordinary-metal rules without pretending
-that the complete 33-room audit is finished. **Only native 557 (Master Hand-to-Smash) and native 176
-(Batafire-to-Burning) have bounded conditional witnesses; removing forced
-Stone/Burning is not safe on this evidence.** Other assignments and rooms remain unvalidated. Runtime
+that the complete 33-room audit is finished. **Native 557, native 176 and three directed native 141 passages now have
+bounded conditional witnesses. Removing forced Stone/Burning is not safe on
+this incomplete evidence.** Other assignments and rooms remain unvalidated. Runtime
 patches, starting inventory and item classification are unchanged here. The
 foundation baseline is `1cdde1a`.
 
@@ -191,6 +191,55 @@ Source release logic was independently checked at native revision
 `7d969fbce14fdc838d2c1ea01389717fb96c3189` in `src/object.c` and
 [`src/scroll_lock.c`](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/scroll_lock.c).
 
+## Native 141: directed banks and preserved arrival sides
+
+Three metal targets apply only when actual `FLAMER` guarantees Burning:
+
+- `metal_141_left_forward`: lower to inner corridor through F5 `(5–6,7–8)`.
+- `metal_141_right_forward`: inner to east corridor through F5 `(27–28,9–10)`.
+  This uses the complete lower-source carry and explicitly requires independent
+  access to the lower compartment. Reaching inner does not equip Burning.
+- `metal_141_left_reverse`: inner to lower, using the separate upper Flamer and
+  an independently demonstrated leftward attack.
+
+The two forward graphs reuse one finite lower-source fragment. Neither an
+inventory unlock nor a previously opened bank becomes starting equipment or a
+persistent event. The second graph's lower-region dependency is registered for
+AP reachability reconsideration. Unknown source assignments retain prior
+placeholders and remain unvalidated.
+
+[The controller record](ordinary-141-directed-burning-acceptance.json) proves
+actual 543 entry, lower Flamer `0x088B78E8` capture, retained Burning and both
+forward banks, with all eight F5 cleared and 6 HP. A separate actual 545 entry
+uses a Normal slide to activate the right Bomb trigger, captures upper Flamer
+`0x088B7810`, drops beside the `0x0F` cap and clears the left bank in reverse.
+That chain ends with 5 HP and leaves the right bank closed. Both copies are
+acquired from unchanged native enemies, without essence or imported equipment.
+[The second lower arrival](ordinary-141-lower-arrival-join.json) proves actual
+143 entry joins the lower-left platform as Normal, with all eight F5 intact,
+ending at 5 HP. These are not damage-free or one-hit-mode acceptance claims.
+
+[Native door records](ordinary-141-door-topology.json) establish four arrival
+sides: 543/143 enter lower, 144 enters east of the second bank, and 545 enters
+the top-right Mustard corridor. Two logical subregions preserve the latter
+arrivals instead of placing them in lower. The physical room retains one
+room-sanity check in a sink reachable from every compartment; that sink never
+unlocks another compartment.
+
+Explicitly Normal flight proves east to top through the `0x0F` caps upward.
+There is no reverse downward-cap edge. Normal flight/drop beside the left cap
+connects inner to the upper-left source pocket. Actual 545 entry proves the
+right Bomb trigger opens top-right to that pocket. The opposite left-trigger
+Bomb crossing is not controller-proven: its original floating-block requirement
+is retained, separately labeled as pending. Do not confuse the demonstrated
+inner-to-upper-left flight at x201 with crossing the Bomb wall to Mustard.
+
+The accepted forward metal route stops in the east compartment. Outward Mirra
+and native 144 doorway traversal remain unresolved by this record. Their
+original `can_mirra` requirement is preserved on the separate doorway edge,
+not certified by standing near it. The native 144 incoming record establishes
+its arrival side, not an accepted outward crossing.
+
 ## Cost and verification
 
 The [paired Python 3.12 benchmark](ordinary-metal-kernel-benchmark.json) compares
@@ -212,3 +261,8 @@ equipment, source-policy uncertainty, physical ammunition availability and
 consumption, no reverse or cross-room capture transport, swimming rejection,
 per-provider evidence, and exhaustive worklist consistency. Native and AP-ROM
 acceptance are separate from these Python semantic tests.
+
+Native141 adds no kernel dimensions. Its forward-left, full lower-source
+forward-right, and reverse-left graphs visit 9, 13, 9 states, respectively.
+Twelve warmed samples measure 19.58, 28.63, 22.04 microseconds median. These are fixed-point
+evaluation costs, not whole-generation or AP reachability benchmarks.

@@ -8,6 +8,7 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
+from BaseClasses import CollectionState, MultiWorld
 
 from .. import KirbyAmWorld
 from ..area_keys import (
@@ -401,6 +402,10 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         f"{parent}__LOGIC__{name}" for parent, definition in room_regions.items()
         for name in definition.get("logical_subregions", {})
     )
+    declared_regions.update(
+        f"{parent}__ROOM_CHECK" for parent, definition in room_regions.items()
+        if definition.get("logical_subregions") and room_sanity_metadata(definition).get("included", False)
+    )
     for room_name, room_def in room_regions.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)
@@ -451,9 +456,16 @@ def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:
 def test_room_reachability_from_start() -> None:
     from ..rules import _reachable_rooms_from
 
-    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
+    # Include compiled logical entry routing and singleton room-check sinks;
+    # the raw JSON adjacency omits those synthetic regions.
+    from ..data import data
+    topology = {name: {"exits": list(region.exits)} for name, region in data.regions.items()}
+    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE", topology)
 
-    assert len(reachable) == 314
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD" in reachable
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT" in reachable
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK" in reachable
+    assert len(reachable) == 346
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_06" in reachable
@@ -616,9 +628,8 @@ def test_set_rules_applies_item_gates_to_physical_entrances() -> None:
     assert checked >= 20
 
 
-def _make_collection_state_room_graph():
+def _make_collection_state_room_graph() -> tuple[MultiWorld, CollectionState]:
     """Build the actual Kirby AM region graph without generating an item pool."""
-    from BaseClasses import CollectionState, MultiWorld
     from worlds.AutoWorld import World
 
     from ..regions import create_regions

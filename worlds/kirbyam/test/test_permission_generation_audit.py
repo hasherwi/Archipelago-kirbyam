@@ -31,6 +31,11 @@ PROFILES = (
 )
 
 
+# One known accepted minimal seed for every mode/gating pair. The CI safeguard
+# lane must exercise playable archives as well as correctly refused unsafe fills.
+REQUIRED_MINIMAL_ARCHIVES = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 1), (0, 2, 1), (1, 1, 0), (1, 2, 0)})
+
+
 def assert_generation_contract(
     multiworld: MultiWorld, decoded: dict[str, Any], archive: Path, player: int,
 ) -> tuple[LocalCheckAudit, float]:
@@ -111,6 +116,7 @@ def test_generated_all_check_smoke_matrix(
         # Minimal fill may strand optional progression. Reject before output,
         # not by changing the option or silently treating the selected goal as all checks.
         assert accessibility == "minimal"
+        assert (profile, mode, gating) not in REQUIRED_MINIMAL_ARCHIVES, "Known safe minimal archive regressed"
         assert "Try full accessibility" in str(error)
         assert "unreachable from placed progression=" in str(error)
         assert "unavailable even with all inventory=[]" in str(error)

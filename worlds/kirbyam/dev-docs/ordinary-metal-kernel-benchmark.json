@@ -1,7 +1,7 @@
 {
   "python": "3.12.14",
   "baseline": "1cdde1a",
-  "current": "ordinary-metal-with-conditional557-and176",
+  "current": "ordinary-metal-with-conditional557-176-and141",
   "scope": "Paired in-process direct fixed-point evaluation; same graph/policy/items; compile and imports excluded",
   "existing": {
     "mini_134_ocean_spray/local": {
@@ -187,5 +187,80 @@
     ],
     "current_us_median": 19.38098,
     "scope": "New graph evaluation only; existing paired measurements unchanged because kernel unchanged. No full-generation performance claim."
-  }
+  },
+  "conditional141": {
+    "metal_141_left_forward": {
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        18.966734199999998,
+        19.170409199999998,
+        19.783665799999998,
+        19.496575,
+        19.9732664,
+        20.6935936,
+        19.568237,
+        19.583556,
+        19.7788806,
+        19.0933892,
+        19.6694274,
+        19.2481626
+      ],
+      "current_us_median": 19.5758965,
+      "access_region": null
+    },
+    "metal_141_right_forward": {
+      "witness": "lower_carry",
+      "nodes": 6,
+      "routes": 5,
+      "sources": 1,
+      "positions": 13,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        28.8595856,
+        28.688133,
+        27.8364434,
+        28.3657192,
+        29.392152600000003,
+        28.619868399999998,
+        28.0598902,
+        28.016475600000003,
+        29.668671200000002,
+        31.504950400000002,
+        28.6406956,
+        28.2490032
+      ],
+      "current_us_median": 28.630282,
+      "access_region": "REGION_RAINBOW_ROUTE/ROOM_1_41"
+    },
+    "metal_141_left_reverse": {
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        22.8961228,
+        21.8702572,
+        20.851817999999998,
+        22.2102696,
+        24.324328,
+        21.1301476,
+        21.5335618,
+        19.883576400000003,
+        26.117508,
+        19.5704242,
+        23.0739858,
+        22.505052199999998
+      ],
+      "current_us_median": 22.0402634,
+      "access_region": null
+    }
+  },
+  "conditional141_scope": "Native FLAMER Burning, owned Burning permission. Warm kernel evaluation only; independent AP-region access is checked by installer. Existing paired baseline samples are unchanged because the kernel did not change."
 }
