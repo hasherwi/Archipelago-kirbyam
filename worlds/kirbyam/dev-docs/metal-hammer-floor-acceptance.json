@@ -72,7 +72,12 @@
       352.75,
       120.99609375
     ],
-    "water": false
+    "water": false,
+    "water_note": "Attack setup and both swings are dry; the destination below row 9 is water. water=false describes the attack area, not the whole room.",
+    "side_tile": "0x50",
+    "side_tile_attributes": "0x210",
+    "destination_tile": "0x48",
+    "destination_tile_attributes": "0x3"
   },
   "tile_observation": {
     "base": "0x02024ED0",

@@ -5,7 +5,12 @@ Status: preparation only, 2026-11-08. Baseline: `370dbb431bd0c81949a12c0be36df12
 This document preserves the ability research for a later directional, room-by-room
 metal-block audit. It does not add traversal edges, change starting abilities,
 change item classification, or claim that every metal barrier has been mapped.
-No new emulator acceptance run was completed for this preparation.
+The later isolated Hammer floor test is recorded below; room-by-room traversal
+acceptance remains separate from the presence inventory.
+
+The subsequent [room inventory](metal-block-room-inventory.md) records the complete
+native collision scan and WiKirby cross-check. The room-presence audit is separate
+from the pending directional traversal acceptance work described here.
 
 ## What a metal-breaking capability means
 
@@ -35,8 +40,8 @@ and its linked ability pages provide secondary cross-checks.
 | Ability | Relevant move / condition | Geometry and water limits to preserve |
 | --- | --- | --- |
 | Burning | Horizontal Burning attack. | Needs a usable launch position and horizontal contact. Do not infer vertical access. Swimming input does not initiate Burning. |
-| Hammer | Hammer attacks carry metal-breaking capability; Hammer is usable underwater. | Grounded, aerial, and swimming attacks have different hitboxes. Side-access evidence does not establish an isolated floor-plug solution. See the pending test below. |
-| Stone | Transformed falling contact; slopes can change its path. | Needs space to transform and a reachable contact path. Do not model arbitrary sideways movement. Swimming cannot initiate Stone, and the researched transform state exits into water movement on water entry. |
+| Hammer | Hammer attacks carry metal-breaking capability; Hammer is usable underwater. | Grounded, aerial, and swimming attacks have different hitboxes. The isolated floor test supports the tested aerial sequence, not arbitrary clearance. See acceptance below. |
+| Stone | Transformed falling contact; slopes can change its path. | Needs space to transform and a reachable contact path. Do not model arbitrary sideways movement. Swimming cannot initiate Stone, but a completed transformation can enter water and sink; activation timing must be preserved. |
 | Throw | A grabbed object's held/thrown collision can break metal. Throws can be horizontal or approximately 26.6 degrees upward/downward. | Requires an actually grabbable object, reachable before the barrier, and a viable held-object or projectile trajectory. Do not treat Throw permission alone as ammunition. Swimming input does not initiate this attack. |
 | Missile | Eight-direction travel and explosion. | Needs launch/turning space and verified contact or blast reach. Cannot initiate while swimming; a launched Missile can travel underwater. A dry launch into water is a separate sequence, not an underwater-start permission. |
 | UFO | Fully charged horizontal beam. | Requires the appropriate charge level, a reachable firing position, and line of contact. Do not count every UFO shot or infer vertical beam fire. Swimming input does not provide this attack. |
@@ -49,29 +54,36 @@ underwater attacks likewise do not become metal-breaking merely because they
 remain usable while swimming. Ice's frozen-enemy projectile is a separate
 object-dependent interaction, not a direct `metal` capability.
 
-### Stone water-entry correction
+### Stone: startup is different from completed transformation
 
-Do not promote the earlier hypothesis that a pre-transformed Stone simply sinks
-through water into a route witness. In the researched native `sub_0805E448`,
-`kirby->base.unk58 & 2` calls `KirbyEnterWater` and `KirbyStartWaterMovement`, then
-returns. That source evidence contradicts assuming continued transformed descent
-for this state. Any exceptional transition or collision timing would need its
-own controller-only demonstration. Existing planner comments about a possible
-pre-transformed sequence are not proof that such a route works.
+The initial version of this note incorrectly generalized from transformation
+startup `sub_0805E448`, which aborts into ordinary water movement on water entry.
+The completed Stone states behave differently: `sub_0805EA50` transitions to
+`sub_0805EF18` in water, and landed Stone `sub_0805ED40` transitions to
+`sub_0805F210`. Thus Stone can enter water already transformed and sink; it cannot
+start the transformation using ordinary swimming input. WiKirby's
+[Olive Ocean gallery](https://wikirby.com/wiki/Olive_Ocean) also documents sinking
+Stone. A room witness must still establish a dry activation location, completed
+transformation before water entry, trajectory, and contact with the barrier.
 
-### Hammer floor-plug question remains open
+### Hammer floor-plug acceptance: positive for the tested aerial sequence
 
-The proposed test is a metal plug directly below Kirby with **no side access**.
-It must distinguish a genuine top-surface hit from a side hit reached through an
-adjacent gap. Test grounded swing, aerial swing/spin, and other applicable Hammer
-moves with the entry position and collision geometry recorded. Include a
-positive control where Hammer has side access, and repeat underwater separately
-if that geometry is relevant.
+The controller-only native test in **room 205 (Peppermint Palace Room 7)** now
+confirms that aerial Hammer can break a floor directly below Kirby without side
+entry. The existing plug occupies columns 21–22, rows 8–9, with solid adjacent
+columns. A grounded B control left all four metal tiles intact at the tested
+position. Jump, wait eight frames, then swing removed both top-row tiles; a
+second jump-and-swing removed both bottom-row tiles and Kirby descended through.
+X remained 352.75 pixels throughout, and HP remained six.
 
-A fixture was prepared during research, but the acceptance test was not
-completed. There is no confirmed yes/no result for the isolated floor plug.
-Do not encode “Hammer always breaks floors” or “Hammer can never break floors”
-from ability descriptions, attack flags, or the unfinished test.
+The clean fixture changes only startup room/positions and a local Hammer essence
+placement. Native terrain, collision, and attack code are unchanged; there were
+no runtime memory writes. See the reproducible
+[acceptance record](metal-hammer-floor-acceptance.json) for input timing, fixture
+hash/patch details, and observations. This establishes a usable move for this
+geometry, not an ability-source witness under AP randomization, universal floor
+clearance, underwater behavior, or every Hammer move. Do not encode either
+“Hammer cannot break below” or “Hammer always breaks floors.”
 
 ## Current implementation boundaries
 
@@ -121,10 +133,10 @@ For each directed route, record all of the following:
 
 - [ ] Inventory ordinary metal barriers by room and directed entry, without
       equating every visible barrier with required progression.
-- [ ] Complete the Hammer floor-plug control experiment before choosing a floor rule.
+- [x] Complete the isolated Hammer floor-plug control experiment; preserve its clearance/setup limits.
 - [ ] Validate move-specific floor, ceiling, and side contact for each candidate.
 - [ ] Validate underwater starts separately from dry-to-water transitions;
-      explicitly reject the unproven Stone-sinking shortcut.
+      verify completed Stone transformation before water entry and the descent geometry.
 - [ ] Model Throw's physical ammunition and UFO charge/trajectory when an audited
       route needs them, rather than widening the generic capability predicate.
 - [ ] Add positive and negative tests for each accepted room witness: wrong entry,
