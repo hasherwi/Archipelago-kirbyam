@@ -254,13 +254,16 @@ Search results and the significant-treasures table are discovery aids, not
 coverage evidence.
 
 A direct fetch was attempted for every one of the **263** main-area room URLs in
-the native/WiKirby inventory. **249** returned overview/description prose that
+the native/WiKirby inventory. **250** returned overview/description prose that
 was screened for wall-separated triggers, recessed/embedded Bomb Blocks, remote
 activation, long reach, shortcuts, and related reach/barrier wording. Hits were
 reviewed in context, including the page's linked destinations and enemy table.
-The remaining **14** failed retrieval after one retry and remain unreviewed:
+The remaining **13** failed retrieval and remain unreviewed. A follow-up public
+HTML retrieval recovered Rainbow Route Room 21 (revision 574497): its ascent
+and Bomb Blocks do not state a wall-separated trigger. Further retrievals
+returned HTTP 403; access restrictions were respected. Remaining gaps:
 
-- Rainbow Route: Rooms 21 and 24; Hub 2.
+- Rainbow Route: Room 24; Hub 2.
 - Cabbage Cavern: Room 10.
 - Peppermint Palace: Rooms 2 and 23.
 - Radish Ruins: Rooms 2, 6, and 23.
@@ -274,8 +277,41 @@ absence. No room-map pixels, ROM geometry, collision code, or controller tests
 were inspected for this document. The new matches are text-supported candidates,
 not retroactively claimed runtime verification.
 
-Next, recover the missing prose, inspect candidate maps, and validate each
+Next, inspect candidate maps and validate each
 candidate from every relevant entry. Record move/charge, attack origin and target,
 solid tiles crossed, enemy/source availability, chain state, alternatives, and
 failures. Keep a one-target proof separate from a global ability capability.
 Only then propose source-aware logic and regression tests.
+
+
+## Range investigation: source evidence versus measurements
+
+The comparison must be move-specific, not a single global "ignores collision"
+flag. No numeric maximum range has yet been measured for any of the six
+abilities. A successful target hit is a lower bound, not a maximum; a failed
+hit can reflect alignment or chain state rather than range.
+
+| Ability/move | Evidence applicable to Amazing Mirror | Range and per-room comparison still needed |
+| --- | --- | --- |
+| Beam whip | Room 28 explicitly permits an edge-position lower-trigger hit; Cabbage 6 has a documented Beam solution | Horizontal/vertical hitbox envelope during the sweep, facing, wall thickness, and target-specific placement |
+| Spark barrier | Room 28 explicitly permits a closer-position solution; the [Spark article](https://wikirby.com/wiki/Spark#Kirby_&_The_Amazing_Mirror) describes the same basic version as Nightmare in Dream Land | Barrier radius and overlap through walls. Beam's longer-reaching placement does not prove Spark can substitute at every target |
+| UFO Piercing Heat Beam | Long-hold projectile explicitly pierces walls | Charge threshold, travel lifetime/distance, height alignment, camera/despawn limits and trigger activation |
+| Master energy wave | Charged ranged move and broad puzzle utility are documented | Separate wave travel from sword hitbox; collision, range, and low/raised targets |
+| Smash Final Cutter | Amazing Mirror moveset explicitly lists a landing shockwave | Shockwave collision, lifetime and height; upward/downward blade hitboxes are distinct. Still not confirmed wall-piercing |
+| Ice: kicked frozen enemy | Olive Goal 2 documents the frozen-Waddle-Dee switch solution; [Ice article](https://wikirby.com/wiki/Ice#Kirby_&_The_Amazing_Mirror) supports freezing and kicking enemies | Projectile path/range, floor and wall behavior, thaw/despawn, available freezable enemy, and launch alignment. Ice breath is a separate attack |
+
+Do not import Spark's chargeable wall-piercing projectiles from Squeak Squad or
+later games into Amazing Mirror. Likewise, the Squeak Squad Ice Scroll's aim
+control is not evidence for Amazing Mirror. The reviewed WiKirby pages provide
+no numeric maximum distances, and do not establish Spark as equivalent to Beam.
+"Created ice blocks" is treated here as kicked frozen enemies, not a claim that
+Ice can spawn a free projectile without a suitable enemy.
+
+For each target above, reset the room/chain state and record: native room and
+entry, move/charge, player and target pixel coordinates, launch position and
+facing, wall tiles crossed, successful/failed distances, and the opened route or
+collected check. Test both facings and targets above/below where geometry permits.
+For projectiles, also record frames alive and camera position. Freeze-and-kick
+trials must identify the actual enemy and source; do not substitute an injected
+ice projectile for proof that the room supplies one. A synthetic geometry test
+can measure a move but must not be represented as natural room accessibility.
