@@ -24,6 +24,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
 
 ### Bug Fixes
+- Reject seeds that leave enabled Kirby checks unreachable, including under minimal accessibility. Reuse bounded source-assignment validation for minimal and audit actual placed progression after finalization; no starting abilities are removed by this safety guard.
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 

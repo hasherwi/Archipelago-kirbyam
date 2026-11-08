@@ -24,8 +24,11 @@ python tools/run_kirbyam_generation_fuzz.py --runs 100
 The launcher defaults to at most four workers, a 60-second per-generation
 timeout, KirbyAM only, and `--skip-output`. The existing deterministic
 generation integration test covers patch/archive output. Note that upstream's
-`--skip-output` also skips the final accessibility assertion. To include output
-and that assertion in a deeper local fuzz run, pass `--with-output`.
+`--skip-output` skips upstream's final accessibility assertion. KirbyAM's
+all-check audit runs in `stage_pre_output` before that early return, so it still
+rejects unreachable enabled Kirby checks in fuzzer runs, including minimal
+accessibility. To include archive output and upstream's accessibility assertion
+in a deeper local fuzz run, pass `--with-output`.
 
 The launcher is intentionally not part of the default pytest or pre-commit
 commands. It is stochastic and substantially more expensive than a focused

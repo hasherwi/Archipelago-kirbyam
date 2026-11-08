@@ -42,17 +42,29 @@ remain separate from those results.
 
 ## Generation and accessibility
 
-Full accessibility retains source-feasibility preflight and static-assignment
-validation for required traversal targets. Minimal accessibility does not demand
-a witness for every check before fill: it keeps the original static assignment
-and installs the same source-aware access rules. Missing sources leave their
-routes closed, and normal fill, beatability, and accessibility validation decide
-whether the seed succeeds. Minimal accessibility does not guarantee generation
-for every option combination or goal. Neither mode invents an ability grant or
-opens a failed witness. With 100% Normal included enemies and fixed excluded
-statues, room 970 can now supply the Wheel/Smash witnesses after item-gated access
-and the relevant ability permissions. Fill must still place progression without
-requiring a source behind its own target.
+Every enabled Kirby check must be reachable in a generated seed, including when
+`accessibility: minimal` is selected. Static source-assignment validation uses
+the same bounded search for full and minimal; it does not change the option
+value or force individual grants. The selected AP accessibility still controls
+normal fill. A Kirby-specific final audit therefore runs after every world's
+finalizer and progression balancing, before output, including `--skip-output`.
+It sweeps actual reachable progression across the whole multiworld and rejects
+stranded Kirby checks with their names and player. An all-inventory state is
+used only to distinguish source/graph failures from actual placement cycles.
+It is not accepted as proof that the player can acquire those items.
+
+This safety check does not make every minimal seed generate successfully. Use
+full accessibility for stronger fill guarantees; other players may keep their
+own selected accessibility. Unsupported source assignments or fills fail
+clearly rather than producing an unsafe archive. Missing native rules remain a
+separate coverage issue that neither state audit can detect. See the
+[starting-permission dependency audit](../dev-docs/starting-permission-removal-audit.md)
+for the exact baseline matrix, examples, benchmarks and remaining blockers.
+
+With 100% Normal included enemies and fixed excluded statues, room 970 can
+supply the Wheel/Smash witnesses after item-gated access and the relevant ability
+permissions. Fill must still place progression without requiring a source
+behind its own target.
 
 Historical pre-integration regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551),
 [artifact 13576028492](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551/artifacts/13576028492):
@@ -67,15 +79,16 @@ Historical pre-integration regression evidence comes from [CI run 42378067551](h
   raised `FillError` for the Moonlight Mansion 2-20 and Rainbow Route 1-06 Lower
   chests. Beating the goal does not satisfy full accessibility.
 
-These historical results distinguish valid optional omissions from a
-full-accessibility failure before the room-access integration. On the combined
-build, both exact, unchanged case 69 and case 95 YAML fixtures now generate and
-fulfill accessibility. Every check is reachable, including the formerly closed
-targets through actual Copy Ability Room sources. Case 69 retains its original policy seed `4994526115634732429`
-without resampling. Removing every copy of the room-access item closes the two
-affected checks again. Mixed case 69/default and case 69/95 worlds also preserve
-per-player access. The replay tests use the pinned fixture hashes and normal
-generation entrypoints in
+These historical results describe the previous goal-only minimal policy. After
+the Copy Room integration, case 69 and case 95 both passed the configured AP
+accessibility and an all-inventory reachability check. That was not proof of
+actual progression accessibility. The later fresh-state audit finds 19 stranded
+checks in case 69's solo fill, and 16 or 2 in its default/95 mixed-world variants.
+Those exact fixtures now fail clearly before output. Case 95 full still passes.
+Case 69 retains its original live-random policy seed `4994526115634732429`; the
+failure is placement reachability, not a missing theoretical Copy Room source.
+The tests retain the per-player room-access negatives on the captured final
+world while requiring the unsafe fill to be rejected, not silently accepted:
 [`test_traversal_accessibility.py`](../test/test_traversal_accessibility.py).
 
 The initial focused integration suite passes all 325 tests, including these exact
@@ -286,9 +299,9 @@ reachable grant. With fixed excluded statues and100% Normal included enemies,
 this ordinary-hub network provides neither Wheel nor Smash. The separate room 970
 source set can supply them through item-gated room access and actual eligible
 statue grants. It does not make ordinary-hub fixed statues gain those outputs or
-rescue a missing access item, ability permission, or carry requirement. Full
-accessibility requires those checks; minimal accessibility may leave them closed
-when the normal fill and goal-accessibility checks succeed.
+rescue a missing access item, ability permission, or carry requirement. Both full and minimal
+Kirby seeds must pass the final all-check audit; a missing necessary source or
+stranded access item causes generation to fail before output.
 
 ### Network regression contract
 
@@ -542,7 +555,7 @@ not automatically an executable route. Production source-aware gates currently c
 Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
 assignment validation accepts reviewed local or carrier witnesses rather than
-rewriting individual randomized outputs. For full accessibility, static policies,
+rewriting individual randomized outputs. For full and minimal accessibility, static policies,
 including shuffled weight100/statue configurations, get at most 8192 assignment
 attempts without forcing individual outputs. The larger bounded
 search accommodates the rare joint Wheelie/peg-source assignment when ordinary
@@ -552,11 +565,11 @@ stream. If that budget finds no Wheel-validated assignment, generation fails tha
 seed with a precise
 search-budget diagnostic, not a claim that the configuration is impossible.
 A Wheel-valid candidate without all reviewed peg witnesses also fails after the
-bounded search. Under minimal accessibility, the original assignment is retained
-without this all-target search; normal fill and goal-accessibility validation
-still apply. No target rule silently becomes permissive. Live-random rules
-retain positive-support renewable source requirements, with all-target preflight
-rejection limited to full accessibility. Unknown
+bounded search. Minimal keeps its selected AP option but uses this same source
+validation. Normal fill and goal-accessibility validation still apply, followed
+by the Kirby all-check audit of actual placed progression. No target rule
+silently becomes permissive. Live-random rules retain positive-support renewable
+source requirements; any checks left closed must still pass the final audit. Unknown
 alternatives are not declared impossible; the diagnostic describes this seed and
 reviewed witness set, not global configuration impossibility.
 The current repository has no entrance
@@ -1329,9 +1342,9 @@ Fixed ordinary-hub statues cannot supply the missing Wheel/Smash grants. The
 separate room 970 statues can supply them only with room access and, when gating is
 enabled, the relevant ability permission; their availability does not change
 these local enemy witnesses. If
-no reviewed source succeeds, full accessibility rejects the seed; minimal
-accessibility must instead pass normal fill and goal-accessibility validation
-with those routes closed. Static assignments and excluded categories must retain
+no reviewed source succeeds, full accessibility rejects the seed early. Minimal
+may defer that error, but cannot emit a seed with unreachable enabled checks: the
+final all-check audit rejects it before output. Static assignments and excluded categories must retain
 their actual grants.
 
 Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:

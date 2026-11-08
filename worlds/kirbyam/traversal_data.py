@@ -13,6 +13,7 @@ from typing import Any, Mapping
 from Options import Accessibility
 
 from .data import LocationCategory, data
+from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
 
 
@@ -141,7 +142,7 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "reinforced"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "reinforced", "metal"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
@@ -176,10 +177,20 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             raise ValueError(f"Remote traversal witness needs independent access: {row['id']}")
 
 
+def _validate_source_condition(condition: Any) -> None:
+    """Narrow a partial witness to a native source policy, never invent a source."""
+    sources = {source.key for source in ABILITY_SOURCES if source.can_be_swallowed}
+    if (not isinstance(condition, dict) or set(condition) != {"source_key", "ability"}
+            or not isinstance(condition["source_key"], str) or condition["source_key"] not in sources
+            or not isinstance(condition["ability"], str) or condition["ability"] == "Normal"
+            or condition["ability"] not in ABILITY_NAME_TO_ID):
+        raise ValueError("Unsupported guaranteed-source applicability condition")
+
+
 def _validate_target(row: Mapping[str, Any]) -> None:
     condition = row.get("requires_guaranteed_source")
-    if condition is not None and condition != {"source_key": "MR_FROSTY", "ability": "Ice"}:
-        raise ValueError("Unsupported guaranteed-source applicability condition")
+    if condition is not None:
+        _validate_source_condition(condition)
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")
     if not row.get("required_for_generation", True) and not row.get("optional_route_evidence"):

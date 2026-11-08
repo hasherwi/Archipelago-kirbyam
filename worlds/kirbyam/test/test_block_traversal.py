@@ -37,7 +37,7 @@ def test_only_hammer_and_master_can_start_underwater_metal_attack(ability):
     assert run(route, ability=ability).reaches('chest') == (ability in {'Hammer', 'Master'})
 
 
-@pytest.mark.parametrize('ability', ['Stone', 'Smash', 'Burning', 'Missile', 'UFO', 'Throw'])
+@pytest.mark.parametrize('ability', ['Stone', 'Smash', 'Burning', 'Missile', 'UFO'])
 def test_land_metal_providers_are_not_automatically_swimming_providers(ability):
     route = Route('launch', 'chest', 'metal')
     assert run(route, ability=ability).reaches('chest')

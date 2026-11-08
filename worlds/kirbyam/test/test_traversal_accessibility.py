@@ -1,6 +1,7 @@
-"""Minimal accessibility may leave checks closed, but never invent source access."""
+"""Minimal preserves AP option semantics but cannot bypass Kirby all-check validation."""
 
 from argparse import Namespace
+from collections.abc import Iterable
 from copy import deepcopy
 from dataclasses import replace
 from hashlib import sha256
@@ -8,11 +9,13 @@ from pathlib import Path
 import random
 import shutil
 from types import SimpleNamespace
+from typing import Any, cast
 
 import pytest
 from Options import Accessibility
+from BaseClasses import MultiWorld
 
-from .. import peg_traversal, traversal_rules, wheel_traversal
+from .. import KirbyAmWorld, peg_traversal, traversal_rules, wheel_traversal
 from ..ability_randomization import build_enemy_copy_ability_policy
 from ..data import data
 from ..traversal import Node, Placement, Position, Route, SourcePolicy, TraversalGraph
@@ -30,32 +33,32 @@ FUZZ_CASES = {
 @pytest.mark.parametrize("option,required", [
     (Accessibility.from_any("full"), True), (Accessibility.from_any("minimal"), False),
     (Accessibility.from_any("none"), False), (None, True), (2, True), ("minimal", True),
-    (SimpleNamespace(value=2), True), (Accessibility(2.0), True),
+    (SimpleNamespace(value=2), True), (Accessibility(cast(Any, 2.0)), True),
 ])
-def test_only_typed_minimal_option_defers_all_check_validation(option, required):
+def test_only_typed_minimal_option_defers_all_check_validation(option: object, required: bool) -> None:
     world = SimpleNamespace(options=SimpleNamespace(accessibility=option))
     assert requires_all_traversal_witnesses(world) is required
 
 
-def test_missing_options_keep_full_validation():
+def test_missing_options_keep_full_validation() -> None:
     assert requires_all_traversal_witnesses(SimpleNamespace())
     assert requires_all_traversal_witnesses(SimpleNamespace(options=SimpleNamespace()))
 
 
 @pytest.mark.parametrize("mode", [0, 1, 2])
-def test_minimal_keeps_original_assignment_without_search_or_rewriting(mode):
+def test_explicit_source_filter_opt_out_preserves_assignment(mode: int) -> None:
     initial = build_enemy_copy_ability_policy(random.Random(73), mode, True, True,
                                               whitelist=("Stone",), no_ability_weight=100)
     before = deepcopy(initial)
     selected = peg_traversal.validate_peg_assignment(
-        initial, lambda: pytest.fail("Minimal must not resample a source policy"), True,
+        initial, lambda: pytest.fail("Explicit filter opt-out must not resample a source policy"), True,
         require_all_witnesses=False,
     )
     assert selected is initial and initial == before
 
 
 @pytest.mark.parametrize("required", [False, True])
-def test_explicit_invalid_budget_remains_an_error(required):
+def test_explicit_invalid_budget_remains_an_error(required: bool) -> None:
     with pytest.raises(ValueError, match="budget must be positive"):
         peg_traversal.validate_peg_assignment(
             {"mode": 1}, lambda: {}, False, 0, require_all_witnesses=required,
@@ -63,7 +66,7 @@ def test_explicit_invalid_budget_remains_an_error(required):
 
 
 @pytest.mark.parametrize("invalid", [None, 0, 1, "minimal"])
-def test_assignment_validation_flag_requires_boolean(invalid):
+def test_assignment_validation_flag_requires_boolean(invalid: Any) -> None:
     with pytest.raises(TypeError, match="must be a boolean"):
         peg_traversal.validate_peg_assignment(
             {"mode": 1}, lambda: {}, False, require_all_witnesses=invalid,
@@ -71,20 +74,29 @@ def test_assignment_validation_flag_requires_boolean(invalid):
 
 
 @pytest.mark.parametrize("budget", [1, 3, None])
-def test_full_keeps_explicit_and_default_bounded_search(monkeypatch, budget):
+def test_all_check_filter_keeps_explicit_and_default_bounded_search(
+    monkeypatch: pytest.MonkeyPatch, budget: int | None,
+) -> None:
     initial = {"mode": 1}
-    calls = []
+    calls: list[int] = []
+
+    def factory() -> dict[str, Any]:
+        calls.append(1)
+        return initial
+
     monkeypatch.setattr(peg_traversal, "SourcePolicy", lambda *_: SimpleNamespace(mode=1))
     monkeypatch.setattr(wheel_traversal, "static_wheel_witness", lambda _: False)
-    kwargs = {} if budget is None else {"max_attempts": budget}
+    kwargs: dict[str, Any] = {} if budget is None else {"max_attempts": budget}
     expected = 8192 if budget is None else budget
     with pytest.raises(ValueError, match=f"Wheel-source search budget exhausted after {expected} attempts"):
-        peg_traversal.validate_peg_assignment(initial, lambda: calls.append(1) or initial, False, **kwargs)
+        peg_traversal.validate_peg_assignment(initial, factory, False, **kwargs)
     assert len(calls) == expected - 1
     assert initial == {"mode": 1}
 
 
-def installer_setup(monkeypatch, kind, mode, accessibility, gating, *, sources):
+def installer_setup(
+    monkeypatch: pytest.MonkeyPatch, kind: str, mode: int, accessibility: str, gating: bool, *, sources: bool,
+) -> tuple[Any, ...]:
     capability, source, ability = {
         "peg": ("peg", "BONKERS", "Hammer"), "wheel": ("wheel_race", "WHEELIE", "Wheel"),
         "fuse": ("fuse", "HOT_HEAD", "Fire"), "rope": ("rope", "SWORD_KNIGHT", "Sword"),
@@ -132,7 +144,9 @@ def installer_setup(monkeypatch, kind, mode, accessibility, gating, *, sources):
 @pytest.mark.parametrize("mode", [0, 1, 2])
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
 @pytest.mark.parametrize("gating", [False, True])
-def test_absent_sources_reject_full_but_stay_closed_in_minimal(monkeypatch, kind, mode, accessibility, gating):
+def test_absent_sources_reject_full_but_stay_closed_in_minimal(
+    monkeypatch: pytest.MonkeyPatch, kind: str, mode: int, accessibility: str, gating: bool,
+) -> None:
     world, install, target, state, _, _, dependencies = installer_setup(
         monkeypatch, kind, mode, accessibility, gating, sources=False,
     )
@@ -147,7 +161,9 @@ def test_absent_sources_reject_full_but_stay_closed_in_minimal(monkeypatch, kind
 
 @pytest.mark.parametrize("kind", ["peg", "wheel", "fuse", "rope"])
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
-def test_accessibility_never_relaxes_source_permission_dependencies_or_existing_rules(monkeypatch, kind, accessibility):
+def test_accessibility_never_relaxes_source_permission_dependencies_or_existing_rules(
+    monkeypatch: pytest.MonkeyPatch, kind: str, accessibility: str,
+) -> None:
     world, install, target, state, items, ability, _ = installer_setup(
         monkeypatch, kind, 0, accessibility, True, sources=True,
     )
@@ -165,20 +181,24 @@ def test_accessibility_never_relaxes_source_permission_dependencies_or_existing_
 
 
 @pytest.mark.parametrize("mode", [0, 1, 2])
-def test_generate_early_passes_minimal_without_resampling(monkeypatch, mode):
+def test_generate_early_preserves_already_feasible_policy_under_minimal(
+    monkeypatch: pytest.MonkeyPatch, mode: int,
+) -> None:
     import worlds.kirbyam as world_module
 
-    original = world_module.build_enemy_copy_ability_policy
+    original = build_enemy_copy_ability_policy
     drawn = []
 
-    def build(*args, **kwargs):
+    def build(*args: Any, **kwargs: Any) -> dict[str, Any]:
         candidate = original(*args, **kwargs)
         drawn.append(deepcopy(candidate))
         return candidate
 
     monkeypatch.setattr(world_module, "build_enemy_copy_ability_policy", build)
-    world = make_world(mode, True, accessibility="minimal", ability_randomization_statues=False,
-                       ability_randomization_no_ability_weight=100)
+    world = make_world(  # type: ignore[no-untyped-call]
+        mode, True, accessibility="minimal", ability_randomization_statues=False,
+        ability_randomization_no_ability_weight=100,
+    )
     assert drawn == [world._enemy_copy_ability_policy]
     if mode:
         state = world.multiworld.get_all_state(False)
@@ -191,7 +211,7 @@ def test_generate_early_passes_minimal_without_resampling(monkeypatch, mode):
 
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
-def test_room_970_requires_independent_access_in_every_accessibility(accessibility):
+def test_room_970_requires_independent_access_in_every_accessibility(accessibility: str) -> None:
     graph = wheel_traversal.wheel_graph(True)
     assert graph.unavailable_reason is None
     world = SimpleNamespace(player=1, options=SimpleNamespace(accessibility=Accessibility.from_any(accessibility)))
@@ -203,7 +223,9 @@ def test_room_970_requires_independent_access_in_every_accessibility(accessibili
                               allow_documented_retries=True).reaches("chest")
 
 
-def replay_fuzz_case(monkeypatch, tmp_path, case, *, companion=None):
+def replay_fuzz_case(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, *, companion: str | int | None = None,
+) -> MultiWorld:
     """Use the unmodified artifact and the pinned fuzzer's normal generation entrypoints."""
     import Generate
     import Main
@@ -240,14 +262,41 @@ def replay_fuzz_case(monkeypatch, tmp_path, case, *, companion=None):
     )
     generated_args, actual_seed = Generate.main(args)
     assert actual_seed == seed
-    return Main.main(generated_args, actual_seed)
+    return cast(MultiWorld, Main.main(generated_args, actual_seed))
 
 
-def test_exact_fuzz_69_minimal_preserves_policy_and_uses_copy_room(monkeypatch, tmp_path):
+def replay_rejected_fuzz_case(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, *, companion: str | int | None = None,
+) -> MultiWorld:
+    """Retain source diagnostics on the final world, but never suppress rejection."""
+    from .. import check_accessibility
+
+    captured: list[MultiWorld] = []
+    original = check_accessibility.validate_all_checks
+
+    def validate(multiworld: MultiWorld, players: Iterable[int]) -> None:
+        captured.append(multiworld)
+        original(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", validate)
+    with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                       match="unreachable from placed progression") as error:
+        replay_fuzz_case(
+            monkeypatch, tmp_path, case, companion=companion,
+        )
+    assert "unavailable even with all inventory=[]" in str(error.value)
+    assert not tuple((tmp_path / "output").glob("*.zip"))
+    multiworld, = captured
+    return multiworld
+
+
+def test_exact_fuzz_69_minimal_rejects_stranded_fill_but_preserves_source_policy(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
-    world = multiworld.worlds[1]
+    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
+    world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     assert world._enemy_copy_ability_policy["seed"] == 4994526115634732429
@@ -268,7 +317,9 @@ def test_exact_fuzz_69_minimal_preserves_policy_and_uses_copy_room(monkeypatch, 
     assert not multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1).access_rule(state)
 
 
-def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(monkeypatch, tmp_path):
+def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
     multiworld = replay_fuzz_case(monkeypatch, tmp_path, 95)
     world = multiworld.worlds[1]
     assert world.options.accessibility.value == Accessibility.option_full
@@ -283,8 +334,10 @@ def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(monkeypatch, t
 
 
 @pytest.mark.parametrize("companion", ["default", 95])
-def test_mixed_accessibility_copy_room_access_is_per_player(monkeypatch, tmp_path, companion):
-    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
+def test_mixed_accessibility_rejects_stranded_fill_and_keeps_copy_room_per_player(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, companion: str | int,
+) -> None:
+    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
     minimal, full = multiworld.worlds[1], multiworld.worlds[2]
     assert minimal.options.accessibility.value == Accessibility.option_minimal
     assert full.options.accessibility.value == Accessibility.option_full

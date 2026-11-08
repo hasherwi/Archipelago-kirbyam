@@ -213,3 +213,13 @@ file and survives offline reload for that seed. Once granted, it is not taken
 away by reconnecting or replaying item history. Fresh files and different seeds
 still start without access. Update the client and regenerate
 the seed/patch together; the earlier single-save prototype is not compatible.
+
+
+## Check accessibility
+
+Generated seeds must make every enabled Kirby check reachable. This also applies
+when choosing `accessibility: minimal`: the option is preserved, but generation
+rejects a seed whose actual item placements strand a check. The error identifies
+the affected checks. Choose `full` for stronger fill guarantees, or try another
+seed. Other players can keep their own accessibility settings. This validation
+does not remove the guaranteed starting Stone and Burning abilities.

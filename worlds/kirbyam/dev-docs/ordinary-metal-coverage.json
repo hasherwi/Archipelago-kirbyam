@@ -1,0 +1,1843 @@
+{
+  "version": 1,
+  "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
+  "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
+  "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
+  "implementation_status": "Only native557 Goal1 tomato has a bounded MASTER_HAND-guarantees-Smash witness. Other source assignments and room clusters remain unvalidated; starting-inventory removal remains blocked.",
+  "categories": {
+    "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
+    "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
+    "optional_non_ap_pickup": "Article identifies loose loot not represented as a current AP check; this alone does not prove unrelated exits.",
+    "bypass": "Existing controller evidence reaches an AP exit without breaking any F5 in this room; optional loot is outside that proof.",
+    "unknown": "Cluster function or AP path relevance has not yet been established.",
+    "scenery_no_required_passage": "Role review finds no mandatory AP-check passage through this cluster. It may be a real breakable obstacle, optional transport or source side room; this does not prove any whole-room bypass."
+  },
+  "rooms": [
+    {
+      "native_room": 141,
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41",
+      "ap_compartments": [
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_40",
+            "REGION_RAINBOW_ROUTE/ROOM_1_42",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+          ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+            "REGION_RAINBOW_ROUTE/ROOM_1_41"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "141:5,7",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Upper-left and main compartments; the exact direction and source path are pending.",
+          "tile_count": 4,
+          "bounds": [
+            5,
+            7,
+            6,
+            8
+          ]
+        },
+        {
+          "id": "141:27,9",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Upper-right route toward Moonlight Mansion Room 16; direction and approach are pending.",
+          "tile_count": 4,
+          "bounds": [
+            27,
+            9,
+            28,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 176,
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+      "ap_compartments": [
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+          "item_checks": [
+            "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "176:5,10",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            5,
+            10,
+            5,
+            10
+          ],
+          "role_review_cluster_id": "176:5,10"
+        },
+        {
+          "id": "176:9,10",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            9,
+            10,
+            9,
+            10
+          ],
+          "role_review_cluster_id": "176:9,10"
+        },
+        {
+          "id": "176:4,13",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            4,
+            13,
+            4,
+            13
+          ],
+          "role_review_cluster_id": "176:4,13"
+        },
+        {
+          "id": "176:8,13",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            8,
+            13,
+            8,
+            13
+          ],
+          "role_review_cluster_id": "176:8,13"
+        },
+        {
+          "id": "176:5,15",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            5,
+            15,
+            5,
+            15
+          ],
+          "role_review_cluster_id": "176:5,15"
+        },
+        {
+          "id": "176:9,15",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            9,
+            15,
+            9,
+            15
+          ],
+          "role_review_cluster_id": "176:9,15"
+        },
+        {
+          "id": "176:3,16",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            3,
+            16,
+            3,
+            16
+          ],
+          "role_review_cluster_id": "176:3,16"
+        },
+        {
+          "id": "176:7,16",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            7,
+            16,
+            7,
+            16
+          ],
+          "role_review_cluster_id": "176:7,16"
+        },
+        {
+          "id": "176:11,16",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 1,
+          "bounds": [
+            11,
+            16,
+            11,
+            16
+          ],
+          "role_review_cluster_id": "176:11,16"
+        },
+        {
+          "id": "176:16,35",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "Energy Drink chest; Batafire output is policy-dependent, not guaranteed Burning.",
+          "tile_count": 6,
+          "bounds": [
+            16,
+            35,
+            18,
+            36
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 205,
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
+      "ap_compartments": [
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_11"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "205:24,3",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No door or pickup lies within or beyond this small isolated obstacle. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 6,
+          "bounds": [
+            24,
+            3,
+            26,
+            4
+          ],
+          "role_review_cluster_id": "205:24,3"
+        },
+        {
+          "id": "205:21,8",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Floor plug toward Peppermint chest room; isolated aerial Hammer contact accepted, entry/source/whole route pending.",
+          "tile_count": 4,
+          "bounds": [
+            21,
+            8,
+            22,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 216,
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_19",
+      "ap_compartments": [
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_19",
+          "item_checks": [
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_19"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_20"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "216:28,5",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "Peppermint Room 19 1-Up chest, not an untracked loose 1-Up.",
+          "tile_count": 6,
+          "bounds": [
+            28,
+            5,
+            30,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 228,
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_9",
+      "ap_compartments": [
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+          "item_checks": [
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "228:27,23",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "Right-hand metal branch protects one Room 9 chest; exact chest identity and destructive branch interactions pending.",
+          "tile_count": 2,
+          "bounds": [
+            27,
+            23,
+            27,
+            24
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 229,
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_10",
+      "ap_compartments": [
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+          "item_checks": [
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03",
+            "MINOR_CHEST_SPRAY_PAINT_09"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "229:4,27",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "Left metal side passage protects one Room 10 chest; exact chest identity pending.",
+          "tile_count": 2,
+          "bounds": [
+            4,
+            27,
+            5,
+            27
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 308,
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_9",
+      "ap_compartments": [
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_10"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "308:38,8",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Article identifies a loose 1-Up; current room has no AP item location. Main exit bypass still requires verification.",
+          "tile_count": 4,
+          "bounds": [
+            38,
+            8,
+            39,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 312,
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_18",
+      "ap_compartments": [
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "312:10,11",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No local AP checks; these clusters do not seal a passage toward Warp or Room19. Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+          "tile_count": 1,
+          "bounds": [
+            10,
+            11,
+            10,
+            11
+          ],
+          "role_review_cluster_id": "312:10,11"
+        },
+        {
+          "id": "312:13,11",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No local AP checks; these clusters do not seal a passage toward Warp or Room19. Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+          "tile_count": 2,
+          "bounds": [
+            13,
+            11,
+            13,
+            12
+          ],
+          "role_review_cluster_id": "312:13,11"
+        },
+        {
+          "id": "312:43,11",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No local AP checks; these clusters do not seal a passage toward Warp or Room19. Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+          "tile_count": 6,
+          "bounds": [
+            43,
+            11,
+            45,
+            12
+          ],
+          "role_review_cluster_id": "312:43,11"
+        }
+      ]
+    },
+    {
+      "native_room": 317,
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_17",
+      "ap_compartments": [
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+          ]
+        },
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "317:4,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose 1-Up at approximately (2,6), not an AP chest. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 8,
+          "bounds": [
+            4,
+            5,
+            7,
+            6
+          ],
+          "role_review_cluster_id": "317:4,5"
+        }
+      ]
+    },
+    {
+      "native_room": 405,
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+      "ap_compartments": [
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+            "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "405:49,6",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose 1-Up at approximately (53,7). Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 4,
+          "bounds": [
+            49,
+            6,
+            50,
+            7
+          ],
+          "role_review_cluster_id": "405:49,6"
+        },
+        {
+          "id": "405:43,10",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door is enclosed by these three clusters. Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances.",
+          "tile_count": 4,
+          "bounds": [
+            43,
+            10,
+            44,
+            11
+          ],
+          "role_review_cluster_id": "405:43,10"
+        },
+        {
+          "id": "405:28,15",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door is enclosed by these three clusters. Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances.",
+          "tile_count": 4,
+          "bounds": [
+            28,
+            15,
+            29,
+            16
+          ],
+          "role_review_cluster_id": "405:28,15"
+        },
+        {
+          "id": "405:50,18",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door is enclosed by these three clusters. Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances.",
+          "tile_count": 4,
+          "bounds": [
+            50,
+            18,
+            53,
+            18
+          ],
+          "role_review_cluster_id": "405:50,18"
+        }
+      ]
+    },
+    {
+      "native_room": 414,
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_11",
+      "ap_compartments": [
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "414:46,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose cherry at approximately (48,5), not an AP check. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 2,
+          "bounds": [
+            46,
+            5,
+            47,
+            5
+          ],
+          "role_review_cluster_id": "414:46,5"
+        },
+        {
+          "id": "414:49,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose cherry at approximately (48,5), not an AP check. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 4,
+          "bounds": [
+            49,
+            5,
+            52,
+            5
+          ],
+          "role_review_cluster_id": "414:49,5"
+        },
+        {
+          "id": "414:39,8",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose 1-Up at approximately (27,9), not an AP check. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 4,
+          "bounds": [
+            39,
+            8,
+            40,
+            9
+          ],
+          "role_review_cluster_id": "414:39,8"
+        }
+      ]
+    },
+    {
+      "native_room": 415,
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_14",
+      "ap_compartments": [
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_14",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "415:93,7",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15. Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred.",
+          "tile_count": 6,
+          "bounds": [
+            93,
+            7,
+            95,
+            8
+          ],
+          "role_review_cluster_id": "415:93,7"
+        },
+        {
+          "id": "415:99,7",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15. Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred.",
+          "tile_count": 6,
+          "bounds": [
+            99,
+            7,
+            101,
+            8
+          ],
+          "role_review_cluster_id": "415:99,7"
+        },
+        {
+          "id": "415:105,7",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15. Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred.",
+          "tile_count": 6,
+          "bounds": [
+            105,
+            7,
+            107,
+            8
+          ],
+          "role_review_cluster_id": "415:105,7"
+        }
+      ]
+    },
+    {
+      "native_room": 419,
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_13",
+      "ap_compartments": [
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+            "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "419:45,13",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose Maxim Tomato at approximately (52,14); secondary lower branch rejoins the Chest3 approach. Role only. The two original incoming passages are distinct; a unified AP room must not treat lower entry as automatic access to Warp. No use of the enclosed Flamer as an entry provider is justified.",
+          "tile_count": 4,
+          "bounds": [
+            45,
+            13,
+            46,
+            14
+          ],
+          "role_review_cluster_id": "419:45,13"
+        },
+        {
+          "id": "419:59,13",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose Maxim Tomato at approximately (52,14); secondary lower branch rejoins the Chest3 approach. Role only. The two original incoming passages are distinct; a unified AP room must not treat lower entry as automatic access to Warp. No use of the enclosed Flamer as an entry provider is justified.",
+          "tile_count": 4,
+          "bounds": [
+            59,
+            13,
+            60,
+            14
+          ],
+          "role_review_cluster_id": "419:59,13"
+        }
+      ]
+    },
+    {
+      "native_room": 421,
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_18",
+      "ap_compartments": [
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_18",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_19"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "421:43,6",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose Maxim Tomato at approximately (45,6), not an AP check. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 2,
+          "bounds": [
+            43,
+            6,
+            44,
+            6
+          ],
+          "role_review_cluster_id": "421:43,6"
+        },
+        {
+          "id": "421:47,6",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose Maxim Tomato at approximately (45,6), not an AP check. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 2,
+          "bounds": [
+            47,
+            6,
+            48,
+            6
+          ],
+          "role_review_cluster_id": "421:47,6"
+        }
+      ]
+    },
+    {
+      "native_room": 502,
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_16",
+      "ap_compartments": [
+        {
+          "region": "REGION_RADISH_RUINS/ROOM_8_16",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+            "REGION_RADISH_RUINS/ROOM_8_17"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "502:60,5",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "REGION_RADISH_RUINS/ROOM_8_17; ordinary door at native(74,5), optional fuse cannon also reaches native525. Do not impose a new metal gate yet. The apparent overhead gap needs bounded native collision/normal-flight confirmation; map pixels alone do not prove top-of-room collision clearance. No claim that the optional cannon or fuse is required.",
+          "tile_count": 3,
+          "bounds": [
+            60,
+            5,
+            62,
+            5
+          ],
+          "role_review_cluster_id": "502:60,5"
+        }
+      ]
+    },
+    {
+      "native_room": 510,
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_9",
+      "ap_compartments": [
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+          "item_checks": [
+            "MINOR_CHEST_CABBAGE_CAVERN_3_09"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CABBAGE_CAVERN/ROOM_3_08",
+            "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "510:8,28",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "MINOR_CHEST_CABBAGE_CAVERN_3_09 at approximately (6,28). The corridor is one tile high in the image; native crouch/attack geometry and lower-right bomb-block approach need acceptance. Do not replace the existing peg witness or AND metal onto it. Upper-peg exit path may allow returning upward; no one-way escape requirement inferred.",
+          "tile_count": 10,
+          "bounds": [
+            8,
+            28,
+            17,
+            28
+          ],
+          "role_review_cluster_id": "510:8,28"
+        }
+      ]
+    },
+    {
+      "native_room": 512,
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_4",
+      "ap_compartments": [
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_13",
+            "REGION_CABBAGE_CAVERN/ROOM_3_03"
+          ]
+        },
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_CABBAGE_CAVERN/ROOM_3_03",
+            "REGION_CABBAGE_CAVERN/ROOM_3_05"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "512:6,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Metal-bracketed food/battery pocket has no AP item location. Preserve independent compartment/exit audit.",
+          "tile_count": 4,
+          "bounds": [
+            6,
+            5,
+            7,
+            6
+          ]
+        },
+        {
+          "id": "512:13,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Other side of food/battery pocket; no AP item location. Preserve independent compartment/exit audit.",
+          "tile_count": 4,
+          "bounds": [
+            13,
+            5,
+            14,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 529,
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
+      "ap_compartments": [
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CABBAGE_CAVERN/ROOM_3_01",
+            "REGION_CABBAGE_CAVERN/ROOM_3_04",
+            "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "529:8,5",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping. Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage.",
+          "tile_count": 4,
+          "bounds": [
+            8,
+            5,
+            9,
+            6
+          ],
+          "role_review_cluster_id": "529:8,5"
+        },
+        {
+          "id": "529:12,18",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping. Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage.",
+          "tile_count": 4,
+          "bounds": [
+            12,
+            18,
+            13,
+            19
+          ],
+          "role_review_cluster_id": "529:12,18"
+        }
+      ]
+    },
+    {
+      "native_room": 532,
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_27",
+      "ap_compartments": [
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_26",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"
+          ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_28",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27"
+          ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_30",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "532:3,18",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "REGION_RAINBOW_ROUTE/ROOM_1_27 -> ROOM_1_27_UPPER_LEFT -> ROOM_1_28. Role and cannon alignment only; no controller launch or ability-source witness accepted here. Reverse entry fromRoom28 must be treated separately, rather than requiring metal in both directions.",
+          "tile_count": 16,
+          "bounds": [
+            3,
+            18,
+            10,
+            19
+          ],
+          "role_review_cluster_id": "532:3,18"
+        }
+      ]
+    },
+    {
+      "native_room": 533,
+      "wiki_url": "https://wikirby.com/wiki/Mustard_Mountain_-_Room_15",
+      "ap_compartments": [
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_34",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_17"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "533:2,14",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Gordo-containing side chamber only; no pickup, AP check, or room exit inside. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 2,
+          "bounds": [
+            2,
+            14,
+            3,
+            14
+          ],
+          "role_review_cluster_id": "533:2,14"
+        },
+        {
+          "id": "533:10,18",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Gordo-containing side chamber only; no pickup, AP check, or room exit inside. Role only, not controller acceptance or an ability-provider witness.",
+          "tile_count": 4,
+          "bounds": [
+            10,
+            18,
+            13,
+            18
+          ],
+          "role_review_cluster_id": "533:10,18"
+        }
+      ]
+    },
+    {
+      "native_room": 537,
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_39",
+      "ap_compartments": [
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+          "item_checks": [
+            "MINOR_CHEST_MUSIC_NOTE_01"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_38",
+            "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "537:30,6",
+          "classification": "ap_target",
+          "status": "pending_route_acceptance",
+          "note": "Beginning Notes floor plug. Entry from native538 at (44,3) does not prove a bypass: controller Down/Down+A could not descend the 0x0F-capped right shaft. Source/carry acceptance remains pending.",
+          "tile_count": 4,
+          "bounds": [
+            30,
+            6,
+            31,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 557,
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Goal_1",
+      "ap_compartments": [
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+          "item_checks": [
+            "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "557:10,18",
+          "classification": "ap_target",
+          "status": "conditional_source_witness",
+          "note": "Conditional Smash witness: actual entry/controller arena access, native defeated-Hand source contract and capture corridor, isolated AP-patched grounded Hammer swings and chest event. No complete actual-source replay or other provider/policy claim.",
+          "tile_count": 14,
+          "bounds": [
+            10,
+            18,
+            14,
+            20
+          ],
+          "accepted_target": "metal_557_goal1_tomato",
+          "requires_guaranteed_source": {
+            "source_key": "MASTER_HAND",
+            "ability": "Smash"
+          }
+        }
+      ]
+    },
+    {
+      "native_room": 606,
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_8",
+      "ap_compartments": [
+        {
+          "region": "REGION_RADISH_RUINS/ROOM_8_08",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RADISH_RUINS/ROOM_8_03",
+            "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "606:11,26",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose Maxim Tomato at approximately (16,28), plus an optional shortcut toward ROOM_8_03. Map role review only. Do not turn this optional shortcut into a universal Room3 exit requirement; omitted bottom two native rows are not evidence.",
+          "tile_count": 6,
+          "bounds": [
+            11,
+            26,
+            12,
+            28
+          ],
+          "role_review_cluster_id": "606:11,26"
+        }
+      ]
+    },
+    {
+      "native_room": 609,
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_18",
+      "ap_compartments": [
+        {
+          "region": "REGION_RADISH_RUINS/ROOM_8_18",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_RADISH_RUINS/ROOM_8_19"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "609:38,7",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Lower ham branch has no AP item location. Main upper cannon/exit path is separate.",
+          "tile_count": 6,
+          "bounds": [
+            38,
+            7,
+            40,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 707,
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4",
+      "ap_compartments": [
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "707:69,4",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Upper Room 13 door. Throw cannot carry the distant lower Heavy Knight to this launch chamber.",
+          "tile_count": 2,
+          "bounds": [
+            69,
+            4,
+            70,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 708,
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
+      "ap_compartments": [
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "708:36,23",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Metal split between left and right compartments; each direction needs its own approach/source witness.",
+          "tile_count": 2,
+          "bounds": [
+            36,
+            23,
+            37,
+            23
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 736,
+      "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+      "ap_compartments": [
+        {
+          "region": "REGION_CARROT_CASTLE/ROOM_5_10",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+            "REGION_CARROT_CASTLE/ROOM_5_11"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "736:4,1",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "REGION_CARROT_CASTLE/ROOM_5_11, upper-left door approximately(1,2). Mandatory-vs-shortcut role unresolved: retain as exit-related pending native collision/entry review, not a certified mandatory metal gate. This cluster is not on the initial center cannon ring.",
+          "tile_count": 2,
+          "bounds": [
+            4,
+            1,
+            5,
+            1
+          ],
+          "role_review_cluster_id": "736:4,1"
+        },
+        {
+          "id": "736:19,10",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "REGION_CARROT_CASTLE/ROOM_5_11 via northwest cannon branch. Native source/transition audit, not controller shot acceptance. Exact northwest destination spawn is not supplied in this pass; do not add a copy-ability requirement.",
+          "tile_count": 3,
+          "bounds": [
+            19,
+            10,
+            20,
+            11
+          ],
+          "role_review_cluster_id": "736:19,10"
+        },
+        {
+          "id": "736:23,10",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon. No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+          "tile_count": 1,
+          "bounds": [
+            23,
+            10,
+            23,
+            10
+          ],
+          "role_review_cluster_id": "736:23,10"
+        },
+        {
+          "id": "736:26,10",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon. No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+          "tile_count": 3,
+          "bounds": [
+            26,
+            10,
+            27,
+            11
+          ],
+          "role_review_cluster_id": "736:26,10"
+        },
+        {
+          "id": "736:19,14",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose cherry in west spike chamber; return door leads back to the cannon. No controller shot acceptance; source/transition and composite role review only.",
+          "tile_count": 1,
+          "bounds": [
+            19,
+            14,
+            19,
+            14
+          ],
+          "role_review_cluster_id": "736:19,14"
+        },
+        {
+          "id": "736:27,14",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Right side room with two Sparkies and a loose 1-Up protected separately by736:32,18. No controller shot acceptance. Two-Sparky Mix is vanilla advice, not an accepted randomized provider rule.",
+          "tile_count": 1,
+          "bounds": [
+            27,
+            14,
+            27,
+            14
+          ],
+          "role_review_cluster_id": "736:27,14"
+        },
+        {
+          "id": "736:19,17",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Optional southwest Phan Phan chamber, returning to the center cannon; no current AP item check there. The boss may be a copy-ability source in a provider route, so do not claim it is irrelevant to every randomized source path. No source acquisition or controller shot witness is accepted.",
+          "tile_count": 3,
+          "bounds": [
+            19,
+            17,
+            20,
+            18
+          ],
+          "role_review_cluster_id": "736:19,17"
+        },
+        {
+          "id": "736:26,17",
+          "classification": "scenery_no_required_passage",
+          "status": "pending_route_acceptance",
+          "note": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon. No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+          "tile_count": 3,
+          "bounds": [
+            26,
+            17,
+            27,
+            18
+          ],
+          "role_review_cluster_id": "736:26,17"
+        },
+        {
+          "id": "736:23,18",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1 through the lower Mini corridor. Native source/transition audit, not controller shot acceptance. Cannon clearance is separate from the later Mini requirement; no copy-ability metal gate should be inferred.",
+          "tile_count": 1,
+          "bounds": [
+            23,
+            18,
+            23,
+            18
+          ],
+          "role_review_cluster_id": "736:23,18"
+        },
+        {
+          "id": "736:32,18",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose1-Up at approximately(33,19), not an AP item check. The article suggests two-Sparky Mix into Missile, but no randomized provider rule or controller witness is accepted.",
+          "tile_count": 3,
+          "bounds": [
+            32,
+            18,
+            34,
+            18
+          ],
+          "role_review_cluster_id": "736:32,18"
+        }
+      ]
+    },
+    {
+      "native_room": 741,
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_14",
+      "ap_compartments": [
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "741:14,22",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Article identifies tomato pocket, not an AP item location. Do not source earlier barrier from later Bonkers.",
+          "tile_count": 13,
+          "bounds": [
+            14,
+            22,
+            20,
+            23
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 742,
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "ap_compartments": [
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+          "item_checks": [
+            "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01"
+          ],
+          "room_sanity": true,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "742:20,6",
+          "classification": "ap_exit",
+          "status": "pending_route_acceptance",
+          "note": "Upper route toward Warp and the sparerib chest; exact chest branch position remains pending.",
+          "tile_count": 4,
+          "bounds": [
+            20,
+            6,
+            21,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 802,
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_20",
+      "ap_compartments": [
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_20",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "802:13,38",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Loose side-chamber goodies, not an AP chest. The public map omits the final two native rows. This identifies the side chamber only, not the entire downstream transition or a controller acceptance.",
+          "tile_count": 3,
+          "bounds": [
+            13,
+            38,
+            13,
+            40
+          ],
+          "role_review_cluster_id": "802:13,38"
+        }
+      ]
+    },
+    {
+      "native_room": 814,
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_12",
+      "ap_compartments": [
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_12",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_OLIVE_OCEAN/ROOM_6_11",
+            "REGION_OLIVE_OCEAN/ROOM_6_13",
+            "REGION_OLIVE_OCEAN/ROOM_6_14",
+            "REGION_OLIVE_OCEAN/ROOM_6_17",
+            "REGION_OLIVE_OCEAN/ROOM_6_12__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_OLIVE_OCEAN/ROOM_6_13",
+            "REGION_OLIVE_OCEAN/ROOM_6_12__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_12__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
+        }
+      ],
+      "clusters": [
+        {
+          "id": "814:19,23",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 6,
+          "bounds": [
+            19,
+            23,
+            21,
+            24
+          ]
+        },
+        {
+          "id": "814:11,24",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 1,
+          "bounds": [
+            11,
+            24,
+            11,
+            24
+          ]
+        },
+        {
+          "id": "814:13,24",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 1,
+          "bounds": [
+            13,
+            24,
+            13,
+            24
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 819,
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_21",
+      "ap_compartments": [
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_21",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_OLIVE_OCEAN/ROOM_6_22"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "819:12,4",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 5,
+          "bounds": [
+            12,
+            4,
+            16,
+            4
+          ]
+        },
+        {
+          "id": "819:29,4",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 6,
+          "bounds": [
+            29,
+            4,
+            30,
+            6
+          ]
+        },
+        {
+          "id": "819:34,5",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 6,
+          "bounds": [
+            34,
+            5,
+            35,
+            7
+          ]
+        },
+        {
+          "id": "819:36,5",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 23,
+          "bounds": [
+            36,
+            5,
+            41,
+            10
+          ]
+        },
+        {
+          "id": "819:12,7",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 5,
+          "bounds": [
+            12,
+            7,
+            16,
+            7
+          ]
+        },
+        {
+          "id": "819:26,7",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 3,
+          "bounds": [
+            26,
+            7,
+            28,
+            7
+          ]
+        },
+        {
+          "id": "819:7,8",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 15,
+          "bounds": [
+            7,
+            8,
+            11,
+            10
+          ]
+        },
+        {
+          "id": "819:15,13",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 6,
+          "bounds": [
+            15,
+            13,
+            17,
+            14
+          ]
+        },
+        {
+          "id": "819:34,13",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 12,
+          "bounds": [
+            34,
+            13,
+            39,
+            14
+          ]
+        },
+        {
+          "id": "819:5,15",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 8,
+          "bounds": [
+            5,
+            15,
+            8,
+            16
+          ]
+        },
+        {
+          "id": "819:40,15",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 2,
+          "bounds": [
+            40,
+            15,
+            40,
+            16
+          ]
+        },
+        {
+          "id": "819:35,17",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Preserve existing Normal controller-proven exits without F5 destruction; optional metal loot is not thereby reachable.",
+          "tile_count": 4,
+          "bounds": [
+            35,
+            17,
+            36,
+            18
+          ]
+        }
+      ]
+    },
+    {
+      "native_room": 821,
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_22",
+      "ap_compartments": [
+        {
+          "region": "REGION_OLIVE_OCEAN/ROOM_6_22",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": [
+            "REGION_OLIVE_OCEAN/ROOM_6_23"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "id": "821:60,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Metal-guarded loose 1-Up, no AP item location. This is not acceptance of the main exit.",
+          "tile_count": 3,
+          "bounds": [
+            60,
+            5,
+            62,
+            5
+          ]
+        },
+        {
+          "id": "821:64,5",
+          "classification": "optional_non_ap_pickup",
+          "status": "pending_route_acceptance",
+          "note": "Metal-guarded loose 1-Up, no AP item location. This is not acceptance of the main exit.",
+          "tile_count": 6,
+          "bounds": [
+            64,
+            5,
+            69,
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "cluster_identity": "Room ID plus minimum x/y identifies a four-neighbor F5 component in docs/metal-tile-inventory.json. Coordinates are not duplicated; bounds and tile_count are verified against that inventory.",
+  "legacy_block_placeholder_audit": {
+    "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Each current occurrence is a rooms.json directed exit condition.",
+    "counts": {
+      "CanBreakBlocks": 0,
+      "can_break_block": 137,
+      "can_break_floating_block": 18,
+      "can_break_metal": 8,
+      "can_break_metal_throw": 1
+    },
+    "semantics": "CanBreakBlocks and its can_break_block alias are currently permissive, not permission or equipment tests. Many bindings describe ordinary Normal-breakable terrain. The eight-ability descriptive constant is not a source, movement, ammunition or complete move witness.",
+    "removal_requirement": "Cross-check affected paths against actual native F5 geometry and AP targets. Do not turn all aliases into metal gates. Legacy metal and floating-block tokens are also permissive; their names do not establish accepted routes."
+  },
+  "role_review_record": "ordinary-metal-role-review.json"
+}

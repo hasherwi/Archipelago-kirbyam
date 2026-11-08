@@ -1,9 +1,12 @@
 # Metal-block traversal: research and acceptance plan
 
-Status: preparation only, 2026-11-08. Baseline: `370dbb431bd0c81949a12c0be36df12b0c8879f6`.
+Historical preparation, 2026-11-08. See the subsequent
+[ordinary-metal implementation checkpoint](ordinary-metal-traversal-implementation.md)
+for the bounded native557 rule and remaining coverage limits. Preparation baseline: `370dbb431bd0c81949a12c0be36df12b0c8879f6`.
 
 This document preserves ordinary-metal ability research for a later directional,
-room-by-room audit. Ordinary-metal traversal edges remain deferred. The separate
+room-by-room audit. At this preparation baseline ordinary-metal traversal edges
+remain deferred. The separate
 reinforced/Heave-Ho follow-up adds only the reviewed native 102 mechanism witness;
 starting abilities and item classification are unchanged.
 The later isolated Hammer floor test is recorded below; room-by-room traversal
@@ -31,8 +34,9 @@ an ability's behavior in another Kirby game is not sufficient.
 
 ## Ability and condition inventory
 
-The eight candidate abilities below agree with the existing `metal` attack-class
-set in [`traversal.py`](../traversal.py). They are **not eight interchangeable
+The eight candidate abilities below agree with `METAL_BREAKING_ABILITIES` in
+[`traversal.py`](../traversal.py). The subsequent ordinary-metal implementation
+separates Throw into a physical-object action; it is not a direct unarmed hit. They are **not eight interchangeable
 solutions for every room**. This table records source research, not successful
 room-level acceptance tests. Native move/attack definitions are in
 [`kirby.c`][kirby] and [`code_0806F780.c`][attacks]; [WiKirby's metal-block page][wiki]

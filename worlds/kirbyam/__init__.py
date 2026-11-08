@@ -33,7 +33,6 @@ from .data import (
 from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES, starting_copy_abilities
 from .mini_traversal import validate_mini_sources
 from .peg_traversal import peg_logic_enabled, validate_peg_assignment
-from .traversal_data import requires_all_traversal_witnesses
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
 from .generation_logging import (
     generation_stage,
@@ -221,6 +220,14 @@ class KirbyAmWorld(World):
         from .sanity_check import validate_group_maps, validate_regions
         assert validate_regions()
         assert validate_group_maps()
+
+    @classmethod
+    def stage_pre_output(cls, multiworld: MultiWorld) -> None:
+        # Main calls this after all worlds finalize placements and after
+        # progression balancing, including skip-output generation.
+        from .check_accessibility import validate_all_checks
+        players = (player for player in multiworld.player_ids if isinstance(multiworld.worlds[player], cls))
+        validate_all_checks(multiworld, players)
 
     def _no_extra_lives_enabled(self) -> bool:
         option = getattr(getattr(self, "options", None), "no_extra_lives", None)
@@ -490,13 +497,15 @@ class KirbyAmWorld(World):
                 include_passive_enemies=randomize_non_ability,
                 no_ability_weight=no_ability_weight,
             )
+            # All checks need feasible sources even under minimal accessibility.
+            # Keep whole-policy resampling bounded and preserve the selected option.
             self._enemy_copy_ability_policy = validate_peg_assignment(
                 self._enemy_copy_ability_policy,
                 lambda: build_enemy_copy_ability_policy(
                     self.random, mode, randomize_boss_spawned, randomize_miniboss,
                     include_minny=False, include_passive_enemies=randomize_non_ability,
                     no_ability_weight=no_ability_weight,
-                ), randomize_statues, require_all_witnesses=requires_all_traversal_witnesses(self),
+                ), randomize_statues, require_all_witnesses=True,
             )
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):
@@ -1202,7 +1211,7 @@ class KirbyAmWorld(World):
         )
         slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
         multiworld = getattr(self, "multiworld", None)
-        precollected_items = ()
+        precollected_items: tuple[Item, ...] | list[Item] = ()
         if multiworld is not None:
             precollected_by_player = getattr(multiworld, "precollected_items", {})
             precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())

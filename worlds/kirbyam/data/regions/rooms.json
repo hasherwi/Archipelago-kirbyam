@@ -846,6 +846,83 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_557_goal1_tomato",
+          "kind": "metal",
+          "native_room": 557,
+          "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01",
+          "requires_guaranteed_source": {
+            "source_key": "MASTER_HAND",
+            "ability": "Smash"
+          },
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_557_goal1_tomato:entry",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:arena",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:launch",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:chest",
+                  "native_room": 557
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_557_goal1_tomato:entry",
+                  "to": "metal_557_goal1_tomato:arena",
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json entry_approach: actual556 door0x87C31C arrives24,72.996; Normal right descent, left shelf and ladder reach arena; controller continuation reaches common floor341.078,328.996."
+                },
+                {
+                  "from": "metal_557_goal1_tomato:arena",
+                  "to": "metal_557_goal1_tomato:launch",
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json native_source_contract.capture_to_launch_geometry: after successful in-arena capture, open x15..30,y19..20 and solid floor y21 connect to264,328.996; no additional barrier/water. Normal controller bridge reaches268.656,328.996. Ordinary movement carries Smash."
+                },
+                {
+                  "from": "metal_557_goal1_tomato:launch",
+                  "to": "metal_557_goal1_tomato:chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "metal_evidence": {
+                    "Smash": "dev-docs/ordinary-557-smash-acceptance.json isolated_smash_to_chest: dry grounded Left+B Hammer twice from right, advancing after first swing; clears13/14 F5 (only10,18 remains), enters pocket and collects exact chest0x088B9280."
+                  },
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json: physical fixture essence establishes attack/collection only. Actual source is separate Master Hand below; no generic floor/ceiling or reverse attack claim."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9358",
+                  "node": "metal_557_goal1_tomato:arena",
+                  "source_key": "MASTER_HAND",
+                  "acquisition_evidence": "dev-docs/ordinary-557-smash-acceptance.json native_source_contract: actual type0x3E at440,264; shared defeated-miniboss inhale/swallow contract supplies table0x351C1E, gated by actual source policy. Existing ordinary boss-combat assumption; full actual defeat/swallow/chest replay is not claimed. In-arena capture is before F5 barrier."
+                }
+              ],
+              "starts": [
+                "metal_557_goal1_tomato:entry"
+              ],
+              "required_targets": [
+                "metal_557_goal1_tomato:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2": {
