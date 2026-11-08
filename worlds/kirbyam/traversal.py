@@ -25,9 +25,31 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
     "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
     "mini_corridor": frozenset({"Mini"}),
+    # These are attack classes, not permission-to-equip shortcuts. Room data
+    # must still establish direction, reach, source and water state.
+    "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+    "frozen_enemy_hit": frozenset({"Ice"}),
+    "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
 }
+# Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun
+# without replacing the carried ability. In particular, swimming cannot start
+# Stone or use Smash's hammer. A pre-transformed Stone descent is a separate
+# geometric sequence and must not be inferred from a swimming attack.
+UNDERWATER_ATTACK_ABILITIES = frozenset({"Parasol", "Hammer", "Sword", "Master"})
+
+
+def attack_provider(ability: str, water_state: str) -> str | None:
+    if water_state not in {"dry", "swimming"}:
+        raise ValueError(f"Unknown traversal water state: {water_state}")
+    if water_state == "swimming" and ability == "Mini":
+        return None  # Native swimming input excludes Mini; dropping is separate.
+    if water_state == "swimming" and ability not in UNDERWATER_ATTACK_ABILITIES:
+        return "Normal"
+    return ability
+
+
 # Equipment consumed by actually using a capability, not by crossing an already
 # opened barrier. Physical source consumption remains tracked independently.
 CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
@@ -153,6 +175,8 @@ class Route:
     room_transition: bool = False
     resets_room_instance: bool = False
     preserves_room_instance: bool = False
+    water_state: str = "dry"
+    uses_object: str | None = None
 
 
 @dataclass(frozen=True)
@@ -214,6 +238,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     No claim is made that resetting a room/client resets RNG to a new result.
     """
     node_list = list(nodes)
+    placement_list = list(placements)
+    objects: dict[str, list[Placement]] = defaultdict(list)
+    for source in placement_list:
+        identity = source.identity or f"{source.node}:{source.source_key}"
+        objects[identity].append(source)
     node_by_key = {node.key: node for node in node_list}
     if len(node_by_key) != len(node_list):
         raise ValueError("Duplicate traversal compartment")
@@ -224,6 +253,23 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError(f"Unknown traversal endpoint: {route}")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
+        attack_provider("Normal", route.water_state)
+        if route.capability == "underwater_block_hit" and route.water_state != "swimming":
+            raise ValueError("An underwater block hit needs swimming attack state")
+        if (route.capability == "frozen_enemy_hit") != (route.uses_object is not None):
+            raise ValueError("A frozen-enemy hit needs a physical target object and no unrelated capability")
+        if route.capability == "frozen_enemy_hit" and route.opens is not None:
+            raise ValueError("Frozen-enemy hit cannot have a persistent opens event")
+        if route.uses_object is not None:
+            if not isinstance(route.uses_object, str) or not route.uses_object.strip():
+                raise ValueError("Route object identity must be a nonempty string")
+            candidates = objects.get(route.uses_object, ())
+            if len(set(candidates)) > 1:
+                raise ValueError("Conflicting physical source identity for frozen target")
+            if not candidates or candidates[0].identity is None or candidates[0].node != route.source:
+                raise ValueError("Route object must be a physical source in its launch compartment")
+            if candidates[0].renewable:
+                raise ValueError("Frozen enemy needs a one-use physical placement")
         # Native cannon_fuse.c regrows the fuse after its timed pause; ignition
         # cannot grant a persistent room-local opened event.
         if route.capability == "fuse" and route.opens is not None:
@@ -241,7 +287,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if route.recover_dropped_ability and transitions:
             raise ValueError("Drop/recovery must be an audited local sequence, not a room transition")
         outgoing[route.source].append(route)
-    for source in placements:
+    for source in placement_list:
         if source.node not in node_by_key:
             raise ValueError(f"Unknown source compartment: {source.node}")
         sources[source.node].append(source)
@@ -299,7 +345,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     CAPABILITY_ABILITIES[route.capability]
                     if route.allowed_abilities is None else route.allowed_abilities
                 )
-                if not position.equipment_outcomes or not position.equipment_outcomes <= abilities:
+                # Swimming Hammer is the spin, not the dry Hammer Flip used
+                # by our fuse witnesses. No underwater ignition is reviewed.
+                if route.water_state == "swimming" and route.capability == "fuse":
+                    continue
+                attacks = frozenset(attack_provider(ability, route.water_state)
+                                    for ability in position.equipment_outcomes)
+                if not attacks or not attacks <= abilities:
+                    continue
+            if not already_open and route.uses_object is not None:
+                if (route.uses_object in position.consumed
+                        or not objects[route.uses_object][0].requirements <= owned):
                     continue
             if route.recover_dropped_ability:
                 if not all(
@@ -318,6 +374,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 elif ability & spent:
                     ability = (ability - spent) | {"Normal"}
             consumed = position.consumed
+            if route.uses_object is not None and not already_open:
+                consumed |= {route.uses_object}
             if route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room:
                 # A transition always clears Mini, but need not recreate the
                 # room instance. Unknown lifetime loses credit for opened pegs
@@ -361,7 +419,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     if set(row) - {
         "from", "to", "capability", "opens", "items", "area_key_items", "evidence",
         "allowed_abilities", "recover_dropped_ability", "room_transition",
-        "room_instance", "reset_evidence",
+        "room_instance", "reset_evidence", "water_state", "uses_object",
+        "frozen_enemy_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -370,6 +429,15 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         raise ValueError("Unknown room instance policy")
     if row.get("room_instance") == "reset" and not row.get("reset_evidence"):
         raise ValueError("Room reset is missing evidence")
+    if row.get("uses_object") is not None and (
+        not isinstance(row.get("frozen_enemy_evidence"), str)
+        or not row["frozen_enemy_evidence"].strip()
+    ):
+        raise ValueError("Frozen enemy requires freeze/kick evidence")
+    if "frozen_enemy_evidence" in row and row.get("uses_object") is None:
+        raise ValueError("Frozen-enemy evidence requires a physical target object")
+    if row.get("capability") == "frozen_enemy_hit" and row.get("opens") is not None:
+        raise ValueError("Frozen-enemy hit cannot have a persistent opens event")
     for key in ("recover_dropped_ability", "room_transition"):
         if not isinstance(row.get(key, False), bool):
             raise ValueError(f"{key} must be a boolean")
@@ -390,6 +458,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         bool(row.get("room_transition", False)),
         row.get("room_instance") == "reset",
         row.get("room_instance") == "preserve",
+        row.get("water_state", "dry"), row.get("uses_object"),
     )
 
 

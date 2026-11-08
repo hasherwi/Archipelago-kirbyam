@@ -6504,6 +6504,85 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "frozen_825_sound_effects",
+          "kind": "block",
+          "native_room": 825,
+          "location": "MINOR_CHEST_MUSIC_NOTE_10",
+          "requires_guaranteed_source": {
+            "source_key": "MR_FROSTY",
+            "ability": "Ice"
+          },
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "frozen_825_sound_effects:arrival",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:arena",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:launch",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:chest",
+                  "native_room": 825
+                }
+              ],
+              "starts": [
+                "frozen_825_sound_effects:arrival"
+              ],
+              "required_targets": [
+                "frozen_825_sound_effects:chest"
+              ],
+              "routes": [
+                {
+                  "from": "frozen_825_sound_effects:arrival",
+                  "to": "frozen_825_sound_effects:arena",
+                  "evidence": "WiKirby Olive Ocean Goal 2 overview: bottom two-way chute leads upward to Mr Frosty. Normal arrival is inferred from this documented ordinary route, not claimed as the upper-arena native replay."
+                },
+                {
+                  "from": "frozen_825_sound_effects:arena",
+                  "to": "frozen_825_sound_effects:launch",
+                  "evidence": "Native upper-arena controller replay defeats Frosty with Normal shots, acquires Ice and flies to the distinct Waddle corridor; no Pengy carry or return assumed."
+                },
+                {
+                  "from": "frozen_825_sound_effects:launch",
+                  "to": "frozen_825_sound_effects:chest",
+                  "capability": "frozen_enemy_hit",
+                  "uses_object": "0x088CD318",
+                  "evidence": "Native complete timed sequence reaches chest 66 and music bit 0x400; no persistent switch-open event.",
+                  "frozen_enemy_evidence": "Freeze the distinct Waddle at (528,136), wait for completed freeze, push right through wall into small button, jump right through gate and reach chest; WiKirby Treasure Sound Effects corroborates."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088CD3F0",
+                  "node": "frozen_825_sound_effects:arena",
+                  "source_key": "MR_FROSTY",
+                  "acquisition_evidence": "Defeat with Normal star shots and swallow dizzy Frosty; actual native upper-arena replay. Applicability requires its source-policy grant to guarantee Ice."
+                },
+                {
+                  "id": "0x088CD318",
+                  "node": "frozen_825_sound_effects:launch",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "Distinct native target at (528,136), finite instance. Swallowing consumes it and cannot also produce a projectile."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
@@ -7173,23 +7252,15 @@
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_11": "can_break_block",
-      "REGION_OLIVE_OCEAN/ROOM_6_13": {
-        "all": [
-          "can_fly",
-          "can_break_metal"
-        ]
-      },
-      "REGION_OLIVE_OCEAN/ROOM_6_14": {
-        "all": [
-          "can_fly",
-          "can_break_metal"
-        ]
-      },
-      "REGION_OLIVE_OCEAN/ROOM_6_17": {
-        "all": [
-          "can_break_metal",
-          "can_swim"
-        ]
+      "REGION_OLIVE_OCEAN/ROOM_6_13": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_14": null,
+      "REGION_OLIVE_OCEAN/ROOM_6_17": null
+    },
+    "logical_subregions": {
+      "UPPER_LEFT": {
+        "exits": {
+          "REGION_OLIVE_OCEAN/ROOM_6_13": null
+        }
       }
     }
   },
@@ -7216,6 +7287,9 @@
           "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT": null
         }
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_OLIVE_OCEAN/ROOM_6_12": "UPPER_LEFT"
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_14": {
@@ -7684,6 +7758,48 @@
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_22": "can_swim"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "underwater_819_exit",
+          "kind": "block",
+          "native_room": 819,
+          "exit": "REGION_OLIVE_OCEAN/ROOM_6_22",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "underwater_819_exit:arrival",
+                  "native_room": 819
+                },
+                {
+                  "id": "underwater_819_exit:exit",
+                  "native_room": 819
+                }
+              ],
+              "starts": [
+                "underwater_819_exit:arrival"
+              ],
+              "required_targets": [
+                "underwater_819_exit:exit"
+              ],
+              "routes": [
+                {
+                  "from": "underwater_819_exit:arrival",
+                  "to": "underwater_819_exit:exit",
+                  "capability": "underwater_block_hit",
+                  "water_state": "swimming",
+                  "evidence": "docs/traversal-logic.md#underwater-and-frozen-enemy-hits; real entry(3,5): swim to central bomb chain, fire Water Gun upward, take upper-right loop and lower bypass to exit(42,18). Normal-only controller replay reached native821; no F5 metal was destroyed."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_22": {

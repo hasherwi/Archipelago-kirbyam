@@ -37,6 +37,12 @@ jobs:
         with:
           python-version: "3.13"
 
+      # Kivy may build from source when a Linux wheel is unavailable.
+      - name: Install OpenGL build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgl-dev
+
       - name: Install dependencies
         run: |
           python -m pip --isolated --disable-pip-version-check install --no-index --no-deps --require-hashes -r worlds/kirbyam/tools/security-bootstrap.txt
