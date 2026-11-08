@@ -164,3 +164,31 @@ def test_rom_base_marker_requires_exact_legacy_placeholder(mutation):
     else:
         with pytest.raises(ValueError, match="Enemy source config marker missing"):
             KirbyAmPatchExtension.validate_enemy_source_base(None, raw)
+
+
+def test_shuffled_native_overwrite_regression(tmp_path):
+    """Run production C resolver against state resets and excluded callers."""
+    compiler = shutil.which("cc") or shutil.which("clang") or shutil.which("gcc")
+    if compiler is None:
+        pytest.skip("no host C compiler available")
+    root = Path(__file__).resolve().parent
+    executable = tmp_path / ("shuffled.exe" if os.name == "nt" else "shuffled")
+    compiled = subprocess.run(
+        [compiler, "-std=c99", "-Wall", "-Wextra", "-Werror", "-I",
+         str(root.parent / "kirby_ap_payload"),
+         str(root / "native" / "shuffled_enemy_host.c"), "-o", str(executable)],
+        capture_output=True, text=True,
+    )
+    assert compiled.returncode == 0, compiled.stdout + compiled.stderr
+    executed = subprocess.run([str(executable)], capture_output=True, text=True)
+    assert executed.returncode == 0, f"native policy check line: {executed.returncode}"
+
+
+def test_shuffled_resolution_precedes_authoritative_gate():
+    payload = (Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "ap_payload.c").read_text()
+    request = payload.split("void ap_on_request_copy_ability_transition_c(", 1)[1]
+    request = request.split("KIRBY_REQUEST_ABILITY_TRANSITION_FN(kirby, rewritten_flags);", 1)[0]
+    restore = request.index("rewritten_flags = ap_enemy_restore_shuffled_ability(")
+    gate = request.index("selected_ability = (uint8_t)(rewritten_flags & KIRBY_ABILITY_MASK);")
+    assert restore < gate
+    assert "ap_is_locked_gated_ability(selected_ability)" in request[gate:]

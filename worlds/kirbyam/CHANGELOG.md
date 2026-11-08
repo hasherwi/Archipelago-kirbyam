@@ -22,9 +22,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
-- When enemies are set to shuffled, some may still have vanilla abilities. Most notably the first waddle doo in room 1-01.
 
 ### Bug Fixes
+- Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
