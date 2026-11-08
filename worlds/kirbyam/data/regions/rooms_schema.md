@@ -191,3 +191,18 @@ Recommended invariants for data integrity:
 - `areas.json` defines high-level area graph connectivity.
 - `rooms.json` defines room graph topology and directional path metadata.
 - Transition gating logic should read from `rooms.json` transition entries, not a separate transitions dataset.
+
+### Underwater and finite projectile route fields
+
+A reviewed route may specify `water_state: "dry"` (default) or `"swimming"`.
+Swimming resolves native attack dispatch without replacing carried equipment;
+Mini has no swimming attack and must be dropped separately. The
+`underwater_block_hit` capability requires swimming state. `metal` remains a
+material capability, not proof of a particular barrier's geometry.
+
+`frozen_enemy_hit` requires `uses_object` naming a one-use placement identity at
+the route's source and a nonempty `frozen_enemy_evidence` string documenting the
+freeze/kick/target sequence. It cannot have `opens`, refer to renewable sources,
+or be applied through an unrelated capability. No implicit object refresh is
+supported. Room-local consumption prevents swallowed or fired targets from
+being reused.

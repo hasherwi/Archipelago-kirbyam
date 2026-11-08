@@ -304,3 +304,5 @@ First Public Build!
 - Align the public-release contract by normalizing ability-randomization naming/defaults, removing legacy compatibility paths and aliases, and cleaning up pre-public template output so the shipped option surface matches current behavior.
 - Expand protocol, slot-data, patching, reconnect-chaos, release-metadata, snapshot, and negative-path test coverage across the world, client, and payload pipeline to support the first public version.
 - Establish the pre-public build and release workflow baseline, including ROM patch rebuild smoke coverage, release integrity checks, and maintainer validation/documentation needed for the `v0.1.0` release line.
+
+- Correct Olive Ocean Room12's directional upper-left arrival and record its Normal cannon routes; bind Room21's source-free Normal underwater bypass. Model swimming attacks and finite frozen-enemy hits without crediting Mini attacks or permanent timed-switch openings. Goal2/Room9 chest bindings remain unchanged pending complete evidence.

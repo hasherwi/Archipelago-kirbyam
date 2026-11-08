@@ -1795,3 +1795,102 @@ Native source is pinned to commit 7d969fbce14fdc838d2c1ea01389717fb96c3189:
   5](https://wikirby.com/wiki/Olive_Ocean_-_Room_5), [Olive Room
   8](https://wikirby.com/wiki/Olive_Ocean_-_Room_8), [Olive Room
   9](https://wikirby.com/wiki/Olive_Ocean_-_Room_9).
+
+## Underwater and frozen-enemy hits
+
+The native swimming B dispatcher (`kirby.c`, `gUnk_0834C318`, selected by
+`Macro_0803FF64_2`) preserves the attacks of Parasol, Hammer, Sword and Master.
+Other equipment uses Normal Water Gun without changing equipment. Mini is
+excluded by the native swimming-input caller: the evaluator must drop Mini to
+Normal before attacking, and cannot claim it kept Mini through that attack.
+Stone must finish transforming on dry ground before entering water; possession
+of Stone does not establish a swimming Stone attack. Swimming Hammer is not its
+dry fire move; no underwater fuse-ignition witness is credited.
+
+Water Gun (`code_0806F780.c`, `sub_08079C28`) has mask `0x30000043`; the kicked
+frozen enemy (`sub_0807E098`) has `0x20000043`. Both expose damage type `0x40`
+and strength 3. Direct Ice ownership is not a general through-wall or metal hit.
+`object_collision.c` intersects the attack with `0x3FFFF8 & ~(defense & ~7)`
+and compares the low three strength bits. Actual direction, reach and target
+remain room-specific requirements.
+
+The finite `frozen_enemy_hit` API requires Ice equipment, a separate one-use
+physical placement at the launch compartment, and explicit freeze/kick evidence.
+Swallowing or firing that identity consumes it. Conflicting identity aliases,
+renewable projectile sources and permanent `opens` effects are rejected. No
+viewport-refresh API is implemented. A timed switch requires a complete route
+through its gate, not a permanently opened event.
+
+### Accepted production scope
+
+Only the Normal Room 21 bypass and Room 12 directional topology below are bound.
+Goal 2's Sound Effects chest, Room 9's Cherry chest, and Ice item classification
+are unchanged. No global incoming-ability carry route is inferred.
+
+**Olive Room 21 / native 819:** from the actual effective entry pixel `(40,72)`,
+Normal swims to the central bomb at tile `(27,12)`, fires Water Gun upward,
+takes the upper-right loop and lower bypass, and reaches native 821/Room 22.
+The accepted run ends at frame 3876, ability 0, HP 2. No F5 metal was destroyed;
+the optional metal shortcuts are not prerequisites. `underwater_819_exit` starts
+Normal and needs no copy-ability source.
+
+**Olive Room 12 / native 814:** effective arrivals are `(56,456)` from Room 11,
+`(696,456)` from Room 17, and `(40,40)` from Room 13. Room 14 has no return tile
+transition. The upper-left Room 13 arrival sits above nondroppable tile 0x0F
+floors (attribute 0x4), unlike droppable 0x0E (0xC).
+`code_080023A4.c:sub_080035F4` requires support bit 0x8; the 0x0F handler does
+not honor the drop flag. The `UPPER_LEFT` logical subregion therefore only
+returns to Room 13 and reaches the singleton RoomSanity sink. It cannot grant
+the lower corridors' exits.
+
+Normal controller witnesses establish:
+
+- Room 17 lower-right arrival to Room 13: inhale bomb `(40,28)`, cross the lower
+  corridor, ascend central x25/26 and left x11/12 shafts. Final frame 2876:
+  native 824, ability 0, HP 4.
+- Room 11 lower-left arrival to Room 14: jump into the lower corridor, ascend the
+  central shaft, inhale ordinary F0 blocks, use the middle-right cannon and
+  upper corridor. Final frame 4661: native 831, ability 0, HP 1.
+- Room 11 lower-left arrival to Room 17: same ordinary-block approach, then fire
+  the rotating cannon downward through the untouched ordinary F4 shaft and
+  swim through the lower-right chamber. Final frame 4167: native 832, ability 0,
+  HP 3. No player underwater attack or metal-breaking ability is required.
+
+These prove Normal routes, not preservation of every carried ability or a
+one-hit-health playthrough. Room 9 bomb ordering remains unreviewed. Candidate
+undirected collision-grid paths are not accepted traversal proofs.
+
+### Native acceptance and coordinate convention
+
+`dev-docs/block-hit-acceptance.json` preserves four controller traces and
+checkpoints, fixture hashes, and no ROM bytes or raw collision grids. The lawful
+USA ROM SHA1 is `274b102b6d940f46861a92b4e65f89a51815c12c`. Fixtures alter only
+initial room/spawn tables and use blank saves, controller inputs and read-only
+observations. They do not inject abilities, write gameplay RAM, reload states,
+or change collision geometry. These isolated native tests are not combined-patch
+multiworld acceptance.
+
+`startup_fixture.pixel_spawn` records the effective in-game spawn. Initial ROM
+position-table coordinates are **8 greater on each axis**. Reconstructing with
+that offset reproduces the four recorded fixture hashes; do not treat effective
+coordinates as direct table bytes.
+
+### Frozen Goal 2 evidence retained without production binding
+
+The accepted local chest replay starts in native 825's upper arena at `(168,104)`,
+not its real incoming `(280,296)` spawn. It defeats and swallows Mr Frosty
+`0x088CD3F0`, freezes the distinct Waddle Dee `0x088CD318`, kicks it through the
+wall and passes the timed gate to collect chest 66/music bit 0x400. This proves
+that local sequence, not the full arrival or randomized-source route.
+
+Pengy `0x088CD384` is at the lower arrival before the boss; nondroppable platforms
+prevent assuming a postboss return. Ice damage source code is not a completed
+Pengy-to-chest carry replay. A narrow postboss Ice-preserving Waddle viewport loop
+was observed, but is not generalized into renewable-resource semantics here.
+Consequently no Goal 2 production graph, Ice progression change, or source-policy
+rejection is introduced from the incomplete arrival/randomization witness.
+
+Fresh Pi replay verification on **2026-11-08** reproduced all four underwater
+fixture hashes and expected destination rooms, plus the separately scoped
+upper-arena frozen Goal 2 chest/music readbacks. This does not expand the
+production scope or prove the missing real-arrival/randomized sequence.

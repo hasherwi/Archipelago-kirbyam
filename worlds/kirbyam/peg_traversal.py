@@ -105,7 +105,7 @@ def validate_peg_assignment(
         )
     if peg_valid_candidate is not None:
         raise ValueError(
-            f"Reviewed fuse/rope-source search budget exhausted after {attempt + 1} attempts "
+            f"Reviewed fuse/rope/block-source search budget exhausted after {attempt + 1} attempts "
             f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
             "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
         )

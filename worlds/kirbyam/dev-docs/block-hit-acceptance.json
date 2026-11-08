@@ -1,0 +1,2010 @@
+{
+  "version": 1,
+  "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "scope": "Isolated USA-ROM controller acceptance. Only startup room/spawn tables changed, blank battery save, no gameplay RAM writes or state loads. Not a combined patched-ROM multiworld run. No ROM data or raw collision grids are included.",
+  "button_mask": {
+    "A": 1,
+    "B": 2,
+    "Select": 4,
+    "Start": 8,
+    "Right": 16,
+    "Left": 32,
+    "Up": 64,
+    "Down": 128
+  },
+  "runs": [
+    {
+      "id": "olive21_normal_exit",
+      "startup_fixture": {
+        "room": 819,
+        "pixel_spawn": [
+          40,
+          72
+        ]
+      },
+      "rom_fixture_sha256": "d13bf892fdde8132c744c7c9dc18edd633098a9539cf32dfa10f9bf33acefbf5",
+      "input_trace_sha256": "da403173fd06c6ac19d7d340606508f02de2557031e0034edc12860bd17bda5e",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 25,
+          "keys": 64
+        },
+        {
+          "start": 1110,
+          "frames": 75,
+          "keys": 16
+        },
+        {
+          "start": 1185,
+          "frames": 63,
+          "keys": 16
+        },
+        {
+          "start": 1248,
+          "frames": 36,
+          "keys": 128
+        },
+        {
+          "start": 1284,
+          "frames": 150,
+          "keys": 16
+        },
+        {
+          "start": 1434,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 1454,
+          "frames": 110,
+          "keys": 128
+        },
+        {
+          "start": 1564,
+          "frames": 72,
+          "keys": 16
+        },
+        {
+          "start": 1636,
+          "frames": 23,
+          "keys": 32
+        },
+        {
+          "start": 1659,
+          "frames": 155,
+          "keys": 128
+        },
+        {
+          "start": 1814,
+          "frames": 110,
+          "keys": 16
+        },
+        {
+          "start": 1924,
+          "frames": 15,
+          "keys": 64
+        },
+        {
+          "start": 1939,
+          "frames": 20,
+          "keys": 66
+        },
+        {
+          "start": 1959,
+          "frames": 48,
+          "keys": 16
+        },
+        {
+          "start": 2007,
+          "frames": 12,
+          "keys": 64
+        },
+        {
+          "start": 2019,
+          "frames": 1,
+          "keys": 66
+        },
+        {
+          "start": 2020,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 2050,
+          "frames": 20,
+          "keys": 80
+        },
+        {
+          "start": 2070,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 2090,
+          "frames": 1,
+          "keys": 66
+        },
+        {
+          "start": 2091,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 2141,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 2151,
+          "frames": 30,
+          "keys": 66
+        },
+        {
+          "start": 2181,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 2191,
+          "frames": 40,
+          "keys": 64
+        },
+        {
+          "start": 2231,
+          "frames": 68,
+          "keys": 16
+        },
+        {
+          "start": 2299,
+          "frames": 70,
+          "keys": 64
+        },
+        {
+          "start": 2369,
+          "frames": 122,
+          "keys": 16
+        },
+        {
+          "start": 2491,
+          "frames": 18,
+          "keys": 64
+        },
+        {
+          "start": 2509,
+          "frames": 105,
+          "keys": 16
+        },
+        {
+          "start": 2614,
+          "frames": 100,
+          "keys": 128
+        },
+        {
+          "start": 2714,
+          "frames": 26,
+          "keys": 16
+        },
+        {
+          "start": 2740,
+          "frames": 90,
+          "keys": 128
+        },
+        {
+          "start": 2830,
+          "frames": 150,
+          "keys": 32
+        },
+        {
+          "start": 2980,
+          "frames": 42,
+          "keys": 32
+        },
+        {
+          "start": 3022,
+          "frames": 30,
+          "keys": 128
+        },
+        {
+          "start": 3052,
+          "frames": 15,
+          "keys": 16
+        },
+        {
+          "start": 3067,
+          "frames": 15,
+          "keys": 128
+        },
+        {
+          "start": 3082,
+          "frames": 105,
+          "keys": 16
+        },
+        {
+          "start": 3187,
+          "frames": 108,
+          "keys": 32
+        },
+        {
+          "start": 3295,
+          "frames": 45,
+          "keys": 128
+        },
+        {
+          "start": 3340,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 3360,
+          "frames": 20,
+          "keys": 128
+        },
+        {
+          "start": 3380,
+          "frames": 75,
+          "keys": 32
+        },
+        {
+          "start": 3455,
+          "frames": 45,
+          "keys": 128
+        },
+        {
+          "start": 3500,
+          "frames": 110,
+          "keys": 16
+        },
+        {
+          "start": 3610,
+          "frames": 23,
+          "keys": 128
+        },
+        {
+          "start": 3633,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 3683,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3684,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 3714,
+          "frames": 64,
+          "keys": 16
+        },
+        {
+          "start": 3778,
+          "frames": 12,
+          "keys": 128
+        },
+        {
+          "start": 3790,
+          "frames": 55,
+          "keys": 16
+        },
+        {
+          "start": 3845,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3846,
+          "frames": 30,
+          "keys": 64
+        }
+      ],
+      "runtime_writes": 0,
+      "checkpoints": [
+        {
+          "label": "start",
+          "frame": 1085,
+          "room": 819,
+          "x": 38.5,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1110",
+          "frame": 1110,
+          "room": 819,
+          "x": 29.5,
+          "y": 49.12109375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1185",
+          "frame": 1185,
+          "room": 819,
+          "x": 109.8125,
+          "y": 51.08984375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1248",
+          "frame": 1248,
+          "room": 819,
+          "x": 172.00390625,
+          "y": 62.33984375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1284",
+          "frame": 1284,
+          "room": 819,
+          "x": 185.32421875,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1434",
+          "frame": 1434,
+          "room": 819,
+          "x": 312.421875,
+          "y": 105.08984375,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1454",
+          "frame": 1454,
+          "room": 819,
+          "x": 336.79296875,
+          "y": 112.90234375,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1564",
+          "frame": 1564,
+          "room": 819,
+          "x": 350.11328125,
+          "y": 168.99609375,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1636",
+          "frame": 1636,
+          "room": 819,
+          "x": 361.99609375,
+          "y": 104.74609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "1659",
+          "frame": 1659,
+          "room": 819,
+          "x": 343.83203125,
+          "y": 118.30859375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "1814",
+          "frame": 1814,
+          "room": 819,
+          "x": 301.22265625,
+          "y": 232.99609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "1924",
+          "frame": 1924,
+          "room": 819,
+          "x": 368.44140625,
+          "y": 254.43359375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "1939",
+          "frame": 1939,
+          "room": 819,
+          "x": 380.39453125,
+          "y": 236.62109375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "1959",
+          "frame": 1959,
+          "room": 819,
+          "x": 381.76171875,
+          "y": 229.19140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 819,
+          "x": 401.16015625,
+          "y": 241.19140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2019",
+          "frame": 2019,
+          "room": 819,
+          "x": 411.70703125,
+          "y": 229.09765625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2020",
+          "frame": 2020,
+          "room": 819,
+          "x": 412.23046875,
+          "y": 229.19140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2050",
+          "frame": 2050,
+          "room": 819,
+          "x": 414.48046875,
+          "y": 245.94140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2070",
+          "frame": 2070,
+          "room": 819,
+          "x": 428.94140625,
+          "y": 224.94140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2090",
+          "frame": 2090,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 213.00390625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2091",
+          "frame": 2091,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 213.00390625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2141",
+          "frame": 2141,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 223.34765625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2151",
+          "frame": 2151,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 210.69140625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2181",
+          "frame": 2181,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 195.78515625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2191",
+          "frame": 2191,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 190.66015625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2231",
+          "frame": 2231,
+          "room": 819,
+          "x": 441.48828125,
+          "y": 158.78515625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2299",
+          "frame": 2299,
+          "room": 819,
+          "x": 505.53125,
+          "y": 136.99609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2369",
+          "frame": 2369,
+          "room": 819,
+          "x": 502.0,
+          "y": 94.62109375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2491",
+          "frame": 2491,
+          "room": 819,
+          "x": 553.99609375,
+          "y": 56.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2509",
+          "frame": 2509,
+          "room": 819,
+          "x": 553.99609375,
+          "y": 40.33984375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2614",
+          "frame": 2614,
+          "room": 819,
+          "x": 657.5234375,
+          "y": 40.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2714",
+          "frame": 2714,
+          "room": 819,
+          "x": 663.67578125,
+          "y": 56.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2740",
+          "frame": 2740,
+          "room": 819,
+          "x": 680.56640625,
+          "y": 57.08984375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2830",
+          "frame": 2830,
+          "room": 819,
+          "x": 689.00390625,
+          "y": 167.96484375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "2980",
+          "frame": 2980,
+          "room": 819,
+          "x": 557.38671875,
+          "y": 200.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3022",
+          "frame": 3022,
+          "room": 819,
+          "x": 521.78515625,
+          "y": 200.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3052",
+          "frame": 3052,
+          "room": 819,
+          "x": 535.375,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3067",
+          "frame": 3067,
+          "room": 819,
+          "x": 543.08984375,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3082",
+          "frame": 3082,
+          "room": 819,
+          "x": 543.7421875,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3187",
+          "frame": 3187,
+          "room": 819,
+          "x": 622.50390625,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3295",
+          "frame": 3295,
+          "room": 819,
+          "x": 560.88671875,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3340",
+          "frame": 3340,
+          "room": 819,
+          "x": 540.734375,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3360",
+          "frame": 3360,
+          "room": 819,
+          "x": 547.828125,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3380",
+          "frame": 3380,
+          "room": 819,
+          "x": 555.98046875,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3455",
+          "frame": 3455,
+          "room": 819,
+          "x": 508.765625,
+          "y": 200.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3500",
+          "frame": 3500,
+          "room": 819,
+          "x": 502.61328125,
+          "y": 251.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3610",
+          "frame": 3610,
+          "room": 819,
+          "x": 553.99609375,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3633",
+          "frame": 3633,
+          "room": 819,
+          "x": 553.99609375,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3683",
+          "frame": 3683,
+          "room": 819,
+          "x": 553.49609375,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3684",
+          "frame": 3684,
+          "room": 819,
+          "x": 553.49609375,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3714",
+          "frame": 3714,
+          "room": 819,
+          "x": 553.49609375,
+          "y": 268.15234375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3778",
+          "frame": 3778,
+          "room": 819,
+          "x": 620.6171875,
+          "y": 270.93359375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3790",
+          "frame": 3790,
+          "room": 819,
+          "x": 631.1640625,
+          "y": 282.93359375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3845",
+          "frame": 3845,
+          "room": 819,
+          "x": 681.6171875,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3846",
+          "frame": 3846,
+          "room": 819,
+          "x": 681.6171875,
+          "y": 296.99609375,
+          "hp": 2,
+          "ability": 0
+        },
+        {
+          "label": "3876",
+          "frame": 3876,
+          "room": 821,
+          "x": 24.0,
+          "y": 73.08984375,
+          "hp": 2,
+          "ability": 0
+        }
+      ]
+    },
+    {
+      "id": "olive12_lower_right_to13",
+      "startup_fixture": {
+        "room": 814,
+        "pixel_spawn": [
+          696,
+          456
+        ]
+      },
+      "rom_fixture_sha256": "1e366a02689bc7914549832d93f2c44ebcf671ac9cb0e07ef55fbbdfbbdeb7f4",
+      "input_trace_sha256": "47148a581394b93cf47cba50884ac443d142bbe4d7f7b202fd5c53f1aab110e0",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1110,
+          "frames": 35,
+          "keys": 34
+        },
+        {
+          "start": 1145,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1170,
+          "frames": 40,
+          "keys": 2
+        },
+        {
+          "start": 1210,
+          "frames": 120,
+          "keys": 32
+        },
+        {
+          "start": 1330,
+          "frames": 105,
+          "keys": 32
+        },
+        {
+          "start": 1435,
+          "frames": 90,
+          "keys": 64
+        },
+        {
+          "start": 1525,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1550,
+          "frames": 140,
+          "keys": 64
+        },
+        {
+          "start": 1690,
+          "frames": 55,
+          "keys": 16
+        },
+        {
+          "start": 1745,
+          "frames": 100,
+          "keys": 64
+        },
+        {
+          "start": 1845,
+          "frames": 17,
+          "keys": 32
+        },
+        {
+          "start": 1862,
+          "frames": 140,
+          "keys": 64
+        },
+        {
+          "start": 2002,
+          "frames": 170,
+          "keys": 32
+        },
+        {
+          "start": 2172,
+          "frames": 170,
+          "keys": 64
+        },
+        {
+          "start": 2342,
+          "frames": 55,
+          "keys": 32
+        },
+        {
+          "start": 2397,
+          "frames": 180,
+          "keys": 64
+        },
+        {
+          "start": 2577,
+          "frames": 9,
+          "keys": 32
+        },
+        {
+          "start": 2586,
+          "frames": 110,
+          "keys": 64
+        },
+        {
+          "start": 2696,
+          "frames": 125,
+          "keys": 32
+        },
+        {
+          "start": 2821,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 2851,
+          "frames": 25,
+          "keys": 64
+        }
+      ],
+      "runtime_writes": 0,
+      "checkpoints": [
+        {
+          "label": "start",
+          "frame": 1085,
+          "room": 814,
+          "x": 697.5,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1110",
+          "frame": 1110,
+          "room": 814,
+          "x": 683.5,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1145",
+          "frame": 1145,
+          "room": 814,
+          "x": 674.78125,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1170",
+          "frame": 1170,
+          "room": 814,
+          "x": 660.84375,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1210",
+          "frame": 1210,
+          "room": 814,
+          "x": 680.125,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1330",
+          "frame": 1330,
+          "room": 814,
+          "x": 559.484375,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1435",
+          "frame": 1435,
+          "room": 814,
+          "x": 423.3125,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1525",
+          "frame": 1525,
+          "room": 814,
+          "x": 371.14453125,
+          "y": 421.00390625,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1550",
+          "frame": 1550,
+          "room": 814,
+          "x": 371.66015625,
+          "y": 421.51953125,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1690",
+          "frame": 1690,
+          "room": 814,
+          "x": 372.48046875,
+          "y": 421.00390625,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1745",
+          "frame": 1745,
+          "room": 814,
+          "x": 424.37109375,
+          "y": 456.99609375,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1845",
+          "frame": 1845,
+          "room": 814,
+          "x": 439.8984375,
+          "y": 437.00390625,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "1862",
+          "frame": 1862,
+          "room": 814,
+          "x": 427.8828125,
+          "y": 449.32421875,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "2002",
+          "frame": 2002,
+          "room": 814,
+          "x": 412.3828125,
+          "y": 270.73046875,
+          "hp": 5,
+          "ability": 0
+        },
+        {
+          "label": "2172",
+          "frame": 2172,
+          "room": 814,
+          "x": 262.0,
+          "y": 307.25390625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2342",
+          "frame": 2342,
+          "room": 814,
+          "x": 258.5,
+          "y": 261.00390625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2397",
+          "frame": 2397,
+          "room": 814,
+          "x": 206.109375,
+          "y": 296.99609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2577",
+          "frame": 2577,
+          "room": 814,
+          "x": 190.609375,
+          "y": 165.00390625,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2586",
+          "frame": 2586,
+          "room": 814,
+          "x": 186.7421875,
+          "y": 168.18359375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2696",
+          "frame": 2696,
+          "room": 814,
+          "x": 178.62109375,
+          "y": 27.12109375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2821",
+          "frame": 2821,
+          "room": 814,
+          "x": 34.6171875,
+          "y": 40.99609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2851",
+          "frame": 2851,
+          "room": 814,
+          "x": 22.0,
+          "y": 40.99609375,
+          "hp": 4,
+          "ability": 0
+        },
+        {
+          "label": "2876",
+          "frame": 2876,
+          "room": 824,
+          "x": 56.0,
+          "y": 120.99609375,
+          "hp": 4,
+          "ability": 0
+        }
+      ]
+    },
+    {
+      "id": "olive12_lower_left_to14",
+      "startup_fixture": {
+        "room": 814,
+        "pixel_spawn": [
+          56,
+          456
+        ]
+      },
+      "rom_fixture_sha256": "60861c5acd9496a48384d91acc0a826ee034949b9f8064ad8d283f4dcf4cf80f",
+      "input_trace_sha256": "786eeb8efb73e3ff88b58ea1669f9435e55e9a23becc3a49ded1c84bfd37f949",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 220,
+          "keys": 16
+        },
+        {
+          "start": 1305,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 1306,
+          "frames": 18,
+          "keys": 16
+        },
+        {
+          "start": 1324,
+          "frames": 150,
+          "keys": 64
+        },
+        {
+          "start": 1474,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 1654,
+          "frames": 130,
+          "keys": 64
+        },
+        {
+          "start": 1784,
+          "frames": 75,
+          "keys": 32
+        },
+        {
+          "start": 1859,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1860,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1920,
+          "frames": 65,
+          "keys": 16
+        },
+        {
+          "start": 1985,
+          "frames": 15,
+          "keys": 17
+        },
+        {
+          "start": 2000,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 2090,
+          "frames": 85,
+          "keys": 16
+        },
+        {
+          "start": 2175,
+          "frames": 150,
+          "keys": 64
+        },
+        {
+          "start": 2325,
+          "frames": 155,
+          "keys": 32
+        },
+        {
+          "start": 2480,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 2600,
+          "frames": 28,
+          "keys": 16
+        },
+        {
+          "start": 2628,
+          "frames": 110,
+          "keys": 64
+        },
+        {
+          "start": 2738,
+          "frames": 170,
+          "keys": 96
+        },
+        {
+          "start": 2908,
+          "frames": 90,
+          "keys": 96
+        },
+        {
+          "start": 2998,
+          "frames": 42,
+          "keys": 64
+        },
+        {
+          "start": 3040,
+          "frames": 38,
+          "keys": 32
+        },
+        {
+          "start": 3078,
+          "frames": 50,
+          "keys": 64
+        },
+        {
+          "start": 3128,
+          "frames": 27,
+          "keys": 16
+        },
+        {
+          "start": 3155,
+          "frames": 50,
+          "keys": 2
+        },
+        {
+          "start": 3205,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 3290,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 3310,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3311,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 3312,
+          "frames": 50,
+          "keys": 2
+        },
+        {
+          "start": 3362,
+          "frames": 250,
+          "keys": 16
+        },
+        {
+          "start": 3612,
+          "frames": 9,
+          "keys": 16
+        },
+        {
+          "start": 3621,
+          "frames": 65,
+          "keys": 64
+        },
+        {
+          "start": 3686,
+          "frames": 185,
+          "keys": 32
+        },
+        {
+          "start": 3871,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3872,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 3873,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 3874,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 3875,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3876,
+          "frames": 90,
+          "keys": 64
+        },
+        {
+          "start": 3966,
+          "frames": 220,
+          "keys": 32
+        },
+        {
+          "start": 4186,
+          "frames": 55,
+          "keys": 64
+        },
+        {
+          "start": 4241,
+          "frames": 18,
+          "keys": 64
+        },
+        {
+          "start": 4259,
+          "frames": 325,
+          "keys": 16
+        },
+        {
+          "start": 4584,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 4604,
+          "frames": 27,
+          "keys": 16
+        },
+        {
+          "start": 4631,
+          "frames": 30,
+          "keys": 64
+        }
+      ],
+      "runtime_writes": 0,
+      "checkpoints": [
+        {
+          "label": "start",
+          "frame": 1085,
+          "room": 814,
+          "x": 54.5,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "replayed",
+          "frame": 4604,
+          "room": 814,
+          "x": 662.2890625,
+          "y": 56.99609375,
+          "hp": 1,
+          "ability": 0
+        },
+        {
+          "label": "4631",
+          "frame": 4631,
+          "room": 814,
+          "x": 702.3359375,
+          "y": 56.99609375,
+          "hp": 1,
+          "ability": 0
+        },
+        {
+          "label": "4661",
+          "frame": 4661,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375,
+          "hp": 1,
+          "ability": 0
+        }
+      ]
+    },
+    {
+      "id": "olive12_lower_left_to17",
+      "startup_fixture": {
+        "room": 814,
+        "pixel_spawn": [
+          56,
+          456
+        ]
+      },
+      "rom_fixture_sha256": "60861c5acd9496a48384d91acc0a826ee034949b9f8064ad8d283f4dcf4cf80f",
+      "input_trace_sha256": "33bb415acbc6ae92b28656f76995748aa1f268d0d6793484e1e46479e6f3e870",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 220,
+          "keys": 16
+        },
+        {
+          "start": 1305,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 1306,
+          "frames": 18,
+          "keys": 16
+        },
+        {
+          "start": 1324,
+          "frames": 150,
+          "keys": 64
+        },
+        {
+          "start": 1474,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 1654,
+          "frames": 130,
+          "keys": 64
+        },
+        {
+          "start": 1784,
+          "frames": 75,
+          "keys": 32
+        },
+        {
+          "start": 1859,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1860,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1920,
+          "frames": 65,
+          "keys": 16
+        },
+        {
+          "start": 1985,
+          "frames": 15,
+          "keys": 17
+        },
+        {
+          "start": 2000,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 2090,
+          "frames": 85,
+          "keys": 16
+        },
+        {
+          "start": 2175,
+          "frames": 150,
+          "keys": 64
+        },
+        {
+          "start": 2325,
+          "frames": 155,
+          "keys": 32
+        },
+        {
+          "start": 2480,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 2600,
+          "frames": 28,
+          "keys": 16
+        },
+        {
+          "start": 2628,
+          "frames": 110,
+          "keys": 64
+        },
+        {
+          "start": 2738,
+          "frames": 170,
+          "keys": 96
+        },
+        {
+          "start": 2908,
+          "frames": 90,
+          "keys": 96
+        },
+        {
+          "start": 2998,
+          "frames": 42,
+          "keys": 64
+        },
+        {
+          "start": 3040,
+          "frames": 38,
+          "keys": 32
+        },
+        {
+          "start": 3078,
+          "frames": 50,
+          "keys": 64
+        },
+        {
+          "start": 3128,
+          "frames": 27,
+          "keys": 16
+        },
+        {
+          "start": 3155,
+          "frames": 50,
+          "keys": 2
+        },
+        {
+          "start": 3205,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 3290,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 3310,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3311,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 3312,
+          "frames": 50,
+          "keys": 2
+        },
+        {
+          "start": 3362,
+          "frames": 250,
+          "keys": 16
+        },
+        {
+          "start": 3612,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 3642,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 3702,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 3742,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 3743,
+          "frames": 65,
+          "keys": 0
+        },
+        {
+          "start": 3808,
+          "frames": 36,
+          "keys": 16
+        },
+        {
+          "start": 3844,
+          "frames": 33,
+          "keys": 64
+        },
+        {
+          "start": 3877,
+          "frames": 70,
+          "keys": 16
+        },
+        {
+          "start": 3947,
+          "frames": 45,
+          "keys": 0
+        },
+        {
+          "start": 3992,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 4022,
+          "frames": 55,
+          "keys": 16
+        },
+        {
+          "start": 4077,
+          "frames": 65,
+          "keys": 0
+        },
+        {
+          "start": 4142,
+          "frames": 25,
+          "keys": 64
+        }
+      ],
+      "runtime_writes": 0,
+      "checkpoints": [
+        {
+          "label": "start",
+          "frame": 1085,
+          "room": 814,
+          "x": 54.5,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "replayed",
+          "frame": 3702,
+          "room": 814,
+          "x": 568.0,
+          "y": 208.0,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3742",
+          "frame": 3742,
+          "room": 814,
+          "x": 568.0,
+          "y": 208.0,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3743",
+          "frame": 3743,
+          "room": 814,
+          "x": 568.0,
+          "y": 208.0,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3808",
+          "frame": 3808,
+          "room": 814,
+          "x": 568.0,
+          "y": 391.375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3844",
+          "frame": 3844,
+          "room": 814,
+          "x": 596.41015625,
+          "y": 408.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3877",
+          "frame": 3877,
+          "room": 814,
+          "x": 602.09765625,
+          "y": 391.06640625,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3947",
+          "frame": 3947,
+          "room": 814,
+          "x": 633.99609375,
+          "y": 408.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "3992",
+          "frame": 3992,
+          "room": 814,
+          "x": 633.99609375,
+          "y": 408.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "4022",
+          "frame": 4022,
+          "room": 814,
+          "x": 633.99609375,
+          "y": 375.24609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "4077",
+          "frame": 4077,
+          "room": 814,
+          "x": 702.08984375,
+          "y": 376.99609375,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "4142",
+          "frame": 4142,
+          "room": 814,
+          "x": 713.99609375,
+          "y": 439.45703125,
+          "hp": 3,
+          "ability": 0
+        },
+        {
+          "label": "4167",
+          "frame": 4167,
+          "room": 832,
+          "x": 216.0,
+          "y": 56.99609375,
+          "hp": 3,
+          "ability": 0
+        }
+      ]
+    }
+  ],
+  "coordinate_convention": "startup_fixture.pixel_spawn records effective in-game spawn. Initial ROM table coordinates are +8 on each axis; reconstruction with this offset reproduces all four recorded fixture hashes."
+}
