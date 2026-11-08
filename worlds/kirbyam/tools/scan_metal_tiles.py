@@ -1,6 +1,6 @@
 """Read-only USA KATAM collision-map inventory; emit coordinates, not ROM assets.
 
-F5 is ordinary metal; F7 is the separate environmental-only/reinforced class.
+F5 is ordinary metal; F7 is a separate environmental class, including non-metal crumble/stone tiles.
 F6 is recorded as a control, not included in the metal-room count. This scanner
 covers initial maps and solidity-record replacements, not traversal acceptance.
 """

@@ -42,7 +42,7 @@ and its linked ability pages provide secondary cross-checks.
 | Burning | Horizontal Burning attack. | Needs a usable launch position and horizontal contact. Do not infer vertical access. Swimming input does not initiate Burning. |
 | Hammer | Hammer attacks carry metal-breaking capability; Hammer is usable underwater. | Grounded, aerial, and swimming attacks have different hitboxes. The isolated floor test supports the tested aerial sequence, not arbitrary clearance. See acceptance below. |
 | Stone | Transformed falling contact; slopes can change its path. | Needs space to transform and a reachable contact path. Do not model arbitrary sideways movement. Swimming cannot initiate Stone, but a completed transformation can enter water and sink; activation timing must be preserved. |
-| Throw | A grabbed object's held/thrown collision can break metal. Throws can be horizontal or approximately 26.6 degrees upward/downward. | Requires an actually grabbable object, reachable before the barrier, and a viable held-object or projectile trajectory. Do not treat Throw permission alone as ammunition. Swimming input does not initiate this attack. |
+| Throw | A grabbed object's held/thrown collision can break metal. Throws can be horizontal or approximately 26.6 degrees upward/downward. | Requires a grabbable object at a reachable capture position and a viable trajectory from there. Kirby cannot walk or initiate a jump while holding; do not carry ammunition to an arbitrary firing position. Do not treat Throw permission alone as ammunition. Swimming input does not initiate this attack. |
 | Missile | Eight-direction travel and explosion. | Needs launch/turning space and verified contact or blast reach. Cannot initiate while swimming; a launched Missile can travel underwater. A dry launch into water is a separate sequence, not an underwater-start permission. |
 | UFO | Fully charged horizontal beam. | Requires the appropriate charge level, a reachable firing position, and line of contact. Do not count every UFO shot or infer vertical beam fire. Swimming input does not provide this attack. |
 | Smash | Its Hammer and Stone moves supply the relevant attacks. | Preserve the selected move's direction and geometry. Smash's Hammer is not available from swimming input; do not inherit Hammer's underwater behavior merely because Smash has a hammer move. |
@@ -53,6 +53,31 @@ Mirror*. Normal Water Gun is not a metal-breaking attack. Sword and Parasol's
 underwater attacks likewise do not become metal-breaking merely because they
 remain usable while swimming. Ice's frozen-enemy projectile is a separate
 object-dependent interaction, not a direct `metal` capability.
+
+### Throw: capture position is part of the witness
+
+Native `sub_08063A88` uses directions for facing and aim, not walking; B or the
+holding counter releases the projectile. It has no new jump handler. Gravity,
+deceleration, and an already-started jump still apply, so this is not a claim
+that Kirby's coordinates can never change while holding. It rules out assuming
+that Kirby can grab ammunition below and then walk/jump it up to a firing ledge.
+
+**Moonlight Mansion Room 4 (native 707)** illustrates the issue. Its two F5 tiles
+at columns 69–70, row 4 protect the upper-right Room 13 door, matching
+[WiKirby's description](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4).
+The left approach chamber has no local enemy/object ammunition or Star Blocks;
+its access shaft is at columns 65–66, rows 5–6. The nearest enemy spawn is a
+Heavy Knight at (952, 288), far below the blocks at x=1104–1135, y=64–79.
+Throw cannot be credited by grabbing that lower enemy and carrying it up the
+shaft. This source/geometry finding supports the reported local-route limitation,
+but is not a controller-tested proof against every enemy-luring, preexisting
+jump, externally supplied projectile, or multiplayer sequence. Ordinary-metal
+implementation is deferred; no new Throw gate is enabled here.
+
+WiKirby's [Throw page](https://wikirby.com/wiki/Throw) supports directional aiming
+and metal-breaking projectiles, but does not establish a reachable capture point.
+Only the isolated Hammer floor sequence below has controller acceptance in this
+preparation; **not every metal-breaking move or attack direction is validated**.
 
 ### Stone: startup is different from completed transformation
 
