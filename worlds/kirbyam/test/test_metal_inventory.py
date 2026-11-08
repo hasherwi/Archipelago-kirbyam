@@ -42,6 +42,18 @@ def test_inventory_covers_all_native_slots_and_wiki_positive_rooms() -> None:
         assert tile_keys == record_keys
 
 
+def test_wiki_review_is_complete_without_equating_f7_with_reinforced_metal() -> None:
+    review = json.loads((ROOT / "dev-docs/metal-block-wikirby-review.json").read_text())
+    rooms = review["rooms"]
+    assert all(room["page_status"] == "read" for room in rooms)
+    assert sum(room["ordinary_metal_explicit_in_prose_or_caption"] for room in rooms) == 28
+    assert sum("environmental_f7" in room["native_classes"] for room in rooms) == 25
+    assert all("reinforced" not in room["native_classes"] for room in rooms)
+    recovered = {room["native_room_id"]: room for room in rooms if "reviewed_revision" in room}
+    assert set(recovered) == {621, 802, 819, 821}
+    assert all(room["reviewed_revision"] > 0 for room in recovered.values())
+
+
 def test_rl_literal_and_repeat_runs() -> None:
     payload = struct.pack("<I", (6 << 8) | 0x30) + bytes([2, 1, 2, 3, 128, 7])
     assert decompress_rl(payload, 0, 6) == bytes([1, 2, 3, 7, 7, 7])
@@ -82,3 +94,35 @@ def test_solidity_records_validate_lengths_and_terminator() -> None:
 def test_inventory_rejects_wrong_rom_before_reading_tables() -> None:
     with pytest.raises(ValueError, match="unmodified USA ROM"):
         build_inventory(b"not a ROM")
+
+
+def test_environmental_object_audit_accounts_for_every_f7_tile() -> None:
+    audit = json.loads((ROOT / "dev-docs/environmental-object-audit.json").read_text())
+    inventory = json.loads((ROOT / "docs/metal-tile-inventory.json").read_text())
+    expected = {room["room"]: {(t["x"], t["y"]) for t in room["tiles"] if t["tile"] == "0xf7"}
+                for room in inventory["rooms"]}
+    expected = {key: value for key, value in expected.items() if value}
+    assert {r["room"] for r in audit["rooms"]} == set(expected)
+    totals: dict[str, tuple[int, int]] = {}
+    for room in audit["rooms"]:
+        assert {tuple(p) for p in room["f7_coordinates"]} == expected[room["room"]]
+        assert room["f7_count"] == len(expected[room["room"]])
+        key = room["association"]
+        count, tiles = totals.get(key, (0, 0))
+        totals[key] = count + 1, tiles + room["f7_count"]
+        if key == "exact_destroyable_rock_block_overlay":
+            assert room["crumble_overlap_count"] == room["f7_count"]
+        else:
+            assert room["crumble_overlap_count"] == 0
+    assert totals == {
+        "exact_destroyable_rock_block_overlay": (21, 81),
+        "nearby_heave_ho_object": (2, 10),
+        "cannon_room_geometry_not_runtime_verified": (2, 240),
+    }
+
+
+def test_environmental_audit_rejects_wrong_rom() -> None:
+    from ..tools.audit_environmental_objects import audit
+
+    with pytest.raises(ValueError, match="unmodified USA ROM"):
+        audit(b"not a ROM")
