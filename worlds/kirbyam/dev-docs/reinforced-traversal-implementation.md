@@ -51,10 +51,27 @@ arrival, approach, clearance and chest path. Its target is only
 `MINOR_CHEST_MUSIC_NOTE_04`; the main room exit and unrelated chest are unchanged.
 It has no ability sources, AP-item prerequisites, retry assumptions or reverse
 edges. The graph is valid in every ability-source randomization mode because it
-uses Normal suction rather than a copied ability. Collection-save behavior and
-combined Archipelago-ROM acceptance remain separate checks. Existing traversal
+uses Normal suction rather than a copied ability. The later combined AP-ROM replay also verifies collection and the local AP check
+event, as described below. Existing traversal
 logic does not model HP costs; no speculative health gate is added. The prior
 chest availability is preserved, not newly certified for one-hit settings.
+
+## Combined AP-ROM collection acceptance
+
+A follow-up replay applies the exact inherited `base_patch.bsdiff4` from this PR
+(Git blob `4d8ca561bf19893cbbc141e02f843b2afa9dad3d`) to the original USA ROM,
+with only the established initial room 113 spawn fixture. The same controller
+entry and Normal Heave-Ho route reaches and opens Battle Notes with 4 HP.
+After Up at the chest, native flag 76 changes from clear to set (RAM byte
+`0x02038969`: 0 to 16), and the local AP event counter at `0x0203B08C` changes
+from 0 to 1. The first event-ring source is `0x088D230C`, the exact Battle Notes
+chest template. Both remain set at the final checkpoint.
+
+[Combined acceptance](heave-ho-ap-acceptance.json) records patch/fixture hashes,
+inputs, and read-only observations. There are no runtime memory writes, no
+server connection, and no terrain/attack changes. This establishes native
+collection and local AP event emission, **not** server acknowledgement, item
+delivery, battery-save persistence after reload, or damage-free traversal.
 
 ## Olive Ocean Room 6, native 134
 
@@ -65,6 +82,22 @@ reaches the Ocean Spray Paint chest without relying on destruction of the six
 `0xF7` shaft tiles. The new isolated attempt likewise moved this object without
 clearing that shaft. Do not replace the proven Mini/drop/recovery route with a
 mandatory reinforced-disposal or ordinary-metal requirement.
+
+## Evaluation cost
+
+The new witness uses four nodes, three edges, zero ability sources, and four
+reached states in the Normal case. It adds no state dimension or persistent
+opening combinations. Existing graph compilation remains cached.
+
+A Python 3.12 paired in-process benchmark compared the prior kernel at `1f8e458`
+with the integrated implementation (same traversal code as `49ec2e22`), excluding
+imports/compilation. Twelve warmed samples gave 8.52 microseconds per new-witness
+evaluation (10,000 calls per sample). Existing Mini 134 and peg 605 graphs kept
+exactly the same seven and 18 reached states respectively. Their median times
+were 18.38 versus 16.72 microseconds and 56.56 versus 53.99 microseconds (5,000
+calls per sample). Timing ranges overlap; this shows no measurable regression
+in these small fixtures, not a speedup claim or a whole-generation benchmark.
+No optimization or duplicated per-room engine was introduced.
 
 ## Verification boundaries
 
@@ -82,3 +115,7 @@ still separate work; the F7 inventory must not be used as a substitute.
 - [Isolated controller evidence](heave-ho-native-acceptance.json).
 - [Actual-entry controller evidence](heave-ho-entry-acceptance.json).
 - [Existing combined Olive 6 acceptance](../docs/traversal-logic.md#combined-olive-6-acceptance).
+
+The [targeted Bomb-chain follow-up](bomb-chain-route-audit.md) retains the existing
+108/743 directed topology and adds regression coverage without a duplicate
+mechanism state machine. It does not complete the visual chain inventory.

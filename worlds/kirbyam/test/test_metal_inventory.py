@@ -126,3 +126,19 @@ def test_environmental_audit_rejects_wrong_rom() -> None:
 
     with pytest.raises(ValueError, match="unmodified USA ROM"):
         audit(b"not a ROM")
+
+
+def test_heave_ho_ap_acceptance_records_collection_and_local_event_separately() -> None:
+    evidence = json.loads((ROOT / "dev-docs/heave-ho-ap-acceptance.json").read_text())
+    contract = evidence["collection_contract"]
+    before, after = evidence["observations"][0], evidence["observations"][-1]
+    assert evidence["runtime_memory_writes"] == []
+    assert before["native_chest_byte"] == before["event_counter"] == 0
+    assert after["native_chest_byte"] & int(contract["mask"], 16)
+    assert after["event_counter"] == 1
+    assert int(after["ring_source_pointers"][0], 16) == int(contract["expected_source_pointer"], 16)
+    assert contract["location_key"] == "MINOR_CHEST_MUSIC_NOTE_04"
+    assert evidence["checkpoints"][0]["room"] == 113
+    assert evidence["checkpoints"][-1]["room"] == 102
+    assert evidence["checkpoints"][-1]["hp"] == 4
+    assert all(check["ability"] == 0 for check in evidence["checkpoints"])
