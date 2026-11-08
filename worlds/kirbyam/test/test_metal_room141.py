@@ -200,3 +200,17 @@ def test_native_records_separate_controlled_paths_and_known_limits() -> None:
     doors = json.loads((root / "ordinary-141-door-topology.json").read_text())
     incoming = {row["source"]: row["spawn_tile"] for row in doors["incoming"]}
     assert incoming == {143: [43, 19], 144: [43, 9], 543: [3, 14], 545: [34, 4]}
+
+
+def test_reverse_bomb_crossing_starts_with_fresh_intact_wall() -> None:
+    root = Path(__file__).parents[1] / "dev-docs"
+    record = json.loads((root / "ordinary-141-reverse-bomb-acceptance.json").read_text())
+    observations = record["tile_observations"]
+    for key in ("freshreversebomb141", "freshinnerclimb141"):
+        assert [tile["tile"] for tile in observations[key]] == [241, 241, 242, 245, 245]
+    assert [tile["tile"] for tile in observations["freshbombcross141"]] == [0, 0, 0, 245, 245]
+    assert record["segments"][0]["parent_controller_state"] == "actualshaft141"
+    assert all(not segment["writes"] for segment in record["segments"])
+    end = record["segments"][-1]["checkpoints"][-1]
+    assert end["room"] == 141 and end["ability"] == 0 and end["hp"] == 6
+    assert (end["x"], end["y"]) == (544.9140625, 56.99609375)

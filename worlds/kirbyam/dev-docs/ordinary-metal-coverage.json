@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink and three directed native141 metal passages have bounded guaranteed-source witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 outward Mirra doors and reverse left-trigger Bomb crossing are not controller-accepted.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink and three directed native141 metal passages have bounded guaranteed-source witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse left-trigger Bomb crossing now has fresh-wall Normal acceptance; outward Mirra doors remain unaccepted.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -1556,14 +1556,16 @@
           "id": "742:20,6",
           "classification": "ap_exit",
           "status": "pending_route_acceptance",
-          "note": "Upper route toward Warp and the sparerib chest; exact chest branch position remains pending.",
+          "note": "Native6HP clean-source acceptance now proves separate sparerib chest0x088BDD10 flag17 and Warp705 outcomes, with outerBomb/roof unchanged. Production gate and entry split remain held for supported low-HP/one-hit safety; four pre-capture collisions and one chest collision are not established avoidable. Upper return and mutated chest paths remain unaccepted.",
           "tile_count": 4,
           "bounds": [
             20,
             6,
             21,
             7
-          ]
+          ],
+          "native_acceptance": "ordinary-742-clean-source-acceptance.json",
+          "production_status": "held_pending_health_scope"
         }
       ]
     },

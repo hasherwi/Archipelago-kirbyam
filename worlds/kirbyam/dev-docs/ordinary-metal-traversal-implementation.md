@@ -229,10 +229,15 @@ unlocks another compartment.
 Explicitly Normal flight proves east to top through the `0x0F` caps upward.
 There is no reverse downward-cap edge. Normal flight/drop beside the left cap
 connects inner to the upper-left source pocket. Actual 545 entry proves the
-right Bomb trigger opens top-right to that pocket. The opposite left-trigger
-Bomb crossing is not controller-proven: its original floating-block requirement
-is retained, separately labeled as pending. Do not confuse the demonstrated
-inner-to-upper-left flight at x201 with crossing the Bomb wall to Mustard.
+right Bomb trigger opens top-right to that pocket. The separate
+[fresh-wall reverse acceptance](ordinary-141-reverse-bomb-acceptance.json) now
+proves the opposite direction: after dropping Burning, Normal floats beside
+the cap, uses an air puff on the left trigger21,1 and crosses to the Mustard
+side at544.914,56.996 with6HP. Both Bomb triggers and the wall are read intact
+before the action and cleared afterward; the right F5 bank stays closed. This
+is not reuse of the previously opened top-entry wall. The existing
+`can_break_floating_block` edge already permits the demonstrated Normal action
+and needs no new ability gate.
 
 The accepted forward metal route stops in the east compartment. Outward Mirra
 and native 144 doorway traversal remain unresolved by this record. Their

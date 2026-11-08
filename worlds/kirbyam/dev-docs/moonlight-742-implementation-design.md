@@ -1,6 +1,40 @@
 # Native 742: separate clean chest and return-loop Warp witnesses
 
-Status: implementation design only, not a reviewed production graph. Reviewed against `5a01bb9` and exercised against kernel `32d1c44`. Files are isolated from the production checkout. Starting Stone and Burning remain unchanged.
+Status: implementation design only, not a reviewed production graph. The native
+clean source-to-chest and source-to-Warp records now succeed at6HP; production
+installation is held for supported low-HP/one-hit coverage. Starting Stone and
+Burning remain unchanged. The original semantic fixture was exercised against
+kernel `32d1c44`.
+
+## Native clean-route checkpoint and unresolved health scope
+
+[The controller artifact](ordinary-742-clean-source-acceptance.json) now proves
+actual712 entry, native741 main Flamer capture, first742 lower arrival, the
+120-frame button/sliding-door crossing, timed cannon-shaft climb, shaft Bomb11,9
+and rightward Burning through the top F5 row20..21,6. The lower F5 row remains.
+Separate continuations collect chest0x088BDD10 flag17 (0 to2) and enter native705
+through Warp door0x885348. Both retain the outer Bomb19,12, inner door Bomb26,12
+and roof24/25,8 unchanged. No room reset or prior742 visit is assumed.
+[Decoded door scalars](ordinary-742-door-topology.json) distinguish lower and
+upper arrival sides independently of controller acceptance.
+
+The source approach loses4HP before capture. Timed door, shaft, bank and Warp
+then preserve2HP; the chest branch loses one further HP and Burning before Normal
+collection heals it. Minimum Health and Maximum Health explicitly permit1/1
+one-hit play. This record alone cannot establish a one-hit-safe route or whether
+all collisions/invulnerability assistance can be avoided. Until that is resolved,
+**the candidate graphs and topology changes remain uninstalled**. Native-only
+flag/door evidence is not an AP-patched event or network acceptance either.
+
+The candidate implementation uses a shared741 source-to-clean742-lower prefix
+and two atomic Burning-only terminal sequences. Burning is needed for the timed
+door, shaft Bomb and Warp roof clearance as well as the metal. A free movement
+edge between those steps could incorrectly permit dropping the ability. Terminal
+outcomes have no outgoing edges, preventing the chest branch from exporting the
+Burning copy it actually loses. The staged graphs need four nodes, three routes,
+one source and nine states each, with no new global kernel fields. The fuller
+partition below remains useful for hypothetical mutation-isolation testing, not
+permission to install unaccepted return-loop edges.
 
 ## Decision
 

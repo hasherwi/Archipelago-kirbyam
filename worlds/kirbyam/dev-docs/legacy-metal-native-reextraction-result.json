@@ -1,0 +1,23 @@
+{
+  "pinned_head": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+  "validator_git_blob": "c3c97e519db3c6da324740b3699b990a0285cb21",
+  "scanner_git_blob": "1d69db10430f6ff29366b50f55bb36b561a01074",
+  "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "exit_code": 0,
+  "stdout": {
+    "published_assertions": {
+      "historical_edges": 9,
+      "f5_banks": 6,
+      "named_sources": 15,
+      "inspected_map_references": 10,
+      "current_binding_comparison": false
+    },
+    "native_reextraction": {
+      "source_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "native_rooms_read": 19,
+      "incoming_record_assertions": 14,
+      "742_components_disjoint": true,
+      "scope": "Coordinates, source table values, door records and bounded mutation assertions only; no physics or gameplay proof."
+    }
+  }
+}
