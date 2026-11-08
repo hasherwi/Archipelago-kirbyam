@@ -222,7 +222,7 @@ for every row, or that no other ability works.
 | UFO | [Amazing Mirror moveset](https://wikirby.com/wiki/UFO#Kirby_&_The_Amazing_Mirror) says the long-hold Piercing Heat Beam pierces walls | Specific targets and applicable charge/move; do not equate every UFO attack with this property |
 | Master | [Article](https://wikirby.com/wiki/Master#Kirby_&_The_Amazing_Mirror) describes a charged energy wave and broad puzzle-solving capability except Mini puzzles | Exact move and collision behavior per target; the broad claim is not a controller witness |
 | Smash | [Amazing Mirror moveset](https://wikirby.com/wiki/Smash_Bros.#Kirby_&_The_Amazing_Mirror) includes Final Cutter and its shockwave | WiKirby alone did not establish wall penetration; the pinned source follow-up establishes terrain bypass, but not per-target success |
-| Spark | Rainbow Route Room 28 explicitly describes a closer-position solution | Room 8 is a lead only; exact moves and collision behavior still need testing |
+| Spark | Rainbow Route Room 28 explicitly describes a closer-position solution | Room 8 now has a qualified continuous native witness; other targets and randomized availability still need testing |
 | Ice | Treasure guide supplies the frozen-Waddle-Dee solution for Olive Goal 2 | Exact enemy/source/position and switch timing under randomization |
 
 ## Additional remote-action result outside the wall-separated-trigger class
@@ -298,7 +298,7 @@ hit can reflect alignment or chain state rather than range.
 | Spark barrier | Room 28 explicitly permits a closer-position solution; the [Spark article](https://wikirby.com/wiki/Spark#Kirby_&_The_Amazing_Mirror) describes the same basic version as Nightmare in Dream Land | Barrier radius and overlap through walls. Beam's longer-reaching placement does not prove Spark can substitute at every target |
 | UFO Piercing Heat Beam | Long-hold projectile explicitly pierces walls | Charge threshold, travel lifetime/distance, height alignment, camera/despawn limits and trigger activation |
 | Master energy wave | Charged ranged move and broad puzzle utility are documented | Separate wave travel from sword hitbox; collision, range, and low/raised targets |
-| Smash Final Cutter | Amazing Mirror moveset explicitly lists a landing shockwave | Shockwave collision, lifetime and height; upward/downward blade hitboxes are distinct. Still not confirmed wall-piercing |
+| Smash Final Cutter | Amazing Mirror moveset explicitly lists a landing shockwave | Source follow-up confirms landing-shockwave terrain bypass and a finite range; upward/downward blade hitboxes are distinct, and per-target success remains untested |
 | Ice: kicked frozen enemy | Olive Goal 2 documents the frozen-Waddle-Dee switch solution; [Ice article](https://wikirby.com/wiki/Ice#Kirby_&_The_Amazing_Mirror) supports freezing and kicking enemies | Projectile path/range, floor and wall behavior, thaw/despawn, available freezable enemy, and launch alignment. Ice breath is a separate attack |
 
 Do not import Spark's chargeable wall-piercing projectiles from Squeak Squad or
@@ -320,12 +320,19 @@ can measure a move but must not be represented as natural room accessibility.
 
 ## Native follow-up and expanded small-switch scope
 
-- [Move-specific source ranges](collision-avoiding-attack-ranges.md): Spark reaches 23 pixels sideways; Beam's forward envelope is 59; Master wave 118; Smash landing shockwave about 86. These are source-derived attack edges, not universal target-center distances or demonstrated maximum-distance switch hits. UFO and kicked frozen enemies are camera-limited rather than governed by a fixed flight timer. Laser and Cupid are terrain-colliding remote options.
+- [Move-specific source ranges](collision-avoiding-attack-ranges.md): Spark reaches 23 pixels sideways; Beam's forward envelope is 59; Master wave 118; Smash landing shockwave about 86. These are source-derived damage-box edges, not Bomb Block scan bounds, universal target-center distances or demonstrated maximum-distance switch hits. Bomb Blocks use a separate tile-scan rectangle: Spark's horizontal scan bound is 26px and Beam's forward scan envelope is 55px; see the target-specific source follow-up. UFO and kicked frozen enemies are camera-limited rather than governed by a fixed flight timer. Laser and Cupid are terrain-colliding remote options.
 - [Rainbow Route Room 8 Spark witness](rainbow-route-8-spark-witness.md): a continuous qualified vanilla-engine replay opened the intended wall-separated trigger and reached Room 9 (native 554). A no-attack replay stayed in 110. Startup placement and an essence substitution mean this proves physical feasibility after acquiring Spark, not source-aware randomized accessibility.
-- [Exhaustive native small-switch inventory](small-switch-inventory.md): 23 instances in 19 native rooms, all 983 slots and 287 object lists scanned. Room-by-room WiKirby classifications distinguish ordinary contact/timing, remote alternatives, cooperation and separated targets. Moonlight Mansion Room 19 is a clear-static-row ranged alternative; Mustard Chest/Room 15 require additional trajectory/timing work. No blanket Laser, Cupid, Ice, UFO or Phone grant is implemented.
+- [Exhaustive native small-switch inventory](small-switch-inventory.md): 35 instances in 24 native rooms, all 983 slots and 287 object lists scanned. Room-by-room WiKirby classifications distinguish ordinary contact/timing, remote alternatives, cooperation and separated targets. Moonlight Mansion Room 19 is a clear-static-row ranged alternative; Mustard Chest/Room 15 require additional trajectory/timing work. No blanket Laser, Cupid, Ice, UFO or Phone grant is implemented.
 
 Spark's Room 8 success and WiKirby's Room 28 solution do **not** prove that it
 replaces Beam at every target. Other room/move witnesses and the 13 failed prose
 retrievals remain open. The small-switch scan is exhaustive for static native
-templates (including the 18 native spawners checked), not every possible dynamic
+templates (including the 37 native spawners checked), not every possible dynamic
 object creation or every gameplay solution.
+
+
+The small-switch count was corrected after independent validation found that the
+first extractor used a type-list count as a template count. The corrected scan
+walks each stream by its native record-size byte until the zero terminator,
+then cross-checks both spawn-table type lists. Earlier 23/19 counts are superseded
+by 35/24. This correction adds rooms and instances but grants no gameplay rule.
