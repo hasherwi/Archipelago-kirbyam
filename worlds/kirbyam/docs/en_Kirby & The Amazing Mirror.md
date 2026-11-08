@@ -149,7 +149,15 @@ You will not see an indicator in the game, instead you'll see you received an it
 
 
 
-Currently a tracker is not available. Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, defeat the selected `configured_area_boss` in `defeat_area_boss` mode, or defeat any N distinct area bosses in `defeat_area_boss_count` mode. Enter `/goal` in the connected client to confirm the requirement; legacy hidden targets stay hidden.
+Use [BlameMateo's Kirby & The Amazing Mirror PopTracker pack](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker)
+for an optional map tracker with Archipelago autotracking. Download the pack from its
+[releases page](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker/releases)
+and follow the maintained [installation and support instructions](https://github.com/BlameMateo/Kirby-The-Amazing-Mirror-PopTracker/blob/main/kirby_and_the_amazing_mirror/README.md).
+
+See the [setup guide's PopTracker section](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/setup_en.md#optional-poptracker)
+for connection details and version requirements.
+
+Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, defeat the selected `configured_area_boss` in `defeat_area_boss` mode, or defeat any N distinct area bosses in `defeat_area_boss_count` mode. Enter `/goal` in the connected client to confirm the requirement; legacy hidden targets stay hidden.
 
 
 
