@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink and three directed native141 metal passages have bounded guaranteed-source witnesses. Other source assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse left-trigger Bomb crossing now has fresh-wall Normal acceptance; outward Mirra doors remain unaccepted.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -1507,7 +1507,7 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN"
           ]
         }
       ],
@@ -1536,27 +1536,35 @@
           "item_checks": [
             "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01"
           ],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK"
           ]
         },
         {
-          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN",
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
         {
           "id": "742:20,6",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Native6HP clean-source acceptance now proves separate sparerib chest0x088BDD10 flag17 and Warp705 outcomes, with outerBomb/roof unchanged. Production gate and entry split remain held for supported low-HP/one-hit safety; four pre-capture collisions and one chest collision are not established avoidable. Upper return and mutated chest paths remain unaccepted.",
+          "status": "conditional_source_witness",
+          "note": "Actual712 entry, main741 Flamer capture and first742 lower entry supply separate atomic Burning-required sparerib chest0x088BDD10 flag17 and Warp705 witnesses. Continuous no-loss default/max500% enemyHP and same-visit chest-to-Warp acceptance avoid tanking, extra copies, permanentDoo deletion and room resets. Chest continuation may dropBurning and use Normal. Upper-return Warp remains an unvalidated legacy route; unsupported source assignments and directAP1HP/event replay remain unaccepted.",
           "tile_count": 4,
           "bounds": [
             20,
@@ -1564,8 +1572,41 @@
             21,
             7
           ],
-          "native_acceptance": "ordinary-742-clean-source-acceptance.json",
-          "production_status": "held_pending_health_scope"
+          "accepted_targets": [
+            "metal_742_sparerib",
+            "metal_742_lower_to_warp"
+          ],
+          "requires_guaranteed_source": {
+            "source_key": "FLAMER",
+            "ability": "Burning"
+          },
+          "path_statuses": [
+            {
+              "path": "clean lower to sparerib chest",
+              "status": "conditional_source_witness",
+              "target": "metal_742_sparerib"
+            },
+            {
+              "path": "clean lower to Warp705",
+              "status": "conditional_source_witness",
+              "target": "metal_742_lower_to_warp"
+            },
+            {
+              "path": "upper dirty/unknown return to Warp705",
+              "status": "pending_route_acceptance"
+            },
+            {
+              "path": "outer-changed return to chest",
+              "status": "pending_route_acceptance",
+              "note": "No clean chest edge or reset credit is provided."
+            }
+          ],
+          "native_acceptance": [
+            "ordinary-742-no-loss-source-acceptance.json",
+            "ordinary-742-all500-acceptance.json",
+            "ordinary-742-all500-combined-checks.json"
+          ],
+          "health_scope_review": "ordinary-742-health-scope.md"
         }
       ]
     },

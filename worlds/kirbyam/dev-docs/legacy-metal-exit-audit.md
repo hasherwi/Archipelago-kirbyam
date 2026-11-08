@@ -43,6 +43,6 @@ This is research, not production route acceptance. This audit itself changes no 
 
 ## Reproducibility and implementation follow-up
 
-See `legacy-metal-reproducibility.md`, `legacy-metal-public-source-references.json`, and the portable `validate_legacy_metal_audit.py`. Published consistency validation is not independent native reproduction. The optional local-ROM reader was not executed in this audit environment. The original extraction commands were not supplied; their byte-for-byte recreation is not claimed.
+See `legacy-metal-reproducibility.md`, `legacy-metal-public-source-references.json`, and the portable `../tools/validate_legacy_metal_audit.py`. Published consistency validation is not independent native reproduction. The optional local-ROM reader was not executed in this audit environment. The original extraction commands were not supplied; their byte-for-byte recreation is not claimed.
 
-The isolated `moonlight-742-implementation-design.md` proposes explicit clean/altered action-state nodes, separate chest/Warp targets, and existing graph-part reuse. Its `check_742_design_semantics.py` passed 35 kernel assertions at `32d1c44`, with hypothetical physical movement edges only. It does not authorize marking those routes reviewed.
+The isolated `moonlight-742-implementation-design.md` proposes explicit clean/altered action-state nodes, separate chest/Warp targets, and existing graph-part reuse. Its `../tools/check_742_design_semantics.py` passed 35 kernel assertions at `32d1c44`, with hypothetical physical movement edges only. It does not authorize marking those routes reviewed.

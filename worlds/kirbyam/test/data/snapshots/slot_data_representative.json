@@ -4416,14 +4416,6 @@
       "parent_region": "REGION_MOONLIGHT_MANSION",
       "room_sanity_location_id": 3961069
     },
-    "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN": {
-      "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_WARP"
-      ],
-      "label": "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN",
-      "parent_region": "REGION_MOONLIGHT_MANSION",
-      "room_sanity_location_id": null
-    },
     "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",

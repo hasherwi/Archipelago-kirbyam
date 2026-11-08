@@ -3418,6 +3418,9 @@
           "can_fly"
         ]
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_15": "UPPER_RETURN"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
@@ -3443,12 +3446,156 @@
           "can_break_metal"
         ]
       }
-    }
-  },
-  "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN": {
-    "locations": {},
-    "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": "can_break_metal"
+    },
+    "logical_subregions": {
+      "UPPER_RETURN": {
+        "locations": [],
+        "exits": {
+          "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": "can_break_metal"
+        }
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_742_clean_source_prefix": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_742:741_arrival",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:741_main_source",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:clean_lower",
+              "native_room": 742
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_742:741_arrival",
+              "to": "metal_742:741_main_source",
+              "evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage; dev-docs/ordinary-742-all500-acceptance.json shared: actual712 door0x884640 to741 Normal arrival, ordinary Bombs24,38/25,26 and actual mainFlamer approach. Both linked variants have continuous no-loss audit before any742 visit."
+            },
+            {
+              "from": "metal_742:741_main_source",
+              "to": "metal_742:clean_lower",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json safe_lowerdoor741/safeentrywait60; dev-docs/ordinary-742-all500-acceptance.json shared: carry captured Burning through native741 lower door0x884BE2 to first742 arrival472,456.996. No upper-return entry or room reset credit."
+            }
+          ],
+          "sources": [
+            {
+              "id": "0x088BD8AC",
+              "node": "metal_742:741_main_source",
+              "source_key": "FLAMER",
+              "acquisition_evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json safesourcewait15; dev-docs/ordinary-742-all500-acceptance.json shared: actual native Flamer0x088BD8AC,type0x13 at200,224 inhaled/swallowed before742; Normal becomesBurning with6HP. Permission and finalized source policy still apply."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_742_sparerib",
+          "kind": "metal",
+          "native_room": 742,
+          "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
+          "requires_guaranteed_source": {
+            "source_key": "FLAMER",
+            "ability": "Burning"
+          },
+          "graphs": {
+            "clean_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+              },
+              "graph_parts": [
+                "metal_742_clean_source_prefix"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-all500-acceptance.json shared+chest; dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage+clean_chest_branch: Burning supplies timed120-frame door, shaftBomb11,9 and rightward F5 top-row passage. OuterBomb19,12, doorBomb26,12 and roof24/25,8 stay unchanged. Chest variant deliberately drops Burning after F5, uses Normal inhale/spit rather than assuming a durableDoo kill, then collects flag17. Terminal Normal outcome; equipment must not be reexported. dev-docs/ordinary-742-all500-combined-checks.json independently proves same-visit chest thenWarp using the one initial Flamer, with no reset or new copy."
+                  },
+                  "evidence": "Atomic accepted sequence requires Burning at clean lower arrival, not throughout its terminal continuation. No dirty/unknown return joins or outgoing endpoint edges."
+                }
+              ],
+              "starts": [
+                "metal_742:741_arrival"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
+            }
+          }
+        },
+        {
+          "id": "metal_742_lower_to_warp",
+          "kind": "metal",
+          "native_room": 742,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+          "requires_guaranteed_source": {
+            "source_key": "FLAMER",
+            "ability": "Burning"
+          },
+          "graphs": {
+            "clean_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+              },
+              "graph_parts": [
+                "metal_742_clean_source_prefix"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-all500-acceptance.json shared+warp; dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage+clean_warp_branch: Burning supplies timed120-frame door, shaftBomb11,9 and rightward F5 top-row passage. OuterBomb19,12, doorBomb26,12 and roof24/25,8 stay unchanged. Warp variant uses extra Burning/prompt avoidance of survivingDoo and enters705 with Burning, without requiring chest collection. dev-docs/ordinary-742-all500-combined-checks.json independently proves same-visit chest thenWarp using the one initial Flamer, with no reset or new copy."
+                  },
+                  "evidence": "Atomic accepted sequence requires Burning at clean lower arrival, not throughout its terminal continuation. No dirty/unknown return joins or outgoing endpoint edges."
+                }
+              ],
+              "starts": [
+                "metal_742:741_arrival"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_16": {

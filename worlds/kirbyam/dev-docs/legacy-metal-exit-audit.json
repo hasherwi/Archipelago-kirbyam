@@ -1107,7 +1107,7 @@
   "reproducibility": {
     "public_map_manifest": "legacy-metal-public-map-references.json",
     "public_native_manifest": "legacy-metal-public-source-references.json",
-    "portable_validator": "validate_legacy_metal_audit.py",
+    "portable_validator": "../tools/validate_legacy_metal_audit.py",
     "instructions": "legacy-metal-reproducibility.md",
     "published_only_scope": "Nine historical edge records, six F5 banks, named source registry grants and ten inspected map references are checkable from the published derived files. This is consistency validation, not independent native extraction or gameplay proof.",
     "optional_local_rom_scope": "The validator includes a new independent bounded reader for the unchanged USA ROM. It checks source templates, door records, F5 coordinates and selected 742 mutation assertions without saving assets or grids. This reader was not run against a ROM in the cloud audit environment.",

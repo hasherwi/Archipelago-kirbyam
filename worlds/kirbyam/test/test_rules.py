@@ -347,7 +347,7 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert len(room_regions) == 322
+    assert len(room_regions) == 321  # Retired disconnected 742 upper-ledge alias.
     assert room_regions["REGION_COPY_ABILITY_ROOM/MAIN"]["locations"] == {}
 
     def room_sanity_metadata(region: dict[str, Any]) -> dict[str, Any]:
@@ -465,7 +465,9 @@ def test_room_reachability_from_start() -> None:
     assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT" in reachable
     assert "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK" in reachable
-    assert len(reachable) == 346
+    assert len(reachable) == 348
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_06" in reachable

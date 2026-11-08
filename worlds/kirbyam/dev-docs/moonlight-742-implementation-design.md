@@ -1,50 +1,44 @@
 # Native 742: separate clean chest and return-loop Warp witnesses
 
-Status: implementation design only, not a reviewed production graph. The native
-clean source-to-chest and source-to-Warp records now succeed at6HP; production
-installation is held for supported low-HP/one-hit coverage. Starting Stone and
-Burning remain unchanged. The original semantic fixture was exercised against
-kernel `32d1c44`.
+Status: the clean source-to-chest and source-to-Warp branches now have conditional
+production witnesses. The return-loop branch below remains a design, not an
+accepted route. Starting Stone and Burning remain unchanged.
 
-## Native clean-route checkpoint and unresolved health scope
+## Accepted clean branch and evidence limits
 
-[The controller artifact](ordinary-742-clean-source-acceptance.json) now proves
-actual712 entry, native741 main Flamer capture, first742 lower arrival, the
-120-frame button/sliding-door crossing, timed cannon-shaft climb, shaft Bomb11,9
-and rightward Burning through the top F5 row20..21,6. The lower F5 row remains.
-Separate continuations collect chest0x088BDD10 flag17 (0 to2) and enter native705
-through Warp door0x885348. Both retain the outer Bomb19,12, inner door Bomb26,12
-and roof24/25,8 unchanged. No room reset or prior742 visit is assumed.
-[Decoded door scalars](ordinary-742-door-topology.json) distinguish lower and
-upper arrival sides independently of controller acceptance.
+The original [damaged trace](ordinary-742-clean-source-acceptance.json) is retained
+as history. [The no-loss replacement](ordinary-742-no-loss-source-acceptance.json)
+uses actual712 entry, native741 main Flamer capture, first742 lower arrival,
+timed door, shaft Bomb11,9 and the top F5 row. Its separate chest and Warp
+continuations retain6HP, verified every frame.
 
-The source approach loses4HP before capture. Timed door, shaft, bank and Warp
-then preserve2HP; the chest branch loses one further HP and Burning before Normal
-collection heals it. Minimum Health and Maximum Health explicitly permit1/1
-one-hit play. This record alone cannot establish a one-hit-safe route or whether
-all collisions/invulnerability assistance can be avoided. Until that is resolved,
-**the candidate graphs and topology changes remain uninstalled**. Native-only
-flag/door evidence is not an AP-patched event or network acceptance either.
+[Full500% enemy-HP acceptance](ordinary-742-all500-acceptance.json) applies the
+pinned production scaler once before cold boot. It does not assume a durable
+Doo dies to a single Burning hit. The chest branch drops Burning after F5 and
+uses Normal inhale/spit; the Warp branch uses prompt avoidance with Burning.
+[The combined continuation](ordinary-742-all500-combined-checks.json) then proves
+same-visit collected chest to actual705 as Normal, without a second copy or room
+reset, even when a Doo reappears on camera return. All continuations have per-frame
+zero-loss audits. See [health/source reasoning](ordinary-742-health-scope.md) for
+positive-Kirby-HP equivalence and the explicit lack of direct AP1HP/server replay.
 
-The candidate implementation uses a shared741 source-to-clean742-lower prefix
-and two atomic Burning-only terminal sequences. Burning is needed for the timed
-door, shaft Bomb and Warp roof clearance as well as the metal. A free movement
-edge between those steps could incorrectly permit dropping the ability. Terminal
-outcomes have no outgoing edges, preventing the chest branch from exporting the
-Burning copy it actually loses. The staged graphs need four nodes, three routes,
-one source and nine states each, with no new global kernel fields. The fuller
-partition below remains useful for hypothetical mutation-isolation testing, not
-permission to install unaccepted return-loop edges.
+Two atomic terminal sequences reuse one741 source-to-clean742-lower prefix.
+Burning is required at the beginning, for the timed door, shaft Bomb and F5;
+it need not remain equipped after the last required action. No free intermediate
+ability-drop point or reusable endpoint equipment is exported. Each graph has
+four nodes, three routes, one finite source and nine states, without new kernel
+fields. The fuller partition below remains a hypothetical mutation-isolation
+model and must not be copied into production as unaccepted return-loop edges.
 
 ## Decision
 
 Use the existing finite graph with explicit **physical compartment plus action-history nodes**. Do not add a new global Bomb flag, a generic closing-gate capability, or negative `opened` predicates. Keep chest and Warp as separate AP targets. Reuse physical prefixes and metal actions through the existing `graph_parts` schema, which already merges nodes, routes and sources.
 
-A successful clean witness is an alternative plan from independent access, not proof that a previously altered room resets. AP may union the existence of a clean chest plan and a return-loop Warp plan. Neither plan may splice the other's equipment, mutations or finite enemy consumption into itself.
+A successful clean witness is an alternative plan from independent access, not proof that a previously altered room resets. Separate target queries alone do not prove joint collectibility when they consume a finite source. The accepted same-visit chest-to-Warp continuation closes that issue here; neither plan may splice another plan's equipment, mutations or finite enemy consumption into itself.
 
 ## Evidence that the representation must preserve
 
-- F5 bank: x20..21, y6..7. Attack direction is left to right into the upper tower. No provider is accepted by this design document.
+- F5 bank: x20..21, y6..7. Attack direction is left to right into the upper tower. Only Burning is accepted by the production clean witnesses; the return-loop design has no accepted provider.
 - Actual clean entry: native 741 lower door record ROM offset `0x884BE2` (full GBA address `0x08884BE2`), trigger (1,17), enters 742 at tile (30,29). Source is 741 main Flamer `0x088BD8AC`, (200,224), table grant Burning.
 - Actual upper return: 742 revealed door record offset `0x88554E`, trigger (25,12), enters 741 at (11,8). Upper Flamers are `0x088BDA38`, (136,80), and `0x088BDA5C`, (200,80). The 741 upper door offset `0x884A48`, trigger (3,2), enters 742 at (19,8).
 - Warp: 742 door offset `0x885348`, trigger (27,2), enters native 705 at (4,39).
@@ -55,7 +49,7 @@ A successful clean witness is an alternative plan from independent access, not p
 
 Door records above use ROM offsets unless explicitly labeled as full GBA addresses. Object identities use full GBA addresses; do not subtract or add the ROM base twice.
 
-Native research update, 2026-11-08: the source prefix from actual 712 door arrival through 741 main Flamer acquisition to a first-ever 742 lower entry has been controller-tested successfully. It includes two 741 Bomb actions and preserves Burning into 742. The 742 climb, metal attack, chest and Warp were still being tested when this design was written. The native acceptance artifact, not this summary, must be the production evidence reference.
+The complete acceptance records above supersede the earlier source-prefix-only checkpoint. Decoded door records establish entry sides, not a clean layout after a mutated return.
 
 ## Minimal graph partition
 
@@ -87,13 +81,13 @@ Outer and inner Bomb edges can be atomic ordinary routes with exact evidence and
 
 ## AP arrival and room-check wiring
 
-Current defects:
+Prior defects addressed by the clean-branch implementation:
 
 - Both `ROOM_2_14` and `ROOM_2_14_UPPER` target generic `ROOM_2_15` despite different native arrivals.
 - `ROOM_2_15_UPPER_LEDGE_SPAWN` has no incoming edge.
 - The chest is a null requirement in canonical `ROOM_2_15`.
 
-Recommended compact fix uses existing room-loader features:
+The compact fix uses existing room-loader features:
 
 1. Keep canonical `REGION_MOONLIGHT_MANSION/ROOM_2_15` as the lower-entry compartment.
 2. Add `logical_subregions.UPPER_RETURN` to that room, with no chest and only reviewed outgoing routes. Its generated name is `REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN`.
@@ -167,6 +161,14 @@ Required tests:
 
 ## Executed synthetic regression
 
-`check_742_design_semantics.py` runs against the actual traversal kernel with hypothetical movement edges. At `32d1c44` it passed **35 assertions**, with 45 clean-start states and 10 upper-return-start states. It exercises phase isolation, finite identity, future Burning permission, source-before-gate, policy conditions, exact provider restriction, and AP union of independent plans.
+`../tools/check_742_design_semantics.py` runs against the actual traversal kernel with hypothetical movement edges. At `32d1c44` it passed **35 assertions**, with 45 clean-start states and 10 upper-return-start states. It exercises phase isolation, finite identity, future Burning permission, source-before-gate, policy conditions, exact provider restriction, and AP union of independent plans.
 
 This test does **not** accept the hypothetical edges. It does not run the emulator, validate capture coordinates, execute Bomb actions, test attacks, collect the chest or enter Warp. It temporarily changes the imported gateable-ability set inside its own process solely to test eventual Burning permission behavior, then restores it. There are no production writes.
+
+## Remaining source-policy work
+
+The combined trace observes a roof Doo reappear after camera return. That does
+not prove the main Flamer is renewable. A future live-random witness may
+investigate the actual main Flamer's offscreen respawn contract and safe Normal
+reacquisition, then add explicit retry evidence if warranted. No such retry,
+renewability, room-reset or mixed-pool guarantee is installed by this increment.

@@ -7,14 +7,14 @@ This is a historical research audit of nine directed legacy exits at `bee5a93`, 
 - `legacy-metal-exit-audit.json`: exact historical AP edge keys, source candidates, six F5 banks, door facts, limits and corrected source identifications.
 - `legacy-metal-public-map-references.json`: all ten inspected composite maps, article URLs pinned to revision IDs, original CDN URLs, byte count and SHA-256 of the inspected image bytes. Map art is not bundled. A hash detects CDN drift; it does not guarantee the CDN retains old bytes.
 - `legacy-metal-public-source-references.json`: exact native repository/revision/file/symbol/line URLs and hashes of inspected source files. These explain object grants, room loading, mutation application, Bomb propagation and Throw restrictions. They do not establish room-specific controller success.
-- `validate_legacy_metal_audit.py`: standard-library Python 3.10+ validator. It does not depend on the three nonbundled native extracts or on a network connection.
+- `../tools/validate_legacy_metal_audit.py`: standard-library Python 3.10+ validator. It does not depend on the three nonbundled native extracts or on a network connection.
 
 ## Portable consistency check
 
 From a checkout containing these files in `worlds/kirbyam/dev-docs`:
 
 ```sh
-python worlds/kirbyam/dev-docs/validate_legacy_metal_audit.py \
+python worlds/kirbyam/tools/validate_legacy_metal_audit.py \
   --world worlds/kirbyam
 ```
 
@@ -36,7 +36,7 @@ Add `--check-current-bindings` only when checking the historical AP baseline. Th
 An owner of the unchanged USA ROM may run the new bounded reader locally:
 
 ```sh
-python worlds/kirbyam/dev-docs/validate_legacy_metal_audit.py \
+python worlds/kirbyam/tools/validate_legacy_metal_audit.py \
   --world worlds/kirbyam \
   --rom /private/path/to/owned-original-usa.gba
 ```
@@ -69,3 +69,5 @@ AP_TEST_WORLDS=kirbyam python /path/to/artifacts/check_742_design_semantics.py \
 ```
 
 At `32d1c44`: PASS, 35 assertions. This exercises a hypothetical phase-expanded 742 graph against the real kernel. It is neither a reviewed production graph nor native physical evidence. See `moonlight-742-implementation-design.md` for the planned acceptance and integration tests.
+
+The executable helpers now live in `worlds/kirbyam/tools`, following repository package policy. The pinned successful native run above used their historical `dev-docs` location at `a062278`; its recorded blob hashes remain the exact evidence. Moving the validator changes only its default map-reference lookup to the supplied world directory.

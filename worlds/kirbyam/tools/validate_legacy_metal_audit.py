@@ -233,13 +233,14 @@ def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--world", required=True, type=Path, help="Path to the published worlds/kirbyam directory")
     p.add_argument("--audit", type=Path, help="Defaults to WORLD/dev-docs/legacy-metal-exit-audit.json")
-    p.add_argument("--map-references", type=Path, help="Defaults beside this script")
+    p.add_argument("--map-references", type=Path,
+                   help="Defaults to WORLD/dev-docs/legacy-metal-public-map-references.json")
     p.add_argument("--check-current-bindings", action="store_true",
                    help="Fail if current AP edges differ from this historical baseline")
     p.add_argument("--rom", type=Path, help="Optional local already-owned unchanged USA ROM; never downloaded")
     a = p.parse_args()
     audit = read(a.audit or a.world / "dev-docs/legacy-metal-exit-audit.json")
-    maps = read(a.map_references or Path(__file__).with_name("legacy-metal-public-map-references.json"))
+    maps = read(a.map_references or a.world / "dev-docs/legacy-metal-public-map-references.json")
     out = {"published_assertions": validate_published(audit, a.world, maps, a.check_current_bindings)}
     out["native_reextraction"] = validate_rom(audit, a.world, a.rom) if a.rom else {
         "status": "NOT RUN: no --rom supplied",

@@ -3148,12 +3148,12 @@
       "object_list_index": 79,
       "ap_keys": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN"
       ],
       "wiki_title": "Moonlight Mansion - Room 15",
       "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
       "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Completion-index join; AP compartments share this native room. Native 741 lower door enters canonical lower 742; its upper return door enters a distinct logical compartment with unknown prior outer-Bomb state. One generated room-check sink does not merge these arrivals."
     },
     {
       "native_id": 743,

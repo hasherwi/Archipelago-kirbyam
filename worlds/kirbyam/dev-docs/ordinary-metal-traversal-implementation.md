@@ -245,6 +245,46 @@ original `can_mirra` requirement is preserved on the separate doorway edge,
 not certified by standing near it. The native 144 incoming record establishes
 its arrival side, not an accepted outward crossing.
 
+## Native742: source carry, clean history and joint completion
+
+`metal_742_sparerib` and `metal_742_lower_to_warp` share a finite main-Flamer
+prefix from actual712 access (`ROOM_2_13`), through741 source `0x088BD8AC`, to the
+first742 lower arrival. Each target then uses a separate atomic Burning-required
+sequence through the timed120-frame door, shaft Bomb11,9 and top F5 row20..21,6.
+The lower F5 row, outer Bomb19,12, door Bomb26,12 and roof24/25,8 remain unchanged.
+Inventory permission alone cannot equip Burning or invent the source prefix.
+
+The [no-loss native record](ordinary-742-no-loss-source-acceptance.json) replaces
+an earlier damaged trace. The [full500% enemy-HP record](ordinary-742-all500-acceptance.json)
+uses the exact production scaler, prompt avoidance and Normal inhale/spit rather
+than relying on a one-hit kill of durable Doos. Chest flag17 changes0 to2; the
+separate Warp branch actually enters705. The chest variant may deliberately
+end Normal. Both outcome nodes are terminal, and regression tests forbid using
+the abstract success as a reusable Burning-equipped postcondition.
+
+Separate target queries alone would not prove that one finite copy supports
+both checks. The [same-visit continuation](ordinary-742-all500-combined-checks.json)
+resumes the collected chest as Normal, handles a Doo that reappears on camera
+return and reaches705 without reset, reentry or another copy. It preserves the
+chest flag and avoids the roof spike at26,4. All accepted replacement chains
+have per-frame zero-loss audits, not just sampled final health. The
+[health scope review](ordinary-742-health-scope.md) explains source-backed
+positive-HP equivalence without claiming a direct AP1HP or network replay.
+
+Native741 lower and upper doors now land in distinct742 compartments. The upper
+return is `UPPER_RETURN`, with no edge to canonical lower or the chest. Both
+arrivals reach one room-check sink; that sink has no outgoing edges. The former
+disconnected `UPPER_LEDGE_SPAWN` alias is retired. Upper-return-to-Warp and
+lower742-to-upper741 retain their older requirements and remain unvalidated;
+no dirty-return witness or clean-layout reset assumption is installed.
+
+Applicability requires a globally guaranteed Flamer-to-Burning policy. Mixed
+live pools and unsupported assignments retain prior rules and remain unvalidated.
+No Flamer renewal is inferred from a Doo's observed camera respawn. Starting
+inventory removal still requires complete supported-source and remaining-room
+coverage. The original design and its synthetic dirty-state fixture remain
+available in [the742 design](moonlight-742-implementation-design.md).
+
 ## Cost and verification
 
 The [paired Python 3.12 benchmark](ordinary-metal-kernel-benchmark.json) compares
@@ -271,3 +311,10 @@ Native141 adds no kernel dimensions. Its forward-left, full lower-source
 forward-right, and reverse-left graphs visit 9, 13, 9 states, respectively.
 Twelve warmed samples measure 19.58, 28.63, 22.04 microseconds median. These are fixed-point
 evaluation costs, not whole-generation or AP reachability benchmarks.
+
+Native742 adds no kernel fields or global flags. Each target uses four nodes,
+three routes and one finite source, visiting nine states. Twelve warmed samples
+measure19.07 microseconds for chest and20.16 for Warp (median fixed-point cost).
+The prefix is serialized once; each terminal action cites its own accepted
+continuation and the joint-completion proof. This is not a whole-generation
+performance measurement.

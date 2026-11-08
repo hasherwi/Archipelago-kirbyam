@@ -1,7 +1,7 @@
 {
   "python": "3.12.14",
   "baseline": "1cdde1a",
-  "current": "ordinary-metal-with-conditional557-176-and141",
+  "current": "ordinary-metal-with-conditional557-176-141-and742",
   "scope": "Paired in-process direct fixed-point evaluation; same graph/policy/items; compile and imports excluded",
   "existing": {
     "mini_134_ocean_spray/local": {
@@ -262,5 +262,53 @@
       "access_region": null
     }
   },
-  "conditional141_scope": "Native FLAMER Burning, owned Burning permission. Warm kernel evaluation only; independent AP-region access is checked by installer. Existing paired baseline samples are unchanged because the kernel did not change."
+  "conditional141_scope": "Native FLAMER Burning, owned Burning permission. Warm kernel evaluation only; independent AP-region access is checked by installer. Existing paired baseline samples are unchanged because the kernel did not change.",
+  "conditional_742": {
+    "metal_742_sparerib": {
+      "witness": "clean_carry",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        19.535347,
+        19.5376696,
+        23.0105864,
+        18.8832494,
+        18.854175599999998,
+        19.262583600000003,
+        18.6598844,
+        18.629162,
+        18.3628404,
+        20.017231,
+        23.5973386,
+        17.962971000000003
+      ],
+      "current_us_median": 19.0729165
+    },
+    "metal_742_lower_to_warp": {
+      "witness": "clean_carry",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        19.9481368,
+        19.2697504,
+        18.9468152,
+        20.3807464,
+        19.0537546,
+        18.507925200000003,
+        21.78583,
+        21.0628612,
+        18.6552756,
+        20.975161,
+        21.6697688,
+        20.3814214
+      ],
+      "current_us_median": 20.1644416
+    }
+  }
 }
