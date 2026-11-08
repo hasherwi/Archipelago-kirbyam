@@ -211,7 +211,9 @@
     {
       "title": "Rainbow Route - Room 21",
       "url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_21",
-      "status": "fetch_failed"
+      "status": "overview_screened",
+      "revision": 574497,
+      "review_note": "Recovered public HTML; ordinary ascent and Bomb Blocks, no stated wall-separated trigger."
     },
     {
       "title": "Rainbow Route - Room 20",
