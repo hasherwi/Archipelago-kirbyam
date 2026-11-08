@@ -1,6 +1,6 @@
 # WiKirby through-wall and remote-hit evidence inventory
 
-Initial documentation pass, reviewed 2026-11-08. This is an evidence shortlist,
+Documentation pass and room-prose sweep, reviewed 2026-11-08. This is an evidence shortlist,
 not an implemented ability predicate or an exhaustive gameplay audit. No logic,
 locations, enemies, ROM patches, item pools, or existing traversal rules change.
 
@@ -8,16 +8,92 @@ locations, enemies, ROM patches, item pools, or existing traversal rules change.
 
 | WiKirby room | Target | Evidence classification |
 | --- | --- | --- |
+| Rainbow Route - Room 8 | Right-hand door to Room 9 | Explicit through-wall requirement; ability list unverified |
+| Rainbow Route - Room 28 | Green Spray Paint chest | Beam and Spark explicitly documented; selective lower trigger |
+| Rainbow Route - Room 36 | Horizontal route to Room 39 / Mustard Mountain Room 1 | Recessed-trigger traversal candidate; up/down remains an alternative before activation |
+| Candy Constellation - Room 6 | Embedded-Bomb-Block shortcut near Chest 1 route | Shortcut candidate; stake route also documented |
 | Cabbage Cavern - Room 6 | Chocolate Spray Paint chest | Explicit through-wall requirement |
 | Carrot Castle - Room 7 | Mid-left door to Room 13, then its 1-Up chest | Recessed-trigger traversal candidate; exclusivity unproven |
 | Carrot Castle - Room 16 | Yellow Spray Paint chest / lower path | Remote reach required for the described solo solution; friends are an explicit alternative |
 | Olive Ocean - Goal 2 | Sound Effects chest switch | Through-wall interaction with a documented Ice/frozen-enemy solution; not a Beam/UFO/Master-only gate |
 | Radish Ruins - Chest 2 | Bridge to Area Map chest | Remote activation from below is a safer route; damage is an explicit alternative |
 
-Only the first row explicitly says the target requires an ability passing through
-a wall. The other rows must not be silently promoted to the same hard requirement.
+Rainbow Route Room 8 and Cabbage Cavern Room 6 explicitly say their targets
+require an ability hitting through a wall. The other rows must not be silently promoted to the same hard requirement.
 A requirement for one chest or doorway is not a requirement for entering its whole
 room, collecting RoomSanity, or using unrelated exits.
+
+## Rainbow Route model and analogous traversals
+
+### Rainbow Route - Room 8: explicit doorway requirement
+
+[Room overview](https://wikirby.com/wiki/Rainbow_Route_-_Room_8#Overview),
+[reviewed revision 574491](https://wikirby.com/w/index.php?title=Rainbow_Route_-_Room_8&oldid=574491):
+
+> If the door to Room 9 is desired, Kirby will need to acquire an ability that can hit a bomb block through a wall.
+
+This is the right-hand door near the bottom of the vertical shaft. The lower-left
+door leads to Room 12 and the upper door to Room 6. The page has no treasure chest.
+
+- Origin: native **110** (`0x06E`), completion index **27**;
+  `REGION_RAINBOW_ROUTE/ROOM_1_08`.
+- Destination: native **554** (`0x22A`), completion index **39**;
+  `REGION_RAINBOW_ROUTE/ROOM_1_09`.
+- Model the specific outgoing edge, not Room 8 entry/RoomSanity or its other exits.
+  Do not assume the reverse edge needs the same action.
+- The page suggests enemies above can supply a solution and lists Sparky and
+  Sword Knight, but does not name Beam as the required solution or exclude other
+  abilities. Spark/Sword are therefore leads for this target, not verified moves.
+- This textual match confirms a Rainbow Route wall-separated trigger, without
+  claiming to identify which room a player's remembered Beam use occurred in.
+
+### Rainbow Route - Room 28: Beam explicitly named, Spark alternative
+
+[Room overview](https://wikirby.com/wiki/Rainbow_Route_-_Room_28#Overview),
+[reviewed revision 574509](https://wikirby.com/w/index.php?title=Rainbow_Route_-_Room_28&oldid=574509),
+identifies two Bomb Blocks in the floor after the Star Block formation. Only the
+lower trigger should be hit to obtain Green Spray Paint; the upper one blocks the
+chest. It specifically describes Beam from the platform edge and Spark from a
+closer position. Returning through the door allows another attempt.
+
+- Native **138** (`0x08A`), completion index **49**;
+  `REGION_RAINBOW_ROUTE/ROOM_1_28`.
+- Check: `MINOR_CHEST_SPRAY_PAINT_04`, location **3960503**.
+- This is selective trigger reach plus chain state, not proof that every attack
+  crossing a wall is safe: hitting both triggers may defeat the solution.
+- Spark is an explicit alternative to Beam, so a Beam/UFO/Master-only whitelist
+  would omit a documented method. The exit to Room 29 is a separate target.
+
+### Rainbow Route - Room 36: horizontal-route candidate
+
+[Room overview](https://wikirby.com/wiki/Rainbow_Route_-_Room_36#Overview),
+[reviewed revision 571793](https://wikirby.com/w/index.php?title=Rainbow_Route_-_Room_36&oldid=571793),
+says an ability must reach the left/right Bomb Blocks for the horizontal route;
+without it, Kirby must go up/down. Activating the blocks closes those vertical
+paths instead. The left exit is Room 39, the right Mustard Mountain Room 1, the
+upper Room 35, and the lower Room 37.
+
+- Native **538** (`0x21A`), completion index **15**.
+- Existing AP compartments: `REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL` and
+  `REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL`.
+- Candidate is a stateful transition to the horizontal route, not a permanent
+  requirement on all four doors. Check each arrival side and resulting geometry.
+  WiKirby does not explicitly name wall collision or enumerate valid abilities.
+
+### Candy Constellation - Room 6: analogous embedded-trigger shortcut
+
+[Room overview](https://wikirby.com/wiki/Candy_Constellation_-_Room_6#Overview)
+describes a wall-embedded Bomb Block shortcut near the downward Chest 1 route,
+while also describing pounding a stake to expose that route. This is a useful
+analog of the Room 8 pattern, but not evidence that Chest 1 exclusively requires
+wall piercing. Exact shortcut endpoints still need a map/geometry check.
+
+- Native **401** (`0x191`), completion index **143**;
+  `REGION_CANDY_CONSTELLATION/ROOM_9_06`.
+- Chest 1 is native **406** (`0x196`), completion index **148**;
+  `REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1`.
+- Keep the stake-pounding alternative and embedded-trigger shortcut distinct;
+  neither is established here as a source-aware randomized witness.
 
 ## 1. Cabbage Cavern - Room 6: confirmed textual requirement
 
@@ -142,11 +218,20 @@ for every row, or that no other ability works.
 
 | Ability | What WiKirby supports | What remains unverified |
 | --- | --- | --- |
-| Beam | Treasure guide identifies it for Cabbage Cavern Room 6 | Other individual triggers, angles, and safe positions |
+| Beam | Treasure guide identifies it for Cabbage Cavern Room 6; Room 28 explicitly describes its use for Green Spray Paint | Other individual triggers, angles, and safe positions |
 | UFO | [Amazing Mirror moveset](https://wikirby.com/wiki/UFO#Kirby_&_The_Amazing_Mirror) says the long-hold Piercing Heat Beam pierces walls | Specific targets and applicable charge/move; do not equate every UFO attack with this property |
 | Master | [Article](https://wikirby.com/wiki/Master#Kirby_&_The_Amazing_Mirror) describes a charged energy wave and broad puzzle-solving capability except Mini puzzles | Exact move and collision behavior per target; the broad claim is not a controller witness |
 | Smash | [Amazing Mirror moveset](https://wikirby.com/wiki/Smash_Bros.#Kirby_&_The_Amazing_Mirror) includes Final Cutter and its shockwave | No reviewed statement establishes wall penetration or success at these targets; do not add it as confirmed |
+| Spark | Rainbow Route Room 28 explicitly describes a closer-position solution | Room 8 is a lead only; exact moves and collision behavior still need testing |
 | Ice | Treasure guide supplies the frozen-Waddle-Dee solution for Olive Goal 2 | Exact enemy/source/position and switch timing under randomization |
+
+## Additional remote-action result outside the wall-separated-trigger class
+
+[Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest#Overview)
+(native **310**, `REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST`) describes remotely
+operating a nearly immediate switch gate, with friends as a possible solution.
+This is a timing/cooperation candidate, not evidence of a solid wall between the
+attack and switch. Keep it out of a through-wall-only rule.
 
 ## Method, coverage, and next steps
 
@@ -161,14 +246,36 @@ for every row, or that no other ability works.
    against `data/regions/rooms.json` and `data/locations.json` on base
    `370dbb4` (main at branch creation).
 
-This is a search-led first pass, **not a claim that all 263 main-area room pages
-were read end-to-end**. The Treasure table excludes ordinary consumable chests;
-search absence does not prove a room has no relevant constraint. No emulator,
-ROM geometry, collision code, or controller test was run for this document.
+The first search-led pass missed Rainbow Route Room 8. The follow-up uses its
+specific pattern as a reusable test: **identify a destination, find the trigger
+separated from Kirby by a wall/barrier, establish that an attack must reach it,
+and preserve entry direction, changed barriers, and documented alternatives**.
+Search results and the significant-treasures table are discovery aids, not
+coverage evidence.
 
-For a later complete audit, use the 263-room inventory as a checklist and record
-reviewed/unreviewed status, examine remaining ordinary chests and doorways, then
-validate each candidate from every relevant entry. Record move/charge, attack
-origin and target, solid tiles crossed, enemy/source availability, chain state,
-alternatives, and failures. Keep a one-target proof separate from a global
-ability capability. Only then propose source-aware logic and regression tests.
+A direct fetch was attempted for every one of the **263** main-area room URLs in
+the native/WiKirby inventory. **249** returned overview/description prose that
+was screened for wall-separated triggers, recessed/embedded Bomb Blocks, remote
+activation, long reach, shortcuts, and related reach/barrier wording. Hits were
+reviewed in context, including the page's linked destinations and enemy table.
+The remaining **14** failed retrieval after one retry and remain unreviewed:
+
+- Rainbow Route: Rooms 21 and 24; Hub 2.
+- Cabbage Cavern: Room 10.
+- Peppermint Palace: Rooms 2 and 23.
+- Radish Ruins: Rooms 2, 6, and 23.
+- Olive Ocean: Rooms 3, 21, 22, and 23.
+- Candy Constellation: Room 8.
+
+The [per-room coverage manifest](wikirby-through-wall-coverage.json) records all
+263 titles/URLs and screening status. Prose screening is not an exhaustive
+mechanics audit: wording can omit a constraint, and a non-hit is not evidence of
+absence. No room-map pixels, ROM geometry, collision code, or controller tests
+were inspected for this document. The new matches are text-supported candidates,
+not retroactively claimed runtime verification.
+
+Next, recover the missing prose, inspect candidate maps, and validate each
+candidate from every relevant entry. Record move/charge, attack origin and target,
+solid tiles crossed, enemy/source availability, chain state, alternatives, and
+failures. Keep a one-target proof separate from a global ability capability.
+Only then propose source-aware logic and regression tests.
