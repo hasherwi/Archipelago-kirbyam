@@ -8,7 +8,7 @@ locations, enemies, ROM patches, item pools, or existing traversal rules change.
 
 | WiKirby room | Target | Evidence classification |
 | --- | --- | --- |
-| Rainbow Route - Room 8 | Right-hand door to Room 9 | Explicit through-wall requirement; ability list unverified |
+| Rainbow Route - Room 8 | Right-hand door to Room 9 | Explicit through-wall requirement; qualified Spark runtime witness |
 | Rainbow Route - Room 28 | Green Spray Paint chest | Beam and Spark explicitly documented; selective lower trigger |
 | Rainbow Route - Room 36 | Horizontal route to Room 39 / Mustard Mountain Room 1 | Recessed-trigger traversal candidate; up/down remains an alternative before activation |
 | Candy Constellation - Room 6 | Embedded-Bomb-Block shortcut near Chest 1 route | Shortcut candidate; stake route also documented |
@@ -43,7 +43,7 @@ door leads to Room 12 and the upper door to Room 6. The page has no treasure che
   Do not assume the reverse edge needs the same action.
 - The page suggests enemies above can supply a solution and lists Sparky and
   Sword Knight, but does not name Beam as the required solution or exclude other
-  abilities. Spark/Sword are therefore leads for this target, not verified moves.
+  abilities. Spark now has the qualified continuous runtime witness linked below; Sword remains a lead, not a verified move.
 - This textual match confirms a Rainbow Route wall-separated trigger, without
   claiming to identify which room a player's remembered Beam use occurred in.
 
@@ -112,9 +112,7 @@ independently names Beam as a way to hit this otherwise inaccessible block.
 - WiKirby lists a local Waddle Doo. This describes vanilla availability, not a
   guaranteed Beam source with shuffled enemies/abilities.
 - The text does not apply this restriction to the Room 7 or Hub 2 exits.
-- Before implementation, establish exact attack/position witnesses and negative
-  controls. A nearby Bomber/Crash source is listed too; this pass does not test
-  whether screen-wide effects provide additional solutions.
+- Qualified fresh-boot native witnesses now confirm Beam, Spark, ordinary Ice breath, and rising Smash Up+B open the barrier and collect the chest, with no-target-attack controls. See [Cabbage runtime evidence](cabbage-room6-native-witness.md). Startup placement and essence substitution do not establish randomized source availability. This does not test the nearby Bomber/Crash as a solution.
 
 ## 2. Carrot Castle - Room 7: traversal candidate
 
@@ -274,8 +272,8 @@ The [per-room coverage manifest](wikirby-through-wall-coverage.json) records all
 263 titles/URLs and screening status. Prose screening is not an exhaustive
 mechanics audit: wording can omit a constraint, and a non-hit is not evidence of
 absence. No room-map pixels, ROM geometry, collision code, or controller tests
-were inspected during the initial prose sweep. Subsequent source analysis and one
-qualified native Spark witness are linked below; they do not retroactively verify
+were inspected during the initial prose sweep. Subsequent source analysis and qualified
+native witnesses are linked below; they do not retroactively verify
 all prose candidates.
 
 Next, inspect candidate maps and validate each
@@ -298,7 +296,7 @@ hit can reflect alignment or chain state rather than range.
 | Spark barrier | Room 28 explicitly permits a closer-position solution; the [Spark article](https://wikirby.com/wiki/Spark#Kirby_&_The_Amazing_Mirror) describes the same basic version as Nightmare in Dream Land | Barrier radius and overlap through walls. Beam's longer-reaching placement does not prove Spark can substitute at every target |
 | UFO Piercing Heat Beam | Long-hold projectile explicitly pierces walls | Charge threshold, travel lifetime/distance, height alignment, camera/despawn limits and trigger activation |
 | Master energy wave | Charged ranged move and broad puzzle utility are documented | Separate wave travel from sword hitbox; collision, range, and low/raised targets |
-| Smash Final Cutter | Amazing Mirror moveset explicitly lists a landing shockwave | Source follow-up confirms landing-shockwave terrain bypass and a finite range; upward/downward blade hitboxes are distinct, and per-target success remains untested |
+| Smash Final Cutter | Amazing Mirror moveset explicitly lists a landing shockwave | Source follow-up confirms landing-shockwave terrain bypass and a finite range; upward/downward blade hitboxes are distinct, and the Cabbage witness uses the rising blade rather than the landing wave |
 | Ice: kicked frozen enemy | Olive Goal 2 documents the frozen-Waddle-Dee switch solution; [Ice article](https://wikirby.com/wiki/Ice#Kirby_&_The_Amazing_Mirror) supports freezing and kicking enemies | Projectile path/range, floor and wall behavior, thaw/despawn, available freezable enemy, and launch alignment. Ice breath is a separate attack |
 
 Do not import Spark's chargeable wall-piercing projectiles from Squeak Squad or
@@ -326,7 +324,7 @@ can measure a move but must not be represented as natural room accessibility.
 
 Spark's Room 8 success and WiKirby's Room 28 solution do **not** prove that it
 replaces Beam at every target. Other room/move witnesses and the 13 failed prose
-retrievals remain open. The small-switch scan is exhaustive for static native
+retrievals remain open. Native geometry for those 13 rooms is documented separately below; it does not replace their unavailable prose. The small-switch scan is exhaustive for static native
 templates (including the 37 native spawners checked), not every possible dynamic
 object creation or every gameplay solution.
 
@@ -336,3 +334,9 @@ first extractor used a type-list count as a template count. The corrected scan
 walks each stream by its native record-size byte until the zero terminator,
 then cross-checks both spawn-table type lists. Earlier 23/19 counts are superseded
 by 35/24. This correction adds rooms and instances but grants no gameplay rule.
+
+## Additional native evidence
+
+- [Cabbage Cavern Room 6 witnesses](cabbage-room6-native-witness.md): Beam, Spark, Ice breath, and rising Smash Up+B each clear the native 517 barrier and collect chest 57/spray 11 in continuous fresh-boot runs. All four no-target-attack controls retain the barrier and lack the receipt. Smash's control ends after the gate test; the other controls repeat collection inputs. These are qualified physical witnesses, not maximum-range measurements or randomized-source proofs.
+- [Unavailable-page native audit](wikirby-unavailable-room-native-evidence.md): all 13 prose gaps have native object/tile/transition evidence. Nine F1 Bomb Block triggers occur across six of these rooms; none contains a native small switch. Olive Room 21, Radish Room 2, and Peppermint Room 23 warrant further geometry/runtime review. No denied page was retrieved through an alternative route.
+- Target-specific range caution: Spark's Bomb Block scan extends 26px sideways, Beam's scan envelope 55px forward, and Ice breath's source/RNG scan envelope 64.40625px. These differ from damage boxes and require tile quantization and placement checks. Kicked frozen enemies do not directly scan Bomb Blocks; their documented small-switch interaction must not become a Bomb Block rule. See the source report for all moves, directions, limits, and pinned code.
