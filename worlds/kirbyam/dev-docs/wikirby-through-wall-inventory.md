@@ -13,7 +13,7 @@ locations, enemies, ROM patches, item pools, or existing traversal rules change.
 | Rainbow Route - Room 36 | Horizontal route to Room 39 / Mustard Mountain Room 1 | Recessed-trigger traversal candidate; up/down remains an alternative before activation |
 | Candy Constellation - Room 6 | Embedded-Bomb-Block shortcut near Chest 1 route | Shortcut candidate; stake route also documented |
 | Cabbage Cavern - Room 6 | Chocolate Spray Paint chest | Explicit through-wall requirement |
-| Carrot Castle - Room 7 | Mid-left door to Room 13, then its 1-Up chest | Recessed-trigger traversal candidate; exclusivity unproven |
+| Carrot Castle - Room 7 | Mid-left door to Room 13, then its 1-Up chest | Beam runtime witness; direct Spark excluded for sealed geometry |
 | Carrot Castle - Room 16 | Yellow Spray Paint chest / lower path | Remote reach required for the described solo solution; friends are an explicit alternative |
 | Olive Ocean - Goal 2 | Sound Effects chest switch | Through-wall interaction with a documented Ice/frozen-enemy solution; not a Beam/UFO/Master-only gate |
 | Radish Ruins - Chest 2 | Bridge to Area Map chest | Remote activation from below is a safer route; damage is an explicit alternative |
@@ -123,8 +123,7 @@ independently names Beam as a way to hit this otherwise inaccessible block.
 This is a specific mid-left doorway, not the Room 8/Room 14 exits and not the
 cherry chest on Room 7's upper-right branch. The text identifies a recessed
 trigger, but does not explicitly say every non-piercing attack fails or enumerate
-valid abilities. Treat wall piercing as a hypothesis pending geometry/runtime
-verification.
+valid abilities. The native follow-up now verifies Beam opening this gate and excludes direct Spark reach while its original cluster is sealed under ordinary collision.
 
 - Origin: native **719** (`0x2CF`), completion index **258**;
   `REGION_CARROT_CASTLE/ROOM_5_07`.
@@ -340,3 +339,5 @@ by 35/24. This correction adds rooms and instances but grants no gameplay rule.
 - [Cabbage Cavern Room 6 witnesses](cabbage-room6-native-witness.md): Beam, Spark, Ice breath, and rising Smash Up+B each clear the native 517 barrier and collect chest 57/spray 11 in continuous fresh-boot runs. All four no-target-attack controls retain the barrier and lack the receipt. Smash's control ends after the gate test; the other controls repeat collection inputs. These are qualified physical witnesses, not maximum-range measurements or randomized-source proofs.
 - [Unavailable-page native audit](wikirby-unavailable-room-native-evidence.md): all 13 prose gaps have native object/tile/transition evidence. Nine F1 Bomb Block triggers occur across six of these rooms; none contains a native small switch. Olive Room 21, Radish Room 2, and Peppermint Room 23 warrant further geometry/runtime review. No denied page was retrieved through an alternative route.
 - Target-specific range caution: Spark's Bomb Block scan extends 26px sideways, Beam's scan envelope 55px forward, and Ice breath's source/RNG scan envelope 64.40625px. These differ from damage boxes and require tile quantization and placement checks. Kicked frozen enemies do not directly scan Bomb Blocks; their documented small-switch interaction must not become a Bomb Block rule. See the source report for all moves, directions, limits, and pinned code.
+
+- [Carrot Castle Room 7 controlled comparison](carrot-room7-native-witness.md): Beam opens the recessed Bomb Block and enters native 734's lower 1-Up compartment; no reward collection is claimed. Beam's no-attack control and Spark standing/jumping runs remain in 719. Beam succeeds at x86, 55px from the target tile edge, while the tested slightly farther stance fails. Spark's necessary-origin envelope lies inside the sealed solid/linked cluster or outside the room, excluding direct Spark activation under ordinary collision. This does not exclude glitches, helper actions, alternate entries, or untested abilities.
