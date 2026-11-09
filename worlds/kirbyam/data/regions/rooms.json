@@ -3500,42 +3500,363 @@
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
-        "all": [
-          "can_break_block",
-          "can_break_metal_throw"
-        ]
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": null
+    },
+    "logical_subregions": {
+      "RIGHT_TOP": {
+        "locations": [],
+        "exits": {
+          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null
+        },
+        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay."
       }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_708_burning_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_708:740_hub_arrival",
+              "native_room": 740
+            },
+            {
+              "id": "metal_708:upper_left_arrival",
+              "native_room": 708
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_708:740_hub_arrival",
+              "to": "metal_708:upper_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: actual 790 left door 0x88564C enters 740 at (696, 88.996); retained Burning passes still-live Frosty via ladder, then actual 740 door 0x884878 enters 708 at (504, 40.996). Default and production 500% health continuously no loss/grab. This source-free carrier is not separately accepted Normal movement; final Burning-only action enforces retained equipment. dev-docs/ordinary-708-source-carrier-contract.md."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_708_forward",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:706_lower_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:706_lower_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: fresh 708 upper-left arrival, left Bomb partitions and exact rightward Burning through F5 (36-37, 23), then an 855-frame spike-shaft flight to actual 706 lower door 0x883C72, live (40, 296.996). No fresh reverse or lower 743 claim."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:706_lower_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:706_lower_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:706_lower_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: fresh 708 upper-left arrival, left Bomb partitions and exact rightward Burning through F5 (36-37, 23), then an 855-frame spike-shaft flight to actual 706 lower door 0x883C72, live (40, 296.996). No fresh reverse or lower 743 claim."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:706_lower_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM": {
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_02": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_climb"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_climb",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": "can_fly",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_break_metal"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_708_743_main",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_main_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_main_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json main: same fresh-bank carrier, then leftward Burning activates C and crosses before its divider closes; fly to door (22, 28) and enter 743 main at (88, 40.996). C ends solid at (26, 27-28). No cross-divider return or persistent opening is exported."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:743_main_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_main_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_main_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json main: same fresh-bank carrier, then leftward Burning activates C and crosses before its divider closes; fly to door (22, 28) and enter 743 main at (88, 40.996). C ends solid at (26, 27-28). No cross-divider return or persistent opening is exported."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:743_main_door"
+              ]
+            }
+          }
+        },
+        {
+          "id": "metal_708_743_dead_end",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_dead_end_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_dead_end_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json dead_end: same fresh-bank carrier, then Burning activates C but stops right of its closing divider; actual door (28, 28) enters 743 dead-end at (184, 40.996). This is not a C-free or main-door witness."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:743_dead_end_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_dead_end_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_dead_end_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json dead_end: same fresh-bank carrier, then Burning activates C but stops right of its closing divider; actual door (28, 28) enters 743 dead-end at (184, 40.996). This is not a C-free or main-door witness."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:743_dead_end_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": {
     "locations": {},
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "can_break_block"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "can_break_block",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": {
     "locations": {},
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_02": {
@@ -3592,6 +3913,9 @@
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_05": null
+    },
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "RIGHT_TOP"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04": {
@@ -3864,12 +4188,6 @@
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": {
-        "all": [
-          "can_climb",
-          "can_fly"
-        ]
-      },
       "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER": {
         "all": [
           "can_climb",

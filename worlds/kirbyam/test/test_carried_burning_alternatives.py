@@ -278,14 +278,13 @@ def test_all_preexisting_compiled_witnesses_remain_identical(area_keys: bool) ->
     root = Path(__file__).parents[1]
     baseline = json.loads((root / "dev-docs/carried-burning-prefix-equivalence.json").read_text(encoding="utf-8"))
     records = []
-    for kind in ("mini", "peg", "wheel", "fuse", "rope", "block", "reinforced", "metal"):
-        for row in room_traversal_targets(kind):
-            for witness in row["graphs"]:
-                if (row["id"], witness) in CASES:
-                    continue
-                graph = room_traversal_graph(row["id"], witness, area_keys)
-                normalized = json.loads(json.dumps(asdict(graph), default=sorted, sort_keys=True))
-                records.append([row["id"], witness, normalized])
+    # Freeze the identities from the stated historical revision too. Later new
+    # targets must not be mistaken for changes to this 92-witness baseline.
+    for target, witnesses in baseline["witnesses"].items():
+        for witness in witnesses:
+            graph = room_traversal_graph(target, witness, area_keys)
+            normalized = json.loads(json.dumps(asdict(graph), default=sorted, sort_keys=True))
+            records.append([target, witness, normalized])
     assert len(records) == baseline["unchanged_witnesses"] == 92
     encoded = json.dumps(sorted(records), sort_keys=True, separators=(",", ":")).encode()
     assert hashlib.sha256(encoded).hexdigest() == baseline["area_key_hashes"][str(area_keys).lower()]

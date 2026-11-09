@@ -75,6 +75,13 @@ def test_hub_receipt_shortcuts_and_eight_distinct_shards(room_sanity):
 def test_moonlight_arrival_cannot_cross_olive_lever_wall(room_sanity, ability_gating):
     world = setup_multiworld(KirbyAmWorld, seed=932, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating})
+    # Isolate the downstream arrival proved by the 743 lever departure. The
+    # new 708 source gate is tested separately; adding hub-source items here
+    # could open an unrelated Olive route and invalidate this negative test.
+    menu = world.get_region('Menu', 1)
+    menu.exits.clear()
+    menu.connect(world.get_region('REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT', 1),
+                 'Begin Olive entry fixture at native180')
     state = _with_area_keys(world, CollectionState(world))
     for name in ('Moonlight Mansion - Hub Connection',
                  'Moonlight Mansion 2-11 - Lever Wall',

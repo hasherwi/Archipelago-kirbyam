@@ -11,7 +11,7 @@ from time import perf_counter
 from typing import Any, Callable, cast
 from collections.abc import Iterable
 
-from BaseClasses import MultiWorld
+from BaseClasses import CollectionState, MultiWorld
 
 import pytest
 
@@ -33,7 +33,10 @@ PROFILES = (
 
 # One known accepted minimal seed for every mode/gating pair. The CI safeguard
 # lane must exercise playable archives as well as correctly refused unsafe fills.
-REQUIRED_MINIMAL_ARCHIVES = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 1), (0, 2, 1), (1, 1, 0), (1, 2, 0)})
+# Profile1 shuffled/gating0 places the Moonlight connection behind its accepted
+# carrier after the708 correction. Keep its refusal below, and require profile0
+# for that accepted-output mode/gating pair instead of weakening the guard.
+REQUIRED_MINIMAL_ARCHIVES = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (0, 2, 1), (1, 2, 0)})
 
 
 def assert_generation_contract(
@@ -130,3 +133,33 @@ def test_generated_all_check_smoke_matrix(
     record_property("inventory_unreachable", audit.inventory_unreachable)
     record_property("progression_unreachable", audit.progression_unreachable)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
+
+
+def test_seed105101_refuses_moonlight_connection_behind_its_accepted_carrier(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    original = check_accessibility.validate_all_checks
+    inspected: list[bool] = []
+
+    def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
+        state = CollectionState(multiworld)
+        state.sweep_for_advancements()
+        location = multiworld.get_location("Room 2-05", 1)
+        assert location.item and location.item.name == "Moonlight Mansion - Hub Connection"
+        assert not location.can_reach(state)
+        assert not state.has("Moonlight Mansion - Hub Connection", 1)
+        assert location.can_reach(multiworld.get_all_state())
+        inspected.append(True)
+        original(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
+    options = {
+        "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 99, "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 1, "area_keys": 0,
+    }
+    with pytest.raises(KirbyAmCheckAccessibilityError, match="unavailable even with all inventory=\\[\\]"):
+        _generate(monkeypatch, tmp_path, 105101, [options])  # type: ignore[no-untyped-call]
+    assert inspected == [True]
+    assert not tuple((tmp_path / "output").glob("*.zip"))

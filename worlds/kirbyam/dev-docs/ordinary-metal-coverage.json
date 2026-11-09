@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native 557 Goal 1 and native 176 Goal 2 still use conditional local-source witnesses. The three native 141 rows and two clean native 742 rows now OR unchanged finite local sources with real hub-statue carriers and remain closed if none succeeds. The 141 reverse alternatives are ordinary lower-destination bypasses, not fresh reverse attacks; native 742 upper-return behavior remains unvalidated. Native 707, 216, 537, 205, 228 and 229 have their documented unconditional source-backed targets. Native 529 has directed Normal Bomb/swim routes with all eight F5 cells intact; fresh upper-left arrival is separate. Individual records retain their exact fixture, source, health and joint-completion qualifications. No full AP or direct 1 HP replay is claimed. Starting Stone and Burning removal remains blocked by the remaining route and option audit.",
+  "implementation_status": "Native 557 Goal 1 and native 176 Goal 2 still use conditional local-source witnesses. The three native 141 rows and two clean native 742 rows now OR unchanged finite local sources with real hub-statue carriers and remain closed if none succeeds. The 141 reverse alternatives are ordinary lower-destination bypasses, not fresh reverse attacks; native 742 upper-return behavior remains unvalidated. Native 707, 708, 216, 537, 205, 228 and 229 have their documented unconditional source-backed targets. Native 529 has directed Normal Bomb/swim routes with all eight F5 cells intact; fresh upper-left arrival is separate. Individual records retain their exact fixture, source, health and joint-completion qualifications. No full AP or direct 1 HP replay is claimed. Starting Stone and Burning removal remains blocked by the remaining route and option audit.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -1357,10 +1357,11 @@
         {
           "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
         },
         {
@@ -1368,8 +1369,8 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
         },
         {
@@ -1377,9 +1378,8 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
         },
         {
@@ -1389,7 +1389,8 @@
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
             "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
         },
         {
@@ -1398,22 +1399,48 @@
           "room_sanity": false,
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_02",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_01"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
         {
           "id": "708:36,23",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Metal split between left and right compartments; each direction needs its own approach/source witness.",
+          "status": "reviewed_source_witness",
+          "note": "Three source-backed Burning alternatives reach actual 706 lower, C-left 743 main and C-right 743 dead-end. The main continuation collects every 743 check and leaves for 180 as Normal; a separate retained-Burning path reaches the dead-end and returns to 708 without reset. The dead-end has no checks. Neither proves a generic Normal join or lever-to-dead-end sequence. Fresh reverse, RIGHT_TOP descent, bottom-return ascent and outside-left timer remain unaccepted.",
           "tile_count": 2,
           "bounds": [
             36,
             23,
             37,
             23
+          ],
+          "accepted_targets": [
+            "metal_708_forward",
+            "metal_708_743_main",
+            "metal_708_743_dead_end"
+          ],
+          "accepted_evidence": [
+            "ordinary-708-forward-burning-706-acceptance.json",
+            "ordinary-708-c-743-alternative-acceptance.json",
+            "ordinary-743-joint-lever-acceptance.json"
           ]
         }
       ]
@@ -2015,10 +2042,10 @@
     "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Each current occurrence is a rooms.json directed exit condition.",
     "counts": {
       "CanBreakBlocks": 0,
-      "can_break_block": 137,
+      "can_break_block": 133,
       "can_break_floating_block": 18,
-      "can_break_metal": 8,
-      "can_break_metal_throw": 1
+      "can_break_metal": 7,
+      "can_break_metal_throw": 0
     },
     "semantics": "CanBreakBlocks and its can_break_block alias are currently permissive, not permission or equipment tests. Many bindings describe ordinary Normal-breakable terrain. The eight-ability descriptive constant is not a source, movement, ammunition or complete move witness.",
     "removal_requirement": "Cross-check affected paths against actual native F5 geometry and AP targets. Do not turn all aliases into metal gates. Legacy metal and floating-block tokens are also permissive; their names do not establish accepted routes."

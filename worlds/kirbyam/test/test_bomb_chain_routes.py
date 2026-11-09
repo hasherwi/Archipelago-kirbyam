@@ -52,7 +52,6 @@ def test_mansion_11_machine_does_not_replace_the_ap_lever_wall_item() -> None:
 
 
 @pytest.mark.parametrize("source,target", [
-    (MANSION + "ROOM_2_11", MANSION + "ROOM_2_11_DEAD_END"),
     (RAINBOW + "ROOM_1_06_LOWER_RIGHT", RAINBOW + "ROOM_1_06_LOWER_MID"),
     (RAINBOW + "ROOM_1_06_LOWER_MID", RAINBOW + "ROOM_1_06_LOWER_RIGHT"),
     (RAINBOW + "ROOM_1_06_LOWER_MID", RAINBOW + "ROOM_1_06_UPPER"),
@@ -77,3 +76,9 @@ def test_rainbow_6_upper_arrival_cannot_inherit_the_lower_bomb_approach() -> Non
     assert any(row["id"] == "wheel_108_chest"
                and row["exit"] == RAINBOW + "ROOM_1_06_LOWER_CHEST"
                for row in room_traversal_targets("wheel"))
+
+
+def test_mansion_machine_does_not_grant_an_unproved_normal_dead_end_join() -> None:
+    # The new native trace retains Burning through this maze. It does not
+    # establish the old generic Normal alias; source-backed C-right access is separate.
+    assert MANSION + "ROOM_2_11_DEAD_END" not in data.regions[MANSION + "ROOM_2_11"].exits

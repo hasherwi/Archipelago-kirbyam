@@ -1,0 +1,720 @@
+{
+  "schema_version": 1,
+  "status": "accepted_alternative_endpoints_not_joint_itinerary",
+  "parent_blob": "961677da5e29f459cf18e9e043654c76f9f1ff17",
+  "correction": "The parent default_result sentence saying no exit branch was established is stale. Its appended706 proof is accepted at100/500. This addendum adds alternative743 branches.",
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "function": "scale_enemy_health_tables(rom_bytes,500)",
+    "applications": 1
+  },
+  "bank_provenance": {
+    "cells": [
+      [
+        36,
+        23
+      ],
+      [
+        37,
+        23
+      ]
+    ],
+    "before_values": [
+      245,
+      245
+    ],
+    "default_before": "actual740\u2192708 entry checkpoint carrier740ladderAligned",
+    "max_before": "earned carrier708trueLadder checkpoint after fresh-boot max carrier",
+    "after_values": [
+      0,
+      0
+    ],
+    "all_exit_branches_start": "respective100/500 fresh-boot audit final bank checkpoint:708(697.99609375,456.99609375),HP6,Burning3; never substitute other durability or reset state"
+  },
+  "branches": {
+    "main": {
+      "100": [
+        {
+          "id": "bankTo743Dead",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "bankTo743Dead",
+            "frame": 337,
+            "room": 708,
+            "x": 406.94921875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": [
+            13,
+            13,
+            255
+          ]
+        },
+        {
+          "id": "cMainFly",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              35,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cMainFly",
+            "frame": 557,
+            "room": 743,
+            "x": 88.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": null
+        }
+      ],
+      "500": [
+        {
+          "id": "bankTo743Dead",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "bankTo743Dead",
+            "frame": 337,
+            "room": 708,
+            "x": 406.94921875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": [
+            13,
+            13,
+            255
+          ]
+        },
+        {
+          "id": "cMainFly",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              35,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cMainFly",
+            "frame": 557,
+            "room": 743,
+            "x": 88.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": null
+        }
+      ]
+    },
+    "dead_end": {
+      "100": [
+        {
+          "id": "cDeadRight",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              35,
+              16
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              12,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cDeadRight",
+            "frame": 399,
+            "room": 708,
+            "x": 438.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": [
+            13,
+            13,
+            255
+          ]
+        },
+        {
+          "id": "cDeadEnter",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cDeadEnter",
+            "frame": 569,
+            "room": 743,
+            "x": 184.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": null
+        }
+      ],
+      "500": [
+        {
+          "id": "cDeadRight",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              35,
+              16
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              95,
+              0
+            ],
+            [
+              12,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cDeadRight",
+            "frame": 399,
+            "room": 708,
+            "x": 438.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": [
+            13,
+            13,
+            255
+          ]
+        },
+        {
+          "id": "cDeadEnter",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "label": "cDeadEnter",
+            "frame": 569,
+            "room": 743,
+            "x": 184.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minhp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [],
+          "c_boundary": null
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Both743 branches activateC. This is not a C-free dead-end proof.",
+    "Main branch crosses to left beforeC divider completes; dead-end branch deliberately stops right of it. Endpoints alone do not prove joint completion or a return/reset.",
+    "No reverseF5, lower-arrival-to-main-room, outside-left timer, source renewal or room-reset claim.",
+    "Same fixture and low-HP qualification as parent artifact; no runtime writes."
+  ]
+}
