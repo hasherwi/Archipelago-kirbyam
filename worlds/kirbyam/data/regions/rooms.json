@@ -1281,6 +1281,71 @@
           "can_fly"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_110_room9",
+          "kind": "block",
+          "native_room": 110,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_09",
+          "requires_guaranteed_source": {
+            "source_key": "SPARKY",
+            "ability": "Spark"
+          },
+          "graphs": {
+            "upper_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:upper_arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:source",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:upper_arrival"
+              ],
+              "required_targets": [
+                "bomb_110_room9:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B743C",
+                  "node": "bomb_110_room9:source",
+                  "source_key": "SPARKY",
+                  "acquisition_evidence": "dev-docs/rainbow-route-8-source-witness.md; native Sparky at (72,520), inhaled with Normal after descent from decoded108 upper arrival. Finite native instance; no retries or substituted essence."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:upper_arrival",
+                  "to": "bomb_110_room9:source",
+                  "evidence": "dev-docs/rainbow-route-8-source-witness.md; Normal movement from decoded upper arrival (104,120.996) to left-side source pose. Independent Room6 lower-mid access supplies this entry only."
+                },
+                {
+                  "from": "bomb_110_room9:source",
+                  "to": "bomb_110_room9:right_door",
+                  "capability": "bomb_110_room9",
+                  "evidence": "dev-docs/rainbow-route-8-source-witness.md; continuous intact Spark carry via ordinary bomb chain, close dry attack above waterline, cleared right shaft and lower bomb to door. Replay reaches554 with6HP and Spark; no persistent event or alternate arrival inferred."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_09": {
@@ -3860,6 +3925,86 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_517_chocolate",
+          "kind": "block",
+          "native_room": 517,
+          "location": "MINOR_CHEST_SPRAY_PAINT_12",
+          "requires_guaranteed_source": {
+            "source_key": "WADDLE_DOO",
+            "ability": "Beam"
+          },
+          "graphs": {
+            "hub2_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-room6-source-witness.md; inhale native Doo(528,264) from right side above sealed ordinary chain, then swallow. Finite instance, no essence substitution or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; actual native591\u2192517 door, observed arrival(696,296.996), Normal.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; ordinary approach from right arrival to x566, jump and inhale native source above chain."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
@@ -5886,6 +6031,83 @@
     },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_07"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_719_room13",
+          "kind": "block",
+          "native_room": 719,
+          "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+          "requires_guaranteed_source": {
+            "source_key": "WADDLE_DOO",
+            "ability": "Beam"
+          },
+          "graphs": {
+            "room5_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-source-witness.md; native lower Doo(568,456), acquired with Normal from actual170\u2192719 lower arrival. Finite native instance; no retries or essence substitution."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; actual native170\u2192719 transition from Room5 to lower arrival."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; Normal leftward approach from lower arrival to native lower Waddle Doo and swallow."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_room13",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; complete Beam carry through ladders and central Gordo lane to left gate pose(86,232.996), then attack/door sequence reaching734 lower compartment. No Secret Notes or unrelated exit gate."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_08": {

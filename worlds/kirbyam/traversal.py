@@ -30,9 +30,21 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
     "frozen_enemy_hit": frozenset({"Ice"}),
     "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
+    # Target-specific native witnesses, NOT a general wall-piercing class.
+    "bomb_110_room9": frozenset({"Spark"}),
+    "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
+    "bomb_719_room13": frozenset({"Beam"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
 }
+# The tested poses are dry attacks within these rooms. Applying one to another
+# room or a swimming pose would exceed the bounded native evidence.
+ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
+    "bomb_110_room9": 110,
+    "bomb_517_chocolate": 517,
+    "bomb_719_room13": 719,
+}
+
 # Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun
 # without replacing the carried ability. In particular, swimming cannot start
 # Stone or use Smash's hammer. A pre-transformed Stone descent is a separate
@@ -253,6 +265,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError(f"Unknown traversal endpoint: {route}")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
+        if route.capability in ROOM_SCOPED_CAPABILITIES:
+            native_room = ROOM_SCOPED_CAPABILITIES[route.capability]
+            if (node_by_key[route.source].room != native_room
+                    or node_by_key[route.target].room != native_room or route.water_state != "dry"):
+                raise ValueError("Room-scoped bomb witness requires its native room and dry attack pose")
         attack_provider("Normal", route.water_state)
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")

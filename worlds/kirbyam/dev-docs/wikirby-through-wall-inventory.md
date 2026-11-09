@@ -1,8 +1,13 @@
 # WiKirby through-wall and remote-hit evidence inventory
 
-Documentation pass and room-prose sweep, reviewed 2026-11-08. This is an evidence shortlist,
-not an implemented ability predicate or an exhaustive gameplay audit. No logic,
-locations, enemies, ROM patches, item pools, or existing traversal rules change.
+Evidence inventory reviewed 2026-11-08, with bounded traversal-kernel implementation
+added 2026-11-09. The kernel now distinguishes the three witnessed bomb targets
+and rejects cross-room or swimming reuse; this is not a global wall-piercing ability.
+New original-source replays support a conditional Rainbow110→554 access rule
+and Spark progression classification, plus a conditional Cabbage517 chest rule
+from Hub2 using native Beam, and a conditional Carrot719→734 lower-compartment
+rule using the original lower Doo. Other target/source subsets remain incomplete. Locations, enemies and ROM patches are unchanged. See
+[implementation status](bounded-bomb-implementation.md).
 
 ## Findings at a glance
 
@@ -134,8 +139,13 @@ valid abilities. The native follow-up now verifies Beam opening this gate and ex
 - [Room 13](https://wikirby.com/wiki/Carrot_Castle_-_Room_13#Overview) says entering
   from Room 7 reaches the **1-Up**, whereas entering from Room 14 reaches the
   **Secret Notes**. Do not gate the Secret Notes on this Room 7 trigger.
-- WiKirby lists Waddle Doo in Room 7, but this is not a proof of exclusivity or a
-  source-aware randomized traversal witness.
+- WiKirby lists Waddle Doo in Room 7. The complete size-terminated USA native
+  stream contains 21 templates, including Waddle Doos at (616,232) and (568,456).
+  See [native source inventory](carrot-room7-source-inventory.json). The lower
+  Doo now has a [complete Room5-entry Beam carry witness](carrot-room7-source-witness.md);
+  the upper Doo remains a source candidate, not an interchangeable witness.
+  The object-list header counts distinct types, not object instances; truncating
+  to that count would incorrectly omit both sources.
 
 ## 3. Carrot Castle - Room 16: remote reach, with cooperation alternative
 
@@ -348,3 +358,22 @@ by 35/24. This correction adds rooms and instances but grants no gameplay rule.
 - [Unavailable-room chain analysis](unavailable-room-chain-geometry.md) traces native 819, 621 and 218 exactly. Room 819's trigger is exposed from below through water; room 621 has a crumble/lower-bomb sequence exposing the upper trigger's right face; room 218 has an upward-platform approach to a right-exposed trigger. None establishes mandatory wall piercing. The conditional cell paths are not controller/body-clearance proofs, and no unavailable WiKirby prose is inferred.
 
 The documentation inventory and source-derived range survey are complete at this evidence level. Unknown per-move route acceptance, source policies, helper behavior and empirical maximum-distance sweeps remain explicitly unproven, rather than being encoded as gameplay capabilities. The 13-page prose gap remains separately tracked pending independently available evidence.
+
+## Implemented original-source subsets (2026-11-09)
+
+Three additional continuous replays preserve original enemy templates and add
+source acquisition/carry to the earlier bounded attack fixtures:
+
+- [Rainbow upper arrival](rainbow-route-8-source-witness.md): finite native
+  Sparky→Spark, intact carry and Room9 arrival; independent Room6 lower-mid access.
+- [Cabbage Hub2 entry](cabbage-room6-source-witness.md): actual Hub2 transition,
+  native Doo→Beam, no-damage carry/gate/chest57/spray11 collection.
+- [Carrot Room5 entry](carrot-room7-source-witness.md): actual Room5 transition,
+  lower native Doo→Beam, no-damage carry/gate/Room13 lower-compartment arrival,
+  with a matched final-attack control.
+
+Installed rules apply only when the relevant source policy guarantees those
+outputs. Spark becomes progression when that gate and ability gating are active;
+Beam remains ungated by the existing ROM. Other assignments, arrival routes and
+small-switch candidates retain their prior behavior and remain unresolved.
+See [implementation boundaries and tests](bounded-bomb-implementation.md).

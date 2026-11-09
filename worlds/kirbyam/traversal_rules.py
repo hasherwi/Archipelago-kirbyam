@@ -48,6 +48,13 @@ def goal2_ice_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("MR_FROSTY", lambda _: True).guaranteed == frozenset({"Ice"})
 
 
+def rainbow_spark_is_progression(world: Any) -> bool:
+    """The conditional Room8 doorway uses a gateable Spark permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    return (isinstance(raw, dict) and world._ability_gating_enabled()
+            and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"}))
+
+
 def static_extra_witness(policy: SourcePolicy) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 

@@ -178,7 +178,11 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
 
 def _validate_target(row: Mapping[str, Any]) -> None:
     condition = row.get("requires_guaranteed_source")
-    if condition is not None and condition != {"source_key": "MR_FROSTY", "ability": "Ice"}:
+    if condition is not None and condition not in (
+        {"source_key": "MR_FROSTY", "ability": "Ice"},
+        {"source_key": "SPARKY", "ability": "Spark"},
+        {"source_key": "WADDLE_DOO", "ability": "Beam"},
+    ):
         raise ValueError("Unsupported guaranteed-source applicability condition")
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")

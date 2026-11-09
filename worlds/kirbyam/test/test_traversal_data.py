@@ -161,6 +161,9 @@ def test_target_catalog_counts_and_provider_separation():
         "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
         "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
         "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+        "bomb_110_room9": frozenset({"Spark"}),
+        "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
+        "bomb_719_room13": frozenset({"Beam"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     }

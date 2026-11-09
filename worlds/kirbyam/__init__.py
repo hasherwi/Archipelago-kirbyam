@@ -1321,6 +1321,10 @@ class KirbyAmWorld(World):
             from .traversal_rules import goal2_ice_is_progression
             if goal2_ice_is_progression(self):
                 classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Spark Ability":
+            from .traversal_rules import rainbow_spark_is_progression
+            if rainbow_spark_is_progression(self):
+                classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
             classification,
