@@ -161,3 +161,32 @@ respective target paths only. No artifact is rewritten to imply broader proof.
   before; no persistent result cache or source-outcome pruning is added.
 - The native/AP mapping, slot snapshots, location IDs and RoomSanity topology
   remain unchanged. All 40 standalone tool checks pass.
+
+
+## Joint check compatibility
+
+The separate endpoint traces are now supplemented by
+`ordinary-229-joint-all-checks-acceptance.json`: four separately replayed,
+continuous continuations of the accepted finite/renewable 228 checkpoints at
+100% and 500% enemy health. They retain the inherited source qualifications,
+including the finite post-defeat fixture and renewable imported-equipment
+boundary. They do not certify a new native Bonkers acquisition or arbitrary
+source-policy assignment.
+
+Each itinerary collects Food before the exterior left 1Up, retains Hammer through
+both, then deliberately discards it. The already-cleared upper-left F4 opening
+allows an actual return to the shared top. The right exterior F4 loop reaches
+Spray and the real Warp door to native230. Every frame retains six HP with no
+grab, runtime write, intermediate state load, reset or source reacquisition.
+Flags23/30/32/33/34 finish jointly at `[128, 64, 1, 2, 4]`. Exact traces differ
+with source RNG state and enemy health; they are not interchangeable suffixes.
+
+`ordinary-229-normal-joint-acceptance.json` separately collects Food, Spray and
+Warp with Normal after the disclosed upstream205 discard. Left metal stays
+intact. This does not establish independently Normal access to205; it prevents
+incorrectly making Hammer a requirement for the unrelated229 checks.
+
+No new graph edge follows from these observations: there is no native229 return
+door to228, no generic descent through top caps, and no proved left-1Up endpoint
+return to Food. The all-check order deliberately collects Food first. Existing
+individual evidence remains historical and accurately scoped.

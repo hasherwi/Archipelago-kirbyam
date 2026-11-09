@@ -19,6 +19,8 @@ ARTIFACTS = {
     "ownership": ("ordinary-229-static-channel-ownership.json", "ee6df89296c52c7f61b7853075450d40a6fad3b4"),
     "normal_warp": ("ordinary-229-normal-warp-acceptance.json", "eeaef7ebfeb06ca175e981a6545dfe51d4cf5c84"),
     "normal_food": ("ordinary-229-normal-food-acceptance.json", "ba9a355d1310eb506283f3c461673cdfc6373ae3"),
+    "all_joint": ("ordinary-229-joint-all-checks-acceptance.json", "1a6edab916a7e983ed359dc52964f419a6f49c02"),
+    "normal_joint": ("ordinary-229-normal-joint-acceptance.json", "05814783be6f3161cc177c0739a9439673109fd2"),
     "normal_spray": ("ordinary-229-normal-spray-acceptance.json", "631e98ce077825127401ad4150ff882ee2fd93c5"),
 }
 
@@ -246,3 +248,66 @@ def test_normal_artifact_resolution_does_not_rewrite_historical_qualifications()
     assert set(artifact("normal_food")["unresolved"]) == {"Spray32"}
     assert artifact("normal_spray")["unresolved"] == {}
     assert "does not prove upstream Normal205 access" in artifact("normal_spray")["qualifications_additional"]
+
+
+@pytest.mark.parametrize("health", [100, 500])
+def test_normal_food_spray_warp_are_one_continuous_itinerary(health: int) -> None:
+    record = artifact("normal_joint")
+    assert record["kind"] == "controller_replayed_normal_joint_food_spray_warp"
+    assert "Does not establish independently Normal205" in record["prefix_qualification"]
+    assert "No return228 edge is used" in record["route"]
+    run, = (r for r in record["audits"] if r["enemy_health_percent"] == health)
+    parent, = (r for r in artifact("normal_food")["accepted"] if r["enemy_health_percent"] == health)
+    assert (run["rom_sha256"], run["initial_checkpoint"]) == (parent["rom_sha256"], parent["initial_checkpoint"])
+    assert len(run["segments"]) == 29
+    previous_frame = 0
+    for index, segment in enumerate(run["segments"]):
+        final = segment["final"]
+        assert final["frame"] - previous_frame == sum(step[0] for step in segment["inputs"])
+        assert segment["minimum_hp"] == final["hp"] == 6 and segment["grabs"] == [0]
+        if index == 0 and health == 500:
+            assert segment["id"] == "jointHammer205spikegap"
+            assert segment["abilities"] == [17] and final["ability"] == 17
+        else:
+            assert segment["abilities"] == [0] and final["ability"] == 0
+        flags = segment["flags23_30_32_33_34"]
+        assert flags[0] == 128 and flags[1] == flags[3] == 0
+        if "F5_27_23_24" in segment:
+            assert segment["F5_27_23_24"] == [245, 245]
+        previous_frame = final["frame"]
+    last = run["segments"][-1]
+    assert last["flags23_30_32_33_34"] == [128, 0, 1, 0, 4]
+    assert (last["final"]["room"], previous_frame) == (230, 8177 if health == 100 else 8347)
+
+
+@pytest.mark.parametrize("source,health,frames", [
+    ("finite", 100, 8521), ("finite", 500, 8376),
+    ("renewable", 100, 8270), ("renewable", 500, 8582),
+])
+def test_all_checks_share_one_source_and_continuous_native_itinerary(source: str, health: int, frames: int) -> None:
+    record = artifact("all_joint")
+    qualification = record["upstream_qualifications"][source]
+    assert qualification["previous_left1up_blob"] == ARTIFACTS[source][1]
+    assert qualification["accepted_prefix_blob"] == {
+        "finite": "d050d3a81c862617fc45cf8fde2a6c61d158d5bd",
+        "renewable": "a4cca011f7f5d2e3ada5600c116a1f6b5663e74c",
+    }[source]
+    run, = (r for r in record["audits"] if (r["source"], r["health_percent"]) == (source, health))
+    assert run["runtime_writes"] == []
+    previous_frame = 0
+    previous_flags = [128, 64, 0, 0, 0]
+    for index, segment in enumerate(run["segments"]):
+        final = segment["final"]
+        assert final["frame"] - previous_frame == sum(step[0] for step in segment["inputs"])
+        assert segment["minimum_hp"] == final["hp"] == 6 and segment["grabs"] == [0]
+        expected_ability = 17 if index < 22 else 0
+        assert segment["abilities"] == [expected_ability] and final["ability"] == expected_ability
+        flags = segment["flags23_30_32_33_34"]
+        assert flags[:2] == [128, 64]
+        assert all(old & new == old for old, new in zip(previous_flags, flags))
+        if index == 22:
+            assert segment["id"] == "hammerjointescape" and segment["inputs"][0] == [1, 4]
+            assert previous_flags == [128, 64, 0, 2, 4]
+        previous_frame, previous_flags = final["frame"], flags
+    assert previous_frame == frames and previous_flags == [128, 64, 1, 2, 4]
+    assert run["segments"][-1]["final"]["room"] == 230
