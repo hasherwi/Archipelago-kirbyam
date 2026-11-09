@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .evidence_helpers import canonical_text_bytes
+
 import pytest
 
 
@@ -16,7 +18,7 @@ ROOT = Path(__file__).parents[1]
 ])
 def test_layered_hammer_carrier_has_linked_no_loss_audit(
         filename: str, prefix: str, segments: int, frames: int) -> None:
-    record = json.loads((ROOT / "dev-docs" / filename).read_text())
+    record = json.loads((ROOT / "dev-docs" / filename).read_text(encoding="utf-8"))
     assert record["original_usa_sha1"] == "274b102b6d940f46861a92b4e65f89a51815c12c"
     assert record["native_source_commit"] == "7d969fbce14fdc838d2c1ea01389717fb96c3189"
     assert "No runtime writes" in record["qualification"]
@@ -66,12 +68,12 @@ def test_layered_hammer_carrier_has_linked_no_loss_audit(
 
 
 def test_actual_bonkers_identity_is_separate_from_post_defeat_fixture() -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-205-hammer-source-acceptance.json").read_text())
+    record = json.loads((ROOT / "dev-docs/ordinary-205-hammer-source-acceptance.json").read_text(encoding="utf-8"))
     source = record["source"]
     assert (source["room"], source["template"], source["position"], source["type"]) == (
         210, "0x088BF730", [440, 232], 0x39)
     assert source["copy_table_ability"] == 17
-    enemies = json.loads((ROOT / "data/enemies.json").read_text())
+    enemies = json.loads((ROOT / "data/enemies.json").read_text(encoding="utf-8"))
     assert enemies["BONKERS"]["default_ability"] == "Hammer"
     assert int(enemies["BONKERS"]["addresses"][0], 16) == 0x351648 + source["type"] * 24 + 6
     lock = source["scroll_lock"]
@@ -87,11 +89,11 @@ def test_actual_bonkers_identity_is_separate_from_post_defeat_fixture() -> None:
 
 
 def test_all500_pins_unchanged_production_scaler_and_prompt_exit() -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-205-hammer-all500-acceptance.json").read_text())
+    record = json.loads((ROOT / "dev-docs/ordinary-205-hammer-all500-acceptance.json").read_text(encoding="utf-8"))
     assert "a062278eea84ce3c2a6a7bbc601262cda0f3fab2" in record["qualification"]
     assert "applied once to both fixtures before fresh boot" in record["qualification"]
     # Git blob at the pinned revision, independently resolved from the repository.
-    source = (ROOT / "enemy_health_scaling.py").read_bytes()
+    source = canonical_text_bytes(ROOT / "enemy_health_scaling.py")
     blob = hashlib.sha1(b"blob " + str(len(source)).encode() + b"\0" + source).hexdigest()
     assert blob == "bbae3fc5368eddecc7183590ce7f4defaf7effa4"
     assert "no kill assumption or new source" in record["max_health_timing_note"]
@@ -101,7 +103,7 @@ def test_all500_pins_unchanged_production_scaler_and_prompt_exit() -> None:
 
 @pytest.mark.parametrize("variant,frames", [("default", 1403), ("all500", 1663)])
 def test_normal_return_is_directed_egress_with_intact_metal(variant: str, frames: int) -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-205-normal-return-egress.json").read_text())
+    record = json.loads((ROOT / "dev-docs/ordinary-205-normal-return-egress.json").read_text(encoding="utf-8"))
     assert "does not independently prove access to209" in record["qualification"]
     assert "No runtime state writes" in record["qualification"]
     assert record["scaler"]["git_blob"] == "bbae3fc5368eddecc7183590ce7f4defaf7effa4"

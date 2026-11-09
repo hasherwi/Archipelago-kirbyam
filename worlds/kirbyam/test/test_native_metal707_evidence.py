@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .evidence_helpers import canonical_text_bytes
+
 import pytest
 
 
@@ -15,7 +17,7 @@ ROOT = Path(__file__).parents[1]
     ("ordinary-707-all500-acceptance.json", 26, 5243),
 ])
 def test_continuous_carrier_and_actual_exit(name: str, segments: int, frames: int) -> None:
-    record = json.loads((ROOT / "dev-docs" / name).read_text())
+    record = json.loads((ROOT / "dev-docs" / name).read_text(encoding="utf-8"))
     trace = record["segments"]
     assert len(trace) == segments
     previous = None
@@ -56,8 +58,8 @@ def test_continuous_carrier_and_actual_exit(name: str, segments: int, frames: in
 
 
 def test_all500_pins_production_scaler_not_only_one_enemy() -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-707-all500-acceptance.json").read_text())
-    source = (ROOT / "enemy_health_scaling.py").read_bytes()
+    record = json.loads((ROOT / "dev-docs/ordinary-707-all500-acceptance.json").read_text(encoding="utf-8"))
+    source = canonical_text_bytes(ROOT / "enemy_health_scaling.py")
     git_blob = hashlib.sha1(b"blob " + str(len(source)).encode() + b"\0" + source).hexdigest()
     assert git_blob == record["fixture"]["scaling_module_git_blob"]
     assert record["fixture"]["Doo_HP_check"] == {"original": 4, "scaled": 20}

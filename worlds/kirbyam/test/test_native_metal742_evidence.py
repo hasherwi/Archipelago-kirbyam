@@ -3,10 +3,12 @@
 import json
 from pathlib import Path
 
+from .evidence_helpers import canonical_text_bytes
+
 
 def test_native_acceptance_keeps_mutations_and_outcomes_separate() -> None:
     root = Path(__file__).parents[1] / "dev-docs"
-    record = json.loads((root / "ordinary-742-clean-source-acceptance.json").read_text())
+    record = json.loads((root / "ordinary-742-clean-source-acceptance.json").read_text(encoding="utf-8"))
     assert record["fixture"]["actual712_door_record_rom_offset"] == "0x884640"
     assert record["source"]["template_bus_address"] == "0x088BD8AC"
     assert record["source"]["table_ability"] == 3
@@ -32,7 +34,7 @@ def test_native_acceptance_keeps_mutations_and_outcomes_separate() -> None:
 
 def test_no_loss_replacement_has_continuous_audit_and_linked_branches() -> None:
     root = Path(__file__).parents[1] / "dev-docs"
-    record = json.loads((root / "ordinary-742-no-loss-source-acceptance.json").read_text())
+    record = json.loads((root / "ordinary-742-no-loss-source-acceptance.json").read_text(encoding="utf-8"))
     chains = record["chains"]
     segments = [segment for chain in chains.values() for segment in chain]
     by_name = {segment["segment"]: segment for segment in segments}
@@ -58,7 +60,7 @@ def test_no_loss_replacement_has_continuous_audit_and_linked_branches() -> None:
 
 def test_native742_doors_preserve_distinct_arrival_sides() -> None:
     root = Path(__file__).parents[1] / "dev-docs"
-    record = json.loads((root / "ordinary-742-door-topology.json").read_text())
+    record = json.loads((root / "ordinary-742-door-topology.json").read_text(encoding="utf-8"))
     incoming = {row["offset"]: row["spawn_tile"] for row in record["native741_doors"]}
     assert incoming == {"0x884a48": [19, 8], "0x884be2": [30, 29]}
     outgoing = {row["offset"]: (row["trigger"], row["destination"], row["spawn_tile"])
@@ -70,8 +72,8 @@ def test_all500_uses_the_production_scaler_and_no_loss_actual_outcomes() -> None
     import hashlib
 
     root = Path(__file__).parents[1]
-    record = json.loads((root / "dev-docs/ordinary-742-all500-acceptance.json").read_text())
-    source = (root / "enemy_health_scaling.py").read_bytes()
+    record = json.loads((root / "dev-docs/ordinary-742-all500-acceptance.json").read_text(encoding="utf-8"))
+    source = canonical_text_bytes(root / "enemy_health_scaling.py")
     git_blob = hashlib.sha1(b"blob " + str(len(source)).encode() + b"\0" + source).hexdigest()
     assert git_blob == record["fixture"]["module_git_blob"]
     chains = record["chains"]
@@ -100,8 +102,8 @@ def test_all500_uses_the_production_scaler_and_no_loss_actual_outcomes() -> None
 
 def test_joint_completion_uses_same_scaled_visit_without_a_second_copy() -> None:
     root = Path(__file__).parents[1] / "dev-docs"
-    parent = json.loads((root / "ordinary-742-all500-acceptance.json").read_text())
-    record = json.loads((root / "ordinary-742-all500-combined-checks.json").read_text())
+    parent = json.loads((root / "ordinary-742-all500-acceptance.json").read_text(encoding="utf-8"))
+    record = json.loads((root / "ordinary-742-all500-combined-checks.json").read_text(encoding="utf-8"))
     assert record["fixture"] == parent["fixture"]
     chain = record["chains"]["same_visit_chest_to_warp"]
     assert len(chain) == 8

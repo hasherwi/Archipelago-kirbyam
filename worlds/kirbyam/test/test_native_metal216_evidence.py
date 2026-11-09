@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from .evidence_helpers import canonical_text_bytes
+
 import pytest
 
 
@@ -12,7 +14,7 @@ ROOT = Path(__file__).parents[1]
 
 @pytest.mark.parametrize("multiplier", ["100", "500"])
 def test_actual_entry_low_dash_and_collection_have_continuous_no_loss_audit(multiplier: str) -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-216-imported-burning-acceptance.json").read_text())
+    record = json.loads((ROOT / "dev-docs/ordinary-216-imported-burning-acceptance.json").read_text(encoding="utf-8"))
     assert record["original_usa_sha1"] == "274b102b6d940f46861a92b4e65f89a51815c12c"
     assert record["native_source_commit"] == "7d969fbce14fdc838d2c1ea01389717fb96c3189"
     run = record["runs"][multiplier]
@@ -38,7 +40,7 @@ def test_actual_entry_low_dash_and_collection_have_continuous_no_loss_audit(mult
     assert run["flag36_masked"] == 16
     assert {(tile["x"], tile["y"], tile["tile"]) for tile in run["metal_tiles"]} == {
         (x, y, 0) for x in (28, 29, 30) for y in (5, 6)}
-    inventory = json.loads((ROOT / "docs/metal-tile-inventory.json").read_text())
+    inventory = json.loads((ROOT / "docs/metal-tile-inventory.json").read_text(encoding="utf-8"))
     room = next(row for row in inventory["rooms"] if row["room"] == 216)
     assert {(tile["x"], tile["y"]) for tile in room["tiles"] if tile["tile"] == "0xf5"} == {
         (x, y) for x in (28, 29, 30) for y in (5, 6)}
@@ -47,7 +49,7 @@ def test_actual_entry_low_dash_and_collection_have_continuous_no_loss_audit(mult
 
 
 def test_fixture_is_disclosed_and_scaler_matches_production() -> None:
-    record = json.loads((ROOT / "dev-docs/ordinary-216-imported-burning-acceptance.json").read_text())
+    record = json.loads((ROOT / "dev-docs/ordinary-216-imported-burning-acceptance.json").read_text(encoding="utf-8"))
     qualification = record["qualification"]
     assert "No production source credit" in qualification
     assert "Native216 objects unchanged" in qualification
@@ -58,7 +60,7 @@ def test_fixture_is_disclosed_and_scaler_matches_production() -> None:
     assert set(mutations) == {0x2D8CB8, 0x2D8CD0, 0x8C1042, 0x8C1048, 0x8C104A}
     assert (mutations[0x8C1048]["before"], mutations[0x8C1048]["after"]) == ("12", "92")
     assert (mutations[0x8C104A]["before"], mutations[0x8C104A]["after"]) == ("00", "01")
-    source = (ROOT / "enemy_health_scaling.py").read_bytes()
+    source = canonical_text_bytes(ROOT / "enemy_health_scaling.py")
     blob = hashlib.sha1(b"blob " + str(len(source)).encode() + b"\0" + source).hexdigest()
     assert blob == record["scaler"]["git_blob"]
     assert hashlib.sha256(source).hexdigest() == record["scaler"]["sha256"]
