@@ -280,3 +280,7 @@ Still needed: Shared article is too general to prove a remote-only solution; est
 ## Evidence manifest
 
 [Small-switch evidence manifest](small-switch-inventory.json) contains all 35 switches, linked gates, bounded collision probes and assessments. Unrelated objects, ROM bytes and graphics are omitted. The reproducible extractor and full validation record are retained privately.
+
+## Follow-up geometry and existing Ice implementation
+
+[Exact geometry supplement](remote-small-switch-geometry.md) refines initial switch contact bounds and confirms solid 0x0D obstructions in native 310/533, versus the clear initial lane in 147. Counter parameters 0/35 initialize 2/37, not measured gate-open durations. See the main inventory's Olive Goal 2 section for the already committed conditional guaranteed-Frosty Ice traversal and two upper-arena cold replays; it is not a blanket source-independent Ice rule.
