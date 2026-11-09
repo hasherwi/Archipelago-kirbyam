@@ -15,8 +15,8 @@ the separate room-access feature's evidence and limits.
 
 Access is permission to enter, not equipment or an ability-unlock grant. The
 nineteen room 970 statue sources are owned by `REGION_COPY_ABILITY_ROOM/MAIN` and
-shared by three traversal consumers: the Wheel 108 chest, Smash 149 peg and
-joint Hammer 228 chest carriers. Each consumer requires independently reachable room 970; the shared source set
+shared by four traversal consumers: the Wheel108 chest, Smash149 peg, joint
+Hammer228 chest and joint Hammer229 left1Up carriers. Each consumer requires independently reachable room 970; the shared source set
 also requires the access item at acquisition. Actual statue assignments, category
 inclusion/exclusion, eligible output pools, and ability-item gates still apply.
 Fixed excluded statues supply their native Wheel/Smash grants only after reaching
@@ -2018,3 +2018,18 @@ for exact identities, live-retouch assumptions, no-loss default/500% evidence an
 health qualification. Closing Bombs remain untouched; separate ropeflag31 and
 229 traversal are outside this gate. Full source outcomes are preserved;
 unsupported policies fail closed rather than falling back to ownership alone.
+
+### metal_229_left1up
+
+Only native229's left1Up check3960593/flag33 uses the joint retained-Hammer
+continuation from205 minor23 and228 minor30. Finite Bonkers and real970 statue
+alternatives reuse their existing source/access contracts. Both default/500%
+source-family continuations directly pass the transient228 switch/closing-door
+slide, actual left229 doorway and airborne exterior-F5 attack with the same
+Hammer and all three flags collected. The229 result is terminal; no permanent
+switch opening, reset or reacquisition is inferred.
+
+See [the exact joint contract](../dev-docs/ordinary-229-source-carrier-contract.md)
+for proof levels and source-policy conditions. Spray32, interior food34, Warp
+and RoomSanity remain outside this gate. Their unchanged generic ownership does
+not certify the untested shared-top joins or replace the accepted left carrier.

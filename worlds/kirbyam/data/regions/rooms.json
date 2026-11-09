@@ -9691,79 +9691,7 @@
             "copy_room_statues": {
               "version": 1,
               "status": "reviewed",
-              "nodes": [
-                {
-                  "id": "metal_228:970",
-                  "native_room": 970
-                },
-                {
-                  "id": "metal_228:801",
-                  "native_room": 801
-                },
-                {
-                  "id": "metal_228:290",
-                  "native_room": 290
-                },
-                {
-                  "id": "metal_228:210_lower",
-                  "native_room": 210
-                },
-                {
-                  "id": "metal_228:227",
-                  "native_room": 227
-                },
-                {
-                  "id": "metal_228:204",
-                  "native_room": 204
-                },
-                {
-                  "id": "metal_228:203",
-                  "native_room": 203
-                }
-              ],
               "routes": [
-                {
-                  "from": "metal_228:970",
-                  "to": "metal_228:801",
-                  "room_transition": true,
-                  "evidence": "docs/traversal-logic.md#copy-ability-room-access-and-source-contract: actual970 return record0x088B4AB8 trigger14,5 to801 stored5,4; ordinary retained-copy flight from the statues."
-                },
-                {
-                  "from": "metal_228:801",
-                  "to": "metal_228:290",
-                  "items": [
-                    "Peppermint Palace East - Hub Connection"
-                  ],
-                  "room_transition": true,
-                  "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network",
-                  "area_key_items": [
-                    "Peppermint Palace - Area Key"
-                  ]
-                },
-                {
-                  "from": "metal_228:290",
-                  "to": "metal_228:210_lower",
-                  "room_transition": true,
-                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual290 lower door to210 bottom; retain imported Hammer and leave left without entering the Box Boxer arena."
-                },
-                {
-                  "from": "metal_228:210_lower",
-                  "to": "metal_228:227",
-                  "room_transition": true,
-                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual210 door0x08888D0E trigger1,23 to227 stored58,17; lower corridor avoids the boss lock."
-                },
-                {
-                  "from": "metal_228:227",
-                  "to": "metal_228:204",
-                  "room_transition": true,
-                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Enter shaft from above the intact rope platform on its right; no rope cutting. Actual227 door0x0888A310 trigger16,2 to204 stored56,9."
-                },
-                {
-                  "from": "metal_228:204",
-                  "to": "metal_228:203",
-                  "room_transition": true,
-                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Ordinary bypass of the peg branch; actual204 door0x088870D4 trigger73,3 to203 stored3,19."
-                },
                 {
                   "from": "metal_228:203",
                   "to": "metal_205:floor_launch",
@@ -9784,15 +9712,9 @@
                 "metal_228:chest"
               ],
               "graph_parts": [
+                "metal_228_copy_room_approach",
                 "metal_205_hammer_carrier",
                 "metal_228_hammer_continuation"
-              ],
-              "source_sets": [
-                {
-                  "id": "statues_970",
-                  "node": "metal_228:970",
-                  "retry_evidence": "Permanent970 statue retouch before departure; eventual positive-support Hammer acquisition is the existing documented fairness assumption. Full actual source outcomes are retained."
-                }
               ],
               "access": {
                 "region": "REGION_COPY_ABILITY_ROOM/MAIN"
@@ -9839,6 +9761,91 @@
               "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: complete same-room attack/collection is atomic and terminal. No opened flag, enemy deletion, room-reset persistence, new source or equipment recovery is exported. Separate rope chest flag31 remains0; no229 route is accepted."
             }
           ]
+        },
+        "metal_228_copy_room_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_228:970",
+              "native_room": 970
+            },
+            {
+              "id": "metal_228:801",
+              "native_room": 801
+            },
+            {
+              "id": "metal_228:290",
+              "native_room": 290
+            },
+            {
+              "id": "metal_228:210_lower",
+              "native_room": 210
+            },
+            {
+              "id": "metal_228:227",
+              "native_room": 227
+            },
+            {
+              "id": "metal_228:204",
+              "native_room": 204
+            },
+            {
+              "id": "metal_228:203",
+              "native_room": 203
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_228:970",
+              "to": "metal_228:801",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#copy-ability-room-access-and-source-contract: actual970 return record0x088B4AB8 trigger14,5 to801 stored5,4; ordinary retained-copy flight from the statues."
+            },
+            {
+              "from": "metal_228:801",
+              "to": "metal_228:290",
+              "items": [
+                "Peppermint Palace East - Hub Connection"
+              ],
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "metal_228:290",
+              "to": "metal_228:210_lower",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual290 lower door to210 bottom; retain imported Hammer and leave left without entering the Box Boxer arena."
+            },
+            {
+              "from": "metal_228:210_lower",
+              "to": "metal_228:227",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual210 door0x08888D0E trigger1,23 to227 stored58,17; lower corridor avoids the boss lock."
+            },
+            {
+              "from": "metal_228:227",
+              "to": "metal_228:204",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Enter shaft from above the intact rope platform on its right; no rope cutting. Actual227 door0x0888A310 trigger16,2 to204 stored56,9."
+            },
+            {
+              "from": "metal_228:204",
+              "to": "metal_228:203",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Ordinary bypass of the peg branch; actual204 door0x088870D4 trigger73,3 to203 stored3,19."
+            }
+          ],
+          "source_sets": [
+            {
+              "id": "statues_970",
+              "node": "metal_228:970",
+              "retry_evidence": "Permanent970 statue retouch before departure; eventual positive-support Hammer acquisition is the existing documented fairness assumption. Full actual source outcomes are retained."
+            }
+          ]
         }
       }
     }
@@ -9856,6 +9863,134 @@
     },
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_229_left1up",
+          "kind": "metal",
+          "native_room": 229,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+          "graphs": {
+            "bonkers_joint": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: resume the actual previously collected209 minor23 Hammer checkpoint, then actual209 return door9,2 ->205 stored29,18/live456,280.996. Matching parent ROM/checkpoint hashes and both flags prove one finite-source joint itinerary, not independent acquisition or assumed reset."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: retained-Hammer continuation after actual228 minor30; activate Bomb27,7 and12,11, use the native60-tick switch and slide under its closing door (slot1 already0 during crossing), then actual228 leftdoor0x0888A7F4 trigger16,4 to229 stored17,29/live264,456.996. This atomic carrier is qualified by the final Hammer-only action; it grants no generic229 entry, persistent switch flag or independent Normal route. The finite-source counterpart ordinary-229-finite-hammer-left1up-acceptance.json separately replays this exact suffix from the Bonkers-qualified228 checkpoint at both durability settings; no endpoint or enemy-state equivalence is assumed."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
+            "copy_room_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "routes": [
+                {
+                  "from": "metal_228:203",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual203 door0x08886F88 trigger59,4 to205 stored3,3; retain Hammer to the reviewed dry floor launch. No lower Box Boxer or Bonkers acquisition/release fixture."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: continuous fresh-boot itinerary collects209 minor23, then takes the actual209 return to205 water pocket retaining the same Hammer. No checkpoint splicing or reacquisition."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: retained-Hammer continuation after actual228 minor30; activate Bomb27,7 and12,11, use the native60-tick switch and slide under its closing door (slot1 already0 during crossing), then actual228 leftdoor0x0888A7F4 trigger16,4 to229 stored17,29/live264,456.996. This atomic carrier is qualified by the final Hammer-only action; it grants no generic229 entry, persistent switch flag or independent Normal route. The finite-source counterpart ordinary-229-finite-hammer-left1up-acceptance.json separately replays this exact suffix from the Bonkers-qualified228 checkpoint at both durability settings; no endpoint or enemy-state equivalence is assumed."
+                }
+              ],
+              "starts": [
+                "metal_228:970"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_228_copy_room_approach",
+                "metal_205_hammer_carrier",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
+              }
+            }
+          }
+        }
+      ],
+      "graph_parts": {
+        "metal_229_hammer_continuation": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_229:left_arrival",
+              "native_room": 229
+            },
+            {
+              "id": "metal_229:left_chest",
+              "native_room": 229
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_229:left_arrival",
+              "to": "metal_229:left_chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: climb both left Bomb staircases, attack top-left F4 gap and descend the exterior left side; airborne Hammer clears F5(4..5,27), then recover by flight and Up at105.996,440.996 sets nativeflag33=2. Both default/500% retainHammer17 and priorflags23/30 without damage or reacquisition."
+              },
+              "evidence": "Complete same-room carrier, attack and collection is atomic and terminal. No opened state, equipment recovery, reset assumption or passage to the other229 checks is exported. The separate Spray32, food34 and central Warp are outside this acceptance."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_11": {

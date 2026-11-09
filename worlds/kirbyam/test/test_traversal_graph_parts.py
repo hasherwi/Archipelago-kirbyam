@@ -187,10 +187,11 @@ def test_every_970_source_reference_uses_copy_room_item_and_independent_region()
     assert 'statues_970' in data.regions['REGION_COPY_ABILITY_ROOM/MAIN'].traversal['source_sets']
     checked = 0
     for row in targets:
-        for witness, payload in row['graphs'].items():
-            if any(ref['id'] == 'statues_970' for ref in payload.get('source_sets', [])):
+        for witness in row['graphs']:
+            graph = room_traversal_graph(row['id'], witness)
+            rooms = {node.key: node.room for node in graph.nodes}
+            if any(rooms[source.node] == 970 for source in graph.placements):
                 checked += 1
-                graph = room_traversal_graph(row['id'], witness)
                 assert graph.unavailable_reason is None
                 assert graph.access_region == 'REGION_COPY_ABILITY_ROOM/MAIN'
                 assert not graph.requires_all_hub_switches
@@ -201,7 +202,7 @@ def test_every_970_source_reference_uses_copy_room_item_and_independent_region()
                 assert not any(graph.evaluate(SourcePolicy({'mode': 0}),
                                               owned - {'Copy Ability Room Access'}, False).reaches(target)
                                for target in graph.required_targets)
-    assert checked == 3
+    assert checked == 4
 
 
 def test_source_set_item_requirements_union_without_replacing_placement_items(bundle):

@@ -436,14 +436,26 @@
         {
           "id": "229:4,27",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "Left metal side passage protects one Room 10 chest; exact chest identity pending.",
+          "status": "reviewed_source_witness",
+          "note": "Exact left1Up3960593/template0x088C06B4/flag33 only: joint retained-Hammer prefixes through collected209minor23 and228minor30, then transient228switch/slide and actual left229arrival. Exterior airborne Hammer clears F5(4..5,27); no generic229 start, permanentgate, reacquisition or source behind the check. Spray32, interiorfood34 and Warp remain outside this gate; their cross-channel approaches are not certified by this artifact.",
           "tile_count": 2,
           "bounds": [
             4,
             27,
             5,
             27
+          ],
+          "accepted_target": "metal_229_left1up",
+          "target_identity": {
+            "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+            "location_id": 3960593,
+            "object_template": "0x088C06B4",
+            "native_chest_flag_index": 33
+          },
+          "accepted_evidence": [
+            "ordinary-229-renewable-hammer-left1up-acceptance.json",
+            "ordinary-229-finite-hammer-left1up-acceptance.json",
+            "ordinary-229-static-channel-ownership.json"
           ]
         }
       ]
