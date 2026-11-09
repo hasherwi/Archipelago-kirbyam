@@ -229,6 +229,7 @@ def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
     from ..traversal_data import room_traversal_targets
     assert {row['id'] for row in room_traversal_targets('block')} == {
         'underwater_819_exit', 'frozen_825_sound_effects',
+        'normal_208_to_209_bottom', 'normal_210_to_209_upper',
     }
     items = json.loads(pkgutil.get_data('worlds.kirbyam', 'data/items.json'))
     assert items['ABILITY_UNLOCK_ICE']['classification'] == 'USEFUL'

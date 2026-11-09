@@ -277,14 +277,30 @@
         {
           "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
             "REGION_PEPPERMINT_PALACE/ROOM_7_05",
             "REGION_PEPPERMINT_PALACE/ROOM_7_08",
             "REGION_PEPPERMINT_PALACE/ROOM_7_09",
-            "REGION_PEPPERMINT_PALACE/ROOM_7_11"
+            "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_07__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_07__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -305,15 +321,16 @@
         {
           "id": "205:21,8",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Floor plug toward Peppermint chest room; isolated aerial Hammer contact accepted, entry/source/whole route pending.",
+          "status": "reviewed_source_witness",
+          "note": "Reviewed finite Bonkers-Hammer and renewable hub-statue Stone alternatives to209 TOP minor23, with directed209/210 compartments. Stone uses real190 source policy and guarded hub carry, then actual Box Boxer defeat and dry transformation/floor/water continuation. Both providers have default/500% no-loss native suffixes; Bonkers remains a layered combat/source contract. Unsupported assignments fail closed. No starting-inventory removal.",
           "tile_count": 4,
           "bounds": [
             21,
             8,
             22,
             9
-          ]
+          ],
+          "accepted_target": "metal_205_to_209_top"
         }
       ]
     },

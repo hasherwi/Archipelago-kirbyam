@@ -1,8 +1,10 @@
-# Native205: reviewed Hammer evidence, topology still pending
+# Native205: reviewed Hammer and directed return evidence
 
-This is an evidence-only checkpoint. It does **not** install a traversal rule,
-change incoming room sides, or remove starting Burning and Stone. The existing
-coarse205/209/210 regions are not certified by these traces.
+These original evidence records were first committed without production rules.
+The later [directed check implementation](ordinary-205-209-directed-checks.md)
+uses them alongside the separate209/210 entrance and Snow/map proofs. These
+traces alone do not certify the former coarse regions or justify removing
+starting Burning and Stone.
 
 ## Actual source and the disclosed fixture
 
@@ -28,10 +30,11 @@ simulating its post-defeat release. The fixture source is not a production
 statue, a renewable source, or evidence of boss respawn. No terrain, attack, or
 runtime memory changes occur in either accepted controller chain.
 
-A future source-aware rule can use only policies that actually guarantee Hammer
+The finite Bonkers source branch can use only policies that actually guarantee Hammer
 from the finite Bonkers placement. Item permission alone cannot equip Hammer;
 a mixed finite live pool, no-ability result, or source behind the target cannot
-be promoted to a guarantee. Unsupported policies remain an explicit coverage gap.
+be promoted to a guarantee. That finite branch stays closed under other grants; the later directed target
+also has a separate renewable statue-backed Stone alternative.
 
 ## Directed carrier and exact check
 
@@ -101,16 +104,16 @@ movement at positive Kirby HP. It is **not** a direct AP1HP replay, a full AP
 patch/server session, a full Bonkers combat replay, or an exhaustive replay of
 every intermediate enemy-health percentage and controller timing.
 
-## Why production topology remains held
+## Topology limits of these original traces
 
 Native205 maps to `ROOM_7_07`,209 to `ROOM_7_CHEST`, and210 to `ROOM_7_05`.
-They currently merge distinct native arrivals. In particular:
+Their former coarse regions merged distinct native arrivals. In particular:
 
 - 209's top door returns to205(29,18), already inside the post-metal water
   pocket. It must not be treated as an outer arrival that crossed the floor.
 - 208 enters209 at(3,39). The two210 doors enter209 at(2,9) and(2,20), unlike
   the reviewed205 top arrival at(11,3). Their paths to the top chest/return
-  remain unqualified.
+  were unqualified by these original records.
 - 209 returns to210 at(30,24) and(30,44). Splitting209 alone can still leak
   between those heights through the coarse210 region.
 
@@ -126,7 +129,9 @@ the original default continuation was not assumed sufficient.
 
 This establishes a directed pocket-to-outer-middle egress, not independent access
 to209, every205 exit, other209 pockets, or a reverse entrance into the water
-pocket. No generic return edge, free Normal floor bypass, or disconnectedness
-conclusion is installed. Completion requires directed source/access and arrival evidence,
-with stable check identities, one physical room-check sink per room, and no
-sink-mediated crossings. Starting-inventory removal remains blocked.
+pocket. The later implementation adds only the separately accepted continuation to the
+actual203 exit, not a generic return edge or free Normal floor bypass. Its
+additional directed source/access and arrival records are documented in the
+linked implementation contract, with stable check identities, one physical
+room-check sink per room, and no sink-mediated crossings. Starting-inventory
+removal remains blocked.

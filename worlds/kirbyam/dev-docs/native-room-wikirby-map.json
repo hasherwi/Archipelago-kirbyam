@@ -997,7 +997,8 @@
       "completion_index": 89,
       "object_list_index": 89,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN"
       ],
       "wiki_title": "Peppermint Palace - Room 7",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
@@ -1033,7 +1034,10 @@
       "completion_index": 92,
       "object_list_index": 92,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR"
       ],
       "wiki_title": "Peppermint Palace - Chest",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Chest",
@@ -1045,7 +1049,8 @@
       "completion_index": 93,
       "object_list_index": 93,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL"
       ],
       "wiki_title": "Peppermint Palace - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_5",

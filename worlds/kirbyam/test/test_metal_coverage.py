@@ -84,7 +84,7 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
 
 
 def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
-    from ..traversal_data import room_traversal_targets
+    from ..traversal_data import room_traversal_graph, room_traversal_targets
     targets = {row["id"]: row for row in room_traversal_targets("metal")}
     for room in read("dev-docs/ordinary-metal-coverage.json")["rooms"]:
         for cluster in room["clusters"]:
@@ -94,7 +94,15 @@ def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
             assert identities and len(identities) == len(set(identities))
             for identity in identities:
                 row = targets[identity]
-                assert row["native_room"] == room["native_room"]
+                # The accepted target may be across a door (205 floor -> 209).
+                # Pin the actual metal action to the inventoried obstacle room.
+                for witness in row["graphs"]:
+                    graph = room_traversal_graph(identity, witness)
+                    native_rooms = {node.key: node.room for node in graph.nodes}
+                    assert any(route.capability == "metal"
+                               and native_rooms[route.source] == room["native_room"]
+                               for route in graph.routes)
+                    assert {native_rooms[target] for target in graph.required_targets} == {row["native_room"]}
                 if cluster["status"] == "conditional_source_witness":
                     assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
                 else:

@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "extends_artifact_blob": "045568d8328eb6982a7adca4a5a58b2f9871f0a0",
+  "qualification": "Controller continuation from preserved default/max500 Normal water-return final checkpoints at205347.230,21.004. Same original-USA startup209-top fixtures and production500% transform as referenced artifact; no new fixture transformations, runtime writes, terrain or attack edits. Actual205\u2192203 entry proves return to a known outer exit; does not prove every other outer exit. Not a direct AP1HP run.",
+  "door": {
+    "record_bus": "0x088872F8",
+    "trigger": [
+      1,
+      2
+    ],
+    "destination": 203,
+    "stored_arrival": [
+      59,
+      5
+    ],
+    "live_arrival": [
+      936,
+      72.99609375
+    ]
+  },
+  "runs": {
+    "default": {
+      "rom_sha256": "dcec478d13236fd09920bcc4ed09a2e17742f1770c3f233ee161e13afd60967e",
+      "parent_checkpoint": "normal205outerleft",
+      "initial": {
+        "label": "initial",
+        "frame": 0,
+        "room": 205,
+        "x": 347.23046875,
+        "y": 21.00390625,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "id": "all500-return205upperroute",
+          "inputs": [
+            [
+              125,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              55,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              85,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 759,
+            "room": 205,
+            "x": 34.29296875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        },
+        {
+          "id": "all500-return205actual203",
+          "inputs": [
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 919,
+            "room": 203,
+            "x": 936.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        }
+      ]
+    },
+    "all500": {
+      "rom_sha256": "22efb8d90f5a97a98853acd09f44e4147812cdf2855f0f6f199ee3fff4bf5293",
+      "parent_checkpoint": "all500-normal205outerleft",
+      "initial": {
+        "label": "initial",
+        "frame": 0,
+        "room": 205,
+        "x": 347.23046875,
+        "y": 21.00390625,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "id": "all500-return205upperroute",
+          "inputs": [
+            [
+              125,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              55,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              85,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 759,
+            "room": 205,
+            "x": 34.29296875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        },
+        {
+          "id": "all500-return205actual203",
+          "inputs": [
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 919,
+            "room": 203,
+            "x": 936.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        }
+      ]
+    }
+  }
+}

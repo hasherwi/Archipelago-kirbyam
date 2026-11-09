@@ -8582,14 +8582,33 @@
         "location_id": 3961178,
         "bit_index": 92
       },
-      "MAJOR_CHEST_PEPPERMINT_PALACE": "can_hit_far_switch",
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": null,
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02": null
+      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": null
     },
     "exits": {
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07": null
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN": null
+    },
+    "logical_subregions": {
+      "UPPER_ENTRY": {
+        "locations": [],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL": null
+        },
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: exact upper210 arrival 24,136.996, wide Normal star-block attack clears Mirra and actual209 door1,13 reaches separate210 Snow hallway472,376.996. Not access to209 TOP or210 main."
+      },
+      "LOWER_MAP": {
+        "locations": [
+          "MAJOR_CHEST_PEPPERMINT_PALACE"
+        ],
+        "exits": {},
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: actual Snow-hall return arrives24,312.996, Normal Bomb4,17 delayed chain opens map shaft; Up sets flag22=64. Second Bomb15,23 stays241. Terminal target branch exports no mutated layout/return join."
+      },
+      "BOTTOM_MINOR": {
+        "locations": [
+          "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02"
+        ],
+        "exits": {},
+        "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: actual208 door arrives40,616.996; Normal flight and Up collect flag24=1. No access toTOP/map/left-return pocket is inferred. The minor is terminal in this conservative logic model."
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
@@ -8696,6 +8715,63 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_02": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": "can_fly",
       "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "can_fly"
+    },
+    "logical_exit_overrides": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "BOTTOM_MINOR"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_208_to_209_bottom",
+          "kind": "block",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
+          "graphs": {
+            "hub290_approach": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "normal_208:hub290",
+                  "native_room": 290
+                },
+                {
+                  "id": "normal_208:upper208",
+                  "native_room": 208
+                },
+                {
+                  "id": "normal_208:bottom209",
+                  "native_room": 209
+                }
+              ],
+              "routes": [
+                {
+                  "from": "normal_208:hub290",
+                  "to": "normal_208:upper208",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: actual290 door arrives208 at232,40.996. Independent access to290 is required; startup does not grant hub unlocks."
+                },
+                {
+                  "from": "normal_208:upper208",
+                  "to": "normal_208:bottom209",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: Normal upper208 corridor to actual door0x888132 and209 bottom40,616.996, then minor24 collection. Bothdurabilities no loss."
+                }
+              ],
+              "starts": [
+                "normal_208:hub290"
+              ],
+              "required_targets": [
+                "normal_208:bottom209"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_04": {
@@ -8713,7 +8789,6 @@
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_05": {
     "locations": {
-      "MINOR_CHEST_SPRAY_PAINT_05": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961179,
@@ -8730,6 +8805,63 @@
           "can_climb"
         ]
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "UPPER_ENTRY"
+    },
+    "logical_subregions": {
+      "SNOW_HALL": {
+        "locations": [
+          "MINOR_CHEST_SPRAY_PAINT_05"
+        ],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP": null
+        },
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: from actual209 Mirra door Normal crosses separate hallway, Up sets Snow flag25=2, then actual210 door29,28 reenters209 lower. No alias to210 main/Bonkers/205 or lower-right corridor."
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_210_to_209_upper",
+          "kind": "block",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+          "graphs": {
+            "205_arena_approach": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "normal_210:209_upper",
+                  "native_room": 209
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "normal_210:209_upper",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-210-bonkers-side209-entrance.json: disclosed source-proven post-defeat boundary, Normal air puff activates overhead Bomb29,12; chain changes29,12/13/14 to0/0/255. Actual door0x888D00 arrives209 at24,136.996. Scroll release alone is not door opening."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "normal_210:209_upper"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
@@ -9010,6 +9142,251 @@
         ]
       },
       "REGION_PEPPERMINT_PALACE/ROOM_7_11": null
+    },
+    "logical_subregions": {
+      "WATER_RETURN": {
+        "locations": [],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_11": null
+        },
+        "evidence": "dev-docs/ordinary-205-normal-return-egress.json and ordinary-205-water-return-outer-join.json: actual209 TOP return into205 water, Normal Bomb23,12 opens the separate shaft, then outer-middle endpoint347.230,21.004 and left corridor reach actual205door1,2 to203. Bothdurabilities no loss, F5 intact. Only this203 exit is granted, not205 main or all outer exits."
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_205_bonkers_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:outer",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:210_upper",
+              "native_room": 210
+            },
+            {
+              "id": "metal_205:defeated_bonkers_arena",
+              "native_room": 210
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:outer",
+              "to": "metal_205:210_upper",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json normal_source_approach: actual205 door10,18 to210 live264,40.996, Normal6HP. The max500 artifact repeats this prefix."
+            },
+            {
+              "from": "metal_205:210_upper",
+              "to": "metal_205:defeated_bonkers_arena",
+              "evidence": "dev-docs/ordinary-205-source-carrier-contract.md: actual Normal ladder/right-shaft route reaches Bonkers arena393.141,232.996. Existing ordinary miniboss-combat assumption and native shared slot2 defeat/scroll-release contract, not a combined boss defeat/capture replay."
+            }
+          ]
+        },
+        "metal_205_stone_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:stone_210_lower",
+              "native_room": 210
+            },
+            {
+              "id": "metal_205:stone_floor_launch",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:stone_door_threshold",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:209_top",
+              "native_room": 209
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:stone_210_lower",
+              "to": "metal_205:stone_floor_launch",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: retain Stone through the actual lower210 climb and real Box Boxer defeat/release, then actual210 door15,2 to205 lower dry arrival. No boss/scroll substitution, copy replacement or reacquisition. Continue to the dry floor launch at350.383,120.996. The final Stone-only move requires retaining this same equipment; this private carrier does not independently certify Normal combat."
+            },
+            {
+              "from": "metal_205:stone_floor_launch",
+              "to": "metal_205:stone_door_threshold",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Stone"
+              ],
+              "metal_evidence": {
+                "Stone": "dev-docs/ordinary-205-imported-stone-acceptance.json: dry B transformation falls through all four F5x21..22/y8..9 and continues into water. Untransform without dropping Stone, swim around the shelf, use repeated ordinary water-gun shots against Blipper, then shoot the door-side Bomb and approach the209 door. Default and500% retain Stone8 with every-frame6HP. Stone cannot initiate this move while already swimming."
+              },
+              "evidence": "dev-docs/ordinary-205-209-directed-checks.md: complete dry transformation/floor/water continuation is atomic. No partial floor-only success, generic underwater Stone attack, room-persistent opening or other provider is accepted."
+            },
+            {
+              "from": "metal_205:stone_door_threshold",
+              "to": "metal_205:209_top",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual205 door29,17 reaches209 top at168,40.996; the subsequent top-pocket approach and Up set minor23 flag128 while retaining Stone. Terminal result grants no other209 compartment or reusable equipment state."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_205_to_209_top",
+          "kind": "metal",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+          "graphs": {
+            "bonkers_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_205:floor_launch",
+                  "native_room": 205
+                },
+                {
+                  "id": "metal_205:door_threshold",
+                  "native_room": 205
+                },
+                {
+                  "id": "metal_205:209_top",
+                  "native_room": 209
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                },
+                {
+                  "from": "metal_205:floor_launch",
+                  "to": "metal_205:door_threshold",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "metal_evidence": {
+                    "Hammer": "dev-docs/ordinary-205-hammer-source-acceptance.json and ordinary-205-hammer-all500-acceptance.json: A1, release8, B1, wait60 twice destroys all four F5 atx21..22/y8..9; higher A6 timing failed. Both accepted traces retain Hammer with continuous6HP."
+                  },
+                  "evidence": "dev-docs/ordinary-205-209-directed-checks.md: the dry low aerial Hammer sequence crosses the floor, not a generic horizontal Burning or underwater floor attack. The same atomic retained-Hammer sequence includes swimming around the shelf, the final water Hammer attack and immediate approach to the209 door. No room-persistent opening is exported."
+                },
+                {
+                  "from": "metal_205:door_threshold",
+                  "to": "metal_205:209_top",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-all500-acceptance.json: swim around shelf without Bomb, left-facing water Hammer and prompt actual205 door29,17 into209 TOP, then Up sets minor23 flag128. The preceding atomic move includes the water attack; this last edge is only the door threshold crossing. Hammer retained on the accepted trace. Default independently accepted. No other209 compartment is granted."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach"
+              ],
+              "sources": [
+                {
+                  "id": "0x088BF730",
+                  "node": "metal_205:defeated_bonkers_arena",
+                  "source_key": "BONKERS",
+                  "acquisition_evidence": "dev-docs/ordinary-205-source-carrier-contract.md: native Bonkers0x39 at440,232 has ability field0x351BA6=Hammer17; shared defeated-body inhale and swallow under actual policy. Finite source, no retry/respawn credit; disclosed essence is not a production placement."
+                }
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              }
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            },
+            "peppermint290_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_290"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_08": {

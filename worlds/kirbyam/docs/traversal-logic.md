@@ -1965,3 +1965,25 @@ opened-block persistence nor a reusable equipment postcondition. Both ordinary
 exits and RoomSanity remain unchanged; unsupported source assignments stay closed.
 See [the bounded source/carrier contract](../dev-docs/ordinary-216-source-carrier-contract.md).
 Starting Burning/Stone removal and other unreviewed ordinary-metal routes remain pending.
+
+
+### metal_205_to_209_top and directed Peppermint chest approaches
+
+One fail-closed target ORs the finite Bonkers-Hammer route with three guarded
+hub-statue Stone starts. Native190 Stone is resolved through its actual policy;
+the imported290 fixture is not a replacement production source. Both floor moves
+and retained-equipment water continuations are reviewed at default and500%
+enemy health. Stone's carrier defeats the actual Box Boxer without damage or
+copy loss, so mixed-live miniboss assignments need no lucky Bonkers grant.
+
+Native209 TOP, UPPER_ENTRY, LOWER_MAP and BOTTOM_MINOR remain distinct. The Normal
+Bonkers-side Bomb doorway leads through the separate210 Snow hallway to the map;
+actual290→208→209 leads only to bottom minor24. TOP owns minor23 and returns
+through205 WATER_RETURN, whose reviewed egress leads specifically to203. No
+summary edge, RoomSanity sink or generic210/209 alias joins these compartments.
+
+See [the directed check contract](../dev-docs/ordinary-205-209-directed-checks.md)
+for exact source identities, independent access, finite versus renewable policy,
+full controller/scaler qualifications and unreviewed alternatives. Check IDs and
+physical RoomSanity IDs/bits are unchanged. Starting Stone/Burning removal still
+depends on the remaining ordinary-metal coverage and option audit.
