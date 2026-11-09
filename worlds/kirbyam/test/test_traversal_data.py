@@ -162,6 +162,7 @@ def test_target_catalog_counts_and_provider_separation():
         "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
         "metal": frozenset({"Hammer", "Stone", "Burning", "Missile", "UFO", "Smash", "Master"}),
         "metal_throw": frozenset({"Throw"}),
+        "ordinary_block_hit": frozenset({"Burning"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
         "heave_ho_pull": frozenset({"Normal"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),

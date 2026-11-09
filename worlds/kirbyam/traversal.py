@@ -35,6 +35,9 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "metal": METAL_BREAKING_ABILITIES - {"Throw"},
     # Throw is a physical capture-and-release sequence, never an unarmed attack.
     "metal_throw": frozenset({"Throw"}),
+    # A reviewed dry ordinary-block attack/carry, not a metal crossing. Only
+    # Burning has an accepted provider witness for this class so far.
+    "ordinary_block_hit": frozenset({"Burning"}),
     "frozen_enemy_hit": frozenset({"Ice"}),
     # Normal suction moves an existing Heave-Ho into a reviewed disposal path.
     # This is not an attack against metal or an inventory-granted ability.
@@ -275,6 +278,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room
         ):
             raise ValueError("A metal attack sequence must remain in its native room")
+        if route.capability == "ordinary_block_hit":
+            if route.opens is not None:
+                raise ValueError("Atomic ordinary-block carrier cannot have a persistent opens event")
+            if route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room:
+                raise ValueError("An ordinary-block attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
         if (route.capability in {"frozen_enemy_hit", "metal_throw"}) != (route.uses_object is not None):
@@ -520,6 +528,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     capability = row.get("capability")
     if capability == "fuse" and row.get("opens") is not None:
         raise ValueError("Timed fuse ignition cannot have a persistent opens event")
+    if capability == "ordinary_block_hit" and row.get("opens") is not None:
+        raise ValueError("Atomic ordinary-block carrier cannot have a persistent opens event")
     providers = CAPABILITY_ABILITIES.get(capability, frozenset()) if isinstance(capability, str) else frozenset()
     if allowed is not None and (
         not allowed or not set(allowed) <= providers

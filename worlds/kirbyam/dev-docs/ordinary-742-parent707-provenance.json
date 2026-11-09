@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "relates_to_blob": "ffeaa093981dbc80e247e30311e87106ef9e124f",
+  "scope": "Reconcile local707 parent serialization hashes with published reviewed707 blobs; preserve both immutable identities.",
+  "finding": "No substantive differences. For both health settings the entire parsedJSON objects are equal. Converting integral numeric values from decimal notation to integer notation and serializing literalUnicode arrows instead of Unicode escapes, with the same two-space indentation and trailing newline, reproduces the published bytes exactly.",
+  "procedure": "Fetched exact GitHub blobs; checked their Git blobSHA1 and suppliedSHA256; compared all parsed fields recursively; reproduced published bytes from each local file; hashed actual private ROM and accepted endpoint state; loaded each state without advancing frames and compared its scalar endpoint to published707 and initial742 audit. No gameplay rerun or state mutation was needed.",
+  "qualifications": "All synthetic790 imported-equipment, native-source-equivalent500 and separate upstream592-source qualifications remain unchanged. No ROM or state bytes are included. This is an additive identity bridge, not a replacement of either original artifact.",
+  "entries": [
+    {
+      "health_percent": 100,
+      "filename": "ordinary-707-imported-burning-acceptance.json",
+      "local_sha256": "325b48354f829bd1892a3d85f2c6a329806f0851cb2299bb3073686954cf22fa",
+      "local_size_bytes": 46135,
+      "published_git_blob_sha1": "f2718a897434bd1a3377018fc319e95ea24593ff",
+      "published_sha256": "3bfc91e41dbcca158bdbde6e1cf6af4a193d6f443e827d28f66253ce0ff2349a",
+      "published_size_bytes": 46094,
+      "entire_parsed_json_equal": true,
+      "normalization_reproduces_exact_published_bytes": true,
+      "actual_rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "accepted_endpoint_segment": "carrier712actual",
+      "private_endpoint_state_sha256": "28dbdbb61fc12a4957bb7625d08ed894e257654886c5b1e5c1cb4618a374cba4",
+      "read_only_live_endpoint": {
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3
+      },
+      "published707_final_checkpoint_matches_live_state": true,
+      "parent742_initial_state_hash_and_scalar_endpoint_match": true,
+      "state_read_frames_advanced": 0,
+      "state_read_writes": []
+    },
+    {
+      "health_percent": 500,
+      "filename": "ordinary-707-all500-acceptance.json",
+      "local_sha256": "2918dd1d0d7e189fe04da937601d367fb6eff65f0dc5c31e17ba4a27bf166e14",
+      "local_size_bytes": 65569,
+      "published_git_blob_sha1": "d57f4415ea6a99b1b286e8d11ba4c600eb4b2cdc",
+      "published_sha256": "b7cfee075c30bbfed7ef54b1b716797eaca58e0638bd508adf4846bef38d2dab",
+      "published_size_bytes": 65478,
+      "entire_parsed_json_equal": true,
+      "normalization_reproduces_exact_published_bytes": true,
+      "actual_rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "accepted_endpoint_segment": "all500-712final",
+      "private_endpoint_state_sha256": "92321f59694fe4b694b94d42ed22f7102a3363818e45758e13aaaff8a0f481a8",
+      "read_only_live_endpoint": {
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3
+      },
+      "published707_final_checkpoint_matches_live_state": true,
+      "parent742_initial_state_hash_and_scalar_endpoint_match": true,
+      "state_read_frames_advanced": 0,
+      "state_read_writes": []
+    }
+  ]
+}

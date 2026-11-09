@@ -16,6 +16,65 @@
     "Candy Constellation Map - Big Chest",
     "Candy Constellation Sound Player - Big Chest",
     "Candy Constellation Vitality - Big Chest",
+    "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+    "Moonlight Mansion 2-20 - Small Chest",
+    "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+    "Moonlight Mansion Goal 2 - Small Chest #1",
+    "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+    "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+    "Rainbow Route 1-06 (Lower) - Small Chest",
+    "Room 2-16",
+    "Room 2-17",
+    "Room 2-18",
+    "Room 2-19",
+    "Room 2-20",
+    "Room 2-GOAL_2",
+    "Room 4-07",
+    "Room 4-08",
+    "Room 4-GOAL_1",
+    "Room 5-06",
+    "Room 9-01",
+    "Room 9-02",
+    "Room 9-03",
+    "Room 9-04",
+    "Room 9-05",
+    "Room 9-06",
+    "Room 9-07",
+    "Room 9-08",
+    "Room 9-09",
+    "Room 9-10",
+    "Room 9-11",
+    "Room 9-12",
+    "Room 9-13",
+    "Room 9-14",
+    "Room 9-15",
+    "Room 9-16",
+    "Room 9-17",
+    "Room 9-18",
+    "Room 9-19",
+    "Room 9-20",
+    "Room 9-CHEST_1",
+    "Room 9-CHEST_2",
+    "Room 9-CHEST_3",
+    "Room 9-GOAL_1",
+    "Room 9-GOAL_2",
+    "Room 9-WARP"
+  ],
+  "historical_stranded_checks": [
+    "Area 9 - Boss Room",
+    "Area 9 - Hub Room",
+    "Candy Constellation - Big Switch",
+    "Candy Constellation - Boss Defeat",
+    "Candy Constellation - First Visit",
+    "Candy Constellation 9-02 - Spray Paint #3 Chest",
+    "Candy Constellation 9-03 - Small Chest #1",
+    "Candy Constellation 9-10 - Small Chest #1",
+    "Candy Constellation 9-12 - Small Chest",
+    "Candy Constellation 9-16 - Music Sheet #7 Chest",
+    "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+    "Candy Constellation Map - Big Chest",
+    "Candy Constellation Sound Player - Big Chest",
+    "Candy Constellation Vitality - Big Chest",
     "Moonlight Mansion 2-20 - Small Chest",
     "Peppermint Palace 7-06 - Music Sheet #2 Chest",
     "Peppermint Palace 7-22 - Spray Paint #1 Chest",
@@ -46,5 +105,33 @@
     "Room 9-GOAL_1",
     "Room 9-GOAL_2",
     "Room 9-WARP"
-  ]
+  ],
+  "historical_head": "754bac4799b57151a04fe11039d929918399e6b9",
+  "revision_reason": "Unconditional 141/742 source-aware gates replace previously skipped conditional rules. The same source policy now changes six fill placements; both fills are rejected by the all-check guard. Historical placement replay remains inventory-feasible but progression-stranded.",
+  "historical_changed_placements": {
+    "Rainbow Route South - Big Switch": [
+      "Moonlight Mansion - Area Key",
+      1
+    ],
+    "Room 1-09": [
+      "Rainbow Route South - Hub Connection",
+      1
+    ],
+    "Moonlight Mansion Goal 2 - Small Chest #1": [
+      "Cabbage Cavern - Area Key",
+      1
+    ],
+    "Area 4 - Boss Room": [
+      "Radish Ruins - Mirror Shard",
+      1
+    ],
+    "Carrot Castle 5-05 - Lever": [
+      "Carrot Castle 5-05 - Lever Wall",
+      1
+    ],
+    "Room 8-23": [
+      "Cutter Ability",
+      1
+    ]
+  }
 }

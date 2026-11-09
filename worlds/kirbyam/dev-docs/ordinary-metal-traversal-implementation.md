@@ -195,6 +195,12 @@ Source release logic was independently checked at native revision
 
 ## Native 141: directed banks and preserved arrival sides
 
+Current source coverage is extended by [the carried-Burning contract](carried-burning-source-contract.md).
+All three target rows now OR the local witnesses below with independently
+accessible hub-source itineraries. The reverse row's new alternatives reach the
+lower destination before either bank; they are not physical reverse attacks.
+The following paragraphs describe the original conditional local-source checkpoint.
+
 Three metal targets apply only when actual `FLAMER` guarantees Burning:
 
 - `metal_141_left_forward`: lower to inner corridor through F5 `(5–6,7–8)`.
@@ -248,6 +254,11 @@ not certified by standing near it. The native 144 incoming record establishes
 its arrival side, not an accepted outward crossing.
 
 ## Native742: source carry, clean history and joint completion
+
+The local witnesses below are now ORed with the source-backed 707 → 712 → 741
+carrier in [the current contract](carried-burning-source-contract.md). The two
+clean target rows no longer retain a conditional fallback. The dirty upper-return
+exit remains a separate unvalidated boundary.
 
 `metal_742_sparerib` and `metal_742_lower_to_warp` share a finite main-Flamer
 prefix from actual712 access (`ROOM_2_13`), through741 source `0x088BD8AC`, to the

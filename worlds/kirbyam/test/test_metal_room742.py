@@ -38,14 +38,14 @@ def row_for(identity: str) -> dict[str, Any]:
     (2, ["Burning"], 0, True), (2, ["Burning", "Hammer"], 0, False),
     (2, ["Burning"], 50, False), (2, ["Burning"], 100, False),
 ])
-def test_conditional_source_permission_and_independent712_access(
+def test_local_source_permission_and_independent712_access(
     monkeypatch: pytest.MonkeyPatch, identity: str, mode: int,
     pool: list[str] | None, weight: int, applies: bool,
 ) -> None:
     simulate_burning_gating(monkeypatch)
     resolver = policy(mode, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
     row = row_for(identity)
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(row, resolver)
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
     assert rules.static_extra_witness(resolver)
 
@@ -65,21 +65,21 @@ def test_conditional_source_permission_and_independent712_access(
         ),
     )
     rules.install_extra_traversal_rules(world)
-    owned: set[str] = set()
+    owned = {"Hammer Ability"}  # Keep both live-pool outcomes permitted when testing a finite grant.
     access = {ACCESS}
     state = SimpleNamespace(
         base_rule=True, has=lambda name, player: name in owned,
         can_reach_region=lambda name, player: name in access,
     )
-    if not applies:
-        assert target.access_rule is original  # Unsupported source assignments remain unvalidated.
-    assert target.access_rule(state) is (not applies)
+    assert target.access_rule is not original
+    assert not target.access_rule(state)
     owned.add("Burning Ability")
-    assert target.access_rule(state)
+    assert target.access_rule(state) is applies
     access.clear()
-    assert target.access_rule(state) is (not applies)
-    expected = [ACCESS] if applies and "exit" in row else []
-    assert [name for name, entrance in indirect] == expected
+    assert not target.access_rule(state)
+    expected = {ACCESS, "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"} if "exit" in row else set()
+    assert {name for name, entrance in indirect} == expected
     state.base_rule = False
     assert not target.access_rule(state)
 

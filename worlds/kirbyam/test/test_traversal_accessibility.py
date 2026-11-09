@@ -372,3 +372,25 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
     assert list(audit.progression_unreachable) == expected["stranded_checks"]
+
+    # These previously conditional rows used to be skipped when Flamer was not
+    # guaranteed. The new source-aware alternatives correctly gate that case,
+    # changing fill order rather than silently accepting unsupported crossings.
+    # Restore only the six historical placements to isolate that semantic change
+    # from the new deterministic fill, without weakening the production guard.
+    previous = expected["historical_changed_placements"]
+    changed = [multiworld.get_location(name, 1) for name in previous]
+    items = [location.item for location in changed]
+    assert all(item is not None for item in items)
+    for location in changed:
+        name, player = previous[location.name]
+        item = next(item for item in items if item is not None and (item.name, item.player) == (name, player))
+        items.remove(item)
+        location.item = item
+        item.location = location
+    historical = audit_local_checks(multiworld, 1)
+    assert historical.unfilled == historical.inventory_unreachable == ()
+    assert set(expected["historical_stranded_checks"]) < set(historical.progression_unreachable)
+    from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
+    with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
+        validate_all_checks(multiworld, (1,))

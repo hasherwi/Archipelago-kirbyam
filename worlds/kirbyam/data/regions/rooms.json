@@ -2600,6 +2600,41 @@
               "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal\u2192Burning3, before either F5 bank. Actual source policy and permission still apply."
             }
           ]
+        },
+        "metal_141_imported_lower_destination": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_141:143_carried_arrival",
+              "native_room": 143
+            },
+            {
+              "id": "metal_141:lower_carried_arrival",
+              "native_room": 141
+            },
+            {
+              "id": "metal_141:lower_return",
+              "native_room": 141
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_141:143_carried_arrival",
+              "to": "metal_141:lower_carried_arrival",
+              "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 143 record 0x879858, trigger (1,2), reaches native 141 lower-right stored (43,19). Both health variants retain imported Burning and leave all eight metal cells intact on entry.",
+              "room_transition": true
+            },
+            {
+              "from": "metal_141:lower_carried_arrival",
+              "to": "metal_141:lower_return",
+              "capability": "ordinary_block_hit",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: arrive141 through defend/left is a source-free retained-Burning ordinary-block itinerary to the lower-left compartment, ending (22,117.00390625) before either bank. Defensive Burning clears only F0 (8,12)/(9,12); all eight F5 remain intact at this endpoint. This is a destination bypass, NOT reverse metal traversal. Both default/500 runs retain 6 HP, Burning and no grabs. Independent hub access is required; no generic inner/top/east start or room reset is credited."
+            }
+          ]
         }
       },
       "targets": [
@@ -2608,10 +2643,6 @@
           "kind": "metal",
           "native_room": 141,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -2621,6 +2652,92 @@
               ],
               "starts": [
                 "metal_141:lower_entry"
+              ],
+              "required_targets": [
+                "metal_141:inner"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:inner"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_190"
               ],
               "required_targets": [
                 "metal_141:inner"
@@ -2675,10 +2792,6 @@
           "kind": "metal",
           "native_room": 141,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "graphs": {
             "lower_carry": {
               "version": 1,
@@ -2724,6 +2837,124 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_41"
               }
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:east",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:east",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: bankleft through east continues with the same Burning through ordinary blocks and clears fresh F5 (27-28,9-10) rightward. Both banks are cleared in one continuous default/500 trace; endpoint is the east compartment, not the Mirra doorway."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:east"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:east",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:east",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: bankleft through east continues with the same Burning through ordinary blocks and clears fresh F5 (27-28,9-10) rightward. Both banks are cleared in one continuous default/500 trace; endpoint is the east compartment, not the Mirra doorway."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_141:east"
+              ]
             }
           }
         },
@@ -2732,10 +2963,6 @@
           "kind": "metal",
           "native_room": 141,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41",
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -2792,6 +3019,58 @@
               ],
               "starts": [
                 "metal_141:inner"
+              ],
+              "required_targets": [
+                "metal_141:lower_return"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:lower_return"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                }
+              ],
+              "starts": [
+                "hub_190"
               ],
               "required_targets": [
                 "metal_141:lower_return"
@@ -3746,6 +4025,38 @@
               "acquisition_evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json safesourcewait15; dev-docs/ordinary-742-all500-acceptance.json shared: actual native Flamer0x088BD8AC,type0x13 at200,224 inhaled/swallowed before742; Normal becomesBurning with6HP. Permission and finalized source policy still apply."
             }
           ]
+        },
+        "metal_742_imported_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_742:712_carried_arrival",
+              "native_room": 712
+            },
+            {
+              "id": "metal_742:741_carried_arrival",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:clean_lower",
+              "native_room": 742
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_742:712_carried_arrival",
+              "to": "metal_742:741_carried_arrival",
+              "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: the exact earned 707 endpoint continues through all native 712 switch, gate, shaft and ladder travel, then actual door 0x884640 to native 741. Both matching default/500 continuations retain Burning, 6 HP and no grabs.",
+              "room_transition": true
+            },
+            {
+              "from": "metal_742:741_carried_arrival",
+              "to": "metal_742:clean_lower",
+              "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: carried Burning passes native 741 Bombs (24,38)/(25,26) and uses lower door 0x884BE2 for the first native 742 arrival (472,456.996). The 500% variant changes Chippy/Sword Knight avoidance. No Flamer capture, upper-return entry or room reset is used.",
+              "room_transition": true
+            }
+          ]
         }
       },
       "targets": [
@@ -3754,10 +4065,6 @@
           "kind": "metal",
           "native_room": 742,
           "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "graphs": {
             "clean_carry": {
               "version": 1,
@@ -3794,6 +4101,106 @@
               "required_targets": [
                 "metal_742:clean_chest"
               ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% chest branches collect flag 17 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% chest branches collect flag 17 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
             }
           }
         },
@@ -3802,10 +4209,6 @@
           "kind": "metal",
           "native_room": 742,
           "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "graphs": {
             "clean_carry": {
               "version": 1,
@@ -3838,6 +4241,106 @@
               ],
               "starts": [
                 "metal_742:741_arrival"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% Warp branches enter actual native 705 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% Warp branches enter actual native 705 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_592"
               ],
               "required_targets": [
                 "metal_742:clean_warp"

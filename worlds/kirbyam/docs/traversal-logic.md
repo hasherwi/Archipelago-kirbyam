@@ -2052,3 +2052,22 @@ right-shaft Normal bypass, room-wide gate or new provider is inferred. All537
 exits and RoomSanity remain unchanged. See the
 [source and carrier contract](../dev-docs/ordinary-537-source-carrier-contract.md)
 for exact door/source identities, native-versus-AP qualification and test scope.
+
+
+### Carried Burning alternatives for native 141 and 742
+
+The existing target rows now OR their finite local Flamer witnesses with real
+hub-statue acquisition and retained-Burning carriers. Native 141 forward banks
+use actual 190 → 143 lower arrival. Its reverse row also accepts an independently
+sourced ordinary lower-destination itinerary before either metal bank; that
+alternative is not a physical reverse crossing or room-reset claim. Native 742
+extends the exact accepted 707 result through actual 712 and 741 travel into its
+first clean lower arrival. Its chest and Warp compatibility is separately proved
+in one visit after deliberate Burning discard.
+
+See [the source and direction contract](../dev-docs/carried-burning-source-contract.md)
+for exact guards, fixture qualifications, terminal outcomes and remaining gaps.
+All five rows are fail-closed when neither the local nor remote witness works.
+No AP compartment, generic return alias, enemy renewal, starting inventory or
+source assignment changes. The new ordinary-block capability uses only the
+reviewed dry Burning action and grants no equipment or persistent opening.

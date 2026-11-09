@@ -3,19 +3,16 @@
 import json
 from dataclasses import replace
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any
 
 import pytest
 from BaseClasses import CollectionState
 
-from .. import traversal_rules as rules
 from ..data import data, load_json_data
 from ..traversal import METAL_BREAKING_ABILITIES, Position, SourcePolicy
 from ..traversal_data import room_traversal_graph, room_traversal_targets
 from .test_metal_goal2 import simulate_burning_gating
 from .test_mini_traversal import make_world
-from .test_traversal import policy
 
 
 LOWER = "REGION_RAINBOW_ROUTE/ROOM_1_41"
@@ -33,57 +30,6 @@ TARGETS = {
 
 def row_for(identity: str) -> dict[str, Any]:
     return next(row for row in room_traversal_targets("metal") if row["id"] == identity)
-
-
-@pytest.mark.parametrize("identity", TARGETS)
-@pytest.mark.parametrize("mode,pool,weight,applies", [
-    (0, None, 0, True), (1, ["Burning"], 0, True), (1, ["Smash"], 0, False),
-    (2, ["Burning"], 0, True), (2, ["Burning", "Smash"], 0, False),
-    (2, ["Burning"], 50, False), (2, ["Burning"], 100, False),
-])
-def test_policy_permission_and_independent_carrier_access(
-    monkeypatch: pytest.MonkeyPatch, identity: str, mode: int,
-    pool: list[str] | None, weight: int, applies: bool,
-) -> None:
-    simulate_burning_gating(monkeypatch)
-    resolver = policy(mode, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
-    row = row_for(identity)
-    assert rules.target_applies(row, resolver) is applies
-    monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
-    assert rules.static_extra_witness(resolver)
-
-    def original(state: Any) -> bool:
-        return bool(state.base_rule)
-
-    target = SimpleNamespace(access_rule=original)
-    indirect: list[tuple[str, Any]] = []
-    world = SimpleNamespace(
-        player=1, _enemy_copy_ability_policy=resolver.policy,
-        _ability_gating_enabled=lambda: True, _area_keys_enabled=lambda: False,
-        options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=False)),
-        multiworld=SimpleNamespace(
-            get_entrance=lambda name, player: target, get_region=lambda name, player: name,
-            register_indirect_condition=lambda name, entrance: indirect.append((name, entrance)),
-        ),
-    )
-    rules.install_extra_traversal_rules(world)
-    owned: set[str] = set()
-    access = {LOWER}
-    state = SimpleNamespace(
-        base_rule=True, has=lambda name, player: name in owned,
-        can_reach_region=lambda name, player: name in access,
-    )
-    if not applies:
-        assert target.access_rule is original  # Unknown assignments are not accepted witnesses.
-    assert target.access_rule(state) is (not applies)
-    owned.add("Burning Ability")
-    assert target.access_rule(state)
-    access.clear()
-    needs_lower_access = identity == "metal_141_right_forward" and applies
-    assert target.access_rule(state) is (not needs_lower_access)
-    assert [name for name, entrance in indirect] == ([LOWER] if needs_lower_access else [])
-    state.base_rule = False
-    assert not target.access_rule(state)
 
 
 @pytest.mark.parametrize("identity", TARGETS)

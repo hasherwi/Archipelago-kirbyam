@@ -1,8 +1,10 @@
 # Native 742: separate clean chest and return-loop Warp witnesses
 
-Status: the clean source-to-chest and source-to-Warp branches now have conditional
-production witnesses. The return-loop branch below remains a design, not an
-accepted route. Starting Stone and Burning remain unchanged.
+Status: both clean target rows now OR the original local-source witnesses with
+independently source-backed carried Burning through native 707, 712 and 741.
+See [the current source contract](carried-burning-source-contract.md). The
+return-loop branch below remains a design, not an accepted route. Starting Stone
+and Burning remain unchanged.
 
 ## Accepted clean branch and evidence limits
 

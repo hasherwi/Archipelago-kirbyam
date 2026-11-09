@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback. Native216 now has one unconditional source-backed chest target using real hub statues and the reviewed291 carrier; other providers and arrivals remain unvalidated. Starting-inventory removal remains blocked. Native529 now has directed Normal Bomb/swim routes with all8F5 intact; fresh upper-left arrival is separate and no symmetric passage is assumed. Native228 now has one unconditional joint-Hammer chest target, with finite guaranteed Bonkers and renewable item-gated970 alternatives; no rope or229 route is inferred.",
+  "implementation_status": "Native 557 Goal 1 and native 176 Goal 2 still use conditional local-source witnesses. The three native 141 rows and two clean native 742 rows now OR unchanged finite local sources with real hub-statue carriers and remain closed if none succeeds. The 141 reverse alternatives are ordinary lower-destination bypasses, not fresh reverse attacks; native 742 upper-return behavior remains unvalidated. Native 707, 216, 537, 205, 228 and 229 have their documented unconditional source-backed targets. Native 529 has directed Normal Bomb/swim routes with all eight F5 cells intact; fresh upper-left arrival is separate. Individual records retain their exact fixture, source, health and joint-completion qualifications. No full AP or direct 1 HP replay is claimed. Starting Stone and Burning removal remains blocked by the remaining route and option audit.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -70,8 +70,8 @@
         {
           "id": "141:5,7",
           "classification": "ap_exit",
-          "status": "conditional_source_witness",
-          "note": "Independent forward lower-Flamer and reverse upper-Flamer controller witnesses, only when actual FLAMER guarantees Burning. Incoming native144/545 do not grant lower-compartment entry.",
+          "status": "reviewed_source_witness",
+          "note": "Forward metal passage and the reverse row OR existing local Flamer witnesses with independently accessible hub-source itineraries. The reverse alternatives reach the lower-left destination from native 143 before either bank; they are ordinary-block destination bypasses, not physical reverse crossings or room-reset claims.",
           "tile_count": 4,
           "bounds": [
             5,
@@ -79,20 +79,22 @@
             6,
             8
           ],
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "accepted_targets": [
             "metal_141_left_forward",
             "metal_141_left_reverse"
-          ]
+          ],
+          "bypass_witnesses": {
+            "metal_141_left_reverse": [
+              "central_statues",
+              "rainbow190_statues"
+            ]
+          }
         },
         {
           "id": "141:27,9",
           "classification": "ap_exit",
-          "status": "conditional_source_witness",
-          "note": "Actual lower-Flamer copy retained through both forward banks. This edge requires independently reachable lower source access and ends east of bank2; no native144/Mirra doorway success is inferred.",
+          "status": "reviewed_source_witness",
+          "note": "Both forward banks can use one independently sourced, retained Burning carrier through native 190 and 143. The east endpoint does not certify the native 144 Mirra doorway.",
           "tile_count": 4,
           "bounds": [
             27,
@@ -100,10 +102,6 @@
             28,
             10
           ],
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "accepted_target": "metal_141_right_forward"
         }
       ]
@@ -1650,8 +1648,8 @@
         {
           "id": "742:20,6",
           "classification": "ap_exit",
-          "status": "conditional_source_witness",
-          "note": "Actual712 entry, main741 Flamer capture and first742 lower entry supply separate atomic Burning-required sparerib chest0x088BDD10 flag17 and Warp705 witnesses. Continuous no-loss default/max500% enemyHP and same-visit chest-to-Warp acceptance avoid tanking, extra copies, permanentDoo deletion and room resets. Chest continuation may dropBurning and use Normal. Upper-return Warp remains an unvalidated legacy route; unsupported source assignments and directAP1HP/event replay remain unaccepted.",
+          "status": "reviewed_source_witness",
+          "note": "Clean chest and Warp targets OR the local finite Flamer with independently source-backed Burning carried through actual 707, 712 and 741. Same-visit chest then Warp is separately accepted after explicit discard; dirty upper-return behavior remains unvalidated.",
           "tile_count": 4,
           "bounds": [
             20,
@@ -1663,10 +1661,6 @@
             "metal_742_sparerib",
             "metal_742_lower_to_warp"
           ],
-          "requires_guaranteed_source": {
-            "source_key": "FLAMER",
-            "ability": "Burning"
-          },
           "path_statuses": [
             {
               "path": "clean lower to sparerib chest",

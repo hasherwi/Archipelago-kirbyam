@@ -1,0 +1,9 @@
+{
+  "reference_commit": "754bac4799b57151a04fe11039d929918399e6b9",
+  "claim": "All 92 pre-existing compiled graphs are exactly equal in both Area Key settings. No old local, 707 or shared hub semantics change. This is representation equivalence, not new native route acceptance.",
+  "unchanged_witnesses": 92,
+  "area_key_hashes": {
+    "false": "5573773c88809c7cd712242ac53df9df2e6d3e111777fdf7a3f8e893ecf3ab48",
+    "true": "678e95141000da8297b10b51b18a33600a49feec1d5b6a668b69fc23c3e50437"
+  }
+}

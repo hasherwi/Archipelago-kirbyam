@@ -99,9 +99,18 @@ def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
                 for witness in row["graphs"]:
                     graph = room_traversal_graph(identity, witness)
                     native_rooms = {node.key: node.room for node in graph.nodes}
-                    assert any(route.capability == "metal"
-                               and native_rooms[route.source] == room["native_room"]
-                               for route in graph.routes)
+                    bypasses = cluster.get("bypass_witnesses", {})
+                    if witness in bypasses.get(identity, []):
+                        assert cluster["id"] == "141:5,7" and identity == "metal_141_left_reverse"
+                        assert set(bypasses[identity]) == {"central_statues", "rainbow190_statues"}
+                        assert graph.access_region is not None
+                        assert not any(route.capability == "metal" for route in graph.routes)
+                        assert any(route.capability == "ordinary_block_hit"
+                                   and native_rooms[route.source] == 141 for route in graph.routes)
+                    else:
+                        assert any(route.capability == "metal"
+                                   and native_rooms[route.source] == room["native_room"]
+                                   for route in graph.routes)
                     assert {native_rooms[target] for target in graph.required_targets} == {row["native_room"]}
                 if cluster["status"] == "conditional_source_witness":
                     assert row["requires_guaranteed_source"] == cluster["requires_guaranteed_source"]
