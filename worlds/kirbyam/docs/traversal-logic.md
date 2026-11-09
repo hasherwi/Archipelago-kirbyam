@@ -2030,6 +2030,25 @@ Hammer and all three flags collected. The229 result is terminal; no permanent
 switch opening, reset or reacquisition is inferred.
 
 See [the exact joint contract](../dev-docs/ordinary-229-source-carrier-contract.md)
-for proof levels and source-policy conditions. Spray32, interior food34, Warp
-and RoomSanity remain outside this gate. Their unchanged generic ownership does
-not certify the untested shared-top joins or replace the accepted left carrier.
+for proof levels and source-policy conditions. Spray flag 32, interior food flag 34,
+Warp and RoomSanity remain outside this gate. Separate default and 500% health
+supplements now prove Normal routes from the actual native 205 doorway through
+pristine native 228 to Food, Spray and Warp. They do not prove Normal access
+through upstream native 205, certify arbitrary shared-top joins, or replace the
+accepted Hammer carrier to the left 1-Up. No unrelated check or topology rule
+changes with these evidence-only supplements.
+
+### metal_537_beginning_notes
+
+Beginning Notes3960514 alone requires the reviewed Stone floor passage. The
+actual190 statue acquisition and six directed doors through143/141/543/542/536
+are replayed at default and production500% enemy health without damage or copy
+loss. Both141 metal banks remain intact;542's ordinary Bomb/F0 path restores its
+actual exit. The537 dry Stone drop clears the four F5 cells and Up sets flag1.
+
+Central and independently reached190 alternatives reuse guarded hub sources,
+their actual policy and documented statue retouch. No inventory-only acquisition,
+right-shaft Normal bypass, room-wide gate or new provider is inferred. All537
+exits and RoomSanity remain unchanged. See the
+[source and carrier contract](../dev-docs/ordinary-537-source-carrier-contract.md)
+for exact door/source identities, native-versus-AP qualification and test scope.

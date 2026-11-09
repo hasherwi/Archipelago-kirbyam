@@ -1,0 +1,1498 @@
+{
+  "schema": "ordinary-229-normal-spray-acceptance-v1",
+  "claim": "Normal from the actual 205 doorway into pristine 228 lower arrival reaches actual right 229 and Spray flag 32 without breaking 228 F5 or acquiring Hammer.",
+  "qualification": "Default starts preserved jointHammer205spikegap checkpoint;500 starts matching jointHammer500shaft40 and replays spikegap. Actual Select discardsHammer in205 before228 entry. Inherited finite source fixture qualification remains upstream only; no terrain or room228/229 object edits, no RAM writes. Source209 flag23 is inherited and not part of independent access claim.",
+  "upstream_finite_blob": "d050d3a81c862617fc45cf8fde2a6c61d158d5bd",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "accepted": [
+    {
+      "enemy_health_percent": 100,
+      "rom_sha256": "d6b5d464e7eb1d100d8838c35625cafc0820d787ba0f2349dae2cc76a17566c7",
+      "initial_checkpoint": "jointHammer205spikegap.ss",
+      "segments": [
+        {
+          "id": "normal228entry",
+          "inputs": [
+            [
+              1,
+              4
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 231,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228lower",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 598,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middleclimb",
+          "inputs": [
+            [
+              60,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              130,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              100,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 918,
+            "room": 228,
+            "x": 494.19921875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228rightbomb",
+          "inputs": [
+            [
+              110,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              45,
+              16
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 1239,
+            "room": 228,
+            "x": 585.99609375,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228upperright",
+          "inputs": [
+            [
+              28,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              25,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1433,
+            "room": 228,
+            "x": 534.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228inspectmirra",
+          "inputs": [
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              24,
+              32
+            ],
+            [
+              35,
+              64
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1679,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal229mirrapuff",
+          "inputs": [
+            [
+              60,
+              64
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1981,
+            "room": 229,
+            "x": 456.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal229rightfly",
+          "inputs": [
+            [
+              60,
+              64
+            ],
+            [
+              110,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              120,
+              96
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2401,
+            "room": 229,
+            "x": 445.40234375,
+            "y": 249.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal229laserclear",
+          "inputs": [
+            [
+              120,
+              80
+            ],
+            [
+              50,
+              64
+            ],
+            [
+              15,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              90,
+              32
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2939,
+            "room": 229,
+            "x": 440.0,
+            "y": 94.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal229spraycollect",
+          "inputs": [
+            [
+              110,
+              80
+            ],
+            [
+              20,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              75,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3206,
+            "room": 229,
+            "x": 585.99609375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "enemy_health_percent": 500,
+      "rom_sha256": "a7fc22189406419ee739cafc1c37507106a9c6f7f29beb23e69bee23e9ea3faf",
+      "initial_checkpoint": "jointHammer500shaft40.ss",
+      "segments": [
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 416,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal228entry",
+          "inputs": [
+            [
+              1,
+              4
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 647,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228lower",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1014,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middleclimb",
+          "inputs": [
+            [
+              60,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              130,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              100,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 1334,
+            "room": 228,
+            "x": 494.19921875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228rightbomb",
+          "inputs": [
+            [
+              110,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              45,
+              16
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 1655,
+            "room": 228,
+            "x": 585.99609375,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228upperright",
+          "inputs": [
+            [
+              28,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              25,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1849,
+            "room": 228,
+            "x": 534.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228inspectmirra",
+          "inputs": [
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              24,
+              32
+            ],
+            [
+              35,
+              64
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2095,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal229mirrapuff",
+          "inputs": [
+            [
+              60,
+              64
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2397,
+            "room": 229,
+            "x": 456.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal229rightfly",
+          "inputs": [
+            [
+              60,
+              64
+            ],
+            [
+              110,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              120,
+              96
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2817,
+            "room": 229,
+            "x": 445.40234375,
+            "y": 249.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "guardobserve",
+          "inputs": [
+            [
+              120,
+              80
+            ],
+            [
+              12,
+              64
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2975,
+            "room": 229,
+            "x": 579.38671875,
+            "y": 216.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "spray500jumpover",
+          "inputs": [
+            [
+              5,
+              32
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 3125,
+            "room": 229,
+            "x": 438.0,
+            "y": 123.71484375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "spray500collect",
+          "inputs": [
+            [
+              110,
+              80
+            ],
+            [
+              20,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              75,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3392,
+            "room": 229,
+            "x": 585.99609375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "route": "The shared lower 228 approach bypasses F5 and triggers ordinary Bomb 32,15. Climb upper right with Normal; preserve Mirra using a 35-frame ladder ascent. From x504, inflate in place, sink for 40 frames, then puff left at feet y60.47265625. Mirra destruction exposes right door 28,4, which reaches actual right 229 at456,456.996. Fly through the right shaft. Default and500 use distinct verified upper guardian traversal suffixes before collecting Spray32 at585.996,136.996.",
+  "unresolved": {},
+  "mirra": {
+    "source": "src/mirra.c CreateMirra,sub_080B10A8,sub_080B1174,sub_080B11C0; src/object.c damage branch around848; src/mirror_door.c CreateMirrorDoor",
+    "threat_boundary": "Mirra at456,64 uses subtype0 counter0x3000: proximity requires BOTH abs(dx)<48 and abs(dy)<48. Kirby stays exactly at x504 during inflation and puff, so abs(dx)=48 fails the strict predicate. This is not a generic close-range attack claim.",
+    "target_bounds": "CreateMirra uses ObjectSetBounds(-6,-4,6,15) and sub_0803E2B0(-5,0,5,13). The actual ordinary puff effect is verified through the door collision mutation, not an inferred projectile reach formula.",
+    "damage_semantics": "object.c invokes the destruction callback for OBJ_MIRRA independently of remaining health. The500 case was still replayed rather than assumed.",
+    "actual_boundary_audits": [
+      {
+        "enemy_health_percent": 100,
+        "events": [
+          {
+            "frame": 1,
+            "keys": 64,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 60,
+            "keys": 64,
+            "room": 228,
+            "x": 504.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 100,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 59.19921875,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 101,
+            "keys": 2,
+            "room": 228,
+            "x": 504.0,
+            "y": 60.47265625,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 102,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 61.89453125,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 110,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 120,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 161,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 201,
+            "keys": 32,
+            "room": 228,
+            "x": 457.046875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 202,
+            "keys": 64,
+            "room": 228,
+            "x": 457.046875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 213,
+            "keys": 0,
+            "room": 229,
+            "x": 456.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": null
+          }
+        ]
+      },
+      {
+        "enemy_health_percent": 500,
+        "events": [
+          {
+            "frame": 1,
+            "keys": 64,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 60,
+            "keys": 64,
+            "room": 228,
+            "x": 504.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 100,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 59.19921875,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 101,
+            "keys": 2,
+            "room": 228,
+            "x": 504.0,
+            "y": 60.47265625,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 102,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 61.89453125,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 0
+          },
+          {
+            "frame": 110,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 120,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 161,
+            "keys": 0,
+            "room": 228,
+            "x": 504.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 201,
+            "keys": 32,
+            "room": 228,
+            "x": 457.046875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 202,
+            "keys": 64,
+            "room": 228,
+            "x": 457.046875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": 255
+          },
+          {
+            "frame": 213,
+            "keys": 0,
+            "room": 229,
+            "x": 456.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0,
+            "door_tile28_4": null
+          }
+        ]
+      }
+    ]
+  },
+  "qualifications_additional": "Normal is established in205 by actual Select before228 entry; this does not prove upstream Normal205 access. No terrain or room228/229 object edits or RAM writes. Continuous HP6, Normal0, grab0. Final flags30/33/34 are zero and32=1. Source209 flag23 is inherited. The default suffix cannot be reused unchanged at500: the Metal Guardian bypass uses separate inputs. A top-corridor downward join is neither required nor inferred."
+}

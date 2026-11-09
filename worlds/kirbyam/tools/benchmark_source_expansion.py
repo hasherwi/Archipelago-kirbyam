@@ -67,6 +67,8 @@ def main() -> None:
         ("707_native", "metal_707_to_712", "central_statues", 0, False),
         ("707_live_finite", "metal_707_to_712", "central_statues", 2, False),
         ("707_live_retries", "metal_707_to_712", "central_statues", 2, True),
+        ("537_native", "metal_537_beginning_notes", "central_statues", 0, False),
+        ("537_live_retries", "metal_537_beginning_notes", "central_statues", 2, True),
         ("216_native", "metal_216_chest", "central_statues", 0, False),
         ("216_live_finite", "metal_216_chest", "central_statues", 2, False),
         ("216_live_retries", "metal_216_chest", "central_statues", 2, True),

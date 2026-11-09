@@ -54,8 +54,14 @@ location is dropped, and no ROM/runtime algorithm is changed.
    historical list for tutorial receipt handling. Old seed slot-data lists must
    remain authoritative. Verify connection, cold ROM reset, save rollback,
    replayed ReceivedItems, and explicit new-seed starts without changing held
-   Kirby equipment. Missing legacy gate-list fallback needs compatibility
-   testing after any gateability expansion; it uses the current global list.
+   Kirby equipment. Commit `242e3d7` now gives both client consumers the shared
+   `resolve_slot_gateable_abilities` helper. Missing, empty or non-list values
+   select the frozen 22-name `LEGACY_SLOT_GATEABLE_ABILITIES`, whose mask is
+   `0x03fffe76`; future catalog expansion must not change it. A nonempty explicit
+   list remains authoritative, with non-string entries filtered only after
+   selection (`[None]` does not fall back). Keep the six historical receipt
+   constants unchanged and rerun `test_legacy_ability_gate_list` alongside the
+   reconnect/reset/receipt tests when expanding new-seed gateability.
 8. The starting-item assertions in `test_starting_abilities`,
    `test_cutter_progression`, `test_mini_traversal`, `test_fuse_rope_traversal`,
    `test_all_minor_locations`, and generic traversal tests must be revised
@@ -244,6 +250,81 @@ cannot replace any missing native or structural proof.
    generated-token/packaged-world checks, exact-commit CI, native acceptance for
    activated routes, and measured hot-path/one-time audit cost. Retain full
    failing-seed evidence for safe generation errors.
+
+## Alternate-source release plan at 7633065
+
+This checkpoint retains Beam/Burning/Stone starts. Seven metal target rows
+(557, 176, three directed 141 routes and two 742 checks) and frozen 825 use
+`requires_guaranteed_source`. When that condition is false,
+`traversal_rules.target_applies` skips the reviewed rule and preserves the
+legacy permissive rule. These fallbacks cannot survive starting removal.
+Making them unconditional without alternatives would instead reject many
+ordinary shuffled or mixed live-random policies. The final AP check audit
+cannot detect a missing native barrier.
+
+The smallest reusable design is to add reviewed statue-carry graphs to each
+existing target row, then remove its applicability condition once the complete
+alternative set is sound. Graphs within one row are OR alternatives; separate
+rows on the same target would combine as AND rules. Reuse
+`ordinary_hub_statues` and `statues_970`, cached graph compilation, actual source
+identities, permission filtering, independent access regions and exact route
+guards. Start carriers in Normal; owning an ability item does not equip Kirby.
+
+Ordinary hubs expose 15 distinct statue slots, with native Burning in 291/592
+and Ice in 290, but no native Smash. Copy Room 970 exposes all 19 slots,
+including Smash, behind the progression item `Copy Ability Room Access`.
+Its direct Central mirror does not require every hub switch. The reviewed
+970-to-Central retained-ability transition can be shared, but each onward
+approach still needs its own proof. Shuffled statues need not contain every
+required ability. Live statue retouch uses its existing documented contract;
+enemy weight 100 cannot produce a missing enemy ability.
+
+Prioritize the missing physical suffixes:
+
+1. **742:** reuse the retained-Burning 790/706/707 carrier, whose native capture
+   reaches 712. Explicitly represent its actual 712 arrival before composition;
+   its current graph terminal alone is not a downstream handoff contract.
+   Prove 712 through 741 to the same clean lower-742 entry without consuming the
+   randomized Flamer. Reuse the accepted same-visit bank/chest/Warp suffix.
+2. **141:** prove imported Burning through the actual 543 lower entry for both
+   forward targets and the 545 upper entry for the reverse target. Preserve
+   equipment through approach and bomb interactions. Existing local Flamer
+   captures do not prove these imported arrivals or a safe reverse return.
+3. **557/176:** bring Smash/Burning through the real 556/175 approaches and
+   defeat/release the arena while retaining that ability, without swallowing a
+   wrongly assigned Master Hand/Batafire. Post-defeat attack captures alone do
+   not establish this combined combat-and-carry path. Burning at 557 would be a
+   useful common alternative, but is not accepted by generic metal capability.
+4. **825:** carry statue Ice through the actual 831 lower entrance, retain it
+   through Frosty combat/release, and preserve the finite Waddle Dee at
+   `0x088CD318` for the frozen projectile. No Pengy carrier is inferred.
+
+The 825 change has a coordinated item-classification dependency:
+`goal2_ice_is_progression` currently requires guaranteed Frosty Ice. An accepted
+unconditional statue-Ice alternative must promote Ice whenever that enabled
+target needs its gated permission, independent of Frosty's assignment. Add
+regressions for enabled 825 + gating + non-Ice Frosty + a real reachable statue
+Ice source, absent Ice permission, source behind the chest, missing source
+access, disabled target category and gating off. Include an actual progression
+fill and a self-lock rejection, not only an all-inventory graph test. Do not
+change this predicate before the carrier is accepted.
+
+Do not replace these obligations with enemy-renewal flags or a larger policy
+budget. Native `FillLevelInfo` resets room state on reentry only when no other
+Kirby occupies the destination; ordinary solo includes three independently
+roaming CPU Kirbies (decompilation `7d969fb`).
+Existing captures do not prove wrong-grant exit/reentry or hold-L reacquisition.
+Mini needs a safe disposal/resize opportunity; Sleep needs a survivable wait
+until ordinary controls return. A room reset cannot fix zero output support or
+reroll a static shuffled assignment.
+
+After each accepted carrier, test local-or-statue alternatives under fixed,
+shuffled and live policies, excluded categories, weight 100, missing guards,
+equipment loss and source consumption. Keep the existing bounded source filter
+and final shared progression sweep. Report rejected policies separately from
+accepted generation, and run the release matrix above after all coordinated
+catalog, starting-policy and classification changes. This plan is research,
+not implemented carrier coverage or a generation-success guarantee.
 
 ## Remaining blockers
 

@@ -1192,14 +1192,18 @@
         {
           "id": "537:30,6",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "Beginning Notes floor plug. Entry from native538 at (44,3) does not prove a bypass: controller Down/Down+A could not descend the 0x0F-capped right shaft. Source/carry acceptance remains pending.",
+          "status": "reviewed_source_witness",
+          "note": "Actual190 Stone statue and six-door retained-Stone carrier enter537 from536, break dry floorF5(30..31,6..7), collect Beginning Notes flag1/AP3960514. Default/500 continuous no loss. Real source policy and independent hub access required; no right-shaft Normal bypass or other provider accepted. RoomSanity and exits are unchanged.",
           "tile_count": 4,
           "bounds": [
             30,
             6,
             31,
             7
+          ],
+          "accepted_target": "metal_537_beginning_notes",
+          "accepted_evidence": [
+            "native-537-stone-source-carrier-acceptance.json"
           ]
         }
       ]

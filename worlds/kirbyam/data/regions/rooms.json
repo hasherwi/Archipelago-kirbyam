@@ -2361,6 +2361,151 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_38": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": null
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_537_stone_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_537:143_arrival",
+              "native_room": 143
+            },
+            {
+              "id": "metal_537:141_lower_right",
+              "native_room": 141
+            },
+            {
+              "id": "metal_537:543_arrival",
+              "native_room": 543
+            },
+            {
+              "id": "metal_537:542_arrival",
+              "native_room": 542
+            },
+            {
+              "id": "metal_537:536_arrival",
+              "native_room": 536
+            },
+            {
+              "id": "metal_537:537_left_arrival",
+              "native_room": 537
+            },
+            {
+              "id": "metal_537:chest",
+              "native_room": 537
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_537:143_arrival",
+              "to": "metal_537:141_lower_right",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual143 to141 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:141_lower_right",
+              "to": "metal_537:543_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual141 to543 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:543_arrival",
+              "to": "metal_537:542_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual543 to542 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:542_arrival",
+              "to": "metal_537:536_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual542 to536 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:536_arrival",
+              "to": "metal_537:537_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual536 to537 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:537_left_arrival",
+              "to": "metal_537:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Stone"
+              ],
+              "metal_evidence": {
+                "Stone": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual536 left entry; dry downward Stone transform clearsF5(30..31,6..7). Untransform without discarding Stone, walk lower corridor and Up collects nativeflag1/AP3960514. Default/500 no-loss and retainedStone8. No horizontal-only provider, right-shaft Normal descent or underwater activation inferred."
+              },
+              "evidence": "Complete attack/passage/collection is atomic and terminal, with no opens/reset or reusable equipment export. dev-docs/ordinary-537-source-carrier-contract.md."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_537_beginning_notes",
+          "kind": "metal",
+          "native_room": 537,
+          "location": "MINOR_CHEST_MUSIC_NOTE_01",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_537_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_537:143_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual native190 Stone statue0x088B7CEC/STATUE:353900 is acquired, then native190 door0x879CF2 ->143 stored3,19/live40,296.996. No source substitution. Existing hub access/carry and alternative source assignments remain separately qualified by dev-docs/ordinary-537-source-carrier-contract.md; presence in190 is not independent Central access."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_537:chest"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_537_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_537:143_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual native190 Stone statue0x088B7CEC/STATUE:353900 is acquired, then native190 door0x879CF2 ->143 stored3,19/live40,296.996. No source substitution. Existing hub access/carry and alternative source assignments remain separately qualified by dev-docs/ordinary-537-source-carrier-contract.md; presence in190 is not independent Central access."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_537:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_40": {

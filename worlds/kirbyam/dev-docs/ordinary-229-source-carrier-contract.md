@@ -64,15 +64,87 @@ spent for each target.
   `ee6df89296c52c7f61b7853075450d40a6fad3b4`, identifies the other checks and potential
   shared upper corridor. It is static ownership evidence, not extra route acceptance.
 
-Spray32/AP3960508 at(584,136), interior food34/AP3960594 at(152,248), Warp230 and
-physical RoomSanity3961185/bit100 retain their previous rules. Food's F0(10..12,15)
-is distinct from exterior F5. The shared upper band may connect channels; this
-patch neither invents a permanent split nor certifies untested joins. Smallest
-remaining ordinary proofs are fresh Normal228 lower approach through an actual
-ordinary229 doorway, then sufficient Normal paths to Warp, Spray and the interior
-food pocket. Those checks must not inherit Hammer merely because this left-check
-trace carries it. Starting Stone/Burning removal remains blocked by the broader
-route/option audit.
+Spray flag 32 (AP 3960508) at (584, 136), interior food flag 34 (AP 3960594)
+at (152, 248), the Warp to native 230, and physical RoomSanity 3961185/bit 100
+retain their previous rules. Food's ordinary blocks at (10–12, 15) are distinct
+from the exterior metal barrier. The supplements below now establish separate
+sufficient Normal approaches to all three unrelated targets. They do not borrow
+the Hammer-gated left 1-Up route or add free internal joins. Starting Stone and
+Burning removal remains blocked by the broader route and option audit.
+
+### Independent Normal approaches: common boundary
+
+Each supplement establishes Normal by actual controller Select input in native
+205 before crossing the actual door into pristine native 228 at (408, 456.996).
+The default run starts at the preserved finite-Hammer approach checkpoint; the
+500% health run first replays 416 frames of the matching Hammer approach inside
+205, then discards it. The inherited Bonkers fixture qualification remains
+upstream only. Neither native 228 nor 229 has object or terrain edits, and the
+runs use no RAM writes. The existing flag 23 is inherited, not independent source
+or entrance evidence.
+
+From that stated frontier, all three routes remain Normal throughout, with 6 HP
+and no grabs at every audited frame. Every recorded native 228 segment leaves
+both metal cells (27, 23–24) at 245. None collects chest 30 or the Hammer-gated
+left 1-Up, flag 33. Their different actual left, middle and right doors remain
+explicit; the records do not certify arbitrary downward joins from the top band.
+These are separate sufficient paths, not a newly recorded single itinerary
+collecting all three targets.
+
+This follow-up changes evidence and tests only, with no room, item, source,
+target or topology changes. It does not establish Normal access through upstream
+205, a new source, a generated AP seed, or direct 1 HP play. Bounded failed input
+timings do not prove permanent channel isolation.
+
+### Normal Warp supplement
+
+`ordinary-229-normal-warp-acceptance.json`, exact blob
+`eeaef7ebfeb06ca175e981a6545dfe51d4cf5c84`, records ordinary Bomb and ladder paths
+to the middle doorway (22, 4), actual entry to the middle channel of native 229,
+and the actual Warp door to native 230. Both runs finish in native 230 at
+(360, 277.004). The Normal sequence has eight linked segments and 2,538 audited
+frames at both default and 500% health. Flags 30, 32, 33 and 34 remain unset.
+
+### Normal food supplement
+
+`ordinary-229-normal-food-acceptance.json`, exact blob
+`ba9a355d1310eb506283f3c461673cdfc6373ae3`, independently traverses the ordinary
+lower route through native 228, including Bombs (32, 15), (27, 7) and (12, 11).
+It waits 90 frames off the small plate to let the old activation expire, then
+uses fresh body contact, a jump and a slide beneath the naturally closing door.
+This is a transient timed sequence, not a persistent gate event or Hammer trigger.
+
+The actual left doorway (16, 4) enters native 229 at (264, 456.996). Normal
+activates Bomb (8, 26), climbs the staircase and approaches the interior food
+pocket. An air puff breaks ordinary block (12, 15), then a crouch-slide clears
+(11, 15) and (10, 15). Recorded block values progress from [240, 240, 240] through
+[240, 240, 0] to [0, 0, 0]. Actual Up interaction at (150, 248.996) sets flag 34
+mask 4. Both default and 500% health runs audit 4,847 Normal frames across 16
+linked segments; flags 30, 32 and 33 remain unset. No exterior metal attack is
+required for this interior check.
+
+### Normal Spray supplement
+
+`ordinary-229-normal-spray-acceptance.json`, exact blob
+`631e98ce077825127401ad4150ff882ee2fd93c5`, takes the ordinary lower route through
+native 228 and climbs to the right Mirra doorway. The accepted air puff occurs
+at x = 504, exactly 48 pixels from Mirra at x = 456. This stays outside Mirra's
+strict horizontal threat predicate, abs(dx) < 48. It is an exact approach and
+attack, not a blanket close-range Mirra rule. The doorway tile (28, 4) changes
+from 0 to 255 at continuation frame 110, before the actual transition to native
+229 at (456, 456.996) on frame 213.
+
+The right-channel ascent reaches the Spray chest at (585.996, 136.996) and sets
+flag 32 mask 1. The default run audits 3,206 Normal frames across 10 segments.
+The 500% health run audits 2,976 Normal frames across 11 segments and uses its own
+Metal Guardian dash-jump bypass. It does not reuse the default combat timing or
+assume the more durable enemy dies. Flags 30, 33 and 34 remain unset. No downward
+join through a one-way cap is needed or inferred.
+
+The exact historical Warp artifact still lists Food and Spray as unresolved,
+and the Food artifact still lists Spray as unresolved. Those immutable records
+retain their original qualifications; the later supplements above resolve the
+respective target paths only. No artifact is rewritten to imply broader proof.
 
 ## Bounded implementation validation
 
