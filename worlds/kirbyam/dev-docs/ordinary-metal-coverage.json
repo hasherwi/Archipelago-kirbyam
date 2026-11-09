@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback. Native216 now has one unconditional source-backed chest target using real hub statues and the reviewed291 carrier; other providers and arrivals remain unvalidated. Starting-inventory removal remains blocked.",
+  "implementation_status": "Native557 Goal1 tomato, native176 Goal2 drink, three directed native141 passages, and two clean native742 targets have bounded guaranteed-source witnesses. Other assignments and unaccepted routes remain unvalidated; starting-inventory removal remains blocked. Native141 reverse Bomb crossing is accepted; outward Mirra doors remain unaccepted. Native742 has no-loss native100%/500% enemy-HP evidence, source-backed positive-Kirby-HP equivalence and a same-visit joint-completion proof; no fullAP or direct1HP replay is claimed. Native707 now has one unconditional source-backed exit target with two OR access graphs; unsupported assignments remain closed rather than using a legacy permission-only fallback. Native216 now has one unconditional source-backed chest target using real hub statues and the reviewed291 carrier; other providers and arrivals remain unvalidated. Starting-inventory removal remains blocked. Native529 now has directed Normal Bomb/swim routes with all8F5 intact; fresh upper-left arrival is separate and no symmetric passage is assumed. Native228 now has one unconditional joint-Hammer chest target, with finite guaranteed Bonkers and renewable item-gated970 alternatives; no rope or229 route is inferred.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -388,8 +388,8 @@
         {
           "id": "228:27,23",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "Right-hand metal branch protects MINOR_CHEST_PEPPERMINT_PALACE_7_09, location 3960571, template 0x088C046C (1-Up). Accepted rope_228_11_21 documentation identifies separate OBJECT_02 chest 0x088C04D8, location 3960592 (Sparerib); metal entry/source and destructive branch interactions still require acceptance.",
+          "status": "reviewed_source_witness",
+          "note": "Exact right-hand minor3960571/template0x088C046C has joint retained-Hammer routes through209 minor23: finite guaranteed Bonkers or real item-gated970 statues via guarded hubs and the noncombat290/210/227/204/203 carrier. Both default/500% traces retainHammer, collect both flags and leave closingBombs untouched. Separate ropeflag31 and229 exit are outside this witness.",
           "target_identity": {
             "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
             "location_id": 3960571,
@@ -410,7 +410,8 @@
             23,
             27,
             24
-          ]
+          ],
+          "accepted_target": "metal_228_chest"
         }
       ]
     },
@@ -933,7 +934,7 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_CABBAGE_CAVERN/ROOM_3_03",
+            "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
             "REGION_CABBAGE_CAVERN/ROOM_3_05"
           ]
         }
@@ -974,20 +975,36 @@
         {
           "region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_CABBAGE_CAVERN/ROOM_3_01",
             "REGION_CABBAGE_CAVERN/ROOM_3_04",
-            "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB"
+            "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+            "REGION_CABBAGE_CAVERN/ROOM_3_03__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+            "REGION_CABBAGE_CAVERN/ROOM_3_03__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_03__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
         {
           "id": "529:8,5",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping. Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Fresh Normal100%/500% routes keep all8F5 intact: lower and upper-right join in both directions; lower reaches upper-left by opening four Bomb chains from below. Fresh upper-left returns only to512SUB in the conservative model, with no reverse metal or Bomb assumption.",
           "tile_count": 4,
           "bounds": [
             8,
@@ -995,13 +1012,30 @@
             9,
             6
           ],
-          "role_review_cluster_id": "529:8,5"
+          "role_review_cluster_id": "529:8,5",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-529-lower-upper-right-acceptance.json",
+            "ordinary-529-upper-right-lower-acceptance.json",
+            "native529-lower-to-upperleft-acceptance.json",
+            "native529-fresh-upperleft-return-and-boundary.json"
+          ],
+          "accepted_directions": [
+            "lower_to_upper_right",
+            "upper_right_to_lower",
+            "lower_to_upper_left",
+            "upper_left_return_to_512_sub"
+          ],
+          "excluded_directions": [
+            "fresh_upper_left_to_lower",
+            "fresh_upper_left_to_upper_right"
+          ]
         },
         {
           "id": "529:12,18",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping. Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Fresh Normal100%/500% routes keep all8F5 intact: lower and upper-right join in both directions; lower reaches upper-left by opening four Bomb chains from below. Fresh upper-left returns only to512SUB in the conservative model, with no reverse metal or Bomb assumption.",
           "tile_count": 4,
           "bounds": [
             12,
@@ -1009,7 +1043,24 @@
             13,
             19
           ],
-          "role_review_cluster_id": "529:12,18"
+          "role_review_cluster_id": "529:12,18",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-529-lower-upper-right-acceptance.json",
+            "ordinary-529-upper-right-lower-acceptance.json",
+            "native529-lower-to-upperleft-acceptance.json",
+            "native529-fresh-upperleft-return-and-boundary.json"
+          ],
+          "accepted_directions": [
+            "lower_to_upper_right",
+            "upper_right_to_lower",
+            "lower_to_upper_left",
+            "upper_left_return_to_512_sub"
+          ],
+          "excluded_directions": [
+            "fresh_upper_left_to_lower",
+            "fresh_upper_left_to_upper_right"
+          ]
         }
       ]
     },

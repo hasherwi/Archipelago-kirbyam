@@ -4450,7 +4450,15 @@
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_01": "can_swim",
       "REGION_CABBAGE_CAVERN/ROOM_3_04": "can_swim",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": "can_swim"
+      "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT": "can_swim"
+    },
+    "logical_subregions": {
+      "UPPER_LEFT": {
+        "locations": [],
+        "exits": {
+          "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": null
+        }
+      }
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
@@ -4471,6 +4479,9 @@
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_03": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_05": null
+    },
+    "logical_exit_overrides": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": "UPPER_LEFT"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_05": {
@@ -9233,6 +9244,44 @@
               "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual205 door29,17 reaches209 top at168,40.996; the subsequent top-pocket approach and Up set minor23 flag128 while retaining Stone. Terminal result grants no other209 compartment or reusable equipment state."
             }
           ]
+        },
+        "metal_205_hammer_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:floor_launch",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:door_threshold",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:209_top",
+              "native_room": 209
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:floor_launch",
+              "to": "metal_205:door_threshold",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-205-hammer-source-acceptance.json and ordinary-205-hammer-all500-acceptance.json: A1, release8, B1, wait60 twice destroys all four F5 atx21..22/y8..9; higher A6 timing failed. Both accepted traces retain Hammer with continuous6HP."
+              },
+              "evidence": "dev-docs/ordinary-205-209-directed-checks.md: the dry low aerial Hammer sequence crosses the floor, not a generic horizontal Burning or underwater floor attack. The same atomic retained-Hammer sequence includes swimming around the shelf, the final water Hammer attack and immediate approach to the209 door. No room-persistent opening is exported."
+            },
+            {
+              "from": "metal_205:door_threshold",
+              "to": "metal_205:209_top",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-hammer-all500-acceptance.json: swim around shelf without Bomb, left-facing water Hammer and prompt actual205 door29,17 into209 TOP, then Up sets minor23 flag128. The preceding atomic move includes the water attack; this last edge is only the door threshold crossing. Hammer retained on the accepted trace. Default independently accepted. No other209 compartment is granted."
+            }
+          ]
         }
       },
       "targets": [
@@ -9245,44 +9294,13 @@
             "bonkers_carry": {
               "version": 1,
               "status": "reviewed",
-              "nodes": [
-                {
-                  "id": "metal_205:floor_launch",
-                  "native_room": 205
-                },
-                {
-                  "id": "metal_205:door_threshold",
-                  "native_room": 205
-                },
-                {
-                  "id": "metal_205:209_top",
-                  "native_room": 209
-                }
-              ],
+              "nodes": [],
               "routes": [
                 {
                   "from": "metal_205:defeated_bonkers_arena",
                   "to": "metal_205:floor_launch",
                   "room_transition": true,
                   "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
-                },
-                {
-                  "from": "metal_205:floor_launch",
-                  "to": "metal_205:door_threshold",
-                  "capability": "metal",
-                  "allowed_abilities": [
-                    "Hammer"
-                  ],
-                  "metal_evidence": {
-                    "Hammer": "dev-docs/ordinary-205-hammer-source-acceptance.json and ordinary-205-hammer-all500-acceptance.json: A1, release8, B1, wait60 twice destroys all four F5 atx21..22/y8..9; higher A6 timing failed. Both accepted traces retain Hammer with continuous6HP."
-                  },
-                  "evidence": "dev-docs/ordinary-205-209-directed-checks.md: the dry low aerial Hammer sequence crosses the floor, not a generic horizontal Burning or underwater floor attack. The same atomic retained-Hammer sequence includes swimming around the shelf, the final water Hammer attack and immediate approach to the209 door. No room-persistent opening is exported."
-                },
-                {
-                  "from": "metal_205:door_threshold",
-                  "to": "metal_205:209_top",
-                  "room_transition": true,
-                  "evidence": "dev-docs/ordinary-205-hammer-all500-acceptance.json: swim around shelf without Bomb, left-facing water Hammer and prompt actual205 door29,17 into209 TOP, then Up sets minor23 flag128. The preceding atomic move includes the water attack; this last edge is only the door threshold crossing. Hammer retained on the accepted trace. Default independently accepted. No other209 compartment is granted."
                 }
               ],
               "starts": [
@@ -9292,19 +9310,18 @@
                 "metal_205:209_top"
               ],
               "graph_parts": [
+                "metal_205_hammer_carrier",
                 "metal_205_bonkers_approach"
-              ],
-              "sources": [
-                {
-                  "id": "0x088BF730",
-                  "node": "metal_205:defeated_bonkers_arena",
-                  "source_key": "BONKERS",
-                  "acquisition_evidence": "dev-docs/ordinary-205-source-carrier-contract.md: native Bonkers0x39 at440,232 has ability field0x351BA6=Hammer17; shared defeated-body inhale and swallow under actual policy. Finite source, no retry/respawn credit; disclosed essence is not a production placement."
-                }
               ],
               "access": {
                 "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
-              }
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
             },
             "central_statues": {
               "version": 1,
@@ -9386,7 +9403,19 @@
             }
           }
         }
-      ]
+      ],
+      "source_sets": {
+        "metal_210_bonkers": {
+          "native_room": 210,
+          "sources": [
+            {
+              "id": "0x088BF730",
+              "source_key": "BONKERS",
+              "acquisition_evidence": "dev-docs/ordinary-205-source-carrier-contract.md: native Bonkers0x39 at440,232 has ability field0x351BA6=Hammer17; shared defeated-body inhale and swallow under actual policy. Finite source, no retry/respawn credit; disclosed essence is not a production placement."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_08": {
@@ -9613,8 +9642,205 @@
               }
             }
           }
+        },
+        {
+          "id": "metal_228_chest",
+          "kind": "metal",
+          "native_room": 228,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+          "graphs": {
+            "bonkers_joint": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: resume the actual previously collected209 minor23 Hammer checkpoint, then actual209 return door9,2 ->205 stored29,18/live456,280.996. Matching parent ROM/checkpoint hashes and both flags prove one finite-source joint itinerary, not independent acquisition or assumed reset."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
+            "copy_room_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_228:970",
+                  "native_room": 970
+                },
+                {
+                  "id": "metal_228:801",
+                  "native_room": 801
+                },
+                {
+                  "id": "metal_228:290",
+                  "native_room": 290
+                },
+                {
+                  "id": "metal_228:210_lower",
+                  "native_room": 210
+                },
+                {
+                  "id": "metal_228:227",
+                  "native_room": 227
+                },
+                {
+                  "id": "metal_228:204",
+                  "native_room": 204
+                },
+                {
+                  "id": "metal_228:203",
+                  "native_room": 203
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_228:970",
+                  "to": "metal_228:801",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#copy-ability-room-access-and-source-contract: actual970 return record0x088B4AB8 trigger14,5 to801 stored5,4; ordinary retained-copy flight from the statues."
+                },
+                {
+                  "from": "metal_228:801",
+                  "to": "metal_228:290",
+                  "items": [
+                    "Peppermint Palace East - Hub Connection"
+                  ],
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network",
+                  "area_key_items": [
+                    "Peppermint Palace - Area Key"
+                  ]
+                },
+                {
+                  "from": "metal_228:290",
+                  "to": "metal_228:210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual290 lower door to210 bottom; retain imported Hammer and leave left without entering the Box Boxer arena."
+                },
+                {
+                  "from": "metal_228:210_lower",
+                  "to": "metal_228:227",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual210 door0x08888D0E trigger1,23 to227 stored58,17; lower corridor avoids the boss lock."
+                },
+                {
+                  "from": "metal_228:227",
+                  "to": "metal_228:204",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Enter shaft from above the intact rope platform on its right; no rope cutting. Actual227 door0x0888A310 trigger16,2 to204 stored56,9."
+                },
+                {
+                  "from": "metal_228:204",
+                  "to": "metal_228:203",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Ordinary bypass of the peg branch; actual204 door0x088870D4 trigger73,3 to203 stored3,19."
+                },
+                {
+                  "from": "metal_228:203",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual203 door0x08886F88 trigger59,4 to205 stored3,3; retain Hammer to the reviewed dry floor launch. No lower Box Boxer or Bonkers acquisition/release fixture."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: continuous fresh-boot itinerary collects209 minor23, then takes the actual209 return to205 water pocket retaining the same Hammer. No checkpoint splicing or reacquisition."
+                }
+              ],
+              "starts": [
+                "metal_228:970"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_228_hammer_continuation"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_970",
+                  "node": "metal_228:970",
+                  "retry_evidence": "Permanent970 statue retouch before departure; eventual positive-support Hammer acquisition is the existing documented fairness assumption. Full actual source outcomes are retained."
+                }
+              ],
+              "access": {
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "graph_parts": {
+        "metal_228_hammer_continuation": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_228:205_water_return",
+              "native_room": 205
+            },
+            {
+              "id": "metal_228:228_lower_arrival",
+              "native_room": 228
+            },
+            {
+              "id": "metal_228:chest",
+              "native_room": 228
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_228:205_water_return",
+              "to": "metal_228:228_lower_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: retained-Hammer water-gun/Bomb shaft ascent, outer205 spike-gap flight and attack timing, then actual205 door44,2 ->228 stored26,29/live408,456.996. Default3634/max5003934 whole continuation frames remain6HP/Hammer17. This private carrier is qualified by the final Hammer-only action, not an independent Normal route."
+            },
+            {
+              "from": "metal_228:228_lower_arrival",
+              "to": "metal_228:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-228-joint-hammer-acceptance.json: ascend lower caps from below, grounded rightward Hammer near409.926,392.996 clears F5(27,23)/(27,24). Continue under the partition and up the far-right shaft, approach chest0x088C046C from the right, and Up sets flag30=64 while retaining prior flag23=128/Hammer17. Neither closing Bomb17,23 nor32,15 is activated; their F3 cells remain243. No down-through-cap or other attack provider is inferred."
+              },
+              "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: complete same-room attack/collection is atomic and terminal. No opened flag, enemy deletion, room-reset persistence, new source or equipment recovery is exported. Separate rope chest flag31 remains0; no229 route is accepted."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_10": {

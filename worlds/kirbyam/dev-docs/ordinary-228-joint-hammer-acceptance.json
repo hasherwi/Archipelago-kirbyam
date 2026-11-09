@@ -1,0 +1,1930 @@
+{
+  "schema_version": 1,
+  "purpose": "Joint finite-source Hammer itinerary: collected native209 minor23 to native228 minor30 without reacquisition, reset, or ability loss.",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "qualification": {
+    "source": "Linked prior layered Bonkers-source acceptance, not a new combined Bonkers fight/capture replay. Original source accessibility and defeated-body Hammer grant remain separate source evidence.",
+    "parent_artifact_blobs": {
+      "100": "7c1c78f3eb0abb18b89e474f70f2c46a976722fc",
+      "500": "ea041dfe45f124b0f9893c1780ea19cb693426b3"
+    },
+    "inherited_fixture": "Native USA startup210 at400,240; Bonkers template file0x8BF730 replaced by Hammer statue type0x93/subtype6; scroll-lock file0x8BF5C8 moved x384 to2000 as disclosed post-defeat release fixture. No terrain or attack changes. This extension resumes each accepted actual209 minor23-collected checkpoint, not a new source or room reset.",
+    "extension": "Only controller inputs and read-only observations. No runtime state writes, new equipment fixture, dropped-star recovery, or source reacquisition. Separate replay branches use matching100/500 ROMs and states.",
+    "health": "Native ROM with production-equivalent500% health transform, not a full generated AP seed or direct1HP replay. Every frame checks HP and ability; no HP decreases or ability loss occurred. Source/combat assumptions inherited from parent evidence are not retested here.",
+    "max_health_scaler": {
+      "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+      "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+      "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+    }
+  },
+  "route": [
+    "Actual209 return door file0x8883D4 (9,2) to205 stored(29,18).",
+    "Water-gun clearance and water Bomb shaft ascent with retained Hammer.500% uses additional interception inputs and40-frame shaft timing; default inputs alone were rejected at500%.",
+    "Cross outer205 using accepted puff/Hammer timing and spike-gap flight; actual205 door file0x887306 (44,2) to228 stored(26,29).",
+    "Ascend lower228 via one-way caps from below. Ground rightward Hammer at approximately(409.926,392.996) clears F5(27,23) and(27,24).",
+    "Go underneath the partition, ascend far-right shaft, pass initial F3(32,11..12), approach chest from right and press Up. No closing Bomb is activated."
+  ],
+  "target": {
+    "template": "0x088C046C",
+    "position": [
+      480,
+      200
+    ],
+    "native_flag": 30,
+    "ap_location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+    "joint_readbacks": {
+      "flag23": 128,
+      "flag30": 64,
+      "flag31": 0
+    },
+    "excluded": "Separate rope chest0x088C04D8/flag31; no claim of its collection or a generic228 compartment join."
+  },
+  "readbacks": {
+    "hp": "0x02020FE0",
+    "ability": "0x02020FE3",
+    "flag23": "0x02038962 & 128",
+    "flag30": "0x02038963 & 64",
+    "flag31": "0x02038963 & 128",
+    "collision": "0x02024ED0 + y*46+x in observed228 group0"
+  },
+  "bomb_order": {
+    "untouched_trigger17_23": 241,
+    "untouched_closing_cell17_19": 243,
+    "untouched_trigger32_15": 241,
+    "untouched_closing_cells32_11_and32_12": 243,
+    "note": "These trigger and closing-cell values are checked at every228 segment endpoint; final F5 pair is0. No room exit/reset occurs after entering228."
+  },
+  "controller_keys": {
+    "A": 1,
+    "B": 2,
+    "Right": 16,
+    "Left": 32,
+    "Up": 64,
+    "Down": 128
+  },
+  "runs": {
+    "100": {
+      "rom_sha256": "d6b5d464e7eb1d100d8838c35625cafc0820d787ba0f2349dae2cc76a17566c7",
+      "parent_checkpoint": "hammer209collected",
+      "initial": {
+        "room": 209,
+        "x": 53.6171875,
+        "y": 56.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      "initial_flags": [
+        128,
+        0
+      ],
+      "segments": [
+        {
+          "id": "jointHammer209return",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 315,
+            "room": 205,
+            "x": 456,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205shaft",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              360,
+              32
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              30,
+              128
+            ],
+            [
+              5,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1432,
+            "room": 205,
+            "x": 406,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 1848,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer228entry",
+          "inputs": [
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2078,
+            "room": 228,
+            "x": 408,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228lowerwalk",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 2348,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 357.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228metalapproach",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              90,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2554,
+            "room": 228,
+            "x": 456.41015625,
+            "y": 396.11328125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightbottom",
+          "inputs": [
+            [
+              100,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 2824,
+            "room": 228,
+            "x": 556.49609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightshaft",
+          "inputs": [
+            [
+              15,
+              17
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              15,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3094,
+            "room": 228,
+            "x": 553.99609375,
+            "y": 229.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228chest",
+          "inputs": [
+            [
+              18,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3492,
+            "room": 228,
+            "x": 454,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228collect",
+          "inputs": [
+            [
+              22,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3634,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            64,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        }
+      ],
+      "audited_frame_count": 3634
+    },
+    "500": {
+      "rom_sha256": "a7fc22189406419ee739cafc1c37507106a9c6f7f29beb23e69bee23e9ea3faf",
+      "parent_checkpoint": "all500-hammer209collected",
+      "initial": {
+        "room": 209,
+        "x": 53.6171875,
+        "y": 56.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      "initial_flags": [
+        128,
+        0
+      ],
+      "segments": [
+        {
+          "id": "jointHammer209return",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 315,
+            "room": 205,
+            "x": 456,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer500shaft40",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              360,
+              32
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              30,
+              128
+            ],
+            [
+              5,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1732,
+            "room": 205,
+            "x": 406,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 2148,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer228entry",
+          "inputs": [
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2378,
+            "room": 228,
+            "x": 408,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228lowerwalk",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 2648,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 357.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228metalapproach",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              90,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2854,
+            "room": 228,
+            "x": 456.41015625,
+            "y": 396.11328125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightbottom",
+          "inputs": [
+            [
+              100,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3124,
+            "room": 228,
+            "x": 556.49609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightshaft",
+          "inputs": [
+            [
+              15,
+              17
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              15,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3394,
+            "room": 228,
+            "x": 553.99609375,
+            "y": 229.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228chest",
+          "inputs": [
+            [
+              18,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3792,
+            "room": 228,
+            "x": 454,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228collect",
+          "inputs": [
+            [
+              22,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3934,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "flags": [
+            128,
+            64,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        }
+      ],
+      "audited_frame_count": 3934
+    }
+  }
+}

@@ -58,11 +58,13 @@ helpers and exits. This is a worklist, not a 81-gate implementation.
 
 The [role review](ordinary-metal-role-review.json) gives provisional roles to all
 47 initially unknown clusters. Current totals are 25 with no required AP passage,
-21 optional non-AP-loot clusters, 15 clusters in the two existing Normal-bypass
-rooms, 13 potential AP exit clusters and seven potential AP check clusters.
+21 optional non-AP-loot clusters, 17 clusters in three reviewed Normal-bypass
+rooms, 11 potential AP exit clusters and seven potential AP check clusters.
 A role classification does not certify a whole-room route or accept a provider.
-In particular, native502 overhead clearance, native529 directed underwater/pit
-routes, and native736's top-left exit retain explicit unresolved questions.
+In particular, native502 overhead clearance and native736's top-left exit retain
+explicit unresolved questions. Native529 now has fresh default/500% no-loss
+Normal Bomb/swim proofs: lower/right approaches join, while fresh upper-left
+entry remains a distinct compartment with only its512SUB return.
 
 Native312 F5 uses orange ruin masonry artwork, so collision identity rather
 than silver-looking pixels defines this inventory. Native736 cannon-ring F5 is

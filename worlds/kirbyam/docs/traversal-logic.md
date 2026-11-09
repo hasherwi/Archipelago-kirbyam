@@ -15,8 +15,8 @@ the separate room-access feature's evidence and limits.
 
 Access is permission to enter, not equipment or an ability-unlock grant. The
 nineteen room 970 statue sources are owned by `REGION_COPY_ABILITY_ROOM/MAIN` and
-shared by exactly two traversal consumers: the Wheel 108 chest and Smash 149 peg
-carriers. Each consumer requires independently reachable room 970; the shared source set
+shared by three traversal consumers: the Wheel 108 chest, Smash 149 peg and
+joint Hammer 228 chest carriers. Each consumer requires independently reachable room 970; the shared source set
 also requires the access item at acquisition. Actual statue assignments, category
 inclusion/exclusion, eligible output pools, and ability-item gates still apply.
 Fixed excluded statues supply their native Wheel/Smash grants only after reaching
@@ -1987,3 +1987,34 @@ for exact source identities, independent access, finite versus renewable policy,
 full controller/scaler qualifications and unreviewed alternatives. Check IDs and
 physical RoomSanity IDs/bits are unchanged. Starting Stone/Burning removal still
 depends on the remaining ordinary-metal coverage and option audit.
+
+### Native529 directed ordinary passages
+
+Cabbage Cavern Room3 needs no new source or metal-provider predicate for its
+reviewed routes. Fresh Normal default/500% controller runs join lower and
+upper-right approaches in both directions and reach the upper-left doorway
+from below through the Bomb chains, without destroying any of the eight F5
+tiles. Fresh upper-left arrival is kept separate: it can return to512SUB but
+does not borrow the opened lower approach. One terminal RoomSanity sink serves
+both compartments, preserving check3961090 and bit185.
+
+The [directed topology contract](../dev-docs/ordinary-529-directional-topology.md)
+identifies the actual door records, fresh-layout proofs and fixture limits.
+There is no symmetric upper-left-to-lower edge, metal ownership shortcut,
+equipment-preserving carry claim, or new room-reset assumption.
+
+### metal_228_chest
+
+One fail-closed chest target ORs the finite joint Bonkers-Hammer witness with
+real item-gated970 statues. Both paths collect native209 minor23 and then228
+minor30 with the same Hammer, without reacquisition or an assumed source reset.
+The renewable carrier uses actual290→210 lower→227→204→203→205 travel, avoiding
+Box Boxer and the intact rope/peg branches. It requires independent970 access,
+Copy Ability Room Access, Peppermint East connection, optional Area Key and
+Hammer permission. The imported290 fixture never becomes a production source.
+
+See [the joint source/carrier contract](../dev-docs/ordinary-228-source-carrier-contract.md)
+for exact identities, live-retouch assumptions, no-loss default/500% evidence and
+health qualification. Closing Bombs remain untouched; separate ropeflag31 and
+229 traversal are outside this gate. Full source outcomes are preserved;
+unsupported policies fail closed rather than falling back to ownership alone.

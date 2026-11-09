@@ -24,6 +24,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
 
 ### Bug Fixes
+- Require an actual Hammer source and reviewed carry route for the Peppermint Palace7-9 metal chest. Joint native traces preserve the same Hammer through its earlier Room7 chest; renewable Copy Ability Room statues support mixed-live source policies without assuming a lucky Bonkers grant. The separate rope chest and starting abilities are unchanged.
+- Keep Cabbage Cavern Room3's fresh upper-left entrance separate from its lower/right passages. Preserve the directed Normal Bomb and swimming routes without requiring a metal ability or duplicating its room check.
 - Keep Peppermint Palace's three chest-room approaches and Snow hallway separate. Require a reviewed Bonkers-Hammer or renewable statue-backed Stone route through the Room7 floor, preserving exact check IDs and one room check per physical room. Starting abilities remain unchanged.
 - Require a reviewed physical Burning source and carry route for the Peppermint Palace7-19 metal chest, while preserving both ordinary exits and its room check. Other ordinary-metal work and starting-ability removal remain unfinished.
 - Reject seeds that leave enabled Kirby checks unreachable, including under minimal accessibility. Reuse bounded source-assignment validation for minimal and audit actual placed progression after finalization; no starting abilities are removed by this safety guard.

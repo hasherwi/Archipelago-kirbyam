@@ -60,7 +60,7 @@ def main() -> None:
     from worlds.kirbyam.enemy_ability_data import ABILITY_NAME_TO_ID
     from worlds.kirbyam.test import traversal_reference as reference
     from worlds.kirbyam.test.test_traversal import policy
-    from worlds.kirbyam.traversal_data import graph_items, room_traversal_graph
+    from worlds.kirbyam.traversal_data import graph_items, room_traversal_graph, room_traversal_targets
 
     permissions = frozenset(f"{name} Ability" for name in ABILITY_NAME_TO_ID)
     cases = (
@@ -70,6 +70,11 @@ def main() -> None:
         ("216_native", "metal_216_chest", "central_statues", 0, False),
         ("216_live_finite", "metal_216_chest", "central_statues", 2, False),
         ("216_live_retries", "metal_216_chest", "central_statues", 2, True),
+        ("205_hammer_native", "metal_205_to_209_top", "bonkers_carry", 0, False),
+        ("205_stone_live_retries", "metal_205_to_209_top", "central_statues", 2, True),
+        ("228_hammer_native", "metal_228_chest", "bonkers_joint", 0, False),
+        ("228_statues_native", "metal_228_chest", "copy_room_statues", 0, False),
+        ("228_statues_live_retries", "metal_228_chest", "copy_room_statues", 2, True),
         ("742_native", "metal_742_sparerib", "clean_carry", 0, False),
         ("557_native", "metal_557_goal1_tomato", "local", 0, False),
         ("peg605_native", "peg_605_12_24", "carry", 0, False),
@@ -79,6 +84,9 @@ def main() -> None:
         "python": sys.version.split()[0], "reference": "181c6e9faeb97040723d0786d4b6f1fc31156441",
         "scope": "Paired full-result evaluations; same graph, policy and owned items; compilation/imports excluded",
         "samples": args.samples, "evaluations_per_sample": args.number, "cases": {},
+        "catalog_witnesses": sum(len(row["graphs"])
+                                 for kind in ("mini", "peg", "wheel", "fuse", "rope", "block", "reinforced", "metal")
+                                 for row in room_traversal_targets(kind)),
     }
     for name, target, witness, mode, retries in cases:
         graph = room_traversal_graph(target, witness, True)

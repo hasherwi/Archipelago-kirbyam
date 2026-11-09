@@ -79,7 +79,7 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
                 "reviewed_source_witness"}
             assert cluster["note"].strip()
             if cluster["status"] == "existing_normal_bypass":
-                assert room["native_room"] in {814, 819}
+                assert room["native_room"] in {529, 814, 819}
                 assert cluster["classification"] == "bypass"
 
 
@@ -145,10 +145,18 @@ def test_map_role_review_does_not_promote_route_acceptance() -> None:
             assert key == cluster["id"]
             row = rows[key]
             assert row["native_room"] == room["native_room"]
-            assert row["proposed_classification"] == cluster["classification"]
+            historical_role = cluster.get("role_review_classification", cluster["classification"])
+            assert row["proposed_classification"] == historical_role
             assert row["status"] == "map_role_reviewed"
             assert row["evidence"] and row["limitations"] and row["sources"]
-            assert cluster["status"] == "pending_route_acceptance"
+            if room["native_room"] == 529:
+                # The map role itself remains unchanged. Later, separately
+                # audited fresh native routes establish the directed bypass.
+                assert cluster["status"] == "existing_normal_bypass"
+                assert cluster["accepted_evidence"]
+                assert all((ROOT / "dev-docs" / path).is_file() for path in cluster["accepted_evidence"])
+            else:
+                assert cluster["status"] == "pending_route_acceptance"
             assert "accepted_target" not in cluster
             referenced.add(key)
     assert referenced == set(rows)

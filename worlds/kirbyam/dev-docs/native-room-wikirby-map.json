@@ -2164,12 +2164,13 @@
       "completion_index": 185,
       "object_list_index": 185,
       "ap_keys": [
-        "REGION_CABBAGE_CAVERN/ROOM_3_03"
+        "REGION_CABBAGE_CAVERN/ROOM_3_03",
+        "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT"
       ],
       "wiki_title": "Cabbage Cavern - Room 3",
       "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
       "verification": "page",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Directed Normal Bomb routes join lower/right approaches; fresh upper-left entry is separate and returns only to512SUB. One physical RoomSanity check."
     },
     {
       "native_id": 530,

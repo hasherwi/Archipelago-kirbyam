@@ -201,7 +201,7 @@ def test_every_970_source_reference_uses_copy_room_item_and_independent_region()
                 assert not any(graph.evaluate(SourcePolicy({'mode': 0}),
                                               owned - {'Copy Ability Room Access'}, False).reaches(target)
                                for target in graph.required_targets)
-    assert checked == 2
+    assert checked == 3
 
 
 def test_source_set_item_requirements_union_without_replacing_placement_items(bundle):

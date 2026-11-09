@@ -6,9 +6,9 @@ import pytest
 from BaseClasses import CollectionState
 
 from ..traversal import SourcePolicy
-from ..traversal_data import graph_items
+from ..traversal_data import graph_items, room_traversal_graph
 from ..wheel_traversal import (
-    CENTRAL_REGION, COPY_ROOM_REGION, HUB_SWITCH_LABELS, RACE_ENTRANCE, wheel_graph,
+    CENTRAL_REGION, COPY_ROOM_REGION, HUB_SWITCH_LABELS, RACE, RACE_ENTRANCE, wheel_graph,
 )
 from .test_mini_traversal import make_world
 
@@ -20,14 +20,26 @@ def test_all_mode_statue_fallback_uses_actual_assignment(mode, statues, gating):
     world = make_world(mode, gating, ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=100)
     policy = SourcePolicy(world._enemy_copy_ability_policy, bool(statues))
-    from ..traversal_data import room_traversal_graph
-    graph = (wheel_graph(False) if mode == 0
-             else room_traversal_graph("wheel_108_chest", "hub_statues" if statues else "statues", True))
-    items = graph_items(graph)
-    assert graph.evaluate(policy, items | {"Wheel Ability"}, gating,
-                          allow_documented_retries=True).reaches("chest")
-    assert graph.evaluate(policy, items, gating,
-                          allow_documented_retries=True).reaches("chest") == (not gating)
+    reachable = []
+    for witness in RACE["graphs"]:
+        graph = room_traversal_graph(RACE["id"], witness, True)
+        # Source feasibility resampling may put Wheel on a970-only statue
+        # (for example Smash). The statues toggle does not guarantee that the
+        # ordinary hub graph has a provider; production ORs all three graphs.
+        providers = []
+        for source in graph.placements:
+            grant = policy.grant(source.source_key, lambda _: True)
+            providers.append("Wheel" in grant.guaranteed or bool(
+                source.renewable and source.retry_evidence and grant.randomized and "Wheel" in grant.abilities))
+        expected = any(providers)
+        items = graph_items(graph)
+        actual = graph.evaluate(policy, items | {"Wheel Ability"}, gating,
+                                allow_documented_retries=True).reaches("chest")
+        assert actual == expected, witness  # Also reject a hub with no actual Wheel source.
+        assert graph.evaluate(policy, items, gating,
+                              allow_documented_retries=True).reaches("chest") == (expected and not gating)
+        reachable.append(actual)
+    assert any(reachable)
 
 
 def test_only_audited_return_resets_room_and_retains_wheel():
