@@ -169,9 +169,9 @@ describes freezing a Waddle Dee and kicking it through the wall onto the switch.
 - AP check: `MINOR_CHEST_MUSIC_NOTE_10`, location **3960523**.
 - This is relevant through-wall interaction evidence, but it contradicts a
   restrictive whitelist containing only Beam, UFO, and Master.
-- Test whether those abilities can operate this particular switch, and model
-  availability of a freezeable enemy if the Ice solution is later admitted.
-  The room's boss and goal exit are separate targets.
+- Current main already includes the conditional `frozen_825_sound_effects` traversal for a guaranteed Mr. Frosty → Ice source. The [committed acceptance record](https://github.com/hasherwi/Archipelago-kirbyam/blob/7a198f4ff09a0b3a279dc61bc420bc57a0d62c10/worlds/kirbyam/dev-docs/block-hit-acceptance.json) records two fresh-boot upper-arena replays collecting chest 66/music bit 0x400. This is not proof of every incoming route or arbitrary randomized Ice source; the fixture starts in the upper arena rather than the actual lower arrival.
+- Native Waddle Dee template (528,136) and switch (656,144) are 128px apart horizontally. The observed frozen enemy at x522.496 is 133.504px from the switch center; the later launched observation at x562.496 is already in motion. These are room geometry and successful-route measurements, not a maximum flight distance. The map is [Olive Ocean Goal 2](https://cdn.wikirby.com/1/13/KaTAM_6-G2_Map.png).
+- Other abilities remain untested for this switch. Ice permission, source acquisition, enemy availability and timed door traversal must all be retained. Any expanded permanent-Ice provider also needs progression-item classification review; merely listing Ice as a possible source is insufficient. The room's boss and goal exit are separate targets.
 
 ## 5. Radish Ruins - Chest 2: safer optional route
 
@@ -341,3 +341,10 @@ by 35/24. This correction adds rooms and instances but grants no gameplay rule.
 - Target-specific range caution: Spark's Bomb Block scan extends 26px sideways, Beam's scan envelope 55px forward, and Ice breath's source/RNG scan envelope 64.40625px. These differ from damage boxes and require tile quantization and placement checks. Kicked frozen enemies do not directly scan Bomb Blocks; their documented small-switch interaction must not become a Bomb Block rule. See the source report for all moves, directions, limits, and pinned code.
 
 - [Carrot Castle Room 7 controlled comparison](carrot-room7-native-witness.md): Beam opens the recessed Bomb Block and enters native 734's lower 1-Up compartment; no reward collection is claimed. Beam's no-attack control and Spark standing/jumping runs remain in 719. Beam succeeds at x86, 55px from the target tile edge, while the tested slightly farther stance fails. Spark's necessary-origin envelope lies inside the sealed solid/linked cluster or outside the room, excluding direct Spark activation under ordinary collision. This does not exclude glitches, helper actions, alternate entries, or untested abilities.
+
+## Final static geometry reconciliation
+
+- [Remote small-switch geometry](remote-small-switch-geometry.md) confirms native 147 has an initially clear firing lane, while native 310 and 533 have genuine solid 0x0D obstructions at switch height. These are not interchangeable wall-independent projectile cases. Initial contact bounds, elevation, Gordo/pit hazards, and the distinction between switch counters and animated gate timing are recorded.
+- [Unavailable-room chain analysis](unavailable-room-chain-geometry.md) traces native 819, 621 and 218 exactly. Room 819's trigger is exposed from below through water; room 621 has a crumble/lower-bomb sequence exposing the upper trigger's right face; room 218 has an upward-platform approach to a right-exposed trigger. None establishes mandatory wall piercing. The conditional cell paths are not controller/body-clearance proofs, and no unavailable WiKirby prose is inferred.
+
+The documentation inventory and source-derived range survey are complete at this evidence level. Unknown per-move route acceptance, source policies, helper behavior and empirical maximum-distance sweeps remain explicitly unproven, rather than being encoded as gameplay capabilities. The 13-page prose gap remains separately tracked pending independently available evidence.
