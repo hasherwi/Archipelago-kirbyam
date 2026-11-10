@@ -314,3 +314,16 @@ including scoped starting-inventory reconciliation. See
 `cabbage-parasol-source-witness.md` and `cabbage-parasol-acceptance.json`.
 Existing Beam, Smash, Fire and Missile routes, exits and RoomSanity remain
 unchanged. No global range, other move, other target or source renewal follows.
+
+## Carrot Room7: bounded Sword repeated slash
+
+A separate guaranteed lower WADDLE_DOO→Sword graph OR-composes with unchanged
+Beam/Fighter graphs on `bomb_719_room13`. Independent Room5/native170 entry,
+finite acquisition and actual Sword carry lead to the dry three-tap111 combo.
+The attached Sword scanner opens F1(1,14) and15F2, then ordinary movement reaches
+734 lower. Four HP1/6 × enemy100/500 positives and matched controls establish
+this path without damage or landing waves; at500%, Big Waddle survives the
+carry hit while Kirby passes. Only ENTRY_FROM_5_07 is changed, not Secret Notes,
+rewards, other exits or RoomSanity. Sword already has a gateable progression
+permission. See `carrot-room7-sword-witness.md` and its compact acceptance JSON
+for raw hashes, startup qualifications and native-versus-host coverage limits.

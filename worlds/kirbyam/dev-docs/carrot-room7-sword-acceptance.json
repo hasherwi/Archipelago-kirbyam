@@ -1,0 +1,1006 @@
+{
+  "version": 1,
+  "status": "PASS",
+  "scope": "Natural finite lower Waddle Doo -> Sword18 from independently reachable native170; Sword-specific carry; repeated-slash111 opens native719 F1(1,14)+15F2 and physical734 lower entry only.",
+  "source_commit": "2fc41e31e99ba612777c9916a0b7f6eaf867555d",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "generation_seed": 4,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 14749067020901597923,
+    "mapping_style": "per_enemy_type"
+  },
+  "target": {
+    "id": "bomb_719_room13",
+    "region": "REGION_CARROT_CASTLE/ROOM_5_07",
+    "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+    "native_room": 719,
+    "lower_destination": 734,
+    "capability": "bomb_719_sword_repeated_slash",
+    "f1": [
+      1,
+      14
+    ],
+    "linked_f2_count": 15
+  },
+  "source": {
+    "template": "0x088D3BF4",
+    "source_key": "WADDLE_DOO",
+    "native_room": 719,
+    "native_xy": [
+      568,
+      456
+    ],
+    "finite": true,
+    "normal_start_room": 170,
+    "table_offset": "0x3517FE",
+    "bitmap_bit": 18,
+    "natural_ability": 18,
+    "observation": {
+      "frame": 1198,
+      "room": 719,
+      "type": 18,
+      "copy": 7,
+      "x": 568.0,
+      "y": 453.99609375
+    }
+  },
+  "shared_run_facts": {
+    "frames": [
+      1085,
+      3393
+    ],
+    "retained_sword_from": 1420,
+    "ingress": {
+      "frame": 1188,
+      "room": 719,
+      "x": 680.0,
+      "y": 456.99609375,
+      "ability": 0
+    },
+    "helpers_stay_101": true,
+    "ai": 0,
+    "humans": 1,
+    "client_config_writes": [
+      {
+        "frame": 1085,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "e3c244c5",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "4f36afcc",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "feffff03",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      }
+    ],
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+  },
+  "setup": {
+    "ability_gating": 0,
+    "area_keys": 0,
+    "normal_entry_fixture_only": true,
+    "fixture_allowed_ranges": [
+      [
+        "0x2D8CB8",
+        "0x2D8CC0"
+      ],
+      [
+        "0x2D8CD0",
+        "0x2D8CF0"
+      ]
+    ],
+    "fixture_byte_differences": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 170
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 216
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 88
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "gameplay_ram_writes": 0,
+    "runtime_rom_writes": 0,
+    "state_restores": 0,
+    "equipment_edits": 0,
+    "source_renewals": 0,
+    "phone_inputs": 0,
+    "helper_contribution": false,
+    "blank_battery_before_first_frame": true
+  },
+  "native_combo": {
+    "target_b_taps": [
+      3093,
+      3102,
+      3106
+    ],
+    "pose": [
+      86,
+      232.99609375
+    ],
+    "repeated_slash_start": 3110,
+    "target_frame": 3114,
+    "player_animation": 111,
+    "player_header": 5,
+    "weapon": {
+      "task": "0x3001ba8",
+      "object": "0x3003d18",
+      "task_fn": "0x80753cd",
+      "kind": 2,
+      "room": 719,
+      "template": null,
+      "parent": "0x2020ee0",
+      "type": null,
+      "hp": null,
+      "copy": null,
+      "x": 86.0,
+      "y": 232.99609375,
+      "flags": "0xa2084101",
+      "mask": "0xb3002003",
+      "scan_box": [
+        14,
+        -12,
+        55,
+        1
+      ],
+      "sprite_box": [
+        -55,
+        -12,
+        -14,
+        1
+      ],
+      "anim_id": 152,
+      "variant": 0,
+      "state": null
+    },
+    "chain": {
+      "task": "0x3001be4",
+      "object": "0x30040f8",
+      "task_fn": "0x800e27d",
+      "kind": 2,
+      "room": 719,
+      "template": null,
+      "parent": "0x3003d18",
+      "type": null,
+      "hp": null,
+      "copy": null,
+      "x": 24.0,
+      "y": 232.0,
+      "flags": "0x4200",
+      "mask": "0x0",
+      "scan_box": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "sprite_box": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "anim_id": 653,
+      "variant": 0,
+      "state": null
+    },
+    "integer_scan_rectangle": [
+      31,
+      220,
+      72,
+      233
+    ],
+    "all_f2_clear_frame": 3150,
+    "target_animations": [
+      0,
+      52,
+      53,
+      111
+    ],
+    "tile_deltas": [
+      {
+        "frame": 2122,
+        "changes": [
+          {
+            "x": 28,
+            "y": 12,
+            "before": 240,
+            "after": 0
+          },
+          {
+            "x": 27,
+            "y": 13,
+            "before": 240,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 2129,
+        "changes": [
+          {
+            "x": 26,
+            "y": 12,
+            "before": 240,
+            "after": 0
+          },
+          {
+            "x": 26,
+            "y": 14,
+            "before": 240,
+            "after": 0
+          },
+          {
+            "x": 28,
+            "y": 14,
+            "before": 240,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 2186,
+        "changes": [
+          {
+            "x": 24,
+            "y": 14,
+            "before": 240,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 2210,
+        "changes": [
+          {
+            "x": 22,
+            "y": 14,
+            "before": 240,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 2223,
+        "changes": [
+          {
+            "x": 20,
+            "y": 14,
+            "before": 240,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3114,
+        "changes": [
+          {
+            "x": 1,
+            "y": 14,
+            "before": 241,
+            "after": 255
+          }
+        ]
+      },
+      {
+        "frame": 3120,
+        "changes": [
+          {
+            "x": 1,
+            "y": 13,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 2,
+            "y": 14,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3126,
+        "changes": [
+          {
+            "x": 1,
+            "y": 12,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 2,
+            "y": 13,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 3,
+            "y": 14,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3132,
+        "changes": [
+          {
+            "x": 1,
+            "y": 11,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 2,
+            "y": 12,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 3,
+            "y": 13,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 4,
+            "y": 14,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3138,
+        "changes": [
+          {
+            "x": 2,
+            "y": 11,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 3,
+            "y": 12,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 4,
+            "y": 13,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3144,
+        "changes": [
+          {
+            "x": 3,
+            "y": 11,
+            "before": 242,
+            "after": 0
+          },
+          {
+            "x": 4,
+            "y": 12,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      },
+      {
+        "frame": 3150,
+        "changes": [
+          {
+            "x": 4,
+            "y": 11,
+            "before": 242,
+            "after": 0
+          }
+        ]
+      }
+    ],
+    "landing_wave_tasks_in_positive_traces": 0,
+    "landing_wave_task": "0x08080130",
+    "arrival": {
+      "frame": 3284,
+      "room": 734,
+      "x": 200.0,
+      "y": 216.99609375,
+      "ability": 18
+    }
+  },
+  "carry_big_waddle": {
+    "100": {
+      "2785": {
+        "hp": 2,
+        "x": 185.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      },
+      "2786": {
+        "hp": -3,
+        "x": 186.0,
+        "y": 305.99609375,
+        "flags": "0x11240924"
+      },
+      "2822": null,
+      "2882": null,
+      "2942": null,
+      "2962": null
+    },
+    "500": {
+      "2785": {
+        "hp": 10,
+        "x": 185.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      },
+      "2786": {
+        "hp": 5,
+        "x": 186.0,
+        "y": 305.99609375,
+        "flags": "0x11240824"
+      },
+      "2822": {
+        "hp": 5,
+        "x": 180.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      },
+      "2882": {
+        "hp": 5,
+        "x": 210.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      },
+      "2942": {
+        "hp": 5,
+        "x": 240.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      },
+      "2962": {
+        "hp": 5,
+        "x": 250.5,
+        "y": 305.99609375,
+        "flags": "0x10200004"
+      }
+    }
+  },
+  "identical_positive_player_trajectory_all_four_endpoints": true,
+  "runs": [
+    {
+      "name": "100-1hp-positive",
+      "hp": 1,
+      "enemy_health_percent": 100,
+      "positive": true,
+      "hp_min": 1,
+      "final": {
+        "frame": 3393,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 1,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [],
+      "target_frame": 3114,
+      "all_f2_clear_frame": 3150,
+      "arrival_frame": 3284,
+      "hashes": {
+        "commands.json": "ba02a405f3f7df6afd0c4598ebd9df5206baee84499da12d228e1d12e59d2ceb",
+        "states.json": "7b7f664930fdff706713ca3f5bc4dc72573533f2a964982505a7d8e1ab8a7b76",
+        "changes.json": "4054813cd6e5acab0f6d15c0ae3cd040c398b7bcec03bf82d5b257a8601d5ee1",
+        "health.json": "a04d1ab72b55e90e9e46af5dc92ca8664788f9c808650339d6da2e1d2c5b0e05",
+        "tile-deltas.json": "7afe9043a56e58974ede2e43ea4256b4fada3f9812ce9a7f6503fc06f3883d04",
+        "runtime.json": "e3a6c65baaac84386f181f0a93fcd6569e9587255fe1d0db54e4d555d8995142",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "100-1hp-control",
+      "hp": 1,
+      "enemy_health_percent": 100,
+      "positive": false,
+      "hp_min": 1,
+      "final": {
+        "frame": 3393,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 1,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [
+        3093,
+        3102,
+        3106
+      ],
+      "target_frame": null,
+      "all_f2_clear_frame": null,
+      "arrival_frame": null,
+      "hashes": {
+        "commands.json": "69584431c45a521072e6f279c025c2290cd934abf0a81eb9cad57644bcaf8eac",
+        "states.json": "2c715fd92e91eec4eb007bacfbe935413684882bdbd46993d4b75815827b52c6",
+        "changes.json": "8a0abc5d11cf65fd94855ecda23837396b1b35eea79f16e6e9261ea2b14b177c",
+        "health.json": "a04d1ab72b55e90e9e46af5dc92ca8664788f9c808650339d6da2e1d2c5b0e05",
+        "tile-deltas.json": "3c6898401c46a94a6d7fb01aea71a8beed630dd221f25b47d6801dbe093b510a",
+        "runtime.json": "1780287d57d7dbc886926e00240e1ddef839734f875a278916a24067dbf21934",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "100-6hp-positive",
+      "hp": 6,
+      "enemy_health_percent": 100,
+      "positive": true,
+      "hp_min": 6,
+      "final": {
+        "frame": 3393,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 6,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [],
+      "target_frame": 3114,
+      "all_f2_clear_frame": 3150,
+      "arrival_frame": 3284,
+      "hashes": {
+        "commands.json": "ba02a405f3f7df6afd0c4598ebd9df5206baee84499da12d228e1d12e59d2ceb",
+        "states.json": "8146fe6f54f17518f03f4a2dc66ed2f258699e180dfda56d0851ac2efb750d27",
+        "changes.json": "e9e0889659fbfd103352f4c1ac7753b9b4d457fc1c195335772fd4f00ff3e0b9",
+        "health.json": "39ae1eb37e10e276f5eadc949ff75604fccb41c10e2d9e7a42b6c72f77f68ade",
+        "tile-deltas.json": "7afe9043a56e58974ede2e43ea4256b4fada3f9812ce9a7f6503fc06f3883d04",
+        "runtime.json": "eb4e477bbd38a77ba8c15802cf18f52241335ddf44b4cdb47405f2629a1cee12",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "100-6hp-control",
+      "hp": 6,
+      "enemy_health_percent": 100,
+      "positive": false,
+      "hp_min": 6,
+      "final": {
+        "frame": 3393,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [
+        3093,
+        3102,
+        3106
+      ],
+      "target_frame": null,
+      "all_f2_clear_frame": null,
+      "arrival_frame": null,
+      "hashes": {
+        "commands.json": "69584431c45a521072e6f279c025c2290cd934abf0a81eb9cad57644bcaf8eac",
+        "states.json": "3e76513ba1c3523511f1d7601404344bb7bb1cac6a3c3d38088826e1eeee82ca",
+        "changes.json": "c5671bfa2d92b2b596e81fa45ec26bb74b0eb51d454727eea0b52c2ac516c206",
+        "health.json": "39ae1eb37e10e276f5eadc949ff75604fccb41c10e2d9e7a42b6c72f77f68ade",
+        "tile-deltas.json": "3c6898401c46a94a6d7fb01aea71a8beed630dd221f25b47d6801dbe093b510a",
+        "runtime.json": "855a1e2e9ee3bdcb16154dd96fe4bbdd8407569df576cb74df35159099d6b640",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "500-1hp-positive",
+      "hp": 1,
+      "enemy_health_percent": 500,
+      "positive": true,
+      "hp_min": 1,
+      "final": {
+        "frame": 3393,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 1,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [],
+      "target_frame": 3114,
+      "all_f2_clear_frame": 3150,
+      "arrival_frame": 3284,
+      "hashes": {
+        "commands.json": "ba02a405f3f7df6afd0c4598ebd9df5206baee84499da12d228e1d12e59d2ceb",
+        "states.json": "93a2ec1641fbc16b8cc9bfc91a7733856240d1c983b6ab63004c3c078539faaa",
+        "changes.json": "210a837111edc5e634d7955fe0423b0fd2d61525cd240628b8677f8e90d1cd8c",
+        "health.json": "a04d1ab72b55e90e9e46af5dc92ca8664788f9c808650339d6da2e1d2c5b0e05",
+        "tile-deltas.json": "7afe9043a56e58974ede2e43ea4256b4fada3f9812ce9a7f6503fc06f3883d04",
+        "runtime.json": "cb2822d4f1db586a213fd8ea8a73fd0b6784787688e8ce049f41da71d4750879",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "500-1hp-control",
+      "hp": 1,
+      "enemy_health_percent": 500,
+      "positive": false,
+      "hp_min": 1,
+      "final": {
+        "frame": 3393,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 1,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [
+        3093,
+        3102,
+        3106
+      ],
+      "target_frame": null,
+      "all_f2_clear_frame": null,
+      "arrival_frame": null,
+      "hashes": {
+        "commands.json": "69584431c45a521072e6f279c025c2290cd934abf0a81eb9cad57644bcaf8eac",
+        "states.json": "eb82efb47d4cf9902468f9cf516517288befbf22aed6875b3742f474d2038206",
+        "changes.json": "5ccb798448c483cef342ee7e053c94b4e269cfc47ee7b9e8a7ae1f0596a5df42",
+        "health.json": "a04d1ab72b55e90e9e46af5dc92ca8664788f9c808650339d6da2e1d2c5b0e05",
+        "tile-deltas.json": "3c6898401c46a94a6d7fb01aea71a8beed630dd221f25b47d6801dbe093b510a",
+        "runtime.json": "5699c77dbda11961260426f26d4dfe01d44c227e9f57c8aaebd09b19f7a8d6ef",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "500-6hp-positive",
+      "hp": 6,
+      "enemy_health_percent": 500,
+      "positive": true,
+      "hp_min": 6,
+      "final": {
+        "frame": 3393,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 6,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [],
+      "target_frame": 3114,
+      "all_f2_clear_frame": 3150,
+      "arrival_frame": 3284,
+      "hashes": {
+        "commands.json": "ba02a405f3f7df6afd0c4598ebd9df5206baee84499da12d228e1d12e59d2ceb",
+        "states.json": "e9c598f8a210cfe48912751e9fdccc3ba37834bb373d85918532944801522b7a",
+        "changes.json": "06d176a5d987d0a4cef12235b6e9d2e1a8e849ab33e739fecb352a6b76467e37",
+        "health.json": "39ae1eb37e10e276f5eadc949ff75604fccb41c10e2d9e7a42b6c72f77f68ade",
+        "tile-deltas.json": "7afe9043a56e58974ede2e43ea4256b4fada3f9812ce9a7f6503fc06f3883d04",
+        "runtime.json": "96eee56c97301815deb2d8849c4b047ffc8be2a835c61fd7c669f63fee93b429",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    },
+    {
+      "name": "500-6hp-control",
+      "hp": 6,
+      "enemy_health_percent": 500,
+      "positive": false,
+      "hp_min": 6,
+      "final": {
+        "frame": 3393,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 18
+      },
+      "input_changes_vs_positive": [
+        3093,
+        3102,
+        3106
+      ],
+      "target_frame": null,
+      "all_f2_clear_frame": null,
+      "arrival_frame": null,
+      "hashes": {
+        "commands.json": "69584431c45a521072e6f279c025c2290cd934abf0a81eb9cad57644bcaf8eac",
+        "states.json": "9f51c65e3458ad2e60cf317a156190cc219e1f683f96d83cf439440c7445ff52",
+        "changes.json": "4b8e7575e42374a5d9feee573aff9eea36ba102fb59b63024fff80ade9144d8f",
+        "health.json": "39ae1eb37e10e276f5eadc949ff75604fccb41c10e2d9e7a42b6c72f77f68ade",
+        "tile-deltas.json": "3c6898401c46a94a6d7fb01aea71a8beed630dd221f25b47d6801dbe093b510a",
+        "runtime.json": "d18da608d14d8c2654cebd4918797a490f9b94c155f44c5792fcdfaa78f201a7",
+        "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+      }
+    }
+  ],
+  "matched_controls": {
+    "100-1hp": {
+      "identical_every_frame_through": 3093,
+      "changed_only_three_B_frames": [
+        3093,
+        3102,
+        3106
+      ],
+      "result": "positive734;control719,sealed"
+    },
+    "100-6hp": {
+      "identical_every_frame_through": 3093,
+      "changed_only_three_B_frames": [
+        3093,
+        3102,
+        3106
+      ],
+      "result": "positive734;control719,sealed"
+    },
+    "500-1hp": {
+      "identical_every_frame_through": 3093,
+      "changed_only_three_B_frames": [
+        3093,
+        3102,
+        3106
+      ],
+      "result": "positive734;control719,sealed"
+    },
+    "500-6hp": {
+      "identical_every_frame_through": 3093,
+      "changed_only_three_B_frames": [
+        3093,
+        3102,
+        3106
+      ],
+      "result": "positive734;control719,sealed"
+    }
+  },
+  "builds": {
+    "100-1hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "sha256": {
+        "production.apkirbyam": "a2fef4568a802ec9254e25b10ec0e86b1f2d8c90a40fdb871912369160a894ad",
+        "production.gba": "943b3a2197cd88b7f37b0ca0046ba2fa7631a4803aee0672bbf829af2b66ff9d",
+        "fixture.gba": "4cf711222a965f52ee16e852e87beddcfd1e5e5f499f84f057bd0b338f603ec7",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      }
+    },
+    "100-6hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "sha256": {
+        "production.apkirbyam": "c5d1e1d699ee4b00946e3f14b0ca879434addf2156b625fdbe315d4af2e28c51",
+        "production.gba": "e2a4b419ba92e5ccc25039a4f6e4259b137499d2f6019d833379e93993498354",
+        "fixture.gba": "8d5d199e219e18fbaef1044205f09ec13be07c00381747c830586ba8a80a5402",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      }
+    },
+    "500-1hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "sha256": {
+        "production.apkirbyam": "975ee7bdc5eb84747ea7908336ec595a7e6304bdef843d452cd66afa00b098ff",
+        "production.gba": "6d7771b1b028631ee6bca6f38561eee6688da0990af540a772779d58ab63dcd9",
+        "fixture.gba": "f2f0c10e0380a36285d8eabb7f47ae53412ce50281b47a93a7ecedfbed6809c5",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      }
+    },
+    "500-6hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "sha256": {
+        "production.apkirbyam": "c2c0c219f669055e0fa10d82b7bd7ba469aa68ee3ebf6702964e24f5c9029651",
+        "production.gba": "26ad2952256494414dc3d36cc5da069bef492388e38c64d6aa54192e1edb59d7",
+        "fixture.gba": "47ddce9dd25a5d16336df8b97a32d7eef3a70422a81aa81102e3cb40705cda46",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      }
+    }
+  },
+  "private_artifact_sha256": {
+    "REPORT.md": "7304386010f41edcc29fe40b4ec3383043d9f57173e69cbb062afa1a15bb7d8d",
+    "acceptance.json": "42fca243109af3d364684ed66eb308aff7a10b51992a0753c5860c9c7aced1e3",
+    "combo-inputs.json": "ba02a405f3f7df6afd0c4598ebd9df5206baee84499da12d228e1d12e59d2ceb",
+    "audit.py": "42778dc11961e1a694d6bb5d9680dcda0af296ec966f133606cdfa21e071d2e2",
+    "build.py": "127bdbb5b0160e360eef4868f1f53ea9e37a8559377ded10250cce1dba45b9b8",
+    "summarize.py": "e0fb4b282d051e7659cf7a5363aa4a3e67a3cedcd61464073eb402bdc5eaa43f",
+    "runtime_support-frozen.py": "d65b82733820fdf7c39ad6a61cf629415727b1e3d7f617d959f63de6ecd12e73",
+    "FINAL-SHA256SUMS": "2b1d95a7b704469e18cf5fe5bdc86359d923a2ba6c1df0ffa3641386748b25f8"
+  },
+  "native_source_sha256": {
+    "src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+    "src/code_0806F780.c": "c1379a8c878d5863485a31d276b24336ac147764bc282f70854447b6e4f38963",
+    "src/sprite.c": "480e3c8848caffa0e6602b28e2d24133448f1a2983351b2c198113734bb386ea",
+    "asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a"
+  },
+  "preserved_graph_sha256": {
+    "room5_entry": "27f3a97188f0523ddc2f723f62894eb079752964dc540fb1831f43e19138dc8a",
+    "room5_fighter_entry": "c50dec1012d51bc0e5b834581e966e0f26b7c99915ca5cabbc02396463dfdc07"
+  },
+  "limits": [
+    "Startup ROM room/position redirect near the native170 doorway, not game-start access proof.",
+    "Only HP1 and6 with enemy100 and500 replayed. HP2-5/intermediate multipliers not independently replayed.",
+    "At500 the Big Waddle survives5HP through player passing; route does not require a kill threshold.",
+    "Ability gating disabled in runtime fixtures; source permission and equipment are distinct in production logic.",
+    "No blanket Sword range, landing wave proof, source renewal, reward collection, Secret Notes, other exit, AP delivery, gameplay write, save-state restore or helper contribution is claimed.",
+    "Production gating-on, source-policy, options, starting-inventory and fill checks are host tests, not additional native replays."
+  ]
+}

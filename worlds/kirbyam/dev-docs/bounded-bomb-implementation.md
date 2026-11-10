@@ -20,6 +20,8 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_517_missile_blast` | Same exact Room517 F1 (14,7) and Chocolate chest | Down-right local Missile detonation with a ±24 tile scanner |
 | `bomb_517_parasol_swing` | Same exact Room 517 F1 (14,7) and Chocolate chest | Dry active forward swing with actual bounds (16,-11,48,11), not held umbrella |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
+| `bomb_719_fighter_first_combo` | Same lower-entry gate, ordinary first combo | Fighter |
+| `bomb_719_sword_repeated_slash` | Same lower-entry gate, three-tap animation111 | Sword |
 | `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 
 Both route endpoints must belong to the named native room and use the reviewed
@@ -77,9 +79,14 @@ is not replaced by room-wide enemy assumptions:
   are separate OR graphs inside one target row. Fire and Missile guard the
   raw source policy before permission filtering, rejecting mixed random pools.
   Spark/Ice target-hit witnesses still do not establish their source carry routes.
-- Carrot719: installed only for guaranteed WADDLE_DOO→Beam, using the lower
-  native Doo(568,456) and independent Room5 access. The other Doo(616,232) is
-  recorded in the complete source inventory, not substituted into this route.
+- Carrot719: installed only for guaranteed WADDLE_DOO→Beam/Fighter/Sword, using
+  the lower native Doo(568,456) and independent Room5 access. Separate Beam,
+  [Fighter](carrot-room7-fighter-witness.md) and
+  [Sword](carrot-room7-sword-witness.md) OR graphs preserve their own carry and
+  target attacks. Sword guards the raw singleton source before permission
+  filtering; its three-tap111 combo is not a general range or landing wave.
+  The other Doo(616,232) is recorded in the complete source inventory, not
+  substituted into this route.
 
 Do not set a capability-only permission on these AP targets. Rainbow binds its
 outgoing110→554 edge and the separate Green Paint check only; Cabbage binds

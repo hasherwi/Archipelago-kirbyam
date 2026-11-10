@@ -171,6 +171,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_517_parasol_swing": frozenset({"Parasol"}),
         "bomb_719_room13": frozenset({"Beam"}),
         "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
+        "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
         "switch_533_bomb_placement": frozenset({"Bomb"}),
         "switch_533_ufo_top_charge": frozenset({"UFO"}),
         "switch_533_crash_viewport": frozenset({"Crash"}),

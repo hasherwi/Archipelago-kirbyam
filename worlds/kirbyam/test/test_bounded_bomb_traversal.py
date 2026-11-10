@@ -18,6 +18,7 @@ CASES = (
     (517, 'bomb_517_parasol_swing', {'Parasol'}),
     (719, 'bomb_719_room13', {'Beam'}),
     (719, 'bomb_719_fighter_first_combo', {'Fighter'}),
+    (719, 'bomb_719_sword_repeated_slash', {'Sword'}),
     (533, 'switch_533_bomb_placement', {'Bomb'}),
     (533, 'switch_533_ufo_top_charge', {'UFO'}),
     (533, 'switch_533_crash_viewport', {'Crash'}),

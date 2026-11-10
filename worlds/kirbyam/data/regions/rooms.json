@@ -7139,7 +7139,8 @@
             "source_key": "WADDLE_DOO",
             "abilities": [
               "Beam",
-              "Fighter"
+              "Fighter",
+              "Sword"
             ]
           },
           "graphs": {
@@ -7260,6 +7261,85 @@
                   "to": "bomb_719_room13:left_door",
                   "capability": "bomb_719_fighter_first_combo",
                   "evidence": "dev-docs/carrot-room7-fighter-witness.md; dry left-facing ordinary first combo at(86,232.996) opens F1(1,14) and fifteen F2 cells, then actual734 lower entry. No other surface credit."
+                }
+              ]
+            },
+            "room5_sword_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Sword"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:sword_pose",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-sword-witness.md; Normal actual170 ingress1188, original finite lower Doo(568,456), natural Sword18 acquisition1420; full-pool seed4. No source refresh or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Actual170 doorway to719 lower arrival as Normal. Independent AP Room5 access remains required; startup fixture is not game-start reachability proof."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Normal approach and finite lower Doo swallow naturally equips Sword18 at1420."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:sword_pose",
+                  "required_equipment": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Sword-specific attacks, ladder flight and crouch slides retain Sword and initial HP through legal dry left-facing pose(86,232.996) at3093. Big Waddle survives at500%; carry does not require its defeat."
+                },
+                {
+                  "from": "bomb_719_room13:sword_pose",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_sword_repeated_slash",
+                  "required_equipment": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Three B taps3093/3102/3106 enter111, attached Sword clearsF1(1,14) at3114 and15F2 by3150; ordinary movement enters734 lower at3284. No landing wave, finisher, reward, Secret Notes or other exit credit."
                 }
               ]
             }
