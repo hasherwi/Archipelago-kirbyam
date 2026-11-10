@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map route in `mustard-map-ufo-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -204,3 +204,35 @@ world binding and full fills separately. No persistent switch credit,
 whole-room effect, arbitrary camera pose, other target, environmental Foley
 explosion or Phone/helper equivalence is granted. See
 `mustard-room15-crash-source-witness.md` and the compact acceptance manifest.
+
+## Olive Sound Effects: finite Frosty UFO alternative
+
+`frozen_825_sound_effects` now OR-composes guaranteed singleton MR_FROSTY→UFO
+with its unchanged Ice graph on the same optional Sound Effects chest,
+`MINOR_CHEST_MUSIC_NOTE_10` /3960523 in ROOM_6_GOAL_2/native825. Independent
+ROOM_6_14/native831 access starts at its verified bottom-left arrival from its
+sole normalized incoming ROOM_6_12/native814. Normal crosses the complete
+current/spike maze and physically enters825 at the lower arrival. The startup814
+right-door fixture does not establish arbitrary814 arrival or traversal.
+
+The original finite Frosty is defeated with Normal's native ammunition and
+swallowed to acquire UFO, then carried to the exact dry top-charge firing pose.
+The shot activates the timed small switch; physical gate crossing and chest66
+collection follow. Separate interception runs show damage18 kills WaddleHP2/10
+and the identical live shot continues to the switch. No persistent switch credit,
+renewable source, frozen-Waddle payload, generic UFO attack or other-target
+ranged equivalence is granted. UFO's existing progression classification and
+Ice's original source-qualified promotion remain unchanged.
+
+The original ten endpoint runs remain separately qualified to the831 door
+alcove. Eight continuous814→831→825 runs cover actual HP1/6 × enemy100/500,
+positive and matched no-target-attack controls. Two further cold attribution runs
+identify all3/15 Frosty hits and the activating beam as player0-parented. These
+are discrete endpoints, not a health continuum. Native fixtures use gating and
+keys off; host policy, permission, optional-chest, statue, key and full1HP fill
+tests are separate. Only eight fenced startup client writes occur; no gameplay
+writes, restores, Phone/shoulder or multiplayer inputs. Other Kirbys are autonomous
+offscreen actors:101 at100%, moving101→106 in long500% runs, never814/831/825;
+no helper route projectile or source contribution is credited. Client check capture
+is local, not server submission. Unsupported assignments retain partial behavior.
+See `olive-sound-effects-ufo.md` and its separate endpoint/composition JSON records.

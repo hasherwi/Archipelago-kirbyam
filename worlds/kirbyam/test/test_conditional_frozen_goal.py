@@ -65,7 +65,8 @@ def test_conditional_binding_matrix(monkeypatch, mode, minibosses, pool, weight,
     if not applies or not enabled:
         assert target.access_rule is original_rule
     owned = set()
-    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned)
+    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned,
+                            can_reach_region=lambda name, player: False)
     assert target.access_rule(state) is (not (applies and enabled and gating))
     owned.add('Ice Ability')
     assert target.access_rule(state)

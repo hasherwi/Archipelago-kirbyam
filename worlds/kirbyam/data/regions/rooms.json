@@ -7517,7 +7517,10 @@
           "location": "MINOR_CHEST_MUSIC_NOTE_10",
           "requires_guaranteed_source": {
             "source_key": "MR_FROSTY",
-            "ability": "Ice"
+            "abilities": [
+              "Ice",
+              "UFO"
+            ]
           },
           "graphs": {
             "local": {
@@ -7579,6 +7582,93 @@
                   "node": "frozen_825_sound_effects:launch",
                   "source_key": "WADDLE_DEE",
                   "acquisition_evidence": "Distinct native target at (528,136), finite instance. Swallowing consumes it and cannot also produce a projectile."
+                }
+              ]
+            },
+            "ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_14"
+              },
+              "nodes": [
+                {
+                  "id": "frozen_825_sound_effects:ufo_entry831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_door831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_arrival",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_arena",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_launch",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_chest",
+                  "native_room": 825
+                }
+              ],
+              "starts": [
+                "frozen_825_sound_effects:ufo_entry831"
+              ],
+              "required_targets": [
+                "frozen_825_sound_effects:ufo_chest"
+              ],
+              "routes": [
+                {
+                  "from": "frozen_825_sound_effects:ufo_entry831",
+                  "to": "frozen_825_sound_effects:ufo_door831",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Native814 doorway enters831 at bottom-left (40,280.996), its sole normalized incoming route. Continuous cold HP1/6 and enemy100/500 runs traverse the complete current/spike maze as Normal and reach the far-right825 door. Independent access is ROOM_6_14, not arbitrary814 arrival."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_door831",
+                  "to": "frozen_825_sound_effects:ufo_arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Physical native831 far-right door enters825 at (280,296.996), after the verified complete Normal maze traversal."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_arrival",
+                  "to": "frozen_825_sound_effects:ufo_arena",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Continuous native lower arrival route reaches Frosty arena as Normal without helper attacks or imported equipment."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_arena",
+                  "to": "frozen_825_sound_effects:ufo_launch",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "evidence": "Defeat original Frosty with Normal native ammunition, swallow dizzy source and carry acquired UFO to the dry firing pose; no source refresh."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_launch",
+                  "to": "frozen_825_sound_effects:ufo_chest",
+                  "capability": "switch_825_ufo_top_charge",
+                  "evidence": "Top-charge beam damage18 kills intercepted Waddle HP2/10 and continues to small button0x088CD360; cross timed gate0x088CD33C and collect chest66/client3960523. No persistent switch credit or weaker-charge equivalence."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088CD3F0",
+                  "node": "frozen_825_sound_effects:ufo_arena",
+                  "source_key": "MR_FROSTY",
+                  "acquisition_evidence": "Original finite Frosty HP30/150 defeated with Normal shots; swallow dizzy source to acquire guaranteed singleton UFO. Cold endpoint runs preserve actual Kirby HP1/6. No retries, gameplay writes or restores."
                 }
               ]
             }
