@@ -1,11 +1,11 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "native permission/receipt/tutorial evidence; no helper traversal certification",
   "base_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
   "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
   "runtime_writes": "Only the logged Phone protocol grant in gate147-final. No runtime writes, state loads, pose changes or ability injection in either tutorial replay.",
   "input_format": "GBA held-key bitmask: A1 B2 Select4 Start8 Right16 Left32 Up64 Down128 R256 L512; start and frames are cumulative video frames from cold boot. Checkpoints follow the corresponding input segment.",
-  "tutorial_control": "Both runs use exactly the same245 input segments and31422 frames. Room, position, HP, ability, AI state, battery, function state and CPU room snapshots agree through frame30992. At31052 enabled-unowned remains at battery2 in native float state; disabled control spends one battery and enters native call state. No Phone grant occurs in either run.",
+  "tutorial_control": "Both runs use exactly the same 245 input segments and 31,422 frames. Room, position, HP, ability, AI state, battery, function state and CPU room snapshots agree through frame 30,992. At 31,052 the enabled, unowned run remains at battery 2 in native float state; the disabled control spends one battery and enters native call state. No Phone grant occurs in either run.",
   "runs": [
     {
       "identity": {
@@ -216,7 +216,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -272,7 +272,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -328,7 +328,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -384,7 +384,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -440,7 +440,7 @@
           "caller": 0,
           "num": 4,
           "state": "0x8057ad1",
-          "kirby_flags": "0x0",
+          "kirby_unkC": "0x0",
           "cpu_rooms": [
             147,
             148,
@@ -496,7 +496,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1001010",
+          "kirby_unkC": "0x1001010",
           "cpu_rooms": [
             147,
             147,
@@ -552,7 +552,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             801,
             147,
@@ -608,7 +608,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x80412ad",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             801,
             147,
@@ -841,7 +841,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -897,7 +897,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             147,
             148,
@@ -953,7 +953,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x803ff65",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             801,
             148,
@@ -1009,7 +1009,7 @@
           "caller": 255,
           "num": 4,
           "state": "0x80412ad",
-          "kirby_flags": "0x1010",
+          "kirby_unkC": "0x1010",
           "cpu_rooms": [
             801,
             148,
@@ -5702,5 +5702,9 @@
       },
       "checkpoint_selection": "Milestones and control comparison. All input segments retained; exploratory intermediate screenshots and snapshots omitted."
     }
-  ]
+  ],
+  "field_semantics": {
+    "kirby_unkC": "32-bit Kirby base + 0x0C. Previously mislabeled kirby_flags; this is not base.flags at +0x08. No recorded value changed.",
+    "flags": "Global word at 0x0203AD10, not the per-Kirby base.flags field."
+  }
 }
