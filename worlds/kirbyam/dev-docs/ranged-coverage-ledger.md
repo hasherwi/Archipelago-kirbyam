@@ -1,10 +1,10 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The four source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the selective Rainbow Green Paint route and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 35 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 36 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -91,6 +91,26 @@ from the finite source do not gain an eventual-draw promise. Spark/Ice carries, 
 RoomSanity reachability, arbitrary health interpolation and global Smash
 collision equivalence remain unproved. Carrot's condition remains Beam-only.
 See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
+
+## Rainbow Green Paint selective lower trigger
+
+`bomb_138_green` gates only `MINOR_CHEST_SPRAY_PAINT_04` in Room28/native138
+for guaranteed SPARKY→Spark. Independent Room27 UPPER_LEFT/native532 access,
+Normal arrival, finite original Sparky acquisition and intact carry are required.
+A 300-frame clearing pause precedes the selective lower F1 (36,13) attack;
+upper F1 (37,12) stays intact through physical chest collection and client check
+3960503. Four natural-mode, gating-off cold boots cover actual HP1/6 × enemy
+100%/500%, with no damage or ability loss. Matched no-attack and both-trigger
+controls fail to collect. The latter is not a strict upper-first control.
+
+Enemy health supports 50–500%; 50–99% and 101–499% were not replayed.
+Guaranteed same-Spark randomized assignments and gating-on behavior have logic
+tests, not new native acceptance. Unsupported source assignments retain the
+prior partial pattern. The existing Room8 Spark progression condition already
+covers this source policy even with optional paint disabled. Other checks,
+exits, RoomSanity and Area Keys are unchanged; no global F1/Spark equivalence
+or finite random-source retry guarantee is introduced. See
+`rainbow-green-source-witness.md` and `rainbow-green-source-runtime.json`.
 
 ## Extended static target census
 

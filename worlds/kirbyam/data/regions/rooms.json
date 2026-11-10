@@ -1768,6 +1768,82 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_27": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_29": "can_break_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_138_green",
+          "kind": "block",
+          "native_room": 138,
+          "location": "MINOR_CHEST_SPRAY_PAINT_04",
+          "requires_guaranteed_source": {
+            "source_key": "SPARKY",
+            "ability": "Spark"
+          },
+          "graphs": {
+            "upper_left_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_138_green:upper_left",
+                  "native_room": 532
+                },
+                {
+                  "id": "bomb_138_green:arrival",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:source",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:chest",
+                  "native_room": 138
+                }
+              ],
+              "starts": [
+                "bomb_138_green:upper_left"
+              ],
+              "required_targets": [
+                "bomb_138_green:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9F90",
+                  "node": "bomb_138_green:source",
+                  "source_key": "SPARKY",
+                  "acquisition_evidence": "dev-docs/rainbow-green-source-witness.md; original finite Sparky at (496,88), inhaled with Normal after the original 532 upper-left door enters 138. Natural mode 0 acceptance; guaranteed same-Spark assignments are logic extrapolation, not randomized runtime proof."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_138_green:upper_left",
+                  "to": "bomb_138_green:arrival",
+                  "room_instance": "reset",
+                  "reset_evidence": "Original 532 door enters a fresh native 138 instance; dev-docs/rainbow-green-source-witness.md.",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; Normal starts inside 532 upper-left at (72,56.996), takes original door tile (2,3) to 138 spawn (44,7), actual arrival (696,104.996). Base 532 or upper-right access is insufficient."
+                },
+                {
+                  "from": "bomb_138_green:arrival",
+                  "to": "bomb_138_green:source",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; Normal approach to original Sparky, finite swallow at 1544. No substituted source, helper, restore or gameplay write."
+                },
+                {
+                  "from": "bomb_138_green:source",
+                  "to": "bomb_138_green:chest",
+                  "capability": "bomb_138_green",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; intact dry Spark carry includes the 300-frame clearing hold at 3287. Selective lower F1 (36,13) opens at 3755 while upper F1 (37,12) stays intact; physical chest 0x088B9FD8 yields check 3960503 at 3989. Actual HP 1/6 and enemy health 100%/500% tested; 50-99% and 101-499% not replayed. No general F1, exit or persistent event claim."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_29": {

@@ -51,7 +51,11 @@ def goal2_ice_is_progression(world: Any) -> bool:
 
 
 def rainbow_spark_is_progression(world: Any) -> bool:
-    """The conditional Room8 doorway uses a gateable Spark permission."""
+    """Room8 and optional Green Paint share the guaranteed Sparky permission.
+
+    Room8 remains enabled when minor chests are disabled, so Green Paint adds
+    no new promotion condition. Inventory is still permission, not equipment.
+    """
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     return (isinstance(raw, dict) and world._ability_gating_enabled()
             and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"}))

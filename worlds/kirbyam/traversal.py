@@ -32,6 +32,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     # Target-specific native witnesses, NOT a general wall-piercing class.
     "bomb_110_room9": frozenset({"Spark"}),
+    # Select only lower F1, leaving the upper blocking-chain trigger intact.
+    "bomb_138_green": frozenset({"Spark"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_719_room13": frozenset({"Beam"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
@@ -44,6 +46,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
 # room or a swimming pose would exceed the bounded native evidence.
 ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9": 110,
+    "bomb_138_green": 138,
     "bomb_517_chocolate": 517,
     "bomb_719_room13": 719,
     "switch_533_bomb_placement": 533,

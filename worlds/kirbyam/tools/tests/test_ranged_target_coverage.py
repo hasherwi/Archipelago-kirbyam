@@ -29,9 +29,13 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 35)
+        self.assertEqual(len(targets), 36)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
+        green_target = targets['bomb_138_green']
+        self.assertEqual(green_target['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_28')
+        self.assertEqual(green_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_04')
+        self.assertNotIn('exit', green_target['target'])
         map_target = targets['switch_310_mustard_map']
         self.assertEqual(map_target['owner'], 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
         self.assertEqual(map_target['target']['location'], 'MAJOR_CHEST_MUSTARD_MOUNTAIN')

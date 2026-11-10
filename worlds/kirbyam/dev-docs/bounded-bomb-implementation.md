@@ -1,18 +1,19 @@
 # Bounded bomb traversal implementation
 
 Status: partial implementation, 2026-11-10. The conditional Rainbow110→554
-upper-source rule, conditional Cabbage517 Chocolate chest rule, and conditional
-Carrot719→734 lower-compartment rule are installed. Other source-policy/target
-subsets remain open.
+upper-source rule, conditional Cabbage517 Chocolate chest rule, conditional
+Carrot719→734 lower-compartment rule and selective Rainbow138 Green Paint
+chest rule are installed. Other source-policy/target subsets remain open.
 
 ## Implemented kernel behavior
 
-The traversal kernel now has three target-specific capabilities, with no global
-wall-piercing class or numerical range assumption:
+The traversal kernel now has four Bomb Block target-specific capabilities, with
+no global wall-piercing class or numerical range assumption:
 
 | Capability | Native target | Admitted witnessed moves |
 | --- | --- | --- |
 | `bomb_110_room9` | Room110 wall-separated chain opening the Room9 route | Spark, from the closer dry pose above the waterline |
+| `bomb_138_green` | Room138 Green Paint selective lower trigger, upper trigger intact | Spark, finite natural source/carry from Room27 upper-left |
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 
@@ -45,6 +46,12 @@ is not replaced by room-wide enemy assumptions:
 - Rainbow110: installed only for guaranteed SPARKY→Spark, with independent
   Room6 lower-mid access, finite acquisition and intact carry. Unsupported source
   policies retain prior behavior and remain unresolved.
+- Rainbow138: installed only for guaranteed SPARKY→Spark, with exact Room27
+  upper-left access, original finite Sparky and selective lower-trigger carry.
+  See [the Green Paint witness](rainbow-green-source-witness.md). Native replays
+  cover natural mode, gating off, actual HP1/6 and enemy100%/500%; supported
+  50–99% and 101–499% settings remain unreplayed. Only the optional paint
+  check is gated, with existing Room8 Spark classification unchanged.
 - Cabbage517: installed only for a guaranteed singleton WADDLE_DOO→Beam or
   WADDLE_DOO→Smash, with independent Cabbage Hub2 access. The new Smash
   alternative proves complete production acquisition/carry and the physical chest check,
@@ -56,8 +63,8 @@ is not replaced by room-wide enemy assumptions:
   recorded in the complete source inventory, not substituted into this route.
 
 Do not set a capability-only permission on these AP targets. Rainbow binds its
-outgoing110→554 edge only, and Cabbage binds `MINOR_CHEST_SPRAY_PAINT_12`
-only. Carrot binds the normalized entrance to
+outgoing110→554 edge and the separate Green Paint check only; Cabbage binds
+`MINOR_CHEST_SPRAY_PAINT_12` only. Carrot binds the normalized entrance to
 `ROOM_5_13__LOGIC__ENTRY_FROM_5_07` only. Preserve unrelated exits, RoomSanity,
 and Room13's Secret Notes compartment. Enable progression classification for
 any gateable formerly-useful item used by an installed target, respecting source
