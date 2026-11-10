@@ -1,6 +1,6 @@
 # Bounded bomb traversal implementation
 
-Status: partial implementation, 2026-11-09. The conditional Rainbow110→554
+Status: partial implementation, 2026-11-10. The conditional Rainbow110→554
 upper-source rule, conditional Cabbage517 Chocolate chest rule, and conditional
 Carrot719→734 lower-compartment rule are installed. Other source-policy/target
 subsets remain open.
@@ -45,9 +45,12 @@ is not replaced by room-wide enemy assumptions:
 - Rainbow110: installed only for guaranteed SPARKY→Spark, with independent
   Room6 lower-mid access, finite acquisition and intact carry. Unsupported source
   policies retain prior behavior and remain unresolved.
-- Cabbage517: installed only for guaranteed WADDLE_DOO→Beam, with independent
-  Cabbage Hub2 access. The complete carry is restricted to Beam; Spark/Ice/Smash
-  target-hit witnesses do not establish their source carry routes.
+- Cabbage517: installed only for a guaranteed singleton WADDLE_DOO→Beam or
+  WADDLE_DOO→Smash, with independent Cabbage Hub2 access. The new Smash
+  alternative proves complete production acquisition/carry and the physical chest check,
+  using [the Smash witness](cabbage-smash-source-witness.md). Beam and Smash
+  are separate OR graphs inside the same target row. Spark/Ice target-hit
+  witnesses still do not establish their source carry routes.
 - Carrot719: installed only for guaranteed WADDLE_DOO→Beam, using the lower
   native Doo(568,456) and independent Room5 access. The other Doo(616,232) is
   recorded in the complete source inventory, not substituted into this route.
@@ -79,6 +82,17 @@ area-key/statue/gating variants, and Spark collection/classification. The native
 replays establish acquisition/carry outcomes; these AP tests establish rule wiring,
 not additional physical routes.
 
+`test_cabbage_smash_gate.py` adds the separate Smash carry contract, finite-source
+and inventory-only negatives, target-scoped applicability validation, and actual
+world policy, gating, optional minor-chest, statue, RoomSanity and Area-Key checks.
+Restricted policy/option fixtures use minimal accessibility to isolate rule wiring,
+not to claim those fixtures are valid full-accessibility seeds. Beam remains
+non-gateable and Carrot's source condition remains Beam-only.
+`test_cabbage_smash_evidence.py` checks the retained production policy, exact
+source/chest/client-check identities, four HP/enemy-health configurations, two
+matched negatives, eight initial configuration writes, and no gameplay writes or
+state restores. It guards evidence metadata rather than running an emulator.
+
 A separate local restrictive-fill check used `test.general.setup_multiworld`,
 `Fill.distribute_items_restrictive`, `post_fill`, `can_beat_game`, and
 `fulfills_accessibility`, with full accessibility and minimum/maximum health both1.
@@ -88,3 +102,9 @@ seed59 (Spark target applicable), shuffled seed70 (both Beam targets applicable)
 and completely-random seed1052 (none of these finite-source targets applicable).
 These are sampled fill checks, not exhaustive seed coverage. Fully-random success
 does not validate the unresolved target routes under that source policy.
+
+The Smash extension adds four real `Generate.main` / `Main.main` seed173 runs,
+with full accessibility, HP1, gating on/off and Area Keys on/off. All retain the
+normal 25-ability policy and WADDLE_DOO→Smash assignment, fill every location,
+and pass explicit beatability and full-accessibility assertions. These are sampled
+generation/fill checks, not new native gameplay evidence or all-seed coverage.

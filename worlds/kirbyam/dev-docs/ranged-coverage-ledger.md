@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block routes described in `bounded-bomb-implementation.md`, the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -70,6 +70,27 @@ Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Must
 147 is calibration only: ordinary timed traversal is an alternative, so a ranged witness alone does not justify a mandatory AP gate. Further work must inspect all actual target/check associations, enemy-health/interception, source randomization, 1HP/no-damage movement, precise entry compartments and matched controls.
 
 For future Phone/ranged alternatives on the same AP surface, use alternative witness graphs inside **one target row** (OR). Separate installed rows combine through `add_rule` as AND and must not accidentally require both Phone and a solo attack.
+
+## Cabbage Chocolate chest Smash alternative
+
+`bomb_517_chocolate` now has separate guaranteed WADDLE_DOO→Beam and
+WADDLE_DOO→Smash witness graphs within one OR target row. The new production
+seed173 route starts Normal at actual Hub2/native591 entry, consumes the finite
+native Doo0x088CA04C, carries Smash and opens F1(14,7) with rising Up+B at3129.
+The seven linked F2 cells then clear by3179. Physical chest57 records
+0x088CA0B8 and the actual client produces LocationChecks3960511 locally; native
+spray11 remains suppressed by the AP-owned reward hook. Four replays cover
+HP1/6 × enemy100/500% without damage or ability loss, with exact-window and
+full-route no-target-attack negatives. The only RAM writes are the eight logged
+initial client configuration writes before movement, not gameplay injection.
+
+Only `MINOR_CHEST_SPRAY_PAINT_12` gains this alternative. Independent Hub2
+access remains required, gating-on needs Smash permission, and the existing
+Beam proof is unchanged. Live-random multi-outcome or failure-weighted grants
+from the finite source do not gain an eventual-draw promise. Spark/Ice carries, other entry sides or exits,
+RoomSanity reachability, arbitrary health interpolation and global Smash
+collision equivalence remain unproved. Carrot's condition remains Beam-only.
+See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
 
 ## Extended static target census
 

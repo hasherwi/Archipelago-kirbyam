@@ -3936,7 +3936,10 @@
           "location": "MINOR_CHEST_SPRAY_PAINT_12",
           "requires_guaranteed_source": {
             "source_key": "WADDLE_DOO",
-            "ability": "Beam"
+            "abilities": [
+              "Beam",
+              "Smash"
+            ]
           },
           "graphs": {
             "hub2_entry": {
@@ -3999,6 +4002,69 @@
                     "Beam"
                   ],
                   "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
+                }
+              ]
+            },
+            "hub2_smash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-smash-source-witness.md; finite native Doo0x088CA04C(528,264) acquired from Normal after actual Hub2 entry. Production swallow hook grants guaranteed shuffled Smash22 at1939; no equipment injection, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; actual native591\u2192517 door at1109, settled arrival(696,296.996) at1158, Normal. Complete production AP-ROM replay.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; ordinary approach from right arrival, jump and inhale actual native Doo above the sealed ordinary chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; complete Smash-specific carry, rising Up+B opens intended F1 at3129, linked F2 then clear by3179. Physical chest57 opens at4421, event0x088CA0B8 maps through actual client to LocationChecks3960511. HP1/6 \u00d7 enemy100/500%, no damage or ability loss. Other providers do not inherit this route."
                 }
               ]
             }

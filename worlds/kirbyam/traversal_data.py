@@ -178,7 +178,19 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
 
 def _validate_target(row: Mapping[str, Any]) -> None:
     condition = row.get("requires_guaranteed_source")
-    if condition is not None and condition not in (
+    # Cabbage's additional Smash carry is not evidence for the Beam-only Carrot
+    # doorway, another source, or any other location in the same native room.
+    cabbage_condition = {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Smash"]}
+    cabbage_target = (
+        row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("location"),
+    ) == (
+        "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "MINOR_CHEST_SPRAY_PAINT_12",
+    )
+    if condition == cabbage_condition:
+        if not cabbage_target:
+            raise ValueError("Cabbage Smash applicability belongs only to its reviewed chest target")
+    elif condition is not None and condition not in (
         {"source_key": "MR_FROSTY", "ability": "Ice"},
         {"source_key": "SPARKY", "ability": "Spark"},
         {"source_key": "WADDLE_DOO", "ability": "Beam"},
