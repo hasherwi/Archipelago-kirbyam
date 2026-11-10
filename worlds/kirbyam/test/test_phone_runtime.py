@@ -6,6 +6,7 @@ import sys
 
 import pytest
 from ..kirby_ap_payload.patch_rom import build_phone_gate_writes
+from ..tools.create_dummy_rom import build_dummy_rom
 
 
 def test_r_entry_patch_validates_displaced_bytes_and_preserves_l() -> None:
@@ -108,3 +109,9 @@ int main(void) {
     assert result.returncode == 0, result.stderr
     result = subprocess.run([str(exe)], capture_output=True, text=True)
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_synthetic_smoke_rom_satisfies_phone_entry_guard() -> None:
+    rom = build_dummy_rom()
+    writes = build_phone_gate_writes(rom, 0x09001234)
+    assert list(writes) == [0x56C2C]
