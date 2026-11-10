@@ -4796,6 +4796,95 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_34": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "switch_310_mustard_map",
+          "kind": "switch",
+          "native_room": 310,
+          "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+          "requires_guaranteed_source": {
+            "source_key": "TWISTER",
+            "ability": "UFO"
+          },
+          "graphs": {
+            "hub4_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-ufo-source-witness.md; original finite Twister at (144,280), inhaled and swallowed at frame1320 after actual Normal590-to-534 entry. Guaranteed UFO uses production source assignments, not native Tornado or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:hub4",
+                  "to": "switch_310_mustard_map:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual590-to-534 Normal door approach, not generic source-room reach."
+                },
+                {
+                  "from": "switch_310_mustard_map:rainbow34",
+                  "to": "switch_310_mustard_map:source",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; witnessed Normal approach to the finite Twister and native inhale/swallow acquisition."
+                },
+                {
+                  "from": "switch_310_mustard_map:source",
+                  "to": "switch_310_mustard_map:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; carry the acquired UFO through534 upper-right door into310 at frame2094, retaining equipment through the native transition."
+                },
+                {
+                  "from": "switch_310_mustard_map:arrival",
+                  "to": "switch_310_mustard_map:chest",
+                  "capability": "switch_310_ufo_top_charge",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; top-charge combat clears Chip and SwordKnight while preserving the viewport, then left-facing120-frame top charge from (421.5,136.996) hits the switch across terrain, crosses the timed gate and collects chest39/map4. No persistent switch credit or low/medium-shot equivalence."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": {

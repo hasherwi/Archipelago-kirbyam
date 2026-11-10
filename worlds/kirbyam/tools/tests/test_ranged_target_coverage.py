@@ -27,9 +27,13 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 34)
+        self.assertEqual(len(targets), 35)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
+        map_target = targets['switch_310_mustard_map']
+        self.assertEqual(map_target['owner'], 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
+        self.assertEqual(map_target['target']['location'], 'MAJOR_CHEST_MUSTARD_MOUNTAIN')
+        self.assertNotIn('exit', map_target['target'])
 
     def test_room_sanity_is_separate(self):
         self.assertEqual(self.coverage['counts']['room_sanity_locations'], 263)
