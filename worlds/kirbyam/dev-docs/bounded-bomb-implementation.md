@@ -49,8 +49,10 @@ is not replaced by room-wide enemy assumptions:
   with independent Room6 lower-mid access, finite acquisition and intact carry.
   The unchanged dry Spark graph and separate swimming Sword graph are OR
   alternatives under one target/exit rule. The [Sword witness](rainbow-route-8-sword-witness.md)
-  reproduces decoded108 upper arrival rather than replaying the incoming door;
-  native assignment/gating off covers actual1HP at enemy50/100/500% and actual6HP
+  originally reproduces decoded108 upper arrival rather than replaying the door.
+  A [separate actual-entry supplement](rainbow-route-8-sword-entry-witness.md)
+  closes that door gap at100% enemy health and actual1HP only. The original
+  native assignment/gating-off packet covers actual1HP at enemy50/100/500% and actual6HP
   at100/500%, with three matched no-attack controls. Other health values and
   same-ability randomized/gating-on source policies were not natively replayed.
   Unsupported source policies retain prior behavior and remain unresolved.

@@ -9,8 +9,11 @@ range. The compact runtime record is [rainbow-route-8-sword-runtime.json](rainbo
 
 The independent prerequisite is exactly
 `REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID`. Native108 door record0x0087847A at
-tile(34,18) selects110 spawn(7,8), decoded arrival(104,120.99609375). The startup
-fixture reproduces this arrival; the incoming108 to110 door was **not replayed**.
+tile(34,18) selects110 spawn(7,8), decoded arrival(104,120.99609375). The original
+five-run startup fixture reproduces this arrival; those runs **did not replay**
+the incoming108 to110 door.
+The separate [actual-entry supplement](rainbow-route-8-sword-entry-witness.md)
+replays this door continuously at100% enemy health and actual1HP.
 Generic110 access or another108 compartment cannot supply this route.
 
 Kirby starts Normal at1085. Original spawn-table1 Sword Knight0x088B74CC,
@@ -28,7 +31,7 @@ an assertion that the554 landing point is underwater.
 
 ## Exact attached underwater attack
 
-Kirby at(185.99609375,926.71484375), water true, state0x69 creates an attached
+Kirby at(185.99609375,926.71484375), water true, state0x69 selects the attached
 Sword weapon animation0x6F variant1. Registered effect0x03004008 is parented to
 Kirby0x02020EE0 and has flags0xA2084100. Active tile bounds(0,-26,25,-3) scan
 columns11–13 and rows56–57 after integer quantization. This flips the specific

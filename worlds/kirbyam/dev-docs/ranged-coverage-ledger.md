@@ -96,10 +96,12 @@ See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
 
 The same `bomb_110_room9` target and exact110→554 AP exit now have two OR
 graphs: unchanged dry Spark and distinct attached underwater Sword spin.
-Original finite Sword Knight0x088B74CC is acquired while Normal; independent
-108 lower-mid access supplies only the startup-reproduced decoded upper arrival.
-The actual incoming door is not replayed. Medium-aware carry reaches F1(13,57)
-with Kirby0x69/weapon0x6F variant1, clears through solid column12, and physically
+Original finite Sword Knight0x088B74CC is acquired while Normal. The original
+five runs use independent108 lower-mid access and a startup-reproduced decoded
+upper arrival, without replaying the incoming door. A separate actual-entry
+supplement now covers that door, source, target and554 exit continuously at100%
+enemy health and actual1HP, still requiring exact lower-mid access. Medium-aware
+carry reaches F1(13,57) with Kirby0x69/weapon0x6F variant1, clears through solid column12, and physically
 crosses to554 with Sword intact. This is not landing wave or a general range.
 
 Five native-assignment/gating-off production replays cover actual1HP at enemy
@@ -111,7 +113,8 @@ Applicability is guaranteed SPARKY→Spark OR SWORD_KNIGHT→Sword, validated on
 for this target/owner/exit. Neither finite mixed pools nor failure-weighted
 randomness gains a retry guarantee. Other exits, RoomSanity and the36-target
 count are unchanged. See `rainbow-route-8-sword-witness.md` and
-`rainbow-route-8-sword-runtime.json`.
+`rainbow-route-8-sword-runtime.json`; the additional actual-door record is
+`rainbow-route-8-sword-entry-runtime.json`.
 
 ## Rainbow Green Paint selective lower trigger
 

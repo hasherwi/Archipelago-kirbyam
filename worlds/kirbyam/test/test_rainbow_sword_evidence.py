@@ -93,3 +93,75 @@ def test_only_eight_guarded_configuration_writes_precede_movement():
     assert old['build_commit'] == '8dbf941f30f88f8d0f151e2a556d31ca19aa6ac5'
     assert all(r['build_commit'] == 'b98feba7d5b771919ab8f0ad642c11570e3c6427'
                for r in evidence['runs'] if r is not old)
+
+
+ENTRY_EVIDENCE = EVIDENCE.with_name('rainbow-route-8-sword-entry-runtime.json')
+
+
+def test_actual_entry_supplement_preserves_original_production_and_scope():
+    original = json.loads(EVIDENCE.read_text())
+    supplement = json.loads(ENTRY_EVIDENCE.read_text())
+    assert supplement['original_acceptance_sha256'] == original['source_packet_sha256']
+    assert supplement['source_packet_sha256'] == 'c32f298c8cae021c3075b334e91da1cee4cf32ff4a36c1391d306045416a53fd'
+    assert len(original['runs']) == 5 and original['replay']['first_554_frame'] == 3388
+    reused, = [run for run in original['runs'] if run['options']['minimum_health'] == 1
+               and run['options']['enemy_health_multiplier'] == 100]
+    assert supplement['production_sha256'] == reused['production_sha256']
+    assert supplement['build']['repo_commit'] == reused['build_commit']
+    assert supplement['options'] == supplement['build']['options'] == reused['options']
+    assert supplement['options']['enemy_health_multiplier'] == 100
+    assert supplement['options']['minimum_health'] == supplement['options']['maximum_health'] == 1
+    offsets = [int(row['offset'], 16) for row in supplement['build']['fixture_byte_diff']]
+    assert offsets == list(range(0x2D8CB8, 0x2D8CC0)) + [
+        0x2D8CD1, 0x2D8CD2, 0x2D8CD5, 0x2D8CD6, 0x2D8CD9,
+        0x2D8CDD, 0x2D8CE1, 0x2D8CE5, 0x2D8CED]
+    assert '/home/' not in ENTRY_EVIDENCE.read_text()
+
+
+def test_actual_entry_source_underwater_hit_and_completed_exit():
+    evidence = json.loads(ENTRY_EVIDENCE.read_text())
+    entry = evidence['entry']
+    assert entry['ap_compartment'] == 'REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID'
+    assert entry['door_rom_offset'] == '0x0087847A'
+    assert entry['trigger_tile'] == [34, 18] and entry['spawn_tile'] == [7, 8]
+    startup = entry['startup_pose']
+    assert (startup['frame'], startup['room'], startup['x'], startup['y'], startup['water']) == (
+        1085, 108, 504, 277, False)
+    press = entry['door_press']
+    assert (press['frame'], press['room'], press['animation']) == (1207, 108, 42)
+    first = entry['first110']
+    assert (first['frame'], first['room'], first['x'], first['y'], first['ability']) == (
+        1218, 110, 104, 120.99609375, 0)
+    observed = entry['settled_source_observation']
+    assert observed['frame'] == 1238
+    source, = observed['template_observations']
+    assert (source['template'], source['type'], source['copy'], source['hp']) == ('0x88b74cc', 26, 18, 4)
+    assert (evidence['acquisition']['frame'], evidence['acquisition']['ability']) == (1512, 18)
+    hit = evidence['target_hit']
+    assert (hit['frame'], hit['room'], hit['water'], hit['animation']) == (3039, 110, True, 0x69)
+    assert hit['targets']['13,57'] == 0 and hit['targets']['12,50'] == 0xF1
+    weapon = evidence['registered_weapon_at_hit']
+    assert (weapon['parent'], weapon['animation'], weapon['variant']) == ('0x2020ee0', '0x6f', 1)
+    assert weapon['bounds'] == [0, -26, 25, -3]
+    assert (evidence['first554']['frame'], evidence['first554']['room']) == (3541, 554)
+    final = evidence['final']
+    assert (final['frame'], final['room'], final['ability'], final['hp']) == (3620, 554, 18, 1)
+    assert evidence['water_transitions'][-1]['frame'] == 3551 and final['water'] is False
+
+
+def test_supplement_control_and_configuration_only_writes():
+    original = json.loads(EVIDENCE.read_text())
+    evidence = json.loads(ENTRY_EVIDENCE.read_text())
+    assert evidence['configuration_writes'] == original['runs'][0]['configuration_writes']
+    assert len(evidence['configuration_writes']) == 8
+    assert evidence['gameplay_ram_writes'] == evidence['state_restores'] == 0
+    assert evidence['hp_min'] == evidence['hp_max'] == 1
+    assert evidence['hp_samples'] == evidence['frames'] - 1085 + 1 == 2536
+    control = evidence['control']
+    assert control['identical_prefix_through'] == 3035
+    assert control['difference'] == (
+        'Only frame3035 30-frame B target attack is omitted; all other controller inputs identical.')
+    assert control['target_sealed_all_native110_frames'] is control['never554'] is True
+    final = control['final']
+    assert (final['frame'], final['room'], final['ability'], final['hp']) == (3620, 110, 18, 1)
+    assert final['targets']['13,57'] == 0xF1
