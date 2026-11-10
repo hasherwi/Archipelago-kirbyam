@@ -141,7 +141,9 @@ accessibility. This alternative adds no second target or AND rule. The catalog n
 The fifth bounded Bomb Block target is `bomb_733_yellow`, only
 `MINOR_CHEST_SPRAY_PAINT_02` /3960501 at native733. It requires independent720
 access and guaranteed SPARKY→UFO. The unchanged719→720 labels remain permissive
-existing assumptions, not a newly certified upstream route. The reviewed Normal
+existing assumptions. A separate ordinary170-door→719→720 segment is now
+verified in `carrot-yellow-ufo-upstream-witness.md`, without claiming all170
+arrivals or a continuous170-to-Yellow replay. The reviewed Normal
 720→734 upper→720 left→730 ingress avoids a circular734 prerequisite.
 
 Actual equipment guards require upper finite Sparky acquisition, UFO maze carry,

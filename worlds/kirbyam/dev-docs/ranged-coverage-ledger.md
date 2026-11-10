@@ -141,7 +141,8 @@ or finite random-source retry guarantee is introduced. See
 `bomb_733_yellow` gates only `MINOR_CHEST_SPRAY_PAINT_02` /3960501 in
 Room16/native733 for guaranteed SPARKY→UFO. Independent Room14/native720
 access is required. Existing719→720 labels remain unchanged and currently
-permissive; upstream719 traversal is not newly proved. The native witness joins
+permissive. A separate Normal170-door→719→720 segment is now verified, but
+not all170 arrivals or its timing composition with the Yellow route. The native witness joins
 720 far right→734 upper→720 left→730 top as Normal, without either720-left
 bomb-chain cell activating. No generic719 or circular734 entry is assumed.
 
@@ -163,6 +164,8 @@ partial behavior. Gating-on, statues, Area Keys, optional paint and full1HP fill
 are separate logic tests. No other exit, compartment, RoomSanity or source pool
 changes; future qualified Phone alternatives belong as OR graphs on this target.
 See `carrot-yellow-ufo-source-witness.md` and `carrot-yellow-ufo-source-runtime.json`.
+The separate ordinary segment is retained in `carrot-yellow-ufo-upstream-witness.md`
+and `carrot-yellow-ufo-upstream-runtime.json`; it does not change any AP rule.
 
 ## Extended static target census
 

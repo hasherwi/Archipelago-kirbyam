@@ -8,7 +8,10 @@ is `REGION_CARROT_CASTLE/ROOM_5_14` (native720), **not native719**. The
 physical fixture starts beside719's actual720-bound door; it does not prove
 that every upstream719 compartment reaches that door. Preserve the existing
 719→720 `can_climb && can_break_block` qualification. Those permissive labels
-are existing assumptions, not newly verified upstream access.
+are existing assumptions within this core witness. A separate later Normal
+170→719→720 segment is recorded in `carrot-yellow-ufo-upstream-witness.md`.
+It neither moves this graph boundary nor proves continuous170-to-Yellow
+completion; all170 arrivals and timing composition remain unverified.
 
 The installed witness is `room14_entry`; its scoped attack capability is
 `bomb_733_yellow_ufo_top_charge`. Carry-only route requirements preserve the
