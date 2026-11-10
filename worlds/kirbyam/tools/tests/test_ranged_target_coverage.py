@@ -1,8 +1,10 @@
 """Production-normalized coverage must not omit compartments or synthetic sinks."""
+import hashlib
 import unittest
+from pathlib import PurePosixPath, PureWindowsPath
 
 from worlds.kirbyam.data import data
-from worlds.kirbyam.tools.build_ranged_target_coverage import build_coverage
+from worlds.kirbyam.tools.build_ranged_target_coverage import ROOT, _input_path_key, build_coverage
 
 
 class TestRangedTargetCoverage(unittest.TestCase):
@@ -65,3 +67,10 @@ class TestRangedTargetCoverage(unittest.TestCase):
         for name in ('data.py', 'data/regions/rooms.json', 'data/regions/areas.json',
                      'data/locations.json', 'dev-docs/native-room-wikirby-map.json'):
             self.assertEqual(len(hashes[name]), 64)
+            self.assertEqual(hashes[name], hashlib.sha256((ROOT / name).read_bytes()).hexdigest())
+
+    def test_input_path_keys_are_portable(self):
+        for root in (PurePosixPath('/repo/worlds/kirbyam'), PureWindowsPath('C:/repo/worlds/kirbyam')):
+            for name in ('data.py', 'data/regions/rooms.json', 'dev-docs/native-room-wikirby-map.json'):
+                with self.subTest(root=root, name=name):
+                    self.assertEqual(_input_path_key(root / name, root), name)

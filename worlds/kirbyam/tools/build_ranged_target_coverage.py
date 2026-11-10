@@ -8,11 +8,15 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from ..data import data
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _input_path_key(path: PurePath, root: PurePath) -> str:
+    return path.relative_to(root).as_posix()
 
 
 def build_coverage() -> dict:
@@ -42,10 +46,11 @@ def build_coverage() -> dict:
     inputs.extend(sorted((ROOT / 'data').rglob('*.json')))
     return {
         'schema_version': 1,
-        'input_sha256': {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+        'input_sha256': {_input_path_key(path, ROOT): hashlib.sha256(path.read_bytes()).hexdigest()
                          for path in inputs},
         'scope': 'All production-normalized AP regions, checks and exits; not a complete native attack-target census.',
-        'proof_boundary': 'Structural ownership and existing rules only. A shared native room is not proof of approach, acquisition, carry or target access.',
+        'proof_boundary': ('Structural ownership and existing rules only. A shared native room is not proof of '
+                           'approach, acquisition, carry or target access.'),
         'counts': {'regions': len(regions), 'mapped_native_definitions': len(native_by_key),
                    'locations': len(data.locations), 'surfaces': len(surfaces),
                    'room_sanity_locations': sum(s['kind'] == 'location' and s['room_sanity'] for s in surfaces),
