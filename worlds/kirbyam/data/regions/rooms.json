@@ -4297,9 +4297,7 @@
     "logical_subregions": {
       "UPPER_RETURN": {
         "locations": [],
-        "exits": {
-          "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": "can_break_metal"
-        }
+        "exits": {}
       }
     },
     "traversal": {

@@ -1660,7 +1660,6 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
             "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK"
           ]
         },
@@ -1701,7 +1700,8 @@
             },
             {
               "path": "upper dirty/unknown return to Warp705",
-              "status": "pending_route_acceptance"
+              "status": "pending_route_acceptance",
+              "note": "The unvalidated AP shortcut is omitted. Only the existing accepted lower source-backed route reaches Warp; no new native route is claimed."
             },
             {
               "path": "outer-changed return to chest",
@@ -2044,7 +2044,7 @@
       "CanBreakBlocks": 0,
       "can_break_block": 133,
       "can_break_floating_block": 18,
-      "can_break_metal": 7,
+      "can_break_metal": 6,
       "can_break_metal_throw": 0
     },
     "semantics": "CanBreakBlocks and its can_break_block alias are currently permissive, not permission or equipment tests. Many bindings describe ordinary Normal-breakable terrain. The eight-ability descriptive constant is not a source, movement, ammunition or complete move witness.",

@@ -257,8 +257,8 @@ its arrival side, not an accepted outward crossing.
 
 The local witnesses below are now ORed with the source-backed 707 → 712 → 741
 carrier in [the current contract](carried-burning-source-contract.md). The two
-clean target rows no longer retain a conditional fallback. The dirty upper-return
-exit remains a separate unvalidated boundary.
+clean target rows no longer retain a conditional fallback. The unvalidated dirty
+upper-return-to-Warp shortcut is omitted from the AP graph.
 
 `metal_742_sparerib` and `metal_742_lower_to_warp` share a finite main-Flamer
 prefix from actual712 access (`ROOM_2_13`), through741 source `0x088BD8AC`, to the
@@ -287,9 +287,12 @@ positive-HP equivalence without claiming a direct AP1HP or network replay.
 Native741 lower and upper doors now land in distinct742 compartments. The upper
 return is `UPPER_RETURN`, with no edge to canonical lower or the chest. Both
 arrivals reach one room-check sink; that sink has no outgoing edges. The former
-disconnected `UPPER_LEDGE_SPAWN` alias is retired. Upper-return-to-Warp and
-lower742-to-upper741 retain their older requirements and remain unvalidated;
-no dirty-return witness or clean-layout reset assumption is installed.
+disconnected `UPPER_LEDGE_SPAWN` alias is retired. The former upper-return-to-Warp
+edge used a permissive legacy token rather than an accepted route. It is removed;
+a pure graph regression restores that shortcut counterfactually and demonstrates
+that it bypasses the source-backed lower rule. The lower742-to-upper741 route
+retains its older requirements and remains unvalidated. No dirty-return witness
+or clean-layout reset assumption is installed, and starting abilities are unchanged.
 
 Applicability requires a globally guaranteed Flamer-to-Burning policy. Mixed
 live pools and unsupported assignments retain prior rules and remain unvalidated.

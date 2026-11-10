@@ -216,19 +216,18 @@ def test_ap_arrivals_share_only_single_room_check_sink(monkeypatch: pytest.Monke
     checks = [location for location in multiworld.get_locations(1) if location.address == 3961069]
     assert len(checks) == 1 and checks[0].parent_region.name == CHECK
     assert checks[0].can_reach(state) and not multiworld.get_region(CHECK, 1).exits
-    # Upper->Warp remains explicitly unvalidated legacy behavior. It does not
-    # join the clean chest plan or imply a room reset.
-    assert state.can_reach_region(WARP, 1) is (start == UPPER)
+    # The unproved upper-return alias cannot bypass the source-backed lower gate.
+    assert not state.can_reach_region(WARP, 1)
 
 
-def test_actual_native_arrivals_and_legacy_unknown_upper_exit() -> None:
+def test_actual_native_arrivals_and_absent_unproved_upper_exit() -> None:
     rooms = load_json_data("regions/rooms.json")
     assert isinstance(rooms, dict)
     assert rooms[RETURN_SOURCE]["logical_exit_overrides"][LOWER] == "UPPER_RETURN"
     assert data.regions[SOURCE].exits == [LOWER]
     assert data.regions[RETURN_SOURCE].exits == [UPPER]
     assert LOWER + "_UPPER_LEDGE_SPAWN" not in data.regions
-    assert data.regions[UPPER].exit_requirements[WARP] == "can_break_metal"
+    assert WARP not in data.regions[UPPER].exits
     assert LOWER not in data.regions[UPPER].exits
     assert data.regions[LOWER].exit_requirements[RETURN_SOURCE] == {
         "all": ["can_fly", "can_break_floating_block"]}
@@ -290,3 +289,42 @@ def test_future_burning_cannot_unlock_its_own_chest(monkeypatch: pytest.MonkeyPa
     assert target.can_reach(state)
     state.sweep_for_advancements(locations=[target])
     assert target in state.advancements
+
+
+@pytest.mark.parametrize("restore_unproved_alias", [False, True])
+def test_warp_burning_cannot_unlock_itself_through_upper_return(
+    monkeypatch: pytest.MonkeyPatch, restore_unproved_alias: bool,
+) -> None:
+    """The counterfactual restored edge reproduces the original permission leak."""
+    simulate_burning_gating(monkeypatch)
+    world = make_world(0, 1, room_sanity=1)  # type: ignore[no-untyped-call]
+    multiworld = world.multiworld
+    allowed = {ACCESS, SOURCE, RETURN_SOURCE, LOWER, UPPER, CHECK, WARP}
+    for name in allowed:
+        region = multiworld.get_region(name, 1)
+        region.exits = [edge for edge in region.exits
+                        if edge.connected_region and edge.connected_region.name in allowed]
+    menu = multiworld.get_region("Menu", 1)
+    menu.exits.clear()
+    menu.connect(multiworld.get_region(ACCESS, 1))
+    if restore_unproved_alias:
+        multiworld.get_region(UPPER, 1).connect(multiworld.get_region(WARP, 1))
+    location, = [loc for loc in multiworld.get_locations(1) if loc.address == 3961258]
+    item = world.create_item("Burning Ability")
+    item.classification = ItemClassification.progression
+    location.place_locked_item(item)
+    state = CollectionState(multiworld)
+    for ability in ("Burning", "Stone"):
+        while state.has(ability + " Ability", 1):
+            state.remove(world.create_item(ability + " Ability"))
+    assert state.count("Burning Ability", 1) == state.count("Stone Ability", 1) == 0
+    assert all(state.can_reach_region(name, 1) for name in (ACCESS, SOURCE, LOWER, RETURN_SOURCE, UPPER))
+    lower = multiworld.get_entrance(f"{LOWER} -> {WARP}", 1)
+    assert not lower.access_rule(state)
+    assert location.can_reach(state) is restore_unproved_alias
+    state.sweep_for_advancements()
+    assert state.has("Burning Ability", 1) is restore_unproved_alias
+    if not restore_unproved_alias:
+        assert not lower.access_rule(state)
+        state.collect(item, prevent_sweep=True)
+        assert lower.access_rule(state) and location.can_reach(state)

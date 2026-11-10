@@ -137,7 +137,7 @@ def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() ->
         visit(json.loads(path.read_text()))
     assert counts == audit["counts"]
     assert counts == {"CanBreakBlocks": 0, "can_break_block": 133,
-                      "can_break_floating_block": 18, "can_break_metal": 7, "can_break_metal_throw": 0}
+                      "can_break_floating_block": 18, "can_break_metal": 6, "can_break_metal_throw": 0}
 
 
 def test_map_role_review_does_not_promote_route_acceptance() -> None:
