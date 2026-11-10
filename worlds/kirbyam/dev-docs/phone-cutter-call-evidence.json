@@ -1,0 +1,2338 @@
+{
+  "schema_version": 1,
+  "status": "Qualified dry carried-Cutter R/L controls; no general ability matrix or production activation.",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "tested_implementation_commit": "ae359ff3a16e524dd5476909b045924b77bf52e0",
+  "initial_history": [
+    3860401,
+    3860041,
+    3860106
+  ],
+  "history_after_locked": [
+    3860401,
+    3860041,
+    3860106,
+    3860501
+  ],
+  "locked_then_granted": {
+    "identity": {
+      "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "preboot_gate_mask": 67108470,
+      "area_keys_config": "0x414b0101",
+      "source_assignment": 6,
+      "slot_data": {
+        "copy_ability_room_protocol_version": 2,
+        "phone_protocol_version": 1,
+        "hub_connection_protocol_version": 2,
+        "starting_phone_access": false,
+        "health_protocol_version": 2,
+        "minimum_health": 6,
+        "maximum_health": 10,
+        "area_keys": true,
+        "starting_area_key_bitfield": 0,
+        "ability_gating": true,
+        "enemy_copy_ability_policy": {
+          "mode": 0,
+          "seed": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "allowed_abilities": []
+        }
+      },
+      "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+      "initial_emulator_state": null
+    },
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 480,
+        "keys": 0
+      },
+      {
+        "start": 1325,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 1326,
+        "frames": 300,
+        "keys": 0
+      },
+      {
+        "start": 1626,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1627,
+        "frames": 500,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2128,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 2248,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2250,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2252,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2254,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2256,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2258,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2260,
+        "frames": 170,
+        "keys": 0
+      },
+      {
+        "start": 2430,
+        "frames": 140,
+        "keys": 80
+      },
+      {
+        "start": 2570,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2571,
+        "frames": 160,
+        "keys": 0
+      },
+      {
+        "start": 2731,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 2732,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 2912,
+        "frames": 70,
+        "keys": 16
+      },
+      {
+        "start": 2982,
+        "frames": 30,
+        "keys": 0
+      },
+      {
+        "start": 3012,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3013,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3133,
+        "frames": 6,
+        "keys": 32
+      },
+      {
+        "start": 3139,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3159,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3160,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3280,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 3310,
+        "frames": 10,
+        "keys": 0
+      },
+      {
+        "start": 3320,
+        "frames": 100,
+        "keys": 64
+      },
+      {
+        "start": 3420,
+        "frames": 130,
+        "keys": 16
+      },
+      {
+        "start": 3550,
+        "frames": 60,
+        "keys": 64
+      },
+      {
+        "start": 3610,
+        "frames": 60,
+        "keys": 96
+      },
+      {
+        "start": 3670,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3671,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3672,
+        "frames": 25,
+        "keys": 0
+      },
+      {
+        "start": 3697,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3712,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3713,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 3758,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 3759,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 3819,
+        "frames": 13,
+        "keys": 16
+      },
+      {
+        "start": 3832,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3852,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3867,
+        "frames": 8,
+        "keys": 32
+      },
+      {
+        "start": 3875,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3895,
+        "frames": 65,
+        "keys": 64
+      },
+      {
+        "start": 3960,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3961,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3962,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3963,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 4008,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4009,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4099,
+        "frames": 35,
+        "keys": 32
+      },
+      {
+        "start": 4134,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 4154,
+        "frames": 35,
+        "keys": 33
+      },
+      {
+        "start": 4189,
+        "frames": 50,
+        "keys": 0
+      },
+      {
+        "start": 4239,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 4254,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 4255,
+        "frames": 70,
+        "keys": 2
+      },
+      {
+        "start": 4325,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4326,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4416,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 4476,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 4478,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 4538,
+        "frames": 600,
+        "keys": 0
+      },
+      {
+        "start": 5138,
+        "frames": 120,
+        "keys": 512
+      },
+      {
+        "start": 5258,
+        "frames": 1500,
+        "keys": 0
+      },
+      {
+        "start": 6758,
+        "frames": 30,
+        "keys": 16
+      }
+    ],
+    "writes": [
+      {
+        "frame": 2250,
+        "address": "0x203b134",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-hub-complete-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b134",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "b1e73a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "49e63a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "8ae63a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2256,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "03000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "76feff03",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "40000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 4476,
+        "address": "0x203b184",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      },
+      {
+        "frame": 4476,
+        "address": "0x203b180",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      }
+    ],
+    "checkpoints": [
+      {
+        "label": "gated-permission-confirmed-before-source",
+        "frame": 2260,
+        "room": 801,
+        "x": 232.5,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 0,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x2",
+        "cpu_abilities": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            232.5,
+            232.99609375
+          ],
+          [
+            246.7890625,
+            214.78515625
+          ],
+          [
+            218.5859375,
+            296.99609375
+          ],
+          [
+            228.13671875,
+            33.21484375
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          801,
+          801,
+          801
+        ],
+        "unk58": 5,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "gated-genuine-cutter-acquired",
+        "frame": 4416,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            262.94921875,
+            127.61328125
+          ],
+          [
+            143.09765625,
+            105.79296875
+          ],
+          [
+            338.4140625,
+            253.15234375
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-locked-r",
+        "frame": 4476,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            248.77734375,
+            63.64453125
+          ],
+          [
+            118.078125,
+            241.84765625
+          ],
+          [
+            289.1640625,
+            285.01171875
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 256,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-real-phone-grant",
+        "frame": 4478,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            249.296875,
+            63.96484375
+          ],
+          [
+            116.109375,
+            244.34765625
+          ],
+          [
+            288.82421875,
+            283.69921875
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-r-held",
+        "frame": 4538,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 2,
+        "caller": 0,
+        "num": 4,
+        "state": "0x8057ad1",
+        "kirby_unkC": "0x0",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            290.50390625,
+            65.40234375
+          ],
+          [
+            39.078125,
+            274.15234375
+          ],
+          [
+            317.5,
+            235.77734375
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 256,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-r-settle",
+        "frame": 5138,
+        "room": 143,
+        "x": 86.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 2,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1001010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            86.0,
+            136.99609375
+          ],
+          [
+            86.5,
+            136.99609375
+          ],
+          [
+            98.171875,
+            136.99609375
+          ],
+          [
+            107.16796875,
+            136.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          143,
+          143,
+          143
+        ],
+        "unk58": 1,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-l-held",
+        "frame": 5258,
+        "room": 143,
+        "x": 81.0,
+        "y": 145.49609375,
+        "hp": 6,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 2,
+        "caller": 255,
+        "num": 4,
+        "state": "0x8057775",
+        "kirby_unkC": "0x1048000",
+        "kirby_flags": "0x344",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            81.0,
+            145.49609375
+          ],
+          [
+            87.0,
+            136.99609375
+          ],
+          [
+            111.421875,
+            136.99609375
+          ],
+          [
+            99.40234375,
+            136.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          143,
+          143,
+          143
+        ],
+        "unk58": 1,
+        "held": 512,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-l-settle",
+        "frame": 6758,
+        "room": 801,
+        "x": 236.7421875,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 2,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            236.7421875,
+            232.99609375
+          ],
+          [
+            188.484375,
+            82.95703125
+          ],
+          [
+            139.03515625,
+            181.51953125
+          ],
+          [
+            203.8046875,
+            88.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          143,
+          143,
+          143
+        ],
+        "unk58": 5,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "post-l-control",
+        "frame": 6788,
+        "room": 801,
+        "x": 270.7265625,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          1,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "battery": 2,
+        "caller": 255,
+        "num": 4,
+        "state": "0x80412ad",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            270.7265625,
+            232.99609375
+          ],
+          [
+            219.1328125,
+            69.00390625
+          ],
+          [
+            170.08203125,
+            211.32421875
+          ],
+          [
+            175.03125,
+            73.01171875
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          143,
+          143,
+          143
+        ],
+        "unk58": 5,
+        "held": 16,
+        "pressed": 0
+      }
+    ]
+  },
+  "unowned_l_control": {
+    "identity": {
+      "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "preboot_gate_mask": 67108470,
+      "area_keys_config": "0x414b0101",
+      "source_assignment": 6,
+      "slot_data": {
+        "copy_ability_room_protocol_version": 2,
+        "phone_protocol_version": 1,
+        "hub_connection_protocol_version": 2,
+        "starting_phone_access": false,
+        "health_protocol_version": 2,
+        "minimum_health": 6,
+        "maximum_health": 10,
+        "area_keys": true,
+        "starting_area_key_bitfield": 0,
+        "ability_gating": true,
+        "enemy_copy_ability_policy": {
+          "mode": 0,
+          "seed": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "allowed_abilities": []
+        }
+      },
+      "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+      "initial_emulator_state": null
+    },
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 480,
+        "keys": 0
+      },
+      {
+        "start": 1325,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 1326,
+        "frames": 300,
+        "keys": 0
+      },
+      {
+        "start": 1626,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1627,
+        "frames": 500,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2128,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 2248,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2250,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2252,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2254,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2256,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2258,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2260,
+        "frames": 170,
+        "keys": 0
+      },
+      {
+        "start": 2430,
+        "frames": 140,
+        "keys": 80
+      },
+      {
+        "start": 2570,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2571,
+        "frames": 160,
+        "keys": 0
+      },
+      {
+        "start": 2731,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 2732,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 2912,
+        "frames": 70,
+        "keys": 16
+      },
+      {
+        "start": 2982,
+        "frames": 30,
+        "keys": 0
+      },
+      {
+        "start": 3012,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3013,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3133,
+        "frames": 6,
+        "keys": 32
+      },
+      {
+        "start": 3139,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3159,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3160,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3280,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 3310,
+        "frames": 10,
+        "keys": 0
+      },
+      {
+        "start": 3320,
+        "frames": 100,
+        "keys": 64
+      },
+      {
+        "start": 3420,
+        "frames": 130,
+        "keys": 16
+      },
+      {
+        "start": 3550,
+        "frames": 60,
+        "keys": 64
+      },
+      {
+        "start": 3610,
+        "frames": 60,
+        "keys": 96
+      },
+      {
+        "start": 3670,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3671,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3672,
+        "frames": 25,
+        "keys": 0
+      },
+      {
+        "start": 3697,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3712,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3713,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 3758,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 3759,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 3819,
+        "frames": 13,
+        "keys": 16
+      },
+      {
+        "start": 3832,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3852,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3867,
+        "frames": 8,
+        "keys": 32
+      },
+      {
+        "start": 3875,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3895,
+        "frames": 65,
+        "keys": 64
+      },
+      {
+        "start": 3960,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3961,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3962,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3963,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 4008,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4009,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4099,
+        "frames": 35,
+        "keys": 32
+      },
+      {
+        "start": 4134,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 4154,
+        "frames": 35,
+        "keys": 33
+      },
+      {
+        "start": 4189,
+        "frames": 50,
+        "keys": 0
+      },
+      {
+        "start": 4239,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 4254,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 4255,
+        "frames": 70,
+        "keys": 2
+      },
+      {
+        "start": 4325,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4326,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4416,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 4476,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 4478,
+        "frames": 120,
+        "keys": 512
+      },
+      {
+        "start": 4598,
+        "frames": 1500,
+        "keys": 0
+      },
+      {
+        "start": 6098,
+        "frames": 30,
+        "keys": 16
+      }
+    ],
+    "writes": [
+      {
+        "frame": 2250,
+        "address": "0x203b134",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-hub-complete-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b134",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "b1e73a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2250,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "49e63a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2252,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "02000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b008",
+        "size": 4,
+        "value": "8ae63a00",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b00c",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2254,
+        "address": "0x203b004",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2256,
+        "address": "0x203b020",
+        "size": 4,
+        "value": "03000000",
+        "guard_failed": false,
+        "origin": "production-mailbox-four-item-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "76feff03",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "40000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      },
+      {
+        "frame": 2260,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "production-enemy-copy-config-complete-history"
+      }
+    ],
+    "checkpoints": [
+      {
+        "label": "gated-permission-confirmed-before-source",
+        "frame": 2260,
+        "room": 801,
+        "x": 232.5,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 0,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x2",
+        "cpu_abilities": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            232.5,
+            232.99609375
+          ],
+          [
+            246.7890625,
+            214.78515625
+          ],
+          [
+            218.5859375,
+            296.99609375
+          ],
+          [
+            228.13671875,
+            33.21484375
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          801,
+          801,
+          801
+        ],
+        "unk58": 5,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "gated-genuine-cutter-acquired",
+        "frame": 4416,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            262.94921875,
+            127.61328125
+          ],
+          [
+            143.09765625,
+            105.79296875
+          ],
+          [
+            338.4140625,
+            253.15234375
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-locked-r",
+        "frame": 4476,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            248.77734375,
+            63.64453125
+          ],
+          [
+            118.078125,
+            241.84765625
+          ],
+          [
+            289.1640625,
+            285.01171875
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 256,
+        "pressed": 0
+      },
+      {
+        "label": "release-before-l",
+        "frame": 4478,
+        "room": 143,
+        "x": 105.46875,
+        "y": 136.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x2",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            105.46875,
+            136.99609375
+          ],
+          [
+            249.90234375,
+            64.37109375
+          ],
+          [
+            114.140625,
+            246.84765625
+          ],
+          [
+            288.5703125,
+            282.38671875
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-unowned-l-held",
+        "frame": 4598,
+        "room": 143,
+        "x": 100.46875,
+        "y": 145.49609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x8057775",
+        "kirby_unkC": "0x48000",
+        "kirby_flags": "0x344",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            100.46875,
+            145.49609375
+          ],
+          [
+            380.99609375,
+            114.62109375
+          ],
+          [
+            53.01171875,
+            178.06640625
+          ],
+          [
+            405.78515625,
+            125.31640625
+          ]
+        ],
+        "cpu_rooms": [
+          143,
+          801,
+          801,
+          801
+        ],
+        "unk58": 1,
+        "held": 512,
+        "pressed": 0
+      },
+      {
+        "label": "cutter-unowned-l-settle",
+        "frame": 6098,
+        "room": 801,
+        "x": 304.7421875,
+        "y": 232.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x803ff65",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            304.7421875,
+            232.99609375
+          ],
+          [
+            941.4296875,
+            134.41796875
+          ],
+          [
+            292.05859375,
+            232.99609375
+          ],
+          [
+            973.60546875,
+            136.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          101,
+          801,
+          101
+        ],
+        "unk58": 5,
+        "held": 0,
+        "pressed": 0
+      },
+      {
+        "label": "unowned-post-l-control",
+        "frame": 6128,
+        "room": 801,
+        "x": 338.7265625,
+        "y": 232.99609375,
+        "hp": 5,
+        "ability": 6,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "ability_gate": 67108470,
+        "ability_unlocks": 64,
+        "phone_context": [
+          1,
+          0,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "battery": 3,
+        "caller": 255,
+        "num": 4,
+        "state": "0x80412ad",
+        "kirby_unkC": "0x1010",
+        "kirby_flags": "0x4",
+        "cpu_abilities": [
+          6,
+          0,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            338.7265625,
+            232.99609375
+          ],
+          [
+            974.46484375,
+            136.99609375
+          ],
+          [
+            296.43359375,
+            232.99609375
+          ],
+          [
+            1012.51171875,
+            136.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          801,
+          101,
+          801,
+          101
+        ],
+        "unk58": 5,
+        "held": 16,
+        "pressed": 0
+      }
+    ]
+  },
+  "field_semantics": {
+    "unk58": "Raw native base.unk58 byte. Underwater bit is 0x2, not a boolean; all selected snapshots are dry.",
+    "kirby_flags": "base.flags at +8",
+    "kirby_unkC": "base.unkC at +12"
+  },
+  "write_origin_note": "The inherited label production-mailbox-four-item-history appears during the initial three-item delivery. It names the reused helper, not the history size. initial_history explicitly excludes Phone; actual written item IDs and native acknowledgments determine delivery. Raw write labels are preserved rather than rewritten.",
+  "source_artifacts": [
+    {
+      "artifact": "cutter_locked_granted_v3.py",
+      "sha256": "77396751f9a438bc12da4630dbb30f5e9d52ba275df55ff1129ffdb4da37e3f8"
+    },
+    {
+      "artifact": "matrix.py",
+      "sha256": "b5577a8b6f9891d075602162148cd3f68798b8f4d93929e512f200c4e10804e6"
+    },
+    {
+      "artifact": "cutter-locked-granted-v3 : runtime.json",
+      "sha256": "56042cfae8eab70634af1a7d26a9a9d395d93c2222e9f051b99670b2bf6fceb5"
+    },
+    {
+      "artifact": "cutter-locked-granted-v3 : audit.jsonl",
+      "sha256": "cba2a27b8d21727595ce9448f919553a2ff31713516eee2580e4c19bf30aebaf"
+    },
+    {
+      "artifact": "matrix.gba",
+      "sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03"
+    },
+    {
+      "artifact": "after-tutorial.sav",
+      "sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d"
+    },
+    {
+      "artifact": "normal-ladder-key2 : runtime.json",
+      "sha256": "f941e2b0ea8f550ffd40b5438a56d6622198e6aacaa4220c4328dd984ab7bd3e"
+    },
+    {
+      "artifact": "base_patch.bsdiff4",
+      "sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea"
+    },
+    {
+      "artifact": "cutter_unowned_l.py",
+      "sha256": "703005bc87dbf1483d55b712d83d4f6e3823dc8b2adc7e6d3f44d2c031816abd"
+    },
+    {
+      "artifact": "cutter-unowned-l : runtime.json",
+      "sha256": "fb0074d02aea1f363176f9cb7e7583c323623e6d0a47017408a8c8db76b31aa3"
+    },
+    {
+      "artifact": "cutter-unowned-l : audit.jsonl",
+      "sha256": "3f0db9a9d486939f92e73136bcd5caf2e57414004fd330964ead5f646082c8d2"
+    },
+    {
+      "artifact": "cutter-native-matrix-evidence.json",
+      "sha256": "baeff9e4ccbcb501b1c848391de47e1524db44a262f615f0f46d0171eb115dd9"
+    }
+  ],
+  "limits": [
+    "Original post-tutorial native save, original USA startup rooms/positions, fixed finite Sir Kibble to Cutter, ability gating ON with actual Cutter permission, health6 to10, synthetic complete history and production validation/pairing.",
+    "No runtime pose, equipment, health or state injection. The actual guarded Phone queue grant establishes ownership; ordinary mailbox acknowledgment does not.",
+    "Two failed setup assertions are retained separately and contribute no gameplay acceptance.",
+    "Underwater, other restricted abilities, zero-battery and interruptions are not tested by this matrix.",
+    "Native source confines the identified exhausted-lives fallen-help initializer to multiplayer; this is static exclusion evidence, not runtime linked-play coverage."
+  ]
+}

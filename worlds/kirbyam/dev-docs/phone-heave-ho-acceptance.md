@@ -28,7 +28,7 @@ This establishes native refill and persistent ownership for the configured start
 
 ## Acceptance decision
 
-Do not install a `has(Phone)` witness yet. The observed fixture contrasts have a successful positioning/retry procedure. A finite-source real-hub approach now repeats and also succeeds with ability gating ON, but its accepted prefix takes damage and does not cover low-health settings, arbitrary source assignments or general helper reliability. Naturally present helpers remain a separate non-Phone case. Other small switches and the large blocks in rooms 315 and 322 require their own proofs; room-146 results do not transfer to them.
+Do not install a `has(Phone)` witness yet. The observed fixture contrasts have a successful positioning/retry procedure. A finite-source real-hub approach now repeats and also succeeds with ability gating ON, and a revised no-health-loss prefix now cold-repeats at HP 6 and succeeds in a separately configured 1–1-health variant. Arbitrary source assignments, other helper routes and general reliability remain unaccepted. Naturally present helpers remain a separate non-Phone case. Other small switches and the large blocks in rooms 315 and 322 require their own proofs; room-146 results do not transfer to them.
 
 ## Contact and freeze diagnostics
 
@@ -80,3 +80,27 @@ A separately labeled same-identity ability-gating-ON variant uses the unmodified
 The gated complete history adds real Cutter permission `3860106`. Production delivery and runtime synchronization establish gate mask `0x03FFFE76` and unlock mask `0x40`, without equipping an ability. The human starts Normal and genuinely acquires Cutter at frame 4,416. This one gated run follows the same 10,856 held-key frames, reaches the same doorway and collects Chalk. Its 171-run schedule preserves all dispatch boundaries and records 26 audited production receipt/config writes. Naturally acquired helper Beam is an observation, not an additional permission grant.
 
 All three successful real-hub runs retain the health qualification: the approach starts at HP 6, takes exploratory damage down to observed HP 2, and later recovers through native recovery/sharing. They do not prove a no-damage, low-health or One-Hit route. The fixed finite Cutter source and its permission are not transferable to arbitrary source randomization. No matched real-hub unowned control, live AP server acknowledgment, complete generated-seed acceptance or universal helper claim is made. Phone remains disabled in production generation and no Phone graph witness is installed.
+
+
+## Solo move identity and pulse constraints
+
+The documented Final Cutter alternative must not be confused with ordinary Cutter equipment used for the approach rope. At native revision `7d969fbce14fdc838d2c1ea01389717fb96c3189`, Cutter 6 dispatches to `sub_0805D854` and the ordinary projectile chain. Smash 22 with Up+B enters `sub_080606A0` through `sub_08069270`. Grounded Sword 18 with Up+B can enter the same rising/falling slash chain through `sub_0805F55C`; its preceding airborne branch remains distinct. The landing routine `sub_08060B18` calls `RequestScreenShake(0x201)` on ground contact, not merely on timeout.
+
+For the reviewed native-146 `0x7D` block, the shared implementation in `asm/star_stone_block.s` checks that same-room quake only when the **net inhale accumulator is zero**. Opposing inhale contributions can cancel, so zero is not itself evidence that no helper contributes. E3 masks `0x04` and `0x08` track a remembered quake and its new edge; a no-quake update must rearm a later pulse. E3 mask `0x10` can suppress movement through terrain/contact obstruction. With the constructor's initially clear facing mask, an accepted pulse applies rightward speed `+0x200`, unlike the tested leftward collective pull.
+
+This source chain identifies a candidate independent solo control, not a completed doorway crossing. An actual solo witness still needs a reachable Smash or separately accepted Sword source, genuine acquisition and carried equipment, no helper contribution, and real doorway/collection evidence. The Phone approach's finite Sir Kibble-to-Cutter pickup proves none of those solo equipment conditions.
+
+
+## Revised no-health-loss route and 1–1 health
+
+The [revised route ledger](phone-no-damage-evidence.json) retains a complete source-conditioned route with no sampled health loss. It begins from the same successfully persisted Phone-owned post-tutorial native save, with original startup positions, Area Keys ON, ability gating ON and fixed finite Sir Kibble-to-Cutter plus real permission. Controller revisions remove the exploratory waits, falls and escape timing that damaged the earlier accepted prefix; those older traces remain unchanged.
+
+Genuine Cutter pickup occurs at frame 4,202. Native ability loss after the rope at 5,118 does not reduce HP; Normal completes the lower Bomb Block and ladder. The real door into 145 is reached at 5,900. Native gathering and recall consume two charges and preserve a new natural helper history including Spark, rather than forcing the earlier Beam sequence.
+
+That history exposes a native spit transient: a naturally inhaled Spark-bearing star is emitted by ordinary B re-press while the caller remains Normal. The source-confirmed spit animation receives neutral input for frames 9,190–9,206, within a finite allowance and the existing overall pull budget. The block remains x124.75 during those 16 frames. Reused object-array entries are not treated as a continuing projectile, and the successful route is not described as exclusively caused by inhale.
+
+The helper-script event occurs at 9,694; actual upper-left arrival in 148 follows at 9,853. One centered Up collection sets Chalk flag 13, increments the local event counter and records `0x088BC114` by 9,945. All 7,698 per-frame samples from ordinary hub reload at 2,248 through collection show HP 6. A separate cold process repeats all 176 boundary-preserving input runs and 26 production writes, reaching the same doorway and collection without health loss.
+
+A separately labeled same-identity variant uses production health resolution and serialization with minimum = maximum = 1, followed by the normal header finalizer and validation. Only the two ROM health-bound bytes differ from the HP-6 configuration; authentication, source policy, initial native save and startup positions are unchanged. Native reload produces HP 1, without a runtime HP write. The same held-input schedule and 26 production writes again reach 148 and collect Chalk, with all 7,698 post-reload samples remaining HP 1. This uses the current health-bound configuration, not the legacy `one_hit_mode` flag.
+
+The HP-6 route has an independent exact-input repeat; the 1–1-health variant has one successful run. These results address the earlier damaging-prefix limitation for this fixed-source procedure. They do not establish arbitrary source randomization, enemy scaling, saved WORLD history, another block, universal CPU behavior or a live-server acknowledgment. Production Phone generation and graph bindings remain disabled while the independent alternatives and broader route scope are reviewed.
