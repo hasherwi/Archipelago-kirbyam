@@ -176,6 +176,7 @@ def test_target_catalog_counts_and_provider_separation():
         "switch_533_crash_viewport": frozenset({"Crash"}),
         "switch_310_ufo_top_charge": frozenset({"UFO"}),
         "switch_310_crash_viewport": frozenset({"Crash"}),
+        "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
         "switch_825_ufo_top_charge": frozenset({"UFO"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),

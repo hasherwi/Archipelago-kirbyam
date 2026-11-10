@@ -5367,7 +5367,8 @@
             "source_key": "TWISTER",
             "abilities": [
               "UFO",
-              "Crash"
+              "Crash",
+              "Cupid"
             ]
           },
           "graphs": {
@@ -5532,6 +5533,97 @@
               "requires_guaranteed_source": {
                 "source_key": "TWISTER",
                 "ability": "Crash"
+              }
+            },
+            "hub4_cupid_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:cupid_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:cupid_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:cupid_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:cupid_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual finite original534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Cupid, never inventory equipment. Gating-on supplement verifies acquisition only."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:cupid_hub4",
+                  "to": "switch_310_mustard_map:cupid_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Independently played Normal590-to-534 door entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_rainbow34",
+                  "to": "switch_310_mustard_map:cupid_source",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual Normal approach to original finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_source",
+                  "to": "switch_310_mustard_map:cupid_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "required_equipment": [
+                    "Cupid"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Real Cupid flight, slide and neutral arrow clear534 obstacles; lower flight avoids Bronto and carries Cupid through upper-right door into310 at2368."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_arrival",
+                  "to": "switch_310_mustard_map:cupid_crossed",
+                  "capability": "switch_310_cupid_up_left_q0",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Dry enemy-aware flight and first weak UP/left arrow clear Chip from the lane (not necessarily kill). Second UP/left q0 release2896 at425.996,85.168 contacts switch2968. Slot1 high2969-2980 only; hover until3000, down/right32 and right16 clear x454 at3045 during gate closing. Exact native trajectory/timed crossing, no persistent switch credit, triple/max-charge or generic ranged grant."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_crossed",
+                  "to": "switch_310_mustard_map:cupid_chest",
+                  "required_equipment": [
+                    "Cupid"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Eight weak arrows before proceeding handle Knight timing/health thresholds (500% Knight remains behind the closed gate), then destroy later bomb obstruction and open native chest39 at3452, local AP check3960205. Cupid retained; no item-delivery claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Cupid"
               }
             }
           }
