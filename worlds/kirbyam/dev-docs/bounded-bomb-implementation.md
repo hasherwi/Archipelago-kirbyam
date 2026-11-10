@@ -2,12 +2,12 @@
 
 Status: partial implementation, 2026-11-10. The conditional Rainbow110→554
 upper-source rule, conditional Cabbage517 Chocolate chest rule, conditional
-Carrot719→734 lower-compartment rule and selective Rainbow138 Green Paint
-chest rule are installed. Other source-policy/target subsets remain open.
+Carrot719→734 lower-compartment rule, selective Rainbow138 Green Paint
+chest rule and entry-bound Carrot733 Yellow Paint UFO rule are installed. Other source-policy/target subsets remain open.
 
 ## Implemented kernel behavior
 
-The traversal kernel now has five Bomb Block target-specific capabilities on four targets, with
+The traversal kernel now has six Bomb Block target-specific capabilities on five targets, with
 no global wall-piercing class or numerical range assumption:
 
 | Capability | Native target | Admitted witnessed moves |
@@ -17,6 +17,7 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_138_green` | Room138 Green Paint selective lower trigger, upper trigger intact | Spark, finite natural source/carry from Room27 upper-left |
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
+| `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 
 Both route endpoints must belong to the named native room and use the reviewed
 medium: dry except for the separate underwater Sword effect. These are action
@@ -28,10 +29,10 @@ is separately excluded by the retained native geometry evidence.
 The kernel still begins with Normal unless a preceding physical path has acquired
 an ability. Inventory never supplies equipment. Source-policy grants, finite
 source consumption, permissions and independently declared access remain intact.
-Beam is not gateable in the current ROM. Spark, Ice, Smash and Sword are gateable.
+Beam is not gateable in the current ROM. Spark, Ice, Smash, Sword and UFO are gateable.
 Spark becomes progression when gating is enabled and the installed Rainbow
 source-policy condition applies. Ice would require classification review before
-installing an Ice-dependent new target; Smash and Sword are already progression. Runtime
+installing an Ice-dependent new target; Smash, Sword and UFO are already progression. Runtime
 permission eligibility remains unchanged.
 
 ## Installed binding and remaining evidence
@@ -133,4 +134,20 @@ finite-source tests, dry/swimming rejection and actual-world option wiring.
 `test_rainbow_sword_evidence.py` checks the five retained production records and
 three matched1HP controls without replaying ROMs. Native seed110 and Sword-only
 shuffled seeds30/17 sample restrictive fills at1HP assert beatability and full
-accessibility. The target count remains36; no second target or AND rule is added.
+accessibility. This alternative adds no second target or AND rule. The catalog now has37 targets, including Yellow Paint.
+
+## Carrot Yellow Paint
+
+The fifth bounded Bomb Block target is `bomb_733_yellow`, only
+`MINOR_CHEST_SPRAY_PAINT_02` /3960501 at native733. It requires independent720
+access and guaranteed SPARKY→UFO. The unchanged719→720 labels remain permissive
+existing assumptions, not a newly certified upstream route. The reviewed Normal
+720→734 upper→720 left→730 ingress avoids a circular734 prerequisite.
+
+Actual equipment guards require upper finite Sparky acquisition, UFO maze carry,
+intentional drop/Normal ladder and distinct lower Sparky reacquisition before the
+733 top-charge shot and physical chest collection. Neither source alone suffices.
+Only lowerF1(21,6) is opened; upper(18,2) remains intact. This is a target-specific
+dry attack, not global UFO range.16 new sealed cases and12 separately qualified
+earlier cases cover only actualHP1/6 × enemy100/500%; controls and source/entry
+limits are retained in `carrot-yellow-ufo-source-witness.md` and its runtime JSON.

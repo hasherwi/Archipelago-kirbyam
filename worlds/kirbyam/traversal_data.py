@@ -194,18 +194,21 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             "REGION_RAINBOW_ROUTE/ROOM_1_09",
         ):
             raise ValueError("Unsupported target-specific guaranteed-source alternatives")
-    # Cabbage's additional Smash carry is not evidence for the Beam-only Carrot
-    # doorway, another source, or any other location in the same native room.
-    cabbage_condition = {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Smash"]}
-    cabbage_target = (
-        row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("location"),
-    ) == (
-        "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
-        "MINOR_CHEST_SPRAY_PAINT_12",
+    # Neither selective carry proof may spread to another source or surface.
+    scoped_conditions = (
+        ({"source_key": "WADDLE_DOO", "abilities": ["Beam", "Smash"]}, (
+            "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
+            "MINOR_CHEST_SPRAY_PAINT_12",
+        )),
+        ({"source_key": "SPARKY", "ability": "UFO"}, (
+            "bomb_733_yellow", "block", 733, "REGION_CARROT_CASTLE/ROOM_5_16",
+            "MINOR_CHEST_SPRAY_PAINT_02",
+        )),
     )
-    if condition == cabbage_condition:
-        if not cabbage_target:
-            raise ValueError("Cabbage Smash applicability belongs only to its reviewed chest target")
+    scoped_target = next((target for supported, target in scoped_conditions if condition == supported), None)
+    if scoped_target is not None:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
+            raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")
     elif condition is not None and condition not in (
         {"source_key": "MR_FROSTY", "ability": "Ice"},
         {"source_key": "SPARKY", "ability": "Spark"},

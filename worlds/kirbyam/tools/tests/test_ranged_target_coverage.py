@@ -29,7 +29,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 36)
+        self.assertEqual(len(targets), 37)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
         rainbow = targets['bomb_110_room9']
@@ -40,6 +40,10 @@ class TestRangedTargetCoverage(unittest.TestCase):
         self.assertEqual(green_target['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_28')
         self.assertEqual(green_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_04')
         self.assertNotIn('exit', green_target['target'])
+        yellow_target = targets['bomb_733_yellow']
+        self.assertEqual(yellow_target['owner'], 'REGION_CARROT_CASTLE/ROOM_5_16')
+        self.assertEqual(yellow_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_02')
+        self.assertNotIn('exit', yellow_target['target'])
         map_target = targets['switch_310_mustard_map']
         self.assertEqual(map_target['owner'], 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
         self.assertEqual(map_target['target']['location'], 'MAJOR_CHEST_MUSTARD_MOUNTAIN')

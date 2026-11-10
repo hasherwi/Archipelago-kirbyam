@@ -6849,6 +6849,177 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_09": "can_fly"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_733_yellow",
+          "kind": "block",
+          "native_room": 733,
+          "location": "MINOR_CHEST_SPRAY_PAINT_02",
+          "requires_guaranteed_source": {
+            "source_key": "SPARKY",
+            "ability": "UFO"
+          },
+          "graphs": {
+            "room14_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_14"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_733_yellow:far_right",
+                  "native_room": 720
+                },
+                {
+                  "id": "bomb_733_yellow:upper734",
+                  "native_room": 734
+                },
+                {
+                  "id": "bomb_733_yellow:left720",
+                  "native_room": 720
+                },
+                {
+                  "id": "bomb_733_yellow:top730",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:upper_source",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:ladder_top",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:lower_source",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:lower_carry",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:arrival733",
+                  "native_room": 733
+                },
+                {
+                  "id": "bomb_733_yellow:chest",
+                  "native_room": 733
+                }
+              ],
+              "starts": [
+                "bomb_733_yellow:far_right"
+              ],
+              "required_targets": [
+                "bomb_733_yellow:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D4FC0",
+                  "node": "bomb_733_yellow:upper_source",
+                  "source_key": "SPARKY",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Original upper Sparky at(344,296), acquired5450 after Normal approach. Guaranteed singleton SPARKY\u2192UFO only; finite, no retries."
+                },
+                {
+                  "id": "0x088D4F9C",
+                  "node": "bomb_733_yellow:lower_source",
+                  "source_key": "SPARKY",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Distinct original lower Sparky at(344,664), acquired6994 after upper UFO discard6830 and Normal ladder descent. Native lure timing, no reset or respawn."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_733_yellow:far_right",
+                  "to": "bomb_733_yellow:upper734",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Existing qualified719\u2192720 arrival; Normal no-hit path avoids Foley drops, inhales/spits Bronto without copying, presses small switch, falls through16-pixel floor gap into734upper at3844. Both720 left bomb-chain cells remain intact. No upstream719 proof.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:upper734",
+                  "to": "bomb_733_yellow:left720",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal flight across isolated734 upper compartment, real door2,4 returns to720left at4136. No assumed734 AP entry.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:left720",
+                  "to": "bomb_733_yellow:top730",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal walk to720door2,7, real730top arrival at4313. Both valid720 arrivals are independently evidenced.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:top730",
+                  "to": "bomb_733_yellow:upper_source",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal route from top arrival to original upper Sparky; acquire UFO at5450.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:upper_source",
+                  "to": "bomb_733_yellow:ladder_top",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Carry upper UFO through directed maze and moving Gordo. Lure lower Sparky with180-frame wait before intentional Select discard at6830.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:ladder_top",
+                  "to": "bomb_733_yellow:lower_source",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Only the reviewed Normal ladder descent after dropping upper UFO. No dropped-star recovery; original lower source is then inhaled safely.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:lower_source",
+                  "to": "bomb_733_yellow:lower_carry",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Acquire lower original Sparky as UFO at6994 and carry without loss to730exit.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:lower_carry",
+                  "to": "bomb_733_yellow:arrival733",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Actual730\u2192733 transition with lower UFO retained, no unrelated exit proof.",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:arrival733",
+                  "to": "bomb_733_yellow:chest",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Dry pose(217.996,102.996),160-frame top charge clears only lowerF1(21,6) at8257; upper(18,2) stays intact through chest0x088D3DD0/check3960501 at8613. No-shot and90-frame medium controls fail. ActualHP1/6\u00d7enemy100/500 only.",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "capability": "bomb_733_yellow_ufo_top_charge"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {

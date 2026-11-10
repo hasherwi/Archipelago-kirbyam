@@ -1,10 +1,10 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The four source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint route and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 36 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 37 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -111,8 +111,8 @@ These are discrete tested values, not every supported health setting. Logic
 source-policy equivalence and gating-on tests are separate from native coverage.
 Applicability is guaranteed SPARKY→Spark OR SWORD_KNIGHT→Sword, validated only
 for this target/owner/exit. Neither finite mixed pools nor failure-weighted
-randomness gains a retry guarantee. Other exits, RoomSanity and the36-target
-count are unchanged. See `rainbow-route-8-sword-witness.md` and
+randomness gains a retry guarantee. Other exits, RoomSanity and the target
+count are unchanged by this alternative. See `rainbow-route-8-sword-witness.md` and
 `rainbow-route-8-sword-runtime.json`; the additional actual-door record is
 `rainbow-route-8-sword-entry-runtime.json`.
 
@@ -135,6 +135,34 @@ covers this source policy even with optional paint disabled. Other checks,
 exits, RoomSanity and Area Keys are unchanged; no global F1/Spark equivalence
 or finite random-source retry guarantee is introduced. See
 `rainbow-green-source-witness.md` and `rainbow-green-source-runtime.json`.
+
+## Carrot Yellow Paint: two-source UFO route
+
+`bomb_733_yellow` gates only `MINOR_CHEST_SPRAY_PAINT_02` /3960501 in
+Room16/native733 for guaranteed SPARKY→UFO. Independent Room14/native720
+access is required. Existing719→720 labels remain unchanged and currently
+permissive; upstream719 traversal is not newly proved. The native witness joins
+720 far right→734 upper→720 left→730 top as Normal, without either720-left
+bomb-chain cell activating. No generic719 or circular734 entry is assumed.
+
+Two distinct finite original730 Sparkies are required: upper0x088D4FC0 supplies
+UFO through the maze/Gordo, then intentional discard permits the Normal ladder,
+and lower0x088D4F9C supplies the UFO carried into733. A separate dry top-charge
+capability opens only lowerF1(21,6), leaving upper(18,2) intact through physical
+chest0x088D3DD0 and real-client check3960501. Equipment guards constrain actual
+carry, not inventory or underwater attack substitution.
+
+Four new Normal ingress runs and12 complete runs cover actualHP1/6 × enemy
+100%/500%, with top160-frame charge success and matched no-shot/medium controls.
+Production seed8 uses the normal25-ability shuffled pool. Eight initial real-client
+configuration writes precede movement; no gameplay writes, restores, helpers or
+server transmissions occur. The earlier12 left-arrival cases remain separately
+qualified. These are discrete health settings, not interpolation or an exhaustive
+ordinary-route impossibility claim. Unsupported assignments retain the prior
+partial behavior. Gating-on, statues, Area Keys, optional paint and full1HP fills
+are separate logic tests. No other exit, compartment, RoomSanity or source pool
+changes; future qualified Phone alternatives belong as OR graphs on this target.
+See `carrot-yellow-ufo-source-witness.md` and `carrot-yellow-ufo-source-runtime.json`.
 
 ## Extended static target census
 

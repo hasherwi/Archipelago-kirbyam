@@ -35,6 +35,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
     "bomb_138_green": frozenset({"Spark"}),
+    "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_719_room13": frozenset({"Beam"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
@@ -49,6 +50,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9": 110,
     "bomb_110_room9_underwater_sword": 110,
     "bomb_138_green": 138,
+    "bomb_733_yellow_ufo_top_charge": 733,
     "bomb_517_chocolate": 517,
     "bomb_719_room13": 719,
     "switch_533_bomb_placement": 533,
@@ -84,6 +86,9 @@ CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
     "fuse": frozenset({"Crash"}),
 }
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
+# Wait (27) is AP metadata, never actual native carried equipment.
+_NATIVE_EQUIPMENT = frozenset(name for name, value in ABILITY_NAME_TO_ID.items()
+                              if 0 <= value <= ABILITY_NAME_TO_ID["Master"])
 _SOURCE_BY_KEY = {source.key: source for source in ABILITY_SOURCES}
 _STATUE_DEFAULTS = {
     f"STATUE:{base + index:06X}": (base + index, name)
@@ -191,6 +196,10 @@ class Route:
     ``opens`` is a room-local peg identity. Once opened, that edge can be used
     without the ability until the search leaves the native room. A reverse edge
     must be supplied independently, including any verified bypass.
+
+    ``required_equipment`` optionally narrows actual carried equipment on a
+    reviewed movement edge. Every possible outcome must qualify. It grants no
+    attack, does not use swimming attack substitution and defaults to no guard.
     """
 
     source: str
@@ -205,6 +214,8 @@ class Route:
     preserves_room_instance: bool = False
     water_state: str = "dry"
     uses_object: str | None = None
+    # Physical carry/ladder state, independent of attack-provider substitution.
+    required_equipment: frozenset[str] | None = None
 
 
 @dataclass(frozen=True)
@@ -288,6 +299,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     or node_by_key[route.target].room != native_room or route.water_state != medium):
                 raise ValueError(f"Room-scoped attack witness requires its native room and {medium} attack pose")
         attack_provider("Normal", route.water_state)
+        if route.required_equipment is not None and (
+            not isinstance(route.required_equipment, frozenset) or not route.required_equipment
+            or not route.required_equipment <= _NATIVE_EQUIPMENT
+        ):
+            raise ValueError("Required equipment must be a nonempty set of native ability names")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
         if (route.capability == "frozen_enemy_hit") != (route.uses_object is not None):
@@ -372,6 +388,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
+            if route.required_equipment is not None and (
+                not position.equipment_outcomes or not position.equipment_outcomes <= route.required_equipment
+            ):
+                continue
             opened = position.opened
             already_open = route.opens is not None and route.opens in opened
             if route.capability and not already_open:
@@ -454,7 +474,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         "from", "to", "capability", "opens", "items", "area_key_items", "evidence",
         "allowed_abilities", "recover_dropped_ability", "room_transition",
         "room_instance", "reset_evidence", "water_state", "uses_object",
-        "frozen_enemy_evidence",
+        "frozen_enemy_evidence", "required_equipment",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -475,6 +495,13 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     for key in ("recover_dropped_ability", "room_transition"):
         if not isinstance(row.get(key, False), bool):
             raise ValueError(f"{key} must be a boolean")
+    equipment = row.get("required_equipment")
+    if "required_equipment" in row and (
+        not isinstance(equipment, list) or not equipment
+        or any(not isinstance(name, str) or name not in _NATIVE_EQUIPMENT for name in equipment)
+        or len(equipment) != len(set(equipment))
+    ):
+        raise ValueError("Required equipment must be a nonempty list of distinct native ability names")
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
     if capability == "fuse" and row.get("opens") is not None:
@@ -493,6 +520,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         row.get("room_instance") == "reset",
         row.get("room_instance") == "preserve",
         row.get("water_state", "dry"), row.get("uses_object"),
+        None if equipment is None else frozenset(equipment),
     )
 
 
