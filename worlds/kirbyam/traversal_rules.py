@@ -66,10 +66,11 @@ def rainbow_spark_is_progression(world: Any) -> bool:
 
 
 def mustard_crash_is_progression(world: Any) -> bool:
-    """Promote only the enforced guaranteed-Foley Crash alternative."""
+    """Promote only enforced guaranteed Foley or HotHead Crash alternatives."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     return (isinstance(raw, dict) and world._ability_gating_enabled()
-            and SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Crash"}))
+            and any(SourcePolicy(raw).grant(source, lambda _: True).guaranteed == frozenset({"Crash"})
+                    for source in ("FOLEY", "HOT_HEAD")))
 
 
 def carrot_fighter_is_progression(world: Any) -> bool:

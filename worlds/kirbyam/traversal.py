@@ -471,11 +471,16 @@ class TraversalGraph:
     access_region: str | None = None
     requires_all_hub_switches: bool = False
     unavailable_reason: str | None = None
+    required_guaranteed_source: tuple[str, str] | None = None
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
                  allow_documented_retries: bool = False) -> TraversalResult:
         if self.unavailable_reason is not None:
             return TraversalResult(frozenset(), frozenset())
+        if self.required_guaranteed_source is not None:
+            source, ability = self.required_guaranteed_source
+            if policy.grant(source, lambda _: True).guaranteed != frozenset({ability}):
+                return TraversalResult(frozenset(), frozenset())
         return reachable_positions(
             self.nodes, self.routes, self.placements, self.starts, policy, owned, gating,
             allow_documented_retries,
@@ -586,9 +591,20 @@ def compile_traversal_graph(payload: Mapping[str, Any], *, area_keys: bool = Fal
         raise ValueError("all_hub_switches must be a boolean")
     if "unavailable" in access and (not isinstance(access["unavailable"], str) or not access["unavailable"].strip()):
         raise ValueError("Unavailable traversal source needs a concrete reason")
+    condition = payload.get("requires_guaranteed_source")
+    required_source = None
+    if condition is not None:
+        if (not isinstance(condition, dict) or set(condition) != {"source_key", "ability"}
+                or not isinstance(condition["source_key"], str)
+                or not isinstance(condition["ability"], str)
+                or condition["ability"] not in _NATIVE_EQUIPMENT - {"Normal"}
+                or not any(p.source_key == condition["source_key"] for p in placements)):
+            raise ValueError("Graph guaranteed-source condition must name a placement and native ability")
+        required_source = (condition["source_key"], condition["ability"])
     graph = TraversalGraph(
         nodes, tuple(routes), tuple(placements), starts, required_targets,
         access.get("region"), access.get("all_hub_switches", False), access.get("unavailable"),
+        required_source,
     )
     # Validate all endpoints even when this reviewed geometry is currently
     # unavailable on the patched ROM. Availability must not hide malformed data.

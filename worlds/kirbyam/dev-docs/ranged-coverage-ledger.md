@@ -250,3 +250,14 @@ ENTRY_FROM_5_07. No Secret Notes, other exit, general734 or reward credit.
 Conditional Fighter progression supplies the enforced permission without changing
 gating-off useful classification. See `carrot-room7-fighter-witness.md` and
 `carrot-room7-fighter-acceptance.json`. Other ranged families remain partial.
+
+## Rainbow Room32 Crash fuse alternative
+
+`fuse_126` additionally accepts a separate finite HOT_HEAD→Crash witness from
+qualified lower native126 entry. The Normal approach, camera-valid ignition,
+consumption, early Normal cannon entry and actual570 arrival are covered by
+HP1/6 ×100%/500% positive/no-trigger cold runs and two attribution runs.
+See `rainbow-room32-crash-source-witness.md` and its compact acceptance JSON.
+The old reusable providers/statue alternatives remain; mixed random retries,
+other cannons and occupied Jack are not extended. Crash permission becomes
+progression only with gating and guaranteed Foley or HotHead→Crash sources.

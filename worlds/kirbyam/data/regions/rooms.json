@@ -2044,7 +2044,7 @@
                   "from": "approach",
                   "to": "target",
                   "capability": "fuse",
-                  "evidence": "Ignite 0x88b950c at 72,88, then enter paired cannon 0x88b94e8 to native570 spawn6,1. This is one timed use, not a permanent opened event. Crash can ignite the fuse, but its cannon-entry timing is not yet a reviewed traversal witness.",
+                  "evidence": "Ignite 0x88b950c at 72,88, then enter paired cannon 0x88b94e8 to native570 spawn6,1. This is one timed use, not a permanent opened event. The separately bounded lower_entry_crash graph models finite Crash ignition and cannon entry.",
                   "allowed_abilities": [
                     "Fire",
                     "Burning",
@@ -2331,6 +2331,102 @@
               "graph_parts": [
                 "ordinary_hub_statues"
               ]
+            },
+            "lower_entry_crash": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_32"
+              },
+              "nodes": [
+                {
+                  "id": "fuse_126:arrival",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:source",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:pose",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:normal_ignition",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:cannon_entry",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:destination",
+                  "native_room": 570
+                }
+              ],
+              "starts": [
+                "fuse_126:arrival"
+              ],
+              "required_targets": [
+                "fuse_126:cannon_entry"
+              ],
+              "sources": [
+                {
+                  "id": "126:0x88b9554",
+                  "node": "fuse_126:source",
+                  "source_key": "HOT_HEAD",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/rainbow-room32-crash-source-witness.md; original finite HotHead at192,104. No retry or inventory-as-equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "fuse_126:arrival",
+                  "to": "fuse_126:source",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "fuse_126:source",
+                  "to": "fuse_126:pose",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "fuse_126:pose",
+                  "to": "fuse_126:normal_ignition",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "capability": "fuse",
+                  "allowed_abilities": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "fuse_126:normal_ignition",
+                  "to": "fuse_126:cannon_entry",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "fuse_126:cannon_entry",
+                  "to": "fuse_126:destination",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_transition": true
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "HOT_HEAD",
+                "ability": "Crash"
+              }
             }
           }
         }
