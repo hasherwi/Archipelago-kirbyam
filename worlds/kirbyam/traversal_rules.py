@@ -66,11 +66,21 @@ def rainbow_spark_is_progression(world: Any) -> bool:
 
 
 def mustard_crash_is_progression(world: Any) -> bool:
-    """Promote only enforced guaranteed Foley or HotHead Crash alternatives."""
+    """Promote only enforced guaranteed Crash routes; inventory is permission."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)
-    return (isinstance(raw, dict) and world._ability_gating_enabled()
-            and any(SourcePolicy(raw).grant(source, lambda _: True).guaranteed == frozenset({"Crash"})
-                    for source in ("FOLEY", "HOT_HEAD")))
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    policy = SourcePolicy(raw)
+    if any(policy.grant(source, lambda _: True).guaranteed == frozenset({"Crash"})
+           for source in ("FOLEY", "HOT_HEAD")):
+        return True
+    if policy.grant("TWISTER", lambda _: True).guaranteed != frozenset({"Crash"}):
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MAJOR_CHEST_MUSTARD_MOUNTAIN"].label, world.player)
+    except KeyError:
+        return False
+    return True
 
 
 def carrot_fighter_is_progression(world: Any) -> bool:

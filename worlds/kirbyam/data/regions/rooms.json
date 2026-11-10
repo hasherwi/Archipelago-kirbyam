@@ -5161,7 +5161,10 @@
           "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
           "requires_guaranteed_source": {
             "source_key": "TWISTER",
-            "ability": "UFO"
+            "abilities": [
+              "UFO",
+              "Crash"
+            ]
           },
           "graphs": {
             "hub4_ufo_entry": {
@@ -5235,6 +5238,97 @@
                   "evidence": "dev-docs/mustard-map-ufo-source-witness.md; top-charge combat clears Chip and SwordKnight while preserving the viewport, then left-facing120-frame top charge from (421.5,136.996) hits the switch across terrain, crosses the timed gate and collects chest39/map4. No persistent switch credit or low/medium-shot equivalence."
                 }
               ]
+            },
+            "hub4_crash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:crash_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:crash_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:crash_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:crash_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual finite534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Crash, not inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:crash_hub4",
+                  "to": "switch_310_mustard_map:crash_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual single-player door, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; independently played Normal590-to-534 entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_rainbow34",
+                  "to": "switch_310_mustard_map:crash_source",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; actual Normal approach to finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_source",
+                  "to": "switch_310_mustard_map:crash_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual single-player door, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; conserve Crash through534 air-puff/slide barriers and aerial carry; actual310 entry2344. No UFO combat assumptions.",
+                  "required_equipment": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_arrival",
+                  "to": "switch_310_mustard_map:crash_crossed",
+                  "capability": "switch_310_crash_viewport",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; dry pose425.996,136.996/camera305.996,8; B2804, player-owned Crash direct switch contact2879, activation2881, consumed to Normal2960; gate opens2961, fully crossed3016 before closure3048. Exact camera/timed crossing only, no persistent credit."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_crossed",
+                  "to": "switch_310_mustard_map:crash_chest",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; Normal slides through later bomb blocks and opens native chest39 at3297, AP location3960205, not vanilla map reward."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Crash"
+              }
             }
           }
         }

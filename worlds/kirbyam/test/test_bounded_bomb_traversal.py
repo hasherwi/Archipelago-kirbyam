@@ -19,6 +19,7 @@ CASES = (
     (533, 'switch_533_ufo_top_charge', {'UFO'}),
     (533, 'switch_533_crash_viewport', {'Crash'}),
     (310, 'switch_310_ufo_top_charge', {'UFO'}),
+    (310, 'switch_310_crash_viewport', {'Crash'}),
 )
 
 

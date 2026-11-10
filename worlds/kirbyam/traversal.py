@@ -44,6 +44,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
     "switch_533_crash_viewport": frozenset({"Crash"}),
     "switch_310_ufo_top_charge": frozenset({"UFO"}),
+    "switch_310_crash_viewport": frozenset({"Crash"}),
     "switch_825_ufo_top_charge": frozenset({"UFO"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
@@ -62,6 +63,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "switch_533_ufo_top_charge": 533,
     "switch_533_crash_viewport": 533,
     "switch_310_ufo_top_charge": 310,
+    "switch_310_crash_viewport": 310,
     "switch_825_ufo_top_charge": 825,
 }
 
@@ -91,6 +93,7 @@ def attack_provider(ability: str, water_state: str) -> str | None:
 # opened barrier. Physical source consumption remains tracked independently.
 CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
     "fuse": frozenset({"Crash"}),
+    "switch_310_crash_viewport": frozenset({"Crash"}),
     "switch_533_crash_viewport": frozenset({"Crash"}),
 }
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
@@ -332,7 +335,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # cannot grant a persistent room-local opened event. The Crash533 gate
         # likewise closes during the witnessed Normal crossing. UFO825 also uses
         # a timed crossing, never a persistent switch-open event.
-        if (route.capability in {"fuse", "switch_533_crash_viewport", "switch_825_ufo_top_charge"}
+        if (route.capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
+                                 "switch_825_ufo_top_charge"}
                 and route.opens is not None):
             raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                              if route.capability == "fuse"
@@ -522,7 +526,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         raise ValueError("Required equipment must be a nonempty list of distinct native ability names")
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
-    if (capability in {"fuse", "switch_533_crash_viewport", "switch_825_ufo_top_charge"}
+    if (capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
+                       "switch_825_ufo_top_charge"}
             and row.get("opens") is not None):
         raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                          if capability == "fuse" else "Timed switch attack cannot have a persistent opens event")

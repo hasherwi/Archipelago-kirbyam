@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map route in `mustard-map-ufo-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map alternatives in `mustard-map-ufo-source-witness.md` and `mustard-map-crash-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -261,3 +261,15 @@ See `rainbow-room32-crash-source-witness.md` and its compact acceptance JSON.
 The old reusable providers/statue alternatives remain; mixed random retries,
 other cannons and occupied Jack are not extended. Crash permission becomes
 progression only with gating and guaranteed Foley or HotHead→Crash sources.
+
+## Mustard map Crash alternative
+
+`mustard-map-crash-source-witness.md` and `mustard-map-crash-acceptance.json` add
+one finite guaranteedTWISTER→Crash OR graph to the existing310 map target, leaving
+its UFO graph unchanged. Independent590→534 acquisition/carry, exact camera-valid
+dry310 activation, Crash consumption and Normal timed crossing/chest continuation
+are witnessed at1HP/6HP and100%/500% without damage. Full omission controls take
+Knight damage before positive contact; clean prefix and offscreen controls have
+separate limited roles. Local production polling emits3960205 from transport bit4;
+that is distinct from physical chest39, suppressed vanilla ownership and server
+receipt. No global range, persistent credit or mixed-source retry guarantee follows.

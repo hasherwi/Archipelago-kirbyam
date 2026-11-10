@@ -207,6 +207,10 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             raise ValueError("Unsupported target-specific guaranteed-source alternatives")
     # These selective carry proofs may not spread to another source or surface.
     scoped_conditions = (
+        ({"source_key": "TWISTER", "abilities": ["UFO", "Crash"]}, (
+            "switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+            "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+        )),
         ({"source_key": "MR_FROSTY", "abilities": ["Ice", "UFO"]}, (
             "frozen_825_sound_effects", "block", 825, "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
             "MINOR_CHEST_MUSIC_NOTE_10",
