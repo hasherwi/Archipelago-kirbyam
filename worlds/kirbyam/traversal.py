@@ -38,6 +38,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_719_room13": frozenset({"Beam"}),
+    "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
     "switch_533_ufo_top_charge": frozenset({"UFO"}),
     # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
@@ -56,6 +57,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_733_yellow_ufo_top_charge": 733,
     "bomb_517_chocolate": 517,
     "bomb_719_room13": 719,
+    "bomb_719_fighter_first_combo": 719,
     "switch_533_bomb_placement": 533,
     "switch_533_ufo_top_charge": 533,
     "switch_533_crash_viewport": 533,

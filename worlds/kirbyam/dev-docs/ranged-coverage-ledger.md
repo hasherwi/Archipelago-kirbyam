@@ -236,3 +236,17 @@ offscreen actors:101 at100%, moving101→106 in long500% runs, never814/831/825;
 no helper route projectile or source contribution is credited. Client check capture
 is local, not server submission. Unsupported assignments retain partial behavior.
 See `olive-sound-effects-ufo.md` and its separate endpoint/composition JSON records.
+
+## Carrot Room7: bounded Fighter first combo
+
+`bomb_719_room13` now has a same-row Fighter OR witness from independent
+Room5/native170 through finite original lower Waddle Doo. Only guaranteed
+singleton WADDLE_DOO→Beam/Fighter enables this target. The new dry719 capability
+is the exact left-facing ordinary first combo at86,232.996, separate from Beam
+and from HP1 waves. HP1 special-wave and HP6 charged-wave carry are independently
+replayed at enemy100/500; only the final combo is HP-independent. Eight matched
+positive/control runs and four tile audits establish only actual lower734
+ENTRY_FROM_5_07. No Secret Notes, other exit, general734 or reward credit.
+Conditional Fighter progression supplies the enforced permission without changing
+gating-off useful classification. See `carrot-room7-fighter-witness.md` and
+`carrot-room7-fighter-acceptance.json`. Other ranged families remain partial.

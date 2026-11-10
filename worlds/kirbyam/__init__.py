@@ -1329,6 +1329,10 @@ class KirbyAmWorld(World):
             from .traversal_rules import mustard_crash_is_progression
             if mustard_crash_is_progression(self):
                 classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Fighter Ability":
+            from .traversal_rules import carrot_fighter_is_progression
+            if carrot_fighter_is_progression(self):
+                classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
             classification,

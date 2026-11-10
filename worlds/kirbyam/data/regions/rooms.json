@@ -6651,7 +6651,10 @@
           "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
           "requires_guaranteed_source": {
             "source_key": "WADDLE_DOO",
-            "ability": "Beam"
+            "abilities": [
+              "Beam",
+              "Fighter"
+            ]
           },
           "graphs": {
             "room5_entry": {
@@ -6711,6 +6714,66 @@
                   "to": "bomb_719_room13:left_door",
                   "capability": "bomb_719_room13",
                   "evidence": "dev-docs/carrot-room7-source-witness.md; complete Beam carry through ladders and central Gordo lane to left gate pose(86,232.996), then attack/door sequence reaching734 lower compartment. No Secret Notes or unrelated exit gate."
+                }
+              ]
+            },
+            "room5_fighter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-fighter-witness.md; actual170 ingress as Normal, finite original lower Doo0x088D3BF4 naturally yields Fighter; no retries."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; continuous actual170 ingress, acquisition and carry; HP1 special carry wave and HP6 ordinary charged carry wave are separate from the final ordinary combo."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; continuous actual170 ingress, acquisition and carry; HP1 special carry wave and HP6 ordinary charged carry wave are separate from the final ordinary combo."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_fighter_first_combo",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; dry left-facing ordinary first combo at(86,232.996) opens F1(1,14) and fifteen F2 cells, then actual734 lower entry. No other surface credit."
                 }
               ]
             }

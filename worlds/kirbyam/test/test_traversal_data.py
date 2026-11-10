@@ -167,6 +167,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
         "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
         "bomb_719_room13": frozenset({"Beam"}),
+        "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
         "switch_533_bomb_placement": frozenset({"Bomb"}),
         "switch_533_ufo_top_charge": frozenset({"UFO"}),
         "switch_533_crash_viewport": frozenset({"Crash"}),

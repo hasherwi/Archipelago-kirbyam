@@ -176,6 +176,17 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             raise ValueError(f"Remote traversal witness needs independent access: {row['id']}")
 
 
+def _validate_carrot_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
+    if condition == {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Fighter"]}:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
+            "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+            "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        ):
+            raise ValueError("Fighter source applicability belongs only to the reviewed Carrot entry")
+        return None  # Validated here; never extend the chest source conditions.
+    return condition
+
+
 def _validate_target(row: Mapping[str, Any]) -> None:
     condition = row.get("requires_guaranteed_source")
     alternatives = row.get("requires_any_guaranteed_source")
@@ -209,6 +220,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             "MINOR_CHEST_SPRAY_PAINT_02",
         )),
     )
+    condition = _validate_carrot_source_condition(row, condition)
     scoped_target = next((target for supported, target in scoped_conditions if condition == supported), None)
     if scoped_target is not None:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
