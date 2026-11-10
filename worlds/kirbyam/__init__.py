@@ -614,6 +614,16 @@ class KirbyAmWorld(World):
                 if (r.name, r.player) not in existing:
                     self.multiworld.regions.append(r)
 
+            # Main creates start_inventory before regions. Reclassify only the
+            # conditional permissions whose actual target could not exist yet.
+            # Their early useful instances were not collected into current state.
+            for item in self.multiworld.precollected_items[self.player]:
+                if item.name in {"Ice Ability", "Crash Ability", "Missile Ability"} and not item.advancement:
+                    classification = self.create_item(item.name).classification
+                    if classification & ItemClassification.progression:
+                        item.classification = classification
+                        self.multiworld.state.collect(item, prevent_sweep=True)
+
             # Log region creation
             fillable_locations = len([
                 loc for loc in self.multiworld.get_locations(self.player)
@@ -1332,6 +1342,10 @@ class KirbyAmWorld(World):
         if self.item_id_to_name[item_code] == "Fighter Ability":
             from .traversal_rules import carrot_fighter_is_progression
             if carrot_fighter_is_progression(self):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Missile Ability":
+            from .traversal_rules import cabbage_missile_is_progression
+            if cabbage_missile_is_progression(self):
                 classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],

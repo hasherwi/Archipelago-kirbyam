@@ -257,8 +257,22 @@ def test_normal_full_pool_seed15_one_hp_fill(tmp_path, gating, area_keys, health
     assert SourcePolicy(raw).grant('TWISTER', lambda _: True).guaranteed == frozenset({'Crash'})
 
 
-def test_public_evidence_and_single_capability_owner():
+def lf_text_sha256(raw):
+    """Hash tracked UTF-8 source as LF text; private evidence hashes stay raw."""
     import hashlib
+    text = raw.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def test_tracked_client_source_hash_accepts_crlf_but_rejects_content_changes():
+    import hashlib
+    lf = 'def client_poll():\n    """Kirby → AP."""\n    return [3960205]\n'.encode('utf-8')
+    crlf = lf.replace(b'\n', b'\r\n')
+    assert lf_text_sha256(crlf) == lf_text_sha256(lf) == hashlib.sha256(lf).hexdigest()
+    assert lf_text_sha256(crlf + b' ') != lf_text_sha256(lf)
+
+
+def test_public_evidence_and_single_capability_owner():
     import json
     from pathlib import Path
     root = Path(__file__).resolve().parents[1]
@@ -286,7 +300,7 @@ def test_public_evidence_and_single_capability_owner():
             assert run['final']['ability'] == 0
     client = evidence['client_poll']
     assert client['no_server_transmission']
-    assert client['client_sha256'] == hashlib.sha256((root / 'client.py').read_bytes()).hexdigest()
+    assert client['client_sha256'] == lf_text_sha256((root / 'client.py').read_bytes())
     assert client['runs']['positive']['captured_client_messages'] == [{'cmd': 'LocationChecks', 'locations': [3960205]}]
     owners = [(row['id'], key) for row in room_traversal_targets('switch') for key, g in row['graphs'].items()
               if any(r.get('capability') == 'switch_310_crash_viewport' for r in g['routes'])]

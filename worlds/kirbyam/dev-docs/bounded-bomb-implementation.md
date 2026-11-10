@@ -7,7 +7,7 @@ chest rule and entry-bound Carrot733 Yellow Paint UFO rule are installed. Other 
 
 ## Implemented kernel behavior
 
-The traversal kernel now has six Bomb Block target-specific capabilities on five targets, with
+The traversal kernel has Bomb Block target-specific capabilities on five targets, with
 no global wall-piercing class or numerical range assumption:
 
 | Capability | Native target | Admitted witnessed moves |
@@ -16,6 +16,8 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_110_room9_underwater_sword` | Same exact Room110 lower F1(13,57), same Room9 route | Attached underwater Sword spin, separate from landing wave |
 | `bomb_138_green` | Room138 Green Paint selective lower trigger, upper trigger intact | Spark, finite natural source/carry from Room27 upper-left |
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
+| `bomb_517_fire_breath` | Same exact Room517 F1 (14,7) and Chocolate chest | Neutral traveling Fire breath packet from the reviewed dry pose |
+| `bomb_517_missile_blast` | Same exact Room517 F1 (14,7) and Chocolate chest | Down-right local Missile detonation with a ±24 tile scanner |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 | `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 
@@ -29,11 +31,12 @@ is separately excluded by the retained native geometry evidence.
 The kernel still begins with Normal unless a preceding physical path has acquired
 an ability. Inventory never supplies equipment. Source-policy grants, finite
 source consumption, permissions and independently declared access remain intact.
-Beam is not gateable in the current ROM. Spark, Ice, Smash, Sword and UFO are gateable.
+Beam is not gateable in the current ROM. Fire, Missile, Spark, Ice, Smash, Sword and UFO are gateable.
 Spark becomes progression when gating is enabled and the installed Rainbow
 source-policy condition applies. Ice would require classification review before
-installing an Ice-dependent new target; Smash, Sword and UFO are already progression. Runtime
-permission eligibility remains unchanged.
+installing an Ice-dependent new target; Fire, Smash, Sword and UFO are already progression. Runtime
+permission eligibility remains unchanged. Missile is conditionally promoted only
+for the enabled guaranteed-Doo Chocolate chest rule when gating is on.
 
 ## Installed binding and remaining evidence
 
@@ -63,12 +66,16 @@ is not replaced by room-wide enemy assumptions:
   cover natural mode, gating off, actual HP1/6 and enemy100%/500%; supported
   50–99% and 101–499% settings remain unreplayed. Only the optional paint
   check is gated, with existing Room8 Spark classification unchanged.
-- Cabbage517: installed only for a guaranteed singleton WADDLE_DOO→Beam or
-  WADDLE_DOO→Smash, with independent Cabbage Hub2 access. The new Smash
-  alternative proves complete production acquisition/carry and the physical chest check,
-  using [the Smash witness](cabbage-smash-source-witness.md). Beam and Smash
-  are separate OR graphs inside the same target row. Spark/Ice target-hit
-  witnesses still do not establish their source carry routes.
+- Cabbage517: installed only for a guaranteed singleton WADDLE_DOO→Beam,
+  WADDLE_DOO→Smash, WADDLE_DOO→Fire or WADDLE_DOO→Missile, with independent
+  Cabbage Hub2 access.
+  Separate [Smash](cabbage-smash-source-witness.md) and
+  [Fire](cabbage-fire-source-witness.md) and
+  [Missile](cabbage-missile-source-witness.md) witnesses prove complete production
+  acquisition/carry and the physical chest check. Beam, Smash, Fire and Missile
+  are separate OR graphs inside one target row. Fire and Missile guard the
+  raw source policy before permission filtering, rejecting mixed random pools.
+  Spark/Ice target-hit witnesses still do not establish their source carry routes.
 - Carrot719: installed only for guaranteed WADDLE_DOO→Beam, using the lower
   native Doo(568,456) and independent Room5 access. The other Doo(616,232) is
   recorded in the complete source inventory, not substituted into this route.
@@ -153,3 +160,33 @@ Only lowerF1(21,6) is opened; upper(18,2) remains intact. This is a target-speci
 dry attack, not global UFO range.16 new sealed cases and12 separately qualified
 earlier cases cover only actualHP1/6 × enemy100/500%; controls and source/entry
 limits are retained in `carrot-yellow-ufo-source-witness.md` and its runtime JSON.
+
+## Cabbage Fire validation
+
+`test_cabbage_fire.py` covers finite source consumption, permission without
+equipment, raw mixed-pool rejection, exact target scope and actual-world option
+wiring. Four full seed 18 generations preserve the normal 25-ability policy and
+Doo→Fire assignment, fill every check and assert beatability/full accessibility
+at 1 HP, with gating/Area Keys on and off and sampled 100%/500% enemy health.
+Eight native runs and matched controls are separately qualified in the Fire
+witness and compact acceptance metadata. These host tests do not replay a ROM.
+
+## Cabbage Missile validation
+
+`test_cabbage_missile.py` adds the distinct dry detonation, retained equipment,
+finite-source and raw mixed-pool guards, conditional progression and disabled
+minor-chest behavior. Actual-world fixtures preserve unrelated exits, RoomSanity
+and Area-Key rules. Four full seed 5 generations retain the normal 25-ability
+Doo→Missile policy and assert fill, beatability and full accessibility at 1 HP.
+Native four-endpoint positives, bounded no-attack controls and the separate
+neutral-direction negative are qualified in the Missile witness. Failed later
+closed-wall continuations are not counted as accepted no-damage controls.
+
+## Conditional starting permissions
+
+The scoped [starting-inventory lifecycle correction](traversal-start-inventory-lifecycle.md)
+reconciles early precollected Ice, Twister-only Crash and Missile permissions
+once their actual target locations exist. It preserves each existing source,
+gating and enabled-location condition, requested multiplicity and unrelated
+item classifications. This is host generation behavior, not new native route
+acceptance.

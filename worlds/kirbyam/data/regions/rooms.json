@@ -4226,7 +4226,9 @@
             "source_key": "WADDLE_DOO",
             "abilities": [
               "Beam",
-              "Smash"
+              "Smash",
+              "Fire",
+              "Missile"
             ]
           },
           "graphs": {
@@ -4355,6 +4357,140 @@
                   "evidence": "dev-docs/cabbage-smash-source-witness.md; complete Smash-specific carry, rising Up+B opens intended F1 at3129, linked F2 then clear by3179. Physical chest57 opens at4421, event0x088CA0B8 maps through actual client to LocationChecks3960511. HP1/6 \u00d7 enemy100/500%, no damage or ability loss. Other providers do not inherit this route."
                 }
               ]
+            },
+            "hub2_fire_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-fire-source-witness.md; finite native Doo 0x088CA04C at (528,264), acquired from Normal after actual Hub2 entry. Production swallow grants guaranteed shuffled Fire 1 at frame 1939. No injected equipment, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; continuous native 591 to 517 door at frame 1109, then Normal approach from right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; ordinary approach from right arrival, jump and inhale the original finite Doo above the sealed chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_fire_breath",
+                  "allowed_abilities": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; complete Fire-specific carry to (185.9961,120.9961), neutral B for 30 frames. Traveling packet opens F1 at frame 3341, seven linked F2 clear by 3371. Physical chest 57 opens at 4252 and the production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage or ability loss. No other provider inherits this route."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fire"
+              }
+            },
+            "hub2_missile_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-missile-source-witness.md; finite original Doo 0x088CA04C at (528,264), acquired from Normal after actual Hub2 entry. Production swallow grants guaranteed shuffled Missile 25 at frame 1939. No injected equipment, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; continuous native 591 to 517 door at frame 1109, then Normal approach from right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; ordinary approach from right arrival, jump and inhale the original finite Doo above the sealed chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_missile_blast",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; complete Missile-specific carry to dry pose (201.9961,88.9961), B for one frame then down-right for 70 frames. Local detonation opens F1 at frame 3771 and linked F2 by 3801. Physical chest 57 opens at 4885; production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage, Missile retained. Tile scan uses +/-24, not damage bounds or piercing flight. No other provider inherits this route."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Missile"
+              }
             }
           }
         }

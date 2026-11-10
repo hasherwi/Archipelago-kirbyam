@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map alternatives in `mustard-map-ufo-source-witness.md` and `mustard-map-crash-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam, Smash, Fire and Missile alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map alternatives in `mustard-map-ufo-source-witness.md` and `mustard-map-crash-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -273,3 +273,30 @@ Knight damage before positive contact; clean prefix and offscreen controls have
 separate limited roles. Local production polling emits3960205 from transport bit4;
 that is distinct from physical chest39, suppressed vanilla ownership and server
 receipt. No global range, persistent credit or mixed-source retry guarantee follows.
+
+## Cabbage Chocolate chest: finite Fire alternative
+
+The existing `bomb_517_chocolate` target now OR-composes its unchanged Beam
+and Smash witnesses with a separate guaranteed WADDLE_DOO→Fire graph. The
+original finite Doo is acquired after the independently required Hub2 entry.
+The complete Fire-specific carry, neutral breath packet, physical chest and
+local client check are native-tested at HP 1/6 and enemy health 100/500%, with
+four matched no-breath controls. No global Fire range, other exit, RoomSanity
+or renewable source is inferred. Fire already has a gateable progression item;
+permission remains separate from equipment. See `cabbage-fire-source-witness.md`
+and `cabbage-fire-acceptance.json` for startup/configuration qualifications,
+packet attribution and the limits of native versus host rule coverage.
+
+## Cabbage Chocolate chest: finite Missile alternative
+
+The same `bomb_517_chocolate` row now OR-composes a separate guaranteed
+WADDLE_DOO→Missile route with Beam, Smash and Fire. Native acceptance starts
+Normal at actual Hub2 entry, acquires the original finite Doo, carries Missile
+to the exact upper pose and uses a down-right local detonation. The ±24 tile
+scanner, not later ±30 damage bounds or piercing flight, opens the F1 chain.
+Four HP 1/6 and enemy health 100/500% positives reach the physical chest and
+local client check; four no-attack controls stop at frame 3813 before collection.
+Failed later closed-wall continuations are excluded from no-damage controls.
+Missile permission is progression only for the enabled guaranteed-source chest
+rule with gating on. See `cabbage-missile-source-witness.md` and its acceptance
+metadata for setup, attribution, policy and option qualifications.
