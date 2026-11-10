@@ -49,7 +49,7 @@ Both tutorial runs replay the same 245 input segments, 31,422 frames. Recorded r
 
 ## Helper-route acceptance
 
-A [room-146 Heave-Ho investigation](phone-heave-ho-acceptance.md) now records repeated configured successes, a matched unowned negative control, native ability disposal, and save/reload refill. Natural-ability contrasts still fail despite eventual normalization, so positioning reliability and a real-start approach remain unresolved. No Phone traversal witness is installed.
+A [room-146 Heave-Ho investigation](phone-heave-ho-acceptance.md) records repeated configured successes, native ability disposal, and save/reload refill. Later source-informed retries now cross the block approach and physically collect Chalk after naturally acquired Missile and Fire/Fire/Beam. The Missile input schedule also cold-repeats unchanged. Native chest flag/event evidence supports correcting Chalk to Goal 2 upper-left and its return endpoint to Room 18 bottom-right; no Phone condition is added. The unowned retry schedule ends on the earlier approach and does not isolate the block. A separately qualified actual Central Circle approach now cold-repeats and also succeeds in one production-format ability-gating-ON variant, with genuine finite Cutter pickup and real permission. It starts from a post-tutorial Phone-owned native save at HP 6 and takes damage to HP 2 before native recovery. Low-health settings, arbitrary source assignments and general helper reliability remain unresolved. No Phone traversal witness is installed.
 
 ## Static object inventory
 
