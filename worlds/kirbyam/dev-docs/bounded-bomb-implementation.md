@@ -149,7 +149,8 @@ finite-source tests, dry/swimming rejection and actual-world option wiring.
 `test_rainbow_sword_evidence.py` checks the five retained production records and
 three matched1HP controls without replaying ROMs. Native seed110 and Sword-only
 shuffled seeds30/17 sample restrictive fills at1HP assert beatability and full
-accessibility. This alternative adds no second target or AND rule. The catalog now has37 targets, including Yellow Paint.
+accessibility. This alternative adds no second target or AND rule. The later optional native538 Beam left-exit witness brings the catalog to38 targets,
+including Yellow Paint. See `rainbow-beam538-source-witness.md` for its distinct new-edge semantics.
 
 ## Carrot Yellow Paint
 

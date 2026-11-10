@@ -13,13 +13,18 @@ implemented. The current source-backed subset includes:
 - Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
 - The conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
+- An optional, fail-closed native538 Beam left exit from VERTICAL directly to
+  Rainbow39/native537, documented in `rainbow-beam538-source-witness.md`. It
+  adds no reverse crossover, direct539 route or mandatory Beam requirement. The
+  separate health supplement covers32 nativeHP1/2/4 tuples with one tested
+  percentage each, without claiming all phases or upstream1HP composition.
 
 The move-family catalog below identifies candidates. It does not grant an
 ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 37 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,059 location/exit surfaces. All 38 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 

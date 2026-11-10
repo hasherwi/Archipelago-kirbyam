@@ -29,7 +29,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 37)
+        self.assertEqual(len(targets), 38)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
         rainbow = targets['bomb_110_room9']
@@ -48,6 +48,12 @@ class TestRangedTargetCoverage(unittest.TestCase):
         self.assertEqual(map_target['owner'], 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
         self.assertEqual(map_target['target']['location'], 'MAJOR_CHEST_MUSTARD_MOUNTAIN')
         self.assertNotIn('exit', map_target['target'])
+        beam = targets['bomb_538_beam_left_exit']
+        self.assertEqual(beam['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL')
+        self.assertEqual(beam['target']['exit'], 'REGION_RAINBOW_ROUTE/ROOM_1_39')
+        self.assertEqual(beam['target']['native_room'], 538)
+        self.assertTrue(beam['target']['new_connection'])
+        self.assertFalse(beam['target']['required_for_generation'])
 
     def test_room_sanity_is_separate(self):
         self.assertEqual(self.coverage['counts']['room_sanity_locations'], 263)

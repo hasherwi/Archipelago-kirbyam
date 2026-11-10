@@ -11,6 +11,7 @@ from ..traversal import Node, Placement, Position, Route, SourcePolicy, reachabl
 CASES = (
     (110, 'bomb_110_room9', {'Spark'}),
     (138, 'bomb_138_green', {'Spark'}),
+    (538, 'bomb_538_beam_left_crossover', {'Beam'}),
     (733, 'bomb_733_yellow_ufo_top_charge', {'UFO'}),
     (517, 'bomb_517_chocolate', {'Beam', 'Spark', 'Ice', 'Smash'}),
     (517, 'bomb_517_fire_breath', {'Fire'}),

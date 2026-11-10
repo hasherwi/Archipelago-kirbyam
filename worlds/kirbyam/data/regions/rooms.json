@@ -2496,7 +2496,176 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_35": null,
-      "REGION_RAINBOW_ROUTE/ROOM_1_37": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_37": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_39": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_538_beam_left_exit",
+          "kind": "block",
+          "native_room": 538,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+          "new_connection": true,
+          "required_for_generation": false,
+          "optional_route_evidence": "dev-docs/rainbow-beam538-source-witness.md; Additional directed route only. Existing vertical535/542 and horizontal537/539 corridors, all checks and ordinary approaches remain. Native537 is also reached through existing536/Rainbow38 and horizontal538 routes; this connection owns no exclusive check and need not exist under every source assignment.",
+          "graphs": {
+            "normal544_beam_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_538_beam_left_exit:upper544",
+                  "native_room": 544
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door544",
+                  "native_room": 544
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:upper543",
+                  "native_room": 543
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door543",
+                  "native_room": 543
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:lower542",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:source",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door542",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:lower538",
+                  "native_room": 538
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:left_ledge",
+                  "native_room": 538
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:left_door537",
+                  "native_room": 538
+                }
+              ],
+              "starts": [
+                "bomb_538_beam_left_exit:upper544"
+              ],
+              "required_targets": [
+                "bomb_538_beam_left_exit:left_door537"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B6138",
+                  "node": "bomb_538_beam_left_exit:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/rainbow-beam538-source-witness.md; Original finite type18 Doo, native Beam7, reached Normal through the played lower542 ring and upper F0 source opening. Inhale/swallow consumes this source; no inventory-as-equipment or eventual random retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_538_beam_left_exit:upper544",
+                  "to": "bomb_538_beam_left_exit:door544",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Full descent from decoded321 upper arrival, including surviving Waddle inhale/spit at higher health, Sparky expulsion and F0 floor removal. This Normal boundary is not a continuous upstream1HP proof."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door544",
+                  "to": "bomb_538_beam_left_exit:upper543",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual544-to543 door at (7,59), not a near-door fixture or generic543 access.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:upper543",
+                  "to": "bomb_538_beam_left_exit:door543",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Complete543 traversal from actual544 arrival, retaining Normal through the outgoing door approach."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door543",
+                  "to": "bomb_538_beam_left_exit:lower542",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual543-to542 arrival (504,280.996) inside lower ring, not generic542 reachability.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:lower542",
+                  "to": "bomb_538_beam_left_exit:source",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Inhale and spit original Leap to open lower F1(30,17), ascend around the central wall, clear F0(6,3) and inhale original Doo. Preserve the safe source timing variant at high health."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:source",
+                  "to": "bomb_538_beam_left_exit:door542",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Carry acquired Beam over upper wall and open separate upper542 ring F1(21,8); this is not the538 crossover trigger."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door542",
+                  "to": "bomb_538_beam_left_exit:lower538",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual542 door record0x0887658E at (19,8) enters lower VERTICAL at (232,296.996), retaining Beam.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:lower538",
+                  "to": "bomb_538_beam_left_exit:left_ledge",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Rise near central right passage, deflate and remove Scarfy with left Beam while both F1s stay intact; reinflate and settle on original left F2 ledge at (140.91796875,168.99609375). Scarfy is a hazard, never a source."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:left_ledge",
+                  "to": "bomb_538_beam_left_exit:left_door537",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Grounded left-facing B sweep: segment5 movement5 activates left F1(5,11); all34 replacements finish, including9 new solids. New floor catches Kirby; move left and use actual538-to537 door0x0887602C at (1,11), retaining Beam. No right539 or reverse crossover grant.",
+                  "capability": "bomb_538_beam_left_crossover",
+                  "water_state": "dry"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": {

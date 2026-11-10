@@ -35,6 +35,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
     "bomb_138_green": frozenset({"Spark"}),
+    # Grounded left-ledge sweep and completed chain crossing, not Beam range.
+    "bomb_538_beam_left_crossover": frozenset({"Beam"}),
     "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_517_fire_breath": frozenset({"Fire"}),
@@ -64,6 +66,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9": 110,
     "bomb_110_room9_underwater_sword": 110,
     "bomb_138_green": 138,
+    "bomb_538_beam_left_crossover": 538,
     "bomb_733_yellow_ufo_top_charge": 733,
     "bomb_517_chocolate": 517,
     "bomb_517_fire_breath": 517,

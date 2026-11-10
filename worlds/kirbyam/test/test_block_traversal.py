@@ -228,7 +228,7 @@ def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
     import pkgutil
     from ..traversal_data import room_traversal_targets
     assert {row['id'] for row in room_traversal_targets('block')} == {
-        'underwater_819_exit', 'frozen_825_sound_effects',
+        'underwater_819_exit', 'frozen_825_sound_effects', 'bomb_538_beam_left_exit',
         'bomb_110_room9', 'bomb_138_green', 'bomb_517_chocolate', 'bomb_719_room13', 'bomb_733_yellow',
     }
     items = json.loads(pkgutil.get_data('worlds.kirbyam', 'data/items.json'))

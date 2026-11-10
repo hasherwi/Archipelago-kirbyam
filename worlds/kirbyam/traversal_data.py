@@ -187,7 +187,19 @@ def _validate_carrot_source_condition(row: Mapping[str, Any], condition: Any) ->
     return condition
 
 
+def _validate_new_connection(row: Mapping[str, Any]) -> None:
+    if not isinstance(row.get("new_connection", False), bool):
+        raise ValueError("new_connection must be a boolean")
+    if row.get("new_connection") and (
+        not row.get("exit") or row.get("requires_guaranteed_source") is not None
+        or row.get("requires_any_guaranteed_source") is not None
+        or row.get("required_for_generation", True)
+    ):
+        raise ValueError("New optional connections need unconditional rule installation, not target applicability")
+
+
 def _validate_target(row: Mapping[str, Any]) -> None:
+    _validate_new_connection(row)
     condition = row.get("requires_guaranteed_source")
     alternatives = row.get("requires_any_guaranteed_source")
     if "requires_any_guaranteed_source" in row:

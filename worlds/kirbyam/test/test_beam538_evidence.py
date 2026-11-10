@@ -1,0 +1,200 @@
+"""Frozen scalar/hash native538 contracts; these tests do not replay the ROM."""
+
+import hashlib
+import json
+from pathlib import Path
+
+from ..data import data, load_json_data
+from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from ..tools.build_ranged_target_coverage import build_coverage
+from ..traversal import CAPABILITY_ABILITIES, ROOM_SCOPED_CAPABILITIES
+from ..traversal_data import room_traversal_targets
+from .test_beam538_crossover import CAPABILITY, DESTINATION, OWNER, TARGET, UPSTREAM
+from .test_yellow_ufo_upstream_evidence import lf_text_sha256
+
+ROOT = Path(__file__).resolve().parents[1]
+EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
+
+
+def evidence():
+    return json.loads(EVIDENCE.read_text(encoding='utf-8'))
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
+
+
+def raw_targets(value):
+    if isinstance(value, dict):
+        yield from value.get('traversal', {}).get('targets', [])
+        for child in value.values():
+            yield from raw_targets(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from raw_targets(child)
+
+
+def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
+    e, rooms = evidence(), load_json_data('regions/rooms.json')
+    assert e['target'] == {
+        'id': TARGET, 'owner': OWNER, 'exit': DESTINATION, 'native_room': 538,
+        'actual_exit_native_room': 537, 'independent_access': UPSTREAM}
+    assert e['source'] == {'template': '0x088B6138', 'source_key': 'WADDLE_DOO', 'native_room': 542,
+                           'native_type': 18, 'native_ability': 7, 'finite': True}
+    assert CAPABILITY_ABILITIES[CAPABILITY] == frozenset({'Beam'})
+    assert ROOM_SCOPED_CAPABILITIES[CAPABILITY] == 538
+    assert 'Beam' not in GATEABLE_ENEMY_COPY_ABILITIES
+    assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': False}
+    for name, sha256 in e['preserved_region_sha256'].items():
+        assert digest(rooms[name]) == sha256
+    targets = {t['id']: t for t in raw_targets(rooms)}
+    assert len(e['preserved_target_sha256']) == 37
+    for name, sha256 in e['preserved_target_sha256'].items():
+        assert digest(targets[name]) == sha256
+    row, = [row for row in room_traversal_targets('block') if row['id'] == TARGET]
+    assert row['new_connection'] and not row['required_for_generation']
+    assert 'requires_guaranteed_source' not in row and 'requires_any_guaranteed_source' not in row
+    assert row['region'] == OWNER and row['exit'] == DESTINATION
+    assert set(data.regions[OWNER].exits) == {
+        DESTINATION, 'REGION_RAINBOW_ROUTE/ROOM_1_35', 'REGION_RAINBOW_ROUTE/ROOM_1_37'}
+
+
+def test_all_positive_and_matched_omission_boundaries():
+    e = evidence()
+    assert (len(e['positive']), len(e['controls'])) == (9, 4)
+    assert {(c['hp'], c['options']['enemy_health_multiplier']) for c in e['positive']} == {
+        (1, 100), (6, 100), (1, 500), (6, 500), (1, 124), (1, 125), (1, 349), (1, 350)}
+    assert sum(c['options']['ability_gating'] for c in e['positive']) == 1
+    by_name = {c['run']: c for c in e['positive']}
+    for c in e['positive']:
+        assert c['hp_min'] == c['hp_max'] == c['hp'] and c['final_ability'] == 7
+        assert c['options']['ability_randomization_mode'] == c['options']['area_keys'] == 0
+        assert [t['room'] for t in c['transitions']] == [544, 543, 542, 538, 537]
+        assert c['transitions'][0]['xy'] == [40, e['startup']['first_logged_y_by_hp'][str(c['hp'])]]
+        assert c['beam_acquired_frame'] < c['transitions'][3]['frame'] < c['first_scanner_frame']
+        assert c['first_scanner_frame'] < c['chain_complete_frame'] < c['transitions'][-1]['frame']
+        assert c['chain_change_count'] == 34 and len(c['chain_changes_sha256']) == 64
+        assert c['source_first']['template'] == '0x88b6138' and c['source_first']['copy_field'] == 7
+        assert c['source_last']['copy_field'] == 0 and c['source_last']['state'] == '0x809c48d'
+        assert {tuple(x['xy']) for x in c['room542_changes']} == {(30, 17), (21, 8), (6, 3)}
+    for c in e['controls']:
+        matched = by_name[c['matched_positive']]
+        assert c['hp'] == matched['hp'] and c['options'] == matched['options']
+        assert c['transitions'] == matched['transitions'][:-1]
+        assert c['frame_count'] == matched['frame_count'] and c['chain_unchanged']
+        assert c['final_xy'] == [134, 168.99609375]
+        assert c['hashes']['inputs.json'] != matched['hashes']['inputs.json']
+        assert c['beam_acquired_frame'] == matched['beam_acquired_frame']
+    for c in e['positive'] + e['controls']:
+        assert all(len(h) == 64 and int(h, 16) >= 0 for h in c['hashes'].values())
+
+
+def test_exact_left_scanner_and_nine_new_solid_cells():
+    e = evidence()
+    cells = e['geometry']['targets']
+    assert len(cells) == 34
+    assert {old: sum(c['initial'] == old for c in cells) for old in (0xF1, 0xF2, 0xF3)} == {
+        0xF1: 2, 0xF2: 12, 0xF3: 20}
+    assert {(c['x'], c['y']) for c in cells if c['replacement'] == 13} == {
+        (8, 9), (9, 9), (10, 9), (8, 12), (9, 12), (10, 12), (11, 12), (12, 12), (9, 13)}
+    assert sum(c['replacement'] == 0 for c in cells) == 25
+    for c in e['positive']:
+        scanner = c['first_scanner']
+        assert scanner['room'] == 538 and scanner['parent'] == '0x2020ee0'
+        assert scanner['counter'] == scanner['segment_frame'] == 5
+        assert scanner['bounds'] == [-2, -2, 2, 2] and scanner['damage_box'] == [-6, -6, 6, 6]
+        assert scanner['state'] == '0x807d209' and scanner['flags'] == '0xa0084105'
+        assert scanner['category'] == '0x20000403' and scanner['damage'] == 3
+        assert [scanner['x'], scanner['y']] == [91.2578125, 185.99609375]
+        assert [scanner['vx'], scanner['vy']] == [-1877, -768]
+
+
+def test_provenance_is_compact_separate_from_integration_and_private_payloads():
+    e = evidence()
+    assert e['production_source_commit'] == '6948ac7295d3b3e8e1eaf08506338592d707254e'
+    assert e['integration_base'] == '0c35d3203987a3153359fa609bc4aaa6bec7a275'
+    assert e['native_source_commit'] == '7d969fbce14fdc838d2c1ea01389717fb96c3189'
+    assert e['private_artifact_sha256']['validation.json'] == (
+        '62cb8bffe233b06ff06f30a1341aacc998cc399591e9550f09868e9404d73243')
+    assert e['private_artifact_sha256']['report.md'] == (
+        '0417c0d764dbe1f862d23c891301fab3b6a24f14be208a41a46d3f367f41f8a2')
+    assert e['setup']['client_config_writes'] == 8 and e['setup']['configuration_frame'] == 1085
+    assert e['setup']['helpers_room'] == 101 and e['setup']['fresh_blank_battery_bytes'] == 32768
+    forbidden = ('gameplay_ram_writes', 'runtime_rom_writes', 'state_restores',
+                 'phone_inputs', 'helper_parent_attacks_in_route')
+    assert not any(e['setup'][k] for k in forbidden)
+    assert 'zero-frame snapshot at1541' in e['hash_semantics']
+    assert any('continuous upstream1HP' in limit for limit in e['limitations'])
+    for path, expected in e['tracked_source_sha256'].items():
+        assert lf_text_sha256((ROOT / path).read_bytes()) == expected
+    for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
+        text = path.read_text(encoding='utf-8')
+        assert all(private not in text for private in ('/home/', '/Users/', 'C:\\', 'D:\\'))
+    assert not any(k in e for k in ('inputs', 'frames', 'replay', 'savestate'))
+
+
+def test_current_ownership_snapshot_contains_one_extra_surface_and_target():
+    snapshot = evidence()['structural_snapshot']
+    current = build_coverage()
+    assert snapshot['counts'] == current['counts'] == {
+        'regions': 366, 'mapped_native_definitions': 343, 'locations': 384,
+        'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
+    assert set(snapshot['input_sha256']) == set(current['input_sha256'])
+    for path, expected in snapshot['input_sha256'].items():
+        assert lf_text_sha256((ROOT / path).read_bytes()) == expected
+    assert snapshot['new_surface'] == {
+        'owner': OWNER, 'kind': 'exit', 'target': DESTINATION, 'requirement': None, 'room_sanity': False}
+
+
+def test_separate_health_supplement_preserves_exact_frozen_identity_and_scope():
+    primary = evidence()
+    reference = primary['health_supplement']
+    raw = (EVIDENCE.parent / reference['file']).read_bytes()
+    assert lf_text_sha256(raw) == reference['sha256'] == (
+        '376fab1233e223f95974d611641defbf7b2a3bfdb23be6cdcfec1dfda4a9c2ae')
+    assert reference['private_inventory_sha256'] == (
+        'd8469923b3793d874b3a66c57d39f76b094c5b1ece2101fd9af3efc84a76e3b6')
+    supplement = json.loads(raw)
+    assert supplement['status'] == 'PASS_BOUNDED'
+    assert (supplement['new_no_hit_1hp_runs'], supplement['known_tuple_classes'],
+            supplement['primary_representatives']) == (26, 32, 6)
+    assert len(supplement['positive_runs']) == 26
+    assert all(private not in raw for private in (b'/home/', b'/Users/', b'C:\\', b'D:\\'))
+    assert any('not all percentages or all RNG' in limit for limit in supplement['limits'])
+    assert any('No full upstream1HP' in limit for limit in supplement['limits'])
+    assert all(len(h) == 64 and int(h, 16) >= 0 for h in supplement['artifact_hashes'].values())
+
+
+def test_all32_health_tuples_have_actual_native_representatives_not_interpolation():
+    from ..enemy_health_scaling import scale_hp_value
+    primary = evidence()
+    supplement = json.loads((EVIDENCE.parent / primary['health_supplement']['file']).read_text(encoding='utf-8'))
+    intervals = supplement['tuple_coverage']
+    tuples = {tuple(scale_hp_value(base, h) for base in (1, 2, 4)) for h in range(50, 501)}
+    assert len(intervals) == len(tuples) == 32
+    assert {tuple(interval['tuple']) for interval in intervals} == tuples
+    assert [h for interval in intervals for h in range(interval['lo'], interval['hi'] + 1)] == list(range(50, 501))
+    packets = {'primary': {c['run']: c for c in primary['positive']},
+               'supplement': {c['run']: c for c in supplement['positive_runs']}}
+    for interval in intervals:
+        expected = tuple(interval['tuple'])
+        assert all(tuple(scale_hp_value(base, h) for base in (1, 2, 4)) == expected
+                   for h in range(interval['lo'], interval['hi'] + 1))
+        representative = interval['representative']
+        case = packets[representative['packet']][representative['run']]
+        assert case['hp'] == 1 and case['options']['enemy_health_multiplier'] == representative['percent']
+        assert interval['lo'] <= representative['percent'] <= interval['hi']
+        assert representative['input_sha256'] == case['hashes']['inputs.json']
+        assert representative['state_sha256'] == case['hashes']['states.json']
+    for case in supplement['positive_runs']:
+        assert case['hp'] == case['options']['minimum_health'] == case['options']['maximum_health'] == 1
+        assert case['options']['ability_randomization_mode'] == case['options']['ability_gating'] == 0
+        assert case['options']['area_keys'] == 0
+        assert [t['room'] for t in case['transitions']] == [544, 543, 542, 538, 537]
+        h1, h2, h4 = case['rounded_hp_tuple']
+        runtime = case['runtime_initial_health']
+        assert runtime['0x88c30c0']['hp'] == h2  # Waddle before the Normal fall.
+        assert runtime['0x88c3054']['hp'] == runtime['0x88b6138']['hp'] == h4  # Sparky and original Doo.
+        assert runtime['0x88b6060']['hp'] == h1  # Scarfy.
+        recipe = 'full05' if case['options']['enemy_health_multiplier'] < 125 else 'full500-04'
+        assert case['hashes']['inputs.json'] == packets['primary'][recipe]['hashes']['inputs.json']

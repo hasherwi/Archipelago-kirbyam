@@ -147,6 +147,12 @@ def install_extra_traversal_rules(world: Any) -> None:
 
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
+        # Existing surfaces keep their prior fallback, but a newly introduced
+        # optional connection must never become free when source data is absent.
+        for row in extra_traversal_targets():
+            if row.get("new_connection"):
+                target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
+                add_rule(target, lambda state: False)
         return
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
