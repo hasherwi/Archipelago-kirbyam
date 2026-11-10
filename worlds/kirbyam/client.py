@@ -10,7 +10,7 @@ import time
 import json
 import sqlite3
 from struct import unpack_from
-from typing import TYPE_CHECKING, Callable, Optional
+from typing import TYPE_CHECKING, Any, Callable, Optional
 
 import Utils
 import worlds._bizhawk as bizhawk
@@ -21,7 +21,7 @@ from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
 from .phone_protocol import (
-    PHONE_ITEM_ID, PHONE_CONFIG_OFFSET, PHONE_ENABLED_CONFIG, phone_slot_version, sync_phone_ownership,
+    PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
 )
 from .copy_room_protocol import (
     COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
@@ -2038,7 +2038,7 @@ class KirbyAmClient(BizHawkClient):
         auth_raw = (await bizhawk.read(ctx.bizhawk_ctx, [(auth_addr, _AUTH_TOKEN_SIZE, "ROM")]))[0]
         ctx.auth = base64.b64encode(auth_raw).decode("utf-8")
 
-    async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:
+    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:
         """Reject incompatible ROM/slot pairs before any watcher writes.
 
         Re-read ROM identity on every poll: connector ROM changes must not inherit
@@ -2072,15 +2072,15 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
-            phone_version = phone_slot_version(slot)
-            if phone_version:
-                config = (await bizhawk.read(ctx.bizhawk_ctx, [(PHONE_CONFIG_OFFSET, 12, "ROM")]))[0]
-                if session_expired():
-                    return False
-                if bytes(config) != PHONE_ENABLED_CONFIG:
-                    raise ValueError("ROM and slot Phone versions differ")
-            elif any(getattr(item, "item", 0) == PHONE_ITEM_ID
-                     for item in getattr(ctx, "items_received", ())):
+            # The GBA bus remains addressable for older, shorter ROMs. Their
+            # mirrored/open-bus bytes have no Phone marker and remain legacy.
+            # Probe on every poll so a ROM/config swap cannot reuse permission.
+            config = (await bizhawk.read(ctx.bizhawk_ctx, [(PHONE_CONFIG_BUS_ADDRESS, 12, "System Bus")]))[0]
+            if session_expired():
+                return False
+            phone_version = validate_phone_pairing(slot, bytes(config))
+            if not phone_version and any(getattr(item, "item", 0) == PHONE_ITEM_ID
+                                         for item in getattr(ctx, "items_received", ())):
                 raise ValueError("Phone item received without a compatible slot")
             copy_room_version = copy_room_slot_version(slot)
             if copy_room_version:

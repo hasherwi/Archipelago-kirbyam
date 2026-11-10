@@ -29,6 +29,8 @@ async def test_hub_marker_rechecked_before_writes(mock_bizhawk_context):
     with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read, \
             patch("worlds.kirbyam.client.bizhawk.write", new_callable=AsyncMock) as write:
         read.return_value = [HUB_MARKER]
+        read.side_effect = lambda _ctx, requests: (
+            [bytes(12)] if requests == [(0x0900FFC8, 12, "System Bus")] else read.return_value)
         assert await client._health_protocol_ready(ctx, require_identity=False)
         read.assert_called_with(ctx.bizhawk_ctx, [(HUB_MARKER_OFFSET, 8, "ROM")])
         read.return_value = [b"APHUB01\0"]

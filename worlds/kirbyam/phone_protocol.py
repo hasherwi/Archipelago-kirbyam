@@ -14,6 +14,7 @@ from .copy_room_protocol import (
 PHONE_ITEM_ID = 3860501
 PHONE_PROTOCOL_VERSION = 1
 PHONE_CONFIG_OFFSET = 0x100FFC8
+PHONE_CONFIG_BUS_ADDRESS = 0x08000000 + PHONE_CONFIG_OFFSET
 PHONE_MARKER = b"APPHN01\0"
 PHONE_ENABLED_CONFIG = PHONE_MARKER + b"\1\0\0\0"
 PHONE_CONTEXT_ADDRESS = 0x0203B170
@@ -29,6 +30,20 @@ def phone_slot_version(slot: dict[str, Any]) -> int:
         raise ValueError("Phone item requires a compatible slot")
     if version and copy_room_slot_version(slot) != 2:
         raise ValueError("Phone protocol requires authenticated native-file ownership")
+    return version
+
+
+def validate_phone_pairing(slot: dict[str, Any], config: bytes) -> int:
+    """Check both directions; absent markers preserve pre-Phone ROM support."""
+    version = phone_slot_version(slot)
+    if len(config) != 12:
+        raise ValueError("truncated Phone configuration")
+    if version:
+        if config != PHONE_ENABLED_CONFIG:
+            raise ValueError("ROM and slot Phone versions differ")
+    elif config.startswith(b"APPHN"):
+        if config != PHONE_MARKER + bytes(4):
+            raise ValueError("Phone ROM requires a compatible slot")
     return version
 
 

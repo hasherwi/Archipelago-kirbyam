@@ -2,7 +2,7 @@
 import asyncio
 import base64
 from types import SimpleNamespace
-from typing import Sequence
+from typing import Any, Sequence, cast
 from unittest.mock import AsyncMock
 
 import pytest
@@ -116,3 +116,62 @@ def test_empty_or_incomplete_history_never_revokes(monkeypatch: pytest.MonkeyPat
     assert not asyncio.run(protocol.sync_phone_ownership(_ctx(), lambda _: True))
     assert not asyncio.run(protocol.sync_phone_ownership(_ctx([protocol.PHONE_ITEM_ID]), lambda _: False))
     read.assert_not_called()
+
+
+@pytest.mark.parametrize("config", [bytes(12), bytes(range(12)), protocol.PHONE_MARKER + bytes(4)])
+def test_legacy_and_disabled_rom_pairing(config: bytes) -> None:
+    assert protocol.validate_phone_pairing({}, config) == 0
+    with pytest.raises(ValueError):
+        protocol.validate_phone_pairing(_ctx().slot_data, config)
+
+
+def test_enabled_and_malformed_rom_pairing() -> None:
+    assert protocol.validate_phone_pairing(_ctx().slot_data, protocol.PHONE_ENABLED_CONFIG) == 1
+    for config in (b"", bytes(11), protocol.PHONE_ENABLED_CONFIG,
+                   b"APPHN02\0" + bytes(4), protocol.PHONE_MARKER + _words(2)):
+        with pytest.raises(ValueError):
+            protocol.validate_phone_pairing({}, config)
+
+
+def test_watcher_rechecks_reverse_phone_pairing(monkeypatch: pytest.MonkeyPatch) -> None:
+    from ..client import KirbyAmClient
+    client = KirbyAmClient()
+    client.initialize_client()
+    ctx = SimpleNamespace(slot_data={}, bizhawk_ctx=object(), items_received=[],
+                          server=SimpleNamespace(socket=SimpleNamespace(closed=False)))
+    read = AsyncMock(return_value=[bytes(12)])
+    monkeypatch.setattr(bizhawk, "read", read)
+    assert asyncio.run(client._health_protocol_ready(ctx, require_identity=False))
+    read.return_value = [protocol.PHONE_ENABLED_CONFIG]
+    assert not asyncio.run(client._health_protocol_ready(ctx, require_identity=False))
+    read.return_value = [protocol.PHONE_MARKER + bytes(4)]
+    assert asyncio.run(client._health_protocol_ready(ctx, require_identity=False))
+    assert read.call_args is not None
+    assert read.call_args.args[1] == [(protocol.PHONE_CONFIG_BUS_ADDRESS, 12, "System Bus")]
+
+
+@pytest.mark.asyncio
+async def test_reverse_pairing_stops_watcher_side_effects(monkeypatch: pytest.MonkeyPatch) -> None:
+    from ..client import KirbyAmClient
+    from .test_vitality_protocol import _identity
+    client = KirbyAmClient()
+    client.initialize_client()
+    ctx = cast(Any, SimpleNamespace(slot_data={}, bizhawk_ctx=object(), items_received=[],
+                                    server=SimpleNamespace(socket=SimpleNamespace(closed=False)),
+                                    team=0, slot=1, server_seed_name="Phone pairing regression", send_msgs=AsyncMock()))
+    memory = _identity(client, ctx, 2, 6, 10)
+    memory[protocol.PHONE_CONFIG_BUS_ADDRESS, "System Bus"] = protocol.PHONE_ENABLED_CONFIG
+
+    async def read(_ctx: object, requests: list[tuple[int, int, str]]) -> list[bytes]:
+        return [memory[address, domain] for address, _, domain in requests]
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write, guarded, death = AsyncMock(), AsyncMock(), AsyncMock()
+    monkeypatch.setattr(bizhawk, "write", write)
+    monkeypatch.setattr(bizhawk, "guarded_write", guarded)
+    monkeypatch.setattr(client, "_sync_death_link_setting", death)
+    await client.game_watcher(ctx)
+    write.assert_not_called()
+    guarded.assert_not_called()
+    death.assert_not_called()
+    ctx.send_msgs.assert_not_called()
