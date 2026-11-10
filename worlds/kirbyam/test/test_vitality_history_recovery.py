@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 import pytest
 from ..client import KirbyAmClient
+from ..phone_protocol import PHONE_CONFIG_BUS_ADDRESS
 
 RANGES = [(low, high) for low in range(1, 11) for high in range(low, min(10, low+4)+1)]
 
@@ -22,6 +23,7 @@ async def test_history_repairs_inflated_save_without_replay_heal(mock_bizhawk_co
         client._native_addr('kirby_hp_native'), client._native_addr('kirby_max_hp_native'),
     ]
     memory = dict(zip(addresses, [bytes(4), (4).to_bytes(2, 'little'), bytes([hp]), bytes([10])]))
+    memory[PHONE_CONFIG_BUS_ADDRESS] = bytes(12)  # marker-free legacy ROM
 
     async def read(_ctx, reads):
         return [memory[a] for a, _, _ in reads]
@@ -243,7 +245,7 @@ async def test_new_vitality_heals_once_with_atomic_death_guard(mock_bizhawk_cont
     ctx.items_received = [SimpleNamespace(item=3860018), SimpleNamespace(item=3860019)]
     client.on_package(ctx, 'ReceivedItems', {'index': 0})
     before = [(1).to_bytes(4, 'little'), (1).to_bytes(2, 'little'), bytes([2]), bytes([7])]
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, return_value=before), \
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, side_effect=[[bytes(12)], before]), \
          patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock,
                return_value=guard_succeeds) as write:
         await client._reconcile_vitality_ownership(ctx)

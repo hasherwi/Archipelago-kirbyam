@@ -8,6 +8,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from ..client import KirbyAmClient
+from ..phone_protocol import PHONE_CONFIG_BUS_ADDRESS
 from ..health import HealthRange, reconcile_health, resolve_health_range
 from ..options import KirbyAmOptions, MaximumHealth, MinimumHealth, OneHitMode, OPTION_GROUPS, RandomizeShards
 from .test_item_pool import _build_world_for_create_items, _vitality_item_codes
@@ -123,7 +124,8 @@ async def test_client_guards_health_snapshot_and_retries_changed_state(mock_bizh
     mock_bizhawk_context.slot_data.update(minimum_health=8, maximum_health=10)
     initial = [b"\0\0", b"\x06", b"\x06"]
     dead = [b"\0\0", b"\0", b"\x06"]
-    with patch("worlds.kirbyam.client.bizhawk.read", AsyncMock(side_effect=[initial, dead])), \
+    responses = [[bytes(12)], initial, [bytes(12)], dead]
+    with patch("worlds.kirbyam.client.bizhawk.read", AsyncMock(side_effect=responses)), \
          patch("worlds.kirbyam.client.bizhawk.guarded_write", AsyncMock(side_effect=[False, True])) as write:
         await client._enforce_health_range(mock_bizhawk_context)
         await client._enforce_health_range(mock_bizhawk_context)
@@ -147,10 +149,11 @@ async def test_client_does_not_touch_default_legacy_or_invalid_ranges(mock_bizha
     client = KirbyAmClient()
     client.initialize_client()
     mock_bizhawk_context.slot_data = slot_data
-    with patch("worlds.kirbyam.client.bizhawk.read", AsyncMock()) as read, \
+    with patch("worlds.kirbyam.client.bizhawk.read", AsyncMock(return_value=[bytes(12)])) as read, \
          patch("worlds.kirbyam.client.bizhawk.guarded_write", AsyncMock()) as write:
         await client._enforce_health_range(mock_bizhawk_context)
-    read.assert_not_awaited()
+    read.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx, [(PHONE_CONFIG_BUS_ADDRESS, 12, "System Bus")])
     write.assert_not_awaited()
 
 
