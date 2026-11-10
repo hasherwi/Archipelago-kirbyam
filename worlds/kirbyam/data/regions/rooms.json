@@ -5661,6 +5661,95 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "switch_533_room16",
+          "kind": "switch",
+          "native_room": 533,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+          "requires_guaranteed_source": {
+            "source_key": "FOLEY",
+            "ability": "Bomb"
+          },
+          "graphs": {
+            "hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-source-witness.md; finite Foley(224,64) acquired after actual Hub4 approach and observed viewport reset. No random reroll guarantee."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; witnessed Normal flight and Foley acquisition with viewport reset; source is not reachable merely because533 is reachable."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:door",
+                  "capability": "switch_533_bomb_placement",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; place Bomb, retreat, cross timed gate and enter actual325 door. No persistent switch credit."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {

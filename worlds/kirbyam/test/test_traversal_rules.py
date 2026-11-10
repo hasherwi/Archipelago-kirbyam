@@ -135,3 +135,19 @@ def test_location_rule_uses_same_source_requirements(monkeypatch, setup):
     items.remove("Fire Ability")
     assert not target.access_rule(state)
     assert not dependencies
+
+
+def test_complete_alternatives_on_one_target_are_or_not_separate_and_rules(monkeypatch, setup, graph):
+    # Synthetic second source validates composition only, not a Phone or room witness.
+    world, target, state, items, _, _ = setup
+    alternative = replace(graph, placements=(Placement('source', 'FOLEY'),))
+    monkeypatch.setattr(rules, 'target_graphs', lambda row, area_keys: (graph, alternative))
+    rules.install_extra_traversal_rules(world)
+    state.accessible = True
+    items.add('Bomb Ability')
+    assert target.access_rule(state)  # No Fire or first source-access item required.
+    items.clear()
+    items.update({'Fire Ability', 'Source access item'})
+    assert target.access_rule(state)  # No Bomb required for the other complete graph.
+    items.clear()
+    assert not target.access_rule(state)

@@ -1,0 +1,92 @@
+# Ranged-attack coverage ledger
+
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block routes described in `bounded-bomb-implementation.md` and the conditional533 small-switch route in `mustard-room15-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+
+## AP ownership census
+
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,058 location/exit surfaces. All 34 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+
+Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
+
+The 35 small switches in 24 rooms are an exhaustive static template inventory under `small-switch-inventory.json`'s stated scope. They are not 35 proved ranged routes. The static census below extends physical coverage; dynamic effects and exact check associations remain in progress.
+
+## Move-family checklist
+
+Source review: native `1197474f80e5de282fbedcd0025ebfa61f61a764`, compared to the existing report's `7d969fbce14fdc838d2c1ea01389717fb96c3189`. The examined Normal/UFO/Cupid blocks differ only by a three-line include offset and symbol/type renames; Magic also changes secondary-Kirby pointer spelling. Exact prior anchors remain in `collision-avoiding-attack-ranges.md`. This checklist is not exhaustive animation-frame or multiplayer acceptance.
+
+| Ability/family | Distinct actions and limits to preserve |
+| --- | --- |
+| Normal | Inhale; payload-dependent ordinary/large spit stars; air puff; water spray; body actions. Not Copy Ability ownership. |
+| Fire | Held breath, directional boost/aim, near-mouth tile-only effect. Damage and tile bounds differ. |
+| Ice | Breath versus frozen-enemy kick and size variants; kick has no direct tile scanner. |
+| Burning | Body-attached effect; movement collision limits attack origin. |
+| Wheel | Body-attached effect, not independent ranged travel. |
+| Parasol | Swing, held and attached states; tile flag only in particular states. |
+| Cutter | Launch, outward, return and rebound; initial terrain-bypass flag is temporary. |
+| Beam | Actual sweep versus visual effects; envelope is not a filled rectangle. |
+| Stone | Transformation/body effect, not a traveling projectile. |
+| Bomb | Held, aimed throw, flight and detonation; terrain-sensitive flight versus local wall-overlapping blast. |
+| Throw | Payload, ordinary/large/angled launch and tile halo. Halo has no damage hitbox. |
+| Sleep | No independent ranged attack identified; do not assume Normal actions remain available asleep. |
+| Cook | Screen capture; no tile scanner; small-switch category rejected. |
+| Laser | Straight and slope-reflected paths; terrain-sensitive. |
+| UFO | Whip, low-charge laser, medium shot and top-charge shot are four distinct paths. |
+| Spark | Attached short-range field, target-specific rectangles. |
+| Tornado | Attached damage effect; audited effect lacks tile flag, other body paths not exhaustively excluded. |
+| Hammer | Local weapon/animation overlap and target category. |
+| Sword | Attached attacks versus landing wave and its setup. |
+| Cupid | Aim, charge, ground/air and charged triple-arrow release; ballistic terrain-sensitive paths. |
+| Fighter | Melee, ordinary wave, charged wave and 1HP wave; only 1HP wave has reviewed terrain bypass. |
+| Magic | Conversion, invincibility and Meta Knight outcomes; different category/space/eligibility. |
+| Smash | Hammer/Sword effects, Final Cutter/landing wave and Stone-like effect. |
+| Mini | No independent ranged effect identified; shared Normal actions not universally excluded. |
+| Crash | Viewport-wide effect, switch-compatible category, no tile scanner. |
+| Missile | Kirby movement versus detonation; blast overlap does not imply piercing flight. |
+| Master | Melee, landing wave and charged wave; distinct lifetime/setup. |
+| Wait | AP metadata27 is non-enemy-copy, non-gateable internal metadata, not a native combat ability. Native count ends at Master26. Client hides Wait; do not invent a provider. |
+| Environment/helpers | Foley drop/explosion, movable blocks and helper contact require their own setup and timing. Foley also supplies default Bomb, a separate source-policy-dependent acquisition path. |
+
+### Additional pinned source anchors
+
+All anchors below refer to native1197474. Their category-mask compatibility is not a complete collision-dispatch or route witness.
+
+- `src/code_0806F780.c:1931–2027`: Normal star, category0x40 strength3, damage±12 versus tile scan±2, launch8px ahead,4px/update. Qualifying destructible terrain exception is not ordinary-wall piercing. Large-star variant differs in object-hit termination. Ground/water release calls `kirby.c:12350–12362,14166`.
+- `src/code_0806F780.c:2093–2179`: air puff, category0x40 strength2, damage±5 versus tile scan±2,3.75px/update then deceleration; terrain/object sensitive.
+- `src/code_0806F780.c:4997–5043`: UFO low-charge laser,8px/update, damage±6×±3 versus tile scan±1; distinct launch/cancellation owner.
+- `src/kirby.c:20685–20719`, `code_0806F780.c:7052–7100`: Cupid charge≥0x30 releases three arrows with successively reduced charge, not identical trajectories.
+- `src/code_0806F780.c:7963–8076`: Magic Meta Knight moving viewport-height damage, category0x2000, no terrain query/tile-scan flag in examined update. Full switch callback/special flags still unproved.
+- `src/foley.c:142–156,237–242`, `code_0806F780.c:2497–2522,2653–2674`: nearby Kirby triggers drop, landing creates category0x40 explosion, damage±20 with animation eligibility and no tile scanner. Not Bomb equivalence.
+
+## Target namespaces and live investigation
+
+Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big switches have different masks/player handling. Small switches also accept overlapping star-stone/large-star-stone objects (`big_small_switch.c:135–197`). Fuses admit categories0x100/0x10000 (`cannon_fuse.c:39–53,603–610`). Star-stone objects have strength4 resistance and physical behavior (`star_stone_block.c:14–37`); they are not background tiles. Destroyable rock blocks use Kirby position/state/delay (`destroyable_rock_block.c:13–64`), not an inferred attack from their name. Animated door opening is not completed traversal.
+
+Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Mustard Chest310, Mustard15/native533→Mustard16/native325, and Peppermint Chest209. They must not become blanket ability gates:
+
+- 310 has a solid intervening wall and near-zero release timer. Launch pose, source/carry, complete chest access and solo alternatives remain unproved.
+- 533 has a solid/elevation obstacle. Separate environmental Foley explosion from acquiring its default Bomb and placing a delayed bomb. A guaranteedFOLEY→Bomb subset now uses the complete no-damage Hub4→534→533 acquisition, placement and325 crossing at100%/500% enemy health, with matched controls. Unsupported source assignments retain prior behavior. Environmental and other attack alternatives remain unproved.
+- 209 is a dependency on **published** PR #1051 head177d765: `ordinary-209-snow-map-loop-acceptance.json` proves a qualified upper210-arrival Normal route through Snow and the first Bomb chain to the map, with100%/500% enemy-health variants. It does not prove arbitrary209 entry joins. Do not duplicate that coarse placeholder as a ranged requirement or import unrelated unpublished #1051 work.
+
+147 is calibration only: ordinary timed traversal is an alternative, so a ranged witness alone does not justify a mandatory AP gate. Further work must inspect all actual target/check associations, enemy-health/interception, source randomization, 1HP/no-damage movement, precise entry compartments and matched controls.
+
+For future Phone/ranged alternatives on the same AP surface, use alternative witness graphs inside **one target row** (OR). Separate installed rows combine through `add_rule` as AND and must not accidentally require both Phone and a solo attack.
+
+## Extended static target census
+
+`ranged-static-target-census.json` pins the original USA ROM and independent extraction artifacts. All983room slots were checked:286populated,697exact unused sentinels,286unique collision maps and293,674cells. There are403initialF1cells in125rooms and14initialF6cells in13rooms. All417target cells have exactly one matching listed mutation record; no listed kind1/2 replacement creates anotherF1/F6. Dimensions were derived through the foreground-map metadata and all decoded lengths agree. Seven synthetic RLE tests, all13previous evidence-room dimensions/F1positions and all943cells of the independent533decoder agree.
+
+The namespace-aware object scan covers287static lists and3,482templates, all table1 in this ROM. It finds35small switches,15big switches,4cannon fuses,14hammer pegs (matching the14F6positions),22CPU triggers and the distinct movable/large-block types. All37static ObjectSpawner target types are enemy/midboss types, not these switch/block families. The retained type histogram is broader than the focused barrier subset. These counts do not cover arbitrary runtime constructors, establish attack eligibility or assign a physical obstacle to every AP check.
+
+F6rooms are149,204,218,221,401,411,509,510,513,527(two),605,741and816. The hammer-peg object watchesF6change; that does not prove everyF6 accepts every attack. The census records native-room/AP-key joins only. Exact compartment entry, barriers, check dependencies and ordinary alternatives must still be resolved before further rules.
+
+### Reconciled F6 ownership
+
+All14initialF6positions reconcile with the existing peg audit in `docs/traversal-logic.md`:11are represented by room-owned peg targets, while native218(9,33) and509(32,2) gate non-AP food/battery pockets and741(27,13) gates a loose1-Up rather than an AP exit. These three must not become new room or exit gates. Existing11peg targets preserve their individually reviewed compartments/source alternatives; the full tile census adds no new global ranged provider. This reconciles static target ownership, not every possible attack variant or carrying route.
+
+### Reconciled cannon-fuse ownership
+
+The four static cannon fuses are native126,323,502 and827. Each already has a room-owned fuse target: respectively Rainbow32→33Left, Mustard13 CANNON_LEFT→14 CANNON_LEFT, Radish16→17, and Olive7→5 ENTRY_FROM_6_07. The normalized ledger retains those precise compartments. Their existing source-backed alternatives and ignition category rules are not generalized to small switches or F1/F6. Physical fuse coverage is complete for the static lists; extra attack variants still require their own source/carry, ignition and cannon-entry proof.
+
+### Published ordinary-route context, not new ranged acceptance
+
+PR #1051's published `ordinary-metal-role-review.json` at commit424b9e262b4e39dac30101fa678af7cca70786a5 records useful exclusions:414's Bomb Block alternate leads to a loose1-Up rather than an AP check;533's separate Bomb Blocks release Gordos and are not its AP exit gate;529's visible Bomb/pit alternatives still need directed mapping;532's return Bomb near(10,8) reconnects the cannon network, with reverse entry separate. These are qualified map-role notes, not a complete native F1 chain inventory or new ranged proof. The533 switch witness here must not be confused with533's separate Bomb Block hazards. No unpublished #1051 candidate is imported.

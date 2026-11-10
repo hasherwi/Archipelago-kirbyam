@@ -141,7 +141,7 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "switch"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
@@ -182,6 +182,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         {"source_key": "MR_FROSTY", "ability": "Ice"},
         {"source_key": "SPARKY", "ability": "Spark"},
         {"source_key": "WADDLE_DOO", "ability": "Beam"},
+        {"source_key": "FOLEY", "ability": "Bomb"},
     ):
         raise ValueError("Unsupported guaranteed-source applicability condition")
     if not isinstance(row.get("required_for_generation", True), bool):
