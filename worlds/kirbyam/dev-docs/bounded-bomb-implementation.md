@@ -18,6 +18,7 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
 | `bomb_517_fire_breath` | Same exact Room517 F1 (14,7) and Chocolate chest | Neutral traveling Fire breath packet from the reviewed dry pose |
 | `bomb_517_missile_blast` | Same exact Room517 F1 (14,7) and Chocolate chest | Down-right local Missile detonation with a ±24 tile scanner |
+| `bomb_517_parasol_swing` | Same exact Room 517 F1 (14,7) and Chocolate chest | Dry active forward swing with actual bounds (16,-11,48,11), not held umbrella |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 | `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 

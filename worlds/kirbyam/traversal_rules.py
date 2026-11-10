@@ -66,6 +66,18 @@ def cabbage_missile_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Missile"})
 
 
+def cabbage_parasol_is_progression(world: Any) -> bool:
+    """Only the enabled, guaranteed-Doo chest rule needs a Parasol permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Parasol"})
+
+
 def rainbow_spark_is_progression(world: Any) -> bool:
     """Room8 and optional Green Paint share the guaranteed Sparky permission.
 

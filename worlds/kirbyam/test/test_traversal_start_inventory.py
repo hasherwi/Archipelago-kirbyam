@@ -1,4 +1,4 @@
-"""Reconcile three location-dependent permissions after real regions exist."""
+"""Reconcile location-dependent permissions after real regions exist."""
 
 import json
 from pathlib import Path
@@ -18,13 +18,15 @@ CASES = [
     ('Ice', 'MR_FROSTY', 'MINOR_CHEST_MUSIC_NOTE_10', None),
     ('Crash', 'TWISTER', 'MAJOR_CHEST_MUSTARD_MOUNTAIN', 'REGION_RAINBOW_ROUTE/ROOM_1_HUB_4'),
     ('Missile', 'WADDLE_DOO', 'MINOR_CHEST_SPRAY_PAINT_12', 'REGION_CABBAGE_CAVERN/ROOM_3_HUB_2'),
+    ('Parasol', 'WADDLE_DOO', 'MINOR_CHEST_SPRAY_PAINT_12', 'REGION_CABBAGE_CAVERN/ROOM_3_HUB_2'),
 ]
 
 
 def source_policy(ability):
     if ability == 'Ice':
         return policy(0).policy
-    filename = 'mustard-map-crash-acceptance.json' if ability == 'Crash' else 'cabbage-missile-acceptance.json'
+    filename = ('mustard-map-crash-acceptance.json' if ability == 'Crash'
+                else f'cabbage-{ability.lower()}-acceptance.json')
     return json.loads((ROOT / filename).read_text())['source_policy']
 
 
@@ -130,7 +132,7 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
             multiworld.get_location(data.locations[location].label, 1)
 
 
-@pytest.mark.parametrize('ability', ['Ice', 'Missile'])
+@pytest.mark.parametrize('ability', ['Ice', 'Missile', 'Parasol'])
 def test_disabled_minor_category_does_not_promote_starting_permission(monkeypatch, ability):
     raw = source_policy(ability)
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', False)

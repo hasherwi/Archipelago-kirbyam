@@ -300,3 +300,17 @@ Failed later closed-wall continuations are excluded from no-damage controls.
 Missile permission is progression only for the enabled guaranteed-source chest
 rule with gating on. See `cabbage-missile-source-witness.md` and its acceptance
 metadata for setup, attribution, policy and option qualifications.
+
+## Cabbage Chocolate chest: finite Parasol alternative
+
+The existing target gains only a separate guaranteed WADDLE_DOO→Parasol graph.
+Normal entry from independently reachable Hub2, the original finite source,
+Parasol-specific carry, dry animation 0x35 and physical chest continuation are
+covered by four HP 1/6 and enemy health 100/500% positives and full-length
+no-target-swing controls. Actual ObjectSetBounds (16,-11,48,11), not held
+umbrella or a generic damage envelope, reaches F1 (14,7). Parasol permission
+is progression only for the enabled guaranteed-source chest with gating on,
+including scoped starting-inventory reconciliation. See
+`cabbage-parasol-source-witness.md` and `cabbage-parasol-acceptance.json`.
+Existing Beam, Smash, Fire and Missile routes, exits and RoomSanity remain
+unchanged. No global range, other move, other target or source renewal follows.

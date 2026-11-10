@@ -48,7 +48,7 @@ def test_independent_beam_smash_missile_or_policy(mode, pool, weight, ability, s
     if ability:
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
-        assert results == [ability == 'Beam', ability == 'Smash', ability == 'Fire', ability == 'Missile']
+        assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol')]
     # The same enemy key does not widen Carrot's independently reviewed alternatives.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Missile':
