@@ -201,9 +201,9 @@ def test_kernel_and_compiler_reject_widened_attack(mutation):
         graph.evaluate(policy(1, pool=['Cupid']), frozenset({'Cupid Ability'}), True)
 
 
-def test_three_or_alternatives_exact_target_and_preserved_prior_graphs():
+def test_four_or_alternatives_exact_target_and_preserved_prior_graphs():
     row = target_row()
-    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry'}
+    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry', 'hub4_cutter_entry'}
     expected = json.loads(EVIDENCE.read_text(encoding='utf-8'))['preserved_graph_sha256']
     for key, digest in expected.items():
         assert hashlib.sha256(json.dumps(row['graphs'][key], sort_keys=True).encode()).hexdigest() == digest
@@ -211,7 +211,8 @@ def test_three_or_alternatives_exact_target_and_preserved_prior_graphs():
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
-                for g in rules.target_graphs(row, False)] == [ability == 'UFO', ability == 'Crash', ability == 'Cupid']
+                for g in rules.target_graphs(row, False)] == [
+                    ability == 'UFO', ability == 'Crash', ability == 'Cupid', False]
     for key, wrong in [('id', 'switch_other'), ('native_room', 533), ('kind', 'block'),
                        ('region', SOURCE_ROOM), ('location', 'MAJOR_CHEST_RAINBOW_ROUTE')]:
         altered = deepcopy(row)

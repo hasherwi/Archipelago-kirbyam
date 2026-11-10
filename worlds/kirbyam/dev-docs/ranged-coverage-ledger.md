@@ -10,7 +10,7 @@ implemented. The current source-backed subset includes:
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
-- Conditional 310 map alternatives: UFO, Crash and Cupid, documented in their
+- Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
 - The conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
 
@@ -90,7 +90,7 @@ Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Must
   controls remain blocked. Only `MAJOR_CHEST_MUSTARD_MOUNTAIN` is gated; return
   exit, Area-Key entry and RoomSanity are unchanged. See
   `mustard-map-ufo-source-witness.md` and `mustard-map-ufo-acceptance.json`.
-  Later Crash and Cupid records add their own complete OR graphs on this same
+  Later Crash, Cupid and Cutter records add their own complete OR graphs on this same
   target, preserving each source, attack, timing and health boundary. Unsupported
   source policies, arbitrary arrivals and Phone/helper alternatives remain unproved.
 - 533 has a solid/elevation obstacle. Environmental Foley explosion is separate
@@ -385,3 +385,14 @@ progression, starting inventory, options and full-fill tests are separate.
 See `mustard-room15-magic-source-witness.md` and its sanitized acceptance JSON.
 This supersedes the earlier unproved switch-contact note only for this exact
 source, pose, strategy and target, not Magic's other outcomes or generic range.
+
+## Bounded Cutter310 addition
+
+The five-roof-return witness in `mustard-map-cutter-source-witness.md` adds only
+the guaranteed original534 TWISTER-to-Cutter alternative to the existing map
+row. Thirty fresh ungated positives cover all28 distinct Chip/Knight HP pairs
+at1HP plus6HP100/500% endpoints; thirteen omissions and a separate two-case
+gating-on acquisition check retain their distinct scopes. Contact precedes
+terrain, Cutter is retained, and the timed gate never earns persistent credit.
+This does not finish the broader ranged-attack checklist or prove arbitrary
+arrivals, every integer health percentage, global RNG states or universal range.

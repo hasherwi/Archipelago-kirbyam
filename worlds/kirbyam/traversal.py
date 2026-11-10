@@ -52,6 +52,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "switch_310_ufo_top_charge": frozenset({"UFO"}),
     "switch_310_crash_viewport": frozenset({"Crash"}),
     "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
+    # Five roof returns, enemy-aware setup and timed crossing, not any Cutter shot.
+    "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
     "switch_825_ufo_top_charge": frozenset({"UFO"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
@@ -77,6 +79,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "switch_310_ufo_top_charge": 310,
     "switch_310_crash_viewport": 310,
     "switch_310_cupid_up_left_q0": 310,
+    "switch_310_cutter_five_roof_returns": 310,
     "switch_825_ufo_top_charge": 825,
 }
 
@@ -350,9 +353,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # Magic533 gates close during the witnessed Normal crossing. UFO825 also uses
         # a timed crossing, never a persistent switch-open event. Cupid310 likewise
         # crosses a closing gate; its embedded arrow does not keep the slot high.
+        # Cutter310 setup cycles the gate and crosses after its final return.
         if (route.capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
                                  "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
-                                 "switch_533_magic_meta_knight"}
+                                 "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns"}
                 and route.opens is not None):
             raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                              if route.capability == "fuse"
@@ -544,7 +548,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     capability = row.get("capability")
     if (capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
                        "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
-                       "switch_533_magic_meta_knight"}
+                       "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns"}
             and row.get("opens") is not None):
         raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                          if capability == "fuse" else "Timed switch attack cannot have a persistent opens event")

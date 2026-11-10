@@ -179,7 +179,7 @@ def test_preserves_ufo_graph_and_exact_target_scope():
     from copy import deepcopy
     from ..traversal_data import _validate_target
     row = target_row()
-    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry'}
+    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry', 'hub4_cutter_entry'}
     assert hashlib.sha256(json.dumps(row['graphs']['hub4_ufo_entry'], sort_keys=True).encode()).hexdigest() == (
         '035e9268c78e83bbf68f546ee602d5e7fed5e936e782abe81eb9123c98919671')
     assert room_traversal_graph(TARGET, 'hub4_crash_entry').required_guaranteed_source == ('TWISTER', 'Crash')

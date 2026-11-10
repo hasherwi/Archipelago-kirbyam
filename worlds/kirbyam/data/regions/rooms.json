@@ -5368,7 +5368,8 @@
             "abilities": [
               "UFO",
               "Crash",
-              "Cupid"
+              "Cupid",
+              "Cutter"
             ]
           },
           "graphs": {
@@ -5624,6 +5625,97 @@
               "requires_guaranteed_source": {
                 "source_key": "TWISTER",
                 "ability": "Cupid"
+              }
+            },
+            "hub4_cutter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:cutter_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:cutter_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:cutter_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:cutter_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual finite original534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Cutter, never inventory equipment. Separate gating pair proves acquisition only."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:cutter_hub4",
+                  "to": "switch_310_mustard_map:cutter_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Independently played Normal590-to-534 door entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_rainbow34",
+                  "to": "switch_310_mustard_map:cutter_source",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual Normal approach to original finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_source",
+                  "to": "switch_310_mustard_map:cutter_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Normal floating, air-puffs and slides conserve acquired Cutter through534; actual upper-right door entry into310 at2344, unchanged HP and equipment."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_arrival",
+                  "to": "switch_310_mustard_map:cutter_crossed",
+                  "capability": "switch_310_cutter_five_roof_returns",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Exact dry five left-facing roof throws with DOWN steering clear Chip and cycle the gate to position live Knight. Final release3471 at369.293,72.996; player-parent return contact3519 is inclusive Y-edge overlap, before terrain. Timed full clearance3578-3580 with Knight alive on the left. No persistent open event, rebound equivalence, generic shot or wall-piercing claim."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_crossed",
+                  "to": "switch_310_mustard_map:cutter_chest",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Retained Cutter breaks final obstruction; actual chest39 opens3783, unchanged production client locally reports AP3960205. Cutter retained and native map ownership remains false without item delivery."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Cutter"
               }
             }
           }
