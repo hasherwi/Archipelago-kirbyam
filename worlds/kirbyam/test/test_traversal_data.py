@@ -175,6 +175,7 @@ def test_target_catalog_counts_and_provider_separation():
         "switch_533_bomb_placement": frozenset({"Bomb"}),
         "switch_533_ufo_top_charge": frozenset({"UFO"}),
         "switch_533_crash_viewport": frozenset({"Crash"}),
+        "switch_533_magic_meta_knight": frozenset({"Magic"}),
         "switch_310_ufo_top_charge": frozenset({"UFO"}),
         "switch_310_crash_viewport": frozenset({"Crash"}),
         "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),

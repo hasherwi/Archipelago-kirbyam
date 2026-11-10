@@ -618,7 +618,8 @@ class KirbyAmWorld(World):
             # conditional permissions whose actual target could not exist yet.
             # Their early useful instances were not collected into current state.
             for item in self.multiworld.precollected_items[self.player]:
-                if item.name in {"Ice Ability", "Crash Ability", "Missile Ability", "Parasol Ability"} \
+                if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
+                                 "Parasol Ability", "Magic Ability"} \
                         and not item.advancement:
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
@@ -1327,6 +1328,8 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
+        from .traversal_rules import mustard_magic_is_progression
+
         classification = get_item_classification(item_code)
         if self.item_id_to_name[item_code] == "Ice Ability":
             from .traversal_rules import goal2_ice_is_progression
@@ -1352,6 +1355,8 @@ class KirbyAmWorld(World):
             from .traversal_rules import cabbage_parasol_is_progression
             if cabbage_parasol_is_progression(self):
                 classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Magic Ability" and mustard_magic_is_progression(self):
+            classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
             classification,

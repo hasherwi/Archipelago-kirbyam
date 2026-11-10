@@ -83,7 +83,7 @@ def test_camera_scope_is_one_explicit_graph_not_global_switch_credit():
               if any(route.get('capability') == CAPABILITY for route in g['routes'])]
     assert owners == [('switch_533_room16', 'hub4_crash_entry')]
     row = next(r for r in rows if r['id'] == 'switch_533_room16')
-    assert set(row['graphs']) == {'hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry'}
+    assert set(row['graphs']) == {'hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_magic_entry'}
     assert rules.static_extra_witness(SourcePolicy(manifest()['source_policy']))
     evidence = manifest()
     x0, y0, x1, y1 = evidence['positive_pose']['viewport']

@@ -9,7 +9,7 @@ return false and create a useful item. CollectionState does not count such an
 item as an owned permission even when its target later becomes enabled.
 
 After Kirby's regions are created, the world rechecks only precollected Ice,
-Crash, Missile and Parasol items that are not already advancement items. It uses
+Crash, Missile, Parasol and Magic items that are not already advancement items. It uses
 the existing item factory to reevaluate each unchanged source, gating and actual
 location predicate. If the item is now progression, the original precollected
 instance receives that classification and is collected into the existing state
@@ -32,3 +32,10 @@ reconciliation or use disabled categories, gating off and wrong source policies.
 These fixtures are distinct from native source/carry acceptance. The supported
 option tested here is `start_inventory`; no claim is made for options the world
 does not expose.
+
+Magic uses the same lifecycle for the enabled Room15 to Room16 entrance and raw
+guaranteed Foley source. Its existing safe-to-gate policy is unchanged. Before
+regions exist it remains useful; after the entrance exists it becomes progression
+only with gating on and guaranteed Magic. Tests cover absent targets, unsupported
+source policies, explicit multiplicity, preexisting progression and full seed 12
+generation. Other useful abilities remain outside this reconciliation.

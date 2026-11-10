@@ -225,6 +225,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         )),
     )
     condition = _validate_carrot_source_condition(row, condition)
+    condition = _validate_mustard_source_condition(row, condition)
     scoped_target = next((target for supported, target in scoped_conditions if condition == supported), None)
     if scoped_target is not None:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
@@ -251,6 +252,17 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         raise ValueError(f"Traversal target is not an exit of its owner: {exit_name}")
     if location and location not in region.locations:
         raise ValueError(f"Traversal target is not a location of its owner: {location}")
+
+
+def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
+    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic"]}:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
+            "switch_533_room16", "switch", 533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        ):
+            raise ValueError("Foley source applicability belongs only to the reviewed Room16 exit")
+        return None
+    return condition
 
 
 @lru_cache(maxsize=1)

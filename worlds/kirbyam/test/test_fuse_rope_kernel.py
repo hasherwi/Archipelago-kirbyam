@@ -78,6 +78,7 @@ def test_consumption_policy_only_names_known_providers():
     assert CAPABILITY_CONSUMED_ABILITIES == {
         'fuse': frozenset({'Crash'}), 'switch_533_crash_viewport': frozenset({'Crash'}),
         'switch_310_crash_viewport': frozenset({'Crash'}),
+        'switch_533_magic_meta_knight': frozenset({'Magic'}),
     }
     for capability, spent in CAPABILITY_CONSUMED_ABILITIES.items():
         assert spent <= CAPABILITY_ABILITIES[capability]

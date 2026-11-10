@@ -114,6 +114,19 @@ def carrot_fighter_is_progression(world: Any) -> bool:
             and SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Fighter"}))
 
 
+def mustard_magic_is_progression(world: Any) -> bool:
+    """Only the enabled Room16 exit and guaranteed Foley need Magic permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_entrance(
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_15 -> REGION_MUSTARD_MOUNTAIN/ROOM_4_16", world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Magic"})
+
+
 def static_extra_witness(policy: SourcePolicy) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 

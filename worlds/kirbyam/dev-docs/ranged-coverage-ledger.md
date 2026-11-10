@@ -1,6 +1,21 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam, Smash, Fire and Missile alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, the conditional310 map alternatives in `mustard-map-ufo-source-witness.md` and `mustard-map-crash-source-witness.md`, and the conditional825 UFO alternative in `olive-sound-effects-ufo.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is
+implemented. The current source-backed subset includes:
+
+- Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
+  dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
+  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol for the Cabbage Chocolate
+  chest, and Beam/Fighter/Sword for the Carrot lower Room13 entry.
+- Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
+  Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
+  the original Bomb record is `mustard-room15-source-witness.md`.
+- Conditional 310 map alternatives: UFO, Crash and Cupid, documented in their
+  `mustard-map-*-source-witness.md` records.
+- The conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
+
+The move-family catalog below identifies candidates. It does not grant an
+ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
@@ -54,7 +69,11 @@ All anchors below refer to native1197474. Their category-mask compatibility is n
 - `src/code_0806F780.c:2093–2179`: air puff, category0x40 strength2, damage±5 versus tile scan±2,3.75px/update then deceleration; terrain/object sensitive.
 - `src/code_0806F780.c:4997–5043`: UFO low-charge laser,8px/update, damage±6×±3 versus tile scan±1; distinct launch/cancellation owner.
 - `src/kirby.c:20685–20719`, `code_0806F780.c:7052–7100`: Cupid charge≥0x30 releases three arrows with successively reduced charge, not identical trajectories.
-- `src/code_0806F780.c:7963–8076`: Magic Meta Knight moving viewport-height damage, category0x2000, no terrain query/tile-scan flag in examined update. Full switch callback/special flags still unproved.
+- `src/code_0806F780.c:7963–8076`: Magic Meta Knight has moving viewport-height
+  damage, category 0x2000, and no terrain query/tile-scan flag in the examined
+  update. This source anchor alone did not establish switch contact. The later
+  frozen v4 Room15 witness proves the exact local callback and timed 533 to 325
+  route; other targets, poses, outcomes and alternate-mode behavior remain unproved.
 - `src/foley.c:142–156,237–242`, `code_0806F780.c:2497–2522,2653–2674`: nearby Kirby triggers drop, landing creates category0x40 explosion, damage±20 with animation eligibility and no tile scanner. Not Bomb equivalence.
 
 ## Target namespaces and live investigation
@@ -63,8 +82,27 @@ Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big s
 
 Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Mustard Chest310, Mustard15/native533→Mustard16/native325, and Peppermint Chest209. They must not become blanket ability gates:
 
-- 310 has a solid intervening wall and near-zero release timer. A guaranteedTWISTER→UFO subset now uses the complete Normal Hub4/native590→534 approach, finiteTwister acquisition and UFO carry into310. The room-specific top-charge combat, switch shot and timed crossing reach chest39/map4 without damage at50/100/450/451/462/463/500% enemy health; matched100/500% no-final-charge controls remain blocked. Only `MAJOR_CHEST_MUSTARD_MOUNTAIN` is gated; return exit, Area-Key entry and RoomSanity rules are unchanged. Unsupported source policies, other attacks, arbitrary arrival paths and Phone/helper alternatives remain unproved. See `mustard-map-ufo-source-witness.md` and `mustard-map-ufo-acceptance.json`.
-- 533 has a solid/elevation obstacle. Separate environmental Foley explosion from acquiring its default Bomb and placing a delayed bomb. A guaranteedFOLEY→Bomb subset now uses the complete no-damage Hub4→534→533 acquisition, placement and325 crossing at100%/500% enemy health, with matched controls. A second guaranteedFOLEY→UFO graph proves the top-charge shot and crossing under production assignment-table fixtures, with no-shot/low-laser/medium-shot controls. Unsupported source assignments retain prior behavior. Environmental and other attack alternatives remain unproved.
+- 310 has a solid intervening wall and near-zero release timer. The guaranteed
+  TWISTER → UFO subset uses the complete Normal Hub4/native 590 → 534 approach,
+  finite Twister acquisition and UFO carry into 310. The room-specific top-charge
+  combat, switch shot and timed crossing reach chest 39/map 4 without damage at
+  50/100/450/451/462/463/500% enemy health; matched 100/500% no-final-charge
+  controls remain blocked. Only `MAJOR_CHEST_MUSTARD_MOUNTAIN` is gated; return
+  exit, Area-Key entry and RoomSanity are unchanged. See
+  `mustard-map-ufo-source-witness.md` and `mustard-map-ufo-acceptance.json`.
+  Later Crash and Cupid records add their own complete OR graphs on this same
+  target, preserving each source, attack, timing and health boundary. Unsupported
+  source policies, arbitrary arrivals and Phone/helper alternatives remain unproved.
+- 533 has a solid/elevation obstacle. Environmental Foley explosion is separate
+  from acquiring its default Bomb and placing a delayed bomb. Guaranteed
+  FOLEY → Bomb uses the complete no-damage Hub4 → 534 → 533 acquisition,
+  placement and 325 crossing at 100%/500% enemy health, with matched controls.
+  Guaranteed FOLEY → UFO proves a separate top-charge shot and crossing under
+  production assignment-table fixtures, with no-shot/low-laser/medium-shot
+  controls. Later independent Crash and Magic records add complete OR graphs on
+  this same target, summarized below. Unsupported source assignments retain
+  prior behavior. Environmental Foley contact and other attack alternatives
+  remain unproved.
 - 209 is a dependency on **published** PR #1051 head177d765: `ordinary-209-snow-map-loop-acceptance.json` proves a qualified upper210-arrival Normal route through Snow and the first Bomb chain to the map, with100%/500% enemy-health variants. It does not prove arbitrary209 entry joins. Do not duplicate that coarse placeholder as a ranged requirement or import unrelated unpublished #1051 work.
 
 147 is calibration only: ordinary timed traversal is an alternative, so a ranged witness alone does not justify a mandatory AP gate. Further work must inspect all actual target/check associations, enemy-health/interception, source randomization, 1HP/no-damage movement, precise entry compartments and matched controls.
@@ -73,8 +111,9 @@ For future Phone/ranged alternatives on the same AP surface, use alternative wit
 
 ## Cabbage Chocolate chest Smash alternative
 
-`bomb_517_chocolate` now has separate guaranteed WADDLE_DOO→Beam and
-WADDLE_DOO→Smash witness graphs within one OR target row. The new production
+`bomb_517_chocolate` gained a separate guaranteed WADDLE_DOO → Smash graph
+alongside Beam within one OR target row. Later Fire, Missile and Parasol
+alternatives have their own evidence below. The production
 seed173 route starts Normal at actual Hub2/native591 entry, consumes the finite
 native Doo0x088CA04C, carries Smash and opens F1(14,7) with rising Up+B at3129.
 The seven linked F2 cells then clear by3179. Physical chest57 records
@@ -89,7 +128,8 @@ access remains required, gating-on needs Smash permission, and the existing
 Beam proof is unchanged. Live-random multi-outcome or failure-weighted grants
 from the finite source do not gain an eventual-draw promise. Spark/Ice carries, other entry sides or exits,
 RoomSanity reachability, arbitrary health interpolation and global Smash
-collision equivalence remain unproved. Carrot's condition remains Beam-only.
+collision equivalence remain unproved. This Smash evidence adds no Carrot route;
+Carrot now has separate Beam, Fighter and Sword witnesses on its lower entry.
 See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
 
 ## Rainbow110 underwater Sword alternative
@@ -327,3 +367,21 @@ carry hit while Kirby passes. Only ENTRY_FROM_5_07 is changed, not Secret Notes,
 rewards, other exits or RoomSanity. Sword already has a gateable progression
 permission. See `carrot-room7-sword-witness.md` and its compact acceptance JSON
 for raw hashes, startup qualifications and native-versus-host coverage limits.
+
+## Mustard Room15: bounded Magic Meta Knight alternative
+
+`switch_533_room16` adds one separate guaranteed FOLEY → Magic OR graph.
+Normal enters through actual Hub4 → 534 → 533, acquires the finite source,
+carries Magic to the reviewed dry pose, selects Meta Knight using the visible
+roulette icon, consumes Magic to Normal and completes the timed crossing and
+actual 325 arrival. Existing Bomb/UFO/Crash graphs are unchanged. No persistent
+switch credit, source renewal, general Magic attack or unrelated target follows.
+
+Frozen v4 has 36 positives and eight controls. The 12 endpoint/control runs use
+baseline layout 3 at actual HP 1/6 × enemy health 100%/500%; 32 more positives
+cover ordinary layouts 0 to 4 at 100%/1 HP. Alternate-mode layouts 5 to 7 have
+source recurrence only. Native gating/keys are off; host permission, scoped
+progression, starting inventory, options and full-fill tests are separate.
+See `mustard-room15-magic-source-witness.md` and its sanitized acceptance JSON.
+This supersedes the earlier unproved switch-contact note only for this exact
+source, pose, strategy and target, not Magic's other outcomes or generic range.

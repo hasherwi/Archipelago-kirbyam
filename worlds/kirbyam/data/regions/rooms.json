@@ -6508,7 +6508,8 @@
             "abilities": [
               "Bomb",
               "UFO",
-              "Crash"
+              "Crash",
+              "Magic"
             ]
           },
           "graphs": {
@@ -6750,6 +6751,128 @@
                   ],
                   "room_transition": true,
                   "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual325 arrival at4906 as Normal."
+                }
+              ]
+            },
+            "hub4_magic_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "FOLEY",
+                "ability": "Magic"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:magic_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:magic_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:magic_arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_pose",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_normal_crossing",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_door",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_destination",
+                  "native_room": 325
+                }
+              ],
+              "starts": [
+                "switch_533_room16:magic_hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:magic_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:magic_source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Original finite Foley at (224, 64); Normal inhales and swallows the native payload, acquiring guaranteed Magic at frame 4377. No inventory equipment or random retries."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:magic_hub4",
+                  "to": "switch_533_room16:magic_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual single-player door transition, not a source retry loop.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Independent Normal 590 to 534 entry at frame 1157."
+                },
+                {
+                  "from": "switch_533_room16:magic_rainbow34",
+                  "to": "switch_533_room16:magic_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual single-player door transition, not a source retry loop.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal payload/spit-star and air-puff obstacle clearance; actual 534 to 533 entry at frame 2697."
+                },
+                {
+                  "from": "switch_533_room16:magic_arrival",
+                  "to": "switch_533_room16:magic_source",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal flight and observed source viewport reset reach the original live Foley; generic room 533 access is insufficient."
+                },
+                {
+                  "from": "switch_533_room16:magic_source",
+                  "to": "switch_533_room16:magic_pose",
+                  "required_equipment": [
+                    "Magic"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Carry Magic from (245.51953125, 72.99609375) for 70 Left frames to the independently reached dry pose (170.21875, 135.80859375)."
+                },
+                {
+                  "from": "switch_533_room16:magic_pose",
+                  "to": "switch_533_room16:magic_normal_crossing",
+                  "capability": "switch_533_magic_meta_knight",
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Ordinary-mode visible sword-icon selection with A creates player0-parent Meta Knight; exact remote switch contact, Magic consumed to Normal, fixed recovery inputs cross the closing gate. No hidden-state selection, lucky outcome, helper, persistent open event or alternate-mode proof."
+                },
+                {
+                  "from": "switch_533_room16:magic_normal_crossing",
+                  "to": "switch_533_room16:magic_door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal flies directly up the clear x 80 to 95 column, then right and down to the actual 325 door ledge. The superseded air-puff tail is not used."
+                },
+                {
+                  "from": "switch_533_room16:magic_door",
+                  "to": "switch_533_room16:magic_destination",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual 325 arrival at baseline frame 5221 as Normal, settling through frame 5269."
                 }
               ]
             }

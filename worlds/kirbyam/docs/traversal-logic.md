@@ -1406,8 +1406,9 @@ five reusable providers set that flag:
   kirby.c21200.
 - Master: sub_08075DB0 assigns 0x30007103; kirby.c23710.
 
-Magic's random MetaKnight outcome also sets0x2000 in sub_080838DC/sub_08083B04, but is not a
-reliable reusable provider. Ordinary Stone does not cut ropes. An ability permission item is
+Magic's Meta Knight outcome also sets 0x2000 in sub_080838DC/sub_08083B04, but is not a
+reusable rope provider. A separate visible-selection witness supports only the exact
+[Mustard Room15 switch route](../dev-docs/mustard-room15-magic-source-witness.md), not rope credit. Ordinary Stone does not cut ropes. An ability permission item is
 never equipment. Room transitions do not prove an instance reset: AI occupancy may preserve
 the instance. The one-way carrier records claim no source replenishment or retained rope
 opening across transitions.
