@@ -22,6 +22,8 @@ EXIT = 'REGION_MUSTARD_MOUNTAIN/ROOM_4_16'
     (0, None, 0, True), (1, ['Bomb'], 0, True), (1, ['Beam'], 0, False),
     (2, ['Bomb'], 0, True), (2, ['Bomb', 'Beam'], 0, False),
     (2, ['Bomb'], 50, False), (2, ['Bomb'], 100, False),
+    (1, ['UFO'], 0, True), (2, ['UFO'], 0, True),
+    (2, ['UFO'], 50, False), (2, ['Bomb', 'UFO'], 0, False),
 ])
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('area_keys', [False, True])
@@ -48,13 +50,14 @@ def test_mustard_conditional_policy_entry_and_permission_matrix(
         item_id_to_name=KirbyAmWorld.item_id_to_name,
     )
     rules.install_extra_traversal_rules(world)
+    ability = next(iter(resolver.grant('FOLEY', lambda _: True).guaranteed)) if applies else 'Bomb'
     owned = set()
     state = SimpleNamespace(base_rule=True, upstream=False)
     state.has = lambda item, player: item in owned
     # Generic owner access cannot bootstrap the Hub4 approach.
     state.can_reach_region = lambda name, player: name == OWNER or (name == UPSTREAM and state.upstream)
     assert target.access_rule(state) is (not applies)
-    owned.add('Bomb Ability')
+    owned.add(f'{ability} Ability')
     assert target.access_rule(state) is (not applies)
     state.upstream = True
     assert target.access_rule(state)
@@ -63,7 +66,7 @@ def test_mustard_conditional_policy_entry_and_permission_matrix(
     state.base_rule = False
     assert not target.access_rule(state)
     assert dependencies == ([UPSTREAM] if applies else [])
-    code = KirbyAmWorld.item_name_to_id['Bomb Ability']
+    code = KirbyAmWorld.item_name_to_id[f'{ability} Ability']
     item = KirbyAmWorld.create_item_by_code(world, code)
     assert item.classification == ItemClassification.progression
 
@@ -101,3 +104,17 @@ def test_actual_world_wires_only_room16_edge_and_collects_bomb(gating, area_keys
     # No room-level rule or source-dependent RoomSanity gate is introduced.
     for location in world.multiworld.get_region(OWNER, 1).locations:
         assert location.access_rule(state)
+
+
+def test_ufo_graph_uses_real_source_and_top_charge_not_bomb_equivalence():
+    graph = room_traversal_graph('switch_533_room16', 'hub4_ufo_entry')
+    source, = graph.placements
+    assert (source.identity, source.source_key, source.renewable) == ('0x088C2714', 'FOLEY', False)
+    assert all(start.equipped == 'Normal' for start in graph.starts)
+    target, = graph.required_targets
+    resolver = policy(1, pool=['UFO'])
+    assert not graph.evaluate(resolver, frozenset({'Bomb Ability'}), True).reaches(target)
+    assert graph.evaluate(resolver, frozenset({'UFO Ability'}), True).reaches(target)
+    assert not replace(graph, placements=()).evaluate(resolver, frozenset({'UFO Ability'}), True).reaches(target)
+    assert not graph.evaluate(policy(), frozenset({'Bomb Ability', 'UFO Ability'}), True).reaches(target)
+    assert [r.capability for r in graph.routes if r.capability] == ['switch_533_ufo_top_charge']

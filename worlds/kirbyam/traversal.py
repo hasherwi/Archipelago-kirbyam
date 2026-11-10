@@ -35,6 +35,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_719_room13": frozenset({"Beam"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
+    "switch_533_ufo_top_charge": frozenset({"UFO"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
 }
@@ -45,6 +46,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_517_chocolate": 517,
     "bomb_719_room13": 719,
     "switch_533_bomb_placement": 533,
+    "switch_533_ufo_top_charge": 533,
 }
 
 # Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun

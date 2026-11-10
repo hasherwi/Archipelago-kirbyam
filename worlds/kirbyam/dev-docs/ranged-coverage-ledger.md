@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block routes described in `bounded-bomb-implementation.md` and the conditional533 small-switch route in `mustard-room15-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The three source-backed Bomb Block routes described in `bounded-bomb-implementation.md` and the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -64,7 +64,7 @@ Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big s
 Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Mustard Chest310, Mustard15/native533→Mustard16/native325, and Peppermint Chest209. They must not become blanket ability gates:
 
 - 310 has a solid intervening wall and near-zero release timer. Launch pose, source/carry, complete chest access and solo alternatives remain unproved.
-- 533 has a solid/elevation obstacle. Separate environmental Foley explosion from acquiring its default Bomb and placing a delayed bomb. A guaranteedFOLEY→Bomb subset now uses the complete no-damage Hub4→534→533 acquisition, placement and325 crossing at100%/500% enemy health, with matched controls. Unsupported source assignments retain prior behavior. Environmental and other attack alternatives remain unproved.
+- 533 has a solid/elevation obstacle. Separate environmental Foley explosion from acquiring its default Bomb and placing a delayed bomb. A guaranteedFOLEY→Bomb subset now uses the complete no-damage Hub4→534→533 acquisition, placement and325 crossing at100%/500% enemy health, with matched controls. A second guaranteedFOLEY→UFO graph proves the top-charge shot and crossing under production assignment-table fixtures, with no-shot/low-laser/medium-shot controls. Unsupported source assignments retain prior behavior. Environmental and other attack alternatives remain unproved.
 - 209 is a dependency on **published** PR #1051 head177d765: `ordinary-209-snow-map-loop-acceptance.json` proves a qualified upper210-arrival Normal route through Snow and the first Bomb chain to the map, with100%/500% enemy-health variants. It does not prove arbitrary209 entry joins. Do not duplicate that coarse placeholder as a ranged requirement or import unrelated unpublished #1051 work.
 
 147 is calibration only: ordinary timed traversal is an alternative, so a ranged witness alone does not justify a mandatory AP gate. Further work must inspect all actual target/check associations, enemy-health/interception, source randomization, 1HP/no-damage movement, precise entry compartments and matched controls.

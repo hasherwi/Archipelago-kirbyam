@@ -1,6 +1,6 @@
 # Mustard Room15: bounded Bomb placement and timed gate
 
-This is one complete solo alternative for native533's small switch, not a general ranged-attack or Phone provider list. It adds only the native533→325 exit rule when the actual Foley source is guaranteed to grant Bomb. Other assignments retain their previous behavior pending complete alternatives. Bomb is already a progression item and remains subject to the ROM's ability-permission gate.
+This is one complete solo alternative for native533's small switch, not a general ranged-attack or Phone provider list. It adds only the native533→325 exit rule when the actual Foley source is guaranteed to grant Bomb. A separate [UFO top-charge graph](mustard-room15-ufo-source-witness.md) now covers guaranteed UFO from the same source. Other assignments retain their previous behavior pending complete alternatives. Bomb is already a progression item and remains subject to the ROM's ability-permission gate.
 
 ## Actual source and entry
 

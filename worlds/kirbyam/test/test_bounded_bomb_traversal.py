@@ -13,6 +13,7 @@ CASES = (
     (517, 'bomb_517_chocolate', {'Beam', 'Spark', 'Ice', 'Smash'}),
     (719, 'bomb_719_room13', {'Beam'}),
     (533, 'switch_533_bomb_placement', {'Bomb'}),
+    (533, 'switch_533_ufo_top_charge', {'UFO'}),
 )
 
 

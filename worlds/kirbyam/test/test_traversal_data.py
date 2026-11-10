@@ -165,6 +165,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
         "bomb_719_room13": frozenset({"Beam"}),
         "switch_533_bomb_placement": frozenset({"Bomb"}),
+        "switch_533_ufo_top_charge": frozenset({"UFO"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     }

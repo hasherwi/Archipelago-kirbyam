@@ -182,7 +182,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         {"source_key": "MR_FROSTY", "ability": "Ice"},
         {"source_key": "SPARKY", "ability": "Spark"},
         {"source_key": "WADDLE_DOO", "ability": "Beam"},
-        {"source_key": "FOLEY", "ability": "Bomb"},
+        {"source_key": "FOLEY", "abilities": ["Bomb", "UFO"]},
     ):
         raise ValueError("Unsupported guaranteed-source applicability condition")
     if not isinstance(row.get("required_for_generation", True), bool):

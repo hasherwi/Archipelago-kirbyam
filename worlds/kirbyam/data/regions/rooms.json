@@ -5672,7 +5672,10 @@
           "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
           "requires_guaranteed_source": {
             "source_key": "FOLEY",
-            "ability": "Bomb"
+            "abilities": [
+              "Bomb",
+              "UFO"
+            ]
           },
           "graphs": {
             "hub4_entry": {
@@ -5744,6 +5747,78 @@
                   "to": "switch_533_room16:door",
                   "capability": "switch_533_bomb_placement",
                   "evidence": "dev-docs/mustard-room15-source-witness.md; place Bomb, retreat, cross timed gate and enter actual325 door. No persistent switch credit."
+                }
+              ]
+            },
+            "hub4_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-ufo-source-witness.md; same finite Foley(224,64), guaranteed UFO under production assignment-table policy. Complete Normal Hub4 approach; no equipment from inventory."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:door",
+                  "capability": "switch_533_ufo_top_charge",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; carry UFO to launch(178,134.992), hold B120frames, release, cross timed gate at its lower opening, clear left star and enter325. Low/medium shots do not inherit this route."
                 }
               ]
             }
