@@ -20,6 +20,9 @@ from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .colors import choose_different_kirby_color, kirby_color_name_by_id
+from .phone_protocol import (
+    PHONE_ITEM_ID, PHONE_CONFIG_OFFSET, PHONE_ENABLED_CONFIG, phone_slot_version, sync_phone_ownership,
+)
 from .copy_room_protocol import (
     COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
     copy_room_slot_version, sync_copy_room_ownership,
@@ -2069,6 +2072,16 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            phone_version = phone_slot_version(slot)
+            if phone_version:
+                config = (await bizhawk.read(ctx.bizhawk_ctx, [(PHONE_CONFIG_OFFSET, 12, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(config) != PHONE_ENABLED_CONFIG:
+                    raise ValueError("ROM and slot Phone versions differ")
+            elif any(getattr(item, "item", 0) == PHONE_ITEM_ID
+                     for item in getattr(ctx, "items_received", ())):
+                raise ValueError("Phone item received without a compatible slot")
             copy_room_version = copy_room_slot_version(slot)
             if copy_room_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
@@ -2273,6 +2286,7 @@ class KirbyAmClient(BizHawkClient):
                 self._last_runtime_gate_reason = None
 
             await sync_copy_room_ownership(ctx, self._hub_connection_item_history_ready)
+            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)
             await self._reconcile_native_shard_ownership(ctx)
             await self._reconcile_native_map_ownership(ctx)
             await self._reconcile_vitality_ownership(ctx)

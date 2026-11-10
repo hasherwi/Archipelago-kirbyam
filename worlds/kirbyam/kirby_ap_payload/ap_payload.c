@@ -3,6 +3,7 @@
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
 #include "copy_room.h"
+#include "phone.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -1978,6 +1979,7 @@ HUB_EXT void ap_hub_tasks(void) {
 // Returns 1 if item was successfully processed, 0 if unrecognized
 static uint8_t ap_apply_item(uint32_t ap_item_id) {
     /* Only authenticated complete history may grant this access item. */
+    if (ap_item_id == AP_PHONE_ITEM) return (uint8_t)ap_phone_owned();
     if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
@@ -2157,6 +2159,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 
 void ap_poll_mailbox_c(void) {
     ap_copy_room_poll();
+    ap_phone_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;

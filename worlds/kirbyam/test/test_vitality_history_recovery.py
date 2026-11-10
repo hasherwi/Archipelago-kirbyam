@@ -94,6 +94,8 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #include "minor_chest_runtime_logic.h"
 #include "vitality_runtime_logic.h"
 #define AP_COPY_ROOM_ITEM 3860500u
+#define AP_PHONE_ITEM 3860501u
+static uint32_t ap_phone_owned(void) { return 0; }
 static uint32_t ap_copy_room_owned(void) { return 0; }
 #define KIRBY_ITEM_ID_BASE_OFFSET 3860000u
 #define KIRBY_MAX_VITALITY_COUNTERS 4u

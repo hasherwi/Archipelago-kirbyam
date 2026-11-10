@@ -1,6 +1,6 @@
 # Phone a Friend: traversal audit and implementation boundary
 
-Status: **documentation only; no Phone item, gameplay rule, or runtime gate is implemented here.** AI-assisted source review, checked 2026-11-09. This is a separate follow-up to [#490](https://github.com/hasherwi/Archipelago-kirbyam/issues/490), not a change to the through-wall evidence work in [#1052](https://github.com/hasherwi/Archipelago-kirbyam/pull/1052).
+Status: **implementation in progress; production activation and helper-route grants remain disabled.** The initial audit below was checked 2026-11-09. See [the native gate and ownership milestone](phone-implementation.md) for current code, tests, and remaining acceptance work. AI-assisted source review. This is a separate follow-up to [#490](https://github.com/hasherwi/Archipelago-kirbyam/issues/490), not a change to the through-wall evidence work in [#1052](https://github.com/hasherwi/Archipelago-kirbyam/pull/1052).
 
 ## Findings
 
@@ -99,4 +99,4 @@ In [kirby.c](https://github.com/jiangzhengwenjz/katam/blob/1197474f80e5de282fbed
 
 Checked the pinned AP item catalog, room requirements, native-room mapping, existing small-switch JSON inventory, native switch/block/call code, and the linked gameplay references. Mechanical checks verify the seven candidate room IDs against the mapping, the named AP room/location targets against the baseline JSON, the 35/24 inventory totals, and Carrot 16's absence from that switch inventory. Markdown syntax, whitespace and the documentation-only diff were checked separately.
 
-No native replay, full-ROM object extraction, ROM rebuild, Python world test suite or generation test was performed for this documentation change. No runtime acceptance or exhaustive Phone route coverage is claimed. #1052's existing replays test particular attacks; they are not Phone helper witnesses. Existing source/page coverage gaps remain gaps, and no inaccessible page was retrieved through an alternative route. Human review and the acceptance work above remain necessary before any gameplay implementation.
+The original documentation-only revision did not perform native replay, full-ROM object extraction, ROM rebuild, Python world tests or generation tests. The later implementation milestone and its separately scoped evidence are described in [phone-implementation.md](phone-implementation.md). No runtime acceptance or exhaustive Phone route coverage is claimed. #1052's existing replays test particular attacks; they are not Phone helper witnesses. Existing source/page coverage gaps remain gaps, and no inaccessible page was retrieved through an alternative route. Human review and the remaining acceptance work are necessary before production activation.
