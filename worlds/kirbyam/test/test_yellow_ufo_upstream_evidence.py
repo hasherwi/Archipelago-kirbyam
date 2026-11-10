@@ -12,7 +12,20 @@ EVIDENCE = DOCS / 'carrot-yellow-ufo-upstream-runtime.json'
 
 
 def evidence():
-    return json.loads(EVIDENCE.read_text())
+    return json.loads(EVIDENCE.read_text(encoding='utf-8'))
+
+
+def lf_text_sha256(raw):
+    """Hash tracked UTF-8 text as LF content, not private raw artifacts."""
+    text = raw.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
+def test_tracked_text_hash_is_independent_of_checkout_line_endings():
+    lf = '{"name": "Kirby → Mirror"}\n'.encode('utf-8')
+    crlf = lf.replace(b'\n', b'\r\n')
+    assert lf_text_sha256(lf) == lf_text_sha256(crlf) == hashlib.sha256(lf).hexdigest()
+    assert lf_text_sha256(lf + b' ') != lf_text_sha256(lf)
 
 
 def test_upstream_boundaries_and_core_packet_are_preserved():
@@ -27,7 +40,8 @@ def test_upstream_boundaries_and_core_packet_are_preserved():
     assert data.regions['REGION_CARROT_CASTLE/ROOM_5_07'].exit_requirements[boundary['unchanged_core_access']] == {
         'all': ['can_climb', 'can_break_block']}
     core = (DOCS / 'carrot-yellow-ufo-source-runtime.json').read_bytes()
-    assert hashlib.sha256(core).hexdigest() == e['preserved_core_runtime_sha256']
+    assert e['preserved_core_runtime_hash_format'] == 'UTF-8 text with LF line endings (Git blob content)'
+    assert lf_text_sha256(core) == e['preserved_core_runtime_sha256']
     assert e['prior_packet_files_unchanged'] == 37
     assert e['source_policy'] == json.loads(core)['source_policy'] and e['production_seed'] == 8
     assert all(private not in EVIDENCE.read_text() for private in ('/home/', '/Users/', 'C:\\'))

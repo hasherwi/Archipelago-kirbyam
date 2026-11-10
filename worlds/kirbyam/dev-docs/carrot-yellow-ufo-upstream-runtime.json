@@ -1517,6 +1517,7 @@
   "total_samples": 21064,
   "same_inputs_all_health_settings": true,
   "prior_packet_files_unchanged": 37,
+  "preserved_core_runtime_hash_format": "UTF-8 text with LF line endings (Git blob content)",
   "preserved_core_runtime_sha256": "a3c2311e0d0b70b0301637908a7b6dd913b20fb39dd95b615f44a58b80abbba5",
   "provenance": {
     "compact_result_sha256": "bf6381f94aaaed7097cc09de187f23f11e49be9fdde3dc4c4a1c0d340df081fd",

@@ -48,9 +48,11 @@ retains all eight result/trace hashes, four fixture and production hashes,
 21,064 validated gameplay samples, exact transition and self-door timing,
 checkerboard reload observations, input schedules and final outcomes. Tests
 check these retained records, not a fresh emulator replay. The original
-`carrot-yellow-ufo-source-runtime.json` is preserved byte-for-byte. All37
-private prior-packet files checked by the original preservation manifest also
-remain unchanged.
+`carrot-yellow-ufo-source-runtime.json` is preserved as Git blob content. Its
+retained SHA-256 is computed from UTF-8 text with LF line endings; the contract
+test normalizes CRLF checkout line endings before comparing that hash. Private
+raw-artifact hashes are not normalized or changed. All37 private prior-packet
+files checked by the original preservation manifest also remain unchanged.
 
 The four fixtures come from normal full-production seed8, mode1 with the
 full25-ability shuffled pool and policy seed5662892934360856578. Each differs
