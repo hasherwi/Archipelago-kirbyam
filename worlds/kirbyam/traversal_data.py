@@ -178,6 +178,22 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
 
 def _validate_target(row: Mapping[str, Any]) -> None:
     condition = row.get("requires_guaranteed_source")
+    alternatives = row.get("requires_any_guaranteed_source")
+    if "requires_any_guaranteed_source" in row:
+        if "requires_guaranteed_source" in row:
+            raise ValueError("Guaranteed-source conditions are mutually exclusive")
+        # This is a disjunction of two independently witnessed physical sources,
+        # not a general permission to combine source policies on other targets.
+        if alternatives != [
+            {"source_key": "SPARKY", "ability": "Spark"},
+            {"source_key": "SWORD_KNIGHT", "ability": "Sword"},
+        ] or (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit"),
+        ) != (
+            "bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
+            "REGION_RAINBOW_ROUTE/ROOM_1_09",
+        ):
+            raise ValueError("Unsupported target-specific guaranteed-source alternatives")
     # Cabbage's additional Smash carry is not evidence for the Beam-only Carrot
     # doorway, another source, or any other location in the same native room.
     cabbage_condition = {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Smash"]}

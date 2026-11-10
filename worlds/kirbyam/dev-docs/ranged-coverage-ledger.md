@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The four source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the selective Rainbow Green Paint route and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The four source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint route and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -34,7 +34,7 @@ Source review: native `1197474f80e5de282fbedcd0025ebfa61f61a764`, compared to th
 | Spark | Attached short-range field, target-specific rectangles. |
 | Tornado | Attached damage effect; audited effect lacks tile flag, other body paths not exhaustively excluded. |
 | Hammer | Local weapon/animation overlap and target category. |
-| Sword | Attached attacks versus landing wave and its setup. |
+| Sword | Attached attacks, including the exact110 underwater spin, versus landing wave and its separate setup. |
 | Cupid | Aim, charge, ground/air and charged triple-arrow release; ballistic terrain-sensitive paths. |
 | Fighter | Melee, ordinary wave, charged wave and 1HP wave; only 1HP wave has reviewed terrain bypass. |
 | Magic | Conversion, invincibility and Meta Knight outcomes; different category/space/eligibility. |
@@ -91,6 +91,27 @@ from the finite source do not gain an eventual-draw promise. Spark/Ice carries, 
 RoomSanity reachability, arbitrary health interpolation and global Smash
 collision equivalence remain unproved. Carrot's condition remains Beam-only.
 See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
+
+## Rainbow110 underwater Sword alternative
+
+The same `bomb_110_room9` target and exact110→554 AP exit now have two OR
+graphs: unchanged dry Spark and distinct attached underwater Sword spin.
+Original finite Sword Knight0x088B74CC is acquired while Normal; independent
+108 lower-mid access supplies only the startup-reproduced decoded upper arrival.
+The actual incoming door is not replayed. Medium-aware carry reaches F1(13,57)
+with Kirby0x69/weapon0x6F variant1, clears through solid column12, and physically
+crosses to554 with Sword intact. This is not landing wave or a general range.
+
+Five native-assignment/gating-off production replays cover actual1HP at enemy
+50/100/500% and actual6HP at100/500%. Three matched1HP controls omit only the
+exact target attack and stay sealed in110; no gameplay writes or state restores.
+These are discrete tested values, not every supported health setting. Logic
+source-policy equivalence and gating-on tests are separate from native coverage.
+Applicability is guaranteed SPARKY→Spark OR SWORD_KNIGHT→Sword, validated only
+for this target/owner/exit. Neither finite mixed pools nor failure-weighted
+randomness gains a retry guarantee. Other exits, RoomSanity and the36-target
+count are unchanged. See `rainbow-route-8-sword-witness.md` and
+`rainbow-route-8-sword-runtime.json`.
 
 ## Rainbow Green Paint selective lower trigger
 

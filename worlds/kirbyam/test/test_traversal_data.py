@@ -162,6 +162,7 @@ def test_target_catalog_counts_and_provider_separation():
         "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
         "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
         "bomb_110_room9": frozenset({"Spark"}),
+        "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
         "bomb_138_green": frozenset({"Spark"}),
         "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
         "bomb_719_room13": frozenset({"Beam"}),

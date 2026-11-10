@@ -212,3 +212,20 @@ and `ability: "Ice"` for the conditional Goal 2 witness. Both feasibility and ru
 installation skip this partial witness unless the finalized source policy
 unconditionally grants Ice. Unsupported configurations preserve prior behavior;
 this condition does not assert they are impossible.
+
+
+Only `bomb_110_room9` on `REGION_RAINBOW_ROUTE/ROOM_1_08`'s exact
+`REGION_RAINBOW_ROUTE/ROOM_1_09` exit may use `requires_any_guaranteed_source`.
+Its value is exactly the ordered pair `{source_key: "SPARKY", ability: "Spark"}`
+and `{source_key: "SWORD_KNIGHT", ability: "Sword"}`. This is an OR across
+independently proved physical sources, not an AND and not a mixed live-pool
+guarantee. It cannot coexist with `requires_guaranteed_source`, even if that
+field is null. Both graph witnesses keep independent Room6 lower-mid access.
+Legacy one-source conditions and their existing validated forms are unchanged.
+
+`bomb_110_room9` remains dry Spark only. The distinct
+`bomb_110_room9_underwater_sword` effect is Sword only, scoped to native110 at
+both endpoints and `water_state: "swimming"`. Dry use, another native room,
+landing-wave substitution and global Sword reach are not supported. The Sword
+graph marks its dry/swimming carry segments separately without treating water
+as an ability change or permission as equipment.

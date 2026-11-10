@@ -7,18 +7,20 @@ chest rule are installed. Other source-policy/target subsets remain open.
 
 ## Implemented kernel behavior
 
-The traversal kernel now has four Bomb Block target-specific capabilities, with
+The traversal kernel now has five Bomb Block target-specific capabilities on four targets, with
 no global wall-piercing class or numerical range assumption:
 
 | Capability | Native target | Admitted witnessed moves |
 | --- | --- | --- |
 | `bomb_110_room9` | Room110 wall-separated chain opening the Room9 route | Spark, from the closer dry pose above the waterline |
+| `bomb_110_room9_underwater_sword` | Same exact Room110 lower F1(13,57), same Room9 route | Attached underwater Sword spin, separate from landing wave |
 | `bomb_138_green` | Room138 Green Paint selective lower trigger, upper trigger intact | Spark, finite natural source/carry from Room27 upper-left |
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 
-Both route endpoints must belong to the named native room and the attack must be
-dry. These are action steps inside a room, not the subsequent cross-room door
+Both route endpoints must belong to the named native room and use the reviewed
+medium: dry except for the separate underwater Sword effect. These are action
+steps inside a room, not the subsequent cross-room door
 transition. Each provider set records known successful routes, not an exhaustive
 claim that every other ability is impossible. Direct Spark at the sealed719 gate
 is separately excluded by the retained native geometry evidence.
@@ -26,10 +28,10 @@ is separately excluded by the retained native geometry evidence.
 The kernel still begins with Normal unless a preceding physical path has acquired
 an ability. Inventory never supplies equipment. Source-policy grants, finite
 source consumption, permissions and independently declared access remain intact.
-Beam is not gateable in the current ROM. Spark, Ice and Smash are gateable.
+Beam is not gateable in the current ROM. Spark, Ice, Smash and Sword are gateable.
 Spark becomes progression when gating is enabled and the installed Rainbow
 source-policy condition applies. Ice would require classification review before
-installing an Ice-dependent new target; Smash is already progression. Runtime
+installing an Ice-dependent new target; Smash and Sword are already progression. Runtime
 permission eligibility remains unchanged.
 
 ## Installed binding and remaining evidence
@@ -43,9 +45,15 @@ entry, native Beam acquisition and complete chest collection. The new
 native Beam acquisition/carry and the lower Room13 doorway. Missing evidence
 is not replaced by room-wide enemy assumptions:
 
-- Rainbow110: installed only for guaranteed SPARKY→Spark, with independent
-  Room6 lower-mid access, finite acquisition and intact carry. Unsupported source
-  policies retain prior behavior and remain unresolved.
+- Rainbow110: installed for guaranteed SPARKY→Spark **or** SWORD_KNIGHT→Sword,
+  with independent Room6 lower-mid access, finite acquisition and intact carry.
+  The unchanged dry Spark graph and separate swimming Sword graph are OR
+  alternatives under one target/exit rule. The [Sword witness](rainbow-route-8-sword-witness.md)
+  reproduces decoded108 upper arrival rather than replaying the incoming door;
+  native assignment/gating off covers actual1HP at enemy50/100/500% and actual6HP
+  at100/500%, with three matched no-attack controls. Other health values and
+  same-ability randomized/gating-on source policies were not natively replayed.
+  Unsupported source policies retain prior behavior and remain unresolved.
 - Rainbow138: installed only for guaranteed SPARKY→Spark, with exact Room27
   upper-left access, original finite Sparky and selective lower-trigger carry.
   See [the Green Paint witness](rainbow-green-source-witness.md). Native replays
@@ -115,3 +123,12 @@ with full accessibility, HP1, gating on/off and Area Keys on/off. All retain the
 normal 25-ability policy and WADDLE_DOO→Smash assignment, fill every location,
 and pass explicit beatability and full-accessibility assertions. These are sampled
 generation/fill checks, not new native gameplay evidence or all-seed coverage.
+
+
+`test_rainbow_sword_gate.py` adds the exact-target two-source OR schema,
+mutual-exclusion/malformed negatives, independent Spark/Sword permission and
+finite-source tests, dry/swimming rejection and actual-world option wiring.
+`test_rainbow_sword_evidence.py` checks the five retained production records and
+three matched1HP controls without replaying ROMs. Native seed110 and Sword-only
+shuffled seeds30/17 sample restrictive fills at1HP assert beatability and full
+accessibility. The target count remains36; no second target or AND rule is added.

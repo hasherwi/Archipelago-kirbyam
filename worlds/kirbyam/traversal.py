@@ -32,6 +32,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     # Target-specific native witnesses, NOT a general wall-piercing class.
     "bomb_110_room9": frozenset({"Spark"}),
+    "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
@@ -42,16 +43,22 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
 }
-# The tested poses are dry attacks within these rooms. Applying one to another
-# room or a swimming pose would exceed the bounded native evidence.
+# Each target effect keeps its reviewed room and attack medium. The underwater
+# Sword spin is separate from the existing dry Spark effect on the same target.
 ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9": 110,
+    "bomb_110_room9_underwater_sword": 110,
     "bomb_138_green": 138,
     "bomb_517_chocolate": 517,
     "bomb_719_room13": 719,
     "switch_533_bomb_placement": 533,
     "switch_533_ufo_top_charge": 533,
     "switch_310_ufo_top_charge": 310,
+}
+
+ROOM_SCOPED_ATTACK_WATER_STATES: Mapping[str, str] = {
+    capability: "swimming" if capability == "bomb_110_room9_underwater_sword" else "dry"
+    for capability in ROOM_SCOPED_CAPABILITIES
 }
 
 # Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun
@@ -276,9 +283,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError(f"Unknown traversal capability: {route.capability}")
         if route.capability in ROOM_SCOPED_CAPABILITIES:
             native_room = ROOM_SCOPED_CAPABILITIES[route.capability]
+            medium = ROOM_SCOPED_ATTACK_WATER_STATES[route.capability]
             if (node_by_key[route.source].room != native_room
-                    or node_by_key[route.target].room != native_room or route.water_state != "dry"):
-                raise ValueError("Room-scoped attack witness requires its native room and dry attack pose")
+                    or node_by_key[route.target].room != native_room or route.water_state != medium):
+                raise ValueError(f"Room-scoped attack witness requires its native room and {medium} attack pose")
         attack_provider("Normal", route.water_state)
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")

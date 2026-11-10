@@ -31,11 +31,15 @@ def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset
 def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
     """Scope partial witnesses without rejecting unsupported source policies."""
     condition = row.get("requires_guaranteed_source")
-    if condition is None:
+    alternatives = row.get("requires_any_guaranteed_source")
+    if condition is None and alternatives is None:
         return True
-    grant = policy.grant(condition["source_key"], lambda _: True).guaranteed
-    allowed = frozenset(condition.get("abilities", (condition.get("ability"),)))
-    return len(grant) == 1 and grant <= allowed
+    conditions = alternatives if alternatives is not None else (condition,)
+    return any(
+        len(grant := policy.grant(entry["source_key"], lambda _: True).guaranteed) == 1
+        and grant <= frozenset(entry.get("abilities", (entry.get("ability"),)))
+        for entry in conditions
+    )
 
 
 def goal2_ice_is_progression(world: Any) -> bool:

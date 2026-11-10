@@ -1290,10 +1290,6 @@
           "kind": "block",
           "native_room": 110,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_09",
-          "requires_guaranteed_source": {
-            "source_key": "SPARKY",
-            "ability": "Spark"
-          },
           "graphs": {
             "upper_entry": {
               "version": 1,
@@ -1342,8 +1338,128 @@
                   "evidence": "dev-docs/rainbow-route-8-source-witness.md; continuous intact Spark carry via ordinary bomb chain, close dry attack above waterline, cleared right shaft and lower bomb to door. Replay reaches554 with6HP and Spark; no persistent event or alternate arrival inferred."
                 }
               ]
+            },
+            "upper_entry_sword": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:sword:upper_arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:source",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:first_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:middle_dry",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:lower_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:attack_pose",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:opened_right_shaft",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:exit_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:sword:upper_arrival"
+              ],
+              "required_targets": [
+                "bomb_110_room9:sword:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B74CC",
+                  "node": "bomb_110_room9:sword:source",
+                  "source_key": "SWORD_KNIGHT",
+                  "acquisition_evidence": "dev-docs/rainbow-route-8-sword-witness.md; Original finite spawn-table1 Sword Knight, native (120,216), Normal inhale and Down acquires Sword at1359. No source refresh, substituted essence or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:sword:upper_arrival",
+                  "to": "bomb_110_room9:sword:source",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Normal from startup-reproduced decoded108 lower-mid arrival (104,120.996) to original Sword Knight (120,216); incoming108 door itself not replayed."
+                },
+                {
+                  "from": "bomb_110_room9:sword:source",
+                  "to": "bomb_110_room9:sword:first_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Finite native Sword acquisition at1359, then intact carry through upper right chains to first water entry2036."
+                },
+                {
+                  "from": "bomb_110_room9:sword:first_pool",
+                  "to": "bomb_110_room9:sword:middle_dry",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Sword retained through first pool2036-2162; no substituted attack provider."
+                },
+                {
+                  "from": "bomb_110_room9:sword:middle_dry",
+                  "to": "bomb_110_room9:sword:lower_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Intact Sword carry past left F1(2,43), down left shaft to lower water entry2634."
+                },
+                {
+                  "from": "bomb_110_room9:sword:lower_pool",
+                  "to": "bomb_110_room9:sword:attack_pose",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Native lower fish combat and brief water exit2840/reentry2857 lead to underwater pose (185.996,926.715), Sword retained."
+                },
+                {
+                  "from": "bomb_110_room9:sword:attack_pose",
+                  "to": "bomb_110_room9:sword:opened_right_shaft",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Attached Sword spin Kirby0x69/weapon0x6F variant1 flips exact F1(13,57) at2886 or2889 through solid column12. Not landing wave; upper F1(12,50) stays sealed. Leave lower pool2932.",
+                  "capability": "bomb_110_room9_underwater_sword"
+                },
+                {
+                  "from": "bomb_110_room9:sword:opened_right_shaft",
+                  "to": "bomb_110_room9:sword:exit_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Descend opened right shaft with Sword intact to exit water entry3085."
+                },
+                {
+                  "from": "bomb_110_room9:sword:exit_pool",
+                  "to": "bomb_110_room9:sword:right_door",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Carry Sword through lower exit pool, briefly dry3297/reenter3314, and physically cross110 to554 at3388. Transient water flag clears3398; no underwater554 landing claim."
+                }
+              ]
             }
-          }
+          },
+          "requires_any_guaranteed_source": [
+            {
+              "source_key": "SPARKY",
+              "ability": "Spark"
+            },
+            {
+              "source_key": "SWORD_KNIGHT",
+              "ability": "Sword"
+            }
+          ]
         }
       ]
     }
