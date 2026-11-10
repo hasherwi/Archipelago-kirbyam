@@ -24,6 +24,9 @@ EXIT = 'REGION_MUSTARD_MOUNTAIN/ROOM_4_16'
     (2, ['Bomb'], 50, False), (2, ['Bomb'], 100, False),
     (1, ['UFO'], 0, True), (2, ['UFO'], 0, True),
     (2, ['UFO'], 50, False), (2, ['Bomb', 'UFO'], 0, False),
+    (1, ['Crash'], 0, True), (2, ['Crash'], 0, True),
+    (2, ['Crash'], 50, False), (2, ['Crash'], 100, False),
+    (2, ['Crash', 'Bomb'], 0, False),
 ])
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('area_keys', [False, True])
@@ -68,7 +71,8 @@ def test_mustard_conditional_policy_entry_and_permission_matrix(
     assert dependencies == ([UPSTREAM] if applies else [])
     code = KirbyAmWorld.item_name_to_id[f'{ability} Ability']
     item = KirbyAmWorld.create_item_by_code(world, code)
-    assert item.classification == ItemClassification.progression
+    assert item.classification == (ItemClassification.useful if ability == "Crash" and not gating
+                                   else ItemClassification.progression)
 
 
 def test_mustard_graph_has_real_finite_source_and_no_equipped_start():

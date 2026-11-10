@@ -213,7 +213,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         {"source_key": "MR_FROSTY", "ability": "Ice"},
         {"source_key": "SPARKY", "ability": "Spark"},
         {"source_key": "WADDLE_DOO", "ability": "Beam"},
-        {"source_key": "FOLEY", "abilities": ["Bomb", "UFO"]},
+        {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash"]},
         {"source_key": "TWISTER", "ability": "UFO"},
     ):
         raise ValueError("Unsupported guaranteed-source applicability condition")

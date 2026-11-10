@@ -40,6 +40,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_719_room13": frozenset({"Beam"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
     "switch_533_ufo_top_charge": frozenset({"UFO"}),
+    # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
+    "switch_533_crash_viewport": frozenset({"Crash"}),
     "switch_310_ufo_top_charge": frozenset({"UFO"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
@@ -55,6 +57,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_719_room13": 719,
     "switch_533_bomb_placement": 533,
     "switch_533_ufo_top_charge": 533,
+    "switch_533_crash_viewport": 533,
     "switch_310_ufo_top_charge": 310,
 }
 
@@ -84,6 +87,7 @@ def attack_provider(ability: str, water_state: str) -> str | None:
 # opened barrier. Physical source consumption remains tracked independently.
 CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
     "fuse": frozenset({"Crash"}),
+    "switch_533_crash_viewport": frozenset({"Crash"}),
 }
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
 # Wait (27) is AP metadata, never actual native carried equipment.
@@ -321,9 +325,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             if candidates[0].renewable:
                 raise ValueError("Frozen enemy needs a one-use physical placement")
         # Native cannon_fuse.c regrows the fuse after its timed pause; ignition
-        # cannot grant a persistent room-local opened event.
-        if route.capability == "fuse" and route.opens is not None:
-            raise ValueError("Timed fuse ignition cannot have a persistent opens event")
+        # cannot grant a persistent room-local opened event. The Crash533 gate
+        # likewise closes during the witnessed Normal crossing.
+        if route.capability in {"fuse", "switch_533_crash_viewport"} and route.opens is not None:
+            raise ValueError("Timed fuse ignition cannot have a persistent opens event"
+                             if route.capability == "fuse" else "Timed Crash cannot have a persistent opens event")
         if route.allowed_abilities is not None and (
             not route.allowed_abilities
             or not route.allowed_abilities <= CAPABILITY_ABILITIES.get(route.capability or "", frozenset())
@@ -504,8 +510,9 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         raise ValueError("Required equipment must be a nonempty list of distinct native ability names")
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
-    if capability == "fuse" and row.get("opens") is not None:
-        raise ValueError("Timed fuse ignition cannot have a persistent opens event")
+    if capability in {"fuse", "switch_533_crash_viewport"} and row.get("opens") is not None:
+        raise ValueError("Timed fuse ignition cannot have a persistent opens event"
+                         if capability == "fuse" else "Timed Crash cannot have a persistent opens event")
     providers = CAPABILITY_ABILITIES.get(capability, frozenset()) if isinstance(capability, str) else frozenset()
     if allowed is not None and (
         not allowed or not set(allowed) <= providers

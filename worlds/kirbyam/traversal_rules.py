@@ -65,6 +65,13 @@ def rainbow_spark_is_progression(world: Any) -> bool:
             and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"}))
 
 
+def mustard_crash_is_progression(world: Any) -> bool:
+    """Promote only the enforced guaranteed-Foley Crash alternative."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    return (isinstance(raw, dict) and world._ability_gating_enabled()
+            and SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Crash"}))
+
+
 def static_extra_witness(policy: SourcePolicy) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 

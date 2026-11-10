@@ -1,6 +1,6 @@
 # Ranged-attack coverage ledger
 
-This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
+This is the broad scope of PR #1052, not a claim that all ranged logic is implemented. The five source-backed Bomb Block targets described in `bounded-bomb-implementation.md` (including the separate dry Spark and underwater Sword alternatives for Rainbow110, selective Rainbow Green Paint and Carrot Yellow Paint routes and separate Beam and Smash alternatives for the Cabbage Chocolate chest), the conditional533 small-switch alternatives in `mustard-room15-source-witness.md` and `mustard-room15-ufo-source-witness.md` plus `mustard-room15-crash-source-witness.md`, and the conditional310 map route in `mustard-map-ufo-source-witness.md` are the implemented subset. The source catalog below identifies candidate move families; it does not grant an ability, arbitrary range, collision equivalence or complete route.
 
 ## AP ownership census
 
@@ -186,3 +186,21 @@ The four static cannon fuses are native126,323,502 and827. Each already has a ro
 ### Published ordinary-route context, not new ranged acceptance
 
 PR #1051's published `ordinary-metal-role-review.json` at commit424b9e262b4e39dac30101fa678af7cca70786a5 records useful exclusions:414's Bomb Block alternate leads to a loose1-Up rather than an AP check;533's separate Bomb Blocks release Gordos and are not its AP exit gate;529's visible Bomb/pit alternatives still need directed mapping;532's return Bomb near(10,8) reconnects the cannon network, with reverse entry separate. These are qualified map-role notes, not a complete native F1 chain inventory or new ranged proof. The533 switch witness here must not be confused with533's separate Bomb Block hazards. No unpublished #1051 candidate is imported.
+
+## Mustard Room15 Crash alternative
+
+The existing `switch_533_room16` row now also OR-composes guaranteed
+FOLEY→Crash with its unchanged Bomb and UFO witnesses. The full normal
+25-ability pool, shuffled seed 29, assigns the original finite Foley to Crash.
+The complete independent Hub4 → 534 → 533 approach acquires it, carries it to
+the witnessed camera-valid pose, consumes it to Normal, then completes the
+timed gate crossing and actual 325 arrival. Crash permission is progression
+only when this source condition applies and ability gating is enabled.
+
+Four native positives cover actual 1 HP and 6 HP at discrete 100% and 500%
+enemy health. No-trigger and offscreen controls are qualified at 1 HP only.
+Native fixtures use gating and area keys off; host tests cover permissions,
+world binding and full fills separately. No persistent switch credit,
+whole-room effect, arbitrary camera pose, other target, environmental Foley
+explosion or Phone/helper equivalence is granted. See
+`mustard-room15-crash-source-witness.md` and the compact acceptance manifest.

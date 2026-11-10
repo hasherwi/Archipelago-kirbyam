@@ -6021,7 +6021,8 @@
             "source_key": "FOLEY",
             "abilities": [
               "Bomb",
-              "UFO"
+              "UFO",
+              "Crash"
             ]
           },
           "graphs": {
@@ -6166,6 +6167,103 @@
                   "to": "switch_533_room16:door",
                   "capability": "switch_533_ufo_top_charge",
                   "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; carry UFO to launch(178,134.992), hold B120frames, release, cross timed gate at its lower opening, clear left star and enter325. Low/medium shots do not inherit this route."
+                }
+              ]
+            },
+            "hub4_crash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:normal_crossing",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:destination",
+                  "native_room": 325
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual finite Foley(224,64), guaranteed Crash. Normal approaches from Hub4; no retry or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:normal_crossing",
+                  "capability": "switch_533_crash_viewport",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; carry to(208.75,145.6836), viewport(88.75,65.6836), use Crash and consume to Normal at4610. Timed crossing x138 at4681; no persistent switch credit."
+                },
+                {
+                  "from": "switch_533_room16:normal_crossing",
+                  "to": "switch_533_room16:door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; observed Normal air-puff and flight clears left star obstruction and reaches325 door."
+                },
+                {
+                  "from": "switch_533_room16:door",
+                  "to": "switch_533_room16:destination",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_transition": true,
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual325 arrival at4906 as Normal."
                 }
               ]
             }
