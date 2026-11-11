@@ -22,7 +22,7 @@
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`). With the toggle off, statues retain their vanilla abilities. In `shuffled` mode, each statue keeps one seed-deterministic assignment, which appears in the spoiler log. In `completely_random` mode, a regular statue makes a fresh draw every time its grant is triggered; independent draws may still repeat by chance. Statue draws use the configured ability whitelist, exclude Mini from the regular-statue pool, and remove gated abilities until their AP unlock items are received. Statues always draw an ability when at least one eligible ability remains and intentionally ignore `ability_randomization_no_ability_weight`, `ability_randomization_passive_enemies`, `ability_randomization_minibosses`, and `ability_randomization_boss_spawns`. The Master Sword stand is not treated as a regular randomized statue.
-- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. Beam, Burning, and Stone are guaranteed starting items. Cutter, Mini and Wheel have source-backed traversal rules and remain gated when Ability Gating is enabled. `Ability Gating` defaults on under `Make the game harder`; when enabled, the other 22 ability items enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
+- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. Beam is the only guaranteed starting item. The other abilities, including Burning and Stone, use source-backed traversal rules and remain gated when Ability Gating is enabled. `Ability Gating` defaults on under `Make the game harder`; when enabled, the other 24 ability items enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
 
 
 
@@ -180,44 +180,25 @@ you're playing a multiworld game, the client will sync your game with the server
 
 ## Starting ability unlocks
 
-Beam, Burning and Stone are the fixed starting set. New seeds
-precollect their AP unlock items, so they appear in starting inventory, received
-history and trackers. An unlock grants permission to acquire the ability through
-normal gameplay; it does not equip an ability. These three remain usable before
-connecting to the server or receiving mailbox deliveries.
+New seeds automatically start with the Beam unlock only. Burning and Stone are
+progression unlocks in the shuffled pool when Ability Gating is enabled. Receiving
+an unlock grants permission to acquire an ability through normal gameplay; it
+does not equip it or create an enemy, statue or projectile.
 
-This fixed set is precollected with `ability_gating` both on and off. When gating
-is off, all abilities remain usable and no ability unlocks enter the shuffled
-pool. With gating on, the other unlocks retain their existing pool and gate rules.
-The three starting items never consume location slots.
+Beam is precollected with Ability Gating on or off. With gating on, the other24
+unlock items enter the pool. With gating off, all abilities remain usable and
+no ability unlocks enter the pool. Explicit `start_inventory` remains additive:
+an explicit positive Beam count replaces its automatic copy, while explicit
+Stone, Burning and other starting counts are retained.
 
-If `start_inventory` explicitly includes one of these three, its requested positive
-count is retained and no automatic copy is added. Counts above one are redundant
-ownership grants and never equip or stack an effect. Other explicit starting items
-retain their usual behavior. There is no new starting-ability selection option.
+Use a matching updated APWorld/client. Existing seeds keep their original
+inventory and gate policy, including the historical22-ability fallback when
+an old slot lacks an explicit nonempty gate list. No starting packets are
+inserted into old histories. Reconnect/reset ownership recovery still uses
+received item history.
 
-Use a matching updated APWorld/client for new seeds. Existing seeds retain their
-original inventory and gate policy; the client does not insert starting packets
-into old histories. Reconnect/reset recovery rebuilds ownership from server history,
-while the native bootstrap keeps the fixed starting permissions available offline.
-The three useful starting items are tracked in CollectionState. Cutter, Mini and Wheel
-unlocks are progression items with source-backed traversal rules.
-
-The unchanged native unlock handler and gate bootstrap are covered by host tests;
-these tests are not emulator save/load acceptance. Fresh live acceptance of this
-inventory representation remains pending.
-
-
-### Copy Ability Room
-
-The Copy Ability Room above Central Circle opens with **Copy Ability Room Access**.
-Pressing all Big Switches or receiving all Hub Connections does not grant access.
-The item replaces a filler item and does not add a location. Starting access
-requires explicit precollection. The room still follows your configured ability
-gating and statue randomization; entering it does not unlock unowned abilities.
-
-The existing three save files remain selectable. Ownership is saved in the active
-file and survives offline reload for that seed. Once granted, it is not taken
-away by reconnecting or replaying item history. Fresh files and different seeds
-still start without access. Update the client and regenerate
-the seed/patch together; the earlier single-save prototype is not compatible.
+Traversal requires reachable physical sources and directed routes, not merely
+unlock ownership. Generation validates every enabled check after placement,
+including with minimal accessibility, and refuses unsafe placements before
+creating an output archive. Such a refusal is not a playable seed or a guarantee
+that every possible option/seed combination will generate successfully.

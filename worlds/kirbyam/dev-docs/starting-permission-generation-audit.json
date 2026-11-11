@@ -1,0 +1,1971 @@
+{
+  "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
+  "description": "Actual baseline generation accepted all 36 cases under configured AP accessibility. Nine minimal cases fail all-local-check audit. Starting Stone/Burning unchanged. Finite samples, not native-route proof.",
+  "cases": [
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.0064653549998183735,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.005203480999625754,
+        "source_assignment_seconds": 0.01586244300051476,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.010721791000833036,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.010496109000087017,
+        "source_assignment_seconds": 0.008109521000733366,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.04564667700105929,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.04465223799707019,
+        "source_assignment_seconds": 5.999001587042585e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.007744350998109439,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.008033226997213205,
+        "source_assignment_seconds": 0.002657949000422377,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.020542734000628116,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.017663561000517802,
+        "source_assignment_seconds": 0.004366024997580098,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.015758538000227418,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.007318258001760114,
+        "source_assignment_seconds": 4.346999048721045e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.006957173001865158,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.004981502999726217,
+        "source_assignment_seconds": 0.0026176280007348396,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [
+        "Area 4 - Hub Room",
+        "Area 6 - Hub Room",
+        "Mustard Mountain - Big Switch",
+        "Mustard Mountain - Boss Defeat",
+        "Mustard Mountain - First Visit",
+        "Mustard Mountain 4-05 - Small Chest",
+        "Mustard Mountain 4-10 - Small Chest #1",
+        "Mustard Mountain 4-11 - Small Chest",
+        "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+        "Mustard Mountain Map - Big Chest",
+        "Olive Ocean - Big Switch",
+        "Olive Ocean - Boss Defeat",
+        "Olive Ocean - First Visit",
+        "Olive Ocean 6-03 - Small Chest #1",
+        "Olive Ocean 6-06 - Spray Paint #7 Chest",
+        "Olive Ocean 6-09 - Small Chest #1",
+        "Olive Ocean 6-13 - Lever",
+        "Olive Ocean 6-16 - Small Chest",
+        "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+        "Olive Ocean Map - Big Chest",
+        "Olive Ocean Vitality - Big Chest"
+      ],
+      "audit_seconds": 0.014488471999356989,
+      "source_policy_seed": 4687835611255533666,
+      "stranded_progression_items": [
+        {
+          "item": "Olive Ocean - Area Key",
+          "location": "Mustard Mountain - First Visit"
+        },
+        {
+          "item": "Rainbow Route West - Hub Connection",
+          "location": "Mustard Mountain Map - Big Chest"
+        },
+        {
+          "item": "Mustard Mountain - Hub Connection",
+          "location": "Mustard Mountain - Boss Defeat"
+        },
+        {
+          "item": "Cabbage Cavern East - Hub Connection",
+          "location": "Mustard Mountain 4-11 - Small Chest"
+        },
+        {
+          "item": "Mustard Mountain - Area Key",
+          "location": "Area 6 - Hub Room"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        }
+      ],
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Hub Room', 'Area 6 - Hub Room', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest']",
+        "production_audit_seconds": 0.011458061999292113,
+        "source_assignment_seconds": 0.006808079000620637,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [
+        "Area 4 - Hub Room",
+        "Area 6 - Hub Room",
+        "Mustard Mountain - Big Switch",
+        "Mustard Mountain - Boss Defeat",
+        "Mustard Mountain - First Visit",
+        "Mustard Mountain 4-05 - Small Chest",
+        "Mustard Mountain 4-10 - Small Chest #1",
+        "Mustard Mountain 4-11 - Small Chest",
+        "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+        "Mustard Mountain Map - Big Chest",
+        "Olive Ocean - Big Switch",
+        "Olive Ocean - Boss Defeat",
+        "Olive Ocean - First Visit",
+        "Olive Ocean 6-03 - Small Chest #1",
+        "Olive Ocean 6-06 - Spray Paint #7 Chest",
+        "Olive Ocean 6-09 - Small Chest #1",
+        "Olive Ocean 6-13 - Lever",
+        "Olive Ocean 6-16 - Small Chest",
+        "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+        "Olive Ocean Map - Big Chest",
+        "Olive Ocean Vitality - Big Chest"
+      ],
+      "audit_seconds": 0.05398260799847776,
+      "source_policy_seed": 4687835611255533666,
+      "stranded_progression_items": [
+        {
+          "item": "Olive Ocean - Area Key",
+          "location": "Mustard Mountain - First Visit"
+        },
+        {
+          "item": "Rainbow Route West - Hub Connection",
+          "location": "Mustard Mountain Map - Big Chest"
+        },
+        {
+          "item": "Mustard Mountain - Hub Connection",
+          "location": "Mustard Mountain - Boss Defeat"
+        },
+        {
+          "item": "Cabbage Cavern East - Hub Connection",
+          "location": "Mustard Mountain 4-11 - Small Chest"
+        },
+        {
+          "item": "Mustard Mountain - Area Key",
+          "location": "Area 6 - Hub Room"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [],
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Hub Room', 'Area 6 - Hub Room', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest']",
+        "production_audit_seconds": 0.0352915990006295,
+        "source_assignment_seconds": 4.626999725587666e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.008043993002502248,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.008075622001342708,
+        "source_assignment_seconds": 0.0016762849991209805,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.01995328499833704,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.017190840000694152,
+        "source_assignment_seconds": 0.006190752999827964,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105100,
+      "profile": 0,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 0,
+        "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 0,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.013916580999648431,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.009700698999949964,
+        "source_assignment_seconds": 6.520000169984996e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.005442097997729434,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.004867340001510456,
+        "source_assignment_seconds": 0.0018297159986104816,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.028771503999450943,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.016991349999443628,
+        "source_assignment_seconds": 0.14117470600103843,
+        "source_assignment_attempts": 51
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.06929815900002723,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.05553864800094743,
+        "source_assignment_seconds": 4.637000529328361e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.005992488000629237,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.0032381640012317803,
+        "source_assignment_seconds": 0.0017870449992187787,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.017898936002893606,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.01639709700248204,
+        "source_assignment_seconds": 0.20802005599762197,
+        "source_assignment_attempts": 51
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.035480713999277214,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.013118373000907013,
+        "source_assignment_seconds": 4.196001100353897e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.007522756000980735,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.003053465003176825,
+        "source_assignment_seconds": 0.002592258999357,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09"
+      ],
+      "progression_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09"
+      ],
+      "audit_seconds": 0.03708306899716263,
+      "source_policy_seed": 2155860155815260118,
+      "stranded_progression_items": [
+        {
+          "item": "Radish Ruins - Hub Connection",
+          "location": "Olive Ocean Map - Big Chest"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "peg_510_7_7",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-09 - Small Chest"
+        },
+        {
+          "target": "peg_513_4_7",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_13 -> REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+        },
+        {
+          "target": "peg_527_56_16",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+        },
+        {
+          "target": "peg_527_18_13",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-14 - Spray Paint #8 Chest"
+        },
+        {
+          "target": "peg_816_26_3",
+          "kind": "peg",
+          "ap_target": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "target": "peg_204_62_4",
+          "kind": "peg",
+          "ap_target": "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
+        },
+        {
+          "target": "peg_221_41_12",
+          "kind": "peg",
+          "ap_target": "Peppermint Palace 7-22 - Spray Paint #1 Chest"
+        },
+        {
+          "target": "peg_605_12_24",
+          "kind": "peg",
+          "ap_target": "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+        },
+        {
+          "target": "peg_411_4_3",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09"
+        },
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        },
+        {
+          "target": "wheel_108_chest",
+          "kind": "wheel",
+          "ap_target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID -> REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST"
+        }
+      ],
+      "require_all_source_witnesses_experiment": {
+        "source_policy_seed": 16862808022453268921,
+        "accessibility": "minimal",
+        "inventory_unreachable": [],
+        "progression_unreachable": []
+      },
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.020874940000794595,
+        "source_assignment_seconds": 0.1464989920023072,
+        "source_assignment_attempts": 51
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.10643355099819019,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.04810812800133135,
+        "source_assignment_seconds": 4.866997187491506e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.005815371001517633,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.003513468000164721,
+        "source_assignment_seconds": 0.0016339940011675935,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09"
+      ],
+      "progression_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09"
+      ],
+      "audit_seconds": 0.024326552000275115,
+      "source_policy_seed": 2155860155815260118,
+      "stranded_progression_items": [
+        {
+          "item": "Cabbage Cavern East - Hub Connection",
+          "location": "Olive Ocean Map - Big Chest"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "peg_510_7_7",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-09 - Small Chest"
+        },
+        {
+          "target": "peg_513_4_7",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_13 -> REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+        },
+        {
+          "target": "peg_527_56_16",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+        },
+        {
+          "target": "peg_527_18_13",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-14 - Spray Paint #8 Chest"
+        },
+        {
+          "target": "peg_816_26_3",
+          "kind": "peg",
+          "ap_target": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "target": "peg_204_62_4",
+          "kind": "peg",
+          "ap_target": "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
+        },
+        {
+          "target": "peg_221_41_12",
+          "kind": "peg",
+          "ap_target": "Peppermint Palace 7-22 - Spray Paint #1 Chest"
+        },
+        {
+          "target": "peg_605_12_24",
+          "kind": "peg",
+          "ap_target": "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+        },
+        {
+          "target": "peg_411_4_3",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09"
+        },
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        },
+        {
+          "target": "wheel_108_chest",
+          "kind": "wheel",
+          "ap_target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID -> REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST"
+        }
+      ],
+      "require_all_source_witnesses_experiment": {
+        "source_policy_seed": 16862808022453268921,
+        "accessibility": "minimal",
+        "inventory_unreachable": [],
+        "progression_unreachable": []
+      },
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.015503950002312195,
+        "source_assignment_seconds": 0.19307518400091794,
+        "source_assignment_attempts": 51
+      }
+    },
+    {
+      "seed": 105101,
+      "profile": 1,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 99,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0,
+        "room_sanity": 1,
+        "area_keys": 0
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [
+        "Olive Ocean Map - Big Chest"
+      ],
+      "audit_seconds": 0.0295064439997077,
+      "source_policy_seed": 2155860155815260118,
+      "stranded_progression_items": [
+        {
+          "item": "Cabbage Cavern East - Hub Connection",
+          "location": "Olive Ocean Map - Big Chest"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [],
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Olive Ocean Map - Big Chest']",
+        "production_audit_seconds": 0.023991168000065954,
+        "source_assignment_seconds": 5.899000825593248e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.005867249998118496,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.002717899002163904,
+        "source_assignment_seconds": 0.0016572690001339652,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.03234688800148433,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.01801038899793639,
+        "source_assignment_seconds": 0.0814070400010678,
+        "source_assignment_attempts": 24
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.11610236500200699,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.07372162000319804,
+        "source_assignment_seconds": 5.147998308530077e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.01199552300022333,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.007111859002179699,
+        "source_assignment_seconds": 0.00259843800085946,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.03729508199830889,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.026749397999083158,
+        "source_assignment_seconds": 0.08590682399881189,
+        "source_assignment_attempts": 24
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "full",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.029874619001930114,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.014994401000876678,
+        "source_assignment_seconds": 3.845998435281217e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 0,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.006441184999857796,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.005112021000968525,
+        "source_assignment_seconds": 0.0026863710008910857,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 1,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Sound Player - Big Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09",
+        "Room 9-CHEST_1"
+      ],
+      "progression_unreachable": [
+        "Area 8 - Boss Room",
+        "Area 8 - Hub Room",
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Sound Player - Big Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins - Big Switch",
+        "Radish Ruins - Boss Defeat",
+        "Radish Ruins - First Visit",
+        "Radish Ruins 8-07 - Small Chest #1",
+        "Radish Ruins 8-11 - Small Chest",
+        "Radish Ruins 8-12 - Lever",
+        "Radish Ruins 8-22 - Music Sheet #4 Chest",
+        "Radish Ruins 8-22 - Small Chest #1",
+        "Radish Ruins 8-GOAL-1 - Spray Paint #10 Chest",
+        "Radish Ruins Map - Big Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Room 5-06",
+        "Room 8-01",
+        "Room 8-02",
+        "Room 8-03",
+        "Room 8-04",
+        "Room 8-05",
+        "Room 8-06",
+        "Room 8-07",
+        "Room 8-08",
+        "Room 8-09",
+        "Room 8-10",
+        "Room 8-11",
+        "Room 8-12",
+        "Room 8-13",
+        "Room 8-14",
+        "Room 8-15",
+        "Room 8-16",
+        "Room 8-17",
+        "Room 8-18",
+        "Room 8-19",
+        "Room 8-20",
+        "Room 8-21",
+        "Room 8-22",
+        "Room 8-23",
+        "Room 8-CHEST_1",
+        "Room 8-CHEST_2",
+        "Room 8-GOAL_1",
+        "Room 8-GOAL_2",
+        "Room 9-09",
+        "Room 9-CHEST_1"
+      ],
+      "audit_seconds": 0.03719854500013753,
+      "source_policy_seed": 5149132889929056856,
+      "stranded_progression_items": [
+        {
+          "item": "Peppermint Palace East - Hub Connection",
+          "location": "Room 5-06"
+        },
+        {
+          "item": "Radish Ruins - Area Key",
+          "location": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "item": "Rainbow Route West - Hub Connection",
+          "location": "Radish Ruins Map - Big Chest"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "peg_510_7_7",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-09 - Small Chest"
+        },
+        {
+          "target": "peg_513_4_7",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_13 -> REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+        },
+        {
+          "target": "peg_527_56_16",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+        },
+        {
+          "target": "peg_527_18_13",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-14 - Spray Paint #8 Chest"
+        },
+        {
+          "target": "peg_816_26_3",
+          "kind": "peg",
+          "ap_target": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "target": "peg_204_62_4",
+          "kind": "peg",
+          "ap_target": "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
+        },
+        {
+          "target": "peg_221_41_12",
+          "kind": "peg",
+          "ap_target": "Peppermint Palace 7-22 - Spray Paint #1 Chest"
+        },
+        {
+          "target": "peg_605_12_24",
+          "kind": "peg",
+          "ap_target": "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+        },
+        {
+          "target": "peg_401_28_30",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_06 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"
+        },
+        {
+          "target": "peg_411_4_3",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09"
+        },
+        {
+          "target": "fuse_126",
+          "kind": "fuse",
+          "ap_target": "REGION_RAINBOW_ROUTE/ROOM_1_32 -> REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT"
+        },
+        {
+          "target": "fuse_827",
+          "kind": "fuse",
+          "ap_target": "REGION_OLIVE_OCEAN/ROOM_6_07 -> REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07"
+        },
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        }
+      ],
+      "require_all_source_witnesses_experiment": {
+        "source_policy_seed": 7393879276514388311,
+        "accessibility": "minimal",
+        "inventory_unreachable": [],
+        "progression_unreachable": []
+      },
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.017452613999921596,
+        "source_assignment_seconds": 0.12434068299990031,
+        "source_assignment_attempts": 24
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 2,
+      "gating": 0,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [],
+      "audit_seconds": 0.11562376200163271,
+      "guarded_generation": {
+        "generation_outcome": "all_checks_reachable",
+        "production_audit_seconds": 0.15194995400088374,
+        "source_assignment_seconds": 4.796998837264255e-06,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 0,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [
+        "Area 4 - Boss Room",
+        "Area 4 - Hub Room",
+        "Area 7 - Boss Room",
+        "Area 7 - Hub Room 1",
+        "Area 7 - Hub Room 2",
+        "Mustard Mountain - Big Switch",
+        "Mustard Mountain - Boss Defeat",
+        "Mustard Mountain - First Visit",
+        "Mustard Mountain 4-05 - Small Chest",
+        "Mustard Mountain 4-10 - Small Chest #1",
+        "Mustard Mountain 4-11 - Small Chest",
+        "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+        "Mustard Mountain Map - Big Chest",
+        "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+        "Peppermint Palace - Boss Defeat",
+        "Peppermint Palace - First Visit",
+        "Peppermint Palace 7-02 - Small Chest",
+        "Peppermint Palace 7-02 - Small Chest #2",
+        "Peppermint Palace 7-05 - Spray Paint #5 Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-06 - Small Chest #2",
+        "Peppermint Palace 7-06 - Small Chest #3",
+        "Peppermint Palace 7-08 - Music Sheet #5 Chest",
+        "Peppermint Palace 7-09 - Small Chest",
+        "Peppermint Palace 7-09 - Small Chest #2",
+        "Peppermint Palace 7-10 - Small Chest #2",
+        "Peppermint Palace 7-10 - Small Chest #3",
+        "Peppermint Palace 7-10 - Spray Paint #9 Chest",
+        "Peppermint Palace 7-13 - Small Chest #1",
+        "Peppermint Palace 7-14 - Small Chest #1",
+        "Peppermint Palace 7-19 - Small Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Peppermint Palace Chest - Small Chest #1",
+        "Peppermint Palace Chest - Small Chest #2",
+        "Peppermint Palace East - Big Switch",
+        "Peppermint Palace Goal 2 - Small Chest #1",
+        "Peppermint Palace Map - Big Chest",
+        "Peppermint Palace West - Big Switch",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Room 4-01",
+        "Room 4-02",
+        "Room 4-03",
+        "Room 4-04",
+        "Room 4-05",
+        "Room 4-06",
+        "Room 4-07",
+        "Room 4-08",
+        "Room 4-09",
+        "Room 4-10",
+        "Room 4-11",
+        "Room 4-12",
+        "Room 4-13",
+        "Room 4-14",
+        "Room 4-15",
+        "Room 4-16",
+        "Room 4-17",
+        "Room 4-18",
+        "Room 4-19",
+        "Room 4-CHEST",
+        "Room 4-GOAL_1",
+        "Room 4-GOAL_2",
+        "Room 4-WARP",
+        "Room 7-01",
+        "Room 7-02",
+        "Room 7-03",
+        "Room 7-04",
+        "Room 7-05",
+        "Room 7-06",
+        "Room 7-07",
+        "Room 7-08",
+        "Room 7-09",
+        "Room 7-10",
+        "Room 7-11",
+        "Room 7-12",
+        "Room 7-13",
+        "Room 7-14",
+        "Room 7-15",
+        "Room 7-16",
+        "Room 7-17",
+        "Room 7-18",
+        "Room 7-19",
+        "Room 7-20",
+        "Room 7-21",
+        "Room 7-22",
+        "Room 7-23",
+        "Room 7-24",
+        "Room 7-CHEST",
+        "Room 7-GOAL_1",
+        "Room 7-GOAL_2",
+        "Room 7-WARP"
+      ],
+      "audit_seconds": 0.011034644001483684,
+      "source_policy_seed": null,
+      "stranded_progression_items": [
+        {
+          "item": "Bomb Ability",
+          "location": "Mustard Mountain - First Visit"
+        },
+        {
+          "item": "Moonlight Mansion 2-11 - Lever Wall",
+          "location": "Room 4-07"
+        },
+        {
+          "item": "Carrot Castle - Hub Connection",
+          "location": "Peppermint Palace East - Big Switch"
+        },
+        {
+          "item": "Ice Ability",
+          "location": "Area 7 - Hub Room 2"
+        },
+        {
+          "item": "Copy Ability Room Access",
+          "location": "Peppermint Palace Chest - Small Chest #2"
+        },
+        {
+          "item": "Laser Ability",
+          "location": "Room 7-GOAL_1"
+        },
+        {
+          "item": "Peppermint Palace - Area Key",
+          "location": "Room 7-07"
+        },
+        {
+          "item": "Cabbage Cavern West - Hub Connection",
+          "location": "Room 7-14"
+        },
+        {
+          "item": "Peppermint Palace East - Hub Connection",
+          "location": "Room 7-16"
+        },
+        {
+          "item": "Mustard Mountain - Area Key",
+          "location": "Room 7-17"
+        },
+        {
+          "item": "Wheel Ability",
+          "location": "Room 7-06"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [],
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Boss Room', 'Area 4 - Hub Room', 'Area 7 - Boss Room', 'Area 7 - Hub Room 1', 'Area 7 - Hub Room 2', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Peppermint Palace - Boss Defeat', 'Peppermint Palace - First Visit', 'Peppermint Palace 7-02 - Small Chest', 'Peppermint Palace 7-02 - Small Chest #2', 'Peppermint Palace 7-05 - Spray Paint #5 Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-06 - Small Chest #2', 'Peppermint Palace 7-06 - Small Chest #3', 'Peppermint Palace 7-08 - Music Sheet #5 Chest', 'Peppermint Palace 7-09 - Small Chest', 'Peppermint Palace 7-09 - Small Chest #2', 'Peppermint Palace 7-10 - Small Chest #2', 'Peppermint Palace 7-10 - Small Chest #3', 'Peppermint Palace 7-10 - Spray Paint #9 Chest', 'Peppermint Palace 7-13 - Small Chest #1', 'Peppermint Palace 7-14 - Small Chest #1', 'Peppermint Palace 7-19 - Small Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Peppermint Palace Chest - Small Chest #1', 'Peppermint Palace Chest - Small Chest #2', 'Peppermint Palace East - Big Switch', 'Peppermint Palace Goal 2 - Small Chest #1', 'Peppermint Palace Map - Big Chest', 'Peppermint Palace West - Big Switch', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Room 4-01', 'Room 4-02', 'Room 4-03', 'Room 4-04', 'Room 4-05', 'Room 4-06', 'Room 4-07', 'Room 4-08', 'Room 4-09', 'Room 4-10', 'Room 4-11', 'Room 4-12', 'Room 4-13', 'Room 4-14', 'Room 4-15', 'Room 4-16', 'Room 4-17', 'Room 4-18', 'Room 4-19', 'Room 4-CHEST', 'Room 4-GOAL_1', 'Room 4-GOAL_2', 'Room 4-WARP', 'Room 7-01', 'Room 7-02', 'Room 7-03', 'Room 7-04', 'Room 7-05', 'Room 7-06', 'Room 7-07', 'Room 7-08', 'Room 7-09', 'Room 7-10', 'Room 7-11', 'Room 7-12', 'Room 7-13', 'Room 7-14', 'Room 7-15', 'Room 7-16', 'Room 7-17', 'Room 7-18', 'Room 7-19', 'Room 7-20', 'Room 7-21', 'Room 7-22', 'Room 7-23', 'Room 7-24', 'Room 7-CHEST', 'Room 7-GOAL_1', 'Room 7-GOAL_2', 'Room 7-WARP']",
+        "production_audit_seconds": 0.016744812000979437,
+        "source_assignment_seconds": 0.002599309998913668,
+        "source_assignment_attempts": 1
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 1,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation Sound Player - Big Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Olive Ocean Map - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Radish Ruins Vitality - Big Chest",
+        "Room 8-CHEST_1",
+        "Room 9-09",
+        "Room 9-CHEST_1"
+      ],
+      "progression_unreachable": [
+        "Area 2 - Boss Room",
+        "Area 2 - Hub Room",
+        "Area 6 - Boss Room",
+        "Area 6 - Hub Room",
+        "Area 9 - Boss Room",
+        "Area 9 - Hub Room",
+        "Cabbage Cavern 3-09 - Small Chest",
+        "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+        "Cabbage Cavern 3-15 - Small Chest",
+        "Candy Constellation - Big Switch",
+        "Candy Constellation - Boss Defeat",
+        "Candy Constellation - First Visit",
+        "Candy Constellation 9-02 - Spray Paint #3 Chest",
+        "Candy Constellation 9-03 - Small Chest #1",
+        "Candy Constellation 9-10 - Small Chest #1",
+        "Candy Constellation 9-12 - Small Chest",
+        "Candy Constellation 9-16 - Music Sheet #7 Chest",
+        "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+        "Candy Constellation Map - Big Chest",
+        "Candy Constellation Sound Player - Big Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Moonlight Mansion - Big Switch",
+        "Moonlight Mansion - Boss Defeat",
+        "Moonlight Mansion - First Visit",
+        "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
+        "Moonlight Mansion 2-11 - Lever",
+        "Moonlight Mansion 2-15 - Small Chest #1",
+        "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+        "Moonlight Mansion 2-20 - Small Chest",
+        "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+        "Moonlight Mansion Goal 2 - Small Chest #1",
+        "Moonlight Mansion Map - Big Chest",
+        "Olive Ocean - Big Switch",
+        "Olive Ocean - Boss Defeat",
+        "Olive Ocean - First Visit",
+        "Olive Ocean 6-03 - Small Chest #1",
+        "Olive Ocean 6-06 - Spray Paint #7 Chest",
+        "Olive Ocean 6-09 - Small Chest #1",
+        "Olive Ocean 6-13 - Lever",
+        "Olive Ocean 6-16 - Small Chest",
+        "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+        "Olive Ocean Map - Big Chest",
+        "Olive Ocean Vitality - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Peppermint Palace Goal 2 - Small Chest #1",
+        "Radish Ruins Vitality - Big Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Rainbow Route East - Big Switch",
+        "Room 2-01",
+        "Room 2-02",
+        "Room 2-03",
+        "Room 2-04",
+        "Room 2-05",
+        "Room 2-06",
+        "Room 2-07_UPPER_LEFT",
+        "Room 2-08",
+        "Room 2-09",
+        "Room 2-10",
+        "Room 2-11",
+        "Room 2-12_LEFT",
+        "Room 2-13",
+        "Room 2-14",
+        "Room 2-15",
+        "Room 2-16",
+        "Room 2-17",
+        "Room 2-18",
+        "Room 2-19",
+        "Room 2-20",
+        "Room 2-ENTRY",
+        "Room 2-GOAL_1",
+        "Room 2-GOAL_2",
+        "Room 2-WARP",
+        "Room 6-01",
+        "Room 6-02",
+        "Room 6-03",
+        "Room 6-04",
+        "Room 6-05",
+        "Room 6-06",
+        "Room 6-07",
+        "Room 6-08",
+        "Room 6-09",
+        "Room 6-10",
+        "Room 6-11",
+        "Room 6-12",
+        "Room 6-13",
+        "Room 6-14",
+        "Room 6-15",
+        "Room 6-16",
+        "Room 6-17",
+        "Room 6-18",
+        "Room 6-19",
+        "Room 6-20",
+        "Room 6-21",
+        "Room 6-22",
+        "Room 6-23",
+        "Room 6-CHEST_1",
+        "Room 6-CHEST_2",
+        "Room 6-GOAL_1",
+        "Room 6-GOAL_2",
+        "Room 7-21",
+        "Room 7-GOAL_2",
+        "Room 8-CHEST_1",
+        "Room 9-01",
+        "Room 9-02",
+        "Room 9-03",
+        "Room 9-04",
+        "Room 9-05",
+        "Room 9-06",
+        "Room 9-07",
+        "Room 9-08",
+        "Room 9-09",
+        "Room 9-10",
+        "Room 9-11",
+        "Room 9-12",
+        "Room 9-13",
+        "Room 9-14",
+        "Room 9-15",
+        "Room 9-16",
+        "Room 9-17",
+        "Room 9-18",
+        "Room 9-19",
+        "Room 9-20",
+        "Room 9-CHEST_1",
+        "Room 9-CHEST_2",
+        "Room 9-CHEST_3",
+        "Room 9-GOAL_1",
+        "Room 9-GOAL_2",
+        "Room 9-WARP"
+      ],
+      "audit_seconds": 0.025827714998740703,
+      "source_policy_seed": 5149132889929056856,
+      "stranded_progression_items": [
+        {
+          "item": "Moonlight Mansion - Area Key",
+          "location": "Room 2-GOAL_1"
+        },
+        {
+          "item": "Hammer Ability",
+          "location": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest"
+        },
+        {
+          "item": "Peppermint Palace East - Hub Connection",
+          "location": "Room 2-16"
+        },
+        {
+          "item": "Wheel Ability",
+          "location": "Moonlight Mansion 2-17 - Music Sheet #8 Chest"
+        },
+        {
+          "item": "Olive Ocean - Area Key",
+          "location": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "item": "Peppermint Palace West - Hub Connection",
+          "location": "Room 6-10"
+        },
+        {
+          "item": "Candy Constellation - Area Key",
+          "location": "Olive Ocean 6-13 - Lever"
+        },
+        {
+          "item": "UFO Ability",
+          "location": "Room 6-19"
+        },
+        {
+          "item": "Moonlight Mansion 2-11 - Lever Wall",
+          "location": "Candy Constellation - Boss Defeat"
+        },
+        {
+          "item": "Rainbow Route East - Hub Connection",
+          "location": "Room 6-13"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "peg_510_7_7",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-09 - Small Chest"
+        },
+        {
+          "target": "peg_513_4_7",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_13 -> REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+        },
+        {
+          "target": "peg_527_56_16",
+          "kind": "peg",
+          "ap_target": "REGION_CABBAGE_CAVERN/ROOM_3_14 -> REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY"
+        },
+        {
+          "target": "peg_527_18_13",
+          "kind": "peg",
+          "ap_target": "Cabbage Cavern 3-14 - Spray Paint #8 Chest"
+        },
+        {
+          "target": "peg_816_26_3",
+          "kind": "peg",
+          "ap_target": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "target": "peg_204_62_4",
+          "kind": "peg",
+          "ap_target": "REGION_PEPPERMINT_PALACE/ROOM_7_12 -> REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
+        },
+        {
+          "target": "peg_221_41_12",
+          "kind": "peg",
+          "ap_target": "Peppermint Palace 7-22 - Spray Paint #1 Chest"
+        },
+        {
+          "target": "peg_605_12_24",
+          "kind": "peg",
+          "ap_target": "REGION_RADISH_RUINS/ROOM_8_03 -> REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+        },
+        {
+          "target": "peg_401_28_30",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_06 -> REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"
+        },
+        {
+          "target": "peg_411_4_3",
+          "kind": "peg",
+          "ap_target": "REGION_CANDY_CONSTELLATION/ROOM_9_08 -> REGION_CANDY_CONSTELLATION/ROOM_9_09"
+        },
+        {
+          "target": "fuse_126",
+          "kind": "fuse",
+          "ap_target": "REGION_RAINBOW_ROUTE/ROOM_1_32 -> REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT"
+        },
+        {
+          "target": "fuse_827",
+          "kind": "fuse",
+          "ap_target": "REGION_OLIVE_OCEAN/ROOM_6_07 -> REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07"
+        },
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        }
+      ],
+      "require_all_source_witnesses_experiment": {
+        "source_policy_seed": 7393879276514388311,
+        "accessibility": "minimal",
+        "inventory_unreachable": [],
+        "progression_unreachable": [
+          "Area 2 - Boss Room",
+          "Area 2 - Hub Room",
+          "Moonlight Mansion - Big Switch",
+          "Moonlight Mansion - Boss Defeat",
+          "Moonlight Mansion - First Visit",
+          "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
+          "Moonlight Mansion 2-11 - Lever",
+          "Moonlight Mansion 2-15 - Small Chest #1",
+          "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+          "Moonlight Mansion 2-20 - Small Chest",
+          "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+          "Moonlight Mansion Goal 2 - Small Chest #1",
+          "Moonlight Mansion Map - Big Chest",
+          "Rainbow Route 1-06 (Lower) - Small Chest",
+          "Rainbow Route East - Big Switch",
+          "Room 2-01",
+          "Room 2-02",
+          "Room 2-03",
+          "Room 2-04",
+          "Room 2-05",
+          "Room 2-06",
+          "Room 2-07_UPPER_LEFT",
+          "Room 2-08",
+          "Room 2-09",
+          "Room 2-10",
+          "Room 2-11",
+          "Room 2-12_LEFT",
+          "Room 2-13",
+          "Room 2-14",
+          "Room 2-15",
+          "Room 2-16",
+          "Room 2-17",
+          "Room 2-18",
+          "Room 2-19",
+          "Room 2-20",
+          "Room 2-ENTRY",
+          "Room 2-GOAL_1",
+          "Room 2-GOAL_2",
+          "Room 2-WARP"
+        ]
+      },
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 2 - Boss Room', 'Area 2 - Hub Room', 'Moonlight Mansion - Big Switch', 'Moonlight Mansion - Boss Defeat', 'Moonlight Mansion - First Visit', 'Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest', 'Moonlight Mansion 2-11 - Lever', 'Moonlight Mansion 2-15 - Small Chest #1', 'Moonlight Mansion 2-17 - Music Sheet #8 Chest', 'Moonlight Mansion 2-20 - Small Chest', 'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest', 'Moonlight Mansion Goal 2 - Small Chest #1', 'Moonlight Mansion Map - Big Chest', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Rainbow Route East - Big Switch', 'Room 2-01', 'Room 2-02', 'Room 2-03', 'Room 2-04', 'Room 2-05', 'Room 2-06', 'Room 2-07_UPPER_LEFT', 'Room 2-08', 'Room 2-09', 'Room 2-10', 'Room 2-11', 'Room 2-12_LEFT', 'Room 2-13', 'Room 2-14', 'Room 2-15', 'Room 2-16', 'Room 2-17', 'Room 2-18', 'Room 2-19', 'Room 2-20', 'Room 2-ENTRY', 'Room 2-GOAL_1', 'Room 2-GOAL_2', 'Room 2-WARP']",
+        "production_audit_seconds": 0.03402348800227628,
+        "source_assignment_seconds": 0.1184876909974264,
+        "source_assignment_attempts": 24
+      }
+    },
+    {
+      "seed": 105102,
+      "profile": 2,
+      "mode": 2,
+      "gating": 1,
+      "accessibility": "minimal",
+      "options": {
+        "ability_randomization_no_ability_weight": 100,
+        "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 1,
+        "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 1,
+        "room_sanity": 1,
+        "area_keys": 1
+      },
+      "inventory_unreachable": [],
+      "progression_unreachable": [
+        "Area 2 - Boss Room",
+        "Area 2 - Hub Room",
+        "Area 6 - Boss Room",
+        "Area 6 - Hub Room",
+        "Area 9 - Boss Room",
+        "Area 9 - Hub Room",
+        "Candy Constellation - Big Switch",
+        "Candy Constellation - Boss Defeat",
+        "Candy Constellation - First Visit",
+        "Candy Constellation 9-02 - Spray Paint #3 Chest",
+        "Candy Constellation 9-03 - Small Chest #1",
+        "Candy Constellation 9-10 - Small Chest #1",
+        "Candy Constellation 9-12 - Small Chest",
+        "Candy Constellation 9-16 - Music Sheet #7 Chest",
+        "Candy Constellation 9-Chest 2 - Spray Paint #6 Chest",
+        "Candy Constellation Map - Big Chest",
+        "Candy Constellation Sound Player - Big Chest",
+        "Candy Constellation Vitality - Big Chest",
+        "Moonlight Mansion - Big Switch",
+        "Moonlight Mansion - Boss Defeat",
+        "Moonlight Mansion - First Visit",
+        "Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest",
+        "Moonlight Mansion 2-11 - Lever",
+        "Moonlight Mansion 2-15 - Small Chest #1",
+        "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+        "Moonlight Mansion 2-20 - Small Chest",
+        "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+        "Moonlight Mansion Goal 2 - Small Chest #1",
+        "Moonlight Mansion Map - Big Chest",
+        "Olive Ocean - Big Switch",
+        "Olive Ocean - Boss Defeat",
+        "Olive Ocean - First Visit",
+        "Olive Ocean 6-03 - Small Chest #1",
+        "Olive Ocean 6-06 - Spray Paint #7 Chest",
+        "Olive Ocean 6-09 - Small Chest #1",
+        "Olive Ocean 6-13 - Lever",
+        "Olive Ocean 6-16 - Small Chest",
+        "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+        "Olive Ocean Map - Big Chest",
+        "Olive Ocean Vitality - Big Chest",
+        "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+        "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+        "Rainbow Route 1-06 (Lower) - Small Chest",
+        "Rainbow Route East - Big Switch",
+        "Room 2-01",
+        "Room 2-02",
+        "Room 2-03",
+        "Room 2-04",
+        "Room 2-05",
+        "Room 2-06",
+        "Room 2-07_UPPER_LEFT",
+        "Room 2-08",
+        "Room 2-09",
+        "Room 2-10",
+        "Room 2-11",
+        "Room 2-12_LEFT",
+        "Room 2-13",
+        "Room 2-14",
+        "Room 2-15",
+        "Room 2-16",
+        "Room 2-17",
+        "Room 2-18",
+        "Room 2-19",
+        "Room 2-20",
+        "Room 2-ENTRY",
+        "Room 2-GOAL_1",
+        "Room 2-GOAL_2",
+        "Room 2-WARP",
+        "Room 6-01",
+        "Room 6-02",
+        "Room 6-03",
+        "Room 6-04",
+        "Room 6-05",
+        "Room 6-06",
+        "Room 6-07",
+        "Room 6-08",
+        "Room 6-09",
+        "Room 6-10",
+        "Room 6-11",
+        "Room 6-12",
+        "Room 6-13",
+        "Room 6-14",
+        "Room 6-15",
+        "Room 6-16",
+        "Room 6-17",
+        "Room 6-18",
+        "Room 6-19",
+        "Room 6-20",
+        "Room 6-21",
+        "Room 6-22",
+        "Room 6-23",
+        "Room 6-CHEST_1",
+        "Room 6-CHEST_2",
+        "Room 6-GOAL_1",
+        "Room 6-GOAL_2",
+        "Room 9-01",
+        "Room 9-02",
+        "Room 9-03",
+        "Room 9-04",
+        "Room 9-05",
+        "Room 9-06",
+        "Room 9-07",
+        "Room 9-08",
+        "Room 9-09",
+        "Room 9-10",
+        "Room 9-11",
+        "Room 9-12",
+        "Room 9-13",
+        "Room 9-14",
+        "Room 9-15",
+        "Room 9-16",
+        "Room 9-17",
+        "Room 9-18",
+        "Room 9-19",
+        "Room 9-20",
+        "Room 9-CHEST_1",
+        "Room 9-CHEST_2",
+        "Room 9-CHEST_3",
+        "Room 9-GOAL_1",
+        "Room 9-GOAL_2",
+        "Room 9-WARP"
+      ],
+      "audit_seconds": 0.043584973998804344,
+      "source_policy_seed": 5149132889929056856,
+      "stranded_progression_items": [
+        {
+          "item": "Moonlight Mansion - Area Key",
+          "location": "Room 2-GOAL_1"
+        },
+        {
+          "item": "Hammer Ability",
+          "location": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest"
+        },
+        {
+          "item": "Peppermint Palace East - Hub Connection",
+          "location": "Room 2-16"
+        },
+        {
+          "item": "Wheel Ability",
+          "location": "Moonlight Mansion 2-17 - Music Sheet #8 Chest"
+        },
+        {
+          "item": "Olive Ocean - Area Key",
+          "location": "Olive Ocean Map - Big Chest"
+        },
+        {
+          "item": "Peppermint Palace West - Hub Connection",
+          "location": "Room 6-10"
+        },
+        {
+          "item": "Candy Constellation - Area Key",
+          "location": "Olive Ocean 6-13 - Lever"
+        },
+        {
+          "item": "UFO Ability",
+          "location": "Room 6-19"
+        },
+        {
+          "item": "Moonlight Mansion 2-11 - Lever Wall",
+          "location": "Candy Constellation - Boss Defeat"
+        },
+        {
+          "item": "Rainbow Route East - Hub Connection",
+          "location": "Room 6-13"
+        }
+      ],
+      "closed_reviewed_targets_with_all_inventory": [
+        {
+          "target": "fuse_323",
+          "kind": "fuse",
+          "ap_target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT -> REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT"
+        }
+      ],
+      "guarded_generation": {
+        "generation_outcome": "rejected_unsafe_fill",
+        "generation_error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. No output was generated. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 2 - Boss Room', 'Area 2 - Hub Room', 'Area 6 - Boss Room', 'Area 6 - Hub Room', 'Area 9 - Boss Room', 'Area 9 - Hub Room', 'Candy Constellation - Big Switch', 'Candy Constellation - Boss Defeat', 'Candy Constellation - First Visit', 'Candy Constellation 9-02 - Spray Paint #3 Chest', 'Candy Constellation 9-03 - Small Chest #1', 'Candy Constellation 9-10 - Small Chest #1', 'Candy Constellation 9-12 - Small Chest', 'Candy Constellation 9-16 - Music Sheet #7 Chest', 'Candy Constellation 9-Chest 2 - Spray Paint #6 Chest', 'Candy Constellation Map - Big Chest', 'Candy Constellation Sound Player - Big Chest', 'Candy Constellation Vitality - Big Chest', 'Moonlight Mansion - Big Switch', 'Moonlight Mansion - Boss Defeat', 'Moonlight Mansion - First Visit', 'Moonlight Mansion 2-07-UPPER-LEFT - Spray Paint #11 Chest', 'Moonlight Mansion 2-11 - Lever', 'Moonlight Mansion 2-15 - Small Chest #1', 'Moonlight Mansion 2-17 - Music Sheet #8 Chest', 'Moonlight Mansion 2-20 - Small Chest', 'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest', 'Moonlight Mansion Goal 2 - Small Chest #1', 'Moonlight Mansion Map - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Rainbow Route East - Big Switch', 'Room 2-01', 'Room 2-02', 'Room 2-03', 'Room 2-04', 'Room 2-05', 'Room 2-06', 'Room 2-07_UPPER_LEFT', 'Room 2-08', 'Room 2-09', 'Room 2-10', 'Room 2-11', 'Room 2-12_LEFT', 'Room 2-13', 'Room 2-14', 'Room 2-15', 'Room 2-16', 'Room 2-17', 'Room 2-18', 'Room 2-19', 'Room 2-20', 'Room 2-ENTRY', 'Room 2-GOAL_1', 'Room 2-GOAL_2', 'Room 2-WARP', 'Room 6-01', 'Room 6-02', 'Room 6-03', 'Room 6-04', 'Room 6-05', 'Room 6-06', 'Room 6-07', 'Room 6-08', 'Room 6-09', 'Room 6-10', 'Room 6-11', 'Room 6-12', 'Room 6-13', 'Room 6-14', 'Room 6-15', 'Room 6-16', 'Room 6-17', 'Room 6-18', 'Room 6-19', 'Room 6-20', 'Room 6-21', 'Room 6-22', 'Room 6-23', 'Room 6-CHEST_1', 'Room 6-CHEST_2', 'Room 6-GOAL_1', 'Room 6-GOAL_2', 'Room 9-01', 'Room 9-02', 'Room 9-03', 'Room 9-04', 'Room 9-05', 'Room 9-06', 'Room 9-07', 'Room 9-08', 'Room 9-09', 'Room 9-10', 'Room 9-11', 'Room 9-12', 'Room 9-13', 'Room 9-14', 'Room 9-15', 'Room 9-16', 'Room 9-17', 'Room 9-18', 'Room 9-19', 'Room 9-20', 'Room 9-CHEST_1', 'Room 9-CHEST_2', 'Room 9-CHEST_3', 'Room 9-GOAL_1', 'Room 9-GOAL_2', 'Room 9-WARP']",
+        "production_audit_seconds": 0.07165040900144959,
+        "source_assignment_seconds": 4.045999958179891e-06,
+        "source_assignment_attempts": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "Layered post-defeat fixture, not a Bonkers defeat replay. Original USA startup210 at400,240/live392,232.996; AI101. Bonkers template0x088BF730 replaced by unused Hammer statue (type0x93 subtype6); scroll-lock0x088BF5C8 x384 relocated to2000 to emulate released bounds. Normal never acquires the fixture ability. No terrain or attack edits, no runtime writes. Separate existing actual205\u2192210 Normal arena approach and native defeat-slot2 contract establish the source-access/combat-assumption layer. Door release is independently controller-proven by overhead Bomb, not directly from slot2. Max500 is production scaling applied once to native fixture, not full AP1HP gameplay.",
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "mechanism": {
+    "bomb_record_bus": "0x08888C98",
+    "bomb_cell": [
+      29,
+      12
+    ],
+    "chain_cell": [
+      29,
+      13
+    ],
+    "door_cell": [
+      29,
+      14
+    ],
+    "initial_tiles": [
+      241,
+      242,
+      242
+    ],
+    "revealed_tiles": [
+      0,
+      0,
+      255
+    ],
+    "door_template_bus": "0x088BF6C4",
+    "door_record_bus": "0x08888D00",
+    "door_trigger": [
+      29,
+      14
+    ],
+    "destination": 209,
+    "stored_arrival": [
+      2,
+      9
+    ],
+    "live_arrival": [
+      24,
+      136.99609375
+    ],
+    "source_contract": "mirror_door.c subtype1 becomes visible when collision cell attribute has0x4000. The Bomb mutation changes door cell F2 toFF."
+  },
+  "runs": {
+    "100": {
+      "rom_sha256": "d6b5d464e7eb1d100d8838c35625cafc0820d787ba0f2349dae2cc76a17566c7",
+      "segments": [
+        {
+          "id": "boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 210,
+            "x": 392.0,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "bomb_chain_door_tiles": [
+            241,
+            242,
+            242
+          ]
+        },
+        {
+          "id": "normal_air_puff_bomb",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              20,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1337,
+            "room": 210,
+            "x": 423.984375,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "bomb_chain_door_tiles": [
+            0,
+            0,
+            255
+          ]
+        },
+        {
+          "id": "normal210actual209",
+          "inputs": [
+            [
+              30,
+              17
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1567,
+            "room": 210,
+            "x": 457.99609375,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "bomb_chain_door_tiles": [
+            0,
+            0,
+            255
+          ]
+        },
+        {
+          "id": "normal210doorenter",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1727,
+            "room": 209,
+            "x": 24.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        }
+      ]
+    },
+    "500": {
+      "rom_sha256": "a7fc22189406419ee739cafc1c37507106a9c6f7f29beb23e69bee23e9ea3faf",
+      "segments": [
+        {
+          "id": "boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 210,
+            "x": 392.0,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "bomb_chain_door_tiles": [
+            241,
+            242,
+            242
+          ]
+        },
+        {
+          "id": "normal_air_puff_bomb",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              20,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1337,
+            "room": 210,
+            "x": 423.984375,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "bomb_chain_door_tiles": [
+            0,
+            0,
+            255
+          ]
+        },
+        {
+          "id": "normal210actual209",
+          "inputs": [
+            [
+              30,
+              17
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1567,
+            "room": 210,
+            "x": 457.99609375,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "bomb_chain_door_tiles": [
+            0,
+            0,
+            255
+          ]
+        },
+        {
+          "id": "normal210doorenter",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1727,
+            "room": 209,
+            "x": 24.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ]
+        }
+      ]
+    }
+  }
+}

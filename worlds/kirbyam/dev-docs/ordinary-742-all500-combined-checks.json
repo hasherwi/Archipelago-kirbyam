@@ -1,0 +1,773 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": {
+    "base_fixture": "original USA with startup712/AI101 arrays, coldFFSRAM",
+    "additional_change": "scale_enemy_health_tables(base_fixture_bytes,500), applied once before boot; all regular/miniboss/bossHP and meter coefficients exactly as production",
+    "module_pinned_head": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "module_path": "worlds/kirbyam/enemy_health_scaling.py",
+    "module_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "rom_sha256": "bc761150a1ca17780218cbf31e442ddafc3494bd22fdd93ac3d92784f4591ba6",
+    "qualification": "Source-equivalent nativeROM HP transformation, not actualAPpatch or direct1HP config. No terrain/attack/source mapping edits or runtime writes. All controller states derive from cold boot of this once-scaled ROM."
+  },
+  "results": {
+    "combined": "Resume all500-chestfinal after flag17 collection asNormal6HP. Samevisit controller continuation reaches native705Normal6HP, no reacquisition, reset or reentry. RoofDoo present on camera return; no permanent enemy deletion assumption. Avoid native spike tile26,4 via left upper slot."
+  },
+  "chains": {
+    "same_visit_chest_to_warp": [
+      {
+        "segment": "all500-chestreturn1",
+        "parent_controller_state": "all500-chestfinal",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 45,
+            "keys": 1
+          },
+          {
+            "frames": 45,
+            "keys": 33
+          },
+          {
+            "frames": 40,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 408.90625,
+            "y": 276.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 11,
+            "room": 742,
+            "x": 408.90625,
+            "y": 274.08203125,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 56,
+            "room": 742,
+            "x": 408.90625,
+            "y": 245.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 101,
+            "room": 742,
+            "x": 367.140625,
+            "y": 245.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "4",
+            "frame": 141,
+            "room": 742,
+            "x": 358.0,
+            "y": 200.28515625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-returnstage",
+        "parent_controller_state": "all500-chestreturn1",
+        "inputs": [
+          {
+            "frames": 30,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 30,
+            "room": 742,
+            "x": 383.828125,
+            "y": 160.91015625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 40,
+            "room": 742,
+            "x": 389.7265625,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-returnright",
+        "parent_controller_state": "all500-returnstage",
+        "inputs": [
+          {
+            "frames": 25,
+            "keys": 1
+          },
+          {
+            "frames": 40,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 70,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 25,
+            "room": 742,
+            "x": 390.21484375,
+            "y": 118.72265625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 65,
+            "room": 742,
+            "x": 426.66796875,
+            "y": 111.66015625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 75,
+            "room": 742,
+            "x": 432.56640625,
+            "y": 98.53515625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 145,
+            "room": 742,
+            "x": 433.0546875,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-returninhale2",
+        "parent_controller_state": "all500-returnright",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 12,
+            "keys": 0
+          },
+          {
+            "frames": 60,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 432.8671875,
+            "y": 69.15234375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 13,
+            "room": 742,
+            "x": 432.3984375,
+            "y": 83.10546875,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 73,
+            "room": 742,
+            "x": 432.3984375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-roofearlyinhale",
+        "parent_controller_state": "all500-returninhale2",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 6,
+            "keys": 1
+          },
+          {
+            "frames": 65,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 432.1484375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 7,
+            "room": 742,
+            "x": 431.3046875,
+            "y": 99.22265625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 72,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-spikeavoid",
+        "parent_controller_state": "all500-roofearlyinhale",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 20,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 30,
+            "keys": 33
+          },
+          {
+            "frames": 40,
+            "keys": 1
+          },
+          {
+            "frames": 20,
+            "keys": 17
+          },
+          {
+            "frames": 25,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 2,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 22,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 42,
+            "room": 742,
+            "x": 410.2578125,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "4",
+            "frame": 43,
+            "room": 742,
+            "x": 408.9921875,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "5",
+            "frame": 53,
+            "room": 742,
+            "x": 398.0546875,
+            "y": 126.65234375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "6",
+            "frame": 83,
+            "room": 742,
+            "x": 366.203125,
+            "y": 102.47265625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "7",
+            "frame": 123,
+            "room": 742,
+            "x": 358.0,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "8",
+            "frame": 143,
+            "room": 742,
+            "x": 373.203125,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "9",
+            "frame": 168,
+            "room": 742,
+            "x": 388.33984375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-combinedwarp",
+        "parent_controller_state": "all500-spikeavoid",
+        "inputs": [
+          {
+            "frames": 10,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 45,
+            "keys": 1
+          },
+          {
+            "frames": 28,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 40,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 10,
+            "room": 742,
+            "x": 394.90234375,
+            "y": 62.34765625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 20,
+            "room": 742,
+            "x": 400.60546875,
+            "y": 49.22265625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 65,
+            "room": 742,
+            "x": 400.99609375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 93,
+            "room": 742,
+            "x": 424.69921875,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "4",
+            "frame": 103,
+            "room": 742,
+            "x": 430.59765625,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "5",
+            "frame": 104,
+            "room": 742,
+            "x": 430.76953125,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "6",
+            "frame": 144,
+            "room": 742,
+            "x": 431.16015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "7",
+            "frame": 145,
+            "room": 742,
+            "x": 431.16015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "8",
+            "frame": 265,
+            "room": 742,
+            "x": 431.16015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-combined705",
+        "parent_controller_state": "all500-combinedwarp",
+        "inputs": [
+          {
+            "frames": 7,
+            "keys": 16
+          },
+          {
+            "frames": 6,
+            "keys": 32
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 7,
+            "room": 742,
+            "x": 435.53515625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 13,
+            "room": 742,
+            "x": 438.91015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 33,
+            "room": 742,
+            "x": 439.03515625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 34,
+            "room": 742,
+            "x": 439.03515625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "4",
+            "frame": 154,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      }
+    ]
+  },
+  "per_frame_hp_audit": [
+    {
+      "segment": "all500-chestreturn1",
+      "frames": 141,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-returnstage",
+      "frames": 40,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-returnright",
+      "frames": 145,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-returninhale2",
+      "frames": 73,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-roofearlyinhale",
+      "frames": 72,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-spikeavoid",
+      "frames": 168,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-combinedwarp",
+      "frames": 265,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-combined705",
+      "frames": 154,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    }
+  ],
+  "observations": {
+    "all500-chestfinal": {
+      "chest_flag_byte": 2,
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 24,
+          "y": 8,
+          "tile": 243
+        },
+        {
+          "x": 25,
+          "y": 8,
+          "tile": 243
+        }
+      ]
+    },
+    "all500-combinedwarp": {
+      "chest_flag_byte": 2,
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 24,
+          "y": 8,
+          "tile": 243
+        },
+        {
+          "x": 25,
+          "y": 8,
+          "tile": 243
+        }
+      ]
+    },
+    "all500-combined705": {
+      "chest_flag_byte": 2,
+      "native_room": 705
+    }
+  },
+  "parent_acceptance": "ordinary-742-all500-acceptance.json; blobab06a8f0243acdc1829a6d67e8f8499bc42710a3"
+}

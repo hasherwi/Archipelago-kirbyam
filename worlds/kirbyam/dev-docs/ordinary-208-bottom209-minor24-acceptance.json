@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "OriginalUSA startup290 beside existing208 door, position240,144/live232,136.996; AI101. No object, terrain or attack changes. This does not prove hub unlock/access. Actual290\u2192208 and208\u2192209 transitions followed by Normal bottom minor24 collection. Max500 production scaler applied once before fresh boot, no runtime writes, not actual AP1HP fixture.",
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "doors": [
+    {
+      "source": 290,
+      "record": "0x0888B98E",
+      "trigger": [
+        14,
+        8
+      ],
+      "destination": 208,
+      "stored_arrival": [
+        15,
+        3
+      ]
+    },
+    {
+      "source": 208,
+      "record": "0x08888132",
+      "trigger": [
+        29,
+        3
+      ],
+      "destination": 209,
+      "stored_arrival": [
+        3,
+        39
+      ]
+    }
+  ],
+  "target": {
+    "template": "0x088BF3EC",
+    "flag": 24,
+    "mask": 1,
+    "readback_address": "0x02038963"
+  },
+  "runs": {
+    "100": {
+      "rom_sha256": "8007db8e301794a6676d3ae77d5c5fc5a5e11dadbaf12d16cb5aa66567639a7a",
+      "segments": [
+        {
+          "id": "entry208hub",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 290,
+            "x": 232.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": [],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "hub290to208",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1215,
+            "room": 208,
+            "x": 232.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "upper208to209",
+          "inputs": [
+            {
+              "frames": 5,
+              "keys": 1
+            },
+            {
+              "frames": 5,
+              "keys": 0
+            },
+            {
+              "frames": 220,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1645,
+            "room": 209,
+            "x": 40.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209rise",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 250,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 1906,
+            "room": 209,
+            "x": 40.0,
+            "y": 581.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209center",
+          "inputs": [
+            {
+              "frames": 110,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 150,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 2176,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 469.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209minor",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 70,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2247,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209minorcollected",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2338,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 1
+        }
+      ]
+    },
+    "500": {
+      "rom_sha256": "4983f29023a167d64e3a40d2e59230e6b377c15a51dab2fea1e72fc845d8967c",
+      "segments": [
+        {
+          "id": "entry208hub",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 290,
+            "x": 232.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": [],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "hub290to208",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1215,
+            "room": 208,
+            "x": 232.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "upper208to209",
+          "inputs": [
+            {
+              "frames": 5,
+              "keys": 1
+            },
+            {
+              "frames": 5,
+              "keys": 0
+            },
+            {
+              "frames": 220,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1645,
+            "room": 209,
+            "x": 40.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209rise",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 250,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 1906,
+            "room": 209,
+            "x": 40.0,
+            "y": 581.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209center",
+          "inputs": [
+            {
+              "frames": 110,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 150,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 2176,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 469.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209minor",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 70,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2247,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 0
+        },
+        {
+          "id": "bottom209minorcollected",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2338,
+            "room": 209,
+            "x": 157.21484375,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0,
+          "flag24_masked": 1
+        }
+      ]
+    }
+  }
+}

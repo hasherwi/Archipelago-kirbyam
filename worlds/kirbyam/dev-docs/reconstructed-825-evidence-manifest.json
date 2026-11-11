@@ -1,0 +1,85 @@
+{
+  "scope": "New reconstruction manifest of preserved local evidence. No new emulator replay; distinct source, carrier and suffix RNG lineages. Not exact lost release recovery.",
+  "records": [
+    {
+      "identity": "carrier825/source-100-report.json",
+      "sha256": "56246e6bf9bb7c5c31c68c6875eb10607406ce1ea41e2a0e745f0f29d263daaa",
+      "bytes": 2198,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "carrier825/source-500-report.json",
+      "sha256": "deeab7cf6ad1cba888aa98133389b8005a702005a0ea102e6f03c6ec7e8d8bf2",
+      "bytes": 2198,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "carrier825/carrier-prefix-manifest.json",
+      "sha256": "2aa44e42bc12744f24a73790a41b4dd9a3d5340af34ed02f82cec40621580cb7",
+      "bytes": 9926,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "suffix829/review/manifest.json",
+      "sha256": "0425212c4c943b4dae9682ebf2e0bcc4c7103fb2d1ad26e5cce9f291374a3084",
+      "bytes": 7029,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "suffix829/review/first825-100-report.json",
+      "sha256": "b68e383624661f822abb597137f58cbfe61125f44e0a61dd2be29d8732535240",
+      "bytes": 6015,
+      "recorded_acceptance": true,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "suffix829/review/first825-500-report.json",
+      "sha256": "7b17fc875ba5c1362552c9e1bb8fdfa688f45d9014fdec92d9227a18b93454fe",
+      "bytes": 6026,
+      "recorded_acceptance": true,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "carried825/825-retained-ice-summary.json",
+      "sha256": "b95127fc2fd88a83daf3708f63284c840b9d42541769a7511e9c846bf74698b4",
+      "bytes": 1650,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "carried825/825-retained-ice-scope-addendum.json",
+      "sha256": "a8407e9ce462385f260f5ef06b08cbcf0b719aae96b5d6527a8981e685840bd6",
+      "bytes": 15773,
+      "recorded_acceptance": null,
+      "qualified_suffix_accepted": true,
+      "overall_permanent_source_route_accepted_by_this_worker": false
+    },
+    {
+      "identity": "carried825/solo-825-complete.json",
+      "sha256": "0be520fbfad83b60700abdc9cd948336d6b73ea2f7b15812e08917524ac81efa",
+      "bytes": 282974,
+      "recorded_acceptance": false,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    },
+    {
+      "identity": "carried825/solo500-825-complete.json",
+      "sha256": "0916d08f116c296af3a8933db41a0973acfacaf7edd4d0f0224441b704a976e0",
+      "bytes": 1738868,
+      "recorded_acceptance": false,
+      "qualified_suffix_accepted": null,
+      "overall_permanent_source_route_accepted_by_this_worker": null
+    }
+  ]
+}

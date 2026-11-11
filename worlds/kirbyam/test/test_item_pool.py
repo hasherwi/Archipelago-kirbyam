@@ -246,6 +246,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
     assert [item.label for item in ability_items] == expected_labels
     progression_abilities = {f"{name} Ability" for name in (
         "Mini", "Wheel", "Hammer", "Smash", "Fire", "Bomb", "Laser", "UFO", "Sword", "Cupid", "Cutter",
+        "Stone", "Burning",
     )}
     assert all(item.classification == (ItemClassification.progression if item.label in progression_abilities
                                        else ItemClassification.useful) for item in ability_items)

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "scope": "Recovered original hash-verified records, not new emulator execution. Directed entry/source qualifications remain in each record.",
+  "files": [
+    {
+      "path": "ordinary-502-normal-left-overhead-acceptance.json",
+      "sha256": "c81af0f0d8fce17b029e85b3cc8d5d4d2cad3dc0ca1e49af2449675b1b940ab9",
+      "bytes": 24290
+    },
+    {
+      "path": "ordinary-502-normal-return-overhead-acceptance.json",
+      "sha256": "5aec0dc3fd0f3c1f0588de0be60e8061ef1b0b118c14403c227be5f5b3b731aa",
+      "bytes": 13387
+    },
+    {
+      "path": "ordinary-510-stone-peg-chest-acceptance.json",
+      "sha256": "dcda2fd7e0788ae1343c44bb3690ae6efc34b2faf2d34c05ff73524e02159aa8",
+      "bytes": 14139
+    },
+    {
+      "path": "ordinary-510-normal-exits-acceptance-sanitized.json",
+      "sha256": "f102cfdb0936aa50f3c0b4f911c898e54cd15ffb4839a63cdaa37fcee503c281",
+      "bytes": 55887
+    },
+    {
+      "path": "ordinary-532-normal-cannon-exit-acceptance.json",
+      "sha256": "b69d4b20052313a9ec2122a8ca4aafce0835c7147d093046c562873744251cbf",
+      "bytes": 29687
+    },
+    {
+      "path": "ordinary-532-fresh-direction-737-return-audit.json",
+      "sha256": "9083b1ee93a8a7925bd6857ed6559ba3af97b3e90236e7c63e78c0f2c22b79eb",
+      "bytes": 47727
+    },
+    {
+      "path": "ordinary-736-normal-cannon-branches.json",
+      "sha256": "274ff56fbe3304fc8de2fd76f4c2a689faadf2fb63c3ae6470d08ed1b751cc6b",
+      "bytes": 19658
+    },
+    {
+      "path": "ordinary-736-normal-nw-exit-acceptance.json",
+      "sha256": "890c4bd212752aab5d4e932f31b282b488c323a4d9e312f232dc18a1c85b4dbd",
+      "bytes": 28920
+    },
+    {
+      "path": "ordinary-736-mini-chest-acceptance.json",
+      "sha256": "b69a8ff9fc43ea0065062b60031df8ba4c679ff1dde084fd092771c81b08f2e7",
+      "bytes": 32666
+    },
+    {
+      "path": "ordinary-742-upper-return-direction-audit.json",
+      "sha256": "35576a6e17a543af79f4e93b1678825c0720b599edc8da826acd685382640ee9",
+      "bytes": 11454
+    }
+  ]
+}

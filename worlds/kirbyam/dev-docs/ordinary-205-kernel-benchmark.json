@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "description": "Warmed per-evaluation cost with the existing source-expansion deduplication. Full-result evaluation, five paired samples, no reachability result cache or source-pool pruning. This is not whole-generation time.",
+  "base_commit": "80962aa",
+  "graphs": {
+    "metal_205_to_209_top/bonkers_carry": {
+      "nodes": 6,
+      "routes": 5,
+      "sources": 1,
+      "cases": {
+        "all_native_items": {
+          "positions": 12,
+          "target_reached": true,
+          "iterations_per_sample": 300,
+          "microseconds": [
+            26.122836666666664,
+            24.116913333333333,
+            24.983083333333333,
+            25.55635,
+            24.848583333333334
+          ],
+          "median_microseconds": 24.983083333333333
+        },
+        "all_live_items": {
+          "positions": 8,
+          "target_reached": false,
+          "iterations_per_sample": 100,
+          "microseconds": [
+            27.67284,
+            29.784119999999998,
+            26.96457,
+            26.504679999999997,
+            31.063760000000002
+          ],
+          "median_microseconds": 27.67284
+        }
+      }
+    },
+    "metal_205_to_209_top/central_statues": {
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "cases": {
+        "all_native_items": {
+          "positions": 292,
+          "target_reached": true,
+          "iterations_per_sample": 300,
+          "microseconds": [
+            1260.1255133333332,
+            1188.6911566666668,
+            1387.2427833333334,
+            1403.05463,
+            1375.1723
+          ],
+          "median_microseconds": 1375.1723
+        },
+        "all_live_items": {
+          "positions": 454,
+          "target_reached": true,
+          "iterations_per_sample": 100,
+          "microseconds": [
+            3005.77674,
+            2833.03241,
+            3016.6580099999996,
+            3391.3532099999998,
+            2566.84327
+          ],
+          "median_microseconds": 3005.77674
+        }
+      }
+    },
+    "metal_205_to_209_top/rainbow190_statues": {
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "cases": {
+        "all_native_items": {
+          "positions": 292,
+          "target_reached": true,
+          "iterations_per_sample": 300,
+          "microseconds": [
+            1328.6785666666667,
+            1258.9208566666666,
+            1667.8456466666667,
+            1192.34582,
+            1167.16647
+          ],
+          "median_microseconds": 1258.9208566666666
+        },
+        "all_live_items": {
+          "positions": 454,
+          "target_reached": true,
+          "iterations_per_sample": 100,
+          "microseconds": [
+            2824.8295000000003,
+            2595.29338,
+            2462.4224600000002,
+            3007.49542,
+            2991.95223
+          ],
+          "median_microseconds": 2824.8295000000003
+        }
+      }
+    },
+    "metal_205_to_209_top/peppermint290_statues": {
+      "nodes": 20,
+      "routes": 34,
+      "sources": 30,
+      "cases": {
+        "all_native_items": {
+          "positions": 292,
+          "target_reached": true,
+          "iterations_per_sample": 300,
+          "microseconds": [
+            1490.62137,
+            1469.3832499999999,
+            1162.55356,
+            1431.7065166666666,
+            1241.73951
+          ],
+          "median_microseconds": 1431.7065166666666
+        },
+        "all_live_items": {
+          "positions": 454,
+          "target_reached": true,
+          "iterations_per_sample": 100,
+          "microseconds": [
+            2787.1774800000003,
+            2763.1919900000003,
+            2711.03817,
+            3208.5158,
+            2608.3975
+          ],
+          "median_microseconds": 2763.1919900000003
+        }
+      }
+    },
+    "metal_707_to_712/central_statues": {
+      "nodes": 19,
+      "routes": 33,
+      "sources": 30,
+      "cases": {
+        "all_native_items": {
+          "positions": 290,
+          "target_reached": true,
+          "iterations_per_sample": 300,
+          "microseconds": [
+            1229.9887466666667,
+            1169.7113566666667,
+            1300.2404166666668,
+            1279.6239533333332,
+            1139.67755
+          ],
+          "median_microseconds": 1229.9887466666667
+        },
+        "all_live_items": {
+          "positions": 452,
+          "target_reached": true,
+          "iterations_per_sample": 100,
+          "microseconds": [
+            2554.96895,
+            2414.04458,
+            2420.25594,
+            2384.52565,
+            2452.43118
+          ],
+          "median_microseconds": 2420.25594
+        }
+      }
+    }
+  },
+  "validation": {
+    "source_expansion_and_accessibility_tests": 842,
+    "generation_matrix_cases": 36,
+    "accepted_all_checks_reachable": 32,
+    "rejected_unsafe_minimal_fills": 4,
+    "scope": "Current starting inventory retained; this does not certify all native routes or every seed. Rejection is from actual placed progression, not unsupported source policy.",
+    "source_expansion_tests": 755,
+    "reviewed_graph_variants": 86
+  }
+}

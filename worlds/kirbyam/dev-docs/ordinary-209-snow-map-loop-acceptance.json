@@ -1,0 +1,1156 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "OriginalUSA startup209 at32,144/live24,136.996, matching the upper210 arrival. This is a disclosed position fixture, not independent proof of access to that entrance. AI starts101. Objects, terrain, abilities and attacks unchanged. No runtime writes. Normal throughout. Max500 uses production health scaler once before fresh boot; not an actual AP patch or direct1HP option replay.",
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "route": "Upper209 arrival\u2192wide drop and native star-block attack clears Mirra\u2192actual209door1,13 to210 stored30,24\u2192Snow hallway chest\u2192actual210door29,28 to209 stored2,20\u2192Bomb4,17\u2192fly across opened horizontal band\u2192descend right shaft\u2192map chest. No generic209/210 joins or cross-room Bomb persistence asserted.",
+  "targets": [
+    {
+      "room": 210,
+      "template": "0x088BF610",
+      "position": [
+        248,
+        456
+      ],
+      "flag": 25,
+      "mask": 2
+    },
+    {
+      "room": 209,
+      "template": "0x088BF338",
+      "position": [
+        288,
+        496
+      ],
+      "flag": 22,
+      "mask": 64
+    }
+  ],
+  "runs": {
+    "100": {
+      "rom_sha256": "3d2bf4c8ad5fd38a12a92e3bce0687b83c1633669b9b7241f923ff02c68fd0ae",
+      "segments": [
+        {
+          "id": "entry209upper",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 209,
+            "x": 24.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": [],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "upper209widecapture",
+          "inputs": [
+            {
+              "frames": 80,
+              "keys": 16
+            },
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 150,
+              "keys": 0
+            },
+            {
+              "frames": 120,
+              "keys": 2
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1635,
+            "room": 209,
+            "x": 138.93359375,
+            "y": 216.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "upper209snowaccepted",
+          "inputs": [
+            {
+              "frames": 90,
+              "keys": 32
+            },
+            {
+              "frames": 30,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1935,
+            "room": 210,
+            "x": 472.0,
+            "y": 376.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "snow210jumpover",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 25,
+              "keys": 32
+            },
+            {
+              "frames": 40,
+              "keys": 33
+            },
+            {
+              "frames": 30,
+              "keys": 32
+            },
+            {
+              "frames": 180,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 128
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2320,
+            "room": 210,
+            "x": 283.46875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "snow210chest",
+          "inputs": [
+            {
+              "frames": 20,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2490,
+            "room": 210,
+            "x": 246.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2
+        },
+        {
+          "id": "snow210lower209",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 17
+            },
+            {
+              "frames": 60,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2850,
+            "room": 209,
+            "x": 24.0,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 241
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 243
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 242
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 242
+            }
+          ]
+        },
+        {
+          "id": "lower209bomb",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2975,
+            "room": 209,
+            "x": 61.03125,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 242
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 242
+            }
+          ]
+        },
+        {
+          "id": "lower209bandfly",
+          "inputs": [
+            {
+              "frames": 50,
+              "keys": 16
+            },
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 2,
+              "keys": 16
+            },
+            {
+              "frames": 100,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 150,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3322,
+            "room": 209,
+            "x": 285.9296875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 0
+            }
+          ]
+        },
+        {
+          "id": "lower209secondapproach",
+          "inputs": [
+            {
+              "frames": 15,
+              "keys": 16
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 12,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 80,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3454,
+            "room": 209,
+            "x": 262.77734375,
+            "y": 576.68359375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 0
+            }
+          ]
+        },
+        {
+          "id": "lower209mapcollect",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 120,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3799,
+            "room": 209,
+            "x": 289.6796875,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 64,
+          "flag25_masked": 2
+        }
+      ]
+    },
+    "500": {
+      "rom_sha256": "984244ca1ecd47f8de28297dc0a84603502642056c4ebbc4da3573ca891b8525",
+      "segments": [
+        {
+          "id": "entry209upper",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 209,
+            "x": 24.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": [],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "upper209widecapture",
+          "inputs": [
+            {
+              "frames": 80,
+              "keys": 16
+            },
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 150,
+              "keys": 0
+            },
+            {
+              "frames": 120,
+              "keys": 2
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1635,
+            "room": 209,
+            "x": 138.93359375,
+            "y": 216.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "upper209snowaccepted",
+          "inputs": [
+            {
+              "frames": 90,
+              "keys": 32
+            },
+            {
+              "frames": 30,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1935,
+            "room": 210,
+            "x": 472.0,
+            "y": 376.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "snow210jumpover",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 25,
+              "keys": 32
+            },
+            {
+              "frames": 40,
+              "keys": 33
+            },
+            {
+              "frames": 30,
+              "keys": 32
+            },
+            {
+              "frames": 180,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 128
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2320,
+            "room": 210,
+            "x": 283.46875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 0
+        },
+        {
+          "id": "snow210chest",
+          "inputs": [
+            {
+              "frames": 20,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2490,
+            "room": 210,
+            "x": 246.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2
+        },
+        {
+          "id": "snow210lower209",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 17
+            },
+            {
+              "frames": 60,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2850,
+            "room": 209,
+            "x": 24.0,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 241
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 243
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 242
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 242
+            }
+          ]
+        },
+        {
+          "id": "lower209bomb",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2975,
+            "room": 209,
+            "x": 61.03125,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 242
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 242
+            }
+          ]
+        },
+        {
+          "id": "lower209bandfly",
+          "inputs": [
+            {
+              "frames": 50,
+              "keys": 16
+            },
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 2,
+              "keys": 16
+            },
+            {
+              "frames": 100,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 150,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3322,
+            "room": 209,
+            "x": 285.9296875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 0
+            }
+          ]
+        },
+        {
+          "id": "lower209secondapproach",
+          "inputs": [
+            {
+              "frames": 15,
+              "keys": 16
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 12,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 80,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3454,
+            "room": 209,
+            "x": 262.77734375,
+            "y": 576.68359375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 0,
+          "flag25_masked": 2,
+          "tiles": [
+            {
+              "x": 4,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 12,
+              "y": 17,
+              "tile": 0
+            },
+            {
+              "x": 15,
+              "y": 23,
+              "tile": 241
+            },
+            {
+              "x": 17,
+              "y": 27,
+              "tile": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "tile": 0
+            }
+          ]
+        },
+        {
+          "id": "lower209mapcollect",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 120,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 2
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 3799,
+            "room": 209,
+            "x": 289.6796875,
+            "y": 504.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "flag22_masked": 64,
+          "flag25_masked": 2
+        }
+      ]
+    }
+  },
+  "bomb_note": "Only Bomb4,17 activated. Bomb15,23 remains241 throughout. Its nearby map-floor F2 cells17,27 and18,28 clear later from propagation of the first chain, during the crossing segment. Segment label lower209secondapproach is historical and does not mean second activation.",
+  "health_sanity": {
+    "0x34": {
+      "offset": "0x351b2c",
+      "default": 2,
+      "max500": 10
+    },
+    "0x1a": {
+      "offset": "0x3518bc",
+      "default": 4,
+      "max500": 20
+    },
+    "0xb": {
+      "offset": "0x351754",
+      "default": 2,
+      "max500": 10
+    }
+  }
+}

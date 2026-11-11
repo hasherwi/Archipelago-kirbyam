@@ -1,32 +1,39 @@
 """Cutter permission is progression, not automatic equipment or starting inventory."""
 
+from collections.abc import Awaitable, Callable
+from typing import cast
+from .. import KirbyAmWorld
+from ..client import KirbyAmClient
+
 from argparse import Namespace
 from collections import Counter
 from io import BytesIO
+from pathlib import Path
+from typing import Any
 import zipfile
 
 import pytest
-from BaseClasses import CollectionState, ItemClassification, PlandoOptions
+from BaseClasses import CollectionState, ItemClassification, MultiWorld, PlandoOptions
 
 from ..enemy_ability_data import starting_copy_abilities
 from ..rom import ABILITY_GATE_MASK_INITIAL_ROM_OFFSET
 from ..traversal import SourcePolicy
-from ..traversal_data import room_traversal_graph
-from ..traversal_rules import graph_items, graph_succeeds
+from ..traversal_data import graph_items, room_traversal_graph
+from ..traversal_rules import graph_succeeds
 from .support.integration_generation import load_multidata_from_archive
 from .test_mini_traversal import make_world
 
 
 CUTTER = 3860106
-FIXED = {3860103, 3860107, 3860108}
+FIXED = {3860107}
 SEEDS = (1042, 20261107, 8675309)
 
 
 @pytest.mark.parametrize("mode", [0, 1, 2])
 @pytest.mark.parametrize("gating", [False, True])
-def test_new_starting_set_and_cutter_collection(mode, gating):
+def test_new_starting_set_and_cutter_collection(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
-    assert starting_copy_abilities(mode) == ("Beam", "Burning", "Stone")
+    assert starting_copy_abilities(mode) == ("Beam",)
     state = CollectionState(world.multiworld)
     assert not state.has("Cutter Ability", 1)
     item = world.create_item("Cutter Ability")
@@ -36,7 +43,7 @@ def test_new_starting_set_and_cutter_collection(mode, gating):
 
 
 @pytest.mark.parametrize("gating", [False, True])
-def test_cutter_source_requires_permission_and_permission_requires_source(gating):
+def test_cutter_source_requires_permission_and_permission_requires_source(gating: bool) -> None:
     from dataclasses import replace
 
     graph = room_traversal_graph("rope_143_23_14", "local")
@@ -48,7 +55,8 @@ def test_cutter_source_requires_permission_and_permission_requires_source(gating
                               items | {"Cutter Ability"}, gating, retries=False)
 
 
-def _generate(monkeypatch, tmp_path, seed, options):
+def _generate(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, seed: int,
+              options: list[dict[str, Any]]) -> tuple[MultiWorld, dict[str, Any], Path]:
     import Generate
     import Main
     import Utils
@@ -87,7 +95,7 @@ def _generate(monkeypatch, tmp_path, seed, options):
     return multiworld, load_multidata_from_archive(archive), archive
 
 
-def _gate_words(archive):
+def _gate_words(archive: Path) -> dict[int, int]:
     words = {}
     with zipfile.ZipFile(archive) as outer:
         for name in outer.namelist():
@@ -110,8 +118,10 @@ def _gate_words(archive):
     return words
 
 
-def _assert_slot_contract(multiworld, decoded, gates, player, explicit=0):
+def _assert_slot_contract(multiworld: MultiWorld, decoded: dict[str, Any], gates: dict[int, int],
+                          player: int, explicit: int = 0) -> None:
     world = multiworld.worlds[player]
+    assert isinstance(world, KirbyAmWorld)
     gating = bool(world.options.ability_gating.value)
     inventory = Counter(decoded["precollected_items"][player])
     assert all(inventory[code] == 1 for code in FIXED)
@@ -124,13 +134,21 @@ def _assert_slot_contract(multiworld, decoded, gates, player, explicit=0):
     assert ("Cutter" in slot["ability_gateable_abilities"]) == gating
     assert slot["ability_unlock_items"]["Cutter"] == "Cutter Ability"
     assert bool(gates[player] & (1 << 6)) == gating
-    assert gates[player] & ((1 << 3) | (1 << 7) | (1 << 8)) == 0
+    assert gates[player] & (1 << 7) == 0
+    assert gates[player] & ((1 << 3) | (1 << 8)) == (0x108 if gating else 0)
 
 
 @pytest.mark.parametrize("seed", SEEDS)
 @pytest.mark.parametrize("mode", [0, 1, 2])
 @pytest.mark.parametrize("gating,accessibility", [(0, "full"), (1, "full"), (1, "minimal")])
-def test_generated_seed_matrix(monkeypatch, tmp_path, seed, mode, gating, accessibility):
+def test_generated_seed_matrix(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    seed: int,
+    mode: int,
+    gating: bool,
+    accessibility: str,
+) -> None:
     variant = SEEDS.index(seed)
     options = {
         "ability_randomization_mode": mode, "ability_gating": gating, "accessibility": accessibility,
@@ -141,12 +159,33 @@ def test_generated_seed_matrix(monkeypatch, tmp_path, seed, mode, gating, access
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
+    # Beam-only starts and the sixteen Goal Game slots change fill order.
+    # Preserve exact unsafe samples as refusals rather than replacing their seeds.
+    refused_check = None
+    if gating == 1 and accessibility == "minimal":
+        if seed == 8675309:
+            refused_check = "Radish Ruins - Big Switch"
+        elif seed == 20261107 and mode == 1:
+            refused_check = "Peppermint Palace - Goal Game 2"
+    if refused_check is not None:
+        from ..check_accessibility import KirbyAmCheckAccessibilityError
+        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, seed, [options])
+        message = str(caught.value)
+        assert "Player 1" in message and refused_check in message
+        assert "unfilled=[]; unavailable even with all inventory=[]" in message
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
 
 
 @pytest.mark.parametrize("seed", SEEDS)
-def test_mixed_multiworld_and_explicit_cutter_inventory(monkeypatch, tmp_path, seed):
+def test_mixed_multiworld_and_explicit_cutter_inventory(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    seed: int,
+) -> None:
     options = [
         {"ability_randomization_mode": 0, "ability_gating": 1, "accessibility": "full"},
         {"ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
@@ -154,6 +193,8 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(monkeypatch, tmp_path, s
         {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
+    # The added Goal Game slots make seed 1042 pass the unchanged all-check
+    # guard. Keep that exact seed and validate the accepted archive normally.
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
     gates = _gate_words(archive)
     for player in multiworld.player_ids:
@@ -161,7 +202,11 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(monkeypatch, tmp_path, s
 
 
 @pytest.mark.parametrize("gating", [0, 1])
-def test_explicit_cutter_start_keeps_requested_count(monkeypatch, tmp_path, gating):
+def test_explicit_cutter_start_keeps_requested_count(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    gating: bool,
+) -> None:
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 1042, [{
         "ability_gating": gating, "start_inventory": {"Cutter Ability": 3},
     }])
@@ -170,26 +215,29 @@ def test_explicit_cutter_start_keeps_requested_count(monkeypatch, tmp_path, gati
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("legacy", [False, True])
-async def test_client_cutter_gate_respects_seed_policy_and_received_history(mock_bizhawk_context, legacy):
+async def test_client_cutter_gate_respects_seed_policy_and_received_history(
+    mock_bizhawk_context: Any,
+    legacy: bool,
+) -> None:
     from unittest.mock import patch
     from NetUtils import NetworkItem
     from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
     from .test_start_inventory_protocol import validated_client
 
     ctx = mock_bizhawk_context
-    client = await validated_client(ctx)
+    client = await cast(Callable[[Any], Awaitable[KirbyAmClient]], validated_client)(ctx)
     ctx.slot_data = {
         "ability_gating": True,
         "ability_gateable_abilities": [name for name in GATEABLE_ENEMY_COPY_ABILITIES
                                        if not legacy or name != "Cutter"],
         "ability_unlock_items": {"Cutter": "Cutter Ability"},
     }
-    memory = {}
+    memory: dict[int, bytes] = {}
 
-    async def read(_ctx, requests):
+    async def read(_ctx: Any, requests: list[tuple[int, int, str]]) -> list[bytes]:
         return [memory.get(address, bytes(size)) for address, size, _domain in requests]
 
-    async def write(_ctx, requests):
+    async def write(_ctx: Any, requests: list[tuple[int, bytes, str]]) -> None:
         for address, value, _domain in requests:
             memory[address] = value
 
@@ -202,8 +250,9 @@ async def test_client_cutter_gate_respects_seed_policy_and_received_history(mock
                 client.on_package(ctx, "Connected", {})
                 client.on_package(ctx, "ReceivedItems", {"index": 0, "items": received})
                 await client._sync_enemy_copy_ability_runtime_config(ctx)
-                gate = int.from_bytes(memory[client._transport_addr("ability_gate_mask_runtime")], "little")
-                unlocked = int.from_bytes(memory[client._transport_addr("ability_unlock_mask_runtime")], "little")
+                gate = int.from_bytes(memory[cast(int, client._transport_addr("ability_gate_mask_runtime"))], "little")
+                unlocked = int.from_bytes(
+                    memory[cast(int, client._transport_addr("ability_unlock_mask_runtime"))], "little")
                 assert bool(gate & (1 << 6)) == (not legacy)
                 assert bool(unlocked & (1 << 6)) == bool(received)
                 from ..data import data

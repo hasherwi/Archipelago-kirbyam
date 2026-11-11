@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
 import platform
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -24,6 +26,13 @@ FUZZER_META_PATH = REPO_ROOT / "tools" / "kirbyam_generation_fuzz_meta.yaml"
 OUTPUT_DIR = REPO_ROOT / "fuzz_output"
 REPORT_PATH = OUTPUT_DIR / "report.json"
 METADATA_PATH = OUTPUT_DIR / "metadata.json"
+CLASSIFICATION_FILENAME = "classified_outcomes.json"
+CHECK_ERROR_TYPE = "worlds.kirbyam.check_accessibility.KirbyAmCheckAccessibilityError"
+CHECK_ERROR_PREFIX = (
+    "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, "
+    "including with minimal accessibility. Generation stopped before the normal output/archive stage. "
+    "Try full accessibility or another seed; source/route restrictions may still require review."
+)
 
 
 def positive_int(value: str) -> int:
@@ -55,6 +64,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                         help="Replay YAML files from a directory instead of generating random KirbyAM YAMLs.")
     parser.add_argument("--allow-ignored", action="store_true",
                         help="Do not fail when the fuzzer reports ignored OptionError cases.")
+    parser.add_argument("--classify-minimal-rejections", action="store_true",
+                        help="Separately classify evidenced minimal placed-progression safety rejections. "
+                             "Requires at least 50%% successful generations; never counts rejections as success.")
     return parser.parse_args(argv)
 
 
@@ -109,11 +121,108 @@ def load_report(path: Path | None = None) -> dict[str, Any]:
     return report
 
 
+def _reported_failures(report: dict[str, Any]) -> list[tuple[str, str, int]]:
+    """Reject ambiguous report mappings rather than subtracting guessed counts."""
+    errors = report.get("errors")
+    if not isinstance(errors, dict):
+        raise ValueError("missing errors object")
+    result = []
+    seen: set[int] = set()
+    for game, messages in errors.items():
+        if not isinstance(game, str) or not isinstance(messages, dict):
+            raise ValueError("invalid game error mapping")
+        for message, cases in messages.items():
+            if not isinstance(message, str) or not isinstance(cases, list) or not cases:
+                raise ValueError("invalid error case mapping")
+            for case in cases:
+                if type(case) is not int or case < 0 or case in seen:
+                    raise ValueError("invalid or duplicate error case ID")
+                seen.add(case)
+                result.append((game, message, case))
+    stats = report.get("stats", {})
+    if len(result) != stats.get("failure", 0) + stats.get("timeout", 0):
+        raise ValueError("error case count does not match failure + timeout")
+    return sorted(result, key=lambda row: row[2])
+
+
+def _minimal_rejection_evidence(message: str, log: str) -> dict[str, Any]:
+    """Accept only a terminal, sole guard exception with single-player evidence.
+
+    The pinned fuzzer erases exception types in report.json. Its untouched log
+    supplies the exact type/trace and actual rolled options, not guessed YAML
+    defaults. A changed format fails closed and needs deliberate review.
+    """
+    diagnostic = re.fullmatch(
+        re.escape(CHECK_ERROR_PREFIX) + r"\nPlayer 1 \([^\n]+\): unfilled=\[\]; "
+        r"unavailable even with all inventory=\[\]; unreachable from placed progression=(\[[^\n]+\])",
+        message,
+    )
+    if diagnostic is None:
+        raise ValueError("not a single-player, filled, all-inventory-feasible safety rejection")
+    checks = ast.literal_eval(diagnostic[1])
+    if not isinstance(checks, list) or not checks or not all(isinstance(check, str) and check for check in checks):
+        raise ValueError("missing stranded check names")
+    mixed_markers = ("ExceptionGroup", "During handling of the above exception",
+                     "The above exception was the direct cause")
+    if log.count("Traceback (most recent call last):") != 1 or any(marker in log for marker in mixed_markers):
+        raise ValueError("missing, mixed, or chained exception traceback")
+    if not log.rstrip().endswith(CHECK_ERROR_TYPE + ": " + message):
+        raise ValueError("terminal exception does not match report and guard type")
+    if "in stage_pre_output" not in log or "in validate_all_checks" not in log:
+        raise ValueError("missing final all-check validation stack")
+    rolled = re.findall(r"^P(\d+) Rolled options \([^\n]+\): (.+)$", log, re.MULTILINE)
+    if len(rolled) != 1 or rolled[0][0] != "1":
+        raise ValueError("not a single-player rolled-options record")
+    options = json.loads(rolled[0][1])
+    if (not isinstance(options, dict) or options.get("game") != "Kirby & The Amazing Mirror"
+            or type(options.get("accessibility")) is not int or options["accessibility"] != 2):
+        raise ValueError("actual selected accessibility is not Kirby minimal")
+    seeds = re.findall(r"^Generating for 1 player, \d+ Seed (\d+) with plando: .+$", log, re.MULTILINE)
+    if len(seeds) != 1:
+        raise ValueError("missing single-player generation seed")
+    return {"seed": int(seeds[0]), "rolled_options": options, "stranded_checks": checks}
+
+
+def classify_minimal_rejections(report: dict[str, Any], output_dir: Path) -> dict[str, Any]:
+    """Keep raw failures unchanged and add an auditable, narrowly scoped outcome."""
+    result: dict[str, Any] = {
+        "schema_version": 1, "policy": "single_player_minimal_placed_progression_only",
+        "raw_stats": report.get("stats"), "unsafe_rejected": [], "unclassified": [], "errors": [],
+    }
+    try:
+        cases = _reported_failures(report)
+    except (ValueError, TypeError, AttributeError) as exc:
+        result["errors"].append(str(exc))
+        return result
+    for game, message, case in cases:
+        try:
+            if game != "kirbyam":
+                raise ValueError("not a KirbyAM failure")
+            case_dir = output_dir / "error" / "kirbyam" / str(case)
+            log_path = case_dir / f"{case}.log"
+            log = log_path.read_text(encoding="utf-8-sig")
+            evidence = _minimal_rejection_evidence(message, log)
+            yamls = sorted(case_dir.glob("*.yaml"))
+            if len(yamls) != 1 or not yamls[0].read_bytes():
+                raise ValueError("missing single-player YAML reproducer")
+            result["unsafe_rejected"].append({
+                "case": case, **evidence,
+                "log": log_path.relative_to(output_dir).as_posix(),
+                "log_sha256": hashlib.sha256(log_path.read_bytes()).hexdigest(),
+                "yaml": yamls[0].relative_to(output_dir).as_posix(),
+                "yaml_sha256": hashlib.sha256(yamls[0].read_bytes()).hexdigest(),
+            })
+        except (OSError, ValueError, SyntaxError, TypeError) as exc:
+            result["unclassified"].append({"case": case, "reason": str(exc)})
+    return result
+
+
 def validate_report(
     report: dict[str, Any],
     *,
     expected_runs: int,
     allow_ignored: bool,
+    unsafe_rejected: int = 0,
 ) -> list[str]:
     stats = report.get("stats")
     if not isinstance(stats, dict):
@@ -133,8 +242,13 @@ def validate_report(
         messages.append(f"expected {expected_runs} completed runs, report contains {total}")
     if stats["success"] + failure + timeouts + ignored != total:
         messages.append("success + failure + timeout + ignored does not equal total")
-    if failure:
-        messages.append(f"{failure} generation failure(s)")
+    if type(unsafe_rejected) is not int or not 0 <= unsafe_rejected <= failure:
+        messages.append("invalid unsafe rejection count")
+        unsafe_rejected = 0
+    if failure > unsafe_rejected:
+        messages.append(f"{failure - unsafe_rejected} generation failure(s)")
+    if unsafe_rejected and (not stats["success"] or stats["success"] * 2 < total):
+        messages.append("fewer than 50% of attempts succeeded; safety rejections are not playable generations")
     if timeouts:
         messages.append(f"{timeouts} generation timeout(s)")
     if ignored and not allow_ignored:
@@ -178,6 +292,7 @@ def write_metadata(args: argparse.Namespace, command: Sequence[str], fuzzer_retu
             "skip_output": not args.with_output,
             "sample_from": str(args.sample_from.resolve()) if args.sample_from else None,
             "allow_ignored": args.allow_ignored,
+            "classify_minimal_rejections": args.classify_minimal_rejections,
         },
         "command": list(command),
         "fuzzer_return_code": fuzzer_return_code,
@@ -219,27 +334,41 @@ def run(argv: Sequence[str] | None = None) -> int:
         print(exc, file=sys.stderr)
         return completed.returncode if completed.returncode else 2
 
+    return report_result(args, report, completed.returncode)
+
+
+def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: int) -> int:
+    unsafe_rejected = 0
+    classification_errors: list[str] = []
+    if args.classify_minimal_rejections:
+        outcomes = classify_minimal_rejections(report, OUTPUT_DIR)
+        unsafe_rejected = len(outcomes["unsafe_rejected"])
+        classification_errors = outcomes["errors"]
+        (OUTPUT_DIR / CLASSIFICATION_FILENAME).write_text(json.dumps(outcomes, indent=2) + "\n", encoding="utf-8")
+
     validation_messages = validate_report(
         report,
         expected_runs=args.runs,
         allow_ignored=args.allow_ignored,
-    )
+        unsafe_rejected=unsafe_rejected,
+    ) + classification_errors
     stats = report.get("stats")
     if not isinstance(stats, dict):
         stats = {}
     print(
         "Result: "
         f"{stats.get('success', '?')} succeeded, "
-        f"{stats.get('failure', '?')} failed, "
+        f"{stats.get('failure', '?')} raw failures ({unsafe_rejected} classified unsafe rejections), "
         f"{stats.get('timeout', '?')} timed out, "
         f"{stats.get('ignored', '?')} ignored"
     )
     for message in validation_messages:
         print(f"ERROR: {message}", file=sys.stderr)
 
-    if completed.returncode not in (0, 1):
-        return completed.returncode
-    if validation_messages or completed.returncode:
+    if returncode not in (0, 1):
+        return returncode
+    explained_failure_exit = unsafe_rejected > 0 and unsafe_rejected == stats.get("failure")
+    if validation_messages or (returncode and not explained_failure_exit):
         return 1
     return 0
 
