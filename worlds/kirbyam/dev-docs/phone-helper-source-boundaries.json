@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "source_only": true,
+  "production_commit": "632145452b980712d81251c324ee1d9362d13d5e",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "base_patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "helper_room146": {
+    "normal_request": "Opcode 3 stores 0xFF in AI policy byte +0x3E; it does not assign equipped or pending ability.",
+    "not_an_equip_barrier": true,
+    "program": "ROOM slot 15 branch, Normal policy, navigation, eligible-update wait, orientation, timed B, loop; navigation and action do not wait for successful normalization or inhale.",
+    "same_room_warning": "A CPU that dispatches with no human in its room can suspend that room script. A later human arrival does not reset it; that CPU actual room transition resets its script state.",
+    "ufo": "Runtime ID 14 can ordinarily answer and retain UFO into 146. Ordinary Select disposal is available in eligible movement states, not every animation.",
+    "mini": "Runtime ID 23 cannot ordinarily answer R and clears on standard room transition; no incoming Mini counterexample is established.",
+    "sleep": "The active Sleep chain processes neither R nor Select and naturally wakes as Normal; no asleep incoming counterexample is established.",
+    "autonomous_table": "The stock off-room table contains UFO but not Mini or Sleep. Ordinary AP start-copy and final-commit ownership hooks still apply.",
+    "timers": "Counters advance on eligible AI updates, not guaranteed successful inhale or wall-clock frames. TimedB can finish without useful collective pull.",
+    "source_anchors": [
+      "src/code_0800ECAC.c:13-111",
+      "src/code_0800ECAC_2.c:2148-2195,2920-3088,4426-4601,5227-5338",
+      "src/kirby.c:6920-7075,12684-12943,13648-13725,18842-18927,21718-22235",
+      "asm/star_stone_block.s:134-938"
+    ],
+    "byte_audit": {
+      "compared_ranges": 14,
+      "room_programs_identical": 4,
+      "generic_select_consumers_covered": 27,
+      "unclassified_changed_bytes": 0,
+      "differences": "Expected AP ability, explicit-transition and Phone hooks only"
+    }
+  },
+  "mustard322_large_block": {
+    "template": "0x088C4E94",
+    "type": "0x7E",
+    "initial_position": [
+      864,
+      32
+    ],
+    "inhale_threshold": 4,
+    "quake_condition": "Fresh same-room quake edge with zero inhale contributions and no relevant obstruction",
+    "quake_direction": "left",
+    "nominal_step_pixels": -2,
+    "trigger": "floor(x/16)<=51, equivalent to x<832; x832 is insufficient",
+    "nominal_unobstructed_pulses_from864": 17,
+    "nominal_final_x": 830,
+    "clears_room_slot": 1,
+    "state_bank_note": "The native bank is selected through block.kirby3 and must be observed in a future runtime test.",
+    "right_pocket": [
+      {
+        "template": "0x088C4F48",
+        "kind": "native 1UP",
+        "position": [
+          1048,
+          72
+        ]
+      },
+      {
+        "template": "0x088C4F6C",
+        "kind": "native 1UP",
+        "position": [
+          984,
+          72
+        ]
+      },
+      {
+        "template": "0x088C5044",
+        "kind": "Pengy",
+        "position": [
+          936,
+          112
+        ],
+        "native_ability": "Ice"
+      }
+    ],
+    "current_ap_target": {
+      "small_chest_id": 3960574,
+      "small_chest_source": "0x008C4F24",
+      "small_chest_position": [
+        752,
+        88
+      ],
+      "room_visit_id": 3961114,
+      "room_visit_bit": 136,
+      "ordinary_exit_destination": 315,
+      "right_pocket_ap_check_exit_or_reviewed_source_witness": false
+    },
+    "complete_object_count": 15,
+    "secondary_list": false,
+    "spawner_cpu_trigger_cannon_warp_or_extra_door": false,
+    "bonus_behavior": "The two 1UPs use BonusAddLives, not the chest/AP check path. Pengy and bonus callbacks do not conceal an exit.",
+    "cpu_programs": "All four roam and terminate; no dedicated normalization or inhale.",
+    "candidate_only": "Genuine Rocky-to-Stone acquisition followed by rearmed landing quakes in the entry chamber; no native execution or safe clearance is claimed.",
+    "recommendation": "No native trials or Phone progression condition solely for this current non-AP pocket. A future gated Pengy source witness requires separate access proof.",
+    "source_anchors": [
+      "asm/large_star_stone_block.s:10-625",
+      "asm/star_stone_block.s:134-937",
+      "src/bonus.c:143-170,269-281",
+      "worlds/kirbyam/data/regions/rooms.json:5370-5382",
+      "worlds/kirbyam/client.py:4427-4487"
+    ],
+    "byte_audit": {
+      "prior_ranges_unchanged": 70,
+      "prior_expected_cpu_hook_range": 1,
+      "expected_cpu_changed_bytes": 24,
+      "additional_ranges_unchanged": 18,
+      "explicit_transition_bl_replacements_verified": 8
+    }
+  },
+  "limits": [
+    "Source conditions are not new emulator successes or universal helper guarantees.",
+    "The separate bounded UFO acquisition attempt did not reach a UFO response or normalization test.",
+    "No production source, patch, traversal binding or activation changes."
+  ],
+  "source_artifact_hashes": {
+    "helper_helper-normalization-audit_md": "95db87fbcb2810078489b225ad4f11e3c41588455d414048cc4875c79b6dc485",
+    "helper_audit_bytes_py": "e2be9dceb8d569d158b4b8025fa30977de52b53c18ea387f4af15015a10abc9f",
+    "helper_byte-audit_json": "552dd19f219dcdb66fb36cccb9e6c37186d0bee70b4b4f6ccf1356d0887b4030",
+    "mustard322_SOURCE-AUDIT_md": "4c44c7d01b673f8df8feea7f9d290d82a461cfb10bab344708dda8bd7a35fa88",
+    "mustard322_geometry_json": "3c8a06fe2168fc40afbb34495eef2ccc30681c4390d52f4880d7dba28229202c",
+    "mustard322_ap-target-audit_json": "11ddc8f03fba74aeb0c035facf9c9001a100729cff9af34e7b94b3f8262bf117",
+    "mustard322_patch-comparison_json": "aab459977e720ca90de13c7f709f305cc606d6148eab348f147e630d8112cf03",
+    "mustard322_audit_py": "b769feaf9f5bc2f8036ca270547d8c4c5004804fd57f4c3101a0daf3f183773a"
+  }
+}

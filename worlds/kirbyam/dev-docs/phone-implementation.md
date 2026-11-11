@@ -125,6 +125,14 @@ This autonomous path does not select an enemy or statue source. The patched abil
 
 Native source supports natural Select disposal and clears UFO when that CPU actually transitions into Central Circle. Neither mechanic establishes a finite, battery-bounded recovery procedure here. Returning only the human to Central Circle is not proof that a CPU already there has transitioned. Cold reset initializes Normal, but the subsequent approach and call must still qualify the realized helper composition. No general Phone traversal is enabled from these observations.
 
+### Normal requests and a bounded UFO acquisition attempt
+
+The [source-boundary audit](phone-helper-source-boundaries.json) distinguishes a room-146 Normal request from an equipment barrier. Its opcode sets AI policy, while navigation and timed B proceed without checking successful disposal or inhale. The timers count eligible AI updates. A CPU already in the room may also have suspended that room script while no human was present; a later human arrival does not reset it. Its own actual room transition does. Consequently, same-room presence alone does not establish the required reset, Normal policy or useful pull.
+
+UFO can ordinarily answer and survive entry into 146, then accept Select in eligible movement states. Mini cannot ordinarily answer and clears on standard room transition. The active Sleep chain delays answering until natural wake/Normal. Neither Mini nor Sleep is an established restrictive arrival counterexample, and neither is in the stock autonomous ability table. Existing normalized-but-unsuccessful trials already show that disposal alone does not guarantee a clear path or sufficient unobstructed inhale.
+
+A separately [bounded native observation](phone-ufo-helper-window-evidence.json) tried to obtain a natural UFO responder. Fresh production starting inventory actually owns UFO, with bit 14 present in both the gate and unlock readbacks. The explicitly experimental Phone-enabled ROM/slot pair receives one synthetic Phone receipt appended to the genuine generated starting inventory. Eleven ordinary configuration/Phone-queue writes precede the real 145 → 146 entry. The human then waits for exactly 30,000 neutral-input frames. CPUs naturally equip Beam and Burning, wander and change health, but no sampled pending or equipped UFO occurs. No R call, normalization, pull or crossing is attempted, and the attempt is not retried. This is a failed finite acquisition window, not evidence that UFO acquisition is impossible or that UFO normalization failed. Once-per-frame reads do not observe uncommitted intra-frame candidates.
+
 ## Independent Mustard 11 solo witnesses
 
 The [sanitized solo ledger](phone-mustard-solo-evidence.json) records two separate targets reached without Phone: the small chest in native 322 and the ordinary exit to native 315. Both use the actual doorway from native 316. Startup is deliberately relocated to 316 with a blank native file, synthetic identity and experimental Phone enabled but unowned; the three CPU Kirbys remain in Central Circle. Retail geometry and source assignments are unchanged. These are bounded room-entry witnesses, not a full progression-safe Central Circle approach.
@@ -170,6 +178,8 @@ The [Phone-relevant inventory](phone-static-object-inventory.json) scans all 287
 - `0x7D`: native 146 / Moonlight 18, `(160,128)`, ROM offset `0x8BBB90`.
 - `0x88`: native 315 / Mustard 12, `(160,32)`, ROM offset `0x8C4628`.
 - `0x7E`: native 322 / Mustard 11, `(864,32)`, ROM offset `0x8C4E94`. This is an additional review target beyond the original prose audit.
+
+Source review of the native-322 block finds a right-hand pocket containing two ordinary 1UPs and Pengy, but no current AP check, exit or reviewed source witness there. The small chest, room-visit check and ordinary exit are on the main side. Its four CPU programs only roam. Unlike 315, its fresh quake steps are leftward, and the source trigger requires x < 832: nominally seventeen unobstructed -2px pulses from x864, not sixteen. This is source analysis, not a completed Stone route. No Phone progression condition is added for that pocket; a future gated Pengy source witness would require its own access proof.
 
 There is no static `0x89` instance. All 37 static ObjectSpawner low-byte targets were checked and do not create these blocks or small switches. Arbitrary runtime constructors remain outside this census. Counts and source eligibility do not certify helper reliability, a mandatory Phone dependency or an AP route. The census used native source commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`; the original audit's separately pinned source references remain historical provenance.
 
