@@ -32,6 +32,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Keep activation disabled while helper ability reliability and the full approach remain open (PR #1086).
 - Record independent Normal/no-Phone Mustard 11 chest and ordinary-exit witnesses, including native HP-1 checks and explicit failed replay limits. Prepare a read-only native BizHawk bus-probe harness without claiming completed emulator acceptance (PR #1086).
 - Add disabled-by-default Phone ownership, authenticated three-file persistence and a gate for new local single-player R calls, with a rebuilt ROM patch. Preserve tutorial calls, L return, existing Copy Room ownership and native eligibility (PR #1086).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
