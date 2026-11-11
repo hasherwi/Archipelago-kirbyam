@@ -4400,7 +4400,8 @@
               "Missile",
               "Parasol",
               "Spark",
-              "Ice"
+              "Ice",
+              "Sword"
             ]
           },
           "graphs": {
@@ -4863,6 +4864,73 @@
               "requires_guaranteed_source": {
                 "source_key": "WADDLE_DOO",
                 "ability": "Ice"
+              }
+            },
+            "hub2_sword_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-sword-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting Sword 18. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_sword_first_slash",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Complete Sword-specific corridor clearing and no-damage carry to dry pose (185.9961,120.9961), then one ordinary first slash (animation52/header5), not repeated slash or landing wave. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Sword"
               }
             }
           }

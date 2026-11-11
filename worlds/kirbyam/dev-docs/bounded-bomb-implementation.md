@@ -200,3 +200,15 @@ once their actual target locations exist. It preserves each existing source,
 gating and enabled-location condition, requested multiplicity and unrelated
 item classifications. This is host generation behavior, not new native route
 acceptance.
+
+## Cabbage Sword validation
+
+`test_cabbage_sword.py` checks the separate ordinary-first-slash graph, finite
+original acquisition, raw singleton source guarantee, source removal/circularity,
+permission and exact target ownership. Hash contracts preserve all seven earlier
+graphs and the entire room catalog after removing only this new alternative.
+Actual-world fixtures cover disabled chests, gating, keys, statues and RoomSanity.
+Full seed4 generations cover 1HP, gating/keys, enemy100/500 and duplicate starting
+Sword permissions without adding item-promotion or reconciliation behavior.
+Native ten-run acceptance is separate from host tests and remains bounded to
+its documented source, carry, pose and endpoint settings.

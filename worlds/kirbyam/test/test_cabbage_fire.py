@@ -26,7 +26,7 @@ CHEST = 'MINOR_CHEST_SPRAY_PAINT_12'
 EVIDENCE = Path(__file__).parents[1] / 'dev-docs/cabbage-fire-acceptance.json'
 POLICIES = [
     (0, None, 0, 'Beam'), (1, ['Beam'], 0, 'Beam'), (1, ['Smash'], 0, 'Smash'),
-    (1, ['Fire'], 0, 'Fire'), (1, ['Spark'], 0, 'Spark'), (1, ['Ice'], 0, 'Ice'),
+    (1, ['Fire'], 0, 'Fire'), (1, ['Spark'], 0, 'Spark'), (1, ['Ice'], 0, 'Ice'), (1, ['Sword'], 0, 'Sword'),
     (2, ['Fire'], 0, 'Fire'), (2, ['Fire', 'Smash'], 0, None),
     (2, ['Fire', 'Ice'], 0, None), (2, ['Fire'], 50, None), (2, ['Fire'], 100, None),
     (2, None, 0, None),
@@ -46,7 +46,8 @@ def test_independent_beam_smash_fire_or_policy(mode, pool, weight, ability, stat
     if ability:
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
-        assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice')]
+        assert results == [ability == name for name in
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword')]
     # Carrot now has its own reviewed Fire graph, not a reuse of the517 effect.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Fire':
@@ -177,7 +178,7 @@ def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert chest.access_rule(state) is (ability is None)
-    for name in ('Beam', 'Smash', 'Fire', 'Spark', 'Ice'):
+    for name in ('Beam', 'Smash', 'Fire', 'Spark', 'Ice', 'Sword'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
     assert chest.access_rule(state) is (ability is None)
     state.can_reach_region = lambda name, player: name == UPSTREAM

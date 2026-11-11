@@ -5,7 +5,7 @@ implemented. The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
-  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol for the Cabbage Chocolate
+  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol/Spark/Ice/Sword for the Cabbage Chocolate
   chest, and Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
@@ -498,3 +498,19 @@ precollected-item reconciliation; inventory still does not equip Kirby. Mixed an
 Normal-weight pools retain prior partial-policy behavior, and no unrelated Wheel
 bypass is added. See `cabbage-spark-source-witness.md`, `cabbage-ice-source-witness.md`
 and their compact acceptance manifests for frozen provenance and bounded scope.
+
+## Cabbage Chocolate chest: finite Sword first slash
+
+`hub2_sword_entry` adds only raw guaranteed original Doo→Sword to the same
+Chocolate row. A separate room517 capability records ordinary first slash,
+not room719 repeated slash or a global Sword range. Full-pool seed4 starts
+Normal, enters591→517, acquires the finite source, clears its own corridor
+and carries Sword without damage to the dry lower pose. The actual attached
+scanner opens target3339; linked cells finish3369 and physical chest4252.
+Four full endpoints, four single-tap omissions and two separate gating checks
+are independently reviewed in `cabbage-sword-source-witness.md` and the compact
+acceptance JSON. Non-source enemies are avoided, not combat dependencies.
+All seven earlier graphs remain unchanged; inventory permission still cannot
+replace source acquisition or independent Hub2 access. Sword already has
+progression classification, so no item factory or lifecycle change is needed.
+No exit, RoomSanity, other target, starting removal or wider arrival is added.

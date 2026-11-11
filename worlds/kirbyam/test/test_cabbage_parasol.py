@@ -26,7 +26,7 @@ EVIDENCE = Path(__file__).parents[1] / 'dev-docs/cabbage-parasol-acceptance.json
 POLICIES = [
     (0, None, 0, 'Beam'), (1, ['Beam'], 0, 'Beam'), (1, ['Smash'], 0, 'Smash'),
     (1, ['Missile'], 0, 'Missile'), (1, ['Parasol'], 0, 'Parasol'), (1, ['Fire'], 0, 'Fire'),
-    (1, ['Spark'], 0, 'Spark'), (1, ['Ice'], 0, 'Ice'),
+    (1, ['Spark'], 0, 'Spark'), (1, ['Ice'], 0, 'Ice'), (1, ['Sword'], 0, 'Sword'),
     (2, ['Parasol'], 0, 'Parasol'), (2, ['Parasol', 'Smash'], 0, None),
     (2, ['Parasol', 'Fire'], 0, None), (2, ['Parasol', 'Missile'], 0, None), (2, ['Parasol', 'Ice'], 0, None),
     (2, ['Parasol'], 50, None), (2, ['Parasol'], 100, None),
@@ -40,14 +40,15 @@ def cabbage_row():
 
 @pytest.mark.parametrize('mode,pool,weight,ability', POLICIES)
 @pytest.mark.parametrize('statues', [False, True])
-def test_independent_seven_way_or_policy(mode, pool, weight, ability, statues):
+def test_independent_eight_way_or_policy(mode, pool, weight, ability, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = cabbage_row()
     assert rules.target_applies(row, resolver) is (ability is not None)
     if ability:
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
-        assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice')]
+        assert results == [ability == name for name in
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword')]
     # The same enemy key does not widen Carrot's independently reviewed alternatives.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Parasol':
@@ -182,7 +183,7 @@ def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert chest.access_rule(state) is (ability is None)
-    for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice'):
+    for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
     assert chest.access_rule(state) is (ability is None)
     state.can_reach_region = lambda name, player: name == UPSTREAM
