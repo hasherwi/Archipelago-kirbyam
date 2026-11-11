@@ -1,0 +1,6778 @@
+{
+  "schema_version": 1,
+  "status": "Qualified native three-file persistence and menu/R/L controls; production Phone remains disabled",
+  "ai_assisted": true,
+  "date": "2026-11-11",
+  "production_base_commit": "d0f93b9f13c36544813b28edb5ee4adb8c5da663",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+  "foreign_identity_rom_sha256": "2f1e332d4a2e13c1823e0a049770b2b9a9197efb9d96aabeff8461e491a55967",
+  "canonical_final_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+  "scope": [
+    "Isolated synthetic native battery files only. Ordinary title/file-selection controls choose native indices 0, 1 and 2 (visible files 1, 2 and 3); no selected/loaded-file memory injection.",
+    "Qualified preboot startup is native 316 with three CPUs in 801, unchanged retail geometry/source assignments, synthetic identity, experimental Phone enabled, Area Keys ON, ability gating OFF and health minimum 6/maximum 10.",
+    "Only production validated ROM/health pairing, complete-history handling and Phone/Copy ownership synchronizers perform grants. No live AP server or full game watcher is involved.",
+    "All gameplay observations are checkpoints, not per-frame traces. The player is Normal with HP 6. No mid-run state loads or direct writes to pose, equipment, battery or Phone/Copy ownership fields are used.",
+    "The foreign ROM changes only the 16 synthetic identity bytes. It loads a separate copy of the canonical battery; the canonical input remains unchanged.",
+    "The separately labeled Area Key arrival control uses the existing production runtime configurator with synthetic precollection bit 16. It is separate from the ten guarded ownership-queue writes in the grant matrix."
+  ],
+  "findings": [
+    "File 0 grants Phone then Copy, producing ownership bits 2 then 3. File 1 grants Copy then Phone, producing bits 1 then 3.",
+    "File 2 remains unowned before its own grant, then receives Phone only (bits 2). The canonical final battery has ownership bits 3, 3 and 2.",
+    "All six redundant WORLD checksums validate in every accepted output, and both copies agree on identity and ownership.",
+    "Initial blank-save boot initializes all three native WORLD ranges. Subsequent matrix transitions change only the selected file range.",
+    "Three offline cold loads independently retain the expected bits 3, 3 and 2, perform no client writes and leave the entire 32768-byte battery identical. They restart this fixture in 316; no retail tutorial or Central Circle reset claim is made.",
+    "A foreign-identity load clears both ownership bits in selected file 1 only. Files 0 and 2 remain byte-for-byte unchanged and no client writes occur.",
+    "With complete synthetic Phone/Copy histories, both production ownership synchronizers reject three menu attempts: file selector, file 0 mode menu and file 2 mode menu after Back/navigation. Context remains inactive; no queue write or save change occurs.",
+    "In the unowned file 2 R control, a 60-frame hold preserves battery 3/caller 255. In owned files 0, 1 and 2, the same hold consumes one battery and enters caller 0. L then returns each case to 801 with retained ownership and subsequent movement.",
+    "A matched same-ROM/save/input file-2 control changes only production Area Key configuration from zero to Mustard bit 16: all helpers arrive in 316 by the 600-frame checkpoint only in the keyed run."
+  ],
+  "limits": [
+    "The original four no-key R controls certify initiation/battery/return only. The separate matched Area Key control below isolates the missing key in file 2 and records arrival, without certifying a helper target, route, all three files or arbitrary state.",
+    "No arbitrary health, copy ability, source assignment, RoomSanity, enemy timing, multiplayer, full watcher or native BizHawk Lua guarantee follows.",
+    "Menu WORLD previews are not gameplay ownership evidence. Native selected, active and loaded IDs are compared only after actual gameplay starts.",
+    "One preliminary harness used the Copy serial field as its slot assertion and stopped before any writes; that failed attempt is excluded. Successful cases require complete settled/control checkpoints, not merely a runtime file written by cleanup."
+  ],
+  "save_layout": {
+    "world_start_offset": 24,
+    "world_file_size": 1576,
+    "redundant_copy_size": 788,
+    "checksum_header_size": 8,
+    "payload_size": 780,
+    "identity_payload_offset": 120,
+    "ownership_payload_offset": 136,
+    "ownership_tag": "0x43500000",
+    "copy_bit": 1,
+    "phone_bit": 2,
+    "checksum": "sum of 390 little-endian 16-bit words modulo 65536; header is sum, sum XOR 65535, negative sum modulo 65536, zero"
+  },
+  "source_references": [
+    "src/code_08138D64.c:640\u2013655 initializes the cursor from clamped gSaveID and previews all three WORLD saves.",
+    "src/code_08138D64.c:2158\u20132194 confirms file selection and wraps Up/Down indices 0\u20132; 4975\u20134987 reloads the selected WORLD record before gameplay.",
+    "src/save.c:12\u201315 includes gSaveID in FILE_INFO; 220\u2013232 writes both selected WORLD copies without updating FILE_INFO.",
+    "kirby_ap_payload/copy_room.h and copy_room.c define active/loaded slots, live-task/epoch fences and authenticated shared ownership."
+  ],
+  "runs": [
+    {
+      "name": "matrix-file0-phone-copy",
+      "native_slot": 0,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "e2c9c87f5b0ad1bcc84a7a12d30556bbf5d77d8ea2afa29ba4b0583d8664acdf",
+      "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+      "end_save_sha256": "f80cd919e64c6ebbdc2039f8dfdfb454a601207ee21c43e7a86826ec3ad9c303",
+      "save_size": 32768,
+      "changed_world_slots": [
+        0,
+        1,
+        2
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": false,
+          "ownership_bits": 0,
+          "identity_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "world_range_sha256": "3fdd0dd6bfbde4cd8242ba1e235cc9c9043d0d119c5f33741179060e16345ec3",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": false,
+          "ownership_bits": 0,
+          "identity_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "world_range_sha256": "3fdd0dd6bfbde4cd8242ba1e235cc9c9043d0d119c5f33741179060e16345ec3",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 364,
+          "keys": 0
+        },
+        {
+          "start": 2492,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [
+        {
+          "frame": 2248,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2248,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2370,
+          "address": "0x203b164",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-ownership-queue"
+        },
+        {
+          "frame": 2370,
+          "address": "0x203b160",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-ownership-queue"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2248,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "after-phone-grant",
+          "frame": 2250,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "after-copy-grant",
+          "frame": 2372,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2492,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2522,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matrix-file1-copy-phone",
+      "native_slot": 1,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "a9fe35bd4fa17485e987be545f734ba9a4f4754a4398d4217e3484a21da84573",
+      "initial_save_sha256": "f80cd919e64c6ebbdc2039f8dfdfb454a601207ee21c43e7a86826ec3ad9c303",
+      "end_save_sha256": "f596feb572914078c1840d706043e9d0c0e9a6a799f836efc92592d9cfc2140f",
+      "save_size": 32768,
+      "changed_world_slots": [
+        1
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": false,
+          "ownership_bits": 0,
+          "identity_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "world_range_sha256": "3fdd0dd6bfbde4cd8242ba1e235cc9c9043d0d119c5f33741179060e16345ec3",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "679879a045a4fc0469906f91b6410cc32496e53b24d8e743d4b954826b25a6d1"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 439,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 679,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 680,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 860,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 861,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1341,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1342,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1642,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1643,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2143,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2144,
+          "frames": 364,
+          "keys": 0
+        },
+        {
+          "start": 2508,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [
+        {
+          "frame": 2264,
+          "address": "0x203b164",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-ownership-queue"
+        },
+        {
+          "frame": 2264,
+          "address": "0x203b160",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-copy-ownership-queue"
+        },
+        {
+          "frame": 2386,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2386,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "after-copy-grant",
+          "frame": 2266,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            1,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "after-phone-grant",
+          "frame": 2388,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2508,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2538,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matrix-file2-unowned",
+      "native_slot": 2,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "f37f4c0e52e8d806a575961a517ebaead9943552fc90ab2d9031fd6623f9cc0f",
+      "initial_save_sha256": "f596feb572914078c1840d706043e9d0c0e9a6a799f836efc92592d9cfc2140f",
+      "end_save_sha256": "c69c070d3060919de7aaaca5a1e2444bb58bbe4fff6c1b77cf8ee0d897cc51aa",
+      "save_size": 32768,
+      "changed_world_slots": [
+        2
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 0,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "787b4449cda468f2d720edba479db1604cf3efb42f17891e0c92dfb92a6cd805",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "dd807c3805e925374795cbd4f8182680bf04876e59c5170470f29d0940d05407"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "dd807c3805e925374795cbd4f8182680bf04876e59c5170470f29d0940d05407"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 446,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 454,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 455,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 695,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 696,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 876,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 877,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1357,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1358,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1658,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1659,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2159,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2280,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2310,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "matrix-file2-phone",
+      "native_slot": 2,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "c31b8d5b04b969647be61df98bb78cfa08a0276fe2f5a404007722d4571be408",
+      "initial_save_sha256": "c69c070d3060919de7aaaca5a1e2444bb58bbe4fff6c1b77cf8ee0d897cc51aa",
+      "end_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "save_size": 32768,
+      "changed_world_slots": [
+        2
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 446,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 454,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 455,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 695,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 696,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 876,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 877,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1357,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1358,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1658,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1659,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2159,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2160,
+          "frames": 242,
+          "keys": 0
+        },
+        {
+          "start": 2402,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [
+        {
+          "frame": 2280,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2280,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "after-phone-grant",
+          "frame": 2282,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2402,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2432,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offline-file0",
+      "native_slot": 0,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "05b1e1e4564313fc5207ea60ae578088a489620c5a0aefe0ffaa57f5f5da48f9",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "save_size": 32768,
+      "changed_world_slots": [],
+      "whole_save_unchanged": true,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2248,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2248,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2278,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offline-file1",
+      "native_slot": 1,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "cc0d1330506b692c7436c7e752d97719e6dc13d18e6eb42ae23a7428ac60dad5",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "save_size": 32768,
+      "changed_world_slots": [],
+      "whole_save_unchanged": true,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 439,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 679,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 680,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 860,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 861,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1341,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1342,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1642,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1643,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2143,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2144,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2264,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2294,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offline-file2",
+      "native_slot": 2,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "521818e209d7101764708c35f28f662e2438b10621da8073d95aa389fbff3ac8",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "save_size": 32768,
+      "changed_world_slots": [],
+      "whole_save_unchanged": true,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 446,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 454,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 455,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 695,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 696,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 876,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 877,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1357,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1358,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1658,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1659,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2159,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2280,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2310,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "foreign-file1",
+      "native_slot": 1,
+      "initial_menu_slot": 0,
+      "rom_sha256": "2f1e332d4a2e13c1823e0a049770b2b9a9197efb9d96aabeff8461e491a55967",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "b671e18bdf48cd4362cc444668dc1b82d2bf7df2a6f5f0921e976065fd53c3c0",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "dd0e7c55d6ea699a96848163518e7179e08871fbab4ae4df498afa942f9f6c1a",
+      "save_size": 32768,
+      "changed_world_slots": [
+        1
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 0,
+          "identity_sha256": "72055d73b96127ded060a77d59fcf8740ced6dbdddbe9e102836a8092e837589",
+          "world_range_sha256": "375989968d05d2e5e517bfb582a0b0af47e0677926d164b4456e5a0429f591f5",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "36c4d7eb569820f2f0e358289868e1ecc45c74d110462fdc93d0d0d7c39033ce"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "36c4d7eb569820f2f0e358289868e1ecc45c74d110462fdc93d0d0d7c39033ce"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 439,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 679,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 680,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 860,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 861,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1341,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1342,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1642,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1643,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2143,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2144,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2264,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 2294,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 105.984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "call-file2-unowned",
+      "native_slot": 2,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "6641424bf3463e751de41d54f0e58c9626097aa36dc8a064f0db7a5745feacc2",
+      "initial_save_sha256": "c69c070d3060919de7aaaca5a1e2444bb58bbe4fff6c1b77cf8ee0d897cc51aa",
+      "end_save_sha256": "b71af13971ac98890704396e961ddb253f833021db1a800a0d03f42609ec2bde",
+      "save_size": 32768,
+      "changed_world_slots": [
+        2
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 0,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "ed5dd23a1a4c2dfa7a37fc112c86e101608802c9a6571af4b0795de9654bc239",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "5ab9ff157f75c3128fe40d2dfccb8384c09e0b622b052541807feba31562b7ea"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "5ab9ff157f75c3128fe40d2dfccb8384c09e0b622b052541807feba31562b7ea"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 446,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 454,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 455,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 695,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 696,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 876,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 877,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1357,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1358,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1658,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1659,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2159,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2280,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2340,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 2940,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 3060,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4560,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "before-file-r",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r",
+          "frame": 2340,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r-settled",
+          "frame": 2940,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-l-settled",
+          "frame": 4560,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 4560,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 4590,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "call-file0-owned",
+      "native_slot": 0,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "277c92837aab7029be51f240a2bbba2dcbddebe9b28c2830c10d7671cc80910c",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "38e9970bb46ca88fdc10c35c3dea6d1910af684f4a395caa220e8c55879adfc8",
+      "save_size": 32768,
+      "changed_world_slots": [
+        0
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "225b15b2bbd5cc8f33a0fb8059df23477bf9e7f2f4374add28f570f33abc6de7",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "45f47ea9edde210ee64b3b72a190d856934018e70c71ef5ac1de83d8f5b021a9"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "45f47ea9edde210ee64b3b72a190d856934018e70c71ef5ac1de83d8f5b021a9"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2308,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 2908,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 3028,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4528,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2248,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "before-file-r",
+          "frame": 2248,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r",
+          "frame": 2308,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r-settled",
+          "frame": 2908,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-l-settled",
+          "frame": 4528,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 249.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 4528,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 249.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 4558,
+          "slot": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 283.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "call-file1-owned",
+      "native_slot": 1,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "fa2f46eb284e3e0fac918fe3c76cb8acec655cf9dccb8d22681f010625433495",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "fdc9f0f990957c700b8132baa66962ffc3ca08606a949757298b109a1e5189a2",
+      "save_size": 32768,
+      "changed_world_slots": [
+        1
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "225b15b2bbd5cc8f33a0fb8059df23477bf9e7f2f4374add28f570f33abc6de7",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "45f47ea9edde210ee64b3b72a190d856934018e70c71ef5ac1de83d8f5b021a9"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "45f47ea9edde210ee64b3b72a190d856934018e70c71ef5ac1de83d8f5b021a9"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "f780d6e52f59714ec259d7fdb65381ca0bb95df9336c83a02f36867665d996b6",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "19356074987ca692e2ed5bcc068ad7a4a81d9ec5f10b55bdd78c0f3b911092e4"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 439,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 679,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 680,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 860,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 861,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1341,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1342,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1642,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1643,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2143,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2144,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2264,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2324,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 2924,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 3044,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4544,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "before-file-r",
+          "frame": 2264,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r",
+          "frame": 2324,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r-settled",
+          "frame": 2924,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-l-settled",
+          "frame": 4544,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 249.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 4544,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 249.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 4574,
+          "slot": 1,
+          "copy_context": [
+            1,
+            1,
+            1,
+            0,
+            1,
+            50338348,
+            1,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            1,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 283.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    },
+    {
+      "name": "call-file2-owned",
+      "native_slot": 2,
+      "initial_menu_slot": 0,
+      "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "runtime_trace_sha256": "4a5d0e3c7c434173452b628e6b20490f088f28a32c5ad1607fabd0cd12798939",
+      "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+      "end_save_sha256": "627cfd8053b5786fe6b43794156b6592db2a07ba59a39a15f9f087cff923bfe4",
+      "save_size": 32768,
+      "changed_world_slots": [
+        2
+      ],
+      "whole_save_unchanged": false,
+      "saved_records": [
+        {
+          "slot": 0,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 1,
+          "record_initialized": true,
+          "ownership_bits": 3,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+            }
+          ]
+        },
+        {
+          "slot": 2,
+          "record_initialized": true,
+          "ownership_bits": 2,
+          "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+          "world_range_sha256": "ea5e96f7af691514e83cea2a911ef5de6e3ed6c7655bdf86ecef22d75f72b9c1",
+          "copies": [
+            {
+              "copy": 0,
+              "checksum_valid": true,
+              "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+            },
+            {
+              "copy": 1,
+              "checksum_valid": true,
+              "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+            }
+          ]
+        }
+      ],
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 430,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 438,
+          "frames": 8,
+          "keys": 128
+        },
+        {
+          "start": 446,
+          "frames": 8,
+          "keys": 0
+        },
+        {
+          "start": 454,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 455,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 695,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 696,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 876,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 877,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1357,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1358,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1658,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1659,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2159,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2280,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2340,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 2940,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 3060,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4560,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoints": [
+        {
+          "label": "native-file-loaded",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "before-file-r",
+          "frame": 2280,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r",
+          "frame": 2340,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-r-settled",
+          "frame": 2940,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 316,
+          "x": 72.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            316,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "file-l-settled",
+          "frame": 4560,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-file-settled",
+          "frame": 4560,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "native-control",
+          "frame": 4590,
+          "slot": 2,
+          "copy_context": [
+            1,
+            1,
+            2,
+            0,
+            2,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            2,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x80412ad",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        }
+      ]
+    }
+  ],
+  "menu_guard": {
+    "runtime_trace_sha256": "fa05f18ba2d2bd847e51b8ca2b3e904063f60aadc4d4ea54d53f963af75f75fc",
+    "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+    "before_save_sha256": "c69c070d3060919de7aaaca5a1e2444bb58bbe4fff6c1b77cf8ee0d897cc51aa",
+    "after_save_sha256": "c69c070d3060919de7aaaca5a1e2444bb58bbe4fff6c1b77cf8ee0d897cc51aa",
+    "whole_save_unchanged": true,
+    "controller_inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 150,
+        "keys": 0
+      },
+      {
+        "start": 452,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 453,
+        "frames": 270,
+        "keys": 0
+      },
+      {
+        "start": 723,
+        "frames": 8,
+        "keys": 2
+      },
+      {
+        "start": 731,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 851,
+        "frames": 8,
+        "keys": 128
+      },
+      {
+        "start": 859,
+        "frames": 8,
+        "keys": 0
+      },
+      {
+        "start": 867,
+        "frames": 8,
+        "keys": 128
+      },
+      {
+        "start": 875,
+        "frames": 8,
+        "keys": 0
+      },
+      {
+        "start": 883,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 884,
+        "frames": 270,
+        "keys": 0
+      }
+    ],
+    "guarded_client_writes": [],
+    "attempts": [
+      {
+        "label": "file-selector",
+        "frame": 422,
+        "copy_result": false,
+        "phone_result": false
+      },
+      {
+        "label": "file0-mode-menu",
+        "frame": 693,
+        "copy_result": false,
+        "phone_result": false
+      },
+      {
+        "label": "file2-mode-menu",
+        "frame": 1124,
+        "copy_result": false,
+        "phone_result": false
+      }
+    ],
+    "checkpoints": [
+      {
+        "label": "file-selector-before",
+        "frame": 422,
+        "slot": 0,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "file-selector-after",
+        "frame": 452,
+        "slot": 0,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "file0-mode-menu-before",
+        "frame": 693,
+        "slot": 0,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "file0-mode-menu-after",
+        "frame": 723,
+        "slot": 0,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "file2-mode-menu-before",
+        "frame": 1124,
+        "slot": 2,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "file2-mode-menu-after",
+        "frame": 1154,
+        "slot": 2,
+        "copy_context": [
+          0,
+          0,
+          4294967295,
+          0,
+          2,
+          0,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "phone_context": [
+          0,
+          4294967295,
+          0,
+          1346915889
+        ],
+        "phone_request": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "fixture_provenance": "Same health-6/gating-OFF ROM variant independently reviewed in phone-mustard-solo-evidence.json.",
+  "post_fix_grant_replays": {
+    "copy_protocol_sha256": "3989bb59c169cb195f2db993fea72c879c191f67126bd80ede688ae6346c95a3",
+    "phone_protocol_sha256": "5df59cd342414411b899d0bf8b7af115c2b344469db9887d09ca159c4e752d6c",
+    "runs": [
+      {
+        "original_run": "matrix-file0-phone-copy",
+        "replay_runtime_sha256": "e2c9c87f5b0ad1bcc84a7a12d30556bbf5d77d8ea2afa29ba4b0583d8664acdf",
+        "replay_save_sha256": "f80cd919e64c6ebbdc2039f8dfdfb454a601207ee21c43e7a86826ec3ad9c303",
+        "runtime_and_save_byte_identical": true
+      },
+      {
+        "original_run": "matrix-file1-copy-phone",
+        "replay_runtime_sha256": "a9fe35bd4fa17485e987be545f734ba9a4f4754a4398d4217e3484a21da84573",
+        "replay_save_sha256": "f596feb572914078c1840d706043e9d0c0e9a6a799f836efc92592d9cfc2140f",
+        "runtime_and_save_byte_identical": true
+      }
+    ]
+  },
+  "synthetic_slot_data": {
+    "copy_ability_room_protocol_version": 2,
+    "phone_protocol_version": 1,
+    "hub_connection_protocol_version": 2,
+    "starting_phone_access": false,
+    "health_protocol_version": 2,
+    "minimum_health": 6,
+    "maximum_health": 10,
+    "area_keys": true,
+    "starting_area_key_bitfield": 0,
+    "ability_gating": false
+  },
+  "grant_item_ids": {
+    "Copy Ability Room Access": 3860500,
+    "Phone a Friend": 3860501
+  },
+  "area_key_arrival_control": {
+    "qualification": "Matched file-2 cold runs use the same ROM, persisted Phone save, controller inputs and two-frame post-config wait. Production _sync_area_key_runtime_config receives starting_area_key_bitfield 0 versus 16 after ROM/health validation and complete synthetic history. The keyed run makes one ordinary four-byte runtime configuration write, not a guarded ownership-queue write. No pose, equipment, AI or direct Phone/Copy ownership field is written.",
+    "result": "Both R holds consume one battery. At 600 and 1800 post-R frames the zero-key CPUs remain in 801 while all keyed CPUs are in 316. L returns the local player to 801 in both cases. This isolates the Mustard Key configuration in this qualified fixture, not universal helper cooperation or target activation.",
+    "runs": [
+      {
+        "name": "call-file2-key-zero",
+        "native_slot": 2,
+        "starting_area_key_bitfield": 0,
+        "runtime_trace_sha256": "afb65961ca6801bea14ae60fa3854fb7d2f70bbe4f912d59b2161791a6e2efff",
+        "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+        "end_save_sha256": "627cfd8053b5786fe6b43794156b6592db2a07ba59a39a15f9f087cff923bfe4",
+        "saved_records": [
+          {
+            "slot": 0,
+            "record_initialized": true,
+            "ownership_bits": 3,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              }
+            ]
+          },
+          {
+            "slot": 1,
+            "record_initialized": true,
+            "ownership_bits": 3,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              }
+            ]
+          },
+          {
+            "slot": 2,
+            "record_initialized": true,
+            "ownership_bits": 2,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "ea5e96f7af691514e83cea2a911ef5de6e3ed6c7655bdf86ecef22d75f72b9c1",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+              }
+            ]
+          }
+        ],
+        "controller_inputs": [
+          {
+            "start": 0,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 180,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 181,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 301,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 302,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 422,
+            "frames": 8,
+            "keys": 128
+          },
+          {
+            "start": 430,
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "start": 438,
+            "frames": 8,
+            "keys": 128
+          },
+          {
+            "start": 446,
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "start": 454,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 455,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 695,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 696,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 876,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 877,
+            "frames": 480,
+            "keys": 0
+          },
+          {
+            "start": 1357,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 1358,
+            "frames": 300,
+            "keys": 0
+          },
+          {
+            "start": 1658,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 1659,
+            "frames": 500,
+            "keys": 0
+          },
+          {
+            "start": 2159,
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "start": 2160,
+            "frames": 122,
+            "keys": 0
+          },
+          {
+            "start": 2282,
+            "frames": 60,
+            "keys": 256
+          },
+          {
+            "start": 2342,
+            "frames": 1800,
+            "keys": 0
+          },
+          {
+            "start": 4142,
+            "frames": 120,
+            "keys": 512
+          },
+          {
+            "start": 4262,
+            "frames": 1500,
+            "keys": 0
+          },
+          {
+            "start": 5762,
+            "frames": 30,
+            "keys": 16
+          }
+        ],
+        "production_client_writes": [],
+        "checkpoints": [
+          {
+            "label": "native-file-loaded",
+            "frame": 2280,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "after-area-key-config",
+            "frame": 2282,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "before-file-r",
+            "frame": 2282,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "file-r",
+            "frame": 2342,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 0,
+            "state": "0x8057ad1",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "file-r-settled",
+            "frame": 2942,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "file-r-1800-settled",
+            "frame": 4142,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "file-l-settled",
+            "frame": 5762,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 236.7421875,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              801,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "native-file-settled",
+            "frame": 5762,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 236.7421875,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              801,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "native-control",
+            "frame": 5792,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 270.7265625,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x80412ad",
+            "cpu_rooms": [
+              801,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          }
+        ]
+      },
+      {
+        "name": "call-file2-key-mustard",
+        "native_slot": 2,
+        "starting_area_key_bitfield": 16,
+        "runtime_trace_sha256": "f70bc6ba06db3148b3a85864261a930168757d9c471842633cd50fde9a821387",
+        "rom_sha256": "9f85c9671918aa7db82774731664be7230b7decc737535ab25d0288552cb1e28",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "initial_save_sha256": "504df848c94137fe5753796d0a704866456cfca38dcdba2b5902c45659dad5a2",
+        "end_save_sha256": "627cfd8053b5786fe6b43794156b6592db2a07ba59a39a15f9f087cff923bfe4",
+        "saved_records": [
+          {
+            "slot": 0,
+            "record_initialized": true,
+            "ownership_bits": 3,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              }
+            ]
+          },
+          {
+            "slot": 1,
+            "record_initialized": true,
+            "ownership_bits": 3,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "9e4d8340d10bb7b3e7af3421a052db3c57eacd9d095100718cbf65a312992b5d",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "76901a127fd9a15533aaa65ae5c00fadc00409da882bd11ef7410468540810c0"
+              }
+            ]
+          },
+          {
+            "slot": 2,
+            "record_initialized": true,
+            "ownership_bits": 2,
+            "identity_sha256": "5dfbabeedf318bf33c0927c43d7630f51b82f351740301354fa3d7fc51f0132e",
+            "world_range_sha256": "ea5e96f7af691514e83cea2a911ef5de6e3ed6c7655bdf86ecef22d75f72b9c1",
+            "copies": [
+              {
+                "copy": 0,
+                "checksum_valid": true,
+                "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+              },
+              {
+                "copy": 1,
+                "checksum_valid": true,
+                "payload_sha256": "0df8a08719da887aa8153c2ed9e472555c9140003ac0acdee5e0d25c666540b2"
+              }
+            ]
+          }
+        ],
+        "controller_inputs": [
+          {
+            "start": 0,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 180,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 181,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 301,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 302,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 422,
+            "frames": 8,
+            "keys": 128
+          },
+          {
+            "start": 430,
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "start": 438,
+            "frames": 8,
+            "keys": 128
+          },
+          {
+            "start": 446,
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "start": 454,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 455,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 695,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 696,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 876,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 877,
+            "frames": 480,
+            "keys": 0
+          },
+          {
+            "start": 1357,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 1358,
+            "frames": 300,
+            "keys": 0
+          },
+          {
+            "start": 1658,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 1659,
+            "frames": 500,
+            "keys": 0
+          },
+          {
+            "start": 2159,
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "start": 2160,
+            "frames": 122,
+            "keys": 0
+          },
+          {
+            "start": 2282,
+            "frames": 60,
+            "keys": 256
+          },
+          {
+            "start": 2342,
+            "frames": 1800,
+            "keys": 0
+          },
+          {
+            "start": 4142,
+            "frames": 120,
+            "keys": 512
+          },
+          {
+            "start": 4262,
+            "frames": 1500,
+            "keys": 0
+          },
+          {
+            "start": 5762,
+            "frames": 30,
+            "keys": 16
+          }
+        ],
+        "production_client_writes": [
+          {
+            "frame": 2280,
+            "address": "0x203b0c0",
+            "size": 4,
+            "value": "10000000",
+            "guard_failed": false,
+            "origin": "production-area-key-runtime-config"
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "native-file-loaded",
+            "frame": 2280,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 0
+          },
+          {
+            "label": "after-area-key-config",
+            "frame": 2282,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "before-file-r",
+            "frame": 2282,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 3,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "file-r",
+            "frame": 2342,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 72.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 0,
+            "state": "0x8057ad1",
+            "cpu_rooms": [
+              316,
+              801,
+              801,
+              801
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "file-r-settled",
+            "frame": 2942,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 82.5,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              316,
+              316,
+              316
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "file-r-1800-settled",
+            "frame": 4142,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 316,
+            "x": 22.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              316,
+              316,
+              316,
+              316
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "file-l-settled",
+            "frame": 5762,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 236.7421875,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              801,
+              316,
+              316,
+              316
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "native-file-settled",
+            "frame": 5762,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 236.7421875,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x803ff65",
+            "cpu_rooms": [
+              801,
+              316,
+              316,
+              316
+            ],
+            "area_key_bits": 16
+          },
+          {
+            "label": "native-control",
+            "frame": 5792,
+            "slot": 2,
+            "copy_context": [
+              1,
+              1,
+              2,
+              0,
+              2,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              2,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "room": 801,
+            "x": 270.7265625,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0,
+            "battery": 2,
+            "caller": 255,
+            "state": "0x80412ad",
+            "cpu_rooms": [
+              801,
+              316,
+              316,
+              316
+            ],
+            "area_key_bits": 16
+          }
+        ]
+      }
+    ],
+    "source_references": [
+      "src/kirby.c:13239\u201313249 spends the caller battery before helper relocation; 13700\u201313713 prepares the response destination and calls sub_080551FC.",
+      "src/code_0800ECAC_2.c:2986\u20132995 selects eligible CPU answers; 3032\u20133035, 3082\u20133087 and 4590\u20134595 implement randomized response timing and R input.",
+      "kirby_ap_payload/ap_payload.c:792\u2013826 wraps explicit room transitions, including AI; 562\u2013572 requires the destination Area Key for cross-area transitions.",
+      "The fixture instruction at 0x080585EE targets ap_on_explicit_room_transition at 0x0815E2DC. Native room metadata maps 801 to area 0 and 316 to area 3, requiring bit 1 << (3 + 1) = 16."
+    ]
+  }
+}

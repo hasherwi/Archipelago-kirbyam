@@ -54,7 +54,9 @@ async def sync_phone_ownership(ctx: Any, history_ready: Callable[[Any], bool]) -
         return False
     # Keep the scalar authorization fields as well as the dictionary identity:
     # a pending connector read can outlive an in-place capability update.
-    grant_config = {key: slot.get(key) for key in (
+    # The sentinel distinguishes absent optional fields from explicit None.
+    missing = object()
+    grant_config = {key: slot.get(key, missing) for key in (
         "phone_protocol_version", "copy_ability_room_protocol_version",
         "shared_save_protocol_version", "starting_phone_access",
     )}
@@ -77,7 +79,7 @@ async def sync_phone_ownership(ctx: Any, history_ready: Callable[[Any], bool]) -
     raw = await bizhawk.read(ctx.bizhawk_ctx, reads)
     fence = await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"), *reads[1:]])
     if (session != _session(ctx) or ctx.slot_data is not slot or not history_ready(ctx)
-            or any(type(slot.get(key)) is not type(value) or slot.get(key) != value
+            or any(type(slot.get(key, missing)) is not type(value) or slot.get(key, missing) != value
                    for key, value in grant_config.items())
             or tuple(ctx.items_received) != items or len(raw) != 4 or len(fence) != 4
             or bytes(raw[2]) != auth or bytes(fence[2]) != auth

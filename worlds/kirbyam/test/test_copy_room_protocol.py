@@ -1,14 +1,17 @@
 """Three-file ownership protocol rejects stale history, native context and ROMs."""
 import asyncio
 import base64
+from collections.abc import Iterable
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
+from worlds import _bizhawk as bizhawk
 from .. import copy_room_protocol as protocol
 
 
-def _ctx(items=(), precollected=False):
+def _ctx(items: Iterable[int] = (), precollected: bool = False) -> SimpleNamespace:
     return SimpleNamespace(auth=base64.b64encode(bytes(range(16))).decode(),
                            server=SimpleNamespace(socket=object()), bizhawk_ctx=object(),
                            slot_data={"copy_ability_room_protocol_version": 2,
@@ -16,30 +19,34 @@ def _ctx(items=(), precollected=False):
                            items_received=[SimpleNamespace(item=item) for item in items])
 
 
-def _raw(slot=0, epoch=7, owned=0):
+def _raw(slot: int = 0, epoch: int = 7, owned: int = 0) -> bytes:
     return b"".join(word.to_bytes(4, "little") for word in
                     (epoch, epoch, slot, 0, slot, 0x03001000, owned, 0x43504332, 0))
 
 
-def test_protocol_requires_native_layout_and_explicit_capability():
+def test_protocol_requires_native_layout_and_explicit_capability() -> None:
     assert protocol.copy_room_slot_version({}) == 0
     assert protocol.copy_room_slot_version({"copy_ability_room_protocol_version": 2}) == 2
-    for slot in ({"copy_ability_room_protocol_version": True}, {"copy_ability_room_protocol_version": 1},
-                 {"copy_ability_room_protocol_version": 3}, {"unique_items": ["Copy Ability Room Access"]},
-                 {"copy_ability_room_protocol_version": 2, "shared_save_protocol_version": 1}):
+    invalid_slots: tuple[dict[str, Any], ...] = (
+        {"copy_ability_room_protocol_version": True}, {"copy_ability_room_protocol_version": 1},
+        {"copy_ability_room_protocol_version": 3}, {"unique_items": ["Copy Ability Room Access"]},
+        {"copy_ability_room_protocol_version": 2, "shared_save_protocol_version": 1},
+    )
+    for slot in invalid_slots:
         with pytest.raises(ValueError):
             protocol.copy_room_slot_version(slot)
 
 
 @pytest.mark.parametrize("slot", [0, 1, 2])
 @pytest.mark.parametrize("received,precollected,owned", [(False, False, 0), (True, False, 1), (False, True, 1)])
-def test_complete_history_and_precollection_in_each_native_file(monkeypatch, slot, received, precollected, owned):
+def test_complete_history_and_precollection_in_each_native_file(
+        monkeypatch: pytest.MonkeyPatch, slot: int, received: bool, precollected: bool, owned: int) -> None:
     ctx = _ctx([3860500] if received else [], precollected)
     raw = _raw(slot)
     auth = base64.b64decode(ctx.auth)
-    monkeypatch.setattr(protocol.bizhawk, "read", AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]]))
+    monkeypatch.setattr(bizhawk, "read", AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]]))
     write = AsyncMock(return_value=True)
-    monkeypatch.setattr(protocol.bizhawk, "guarded_write", write)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
     assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True)) == bool(owned)
     if not owned:
         write.assert_not_called()
@@ -51,14 +58,14 @@ def test_complete_history_and_precollection_in_each_native_file(monkeypatch, slo
 
 @pytest.mark.parametrize("change", ["epoch", "native_slot", "socket", "auth", "slot", "history", "not_ready",
                                     "rom_auth", "short", "inactive", "task", "invalid_slot"])
-def test_no_write_after_snapshot_race_or_invalid_context(monkeypatch, change):
+def test_no_write_after_snapshot_race_or_invalid_context(monkeypatch: pytest.MonkeyPatch, change: str) -> None:
     ctx = _ctx([3860500])
     ready = True
     raw = _raw()
     auth = base64.b64decode(ctx.auth)
     calls = 0
 
-    async def read(_ctx, _reads):
+    async def read(_ctx: Any, _reads: Any) -> list[bytes]:
         nonlocal ready, calls
         calls += 1
         if calls == 1:
@@ -84,31 +91,105 @@ def test_no_write_after_snapshot_race_or_invalid_context(monkeypatch, change):
         if change == "short":
             return [raw[:8], auth]
         return [raw[:12], auth]
-    monkeypatch.setattr(protocol.bizhawk, "read", read)
+    monkeypatch.setattr(bizhawk, "read", read)
     write = AsyncMock(return_value=True)
-    monkeypatch.setattr(protocol.bizhawk, "guarded_write", write)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
     assert not asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: ready))
     write.assert_not_called()
 
 
-def test_disconnect_or_incomplete_replay_never_revokes_offline_ownership(monkeypatch):
+def test_disconnect_or_incomplete_replay_never_revokes_offline_ownership(monkeypatch: pytest.MonkeyPatch) -> None:
     read = AsyncMock()
-    monkeypatch.setattr(protocol.bizhawk, "read", read)
+    monkeypatch.setattr(bizhawk, "read", read)
     assert not asyncio.run(protocol.sync_copy_room_ownership(_ctx(), lambda _: False))
     read.assert_not_called()
 
 
 @pytest.mark.parametrize("slot", [0, 1, 2])
 @pytest.mark.parametrize("received", [False, True])
-def test_saved_grant_is_permanent_across_complete_history_replay(monkeypatch, slot, received):
+def test_saved_grant_is_permanent_across_complete_history_replay(
+        monkeypatch: pytest.MonkeyPatch, slot: int, received: bool) -> None:
     ctx = _ctx([3860500] if received else [])
     raw = _raw(slot, owned=1)
     auth = base64.b64decode(ctx.auth)
     read = AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]])
     write = AsyncMock()
-    monkeypatch.setattr(protocol.bizhawk, "read", read)
-    monkeypatch.setattr(protocol.bizhawk, "guarded_write", write)
+    monkeypatch.setattr(bizhawk, "read", read)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
     assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True)) == received
     write.assert_not_called()
     if not received:
         read.assert_not_called()  # Empty history is not an instruction to clear saved ownership.
+
+
+@pytest.mark.parametrize("read_boundary", [1, 2])
+@pytest.mark.parametrize("saved_owned", [0, 1])
+@pytest.mark.parametrize("key,before,after", [
+    ("copy_ability_room_protocol_version", 2, 0),
+    ("copy_ability_room_protocol_version", 2, 2.0),
+    ("shared_save_protocol_version", 0, 1),
+    ("shared_save_protocol_version", 0, False),
+    ("starting_copy_ability_room_access", True, False),
+    ("starting_copy_ability_room_access", True, 1),
+])
+def test_in_place_slot_changes_never_publish_grant(
+        monkeypatch: pytest.MonkeyPatch, read_boundary: int, saved_owned: int,
+        key: str, before: object, after: object) -> None:
+    ctx = _ctx(precollected=True)
+    ctx.slot_data[key] = before
+    raw = _raw(owned=saved_owned)
+    auth = base64.b64decode(ctx.auth)
+    calls = 0
+
+    async def read(_ctx: Any, _reads: Any) -> list[bytes]:
+        nonlocal calls
+        calls += 1
+        if calls == read_boundary:
+            ctx.slot_data[key] = after
+        return [raw if calls == 1 else raw[:12], auth]
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True))
+    write.assert_not_called()
+
+
+@pytest.mark.parametrize("read_boundary", [1, 2])
+@pytest.mark.parametrize("saved_owned", [0, 1])
+@pytest.mark.parametrize("key", ["starting_copy_ability_room_access", "shared_save_protocol_version"])
+def test_absent_slot_field_becoming_none_during_read_never_grants(
+        monkeypatch: pytest.MonkeyPatch, read_boundary: int, saved_owned: int, key: str) -> None:
+    ctx = _ctx([protocol.COPY_ROOM_ITEM_ID])
+    ctx.slot_data.pop(key, None)
+    raw = _raw(owned=saved_owned)
+    auth = base64.b64decode(ctx.auth)
+    calls = 0
+
+    async def read(_ctx: Any, _reads: Any) -> list[bytes]:
+        nonlocal calls
+        calls += 1
+        if calls == read_boundary:
+            ctx.slot_data[key] = None
+        return [raw if calls == 1 else raw[:12], auth]
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True))
+    assert calls == 2
+    write.assert_not_called()
+
+
+@pytest.mark.parametrize("saved_owned", [0, 1])
+def test_absent_optional_slot_fields_allow_receipt_grants(
+        monkeypatch: pytest.MonkeyPatch, saved_owned: int) -> None:
+    ctx = _ctx([protocol.COPY_ROOM_ITEM_ID])
+    del ctx.slot_data["starting_copy_ability_room_access"]
+    raw = _raw(owned=saved_owned)
+    auth = base64.b64decode(ctx.auth)
+    monkeypatch.setattr(bizhawk, "read", AsyncMock(side_effect=[[raw, auth], [raw[:12], auth]]))
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert asyncio.run(protocol.sync_copy_room_ownership(ctx, lambda _: True))
+    assert write.await_count == 1 - saved_owned

@@ -248,6 +248,44 @@ def test_in_place_slot_change_during_read_never_grants(
     write.assert_not_called()
 
 
+@pytest.mark.parametrize("read_boundary", [1, 2])
+@pytest.mark.parametrize("saved_owned", [0, 1])
+@pytest.mark.parametrize("key", ["starting_phone_access", "shared_save_protocol_version"])
+def test_absent_slot_field_becoming_none_during_read_never_grants(
+        monkeypatch: pytest.MonkeyPatch, read_boundary: int, saved_owned: int, key: str) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    ctx.slot_data.pop(key, None)
+    raw, fence = _reads(ctx, owned=saved_owned)
+    calls = 0
+
+    async def read(_ctx: object, _requests: object) -> list[bytes]:
+        nonlocal calls
+        calls += 1
+        if calls == read_boundary:
+            ctx.slot_data[key] = None
+        return raw if calls == 1 else fence
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    assert calls == 2
+    write.assert_not_called()
+
+
+@pytest.mark.parametrize("saved_owned", [0, 1])
+def test_absent_optional_slot_fields_allow_receipt_grants(
+        monkeypatch: pytest.MonkeyPatch, saved_owned: int) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    del ctx.slot_data["starting_phone_access"]
+    raw, fence = _reads(ctx, owned=saved_owned)
+    monkeypatch.setattr(bizhawk, "read", AsyncMock(side_effect=[raw, fence]))
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    assert write.await_count == 1 - saved_owned
+
+
 def test_failed_guard_can_retry_only_with_fresh_snapshot(monkeypatch: pytest.MonkeyPatch) -> None:
     ctx = _ctx([protocol.PHONE_ITEM_ID])
     raw, fence = _reads(ctx)
