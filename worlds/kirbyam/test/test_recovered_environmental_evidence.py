@@ -6,22 +6,39 @@ from typing import Any
 
 import pytest
 
+from .evidence_helpers import canonical_text_bytes
+
 ROOT = Path(__file__).parents[1] / "dev-docs"
-MANIFEST = json.loads((ROOT / "recovered-environmental-evidence-manifest.json").read_text())
+MANIFEST = json.loads(canonical_text_bytes(ROOT / "recovered-environmental-evidence-manifest.json"))
 
 
 def read(name: str) -> dict[str, Any]:
-    value: dict[str, Any] = json.loads((ROOT / name).read_text())
+    value: dict[str, Any] = json.loads(canonical_text_bytes(ROOT / name))
     return value
 
 
 @pytest.mark.parametrize("record", MANIFEST["files"], ids=lambda row: row["path"])
 def test_original_hash_and_private_path_exclusion(record: dict[str, Any]) -> None:
-    raw = (ROOT / record["path"]).read_bytes()
+    raw = canonical_text_bytes(ROOT / record["path"])
     assert len(raw) == record["bytes"]
     assert hashlib.sha256(raw).hexdigest() == record["sha256"]
     assert b"/home/" not in raw and b"/workspace/" not in raw
     assert isinstance(json.loads(raw), dict)
+
+
+def test_hash_check_accepts_checkout_newlines_but_rejects_changed_content(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    canonical = b'{"value": 1}\n'
+    record = {"path": "record.json", "bytes": len(canonical),
+              "sha256": hashlib.sha256(canonical).hexdigest()}
+    monkeypatch.setitem(globals(), "ROOT", tmp_path)
+    path = tmp_path / "record.json"
+    path.write_bytes(canonical.replace(b"\n", b"\r\n"))
+    test_original_hash_and_private_path_exclusion(record)
+    path.write_bytes(b'{"value": 2}\r\n')
+    with pytest.raises(AssertionError):
+        test_original_hash_and_private_path_exclusion(record)
 
 
 @pytest.mark.parametrize("name", [
