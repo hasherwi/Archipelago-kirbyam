@@ -23,6 +23,10 @@ implemented. The current source-backed subset includes:
   in `rainbow-normal177-source-witness.md`. This preserves its existing null
   rule and adds no generic Normal capability or copied-ability requirement.
 
+- An ordinary staged Normal alternative for native 426's Candy map, documented in
+  `candy-normal426-source-witness.md`. The qualified near-door 419 transition and
+  map collection preserve the null rule without gating RoomSanity or the exit.
+
 The move-family catalog below identifies candidates. It does not grant an
 ability, arbitrary range, collision equivalence or a complete route.
 
@@ -423,3 +427,18 @@ A separate independently reviewed gated/no-items representative at actual 1 HP
 and 500% enemy health also reaches this chest with Normal equipment and zero
 unlock mask. Its own final-shot omission stays sealed. This is one additional
 case, not all random policies or a full gated health matrix.
+
+## Candy map: ordinary Normal alternative
+
+Three independently reviewed witnesses cover actual 1 HP at 100/500% enemy health
+and 6 HP at 100%, from a qualified near-door 419 fixture through the actual 426
+transition to physical chest 0x088C87FC and local client check 3960208. Repeated
+first-switch contacts/puffs, a late jump, lower-switch shaft access, inflation
+return and an ordinary F1 slide provide a sufficient solo route with no damage.
+The matched 6 HP first-jump omission produces no complete crossing or check.
+Preserve the map's existing null rule and other ordinary alternatives. Switches
+5/6 latch only while loaded. This adds no generic Normal power, copied-ability
+gate, health restriction, new AP edge, RoomSanity or outgoing 420 credit. The
+all-frame claim is limited to 1085–4154; arbitrary 419/new-game access and reset
+persistence remain unproved. See `candy-normal426-acceptance.json` and its witness.
+This does not finish the broader ranged-attack checklist.

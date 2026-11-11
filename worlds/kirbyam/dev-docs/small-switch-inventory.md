@@ -56,7 +56,7 @@ Coordinates are native pixels. T is the template release-counter parameter, not 
 | 228 / 0x0E4 | [Peppermint Palace - Room 9](https://wikirby.com/wiki/Peppermint_Palace_-_Room_9) | 7: 160,208; T=60 | ordinary alternate exit gate |
 | 310 / 0x136 | [Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest) | 2: 312,144; T=0 | remote or cooperative timing |
 | 404 / 0x194 | [Candy Constellation - Room 1](https://wikirby.com/wiki/Candy_Constellation_-_Room_1) | 3: 440,64; T=0 | falling switch timing |
-| 426 / 0x1AA | [Candy Constellation - Chest 3](https://wikirby.com/wiki/Candy_Constellation_-_Chest_3) | 5: 312,128; T=0<br>6: 312,64; T=0<br>7: 184,64; T=0 | cooperative or breath timing puzzle |
+| 426 / 0x1AA | [Candy Constellation - Chest 3](https://wikirby.com/wiki/Candy_Constellation_-_Chest_3) | 5: 312,128; T=0<br>6: 312,64; T=0<br>7: 184,64; T=0 | reviewed ordinary Normal staged map route |
 | 427 / 0x1AB | [Candy Constellation - Room 2](https://wikirby.com/wiki/Candy_Constellation_-_Room_2) | 4: 56,240; T=300<br>5: 424,144; T=120 | two ordinary timing gates |
 | 511 / 0x1FF | [Cabbage Cavern - Room 5](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_5) | 10: 56,112; T=135 | ordinary timing or cooperative chest route |
 | 527 / 0x20F | [Cabbage Cavern - Room 14](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_14) | 2: 856,192; T=100 | ordinary timing puzzle |
@@ -143,9 +143,21 @@ Still needed: Activation order, falling trajectory and whether a candidate attac
 
 WiKirby: Swift movement and breath attacks, or friends, solve the map switch puzzle. A lower bypass exists; the room has no enemies. [Source](https://wikirby.com/wiki/Candy_Constellation_-_Chest_3). Reviewed 2026-11-08.
 
-Three zero-counter switches link to three gates; all three sampled static horizontal rows are clear. Retain the ordinary breath, timing and cooperation alternatives and lower bypass rather than imposing a blanket Copy Ability requirement.
+Three zero-counter switches link to three gates; all three sampled static horizontal rows are clear.
+Switches 5/6 use mode bit 0x4 and latch while loaded; the first switch is momentary.
 
-Still needed: Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.
+Reviewed ordinary alternative: `candy-normal426-source-witness.md` and its acceptance JSON
+establish a qualified near-door 419 fixture → actual 426 transition → staged Normal route →
+map 3960208, with physical chest 0x088C87FC and exact local production-client output.
+Three witnesses cover 1 HP at 100/500% and 6 HP at 100%, with no damage or helper in 426.
+Retained repeated-contact/puff timing, a late first-gate jump, lower-switch access via the
+narrow shaft, inflation return and an ordinary F1 slide precede map collection. A matched
+6 HP first-jump omission never crosses the gate or collects the map. Preserve the null map
+rule and ordinary alternatives; do not impose a Copy Ability requirement.
+
+Still unproved: arbitrary 419 access, room-reset latch persistence, RoomSanity, 426 → 420,
+helper routes and a copied-ability matrix. Lower-bypass exploration did not collect the map
+or enter 420, so it earns neither check nor outgoing-door credit.
 
 ### 427: Candy Constellation - Room 2
 
