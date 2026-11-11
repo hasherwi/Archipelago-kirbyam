@@ -1,0 +1,538 @@
+{
+  "python": "3.12.14",
+  "baseline": "1cdde1a",
+  "current": "ordinary-metal-through-unconditional707",
+  "scope": "Paired in-process direct fixed-point evaluation; same graph/policy/items; compile and imports excluded",
+  "existing": {
+    "mini_134_ocean_spray/local": {
+      "nodes": 4,
+      "routes": 3,
+      "positions": 7,
+      "iterations_per_sample": 5000,
+      "baseline_us": [
+        16.248508400000002,
+        19.2388856,
+        21.581589800000003,
+        16.0840502,
+        16.605010200000002,
+        16.1519886,
+        15.7512202,
+        15.9880432,
+        15.9012746,
+        16.0530334,
+        15.8099046,
+        16.3382456
+      ],
+      "current_us": [
+        15.988574199999999,
+        16.1711576,
+        18.1854404,
+        25.542698400000003,
+        16.793636600000003,
+        16.323161,
+        16.1961934,
+        16.0177262,
+        16.303926,
+        16.068581000000002,
+        17.339243999999997,
+        16.1092384
+      ],
+      "baseline_us_median": 16.1180194,
+      "current_us_median": 16.2500597,
+      "paired_delta_us_median": 0.10042769999999912
+    },
+    "peg_605_12_24/carry": {
+      "nodes": 6,
+      "routes": 5,
+      "positions": 18,
+      "iterations_per_sample": 5000,
+      "baseline_us": [
+        51.0050898,
+        49.3730558,
+        49.5841622,
+        50.869647400000005,
+        49.7213566,
+        51.8184734,
+        49.616327,
+        51.0429994,
+        49.773504,
+        50.158200599999994,
+        49.7154424,
+        55.797244400000004
+      ],
+      "current_us": [
+        47.9437244,
+        46.250647199999996,
+        46.590576,
+        46.074087,
+        48.1516992,
+        48.9537332,
+        46.1422814,
+        74.3192536,
+        46.6924856,
+        46.1707784,
+        49.582662,
+        51.411846
+      ],
+      "baseline_us_median": 49.965852299999995,
+      "current_us_median": 47.318105,
+      "paired_delta_us_median": -3.0711919000000023
+    },
+    "reinforced_102_battle_notes/local": {
+      "nodes": 4,
+      "routes": 3,
+      "positions": 4,
+      "iterations_per_sample": 5000,
+      "baseline_us": [
+        8.771099399999999,
+        8.4839162,
+        8.7134726,
+        9.0263446,
+        11.1229848,
+        8.0844394,
+        12.4674042,
+        7.9363220000000005,
+        7.9806930000000005,
+        7.9786038,
+        7.9730312,
+        7.9427016
+      ],
+      "current_us": [
+        8.548675800000002,
+        9.052125400000001,
+        8.6723444,
+        8.6180444,
+        8.163611,
+        8.0606694,
+        7.9664374,
+        7.9369250000000005,
+        7.9501508,
+        7.9381188,
+        7.931869399999999,
+        7.9468116
+      ],
+      "baseline_us_median": 8.2841778,
+      "current_us_median": 8.0135534,
+      "paired_delta_us_median": -0.040806599999999804
+    }
+  },
+  "synthetic_throw": {
+    "nodes": 2,
+    "routes": 1,
+    "sources": 1,
+    "positions": 4,
+    "iterations_per_sample": 10000,
+    "evaluation_us": [
+      10.2301087,
+      10.2308318,
+      10.2347737,
+      10.4037127,
+      10.393032499999999,
+      10.3199674,
+      10.3771486,
+      10.4058498,
+      12.1586285,
+      10.352247,
+      10.3050648,
+      10.3209067
+    ],
+    "median_us": 10.33657685,
+    "scope": "Synthetic consumption-kernel cost only, not a native room witness"
+  },
+  "conditional557": {
+    "nodes": 4,
+    "routes": 3,
+    "sources": 1,
+    "positions": 9,
+    "iterations_per_sample": 10000,
+    "evaluation_us": [
+      17.8580855,
+      17.795159599999998,
+      18.126872,
+      17.8235734,
+      17.8496996,
+      17.9173497,
+      18.2425584,
+      17.5553346,
+      18.663662,
+      18.1037511,
+      18.45562,
+      18.1104212
+    ],
+    "median_us": 18.0105504,
+    "scope": "Guaranteed native Master Hand Smash, owned permission; compile/imports excluded"
+  },
+  "conditional176": {
+    "target": "metal_176_goal2_drink",
+    "witness": "local",
+    "policy": "native BATAFIRE Burning, owned Burning permission; production Burning remains ungated",
+    "nodes": 4,
+    "routes": 3,
+    "sources": 1,
+    "positions": 9,
+    "iterations_per_sample": 5000,
+    "current_us": [
+      19.2783528,
+      19.8561996,
+      21.020440999999998,
+      21.171615000000003,
+      21.345933799999997,
+      19.512566,
+      19.4792606,
+      19.007913000000002,
+      19.282699400000002,
+      19.1164024,
+      18.8660228,
+      19.074315
+    ],
+    "current_us_median": 19.38098,
+    "scope": "New graph evaluation only; existing paired measurements unchanged because kernel unchanged. No full-generation performance claim."
+  },
+  "conditional141": {
+    "metal_141_left_forward": {
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        18.966734199999998,
+        19.170409199999998,
+        19.783665799999998,
+        19.496575,
+        19.9732664,
+        20.6935936,
+        19.568237,
+        19.583556,
+        19.7788806,
+        19.0933892,
+        19.6694274,
+        19.2481626
+      ],
+      "current_us_median": 19.5758965,
+      "access_region": null
+    },
+    "metal_141_right_forward": {
+      "witness": "lower_carry",
+      "nodes": 6,
+      "routes": 5,
+      "sources": 1,
+      "positions": 13,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        28.8595856,
+        28.688133,
+        27.8364434,
+        28.3657192,
+        29.392152600000003,
+        28.619868399999998,
+        28.0598902,
+        28.016475600000003,
+        29.668671200000002,
+        31.504950400000002,
+        28.6406956,
+        28.2490032
+      ],
+      "current_us_median": 28.630282,
+      "access_region": "REGION_RAINBOW_ROUTE/ROOM_1_41"
+    },
+    "metal_141_left_reverse": {
+      "witness": "local",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        22.8961228,
+        21.8702572,
+        20.851817999999998,
+        22.2102696,
+        24.324328,
+        21.1301476,
+        21.5335618,
+        19.883576400000003,
+        26.117508,
+        19.5704242,
+        23.0739858,
+        22.505052199999998
+      ],
+      "current_us_median": 22.0402634,
+      "access_region": null
+    }
+  },
+  "conditional141_scope": "Native FLAMER Burning, owned Burning permission. Warm kernel evaluation only; independent AP-region access is checked by installer. Existing paired baseline samples are unchanged because the kernel did not change.",
+  "conditional_742": {
+    "metal_742_sparerib": {
+      "witness": "clean_carry",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        19.535347,
+        19.5376696,
+        23.0105864,
+        18.8832494,
+        18.854175599999998,
+        19.262583600000003,
+        18.6598844,
+        18.629162,
+        18.3628404,
+        20.017231,
+        23.5973386,
+        17.962971000000003
+      ],
+      "current_us_median": 19.0729165
+    },
+    "metal_742_lower_to_warp": {
+      "witness": "clean_carry",
+      "nodes": 4,
+      "routes": 3,
+      "sources": 1,
+      "positions": 9,
+      "iterations_per_sample": 5000,
+      "current_us": [
+        19.9481368,
+        19.2697504,
+        18.9468152,
+        20.3807464,
+        19.0537546,
+        18.507925200000003,
+        21.78583,
+        21.0628612,
+        18.6552756,
+        20.975161,
+        21.6697688,
+        20.3814214
+      ],
+      "current_us_median": 20.1644416
+    }
+  },
+  "source_backed_707": {
+    "scope": "Five warmed samples per inventory:1000 evaluations for native policy,200 for included live statues with the full pool and documented retries. Reused ordinary_hub_statues, no kernel change. Input-size/policy comparison, not a before/after speedup or whole-generation benchmark. Earlier paired kernel baseline retained unchanged.",
+    "graphs": {
+      "central_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "minimal_vanilla_items": {
+            "positions": 27,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              129.44347,
+              135.562693,
+              143.120494,
+              127.965633,
+              128.29008100000001
+            ],
+            "current_us_median": 129.44347
+          },
+          "all_route_items": {
+            "positions": 290,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              1707.613759,
+              1717.558496,
+              1671.362025,
+              1729.215691,
+              1746.120228
+            ],
+            "current_us_median": 1717.558496
+          },
+          "all_live_route_items": {
+            "positions": 452,
+            "iterations_per_sample": 200,
+            "current_us": [
+              19307.9895,
+              20194.05141,
+              20592.8,
+              19274.831465,
+              18527.30923
+            ],
+            "current_us_median": 19307.9895,
+            "mode": 2,
+            "include_statues": true,
+            "ability_pool_size": 25,
+            "allow_documented_retries": true
+          }
+        }
+      },
+      "cabbage592_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "minimal_vanilla_items": {
+            "positions": 25,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              118.687829,
+              114.225523,
+              116.858252,
+              115.749911,
+              113.970819
+            ],
+            "current_us_median": 115.749911
+          },
+          "all_route_items": {
+            "positions": 290,
+            "iterations_per_sample": 1000,
+            "current_us": [
+              1637.117635,
+              1571.6038629999998,
+              1602.546364,
+              1738.630239,
+              1749.628659
+            ],
+            "current_us_median": 1637.117635
+          },
+          "all_live_route_items": {
+            "positions": 452,
+            "iterations_per_sample": 200,
+            "current_us": [
+              18698.43326,
+              18193.99915,
+              18989.89341,
+              18791.998895,
+              18196.323525
+            ],
+            "current_us_median": 18698.43326,
+            "mode": 2,
+            "include_statues": true,
+            "ability_pool_size": 25,
+            "allow_documented_retries": true
+          }
+        }
+      }
+    }
+  },
+  "source_backed_216": {
+    "scope": "Five warmed samples; native minimal1000 evaluations/sample, full-native100/sample, full-live50/sample. No kernel change. Full-inventory707/216 comparison uses the same evaluator and source policy, not a before/after optimization. Compile/catalog cache remains enabled; each evaluation recomputes reachability.",
+    "base_commit": "181c6e9faeb97040723d0786d4b6f1fc31156441",
+    "gating": false,
+    "allow_documented_retries": true,
+    "graphs": {
+      "metal_216_chest/central_statues": {
+        "nodes": 20,
+        "routes": 34,
+        "sources": 30,
+        "cases": {
+          "minimal_native_items": {
+            "positions": 32,
+            "iterations_per_sample": 1000,
+            "microseconds": [
+              132.996027,
+              129.842684,
+              133.56357500000001,
+              143.404894,
+              132.995688
+            ],
+            "median_microseconds": 132.996027
+          },
+          "all_native_items": {
+            "positions": 306,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1697.491,
+              1642.20042,
+              1717.1173000000001,
+              1744.8705400000001,
+              1687.89543
+            ],
+            "median_microseconds": 1697.491
+          },
+          "all_live_items": {
+            "positions": 477,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              18402.82462,
+              19134.96352,
+              19292.82154,
+              18748.4288,
+              18408.79746
+            ],
+            "median_microseconds": 18748.4288
+          }
+        }
+      },
+      "metal_216_chest/peppermint291_statues": {
+        "nodes": 20,
+        "routes": 34,
+        "sources": 30,
+        "cases": {
+          "minimal_native_items": {
+            "positions": 14,
+            "iterations_per_sample": 1000,
+            "microseconds": [
+              61.581661999999994,
+              61.948566,
+              59.723349999999996,
+              60.318898000000004,
+              77.446937
+            ],
+            "median_microseconds": 61.581661999999994
+          },
+          "all_native_items": {
+            "positions": 306,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1904.22588,
+              1981.03516,
+              1642.38806,
+              1730.49902,
+              1644.77515
+            ],
+            "median_microseconds": 1730.49902
+          },
+          "all_live_items": {
+            "positions": 477,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              19324.15248,
+              18497.29168,
+              18862.352,
+              19307.90054,
+              18331.138440000002
+            ],
+            "median_microseconds": 18862.352
+          }
+        }
+      },
+      "metal_707_to_712/central_statues": {
+        "nodes": 19,
+        "routes": 33,
+        "sources": 30,
+        "cases": {
+          "all_native_items": {
+            "positions": 290,
+            "iterations_per_sample": 100,
+            "microseconds": [
+              1569.9296000000002,
+              1727.73839,
+              1736.28348,
+              1628.83304,
+              1694.1283999999998
+            ],
+            "median_microseconds": 1694.1283999999998
+          },
+          "all_live_items": {
+            "positions": 452,
+            "iterations_per_sample": 50,
+            "microseconds": [
+              18441.94294,
+              19273.152899999997,
+              20173.25662,
+              19323.92696,
+              18327.93422
+            ],
+            "median_microseconds": 19273.152899999997
+          }
+        }
+      }
+    }
+  }
+}

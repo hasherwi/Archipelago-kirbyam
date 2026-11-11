@@ -1,0 +1,1368 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "Layered source-equivalent500% enemyHP native proof: pinned production enemy_health_scaling.py at a062278eea84ce3c2a6a7bbc601262cda0f3fab2 applied once to both fixtures before fresh boot. Not full Bonkers fight/capture replay, actualAPpatch or direct1HPconfig. Actual Normal source approach plus source-contract and explicitly synthetic post-defeat Hammer suffix. No runtime writes, terrain or attack changes.",
+  "source": {
+    "room": 210,
+    "template": "0x088BF730",
+    "position": [
+      440,
+      232
+    ],
+    "type": 57,
+    "copy_table_ability": 17,
+    "unk2": 0,
+    "unk3": 10,
+    "unk4": 2,
+    "scroll_lock": {
+      "template": "0x088BF5C8",
+      "position": [
+        384,
+        192
+      ],
+      "unk2": 0,
+      "unk3": 0,
+      "unk4": 2,
+      "unk22": 6
+    },
+    "contract": "InitObject loads ability from table0x08351648+type*24+6. Shared object.c lethal branch enters sub_0809D060; guard(unk2||unk3!=31) holds and increments sharedslot2; scroll_lock.c observes that slot. Defeated body remains available for ordinary inhale/copy via sub_0809C48C→sub_080547C4. Combat availability remains existing world assumption."
+  },
+  "fixtures": {
+    "approach": "OriginalUSA startup210(256,48), AI101, actual210→205lower, then actual205→210(264,40.996) and controller approach. No source mutations.",
+    "suffix": "Startup210(400,240); Bonkers template changed toHammerstatue0x93 subtype6 at unchanged(440,232); its scrolllock template x384→2000 to emulate post-defeat boundary release. Other objects and terrain unchanged. This essence is not credited as production source.",
+    "normal_source_approach_sha256": "28f33f30caf95a1389420e195bc811f41eb03f52c9cc371ab71deb4ff3f9ff86",
+    "post_defeat_suffix_sha256": "a7fc22189406419ee739cafc1c37507106a9c6f7f29beb23e69bee23e9ea3faf"
+  },
+  "result": "Actual210→205lower, carry via left shaft to upper floor. Two low aerial Hammer swings remove floor rows, swim around shelf, actual205→209 top entry and flag23 chest. Hammer retained, no sampledHP loss.",
+  "attack": "A1, release8, B1, wait60 repeated twice at(350.121,120.996). A6 high-jump attack was a rejected ineffective timing.",
+  "chains": {
+    "normal_source_approach": [
+      {
+        "segment": "all500-entry205lower",
+        "parent_state": null,
+        "inputs": [
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 1206,
+            "room": 205,
+            "x": 152,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-actual205to210",
+        "parent_state": "all500-entry205lower",
+        "inputs": [
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 7,
+            "keys": 32
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 158,
+            "room": 210,
+            "x": 264,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-actual-bonkers210approach",
+        "parent_state": "all500-actual205to210",
+        "inputs": [
+          {
+            "frames": 150,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 250,
+            "room": 210,
+            "x": 293.58984375,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-actual-bonkers210ladder",
+        "parent_state": "all500-actual-bonkers210approach",
+        "inputs": [
+          {
+            "frames": 27,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 150,
+            "keys": 128
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 187,
+            "room": 210,
+            "x": 251.21484375,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-actual-bonkers210below",
+        "parent_state": "all500-actual-bonkers210ladder",
+        "inputs": [
+          {
+            "frames": 4,
+            "keys": 32
+          },
+          {
+            "frames": 180,
+            "keys": 128
+          },
+          {
+            "frames": 34,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 95,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 334,
+            "room": 210,
+            "x": 292.109375,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-actual-bonkers210arena",
+        "parent_state": "all500-actual-bonkers210below",
+        "inputs": [
+          {
+            "frames": 10,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 90,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "frames": 65,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 246,
+            "room": 210,
+            "x": 393.140625,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      }
+    ],
+    "post_defeat_suffix": [
+      {
+        "segment": "all500-hammer210suffix",
+        "parent_state": null,
+        "inputs": [
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 22,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 1168,
+            "room": 210,
+            "x": 429.15625,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer210capture",
+        "parent_state": "all500-hammer210suffix",
+        "inputs": [
+          {
+            "frames": 15,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 76,
+            "room": 210,
+            "x": 432.53125,
+            "y": 232.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer210return",
+        "parent_state": "all500-hammer210capture",
+        "inputs": [
+          {
+            "frames": 92,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 150,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 263,
+            "room": 210,
+            "x": 312.046875,
+            "y": 33.55078125,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205entry",
+        "parent_state": "all500-hammer210return",
+        "inputs": [
+          {
+            "frames": 55,
+            "keys": 33
+          },
+          {
+            "frames": 10,
+            "keys": 17
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 50,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 237,
+            "room": 205,
+            "x": 152,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205lowerclimb",
+        "parent_state": "all500-hammer205entry",
+        "inputs": [
+          {
+            "frames": 70,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 85,
+            "keys": 1
+          },
+          {
+            "frames": 65,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 65,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 316,
+            "room": 205,
+            "x": 110.30859375,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205upper",
+        "parent_state": "all500-hammer205lowerclimb",
+        "inputs": [
+          {
+            "frames": 55,
+            "keys": 33
+          },
+          {
+            "frames": 10,
+            "keys": 17
+          },
+          {
+            "frames": 90,
+            "keys": 1
+          },
+          {
+            "frames": 120,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 45,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 331,
+            "room": 205,
+            "x": 154.44140625,
+            "y": 107.10546875,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205doo",
+        "parent_state": "all500-hammer205upper",
+        "inputs": [
+          {
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "frames": 28,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 50,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 109,
+            "room": 205,
+            "x": 233.23828125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205floorapproach",
+        "parent_state": "all500-hammer205doo",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 100,
+            "keys": 1
+          },
+          {
+            "frames": 95,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 70,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 287,
+            "room": 205,
+            "x": 337.71484375,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205plug",
+        "parent_state": "all500-hammer205floorapproach",
+        "inputs": [
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 80,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 100,
+            "room": 205,
+            "x": 350.12109375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205floorbreak",
+        "parent_state": "all500-hammer205plug",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 8,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 140,
+            "room": 205,
+            "x": 350.12109375,
+            "y": 176.62109375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer205doorhover",
+        "parent_state": "all500-hammer205floorbreak",
+        "inputs": [
+          {
+            "frames": 260,
+            "keys": 32
+          },
+          {
+            "frames": 280,
+            "keys": 16
+          },
+          {
+            "frames": 35,
+            "keys": 17
+          },
+          {
+            "frames": 20,
+            "keys": 144
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 595,
+            "room": 205,
+            "x": 473.99609375,
+            "y": 245.47265625,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer209prompt",
+        "parent_state": "all500-hammer205doorhover",
+        "inputs": [
+          {
+            "frames": 5,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 55,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 5,
+            "room": 205,
+            "x": 472.94140625,
+            "y": 246.72265625,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "1",
+            "frame": 6,
+            "room": 205,
+            "x": 472.62109375,
+            "y": 247.06640625,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "2",
+            "frame": 61,
+            "room": 205,
+            "x": 471.16015625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "3",
+            "frame": 62,
+            "room": 205,
+            "x": 471.16015625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "4",
+            "frame": 182,
+            "room": 209,
+            "x": 168,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer209minor",
+        "parent_state": "all500-hammer209prompt",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 25,
+            "keys": 1
+          },
+          {
+            "frames": 85,
+            "keys": 33
+          },
+          {
+            "frames": 10,
+            "keys": 17
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "frames": 17,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 45,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 209,
+            "x": 168,
+            "y": 36.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "1",
+            "frame": 11,
+            "room": 209,
+            "x": 168,
+            "y": 34.08203125,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "2",
+            "frame": 36,
+            "room": 209,
+            "x": 168,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "3",
+            "frame": 121,
+            "room": 209,
+            "x": 83.734375,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "4",
+            "frame": 131,
+            "room": 209,
+            "x": 77.8359375,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "5",
+            "frame": 132,
+            "room": 209,
+            "x": 77.6640625,
+            "y": 21.15234375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "6",
+            "frame": 192,
+            "room": 209,
+            "x": 77.2890625,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "7",
+            "frame": 209,
+            "room": 209,
+            "x": 60.1640625,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "8",
+            "frame": 219,
+            "room": 209,
+            "x": 48.9140625,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "9",
+            "frame": 264,
+            "room": 209,
+            "x": 33.9140625,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      },
+      {
+        "segment": "all500-hammer209collected",
+        "parent_state": "all500-hammer209minor",
+        "inputs": [
+          {
+            "frames": 18,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 18,
+            "room": 209,
+            "x": 52.3359375,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "1",
+            "frame": 19,
+            "room": 209,
+            "x": 53.6171875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          {
+            "label": "2",
+            "frame": 109,
+            "room": 209,
+            "x": 53.6171875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          }
+        ]
+      }
+    ]
+  },
+  "per_frame_hp_audit": [
+    {
+      "segment": "all500-actual205to210",
+      "frames": 158,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-actual-bonkers210approach",
+      "frames": 250,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-actual-bonkers210ladder",
+      "frames": 187,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-actual-bonkers210below",
+      "frames": 334,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-actual-bonkers210arena",
+      "frames": 246,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-hammer210capture",
+      "frames": 76,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0,
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer210return",
+      "frames": 263,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205entry",
+      "frames": 237,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205lowerclimb",
+      "frames": 316,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205upper",
+      "frames": 331,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205doo",
+      "frames": 109,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205floorapproach",
+      "frames": 287,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205plug",
+      "frames": 100,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205floorbreak",
+      "frames": 140,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer205doorhover",
+      "frames": 595,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer209prompt",
+      "frames": 182,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer209minor",
+      "frames": 264,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    },
+    {
+      "segment": "all500-hammer209collected",
+      "frames": 109,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        17
+      ]
+    }
+  ],
+  "observations": {
+    "all500-hammer205plug": {
+      "label": "all500-hammer205plug",
+      "frame": 0,
+      "room": 205,
+      "x": 350.12109375,
+      "y": 120.99609375,
+      "hp": 6,
+      "ability": 17,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "floor_tiles": [
+        {
+          "x": 21,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 9,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 9,
+          "tile": 245
+        }
+      ]
+    },
+    "all500-hammer205floorbreak": {
+      "label": "all500-hammer205floorbreak",
+      "frame": 0,
+      "room": 205,
+      "x": 350.12109375,
+      "y": 176.62109375,
+      "hp": 6,
+      "ability": 17,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "floor_tiles": [
+        {
+          "x": 21,
+          "y": 8,
+          "tile": 0
+        },
+        {
+          "x": 22,
+          "y": 8,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 9,
+          "tile": 0
+        },
+        {
+          "x": 22,
+          "y": 9,
+          "tile": 0
+        }
+      ]
+    },
+    "all500-hammer209collected": {
+      "label": "all500-hammer209collected",
+      "frame": 0,
+      "room": 209,
+      "x": 53.6171875,
+      "y": 56.99609375,
+      "hp": 6,
+      "ability": 17,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "flag23_masked": 128
+    }
+  },
+  "max_health_timing_note": "Default final water wait failed against durable enemies. Accepted continuation waits55frames after left-facing Hammer strike, enters209 promptly before surviving enemies contact Kirby; no kill assumption or new source."
+}

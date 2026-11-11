@@ -32,6 +32,7 @@ def launcher_args(**overrides: object) -> argparse.Namespace:
         "with_output": False,
         "sample_from": None,
         "allow_ignored": False,
+        "classify_minimal_rejections": False,
     }
     values.update(overrides)
     return argparse.Namespace(**values)
@@ -176,3 +177,141 @@ def test_health_fuzz_triggers_select_only_supported_maximum_range(minimum: int) 
     for _ in range(20):
         maximum = MaximumHealth.from_any(resolved["maximum_health"]).value
         assert minimum <= maximum <= expected_end
+
+
+def rejection_artifact(launcher: ModuleType, root: Path) -> dict[str, object]:
+    """Small synthetic fixture with the same strict envelope as saved CI logs."""
+    message = (launcher.CHECK_ERROR_PREFIX + "\nPlayer 1 (1-0): unfilled=[]; "
+               "unavailable even with all inventory=[]; unreachable from placed progression=['A chest']")
+    log = (
+        "Generating for 1 player, 123 Seed 456 with plando: items, connections, texts, bosses\n"
+        'P1 Rolled options (1-0/Kirby & The Amazing Mirror): '
+        '{"game": "Kirby & The Amazing Mirror", "accessibility": 2}\n'
+        'Traceback (most recent call last):\n  File "world.py", line 1, in stage_pre_output\n'
+        '  File "check_accessibility.py", line 2, in validate_all_checks\n'
+        + launcher.CHECK_ERROR_TYPE + ": " + message + "\n\n"
+    )
+    case = root / "error" / "kirbyam" / "1"
+    case.mkdir(parents=True)
+    (case / "1.log").write_text(log, encoding="utf-8")
+    (case / "1-0.yaml").write_text("game: Kirby & The Amazing Mirror\n", encoding="utf-8")
+    return {"stats": {"total": 4, "success": 3, "failure": 1, "timeout": 0, "ignored": 0},
+            "errors": {"kirbyam": {message: [1]}}}
+
+
+def test_classification_is_opt_in_and_never_changes_raw_success(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
+    launcher = load_launcher()
+    report = rejection_artifact(launcher, tmp_path)
+    before = json.dumps(report)
+    monkeypatch.setattr(launcher, "OUTPUT_DIR", tmp_path)
+    args = launcher_args(runs=4, classify_minimal_rejections=False)
+    assert launcher.report_result(args, report, 1) == 1
+    args.classify_minimal_rejections = True
+    assert launcher.report_result(args, report, 1) == 0
+    assert json.dumps(report) == before
+    outcomes = json.loads((tmp_path / launcher.CLASSIFICATION_FILENAME).read_text())
+    assert outcomes["raw_stats"]["success"] == 3
+    assert outcomes["unsafe_rejected"][0]["seed"] == 456
+    assert outcomes["unsafe_rejected"][0]["stranded_checks"] == ["A chest"]
+    assert outcomes["unsafe_rejected"][0]["yaml_sha256"]
+    assert outcomes["unclassified"] == outcomes["errors"] == []
+    assert "3 succeeded, 1 raw failures (1 classified unsafe rejections)" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("change", [
+    "full", "wrong_game", "missing_options", "multiple_players", "unfilled", "source_closed", "no_checks",
+    "wrong_exception", "trailing_error", "chained_error", "chain_marker", "exception_group", "bad_checks",
+    "missing_stack",
+    "missing_seed", "missing_yaml", "multiple_yamls", "missing_log", "bad_json", "no_traceback",
+])
+def test_classification_rejects_unexpected_and_incomplete_evidence(tmp_path: Path, change: str) -> None:
+    launcher = load_launcher()
+    report = rejection_artifact(launcher, tmp_path)
+    path = tmp_path / "error/kirbyam/1/1.log"
+    log = path.read_text()
+    replacements = {
+        "full": ('"accessibility": 2', '"accessibility": 0'),
+        "wrong_game": ('"game": "Kirby & The Amazing Mirror"', '"game": "Another game"'),
+        "missing_options": ("P1 Rolled options", "Options"),
+        "multiple_players": ("P1 Rolled options", "P2 Rolled options"),
+        "unfilled": ("unfilled=[]", "unfilled=['A chest']"),
+        "source_closed": ("unavailable even with all inventory=[]", "unavailable even with all inventory=['A chest']"),
+        "no_checks": ("progression=['A chest']", "progression=[]"),
+        "wrong_exception": (launcher.CHECK_ERROR_TYPE, "RuntimeError"),
+        "bad_checks": ("progression=['A chest']", "progression=[broken]"),
+        "missing_stack": ("in stage_pre_output", "in generate_early"),
+        "missing_seed": ("Generating for 1 player", "Generating for 2 players"),
+        "bad_json": ('"accessibility": 2', '"accessibility": nope'),
+        "no_traceback": ("Traceback (most recent call last):", ""),
+    }
+    if change in replacements:
+        old, new = replacements[change]
+        log = log.replace(old, new)
+        # Keep the report consistent: rejecting theoretical failures cannot rely
+        # merely on a deliberately mismatched log and report.
+        errors = report["errors"]
+        assert isinstance(errors, dict)
+        errors["kirbyam"] = {message.replace(old, new): ids for message, ids in errors["kirbyam"].items()}
+    elif change == "trailing_error":
+        log += "RuntimeError: unexpected\n"
+    elif change == "chained_error":
+        log = "Traceback (most recent call last):\nRuntimeError: prior\n" + log
+    elif change == "chain_marker":
+        log = "During handling of the above exception, another exception occurred:\n" + log
+    elif change == "exception_group":
+        log = "ExceptionGroup: mixed errors\n" + log
+    elif change == "missing_yaml":
+        (path.parent / "1-0.yaml").unlink()
+    elif change == "multiple_yamls":
+        (path.parent / "1-1.yaml").write_text("game: Another game\n")
+    path.write_text(log)
+    if change == "missing_log":
+        path.unlink()
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path)
+    assert outcomes["unsafe_rejected"] == []
+    assert len(outcomes["unclassified"]) == 1
+    assert launcher.validate_report(report, expected_runs=4, allow_ignored=False) == ["1 generation failure(s)"]
+
+
+@pytest.mark.parametrize("case_ids", [[1, 1], [True], [-1], ["1"], [], [1, 2]])
+def test_ambiguous_case_mapping_cannot_subtract_failures(tmp_path: Path, case_ids: list[object]) -> None:
+    launcher = load_launcher()
+    report = rejection_artifact(launcher, tmp_path)
+    errors = report["errors"]
+    assert isinstance(errors, dict)
+    message, = errors["kirbyam"]
+    errors["kirbyam"][message] = case_ids
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path)
+    assert outcomes["unsafe_rejected"] == []
+    assert outcomes["errors"]
+
+
+@pytest.mark.parametrize("success,rejections,allowed", [(0, 500, False), (1, 499, False), (249, 251, False),
+                                                        (250, 250, True), (395, 105, True)])
+def test_rejection_policy_requires_successful_generation_fraction(success: int, rejections: int, allowed: bool) -> None:
+    launcher = load_launcher()
+    report = {"stats": {"total": 500, "success": success, "failure": rejections, "timeout": 0, "ignored": 0}}
+    messages = launcher.validate_report(report, expected_runs=500, allow_ignored=False, unsafe_rejected=rejections)
+    assert (not messages) is allowed
+
+
+def test_classified_rejection_does_not_hide_other_failure_timeout_or_crash(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    launcher = load_launcher()
+    report = rejection_artifact(launcher, tmp_path)
+    monkeypatch.setattr(launcher, "OUTPUT_DIR", tmp_path)
+    args = launcher_args(runs=4, classify_minimal_rejections=True)
+    assert launcher.report_result(args, report, 2) == 2
+    stats = report["stats"]
+    errors = report["errors"]
+    assert isinstance(stats, dict) and isinstance(errors, dict)
+    stats.update(success=2, failure=2)
+    errors["kirbyam"]["RuntimeError: unexpected"] = [2]
+    assert launcher.report_result(args, report, 1) == 1
+    stats.update(failure=1, timeout=1)
+    errors["kirbyam"].pop("RuntimeError: unexpected")
+    errors["kirbyam"]["TimeoutError"] = [2]
+    assert launcher.report_result(args, report, 1) == 1

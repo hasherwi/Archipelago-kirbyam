@@ -1,5 +1,7 @@
 """Documented local source retries are conditional, not finite lucky-draw proofs."""
 
+from pathlib import Path
+
 import random
 from unittest.mock import patch
 
@@ -21,7 +23,7 @@ CASES = [
 ]
 
 
-def live_policy(weight):
+def live_policy(weight: int) -> SourcePolicy:
     raw = build_enemy_copy_ability_policy(
         random.Random(427), 2, True, True, whitelist=('Wheel', 'Hammer'),
         include_passive_enemies=True, no_ability_weight=weight,
@@ -32,8 +34,13 @@ def live_policy(weight):
 @pytest.mark.parametrize('target_id,target,identity,source_key,permission', CASES)
 @pytest.mark.parametrize('weight', [0, 55, 99, 100])
 def test_local_live_sources_require_positive_support_and_explicit_retry(
-    target_id, target, identity, source_key, permission, weight,
-):
+    target_id: str,
+    target: str,
+    identity: str,
+    source_key: str,
+    permission: str,
+    weight: int,
+) -> None:
     graph = room_traversal_graph(target_id, 'local')
     source = next(p for p in graph.placements if p.identity == identity)
     assert source.source_key == source_key
@@ -54,13 +61,16 @@ def test_local_live_sources_require_positive_support_and_explicit_retry(
     assert ungated.reaches(target) == (weight < 100)
 
 
-def test_installed_local_peg_rule_can_retry_without_remote_access():
+def test_installed_local_peg_rule_can_retry_without_remote_access() -> None:
     world = make_world(2, True, ability_randomization_statues=False, ability_randomization_no_ability_weight=55)
     state = CollectionState(world.multiworld)
     row = next(row for row in room_traversal_targets('peg') if row['id'] == 'peg_149_35_18')
     location = world.multiworld.get_location(data.locations[row['location']].label, 1)
-    # Starting Stone permission is sufficient only because the physical Giant
-    # Rocky is independently present and its audited repeat route is available.
+    # Acquired permission still requires the physical Giant Rocky/repeat route.
+    assert not state.has('Stone Ability', 1)
+    with patch.object(state, 'can_reach_region', return_value=False):
+        assert not location.access_rule(state)
+    state.collect(world.create_item('Stone Ability'), prevent_sweep=True)
     assert state.has('Stone Ability', 1)
     with patch.object(state, 'can_reach_region', return_value=False):
         assert location.access_rule(state)
@@ -68,7 +78,7 @@ def test_installed_local_peg_rule_can_retry_without_remote_access():
             assert not location.access_rule(state)
 
 
-def test_installed_wheel_rule_requires_its_independent_source_region_and_permission():
+def test_installed_wheel_rule_requires_its_independent_source_region_and_permission() -> None:
     world = make_world(2, True, ability_randomization_statues=False, ability_randomization_no_ability_weight=55)
     state = CollectionState(world.multiworld)
     target = world.multiworld.get_entrance(RACE_ENTRANCE, 1)
@@ -84,7 +94,7 @@ def test_installed_wheel_rule_requires_its_independent_source_region_and_permiss
 @pytest.mark.parametrize('weight', [0, 55])
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('area_keys', [False, True])
-def test_live_fixed_statue_local_retry_archive(tmp_path, weight, gating, area_keys):
+def test_live_fixed_statue_local_retry_archive(tmp_path: Path, weight: int, gating: bool, area_keys: bool) -> None:
     player = tmp_path / 'player.yaml'
     player.write_text(
         'name: Local retry\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
@@ -99,7 +109,10 @@ def test_live_fixed_statue_local_retry_archive(tmp_path, weight, gating, area_ke
     decoded = load_multidata_from_archive(archive)
     assert decoded['locations'][1]
     starts = decoded['precollected_items'][1]
-    assert 3860108 in starts  # Stone retains starting permission.
+    assert 3860108 not in starts  # Stone is acquired progression, not forced.
+    stone_count = sum(item[0] == 3860108 and item[1] == 1
+                      for rows in decoded['locations'].values() for item in rows.values())
+    assert stone_count == int(gating)
     assert 3860104 not in starts  # Wheel remains a findable permission, never starting equipment.
     pool = {entry[0] for entry in decoded['locations'][1].values()}
     assert (3860104 in pool) == gating

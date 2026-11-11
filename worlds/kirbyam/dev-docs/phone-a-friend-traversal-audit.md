@@ -2,15 +2,15 @@
 
 Status: **implementation in progress; production activation and helper-route grants remain disabled.** The initial audit below was checked 2026-11-09. See [the native gate and ownership milestone](phone-implementation.md) for current code, tests, and remaining acceptance work. AI-assisted source review. This is a separate follow-up to [#490](https://github.com/hasherwi/Archipelago-kirbyam/issues/490), not a change to the through-wall evidence work in [#1052](https://github.com/hasherwi/Archipelago-kirbyam/pull/1052).
 
-## Findings
+## Current design
 
-Small switches and large Heave-Ho Blocks are important Phone candidates, but they are **not a complete list of documented cooperative traversal interactions**. Carrot Castle Room 16 explicitly describes friends as an alternative for remotely activating a **Bomb Block**, opening the lower route to the Yellow Spray Paint chest. That room is absent from the exhaustive native small-switch inventory. It must be investigated alongside the switch and Heave-Ho routes.
+Future Phone progression may assume helper participation only at **small switches and Heave-Ho blocks**, never helper copy abilities, ability attacks, Bomb Block/chest attacks or discarded ability sources. This is a logic restriction, not a change to native AI behavior. Room-specific arrival, positioning, useful cooperation and full traversal still require acceptance; these two permitted categories are not universal Phone grants.
 
-This does **not** establish a reliable CPU-controlled Phone solution for Carrot Room 16, or a universal `Phone OR ranged ability` rule. The room article says friends may help, and the treasure guide also lists a helper alternative. Neither supplies a reproducible single-player helper-positioning procedure. Keep the Bomb Block route in the audit, but do not grant it in logic until tested.
+The initial source audit also found documented cooperative Bomb Block behavior in Carrot Castle Room 16. Retain that discovery and the later native-733 observations as historical evidence, but exclude the helper attack from future progression witnesses under the current design. Independently reviewed human solo/source alternatives remain eligible and must be OR alternatives within each target, not separate AND requirements.
 
-The reverse implication is also wrong: neither every small switch nor every large Heave-Ho Block is necessarily Phone-required. Ordinary movement, air bullets, switch timing, suitable attacks, and room-specific bypasses can supply solo alternatives. Moonlight Mansion Room 18 explicitly documents repeated Final Cutter as an alternative to cooperative inhaling.
+Only Beam is automatically precollected after PR #1051. Historical Phone evidence keeps its original starts and masks and does not certify this new baseline. Phone remains inactive with no catalog item, pool entry, option, slot capability or traversal binding.
 
-## Scope and baseline
+## Historical audit scope and baseline
 
 - Active feature tracker: [#490, Gate Kirby Actions](https://github.com/hasherwi/Archipelago-kirbyam/issues/490). Its initial action set includes Phone a Friend alongside Swallow, Slide, and Swim.
 - [#1039](https://github.com/hasherwi/Archipelago-kirbyam/issues/1039) is closed as a duplicate, not as implemented. Its corrected scope withdraws the proposal to gate both phone actions: **only calling allies is eligible for gating**. Holding L to return to Central Circle must remain available under its normal native restrictions, independently of Phone ownership.
@@ -18,13 +18,13 @@ The reverse implication is also wrong: neither every small switch nor every larg
 - Native source reviewed: USA decompilation [`1197474f80e5de282fbedcd0025ebfa61f61a764`](https://github.com/jiangzhengwenjz/katam/tree/1197474f80e5de282fbedcd0025ebfa61f61a764). The repository targets ROM SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`. This review did not build or execute that ROM.
 - Native IDs below come from the checked-in [native/AP/WiKirby mapping](https://github.com/hasherwi/Archipelago-kirbyam/blob/7a198f4ff09a0b3a279dc61bc420bc57a0d62c10/worlds/kirbyam/dev-docs/native-room-wikirby-map.json). Native room IDs, completion indices, and AP logical compartments are different identifiers.
 
-## Evidence-backed candidate routes
+## Candidate routes and excluded historical observation
 
-These are review targets, not newly accepted logic witnesses. An optional chest can still hold progression in an AP seed. Conversely, helping with an optional chest does not justify gating every exit from its room.
+Small-switch and Heave-Ho rows are review targets, not newly accepted logic witnesses. The Carrot row is an excluded historical observation. An optional chest can still hold progression in an AP seed. Conversely, helping with an optional chest does not justify gating every exit from its room.
 
 | Native room | Route or target | What the sources support | What remains to establish |
 | --- | --- | --- | --- |
-| **733**, Carrot Castle Room 16 | `REGION_CARROT_CASTLE/ROOM_5_16`, `MINOR_CHEST_SPRAY_PAINT_02` | Remote **Bomb Block** activation opens the lower Yellow Spray Paint route; friends and long-range abilities are documented alternatives. This is the counterexample to limiting the audit to small switches and Heave-Ho Blocks. | CPU versus human cooperation, caller/helper positions, repeatable target activation and actual chest collection. Do not gate the ordinary exit to Room 9 merely because this chest has a puzzle. |
+| **733**, Carrot Castle Room 16 | `REGION_CARROT_CASTLE/ROOM_5_16`, `MINOR_CHEST_SPRAY_PAINT_02` | Remote **Bomb Block** activation opens the lower Yellow Spray Paint route; friends and long-range abilities are documented alternatives. This historical observation is outside the current helper-progression scope. | Excluded as a Phone witness, regardless of repeatability. Preserve independent human solo alternatives and the ordinary exit to Room 9. |
 | **146**, Moonlight Mansion Room 18 | Door toward Goal 2's Room-18 entrance; inspect `ROOM_2_18_BOTTOM_RIGHT -> ROOM_2_GOAL_2_UPPER_LEFT` | A large stone block obstructs the goal-room door. Cooperative inhaling and repeated Final Cutter nudges are both documented. | Exact object/template variant, helper count and positioning, reliable solo alternative, and alignment of native doorway/treasure compartment with the existing AP splits. Other Room 18 doors are not automatically Phone-dependent. |
 | **315**, Mustard Mountain Room 12 | Upper secret doorway toward a different part of Room 13; compare ordinary `ROOM_4_13` and `ROOM_4_13__LOGIC__CANNON_LEFT` entries | Helpers can move a Heave-Ho Block to plug the volcano and expose the upper route. An ordinary lower route to Room 13 is also described. | Exact destination spawn/compartment, object variant, solo movement alternatives and full traversal. Do not turn the whole Room 12-to-13 connection into a Phone gate. |
 | **310**, Mustard Mountain Chest | `MAJOR_CHEST_MUSTARD_MOUNTAIN` | A nearly immediate small-switch gate has an explicitly suggested helper solution. | CPU switch holding, arrival side, gate timing, enemy interference and collection. The static switch-height obstruction in #1052 prevents assuming any flat projectile is a substitute. |
@@ -36,9 +36,9 @@ Room sources: [Carrot 16](https://wikirby.com/wiki/Carrot_Castle_-_Room_16), [tr
 
 ### Existing graph annotations are not proof of a solution
 
-At the pinned AP baseline, [rooms.json](https://github.com/hasherwi/Archipelago-kirbyam/blob/7a198f4ff09a0b3a279dc61bc420bc57a0d62c10/worlds/kirbyam/data/regions/rooms.json) leaves the Carrot 16 Yellow, Cabbage 5 Secret Sounds, and Candy Chest 3 map requirements null. The Mustard map includes the pending `can_hit_far_switch` token. The two Mustard Room 12 exits carry `can_break_block`; Moonlight Room 18's bottom-right/Goal 2 upper-left connection is null. These are the current annotations to reconcile, not source evidence that Phone is unnecessary or that all alternatives work.
+At the pinned AP baseline, [rooms.json](https://github.com/hasherwi/Archipelago-kirbyam/blob/7a198f4ff09a0b3a279dc61bc420bc57a0d62c10/worlds/kirbyam/data/regions/rooms.json) leaves the Carrot 16 Yellow, Cabbage 5 Secret Sounds, and Candy Chest 3 map requirements null. The Mustard map includes the pending `can_hit_far_switch` token. The two Mustard Room 12 exits carry `can_break_block`; Moonlight Room 18's bottom-right/Goal 2 upper-left connection is null. These were the historical annotations to reconcile, not source evidence that Phone is unnecessary or that all alternatives work.
 
-The Moonlight Goal 2 physical room is split into AP compartments. The wiki places the Chalk chest in the chamber reached from Room 18; the current JSON lists its chest key under `ROOM_2_GOAL_2`. This audit does not resolve or silently edit that mapping. Verify the exact door, spawn and collectible before attaching a future Phone-dependent rule.
+The Moonlight Goal 2 physical room is split into AP compartments. The wiki places the Chalk chest in the chamber reached from Room 18; the current JSON lists its chest key under `ROOM_2_GOAL_2`. The later [native acceptance review](phone-heave-ho-acceptance.md) resolves this mapping to the upper-left compartment and its bottom-right return. That correction does not activate a Phone-dependent rule.
 
 ## Small-switch coverage
 
@@ -78,9 +78,9 @@ In [kirby.c](https://github.com/jiangzhengwenjz/katam/blob/1197474f80e5de282fbed
 ## Future implementation contract
 
 1. Gate only the approved summon action. Preserve the ordinary L return-to-hub action before and after receipt, including zero battery and native disallowed states.
-2. Model a verified **helper-assisted route**, not `has(Phone)` as a universal substitute for attacks, switch contact or inhaling. Record caller location, reachable helper landing/approach, required battery/retry assumptions, helper behavior and complete traversal or collection.
+2. Model a verified **small-switch or Heave-Ho helper-assisted route**, not `has(Phone)` as a universal substitute for attacks, switch contact or inhaling. Record caller location, reachable helper landing/approach, required battery/retry assumptions, helper behavior and complete traversal or collection.
 3. Keep independent solo witnesses as alternatives. Do not require Phone where a reviewed ordinary timing, breath, source-backed attack or bypass route succeeds.
-4. Distinguish ownership of an action from a summoned companion's ability, ability source, and AI behavior. Review ability gating and enemy/source randomization interactions before crediting a helper's attack or discarded ability.
+4. Distinguish ownership of an action from a summoned companion's ability, ability source, and AI behavior. Never credit a helper's ability attack or discarded ability. Review source randomization only for interference with eligible cooperation, not as permission to use helpers as ability providers.
 5. Decide and document the behavior of already-present or naturally arriving CPU allies, answering another Kirby's call, canceled calls, and native link play. A player-summon gate is not automatically a global ban on companions. AP multiworld synchronization is not native four-player link multiplayer.
 6. Prove fresh-start safety, particularly the tutorial cooperation puzzle. Verify the actual startup/skip configuration rather than assuming all games begin after the tutorial.
 7. Add item classification, item-pool balance, slot-data/protocol, receipt persistence and seed/slot isolation only in the implementation PR. Phone must be classified for any progression routes that actually depend on it. Preserve the existing save and transport contracts.
@@ -90,9 +90,9 @@ In [kirby.c](https://github.com/jiangzhengwenjz/katam/blob/1197474f80e5de282fbed
 - Locked/unlocked R behavior in normal, underwater and relevant ability-specific states; zero/full battery; repeated presses, canceled calls and interruption. Show that a rejected locked attempt has no unintended battery, call-state or control side effect.
 - L return-to-Central-Circle regression before receipt, after receipt and at zero battery, respecting native restrictions rather than inventing unrestricted escape behavior.
 - For each accepted route: a fresh-start or explicitly qualified fixture, exact native room and AP target, helper setup, uninterrupted successful traversal/collection, and a matching no-helper/no-Phone control. Record independent solo successes too.
-- Carrot 16 specifically: Bomb Block activation and Yellow chest collection, with CPU assistance distinguished from controllable human partners. A helper attack screenshot alone is insufficient.
+- Carrot 16 helper Bomb Block/Yellow chest observations stay historical and excluded from progression. Human solo/source-backed alternatives are separate; no additional helper-attack proof can make this an eligible Phone witness under the current design.
 - Moonlight 18 and Mustard 12 specifically: actual block variant, required cooperative interaction, alternate solo nudges, exact exit spawn and downstream collectible access. Do not replace a directional route with whole-room gating.
-- Coverage review of all 24 small-switch rooms plus a fresh Heave-Ho object/template/spawner inventory, followed by room-specific CPU/runtime checks. Search for additional cooperative Bomb Block or other barrier routes rather than treating this initial list as complete.
+- Coverage review of all 24 small-switch rooms plus a fresh Heave-Ho object/template/spawner inventory, followed by room-specific CPU/runtime checks. Keep future helper progression limited to small switches and Heave-Ho blocks; other observed cooperative behavior is not an eligible witness.
 - AP generation and reachability tests with Phone absent/present and solo alternatives absent/present; no self-locking placement; source-randomization/action-gate combinations; repeat receipt, reconnect, offline delivery, restart and cross-seed/slot isolation.
 
 ## Validation and limitations of this document

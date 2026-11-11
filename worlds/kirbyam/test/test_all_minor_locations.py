@@ -1,4 +1,9 @@
 """Location-only contracts: all native sources, recovery and room ownership."""
+
+from collections.abc import Awaitable, Callable
+from typing import cast
+
+from typing import Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -11,9 +16,11 @@ from .test_client import _minor_chest_event_ring
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize('entry', load_json_data('minor_chest_manifest.json')['entries'],
+@pytest.mark.parametrize('entry', cast(dict[str, Any], load_json_data('minor_chest_manifest.json'))['entries'],
                          ids=lambda entry: entry['rom_offset'])
-async def test_each_of_65_native_sources_reports_its_historical_location(mock_bizhawk_context, entry):
+async def test_each_of_65_native_sources_reports_its_historical_location(
+    mock_bizhawk_context: Any, entry: dict[str, Any]
+) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     source = int(entry['rom_offset'], 0)
@@ -30,11 +37,12 @@ async def test_each_of_65_native_sources_reports_its_historical_location(mock_bi
 
 
 @pytest.mark.asyncio
-async def test_first_post_rollback_event_retries_until_server_ack(mock_bizhawk_context):
+async def test_first_post_rollback_event_retries_until_server_ack(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
     client._last_minor_chest_event_counter = 5
     target = data.locations['MINOR_CHEST_RAINBOW_ROUTE_1_02']
+    assert target.source_rom_offset is not None
     with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as read:
         read.return_value = [(1).to_bytes(4, 'little'),
                              _minor_chest_event_ring(0x08000000 + target.source_rom_offset)]
@@ -49,22 +57,22 @@ async def test_first_post_rollback_event_retries_until_server_ack(mock_bizhawk_c
 
 
 @pytest.mark.asyncio
-async def test_nine_offline_opens_recover_from_actual_saved_flags(mock_bizhawk_context):
+async def test_nine_offline_opens_recover_from_actual_saved_flags(mock_bizhawk_context: Any) -> None:
     client = KirbyAmClient()
     client.initialize_client()
-    rows = [r for r in load_json_data('chest_recovery.json')['records'] if r['type'] == 128][:9]
+    rows = [r for r in cast(dict[str, Any], load_json_data('chest_recovery.json'))['records'] if r['type'] == 128][:9]
     ids = {data.locations[row['location_key']].location_id for row in rows}
     mock_bizhawk_context.server_locations = ids
     ring = _minor_chest_event_ring(*(int(row['source'], 0) + 0x08000000 for row in rows))
     flags = sum(1 << row['flag'] for row in rows).to_bytes(16, 'little')
 
-    async def read_memory(_ctx, reads):
+    async def read_memory(_ctx: Any, reads: list[tuple[int, int, str]]) -> list[bytes]:
         memory = {data.transport_ram_addresses['minor_chest_event_counter']: (9).to_bytes(4, 'little'),
                   data.transport_ram_addresses['minor_chest_event_ring_base']: ring,
                   data.ram_addresses['other_chest_flags_native']: flags}
         return [memory[address] for address, _, _ in reads]
     with patch('worlds.kirbyam.client.bizhawk.read', side_effect=read_memory):
-        await client._poll_saved_chest_locations(mock_bizhawk_context)
+        await cast(Callable[[Any], Awaitable[None]], client._poll_saved_chest_locations)(mock_bizhawk_context)
         await client._poll_minor_chest_locations(mock_bizhawk_context)
     sent = {loc for call in mock_bizhawk_context.send_msgs.call_args_list
             for packet in call.args[0] for loc in packet['locations']}
@@ -75,7 +83,7 @@ async def test_nine_offline_opens_recover_from_actual_saved_flags(mock_bizhawk_c
     ('ROOM_5_07', True, False), ('ROOM_5_14', False, True),
     ('ROOM_5_12', False, False), ('ROOM_5_18', False, False), ('ROOM_5_WARP', False, False),
 ])
-def test_carrot_physical_compartments(entry, lower, upper):
+def test_carrot_physical_compartments(entry: str, lower: bool, upper: bool) -> None:
     prefix = 'REGION_CARROT_CASTLE/'
     parent = prefix + 'ROOM_5_13'
     entries = ['ROOM_5_07', 'ROOM_5_14', 'ROOM_5_12', 'ROOM_5_18', 'ROOM_5_WARP']
@@ -98,7 +106,7 @@ def test_carrot_physical_compartments(entry, lower, upper):
     assert not regions[parent].can_reach(state)
 
 
-def test_all_65_chests_are_reachable_with_route_items():
+def test_all_65_chests_are_reachable_with_route_items() -> None:
     """All chests are reachable after destination Area Keys are received."""
     from argparse import Namespace
     multiworld = MultiWorld(1)
@@ -128,14 +136,13 @@ def test_all_65_chests_are_reachable_with_route_items():
                 if not multiworld.get_location(row.label, 1).can_reach(state)]
 
 
-def test_starting_ungated_native_abilities_match_remaining_placeholders():
+def test_starting_ungated_native_abilities_match_remaining_placeholders() -> None:
     from ..rules import _ABILITY_GATE_PLACEHOLDER_SOURCES
-    abilities = load_json_data('abilities.json')
+    abilities = cast(dict[str, Any], load_json_data('abilities.json'))
     ungated = {name for name, row in abilities.items()
                if not row.get('safe_to_gate') and row.get('enemy_copy_allowed', True)}
-    assert ungated == {'Beam', 'Burning', 'Stone'}
-    assert all(ungated & choices for name, choices in _ABILITY_GATE_PLACEHOLDER_SOURCES.items()
-               if name not in {"CanUseMini", "CanCutRopes"})
+    assert ungated == {'Beam'}
+    assert all(not (ungated & choices) for choices in _ABILITY_GATE_PLACEHOLDER_SOURCES.values())
     assert not ungated & _ABILITY_GATE_PLACEHOLDER_SOURCES["CanCutRopes"]
     assert abilities["Cutter"]["safe_to_gate"]
     assert abilities["Mini"]["safe_to_gate"]

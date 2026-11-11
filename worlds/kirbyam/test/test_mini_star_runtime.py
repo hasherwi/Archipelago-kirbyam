@@ -9,7 +9,7 @@ import pytest
 from .test_runtime_regression_hooks import PAYLOAD_DIR, _function, patch_rom
 
 
-def test_mini_star_callsite_validation():
+def test_mini_star_callsite_validation() -> None:
     rom = bytearray(0xA0000)
     offset = 0x9C69C
     rom[offset - 12:offset] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")
@@ -22,7 +22,7 @@ def test_mini_star_callsite_validation():
         rom[index] ^= 1
 
 
-def test_mini_star_native_hook(tmp_path: Path):
+def test_mini_star_native_hook(tmp_path: Path) -> None:
     compiler = shutil.which("cc") or shutil.which("gcc")
     if not compiler or sys.platform not in ("linux", "win32"):
         pytest.skip("requires native compiler and fixed-address test allocation")
@@ -126,6 +126,31 @@ int main(void) {
     before=AP_ABILITY_RANDOMIZATION_RNG_STATE;
     grant(0x0809C69C,0x02000000,0x97); CHECK(result==0x97);
     CHECK(before==AP_ABILITY_RANDOMIZATION_RNG_STATE);
+    /* Actual Frosty request hook: locked initial Fire draws reroll to Ice. */
+    object[0x82]=0x38;
+    AP_ABILITY_RANDOMIZATION_MODE=2;
+    AP_ABILITY_RANDOMIZATION_ALLOWED_MASK=(1u<<1)|(1u<<2);
+    AP_ABILITY_GATE_MASK=AP_ABILITY_RANDOMIZATION_ALLOWED_MASK;
+    AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT=0;
+    extra=0;
+    for(i=1;i<=256;i++) {
+        AP_ABILITY_RANDOMIZATION_RNG_STATE=i;
+        (void)ap_next_rng_u32();
+        extra |= 1u<<ap_select_random_allowed_ability(
+            AP_ABILITY_RANDOMIZATION_ALLOWED_MASK,ap_next_rng_u32());
+        AP_ABILITY_RANDOMIZATION_RNG_STATE=i;
+        AP_ABILITY_UNLOCK_MASK=1u<<2;
+        grant(AP_ENEMY_SWALLOW_CALLSITE,0x02000000,2); CHECK(result==2);
+        AP_ABILITY_RANDOMIZATION_RNG_STATE=i;
+        AP_ABILITY_UNLOCK_MASK=0;
+        grant(AP_ENEMY_SWALLOW_CALLSITE,0x02000000,2); CHECK(result==0);
+        AP_ABILITY_RANDOMIZATION_RNG_STATE=i;
+        AP_ABILITY_UNLOCK_MASK=1u<<2;
+        AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT=100;
+        grant(AP_ENEMY_SWALLOW_CALLSITE,0x02000000,2); CHECK(result==0);
+        AP_ABILITY_RANDOMIZATION_NO_ABILITY_WEIGHT=0;
+    }
+    CHECK(extra==((1u<<1)|(1u<<2)));
     return 0;
 }
 '''

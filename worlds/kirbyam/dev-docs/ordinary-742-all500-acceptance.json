@@ -1,0 +1,2177 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": {
+    "base_fixture": "original USA with startup712/AI101 arrays, coldFFSRAM",
+    "additional_change": "scale_enemy_health_tables(base_fixture_bytes,500), applied once before boot; all regular/miniboss/bossHP and meter coefficients exactly as production",
+    "module_pinned_head": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "module_path": "worlds/kirbyam/enemy_health_scaling.py",
+    "module_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "rom_sha256": "bc761150a1ca17780218cbf31e442ddafc3494bd22fdd93ac3d92784f4591ba6",
+    "qualification": "Source-equivalent nativeROM HP transformation, not actualAPpatch or direct1HP config. No terrain/attack/source mapping edits or runtime writes. All controller states derive from cold boot of this once-scaled ROM."
+  },
+  "results": {
+    "warp": "Actual705 transition6HP/Burning. ExtraBurning pass and promptflight avoid stillalive roofDoo.",
+    "chest": "AfterF5, deliberately discardBurning, safely inhale/spit roofDoo, descendclean shaft, use Normal inhale on chest platform then reposition and openflag17 asNormal6HP. No kill assumption for durable enemies."
+  },
+  "chains": {
+    "shared": [
+      {
+        "segment": "all500-doo20-entry741",
+        "parent_controller_state": null,
+        "inputs": [
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 1206,
+            "room": 741,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741d",
+        "parent_controller_state": "all500-doo20-entry741",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 48,
+            "keys": 1
+          },
+          {
+            "frames": 30,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 80,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 200,
+            "room": 741,
+            "x": 89.3203125,
+            "y": 552.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741e",
+        "parent_controller_state": "all500-doo20-safe741d",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 100,
+            "keys": 16
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 144,
+            "room": 741,
+            "x": 189.5234375,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741i",
+        "parent_controller_state": "all500-doo20-safe741e",
+        "inputs": [
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 120,
+            "keys": 2
+          },
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 30,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 183,
+            "room": 741,
+            "x": 197.015625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-gapwait75",
+        "parent_controller_state": "all500-doo20-safe741i",
+        "inputs": [
+          {
+            "frames": 75,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 26,
+            "keys": 1
+          },
+          {
+            "frames": 30,
+            "keys": 16
+          },
+          {
+            "frames": 8,
+            "keys": 17
+          },
+          {
+            "frames": 30,
+            "keys": 16
+          },
+          {
+            "frames": 8,
+            "keys": 17
+          },
+          {
+            "frames": 30,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "75",
+            "frame": 75,
+            "room": 741,
+            "x": 197.015625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "76",
+            "frame": 76,
+            "room": 741,
+            "x": 197.015625,
+            "y": 580.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "86",
+            "frame": 86,
+            "room": 741,
+            "x": 197.015625,
+            "y": 578.08203125,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "112",
+            "frame": 112,
+            "room": 741,
+            "x": 197.015625,
+            "y": 548.30078125,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "142",
+            "frame": 142,
+            "room": 741,
+            "x": 222.84375,
+            "y": 548.69140625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "150",
+            "frame": 150,
+            "room": 741,
+            "x": 231.34375,
+            "y": 543.34765625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "180",
+            "frame": 180,
+            "room": 741,
+            "x": 263.21875,
+            "y": 543.73828125,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "188",
+            "frame": 188,
+            "room": 741,
+            "x": 271.71875,
+            "y": 538.39453125,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "218",
+            "frame": 218,
+            "room": 741,
+            "x": 303.59375,
+            "y": 538.78515625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "228",
+            "frame": 228,
+            "room": 741,
+            "x": 309.4921875,
+            "y": 550.03515625,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "final",
+            "frame": 228,
+            "room": 741,
+            "x": 309.4921875,
+            "y": 550.03515625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741l",
+        "parent_controller_state": "all500-gapwait75",
+        "inputs": [
+          {
+            "frames": 28,
+            "keys": 16
+          },
+          {
+            "frames": 6,
+            "keys": 17
+          },
+          {
+            "frames": 25,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 35,
+            "keys": 0
+          },
+          {
+            "frames": 80,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 185,
+            "room": 741,
+            "x": 375.8046875,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741q",
+        "parent_controller_state": "all500-doo20-safe741l",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 25,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 16
+          },
+          {
+            "frames": 3,
+            "keys": 128
+          },
+          {
+            "frames": 1,
+            "keys": 129
+          },
+          {
+            "frames": 25,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 90,
+            "keys": 17
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 158,
+            "room": 741,
+            "x": 457.99609375,
+            "y": 541.78515625,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe741r",
+        "parent_controller_state": "all500-doo20-safe741q",
+        "inputs": [
+          {
+            "frames": 100,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 3,
+            "keys": 128
+          },
+          {
+            "frames": 1,
+            "keys": 129
+          },
+          {
+            "frames": 90,
+            "keys": 0
+          },
+          {
+            "frames": 28,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 150,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 456,
+            "room": 741,
+            "x": 361.99609375,
+            "y": 225.55078125,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safesourcewait15",
+        "parent_controller_state": "all500-doo20-safe741r",
+        "inputs": [
+          {
+            "frames": 15,
+            "keys": 0
+          },
+          {
+            "frames": 120,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 12,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 70,
+            "keys": 2
+          },
+          {
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 311,
+            "room": 741,
+            "x": 221.05078125,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-safe_lowerdoor741",
+        "parent_controller_state": "all500-doo20-safesourcewait15",
+        "inputs": [
+          {
+            "frames": 4,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 90,
+            "keys": 0
+          },
+          {
+            "frames": 24,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 15,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 265,
+            "room": 742,
+            "x": 472.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-cross",
+        "parent_controller_state": "all500-doo20-safe_lowerdoor741",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 4,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 100,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 471.75,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "1",
+            "frame": 5,
+            "room": 742,
+            "x": 471.0625,
+            "y": 441.88671875,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "2",
+            "frame": 6,
+            "room": 742,
+            "x": 472.9375,
+            "y": 441.88671875,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "3",
+            "frame": 106,
+            "room": 742,
+            "x": 322.4296875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-timewait0",
+        "parent_controller_state": "all500-cross",
+        "inputs": [
+          {
+            "frames": 0,
+            "keys": 0
+          },
+          {
+            "frames": 24,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 20,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 28,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 25,
+            "keys": 32
+          },
+          {
+            "frames": 27,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 70,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 0,
+            "room": 742,
+            "x": 322.4296875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "24",
+            "frame": 24,
+            "room": 742,
+            "x": 296.2265625,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "34",
+            "frame": 34,
+            "room": 742,
+            "x": 290.1328125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "54",
+            "frame": 54,
+            "room": 742,
+            "x": 290.2109375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "74",
+            "frame": 74,
+            "room": 742,
+            "x": 290.2109375,
+            "y": 405.19921875,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "75",
+            "frame": 75,
+            "room": 742,
+            "x": 290.2109375,
+            "y": 404.66015625,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "103",
+            "frame": 103,
+            "room": 742,
+            "x": 273.2734375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "104",
+            "frame": 104,
+            "room": 742,
+            "x": 272.2265625,
+            "y": 373.15234375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "129",
+            "frame": 129,
+            "room": 742,
+            "x": 232.4296875,
+            "y": 383.67578125,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "156",
+            "frame": 156,
+            "room": 742,
+            "x": 214.0,
+            "y": 447.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "157",
+            "frame": 157,
+            "room": 742,
+            "x": 215.875,
+            "y": 447.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "227",
+            "frame": 227,
+            "room": 742,
+            "x": 72.984375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "final",
+            "frame": 227,
+            "room": 742,
+            "x": 72.984375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-climb2",
+        "parent_controller_state": "all500-timewait0",
+        "inputs": [
+          {
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 65,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 30,
+            "room": 742,
+            "x": 70.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "1",
+            "frame": 31,
+            "room": 742,
+            "x": 70.0,
+            "y": 452.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "2",
+            "frame": 41,
+            "room": 742,
+            "x": 70.0,
+            "y": 450.08203125,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "3",
+            "frame": 106,
+            "room": 742,
+            "x": 70.0,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-shaftfix2",
+        "parent_controller_state": "all500-climb2",
+        "inputs": [
+          {
+            "frames": 28,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 95,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 145,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-shaftfix3",
+        "parent_controller_state": "all500-doo20-shaftfix2",
+        "inputs": [
+          {
+            "frames": 65,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 50,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 50,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 176,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-shaftfix5",
+        "parent_controller_state": "all500-doo20-shaftfix3",
+        "inputs": [
+          {
+            "frames": 6,
+            "keys": 16
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 100,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 107,
+            "room": 742,
+            "x": 151.66015625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-shaftfix6",
+        "parent_controller_state": "all500-doo20-shaftfix5",
+        "inputs": [
+          {
+            "frames": 70,
+            "keys": 0
+          },
+          {
+            "frames": 6,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 50,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 208,
+            "room": 742,
+            "x": 153.19140625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-shaftrest",
+        "parent_controller_state": "all500-doo20-shaftfix6",
+        "inputs": [
+          {
+            "frames": 13,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 30,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 53,
+            "room": 742,
+            "x": 171.22265625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-rise120",
+        "parent_controller_state": "all500-doo20-shaftrest",
+        "inputs": [
+          {
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "frames": 18,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 20,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 110,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "120",
+            "frame": 120,
+            "room": 742,
+            "x": 171.22265625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "138",
+            "frame": 138,
+            "room": 742,
+            "x": 152.80078125,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "148",
+            "frame": 148,
+            "room": 742,
+            "x": 146.70703125,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "168",
+            "frame": 168,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "188",
+            "frame": 188,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 277.19921875,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "189",
+            "frame": 189,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 276.66015625,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "299",
+            "frame": 299,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          {
+            "label": "final",
+            "frame": 299,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-bomb",
+        "parent_controller_state": "all500-rise120",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 50,
+            "keys": 0
+          },
+          {
+            "frames": 6,
+            "keys": 16
+          },
+          {
+            "frames": 4,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 100,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 162,
+            "room": 742,
+            "x": 163.984375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-bombexit",
+        "parent_controller_state": "all500-doo20-bomb",
+        "inputs": [
+          {
+            "frames": 6,
+            "keys": 16
+          },
+          {
+            "frames": 4,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 100,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 111,
+            "room": 742,
+            "x": 246.74609375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-metalshort",
+        "parent_controller_state": "all500-doo20-bombexit",
+        "inputs": [
+          {
+            "frames": 35,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 70,
+            "keys": 1
+          },
+          {
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 12,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 40,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 201,
+            "room": 742,
+            "x": 369.82421875,
+            "y": 103.48046875,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-roofescape",
+        "parent_controller_state": "all500-doo20-metalshort",
+        "inputs": [
+          {
+            "frames": 20,
+            "keys": 17
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 35,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 56,
+            "room": 742,
+            "x": 419.30859375,
+            "y": 75.19140625,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-roofrepeat",
+        "parent_controller_state": "all500-doo20-roofescape",
+        "inputs": [
+          {
+            "frames": 5,
+            "keys": 0
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "frames": 45,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 61,
+            "room": 742,
+            "x": 372.4375,
+            "y": 77.16796875,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      }
+    ],
+    "warp": [
+      {
+        "segment": "all500-doo20-warptry2",
+        "parent_controller_state": "all500-doo20-roofrepeat",
+        "inputs": [
+          {
+            "frames": 11,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "frames": 30,
+            "keys": 1
+          },
+          {
+            "frames": 20,
+            "keys": 17
+          },
+          {
+            "frames": 20,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 92,
+            "room": 742,
+            "x": 408.953125,
+            "y": 37.41015625,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-warpdone",
+        "parent_controller_state": "all500-doo20-warptry2",
+        "inputs": [
+          {
+            "frames": 15,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 33
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 50,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 197,
+            "room": 742,
+            "x": 428.8203125,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-warp705",
+        "parent_controller_state": "all500-doo20-warpdone",
+        "inputs": [
+          {
+            "frames": 8,
+            "keys": 16
+          },
+          {
+            "frames": 6,
+            "keys": 32
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 155,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          }
+        ],
+        "writes": []
+      }
+    ],
+    "chest": [
+      {
+        "segment": "all500-doo20-normalroof",
+        "parent_controller_state": "all500-doo20-roofrepeat",
+        "inputs": [
+          {
+            "frames": 11,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 4
+          },
+          {
+            "frames": 20,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 16
+          },
+          {
+            "frames": 90,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 123,
+            "room": 742,
+            "x": 380.5234375,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-normalshaft",
+        "parent_controller_state": "all500-doo20-normalroof",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 25,
+            "keys": 0
+          },
+          {
+            "frames": 15,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 40,
+            "keys": 0
+          },
+          {
+            "frames": 22,
+            "keys": 16
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 214,
+            "room": 742,
+            "x": 390.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-doo20-chestapproach2",
+        "parent_controller_state": "all500-doo20-normalshaft",
+        "inputs": [
+          {
+            "frames": 23,
+            "keys": 32
+          },
+          {
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "frames": 70,
+            "keys": 0
+          },
+          {
+            "frames": 25,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "frames": 20,
+            "keys": 1
+          },
+          {
+            "frames": 26,
+            "keys": 17
+          },
+          {
+            "frames": 10,
+            "keys": 32
+          },
+          {
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "frames": 12,
+            "keys": 0
+          },
+          {
+            "frames": 90,
+            "keys": 2
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "final",
+            "frame": 357,
+            "room": 742,
+            "x": 418.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "all500-chestfinal",
+        "parent_controller_state": "all500-doo20-chestapproach2",
+        "inputs": [
+          {
+            "frames": 1,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "frames": 25,
+            "keys": 0
+          },
+          {
+            "frames": 8,
+            "keys": 32
+          },
+          {
+            "frames": 6,
+            "keys": 16
+          },
+          {
+            "frames": 15,
+            "keys": 0
+          },
+          {
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 742,
+            "x": 418.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "1",
+            "frame": 2,
+            "room": 742,
+            "x": 418.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "2",
+            "frame": 27,
+            "room": 742,
+            "x": 418.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "3",
+            "frame": 35,
+            "room": 742,
+            "x": 413.40625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "4",
+            "frame": 41,
+            "room": 742,
+            "x": 409.28125,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "5",
+            "frame": 56,
+            "room": 742,
+            "x": 408.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "6",
+            "frame": 57,
+            "room": 742,
+            "x": 408.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          {
+            "label": "7",
+            "frame": 177,
+            "room": 742,
+            "x": 408.90625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        ],
+        "writes": []
+      }
+    ]
+  },
+  "per_frame_hp_audit": [
+    {
+      "segment": "all500-doo20-safe741d",
+      "frames": 200,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe741e",
+      "frames": 144,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe741i",
+      "frames": 183,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-gapwait75",
+      "frames": 228,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe741l",
+      "frames": 185,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe741q",
+      "frames": 158,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe741r",
+      "frames": 456,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safesourcewait15",
+      "frames": 311,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-safe_lowerdoor741",
+      "frames": 265,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-cross",
+      "frames": 106,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-timewait0",
+      "frames": 227,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-climb2",
+      "frames": 106,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-shaftfix2",
+      "frames": 145,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-shaftfix3",
+      "frames": 176,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-shaftfix5",
+      "frames": 107,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-shaftfix6",
+      "frames": 208,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-shaftrest",
+      "frames": 53,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-rise120",
+      "frames": 299,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-bomb",
+      "frames": 162,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-bombexit",
+      "frames": 111,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-metalshort",
+      "frames": 201,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-roofescape",
+      "frames": 56,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-roofrepeat",
+      "frames": 61,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-warptry2",
+      "frames": 92,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-warpdone",
+      "frames": 197,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-warp705",
+      "frames": 155,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-normalroof",
+      "frames": 123,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-normalshaft",
+      "frames": 214,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-doo20-chestapproach2",
+      "frames": 357,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    },
+    {
+      "segment": "all500-chestfinal",
+      "frames": 177,
+      "minimum_hp": 6,
+      "decrease_frames": []
+    }
+  ],
+  "observations": {
+    "all500-doo20-metalshort": {
+      "chest_flag_byte": 0,
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 24,
+          "y": 8,
+          "tile": 243
+        },
+        {
+          "x": 25,
+          "y": 8,
+          "tile": 243
+        }
+      ]
+    },
+    "all500-chestfinal": {
+      "chest_flag_byte": 2,
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 24,
+          "y": 8,
+          "tile": 243
+        },
+        {
+          "x": 25,
+          "y": 8,
+          "tile": 243
+        }
+      ]
+    },
+    "all500-doo20-warpdone": {
+      "chest_flag_byte": 0,
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "tile": 245
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "tile": 241
+        },
+        {
+          "x": 24,
+          "y": 8,
+          "tile": 243
+        },
+        {
+          "x": 25,
+          "y": 8,
+          "tile": 243
+        }
+      ]
+    }
+  }
+}

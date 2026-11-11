@@ -1,0 +1,56 @@
+{
+  "baseline_commit": "3c58cbc9d95212821b0ab370c335400422f3fb0e",
+  "scope": "Exact equality of all four205 compiled graphs with Area Keys off/on, then full evaluator result equality across eight source policies, gating off/on and retry off/on. This verifies the shared-carrier refactor; it is not new native gameplay evidence.",
+  "catalog_sha256": "9e7cb29177602a3c4f3b90ccbda0c0289fd9430550743b82ff1618e679deaab6",
+  "compiled_graph_pairs": 8,
+  "full_result_pairs": 256,
+  "source_policy_cases": [
+    {
+      "mode": 0
+    },
+    {
+      "mode": 1,
+      "statues": false,
+      "minibosses": false
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true,
+      "pool": [
+        "Hammer"
+      ]
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true,
+      "pool": [
+        "Stone"
+      ]
+    },
+    {
+      "mode": 2,
+      "statues": false,
+      "minibosses": true
+    },
+    {
+      "mode": 2,
+      "statues": true,
+      "minibosses": true,
+      "weight": 0
+    },
+    {
+      "mode": 2,
+      "statues": true,
+      "minibosses": true,
+      "weight": 100
+    }
+  ],
+  "result": "pass"
+}

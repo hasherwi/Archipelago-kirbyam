@@ -1,0 +1,1123 @@
+{
+  "scope": "Research-only audit of all nine directed legacy can_break_metal(_throw) exit edges, plus native 742 co-target. No production edits, source/route acceptance, or starting-inventory removal is authorized by this report.",
+  "repository_baseline": "bee5a93",
+  "native_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "checked_on": "2026-11-08",
+  "evidence_files": {
+    "legacy-exit-native-evidence.json": {
+      "github_blob": "406a1af7589ae4633420348acc10552341e9a54f",
+      "sha256": "acba7966c4b6f086e1728991be40f439c2cccf21e2abe7c61f38b85cf3f2090f",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/406a1af7589ae4633420348acc10552341e9a54f",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
+    },
+    "moonlight-native-evidence.json": {
+      "github_blob": "c737e3d49b340984bf39376ab323e8f40f064bae",
+      "sha256": "eb2b365acc3dfd9857fc88d093af28660fc7d55207af364d9ffef8912bb750f0",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/c737e3d49b340984bf39376ab323e8f40f064bae",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
+    },
+    "742-708-bounded-mutations.json": {
+      "github_blob": "560323b5f1cfbf36770937535300d79bf459bc04",
+      "sha256": "6d07e6ce52186bbcd24b0c202b554572a44cd807029b36220007075b3682f140",
+      "repository": "hasherwi/Archipelago-kirbyam",
+      "retrieval_url": "https://api.github.com/repos/hasherwi/Archipelago-kirbyam/git/blobs/560323b5f1cfbf36770937535300d79bf459bc04",
+      "bundled": false,
+      "role": "Supplemental independent native scalar extraction, not required by the portable published-only validator.",
+      "retention_limit": "Content-addressed blob-only object, not a pinned branch/ref artifact. Retrieval requires repository access; retention is not guaranteed. Original extraction program and exact command were not supplied."
+    }
+  },
+  "map_review": "Actual full composite pixels inspected for141,205,707,708,742 and adjacent706,704,712,740,741. Coordinates use16 pixels/tile. Composite maps omit final two native rows; native 141 full grid supplied independently. Native objects, not sprite resemblance, identify ability sources.",
+  "source_policy_contract": {
+    "vanilla_or_excluded": "A verified source supplies its native grant only when the matching permission is available under Ability Gating. Permission is not equipped ability.",
+    "deterministic_shuffle": "Resolve the actual grant of each listed physical source under final policy; accept only its exact reviewed provider and capture/carry/move sequence. A source behind its gate cannot bootstrap access.",
+    "live_random_finite_enemy": "Possible metal output is not guaranteed. A multi-output pool or positive Normal weight is not a finite source guarantee. No enemy in this report has a documented renewable retry loop.",
+    "live_random_renewable_statue": "Existing retouch fairness may be reused only for independently reachable permanent statues and explicitly enabled documented retries; a successful output must then be carried through the exact route. Enemy no-ability weight does not apply to statue mask.",
+    "throw": "Separate physical-object action. Need actual equipped Throw, a validated grabbable object at capture position, and a trajectory from that position. No walking/jumping held ammo to arbitrary positions, no cross-room held-object transport, no same enemy used both for swallowing and throwing.",
+    "master": "No ordinary enemy pool or hub statue is presumed to supply Master.",
+    "room_instances": "Do not infer persistent broken F5 or renewed enemies on a door transition. AI may retain a room instance."
+  },
+  "provider_status": "No new provider/controller sequence accepted by this audit. Existing205 aerialHammer fixture remains a dry isolated-floor positive, not whole-door/source proof.",
+  "corrections": [
+    "740 outdoor object344,88 is Maxim Tomato0x61, not a Flamer.740/790/706 do not provide vanilla Burning. The earlier proposed740 Burning carrier is withdrawn.",
+    "141 lower object520,280 is food0x60, not a Flamer. Actual lower Flamer is152,192. Upper object376,168 is a tomato.",
+    "205 lower object264,280 is Blipper0x02; real Flamers are304,16 and656,216."
+  ],
+  "edges": {
+    "REGION_RAINBOW_ROUTE/ROOM_1_41 -> REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER": {
+      "native_room": 141,
+      "legacy_requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal"
+        ]
+      },
+      "barrier": {
+        "cluster": "141:5,7",
+        "tiles": [
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "direction": "left to right into inner upper corridor",
+        "geometry": "Two-by-two F5 bank. Solid roof y5..6 and floor y9 seal around it. Lower-left pocket can be reached by flight before attacking."
+      },
+      "incoming": [
+        {
+          "source": 143,
+          "offset": "0x879858",
+          "trigger": [
+            1,
+            2
+          ],
+          "destination": 141,
+          "spawn_tile": [
+            43,
+            19
+          ]
+        },
+        {
+          "source": 144,
+          "offset": "0x8822fc",
+          "trigger": [
+            2,
+            3
+          ],
+          "destination": 141,
+          "spawn_tile": [
+            43,
+            9
+          ]
+        },
+        {
+          "source": 543,
+          "offset": "0x8767d6",
+          "trigger": [
+            44,
+            8
+          ],
+          "destination": 141,
+          "spawn_tile": [
+            3,
+            14
+          ]
+        },
+        {
+          "source": 545,
+          "offset": "0x88f4d6",
+          "trigger": [
+            2,
+            38
+          ],
+          "destination": 141,
+          "spawn_tile": [
+            34,
+            4
+          ]
+        }
+      ],
+      "source_candidates": [
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088B78E8",
+          "native_room": 141,
+          "spawn_pixels": [
+            152,
+            192
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Lower room, before left F5 bank. Accessible candidate from either lower arrival using ordinary movement/star-block clearance; exact capture pose not replayed.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        }
+      ],
+      "carry": "Remain in 141, carry acquired Burning from lower Flamer toward the lower-left approach, fly to rows 7..8 and launch right. Exact flight/capture/launch not replayed.",
+      "normal_environment": "Normal can clear ordinary star blocks on lower route. No demonstrated Normal bypass of F5. Top Bomb component does not include these F5. Apparent roof route is not reachable from lower approach without first crossing this bank.",
+      "throw": "No object at reviewed left firing pocket; lower Flamer is below/right. Cannot assume held-object flight from its spawn to the bank.",
+      "water": "Dry.",
+      "open_questions": [
+        "Controller path from both lower incoming doors to Flamer and attack.",
+        "141 incoming 144/545 are incorrectly aggregated with this lower approach by current AP; do not treat those entries as this start."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41"
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER -> REGION_MOONLIGHT_MANSION/ROOM_2_16": {
+      "native_room": 141,
+      "legacy_requirement": {
+        "all": [
+          "can_break_block",
+          "can_break_metal",
+          "can_mirra"
+        ]
+      },
+      "barrier": {
+        "cluster": "141:27,9",
+        "tiles": [
+          [
+            27,
+            9
+          ],
+          [
+            28,
+            9
+          ],
+          [
+            27,
+            10
+          ],
+          [
+            28,
+            10
+          ]
+        ],
+        "direction": "left to right from inner corridor, then east to Moonlight mirror",
+        "geometry": "Two-by-two F5 bank with solid ceiling x27..28/y7..8 and floor y11. Door trigger (43,8) is on right side."
+      },
+      "exit": {
+        "record": "0x08879416",
+        "trigger_tiles": [
+          43,
+          8
+        ],
+        "destination": 144,
+        "arrival_tiles": [
+          4,
+          4
+        ],
+        "additional": "Mirra0x088B77A4 at696,128 must be cleared; door object0x088B7738 at696,144."
+      },
+      "source_candidates": [
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088B7810",
+          "native_room": 141,
+          "spawn_pixels": [
+            168,
+            64
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Upper-left pocket. Inner upper corridor reaches its pocket through x9..12/y5..6; acquisition and return to horizontal firing position not replayed.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088B78E8",
+          "native_room": 141,
+          "spawn_pixels": [
+            152,
+            192
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Lower room, before left F5 bank. Accessible candidate from either lower arrival using ordinary movement/star-block clearance; exact capture pose not replayed.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        }
+      ],
+      "carry": "Upper source needs an approach back through normal star-block corridor; lower source may be retained through the first F5 bank. Do not create free Burning on entry to UPPER.",
+      "normal_environment": "A top Bomb bank at x21..25/y1..4 reaches the Mustard-side uppermost corridor. Platforms 0x0F at x39..43/y4 cap descent into the Moonlight-side corridor; no Normal drop bypass is accepted. This cap needs explicit physics if pursuing that alternative.",
+      "throw": "Upper sources are not demonstrated ammunition at middle corridor capture pose. No Throw witness.",
+      "water": "Dry.",
+      "open_questions": [
+        "Exact Burning attack plus Mirra clearance.",
+        "144 reverse arrival (43,9) is already right of this bank; source-side must remain distinct."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41"
+    },
+    "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER -> REGION_RAINBOW_ROUTE/ROOM_1_41": {
+      "native_room": 141,
+      "legacy_requirement": {
+        "all": [
+          "can_break_block",
+          "can_break_metal"
+        ]
+      },
+      "barrier": {
+        "cluster": "141:5,7",
+        "tiles": [
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "direction": "right to left into lower-left pocket",
+        "geometry": "Same physical bank as forward edge but independently directed; current reachability does not certify a retained broken bank."
+      },
+      "source_candidates": [
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088B7810",
+          "native_room": 141,
+          "spawn_pixels": [
+            168,
+            64
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Upper-left pocket. Inner upper corridor reaches its pocket through x9..12/y5..6; acquisition and return to horizontal firing position not replayed.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        }
+      ],
+      "carry": "Acquire upper Flamer, descend the x9..12 opening to inner corridor, clear ordinary stars as needed and attack bank leftwards; descend left to lower room after clearing.",
+      "normal_environment": "No demonstrated Normal-only descent from the inner compartment. The potential top 0x0F route is not a drop-through guarantee.",
+      "throw": "No capture/trajectory proof from upper Flamer to leftward shot. Do not use generic Throw permission.",
+      "water": "Dry.",
+      "open_questions": [
+        "Independent reverse controller acceptance; do not inherit forward break state."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41"
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01 -> REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
+      "native_room": 708,
+      "legacy_requirement": {
+        "all": [
+          "can_break_block",
+          "can_break_metal_throw"
+        ]
+      },
+      "barrier": {
+        "cluster": "708:36,23",
+        "tiles": [
+          [
+            36,
+            23
+          ],
+          [
+            37,
+            23
+          ]
+        ],
+        "direction": "left to right across bottom connecting throat",
+        "geometry": "A true one-tile-high horizontal throat: F5 at x36..37/y23, solid tiles 0x0D directly above at y22 and below at y24. After clearing metal, body clearance still needs an exact move sequence."
+      },
+      "incoming": [
+        {
+          "source": 195,
+          "offset": "0x882f6c",
+          "trigger": [
+            28,
+            8
+          ],
+          "destination": 708,
+          "spawn_tile": [
+            3,
+            24
+          ]
+        },
+        {
+          "source": 706,
+          "offset": "0x88356e",
+          "trigger": [
+            1,
+            18
+          ],
+          "destination": 708,
+          "spawn_tile": [
+            43,
+            3
+          ]
+        },
+        {
+          "source": 740,
+          "offset": "0x884878",
+          "trigger": [
+            1,
+            8
+          ],
+          "destination": 708,
+          "spawn_tile": [
+            32,
+            3
+          ]
+        },
+        {
+          "source": 743,
+          "offset": "0x885ca8",
+          "trigger": [
+            6,
+            2
+          ],
+          "destination": 708,
+          "spawn_tile": [
+            23,
+            29
+          ]
+        },
+        {
+          "source": 743,
+          "offset": "0x885cb6",
+          "trigger": [
+            10,
+            2
+          ],
+          "destination": 708,
+          "spawn_tile": [
+            30,
+            29
+          ]
+        }
+      ],
+      "source_candidates": [
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BCF48",
+          "native_room": 708,
+          "spawn_pixels": [
+            288,
+            344
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Lower-left main compartment before metal.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "SNOOTER",
+          "object_address": "0x088BCFFC",
+          "native_room": 708,
+          "spawn_pixels": [
+            496,
+            344
+          ],
+          "native_grant": "Normal",
+          "pre_gate_access": "Nearest left-side physical enemy; source/capture is around furnishings, not already at shot pose.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "STATUE:3538FD",
+          "object_address": "0x088CEFC8",
+          "native_room": 592,
+          "native_grant": "Burning",
+          "renewable": true,
+          "status": "source identity and ordinary hub prefix already reviewed; destination-room continuation and metal move not accepted",
+          "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network; data/regions/rooms.json statues_592"
+        }
+      ],
+      "carry": "Vanilla imported Burning candidate: 592 \u2192 801 \u2192 790 \u2192 740 \u2192 708 upper platform (32,3), descend left rooms with bomb-state order preserved to the bank. 740 supplies Ice, not Burning. Deterministic eligible metal assignments may use the actual pre-gate local sources.",
+      "normal_environment": "Bomb partitions and timed gates reach the left approach and lower chambers but do not directly clear F5. No Normal route from left compartment to right is accepted. The bounded native grid confirms the throat cannot be bypassed immediately above or below the bank.",
+      "throw": "The legacy suffix does not prove Throw. Snooter (496,344) is nearby but neither its actual grab pose nor trajectory into F5 y368..383 is proven. It cannot be walked after capture. Right-side Scarfy is not interchangeable valid ammo.",
+      "water": "Dry.",
+      "open_questions": [
+        "Exact imported-ability carry through 740/708 and bomb order.",
+        "Low-ceiling clearance and exact attack.",
+        "Resolve each 708 incoming region; 706 arrival (43,3) is right side but current AP 706 LOWER \u2192 ROOM_2_01 points to generic left."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1"
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS -> REGION_MOONLIGHT_MANSION/ROOM_2_01": {
+      "native_room": 708,
+      "legacy_requirement": "can_break_metal",
+      "barrier": {
+        "cluster": "708:36,23",
+        "tiles": [
+          [
+            36,
+            23
+          ],
+          [
+            37,
+            23
+          ]
+        ],
+        "direction": "right to left",
+        "geometry": "A true one-tile-high horizontal throat: F5 at x36..37/y23, solid tiles 0x0D directly above at y22 and below at y24. After clearing metal, body clearance still needs an exact move sequence."
+      },
+      "source_candidates": [
+        {
+          "source_key": "STATUE:3538FD",
+          "object_address": "0x088CEFC8",
+          "native_room": 592,
+          "native_grant": "Burning",
+          "renewable": true,
+          "status": "source identity and ordinary hub prefix already reviewed; destination-room continuation and metal move not accepted",
+          "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network; data/regions/rooms.json statues_592"
+        }
+      ],
+      "carry": "A previously imported direct provider could be retained on right side only through its complete source-to-entry witness. Left-side source does not count across an intact bank.",
+      "normal_environment": "Right-side arrival from 706 (43,3) and lower-right arrival from 743 (30,29) do not create left-side access. No Normal/bomb F5 bypass accepted. The bounded native grid confirms the throat cannot be bypassed immediately above or below the bank.",
+      "throw": "No demonstrated eligible object at right launch position. Left Snooter cannot be used through intact barrier.",
+      "water": "Dry.",
+      "open_questions": [
+        "Independent reverse source/carry/attack proof.",
+        "Exact 708 bomb mutation states and right-side source accessibility."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
+      "excluded_physical_objects": [
+        {
+          "source_key": null,
+          "object_address": "0x088BCEDC",
+          "native_room": 708,
+          "spawn_pixels": [
+            656,
+            216
+          ],
+          "native_grant": "Normal",
+          "pre_gate_access": "Right-side flying enemy. Registry eligibility must be respected; do not assume swallowable source or Throw ammunition.",
+          "status": "Excluded: no source registry entry for Scarfy, so it cannot become a SourcePolicy source or generic Throw-ammunition witness."
+        }
+      ]
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL -> REGION_MOONLIGHT_MANSION/ROOM_2_13": {
+      "native_room": 707,
+      "legacy_requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal"
+        ]
+      },
+      "barrier": {
+        "cluster": "707:69,4",
+        "tiles": [
+          [
+            69,
+            4
+          ],
+          [
+            70,
+            4
+          ]
+        ],
+        "direction": "Left to right through a one-tile-high throat, then upward to the door.",
+        "geometry": "The left pocket at x63..68/y1..4 is accessed through shaft x65..66/y5..6. Solid ceiling x69..70/y0..3 and solid floor y5 bound the F5 row at y4. The right pocket at x71..73/y0..4 contains upward-only platforms 0x0F at x71..73/y3 and the door at (72,2)."
+      },
+      "incoming": [
+        {
+          "source": 706,
+          "offset": "0x88358a",
+          "trigger": [
+            72,
+            18
+          ],
+          "destination": 707,
+          "spawn_tile": [
+            2,
+            10
+          ]
+        },
+        {
+          "source": 709,
+          "offset": "0x88407c",
+          "trigger": [
+            1,
+            3
+          ],
+          "destination": 707,
+          "spawn_tile": [
+            12,
+            14
+          ]
+        }
+      ],
+      "exit": {
+        "record": "0x088836F4",
+        "trigger_tiles": [
+          72,
+          2
+        ],
+        "destination": 712,
+        "arrival_tiles": [
+          2,
+          29
+        ]
+      },
+      "source_candidates": [
+        {
+          "source_key": "HEAVY_KNIGHT",
+          "object_address": "0x088BCD90",
+          "native_room": 707,
+          "spawn_pixels": [
+            952,
+            288
+          ],
+          "native_grant": "Sword",
+          "pre_gate_access": "Lower dry corridor near upper shaft; actual deterministic grant could be acquired then carried equipped up the shaft.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BCCDC",
+          "native_room": 707,
+          "spawn_pixels": [
+            336,
+            152
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Left-entry corridor before bomb partitions; complete carrier through partitions needs proof.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "STATUE:3538FD",
+          "object_address": "0x088CEFC8",
+          "native_room": 592,
+          "native_grant": "Burning",
+          "renewable": true,
+          "status": "source identity and ordinary hub prefix already reviewed; destination-room continuation and metal move not accepted",
+          "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network; data/regions/rooms.json statues_592"
+        }
+      ],
+      "carry": "Vanilla Burning candidate: actual 592 statue \u2192 801 \u2192 790; 790 door (14,8) \u2192 706 spawn (4,3); 706 door (72,18) \u2192 707 spawn (2,10); clear 707 bomb partitions while retaining equipment, fly upper shaft, horizontal Burning then enter 712. Prefix is reviewed; continuation and exact cramped attack are pending. Requires the specific Cabbage West/Moonlight connections and destination Area Keys used.",
+      "normal_environment": "No F1, star block or source in upper pocket; the local lower-right bomb opens 704 route and is not a substitute for F5. No Normal/bomb bypass accepted. Stone drop from above is obstructed by ceiling.",
+      "throw": "No upper-pocket ammo. Heavy Knight is far below; cannot hold and walk/jump it up the shaft. No Throw witness, and no universal denial of exotic luring, preexisting jump, or multiplayer is claimed.",
+      "water": "Dry; visual blue mansion background is not water.",
+      "open_questions": [
+        "High-priority controller acceptance: Burning through one-tile throat and upward platform/door.",
+        "Full 706/707 source carry and bomb order.",
+        "Do not accept other direct providers without exact clearance/move witness."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_4"
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_15 -> REGION_MOONLIGHT_MANSION/ROOM_2_WARP": {
+      "native_room": 742,
+      "legacy_requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block",
+          "can_break_metal"
+        ]
+      },
+      "barrier": {
+        "cluster": "742:20,6",
+        "tiles": [
+          [
+            20,
+            6
+          ],
+          [
+            21,
+            6
+          ],
+          [
+            20,
+            7
+          ],
+          [
+            21,
+            7
+          ]
+        ],
+        "direction": "left to right from roof/upper return ledge into right tower",
+        "geometry": "Two-by-two F5 bank at the upper entrance. Warp is above in the right tower; the sparerib chest is below. The lower bomb component changes the post-metal chest route, so a shared destruction step does not imply identical target reachability."
+      },
+      "exit": {
+        "record": "0x08885348",
+        "trigger_tiles": [
+          27,
+          2
+        ],
+        "destination": 705,
+        "arrival_tiles": [
+          4,
+          39
+        ]
+      },
+      "co_target": {
+        "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
+        "object": "0x088BDD10",
+        "position_pixels": [
+          408,
+          280
+        ],
+        "native_reward": "Sparerib",
+        "current_ap_rule": null,
+        "status": "The chest is a separate post-metal target. Before outer bomb activation, the upper opening reaches its lower chamber. The lower bomb branch closes that opening and adds upward-only side caps. No alternative Normal downward route or reset-dependent source loop is accepted."
+      },
+      "normal_environment": "Normal movement can approach the lower Room14 loop via timed gate, stars, bombs, and flight. F5 is not bomb-chain terrain. The outer lower bomb closes the upper-to-chest opening and creates upward-only caps at the lower side shafts. No Normal chest bypass is accepted.",
+      "throw": "No source at left upper firing position. Lower Waddle Doo/Big Waddle Dee cannot be carried while held up the tower; upper Waddle Doo at (400,88) is already beyond metal and cannot justify entry.",
+      "water": "Dry.",
+      "source_candidates": [
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BD8AC",
+          "native_room": 741,
+          "spawn_pixels": [
+            200,
+            224
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Native main-corridor Flamer before the lower door (1,17) to742 arrival (30,29). Actual approach/capture from the incoming741 main route remains unproved. If usable, this source avoids activating742's chest-closing lower bomb component.",
+          "status": "Native identity and main-corridor placement verified; capture and carry acceptance pending."
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BDA38",
+          "native_room": 741,
+          "spawn_pixels": [
+            136,
+            80
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Upper return corridor, reached by 742 door (25,12) -> 741 spawn (11,8). Return via 741 door (3,2) -> 742 spawn (19,8); no door through the F5 is required for this loop.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BDA5C",
+          "native_room": 741,
+          "spawn_pixels": [
+            200,
+            80
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Same upper return corridor and loop as 0x088BDA38.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "BONKERS",
+          "object_address": "0x088BDA80",
+          "native_room": 741,
+          "spawn_pixels": [
+            88,
+            456
+          ],
+          "native_grant": "Hammer",
+          "pre_gate_access": "Main 741 arena before lower door to 742; potential imported Hammer, not a demonstrated move or retained carrier.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BDB60",
+          "native_room": 742,
+          "spawn_pixels": [
+            400,
+            456
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Bottom arrival chamber before timed gate; deterministic provider candidate only.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        }
+      ],
+      "carry": "Initial entry: 741 lower door (1,17) \u2192 742 spawn (30,29). The main route crosses the timed gate and spikes, climbs the left Gordo shaft to the roof, then takes the lower bomb-branch door (25,12) \u2192 741 spawn (11,8). Acquire an upper Flamer, then take 741 upper door (3,2) \u2192 742 spawn (19,8) and attack right into F5. WiKirby explicitly describes this Burning loop. Native source and door endpoints are verified; controller and carry proof remain pending. Prefer investigating the main-corridor741 Flamer at(200,224) first: if capture is reachable, Burning can be carried through the initial lower door and the chest-closing742 bomb loop can be avoided.",
+      "open_questions": [
+        "Capture, source policy, and full return loop.",
+        "Test acquisition from main-corridor741 Flamer0x088BD8AC, then carry through741 lower door to742 without activating the outer lower bomb.",
+        "Track the separate post-metal Warp and chest targets and the742 bomb state; a return-to741 loop cannot assume a fresh742 room."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "bomb_state_review": {
+        "evidence": "742-708-bounded-mutations.json",
+        "outer_component": {
+          "trigger": [
+            19,
+            12
+          ],
+          "description": "Connected to F2 x20..21/y11..12 and the outer F3 loop. Activation opens the lower approach but changes the tower topology.",
+          "replacements": [
+            {
+              "tiles": "x22..28,y9",
+              "new_tile": "0x1D",
+              "meaning": "Spikes."
+            },
+            {
+              "tiles": "x24..25,y8",
+              "new_tile": "0x0D",
+              "meaning": "Solid roof closes the initial upper-to-lower shaft."
+            },
+            {
+              "tiles": "x22 and x28,y10..12",
+              "new_tile": "0x00",
+              "meaning": "Side passages become empty."
+            },
+            {
+              "tiles": "(22,13),(28,13)",
+              "new_tile": "0x0F",
+              "meaning": "Upward-only platform caps. Downward traversal is not granted."
+            }
+          ]
+        },
+        "inner_component": {
+          "trigger": [
+            26,
+            12
+          ],
+          "description": "Separate component. Touches only F3 at(25,12), which becomes0xFF to reveal the741 door, and(25,11), which becomes0x00. It does not open the floor below the chamber."
+        },
+        "chest_floor": "Center floor x23..27/y13..14 remains0x0D. The side cells x22 and28/y14 are empty, but their y13 entries become0x0F after outer activation. No downward bypass is accepted from this geometry alone.",
+        "state_consequence": "Warp lies above the modified lower shaft. Chest lies below. These targets cannot share a blanket post-metal success flag. The vanilla return-to741 Burning loop has a room-state/reset question for chest access. Do not assume that crossing a door resets742; AI occupancy may preserve the mutated room.",
+        "normal_bypass_status": "No accepted Normal chest bypass. In particular do not revive a generic Down/Down+A route through0x0F based on a tile drawing."
+      }
+    },
+    "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN -> REGION_MOONLIGHT_MANSION/ROOM_2_WARP": {
+      "native_room": 742,
+      "legacy_requirement": "can_break_metal",
+      "barrier": {
+        "cluster": "742:20,6",
+        "tiles": [
+          [
+            20,
+            6
+          ],
+          [
+            21,
+            6
+          ],
+          [
+            20,
+            7
+          ],
+          [
+            21,
+            7
+          ]
+        ],
+        "direction": "left to right from roof/upper return ledge into right tower",
+        "geometry": "Two-by-two F5 bank at the upper entrance. Warp is above in the right tower; the sparerib chest is below. The lower bomb component changes the post-metal chest route, so a shared destruction step does not imply identical target reachability."
+      },
+      "exit": {
+        "record": "0x08885348",
+        "trigger_tiles": [
+          27,
+          2
+        ],
+        "destination": 705,
+        "arrival_tiles": [
+          4,
+          39
+        ]
+      },
+      "co_target": {
+        "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
+        "object": "0x088BDD10",
+        "position_pixels": [
+          408,
+          280
+        ],
+        "native_reward": "Sparerib",
+        "current_ap_rule": null,
+        "status": "The chest is a separate post-metal target. Before outer bomb activation, the upper opening reaches its lower chamber. The lower bomb branch closes that opening and adds upward-only side caps. No alternative Normal downward route or reset-dependent source loop is accepted."
+      },
+      "normal_environment": "Normal movement can approach the lower Room14 loop via timed gate, stars, bombs, and flight. F5 is not bomb-chain terrain. The outer lower bomb closes the upper-to-chest opening and creates upward-only caps at the lower side shafts. No Normal chest bypass is accepted.",
+      "throw": "No source at left upper firing position. Lower Waddle Doo/Big Waddle Dee cannot be carried while held up the tower; upper Waddle Doo at (400,88) is already beyond metal and cannot justify entry.",
+      "water": "Dry.",
+      "source_candidates": [
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BD8AC",
+          "native_room": 741,
+          "spawn_pixels": [
+            200,
+            224
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Native main-corridor Flamer before the lower door (1,17) to742 arrival (30,29). Actual approach/capture from the incoming741 main route remains unproved. If usable, this source avoids activating742's chest-closing lower bomb component.",
+          "status": "Native identity and main-corridor placement verified; capture and carry acceptance pending."
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BDA38",
+          "native_room": 741,
+          "spawn_pixels": [
+            136,
+            80
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Upper return corridor, reached by 742 door (25,12) -> 741 spawn (11,8). Return via 741 door (3,2) -> 742 spawn (19,8); no door through the F5 is required for this loop.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BDA5C",
+          "native_room": 741,
+          "spawn_pixels": [
+            200,
+            80
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Same upper return corridor and loop as 0x088BDA38.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "BONKERS",
+          "object_address": "0x088BDA80",
+          "native_room": 741,
+          "spawn_pixels": [
+            88,
+            456
+          ],
+          "native_grant": "Hammer",
+          "pre_gate_access": "Main 741 arena before lower door to 742; potential imported Hammer, not a demonstrated move or retained carrier.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BDB60",
+          "native_room": 742,
+          "spawn_pixels": [
+            400,
+            456
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Bottom arrival chamber before timed gate; deterministic provider candidate only.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        }
+      ],
+      "carry": "The actual incoming door is 741 upper door 0x08884A48 at (3,2) \u2192 742 spawn (19,8), adjacent to the left of F5. This AP region has no incoming edge or override at this baseline. The current 741 UPPER exit instead points to generic ROOM_2_15. Therefore this legacy AP start is unreachable.",
+      "open_questions": [
+        "Fix entry mapping only after verified room witness; do not count disconnected edge as covered.",
+        "Burning capture/retention and short launch from arrival.",
+        "Do not grant chest before metal.",
+        "Test acquisition from main-corridor741 Flamer0x088BD8AC, then carry through741 lower door to742 without activating the outer lower bomb.",
+        "Track the separate post-metal Warp and chest targets and the742 bomb state; a return-to741 loop cannot assume a fresh742 room."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
+      "bomb_state_review": {
+        "evidence": "742-708-bounded-mutations.json",
+        "outer_component": {
+          "trigger": [
+            19,
+            12
+          ],
+          "description": "Connected to F2 x20..21/y11..12 and the outer F3 loop. Activation opens the lower approach but changes the tower topology.",
+          "replacements": [
+            {
+              "tiles": "x22..28,y9",
+              "new_tile": "0x1D",
+              "meaning": "Spikes."
+            },
+            {
+              "tiles": "x24..25,y8",
+              "new_tile": "0x0D",
+              "meaning": "Solid roof closes the initial upper-to-lower shaft."
+            },
+            {
+              "tiles": "x22 and x28,y10..12",
+              "new_tile": "0x00",
+              "meaning": "Side passages become empty."
+            },
+            {
+              "tiles": "(22,13),(28,13)",
+              "new_tile": "0x0F",
+              "meaning": "Upward-only platform caps. Downward traversal is not granted."
+            }
+          ]
+        },
+        "inner_component": {
+          "trigger": [
+            26,
+            12
+          ],
+          "description": "Separate component. Touches only F3 at(25,12), which becomes0xFF to reveal the741 door, and(25,11), which becomes0x00. It does not open the floor below the chamber."
+        },
+        "chest_floor": "Center floor x23..27/y13..14 remains0x0D. The side cells x22 and28/y14 are empty, but their y13 entries become0x0F after outer activation. No downward bypass is accepted from this geometry alone.",
+        "state_consequence": "Warp lies above the modified lower shaft. Chest lies below. These targets cannot share a blanket post-metal success flag. The vanilla return-to741 Burning loop has a room-state/reset question for chest access. Do not assume that crossing a door resets742; AI occupancy may preserve the mutated room.",
+        "normal_bypass_status": "No accepted Normal chest bypass. In particular do not revive a generic Down/Down+A route through0x0F based on a tile drawing."
+      }
+    },
+    "REGION_PEPPERMINT_PALACE/ROOM_7_07 -> REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": {
+      "native_room": 205,
+      "legacy_requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal",
+          "can_swim"
+        ]
+      },
+      "barrier": {
+        "cluster": "205:21,8",
+        "tiles": [
+          [
+            21,
+            8
+          ],
+          [
+            22,
+            8
+          ],
+          [
+            21,
+            9
+          ],
+          [
+            22,
+            9
+          ]
+        ],
+        "direction": "downward through dry floor plug into underwater destination approach",
+        "geometry": "Two-by-two F5 floor plug, solid adjacent columns 20/23. Other F5 cluster x24..26/y3..4 is separate isolated obstacle, not this gate."
+      },
+      "incoming": [
+        {
+          "source": 203,
+          "offset": "0x886f88",
+          "trigger": [
+            59,
+            4
+          ],
+          "destination": 205,
+          "spawn_tile": [
+            3,
+            3
+          ]
+        },
+        {
+          "source": 209,
+          "offset": "0x8883d4",
+          "trigger": [
+            9,
+            2
+          ],
+          "destination": 205,
+          "spawn_tile": [
+            29,
+            18
+          ]
+        },
+        {
+          "source": 210,
+          "offset": "0x888c78",
+          "trigger": [
+            15,
+            2
+          ],
+          "destination": 205,
+          "spawn_tile": [
+            10,
+            19
+          ]
+        }
+      ],
+      "exit": {
+        "record": "0x08887434",
+        "trigger_tiles": [
+          29,
+          17
+        ],
+        "destination": 209,
+        "arrival_tiles": [
+          11,
+          3
+        ]
+      },
+      "source_candidates": [
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BED88",
+          "native_room": 205,
+          "spawn_pixels": [
+            224,
+            136
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Dry left approach near floor plug; actual deterministic provider may help, full approach pending.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "WADDLE_DOO",
+          "object_address": "0x088BED64",
+          "native_room": 205,
+          "spawn_pixels": [
+            448,
+            136
+          ],
+          "native_grant": "Beam",
+          "pre_gate_access": "Dry right approach near plug; same constraint.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "FLAMER",
+          "object_address": "0x088BED1C",
+          "native_room": 205,
+          "spawn_pixels": [
+            304,
+            16
+          ],
+          "native_grant": "Burning",
+          "pre_gate_access": "Upper native Flamer; Burning horizontal capability is not a floor-plug witness.",
+          "status": "native_identity_verified; exact capture and carry acceptance pending"
+        },
+        {
+          "source_key": "STATUE:353900",
+          "native_room": 190,
+          "native_grant": "Stone",
+          "status": "Reviewed ordinary hub source, but 205 continuation and floor action not accepted"
+        }
+      ],
+      "carry": "Existing ordinary carrier prefix: 290 \u2192 210 lower arrival (27,49) \u2192 210 exit (15,2) \u2192 205 spawn (10,19). This can carry resolved equipment and has already-reviewed Normal connectivity through 205 to 228. It does not prove the floor plug or the 209 exit. Actual Hammer must come from a physical source; the isolated fixture essence is not a production source.",
+      "normal_environment": "The plug requires vertical contact; no Normal bypass accepted. Adjacent F1 at (23,12) needs underwater approach and mutation review after the plug. Door 209 return arrives at (29,18), behind the plug; it cannot bootstrap first access to 209.",
+      "throw": "No accepted ammo or capture pose above the plug. Nearby Waddle Doos are off to the side, where solid columns block a naive horizontal shot. Down-aiming and body clearance require explicit proof.",
+      "water": "Attack starts dry. Water is below row 9; retain ability through swimming, clear later obstacles with a reviewed underwater action. Completed Stone may sink but ordinary swimming cannot start Stone. Missile needs a dry launch; Smash does not inherit Hammer swimming moves.",
+      "existing_acceptance": {
+        "record": "dev-docs/metal-hammer-floor-acceptance.json",
+        "provider": "Hammer",
+        "move": "At x352.75, jump, wait eight frames, and swing twice on separate jumps to remove the 2\u00d72 floor. The grounded B control failed.",
+        "scope": "Native isolated dry-attack fixture only; source-touch fixture and entry/whole-exit not proved."
+      },
+      "open_questions": [
+        "Production Hammer/Stone/Missile/Smash/Master source carrier and each precise floor move.",
+        "Whole post-plug water and bomb path to 209.",
+        "Do not accept Burning/UFO merely because they are metal providers."
+      ],
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7"
+    }
+  },
+  "coverage_assertions": {
+    "edge_count": 9,
+    "expected_native_counts": {
+      "141": 3,
+      "205": 1,
+      "707": 1,
+      "708": 2,
+      "742": 2
+    },
+    "production_updates": false,
+    "new_controller_proofs": 0,
+    "safe_to_remove_starting_stone_burning": false
+  },
+  "validation": {
+    "script": "validate_report.py",
+    "result": "PASS",
+    "checks": [
+      "Exact nine AP edge keys and original requirements match baseline rooms.json.",
+      "Each source key exists in the current registry or is a named statue slot.",
+      "Every exported local source identity and position matches the native scalar export.",
+      "All exit record offsets, trigger coordinates, destination rooms and arrival coordinates match the native scalar export."
+    ],
+    "not_tested": [
+      "Native controller traversal for any newly proposed route.",
+      "Actual source acquisition under randomized/AP gating.",
+      "Whole generation safety after removing Stone/Burning."
+    ]
+  },
+  "remaining_blocker": "Static source/door/geometry research is complete for the nine edges. No tool action is denied or pending. Exact movement, acquisition, attack, body clearance and target controller acceptance remain unperformed; the recorded source/geometry candidates must not be installed as reviewed witnesses solely from this report.",
+  "reproducibility": {
+    "public_map_manifest": "legacy-metal-public-map-references.json",
+    "public_native_manifest": "legacy-metal-public-source-references.json",
+    "portable_validator": "../tools/validate_legacy_metal_audit.py",
+    "instructions": "legacy-metal-reproducibility.md",
+    "published_only_scope": "Nine historical edge records, six F5 banks, named source registry grants and ten inspected map references are checkable from the published derived files. This is consistency validation, not independent native extraction or gameplay proof.",
+    "optional_local_rom_scope": "The validator includes a new independent bounded reader for the unchanged USA ROM. It checks source templates, door records, F5 coordinates and selected 742 mutation assertions without saving assets or grids. This reader was not run against a ROM in the cloud audit environment.",
+    "historical_validation": "The earlier scratch validate_report.py relied on nonbundled extraction files. It is superseded for published reproducibility by validate_legacy_metal_audit.py and is not required or claimed to be bundled.",
+    "remaining_limits": [
+      "Original programs and exact commands that created the three supplemental extracts were not provided; their byte-for-byte recreation is not claimed.",
+      "Pinned decomp source explains the data layout but does not replace the proprietary USA data when independently checking native coordinates.",
+      "Map article revisions are pinned. CDN image URLs may change; byte hashes detect drift but do not guarantee historical retrieval.",
+      "Neither consistency checks nor scalar re-extraction prove source capture, carried movement, attack contact, reset semantics or collectability."
+    ]
+  },
+  "evidence_files_note": "These are hashes of supplemental, nonbundled research extraction records. The derived findings and public source references are separately bundled; full grids and assets are excluded."
+}

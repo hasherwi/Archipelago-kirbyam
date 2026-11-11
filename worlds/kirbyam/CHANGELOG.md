@@ -14,37 +14,49 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
-- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
+- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. Stone and Burning are now progression unlocks when ability gating is enabled; only Beam is automatically precollected. Explicit starting inventory and historical seed gate lists remain supported (PR #1051).
+- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest accepts its finite Frosty witness or a guarded permanent Ice source and carry route (PRs #1048, #1051).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
-- Phone ownership and call gating are an inactive foundation only. Generated seeds do not enable the Phone item or Phone traversal requirements; source, solo-route and lifecycle acceptance remains unfinished (PR #1086).
+- Phone ownership and call gating are an inactive foundation only. Generated seeds do not enable the Phone item or Phone traversal requirements; source, solo-route and lifecycle acceptance remains unfinished. Future helper logic is limited to small-switch and Heave-Ho cooperation, never helper abilities or Bomb Block/chest attacks (PR #1086).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
+- Beam remains automatically precollected. Native evidence consists of bounded source, carrier and action proofs, not uninterrupted full-game, direct AP one-HP or universal multiplayer replays.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
 - Reject newly generated patch artifacts unless Phone has its exact disabled configuration, both immediately after the base patch and after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).
 - Reject Copy Room grants when capability or starting-ownership values or types change during pending emulator reads, and preserve the absent/null distinction in both ownership synchronizers. Verify native grant orders, three-file persistence, menu/R/L controls and the Area Key requirement for helper arrival without enabling Phone generation (PR #1086).
 - Reject stale Phone grants when slot capabilities or starting ownership change during pending emulator reads, including boolean/integer type changes. Add reconnect, generation-boundary and native zero-battery/offline-reload coverage without activating Phone in generated seeds (PR #1086).
 - Place Moonlight Mansion Goal 2's Chalk chest in its verified upper-left compartment and its return in Room 18's bottom-right compartment. Preserve the existing flight requirement and keep the native source manifest and extractor consistent (PR #1086).
+- Add guarded permanent Burning alternatives for the Batafire and Master Hand chests, and classify required Ice before region creation for explicit Main-order starting inventory (PR #1051).
+- Require reviewed Burning routes through Rainbow Route Room 41 and Moonlight Mansion Rooms 4, 5 and 15, preserving directed entrances and independent checks. Remove the unvalidated Moonlight Room 15 upper-return shortcut to its Warp Star (PR #1051).
+- Add reviewed Stone access to Beginning Notes and retained-Hammer access to Peppermint Palace's left 1-Up chest. Keep separately demonstrated Normal routes free of unnecessary copied-ability requirements (PR #1051).
+- Require an actual Hammer source and reviewed carry route for the Peppermint Palace7-9 metal chest. Joint native traces preserve the same Hammer through its earlier Room7 chest; renewable Copy Ability Room statues support mixed-live source policies without assuming a lucky Bonkers grant. The separate rope chest is unchanged.
+- Keep Cabbage Cavern Room3's fresh upper-left entrance separate from its lower/right passages. Preserve the directed Normal Bomb and swimming routes without requiring a metal ability or duplicating its room check.
+- Keep Peppermint Palace's three chest-room approaches and Snow hallway separate. Require a reviewed Bonkers-Hammer or renewable statue-backed Stone route through the Room7 floor, preserving exact check IDs and one room check per physical room.
+- Require a reviewed physical Burning source and carry route for the Peppermint Palace7-19 metal chest, while preserving both ordinary exits and its room check.
+- Reject seeds that leave enabled Kirby checks unreachable, including under minimal accessibility. Reuse bounded source-assignment validation for minimal and audit actual placed progression after finalization; the safety guard is separate from the source-backed starting-inventory change.
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Integrate Beam-only automatic starts and source-aware traversal from main while preserving disabled Phone patch validation, ownership fences and the coordinated Chalk mapping. Historical Phone native ledgers retain their original starts and gate masks; they do not certify the new starting-permission configuration (PR #1086).
 - Verify native pause/resume during Phone call startup with a cold neutral control: exactly one battery debit, retained ownership and restored L/movement control. Keep production Phone disabled (PR #1086).
 - Recheck the bounded Heave-Ho solo Sword attempt: genuine source/carry and quake displacement do not establish its doorway. Separate the final terrain obstruction from earlier body contact without claiming universal solo impossibility or enabling Phone (PR #1086).
 - Clarify helper Normal requests, actual room-transition resets and the limits of a bounded natural-UFO search. Identify Mustard 11’s large-block pocket as outside current AP checks/exits; add no Phone dependency or activation (PR #1086).
-- Verify the same Mustard 12 Burning solo route with production ability gating ON and generated starting permissions. Audit ordinary client configuration separately from controller-only gameplay; this does not claim a new Burning unlock or activate Phone (PR #1086).
+- Verify the same Mustard 12 Burning solo route with historical production ability gating ON and its Beam/Burning/Stone starting permissions. Audit ordinary client configuration separately from controller-only gameplay; this does not certify the current Beam-only start or a new Burning unlock or activate Phone (PR #1086).
 - Verify separate solo Mustard 12 routes at native HP 6 and HP 1: Normal reaches the ordinary lower exit, while source-acquired Burning clears the large block and upper secret exit through real wall quakes. Keep the destination compartments separate and Phone generation disabled (PR #1086).
 - Verify the full Phone/Copy watcher on native memory, including guarded grants, mailbox ACKs, menu/history/pairing controls, reconnect and journal-backed cold-reload delivery. Keep production Phone disabled (PR #1086).
 - Extend the disabled Phone generation boundary to 48 option combinations and actual token serialization/application, including enabling/corrupting-token negative controls (PR #1086).
 - Verify native Mini R/L restrictions before and after Phone receipt, then ordinary Select disposal and Normal call/return recovery. Preserve native eligibility and keep Phone generation disabled (PR #1086).
 - Verify source-acquired UFO calls and native L return before and after Phone receipt, with exact cold-repeat and disabled-gate controls. Document natural CPU ability changes that still prevent a general helper-route guarantee; Phone generation remains disabled (PR #1086).
-- Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Keep activation disabled while helper ability reliability and the full approach remain open (PR #1086).
+- Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Retain this as historical observation only: helper Bomb Block attacks are excluded from progression under the current design (PR #1086).
 - Record independent Normal/no-Phone Mustard 11 chest and ordinary-exit witnesses, including native HP-1 checks and explicit failed replay limits. Prepare a read-only native BizHawk bus-probe harness without claiming completed emulator acceptance (PR #1086).
 - Add disabled-by-default Phone ownership, authenticated three-file persistence and a gate for new local single-player R calls, with a rebuilt ROM patch. Preserve tutorial calls, L return, existing Copy Room ownership and native eligibility (PR #1086).
+- Preserve the historical 22-ability fallback for legacy slots, add source-aware traversal and native-evidence regressions, and classify expected unsafe minimal-accessibility generation rejections separately from successful fuzz runs (PR #1051).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0

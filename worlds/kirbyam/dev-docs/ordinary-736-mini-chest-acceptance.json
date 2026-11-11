@@ -1,0 +1,1711 @@
+{
+  "schema_version": 1,
+  "scope": "Cold actual735\u2192736 South cannon\u2192original Minny capture\u2192Mini corridor\u2192actual739\u2192Vitality chest. Does not establish arbitrary entrances, randomized source guarantees, repeat acquisition or reverse connectivity.",
+  "qualification": {
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "fixture": "Startup735 at[48,112]; other Kirbys startup101 at[48,80]; original objects, terrain, attacks and sources unchanged. Actual735 door(2,6),record0x8B1C84 enters736 stored[24,15]. Fresh blank save, no runtime writes. Does not prove earlier approach inside735.",
+    "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "source": {
+    "template": "0x088D41A0",
+    "position": [
+      552,
+      360
+    ],
+    "type": "MINNY 0x27",
+    "native_copy_ability": 23,
+    "acquisition": "From South arrival, move right10 frames, hold B60, Down30. Original Minny is inhaled through its narrow pocket and swallowed; no substituted source or equipped-ability write. Existing AP source permission/policy contract remains necessary."
+  },
+  "route": {
+    "south_cannon_record": "0x088B2616",
+    "mini_approach": [
+      488,
+      360.99609375
+    ],
+    "corridor_door_record": "0x088B2632",
+    "corridor_door_trigger": [
+      16,
+      28
+    ],
+    "destination": 739,
+    "destination_stored_spawn": [
+      4,
+      4
+    ],
+    "transition_ability": "Mini23 naturally becomes Normal0 during actual736\u2192739 transition; no dropped-star recovery or reacquisition."
+  },
+  "chest": {
+    "template": "0x088D4800",
+    "position": [
+      128,
+      96
+    ],
+    "type": "0x81",
+    "subtype": 6,
+    "reward": "Vitality",
+    "native_flag": 83,
+    "readback_address": "0x0203896A",
+    "mask": 8,
+    "result": "Actual Up interaction changes mask0\u21928; reward raises HP6\u21927. Source chest.c CreateChest uses template.unk11, sub_0800AFC8 calls CollectChest."
+  },
+  "acceptance": {
+    "health": "Both100/500 exact continuous gameplay audits have no HP decrease, minimum6, no grabs. Reward increases HP to7. This is not a direct AP1HP seed replay.",
+    "actors": "All four Kirby room/ability changes logged per frame; no AI Magic/Cook/Crash ability observed.",
+    "metal": "Sampled central metal remains245; FE portal initially254. No metal strike required.",
+    "limitations": "Startup skips earlier735 approach. Native original Minny grant is tested, not randomized grant policies. Rejected exploratory jumps with damage are excluded from accepted lineage."
+  },
+  "audits": {
+    "100": {
+      "rom_sha256": "20edb31b4cb9ebc6115bd6eebd833f06a2f2df2da0e9ccd8e39bae02d4146186",
+      "segments": [
+        {
+          "id": "normal736boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 736,
+            "x": 376.0,
+            "y": 232.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1086,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736South",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              110,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1346,
+            "room": 736,
+            "x": 488.0,
+            "y": 360.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1236,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MinnyProbe",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              60,
+              2
+            ],
+            [
+              30,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 1446,
+            "room": 736,
+            "x": 510.78125,
+            "y": 360.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1347,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniLeft",
+          "inputs": [
+            [
+              240,
+              32
+            ],
+            [
+              180,
+              32
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1986,
+            "room": 736,
+            "x": 259.0,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1447,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniJump",
+          "inputs": [
+            [
+              45,
+              17
+            ],
+            [
+              25,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2056,
+            "room": 736,
+            "x": 285.65234375,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1987,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniSpike",
+          "inputs": [
+            [
+              60,
+              17
+            ],
+            [
+              15,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2161,
+            "room": 736,
+            "x": 405.07421875,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2057,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniEdge",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              25,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2232,
+            "room": 736,
+            "x": 464.23046875,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2162,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniFarRight",
+          "inputs": [
+            [
+              27,
+              16
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              20,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2314,
+            "room": 736,
+            "x": 556.99609375,
+            "y": 440.19140625,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2233,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniBottomRight",
+          "inputs": [
+            [
+              20,
+              32
+            ],
+            [
+              35,
+              33
+            ],
+            [
+              15,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2384,
+            "room": 736,
+            "x": 453.48046875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2315,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniBottomMiddle",
+          "inputs": [
+            [
+              28,
+              32
+            ],
+            [
+              26,
+              33
+            ],
+            [
+              10,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2448,
+            "room": 736,
+            "x": 380.7578125,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2385,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniDoor",
+          "inputs": [
+            [
+              6,
+              32
+            ],
+            [
+              30,
+              33
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              30,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2559,
+            "room": 739,
+            "x": 56.0,
+            "y": 57.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2449,
+              "mask": 0
+            }
+          ],
+          "f5": null
+        },
+        {
+          "id": "normal736MiniCollect",
+          "inputs": [
+            [
+              5,
+              0
+            ],
+            [
+              60,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2750,
+            "room": 739,
+            "x": 103.765625,
+            "y": 90.63671875,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2560,
+              "mask": 0
+            }
+          ],
+          "f5": null
+        },
+        {
+          "id": "normal736MiniOpen",
+          "inputs": [
+            [
+              18,
+              16
+            ],
+            [
+              9,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2867,
+            "room": 739,
+            "x": 123.5859375,
+            "y": 104.52734375,
+            "hp": 7,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2751,
+              "mask": 0
+            },
+            {
+              "frame": 2800,
+              "mask": 8
+            }
+          ],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              736,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1439,
+          "actors": [
+            [
+              736,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1725,
+          "actors": [
+            [
+              736,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2541,
+          "actors": [
+            [
+              739,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2550,
+          "actors": [
+            [
+              739,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    },
+    "500": {
+      "rom_sha256": "3f1977d2351c3b8865438a66f669efaa9a841888ddad62394c6769918ed26715",
+      "segments": [
+        {
+          "id": "normal736boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 736,
+            "x": 376.0,
+            "y": 232.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1086,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736South",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              110,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1346,
+            "room": 736,
+            "x": 488.0,
+            "y": 360.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1236,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MinnyProbe",
+          "inputs": [
+            [
+              10,
+              16
+            ],
+            [
+              60,
+              2
+            ],
+            [
+              30,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 1446,
+            "room": 736,
+            "x": 510.78125,
+            "y": 360.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1347,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniLeft",
+          "inputs": [
+            [
+              240,
+              32
+            ],
+            [
+              180,
+              32
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1986,
+            "room": 736,
+            "x": 259.0,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1447,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniJump",
+          "inputs": [
+            [
+              45,
+              17
+            ],
+            [
+              25,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2056,
+            "room": 736,
+            "x": 285.65234375,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 1987,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniSpike",
+          "inputs": [
+            [
+              60,
+              17
+            ],
+            [
+              15,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2161,
+            "room": 736,
+            "x": 405.07421875,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2057,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniEdge",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              25,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2232,
+            "room": 736,
+            "x": 464.23046875,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2162,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniFarRight",
+          "inputs": [
+            [
+              27,
+              16
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              20,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2314,
+            "room": 736,
+            "x": 556.99609375,
+            "y": 440.19140625,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2233,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniBottomRight",
+          "inputs": [
+            [
+              20,
+              32
+            ],
+            [
+              35,
+              33
+            ],
+            [
+              15,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2384,
+            "room": 736,
+            "x": 453.48046875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2315,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniBottomMiddle",
+          "inputs": [
+            [
+              28,
+              32
+            ],
+            [
+              26,
+              33
+            ],
+            [
+              10,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2448,
+            "room": 736,
+            "x": 380.7578125,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 23
+          },
+          "minhp": 6,
+          "abilities": [
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2385,
+              "mask": 0
+            }
+          ],
+          "f5": [
+            254,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal736MiniDoor",
+          "inputs": [
+            [
+              6,
+              32
+            ],
+            [
+              30,
+              33
+            ],
+            [
+              30,
+              32
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              30,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2559,
+            "room": 739,
+            "x": 56.0,
+            "y": 57.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            23
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2449,
+              "mask": 0
+            }
+          ],
+          "f5": null
+        },
+        {
+          "id": "normal736MiniCollect",
+          "inputs": [
+            [
+              5,
+              0
+            ],
+            [
+              60,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2750,
+            "room": 739,
+            "x": 103.765625,
+            "y": 90.63671875,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2560,
+              "mask": 0
+            }
+          ],
+          "f5": null
+        },
+        {
+          "id": "normal736MiniOpen",
+          "inputs": [
+            [
+              18,
+              16
+            ],
+            [
+              9,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2867,
+            "room": 739,
+            "x": 123.5859375,
+            "y": 104.52734375,
+            "hp": 7,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag83": [
+            {
+              "frame": 2751,
+              "mask": 0
+            },
+            {
+              "frame": 2800,
+              "mask": 8
+            }
+          ],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              735,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              736,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1439,
+          "actors": [
+            [
+              736,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1725,
+          "actors": [
+            [
+              736,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2541,
+          "actors": [
+            [
+              739,
+              23
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2550,
+          "actors": [
+            [
+              739,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    }
+  }
+}

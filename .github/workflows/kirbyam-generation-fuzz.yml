@@ -55,6 +55,10 @@ jobs:
           python worlds/kirbyam/tools/check_action_pins.py
           python -m unittest discover -s worlds/kirbyam/tools/tests -v
 
+      - name: Check accepted-output and rejection option matrix
+        run: |
+          python -m pytest -q worlds/kirbyam/test/test_permission_generation_audit.py worlds/kirbyam/test/test_generation_fuzzer_launcher.py
+
       - name: Run KirbyAM generation fuzzer
         env:
           FUZZ_RUNS: ${{ inputs.runs || '500' }}
@@ -63,7 +67,8 @@ jobs:
           python tools/run_kirbyam_generation_fuzz.py \
             --runs "$FUZZ_RUNS" \
             --jobs "$FUZZ_JOBS" \
-            --timeout 60
+            --timeout 60 \
+            --classify-minimal-rejections
 
       - name: Upload generation-fuzz artifacts
         if: always()

@@ -1,0 +1,113 @@
+{
+  "original_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "incoming": [
+    {
+      "source": 143,
+      "offset": "0x879858",
+      "trigger": [
+        1,
+        2
+      ],
+      "destination": 141,
+      "spawn_tile": [
+        43,
+        19
+      ]
+    },
+    {
+      "source": 144,
+      "offset": "0x8822fc",
+      "trigger": [
+        2,
+        3
+      ],
+      "destination": 141,
+      "spawn_tile": [
+        43,
+        9
+      ]
+    },
+    {
+      "source": 543,
+      "offset": "0x8767d6",
+      "trigger": [
+        44,
+        8
+      ],
+      "destination": 141,
+      "spawn_tile": [
+        3,
+        14
+      ]
+    },
+    {
+      "source": 545,
+      "offset": "0x88f4d6",
+      "trigger": [
+        2,
+        38
+      ],
+      "destination": 141,
+      "spawn_tile": [
+        34,
+        4
+      ]
+    }
+  ],
+  "outgoing": [
+    {
+      "source": 141,
+      "offset": "0x87927c",
+      "trigger": [
+        34,
+        3
+      ],
+      "destination": 545,
+      "spawn_tile": [
+        4,
+        39
+      ]
+    },
+    {
+      "source": 141,
+      "offset": "0x879416",
+      "trigger": [
+        43,
+        8
+      ],
+      "destination": 144,
+      "spawn_tile": [
+        4,
+        4
+      ]
+    },
+    {
+      "source": 141,
+      "offset": "0x879490",
+      "trigger": [
+        1,
+        13
+      ],
+      "destination": 543,
+      "spawn_tile": [
+        44,
+        9
+      ]
+    },
+    {
+      "source": 141,
+      "offset": "0x8796a8",
+      "trigger": [
+        43,
+        18
+      ],
+      "destination": 143,
+      "spawn_tile": [
+        3,
+        3
+      ]
+    }
+  ],
+  "evidence_level": "Native scalar door records establish arrival sides. Controller evidence is separately recorded in ordinary-141-directed-burning-acceptance.json and ordinary-141-lower-arrival-join.json. Record existence is not proof that an outward Mirra door was traversed."
+}

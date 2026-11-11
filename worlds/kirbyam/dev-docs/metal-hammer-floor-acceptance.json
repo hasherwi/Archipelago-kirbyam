@@ -1,0 +1,484 @@
+{
+  "purpose": "Native aerial Hammer breaks a metal floor plug without side entry",
+  "baseline_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "fixture_changes": [
+    {
+      "offset": "0x2d8cb8",
+      "before": "2303230323032303",
+      "after": "cd00650065006500",
+      "reason": "P1 controlled native room 205 start; AI other room"
+    },
+    {
+      "offset": "0x2d8cd0",
+      "before": "0060000000900000005000000090000000400000009000000030000000900000",
+      "after": "0068010000800000003000000050000000300000005000000030000000500000",
+      "reason": "P1 above native metal floor; AI elsewhere"
+    },
+    {
+      "offset": "0x8bec4a",
+      "before": "a800e000",
+      "after": "68017800",
+      "reason": "local essence position"
+    },
+    {
+      "offset": "0x8bec50",
+      "before": "12",
+      "after": "93",
+      "reason": "Hammer essence type"
+    },
+    {
+      "offset": "0x8bec52",
+      "before": "00",
+      "after": "06",
+      "reason": "Hammer essence subtype"
+    }
+  ],
+  "attack_and_collision_code_modified": false,
+  "terrain_modified": false,
+  "runtime_memory_writes": [],
+  "emulator_bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "fixture_rom_sha256": "8367de4ac4779b0ebdf0a4bbedb171469e924c726a82987b029266178bc326a3",
+  "setup": "Cold boot, relocated P1 to native room205 above existing floor, replaced one existing object with Hammer essence type0x93 subtype6 at(360,120). Kirby obtained Hammer through ordinary contact, no ability RAM injection. AI placed in room101.",
+  "geometry": {
+    "room": 205,
+    "map_dimensions_tiles": [
+      46,
+      23
+    ],
+    "tile_size_pixels": 16,
+    "floor_tiles_order": [
+      [
+        21,
+        8
+      ],
+      [
+        22,
+        8
+      ],
+      [
+        21,
+        9
+      ],
+      [
+        22,
+        9
+      ]
+    ],
+    "side_columns": [
+      20,
+      23
+    ],
+    "kirby_start_xy": [
+      352.75,
+      120.99609375
+    ],
+    "water": false,
+    "water_note": "Attack setup and both swings are dry; the destination below row 9 is water. water=false describes the attack area, not the whole room.",
+    "side_tile": "0x50",
+    "side_tile_attributes": "0x210",
+    "destination_tile": "0x48",
+    "destination_tile_attributes": "0x3"
+  },
+  "tile_observation": {
+    "base": "0x02024ED0",
+    "group": 0,
+    "stride": 1950,
+    "room_width": 46,
+    "formula": "base + group*1950 + y*46 + x"
+  },
+  "ground_control": {
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 7,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 13,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 19,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 25,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 31,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 37,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 43,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 49,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 55,
+        "frames": 6,
+        "keys": 0
+      }
+    ],
+    "before": [
+      245,
+      245,
+      245,
+      245
+    ],
+    "after": [
+      245,
+      245,
+      245,
+      245
+    ],
+    "checkpoints": [
+      {
+        "label": "before",
+        "frame": 0,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "0",
+        "frame": 7,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "1",
+        "frame": 13,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "2",
+        "frame": 19,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "3",
+        "frame": 25,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "4",
+        "frame": 31,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "5",
+        "frame": 37,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "6",
+        "frame": 43,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "7",
+        "frame": 49,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "8",
+        "frame": 55,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "9",
+        "frame": 61,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      }
+    ]
+  },
+  "air_test": {
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1,
+        "frames": 8,
+        "keys": 0
+      },
+      {
+        "start": 9,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 10,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 16,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 22,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 28,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 34,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 40,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 46,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 52,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 58,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 64,
+        "frames": 6,
+        "keys": 0
+      },
+      {
+        "start": 70,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 71,
+        "frames": 8,
+        "keys": 0
+      },
+      {
+        "start": 79,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 80,
+        "frames": 60,
+        "keys": 0
+      }
+    ],
+    "before": [
+      245,
+      245,
+      245,
+      245
+    ],
+    "after_first_swing": [
+      0,
+      0,
+      245,
+      245
+    ],
+    "after_second_swing": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "checkpoints": [
+      {
+        "label": "before",
+        "frame": 0,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "0",
+        "frame": 16,
+        "room": 205,
+        "x": 352.75,
+        "y": 118.10546875,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "1",
+        "frame": 22,
+        "room": 205,
+        "x": 352.75,
+        "y": 120.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "2",
+        "frame": 28,
+        "room": 205,
+        "x": 352.75,
+        "y": 124.11328125,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "3",
+        "frame": 34,
+        "room": 205,
+        "x": 352.75,
+        "y": 132.57421875,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "4",
+        "frame": 40,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "5",
+        "frame": 46,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "6",
+        "frame": 52,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "7",
+        "frame": 58,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "8",
+        "frame": 64,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "9",
+        "frame": 70,
+        "room": 205,
+        "x": 352.75,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 17
+      },
+      {
+        "label": "second-air",
+        "frame": 140,
+        "room": 205,
+        "x": 352.75,
+        "y": 176.62109375,
+        "hp": 6,
+        "ability": 17
+      }
+    ]
+  },
+  "conclusion": "Yes: aerial Hammer breaks the floor from above without entering either side. Two repeated jump-and-swing cycles clear this two-row plug. Standing B did not break it at the tested placement.",
+  "limits": [
+    "Synthetic spawn and ability access, unchanged native geometry/attack mechanics.",
+    "Does not prove every ceiling clearance, floor thickness, underwater situation, or arbitrary approach.",
+    "No AP source/gate reachability is established."
+  ]
+}

@@ -31,7 +31,7 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, LEGACY_SLOT_GATEABLE_ABILITIES
 
 
 def _load_world_version_from_manifest() -> str:
@@ -191,7 +191,7 @@ def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bi
     mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
     mock_bizhawk_context.items_received = []
 
-    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
     assert _run_abilities_command(mock_bizhawk_context) == [
         f"Unlocked Abilities for {KirbyAmClient.game}",
         *unlocked,
@@ -203,7 +203,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     mock_bizhawk_context.slot_data = {"ability_gating": True}
     gated_ability = next(
         item for item in data.items.values()
-        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in GATEABLE_ENEMY_COPY_ABILITIES
+        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in LEGACY_SLOT_GATEABLE_ABILITIES
     )
     filler_item = next(item for item in data.items.values() if "Abilities" not in item.tags)
     mock_bizhawk_context.items_received = [
@@ -214,7 +214,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     ]
 
     unlocked = sorted(
-        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
+        (set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
         | {gated_ability.label.removesuffix(" Ability")}
     )
     assert _run_abilities_command(mock_bizhawk_context) == [
@@ -6178,11 +6178,7 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0
-    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
-        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-        if ability_id is not None and 0 < ability_id <= 31:
-            gated_mask |= 1 << ability_id
+    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -6234,11 +6230,7 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0
-    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
-        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-        if ability_id is not None and 0 < ability_id <= 31:
-            gated_mask |= 1 << ability_id
+    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,

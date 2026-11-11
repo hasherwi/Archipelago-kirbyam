@@ -1,0 +1,845 @@
+{
+  "scope": "Map and bounded native-source role review of the 47 initially unknown F5 clusters. This classifies likely AP relevance, not complete traversal or provider acceptance.",
+  "map_alignment": "16 pixels per native tile, top-left origin (0,0). All downloaded maps show native width and omit the final two native tile rows; omitted rows remain unreviewed.",
+  "updates": [
+    {
+      "native_room": 176,
+      "cluster_id": "176:5,10",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:9,10",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:4,13",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:8,13",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:5,15",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:9,15",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:3,16",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:7,16",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 176,
+      "cluster_id": "176:11,16",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No AP target is enclosed by these isolated tiles; Goal exit is upper left and AP chest is separately protected by 176:16,35.",
+      "approach": "Upper-left Star Block corridors, rows 9-16.",
+      "evidence": "Viewed native-aligned composite: the nine single F5 tiles leave gaps through or around ordinary Star Blocks, with no full metal partition. The actual chest sits at approximately (20,36).",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Goal_2",
+        "https://cdn.wikirby.com/8/89/KaTAM_1-G2_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 205,
+      "cluster_id": "205:24,3",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No door or pickup lies within or beyond this small isolated obstacle.",
+      "approach": "Upper central hall, above spike-capped solid projection.",
+      "evidence": "Six F5 tiles at (24..26,3..4) sit over spikes/solid terrain, with open passage both above and beside them. They are not the floor plug at 21,8 used in Hammer proof; that separate cluster leads to the lower water corridor.",
+      "sources": [
+        "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
+        "https://cdn.wikirby.com/b/bd/KaTAM_7-7_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 317,
+      "cluster_id": "317:4,5",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose 1-Up at approximately (2,6), not an AP chest.",
+      "approach": "Upper-left hallway adjacent to the left vertical shaft.",
+      "evidence": "The eight F5 tiles at (4..7,5..6) separate the loose 1-Up from the Big Waddle Dee hallway. The Room18 exit lies in the distinct upper tunnel reached from the right; there are no current AP item checks in native317.",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_17",
+        "https://cdn.wikirby.com/d/da/KaTAM_4-17_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 510,
+      "cluster_id": "510:8,28",
+      "proposed_classification": "ap_target",
+      "status": "map_role_reviewed",
+      "target": "MINOR_CHEST_CABBAGE_CAVERN_3_09 at approximately (6,28).",
+      "approach": "From the lower-right Room8 door corridor, left toward the chest; alternate approach descends the upper peg shaft at x7.",
+      "evidence": "F5 (8..17,28) occupies the horizontal tunnel immediately right of the chest. The upper peg shaft opens into the chest pocket independently. This is an alternative metal access/egress route, not a second universal requirement in addition to peg_510_7_7. Internal UFO near the chest cannot prove initial access.",
+      "sources": [
+        "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_9",
+        "https://cdn.wikirby.com/1/14/KaTAM_3-9_Map.png"
+      ],
+      "limitations": "The corridor is one tile high in the image; native crouch/attack geometry and lower-right bomb-block approach need acceptance. Do not replace the existing peg witness or AND metal onto it. Upper-peg exit path may allow returning upward; no one-way escape requirement inferred."
+    },
+    {
+      "native_room": 405,
+      "cluster_id": "405:49,6",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose 1-Up at approximately (53,7).",
+      "approach": "Short upper-right horizontal alcove entered from the left.",
+      "evidence": "This 2x2 metal wall closes the left mouth of the 1-Up alcove. The main AP doors are far left (Chest2) and far right (Room8); the lower routes do not pass through the alcove.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+        "https://cdn.wikirby.com/3/3e/KaTAM_9-9_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 405,
+      "cluster_id": "405:43,10",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door is enclosed by these three clusters.",
+      "approach": "Middle and lower routes between the two room doors.",
+      "evidence": "43,10 and 28,15 are low obstacles with visible vertical clearance above; 50,18 is a one-tile strip on the bottom walkway. These differ from the closed 1-Up alcove at49,6.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+        "https://cdn.wikirby.com/3/3e/KaTAM_9-9_Map.png"
+      ],
+      "limitations": "Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances."
+    },
+    {
+      "native_room": 405,
+      "cluster_id": "405:28,15",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door is enclosed by these three clusters.",
+      "approach": "Middle and lower routes between the two room doors.",
+      "evidence": "43,10 and 28,15 are low obstacles with visible vertical clearance above; 50,18 is a one-tile strip on the bottom walkway. These differ from the closed 1-Up alcove at49,6.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+        "https://cdn.wikirby.com/3/3e/KaTAM_9-9_Map.png"
+      ],
+      "limitations": "Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances."
+    },
+    {
+      "native_room": 405,
+      "cluster_id": "405:50,18",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door is enclosed by these three clusters.",
+      "approach": "Middle and lower routes between the two room doors.",
+      "evidence": "43,10 and 28,15 are low obstacles with visible vertical clearance above; 50,18 is a one-tile strip on the bottom walkway. These differ from the closed 1-Up alcove at49,6.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_9",
+        "https://cdn.wikirby.com/3/3e/KaTAM_9-9_Map.png"
+      ],
+      "limitations": "Map role review only. Numbered switch gates and direction-specific routes elsewhere in405 are not certified here; do not infer full room reachability or a controller bypass from these local clearances."
+    },
+    {
+      "native_room": 414,
+      "cluster_id": "414:46,5",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose cherry at approximately (48,5), not an AP check.",
+      "approach": "Small upper-right enclosed alcove over the corridor.",
+      "evidence": "The two metal strips flank the cherry under a solid roof. No current AP item check is in native414; the Goal1 exit is at the far upper-left, away from this alcove.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_11",
+        "https://cdn.wikirby.com/a/af/KaTAM_9-11_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 414,
+      "cluster_id": "414:49,5",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose cherry at approximately (48,5), not an AP check.",
+      "approach": "Small upper-right enclosed alcove over the corridor.",
+      "evidence": "The two metal strips flank the cherry under a solid roof. No current AP item check is in native414; the Goal1 exit is at the far upper-left, away from this alcove.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_11",
+        "https://cdn.wikirby.com/a/af/KaTAM_9-11_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 414,
+      "cluster_id": "414:39,8",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose 1-Up at approximately (27,9), not an AP check.",
+      "approach": "Leftward side branch off the central passage, past the spikes.",
+      "evidence": "The metal wall marks the side passage toward the 1-Up. The article also documents alternate access from the opposite side through Bomb Blocks; neither loose 1-Up is an AP item check. The main corridor winds underneath this side branch.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_11",
+        "https://cdn.wikirby.com/a/af/KaTAM_9-11_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 415,
+      "cluster_id": "415:93,7",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15.",
+      "approach": "Open-air rightward corridor after Master Hand.",
+      "evidence": "Each F5 cluster fills the bottom two rows of a short pillar. Visible sky gaps above the three pillars permit an airborne route; these are not full-height partitions. No AP item checks occur in this room.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_14",
+        "https://cdn.wikirby.com/1/1f/KaTAM_9-14_Map.png"
+      ],
+      "limitations": "Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred."
+    },
+    {
+      "native_room": 415,
+      "cluster_id": "415:99,7",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15.",
+      "approach": "Open-air rightward corridor after Master Hand.",
+      "evidence": "Each F5 cluster fills the bottom two rows of a short pillar. Visible sky gaps above the three pillars permit an airborne route; these are not full-height partitions. No AP item checks occur in this room.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_14",
+        "https://cdn.wikirby.com/1/1f/KaTAM_9-14_Map.png"
+      ],
+      "limitations": "Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred."
+    },
+    {
+      "native_room": 415,
+      "cluster_id": "415:105,7",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No check or door lies within these three ground-level barriers; final target is ROOM_9_15.",
+      "approach": "Open-air rightward corridor after Master Hand.",
+      "evidence": "Each F5 cluster fills the bottom two rows of a short pillar. Visible sky gaps above the three pillars permit an airborne route; these are not full-height partitions. No AP item checks occur in this room.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_14",
+        "https://cdn.wikirby.com/1/1f/KaTAM_9-14_Map.png"
+      ],
+      "limitations": "Map role review only, not a controller witness. Master Hand and earlier separate barriers still need their own traversal proof; no Smash, Stone, or Burning provider rule is inferred."
+    },
+    {
+      "native_room": 419,
+      "cluster_id": "419:45,13",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose Maxim Tomato at approximately (52,14); secondary lower branch rejoins the Chest3 approach.",
+      "approach": "Lower incoming passage, optional lower fork beneath the parallel upper walkway.",
+      "evidence": "Both F5 walls enclose the tomato/spike/Flamer chamber. The parallel walkway across its roof reaches the same right-hand Chest3 approach without crossing either metal wall. Warp lies on a different upper incoming passage.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_13",
+        "https://cdn.wikirby.com/3/31/KaTAM_9-13_Map.png"
+      ],
+      "limitations": "Role only. The two original incoming passages are distinct; a unified AP room must not treat lower entry as automatic access to Warp. No use of the enclosed Flamer as an entry provider is justified."
+    },
+    {
+      "native_room": 419,
+      "cluster_id": "419:59,13",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose Maxim Tomato at approximately (52,14); secondary lower branch rejoins the Chest3 approach.",
+      "approach": "Lower incoming passage, optional lower fork beneath the parallel upper walkway.",
+      "evidence": "Both F5 walls enclose the tomato/spike/Flamer chamber. The parallel walkway across its roof reaches the same right-hand Chest3 approach without crossing either metal wall. Warp lies on a different upper incoming passage.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_13",
+        "https://cdn.wikirby.com/3/31/KaTAM_9-13_Map.png"
+      ],
+      "limitations": "Role only. The two original incoming passages are distinct; a unified AP room must not treat lower entry as automatic access to Warp. No use of the enclosed Flamer as an entry provider is justified."
+    },
+    {
+      "native_room": 421,
+      "cluster_id": "421:43,6",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose Maxim Tomato at approximately (45,6), not an AP check.",
+      "approach": "Small floating island enclosure within a wide-open sky corridor.",
+      "evidence": "The two metal strips guard the tomato from left and right. Open air above and below the island connects the room route to Room19 without entering the tomato pocket.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_18",
+        "https://cdn.wikirby.com/0/05/KaTAM_9-18_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 421,
+      "cluster_id": "421:47,6",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose Maxim Tomato at approximately (45,6), not an AP check.",
+      "approach": "Small floating island enclosure within a wide-open sky corridor.",
+      "evidence": "The two metal strips guard the tomato from left and right. Open air above and below the island connects the room route to Room19 without entering the tomato pocket.",
+      "sources": [
+        "https://wikirby.com/wiki/Candy_Constellation_-_Room_18",
+        "https://cdn.wikirby.com/0/05/KaTAM_9-18_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 533,
+      "cluster_id": "533:2,14",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Gordo-containing side chamber only; no pickup, AP check, or room exit inside.",
+      "approach": "Lower-left side chamber, away from the ascending main route.",
+      "evidence": "The F5 pair at2,14 and floor strip10,18 form portions of the Gordo chamber. Both upward exits and the bottom-right Rainbow Route door lie outside it. Bomb Blocks alter whether the Gordos escape; no metal-clearance gate on the AP exits follows.",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_15",
+        "https://cdn.wikirby.com/0/02/KaTAM_4-15_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 533,
+      "cluster_id": "533:10,18",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Gordo-containing side chamber only; no pickup, AP check, or room exit inside.",
+      "approach": "Lower-left side chamber, away from the ascending main route.",
+      "evidence": "The F5 pair at2,14 and floor strip10,18 form portions of the Gordo chamber. Both upward exits and the bottom-right Rainbow Route door lie outside it. Bomb Blocks alter whether the Gordos escape; no metal-clearance gate on the AP exits follows.",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_15",
+        "https://cdn.wikirby.com/0/02/KaTAM_4-15_Map.png"
+      ],
+      "limitations": "Role only, not controller acceptance or an ability-provider witness."
+    },
+    {
+      "native_room": 606,
+      "cluster_id": "606:11,26",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose Maxim Tomato at approximately (16,28), plus an optional shortcut toward ROOM_8_03.",
+      "approach": "Rightward side corridor off the middle of the stairwell.",
+      "evidence": "Vertical F5 wall11,26 closes the tomato shortcut. The main staircase continues down its left side, then bends back to the bottom Room3 door; the upper Room9 route also lies on the left.",
+      "sources": [
+        "https://wikirby.com/wiki/Radish_Ruins_-_Room_8",
+        "https://cdn.wikirby.com/e/ef/KaTAM_8-8_Map.png"
+      ],
+      "limitations": "Map role review only. Do not turn this optional shortcut into a universal Room3 exit requirement; omitted bottom two native rows are not evidence."
+    },
+    {
+      "native_room": 802,
+      "cluster_id": "802:13,38",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose side-chamber goodies, not an AP chest.",
+      "approach": "Leftward from the lowest cannon into the small pocket at y38..40.",
+      "evidence": "The F5 column seals the right mouth of the goodies pocket. The current leading to Chest2 runs below that pocket, visibly across the lower room; it does not pass through this F5 column.",
+      "sources": [
+        "https://wikirby.com/wiki/Olive_Ocean_-_Room_20",
+        "https://cdn.wikirby.com/b/b2/KaTAM_6-20_Map.png"
+      ],
+      "limitations": "The public map omits the final two native rows. This identifies the side chamber only, not the entire downstream transition or a controller acceptance."
+    },
+    {
+      "native_room": 312,
+      "cluster_id": "312:10,11",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No local AP checks; these clusters do not seal a passage toward Warp or Room19.",
+      "approach": "Lower ruin corridor and central upper pillar.",
+      "evidence": "Native researcher confirmed all 9 F5 are orange ruin masonry, not silver sprites. Left (10,11) has open row12 atx8..12; left(13,11..12) has open row13 atx7..15. Right(43..45,11..12) crowns a solid pillar ending atrow15, with open space atx40..47,y16..17 underneath. Composite routes continue around these local obstacles to the upper exits at(46,6) and(72,6).",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_18",
+        "https://cdn.wikirby.com/9/9c/KaTAM_4-18_Map.png"
+      ],
+      "limitations": "Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "mutation_offsets": [
+          "0x89050E",
+          "0x890520",
+          "0x890532",
+          "0x890544",
+          "0x890556",
+          "0x890568",
+          "0x89057A",
+          "0x89058C",
+          "0x89059E"
+        ],
+        "mutation_kind": 1,
+        "replacement": 0
+      }
+    },
+    {
+      "native_room": 312,
+      "cluster_id": "312:13,11",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No local AP checks; these clusters do not seal a passage toward Warp or Room19.",
+      "approach": "Lower ruin corridor and central upper pillar.",
+      "evidence": "Native researcher confirmed all 9 F5 are orange ruin masonry, not silver sprites. Left (10,11) has open row12 atx8..12; left(13,11..12) has open row13 atx7..15. Right(43..45,11..12) crowns a solid pillar ending atrow15, with open space atx40..47,y16..17 underneath. Composite routes continue around these local obstacles to the upper exits at(46,6) and(72,6).",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_18",
+        "https://cdn.wikirby.com/9/9c/KaTAM_4-18_Map.png"
+      ],
+      "limitations": "Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "mutation_offsets": [
+          "0x89050E",
+          "0x890520",
+          "0x890532",
+          "0x890544",
+          "0x890556",
+          "0x890568",
+          "0x89057A",
+          "0x89058C",
+          "0x89059E"
+        ],
+        "mutation_kind": 1,
+        "replacement": 0
+      }
+    },
+    {
+      "native_room": 312,
+      "cluster_id": "312:43,11",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "No local AP checks; these clusters do not seal a passage toward Warp or Room19.",
+      "approach": "Lower ruin corridor and central upper pillar.",
+      "evidence": "Native researcher confirmed all 9 F5 are orange ruin masonry, not silver sprites. Left (10,11) has open row12 atx8..12; left(13,11..12) has open row13 atx7..15. Right(43..45,11..12) crowns a solid pillar ending atrow15, with open space atx40..47,y16..17 underneath. Composite routes continue around these local obstacles to the upper exits at(46,6) and(72,6).",
+      "sources": [
+        "https://wikirby.com/wiki/Mustard_Mountain_-_Room_18",
+        "https://cdn.wikirby.com/9/9c/KaTAM_4-18_Map.png"
+      ],
+      "limitations": "Native collision and unchanged-room render support local bypass geometry only. No whole-room controller acceptance or Mini-route provider is established; unrelated spikes, ordinary blocks and Mini access remain separate.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "mutation_offsets": [
+          "0x89050E",
+          "0x890520",
+          "0x890532",
+          "0x890544",
+          "0x890556",
+          "0x890568",
+          "0x89057A",
+          "0x89058C",
+          "0x89059E"
+        ],
+        "mutation_kind": 1,
+        "replacement": 0
+      }
+    },
+    {
+      "native_room": 502,
+      "cluster_id": "502:60,5",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "REGION_RADISH_RUINS/ROOM_8_17; ordinary door at native(74,5), optional fuse cannon also reaches native525.",
+      "approach": "From the central canyon toward the right-hand cannon and Room17 door.",
+      "evidence": "The 3 F5 tiles form a short horizontal plug through the rocky column immediately left of the cannon. The Chest2 door at roughly(49,16) is on the near/left side. The composite shows sky above the column as a potential ordinary bypass, while the existing fuse graph separately names the ordinary door.",
+      "sources": [
+        "https://wikirby.com/wiki/Radish_Ruins_-_Room_16",
+        "https://cdn.wikirby.com/e/e4/KaTAM_8-16_Map.png"
+      ],
+      "limitations": "Do not impose a new metal gate yet. The apparent overhead gap needs bounded native collision/normal-flight confirmation; map pixels alone do not prove top-of-room collision clearance. No claim that the optional cannon or fuse is required."
+    },
+    {
+      "native_room": 529,
+      "cluster_id": "529:8,5",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping.",
+      "approach": "Underwater channel partition:8,5 at upper-left junction;12,18 at lower split beside the air-pocket Energy Drink.",
+      "evidence": "Both F5 walls connect flooded channels rather than protect an AP chest. Visible Bomb Block paths and the bottom pit connect alternate parts of the room, as the article states. The lower cluster also neighbors the loose Energy Drink pocket.",
+      "sources": [
+        "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
+        "https://cdn.wikirby.com/8/86/KaTAM_3-3_Map.png"
+      ],
+      "limitations": "Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage."
+    },
+    {
+      "native_room": 529,
+      "cluster_id": "529:12,18",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "Connections between the two ROOM_3_04 exits and lower ROOM_3_01 exit; upper-left/upper-right exact AP subregion assignment still needs native door mapping.",
+      "approach": "Underwater channel partition:8,5 at upper-left junction;12,18 at lower split beside the air-pocket Energy Drink.",
+      "evidence": "Both F5 walls connect flooded channels rather than protect an AP chest. Visible Bomb Block paths and the bottom pit connect alternate parts of the room, as the article states. The lower cluster also neighbors the loose Energy Drink pocket.",
+      "sources": [
+        "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
+        "https://cdn.wikirby.com/8/86/KaTAM_3-3_Map.png"
+      ],
+      "limitations": "Do not apply a room-wide metal requirement. Need directed native entry mapping and safe ordinary swim/bottom-pit bypass acceptance; final two native rows are cropped and must not be treated as safe passage."
+    },
+    {
+      "native_room": 532,
+      "cluster_id": "532:3,18",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_27 -> ROOM_1_27_UPPER_LEFT -> ROOM_1_28.",
+      "approach": "From the main compartment, leftward out of the side cannon near(13,19), through the spike-lined horizontal chute.",
+      "evidence": "The 16 F5 tiles span the end of the cannon chute atx3..10,y18..19. Above them, ladders lead to the upper-left Room28 door. The return Bomb Block lies near(10,8) above this barrier and reconnects toward the main cannon network.",
+      "sources": [
+        "https://wikirby.com/wiki/Rainbow_Route_-_Room_27",
+        "https://cdn.wikirby.com/1/1e/KaTAM_1-27_Map.png"
+      ],
+      "limitations": "Role and cannon alignment only; no controller launch or ability-source witness accepted here. Reverse entry fromRoom28 must be treated separately, rather than requiring metal in both directions."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:4,1",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_11, upper-left door approximately(1,2).",
+      "approach": "Upper-left winding side hall reached by the northwest cannon branch.",
+      "evidence": "The two F5 tiles are in the narrow top passage near the Room11 door, separate from the central cannon ring. The composite also depicts a long winding hallway around the interior walls.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png"
+      ],
+      "limitations": "Mandatory-vs-shortcut role unresolved: retain as exit-related pending native collision/entry review, not a certified mandatory metal gate. This cluster is not on the initial center cannon ring.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures."
+      }
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:19,10",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_11 via northwest cannon branch.",
+      "approach": "Northwest flight ray from the center cannon at approximately(23,14).",
+      "evidence": "The3-tile corner lies on the northwest cannon ray before its adjacent FE transport tile. Native source confirms cannon launch attack0x20001843 includes both ordinary and environmental break flags, so this is cannon-clearable environmental transport, not untouched decoration.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "Native source/transition audit, not controller shot acceptance. Exact northwest destination spawn is not supplied in this pass; do not add a copy-ability requirement.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:23,18",
+      "proposed_classification": "ap_exit",
+      "status": "map_role_reviewed",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1 through the lower Mini corridor.",
+      "approach": "South flight ray from the center cannon.",
+      "evidence": "F5(23,18) lies immediately before FE(23,19), transition0x008B2616 to native736 spawn(31,23). This is the existing mini_736_chest arrival/source transition. Cannon launch attack0x20001843 can break F5 before transport.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "Native source/transition audit, not controller shot acceptance. Cannon clearance is separate from the later Mini requirement; no copy-ability metal gate should be inferred.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:23,10",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon.",
+      "approach": "North, northeast and southeast cannon flight rays.",
+      "evidence": "These F5 clusters are physical cannon-clearable barriers before adjacent self-transition portals. Their side rooms have no current AP checks or external progression exits. Native north example: F5(23,10), then FE(23,9), transport to736 spawn(18,8).",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:26,10",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon.",
+      "approach": "North, northeast and southeast cannon flight rays.",
+      "evidence": "These F5 clusters are physical cannon-clearable barriers before adjacent self-transition portals. Their side rooms have no current AP checks or external progression exits. Native north example: F5(23,10), then FE(23,9), transport to736 spawn(18,8).",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:26,17",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Optional north Star Block/Gordo chamber, northeast spike hall, and southeast Gordo/spike chamber, each returning to the central cannon.",
+      "approach": "North, northeast and southeast cannon flight rays.",
+      "evidence": "These F5 clusters are physical cannon-clearable barriers before adjacent self-transition portals. Their side rooms have no current AP checks or external progression exits. Native north example: F5(23,10), then FE(23,9), transport to736 spawn(18,8).",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "No controller shot acceptance. Classification means no mandatory AP-check passage, not decorative/non-colliding terrain. Do not infer that an item/provider hidden inside a side room is automatically reachable.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:19,14",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose cherry in west spike chamber; return door leads back to the cannon.",
+      "approach": "West cannon flight ray.",
+      "evidence": "F5(19,14) lies before FE(18,14), transporting to736 spawn(16,15). The west chamber contains a loose cherry but no AP item check. Cannon launch attack can clear the F5.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "No controller shot acceptance; source/transition and composite role review only.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:27,14",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Right side room with two Sparkies and a loose 1-Up protected separately by736:32,18.",
+      "approach": "East cannon flight ray.",
+      "evidence": "F5(27,14) lies before FE(28,14), transporting to736 spawn(32,15). Cannon clears the entry barrier; a separate metal floor blocks the optional 1-Up.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "No controller shot acceptance. Two-Sparky Mix is vanilla advice, not an accepted randomized provider rule.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:19,17",
+      "proposed_classification": "scenery_no_required_passage",
+      "status": "map_role_reviewed",
+      "target": "Optional southwest Phan Phan chamber, returning to the center cannon; no current AP item check there.",
+      "approach": "Southwest cannon flight ray.",
+      "evidence": "This 3-tile corner is a physical cannon-clearable transport barrier. Its destination is the optional Phan Phan side room, not Room11 or Chest1.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0806F780.c",
+        "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c"
+      ],
+      "limitations": "The boss may be a copy-ability source in a provider route, so do not claim it is irrelevant to every randomized source path. No source acquisition or controller shot witness is accepted.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures.",
+        "symbols": [
+          "sub_08051F70",
+          "sub_08083FC0"
+        ]
+      },
+      "mechanism": "Cannon launch physically breaks F5 before adjacent FE self-transition; no copy-ability provider needed for the launch attack."
+    },
+    {
+      "native_room": 736,
+      "cluster_id": "736:32,18",
+      "proposed_classification": "optional_non_ap_pickup",
+      "status": "map_role_reviewed",
+      "target": "Loose1-Up at approximately(33,19), not an AP item check.",
+      "approach": "Floor of the east two-Sparky room, after the east cannon transport.",
+      "evidence": "Three F5 tiles cover the small floor pocket holding the1-Up. The return door at the far right of this room is above and does not require entering that pocket.",
+      "sources": [
+        "https://wikirby.com/wiki/Carrot_Castle_-_Room_10",
+        "https://cdn.wikirby.com/3/36/KaTAM_5-10_Map.png"
+      ],
+      "limitations": "The article suggests two-Sparky Mix into Missile, but no randomized provider rule or controller witness is accepted.",
+      "native_evidence": {
+        "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+        "native_inventory": "worlds/kirbyam/docs/metal-tile-inventory.json",
+        "researcher": "/root/research_metal_block_abilities",
+        "evidence_scope": "Read-only original-ROM collision/transition audit; unchanged-terrain native312 render fixtures."
+      }
+    }
+  ],
+  "evidence_level": "Map/native source role review only. No controller attack or whole-room witness is added by this record.",
+  "remaining_route_uncertainties": [
+    "502:60,5 overhead flight clearance is not accepted.",
+    "529:8,5 and 529:12,18 require directed entry and safe-swim or pit-route acceptance.",
+    "736:4,1 mandatory versus shortcut role is unresolved.",
+    "736 cannon-ring F5 is physically breakable by the native cannon attack, but no controller shot acceptance is added here.",
+    "Map crops omit the final two native tile rows; omitted pixels do not establish safe passage."
+  ]
+}

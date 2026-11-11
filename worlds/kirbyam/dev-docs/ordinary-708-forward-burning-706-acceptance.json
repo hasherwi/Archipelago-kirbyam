@@ -1,0 +1,1965 @@
+{
+  "schema_version": 1,
+  "status": "accepted_forward_bank_and_actual_706_lower_exit_100_and_500",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": {
+    "startup_room": 790,
+    "startup_position_pixels": [
+      80,
+      48
+    ],
+    "imported_equipment_template": "0x088BDDF0",
+    "edit": "subtype1 at template+14 changed to1 for Burning; original statue is not credited as a production Burning source",
+    "real_source_boundary": "Reviewed native592 Burning statue and its hub prefix are separate. This artifact proves the subsequent carrier only.",
+    "unchanged": [
+      "bosses",
+      "scroll locks",
+      "terrain",
+      "attacks"
+    ],
+    "runtime_writes": []
+  },
+  "default_result": "Actual790\u2192740\u2192708; Burning carried past alive Mr.Frosty by ladder; rightward dash through fresh708 F5 bank36..37,23; stable right shaft checkpoint697.99609375,456.99609375. No exit branch to706 or743 yet established.",
+  "default_audit": {
+    "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+    "segments": [
+      {
+        "id": "carrier707boot",
+        "inputs": [
+          [
+            180,
+            0
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            120,
+            0
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            120,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            240,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            180,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            240,
+            0
+          ],
+          [
+            1,
+            128
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 1176,
+          "room": 790,
+          "x": 72.0,
+          "y": 128.83203125,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          0,
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708west",
+        "inputs": [
+          [
+            25,
+            32
+          ],
+          [
+            100,
+            0
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 1451,
+          "room": 740,
+          "x": 696.0,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740doubleDash",
+        "inputs": [
+          [
+            1,
+            34
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            45,
+            16
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            65,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            100,
+            1
+          ]
+        ],
+        "final": {
+          "frame": 1703,
+          "room": 740,
+          "x": 407.375,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740arenaApproach",
+        "inputs": [
+          [
+            1,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            100,
+            1
+          ],
+          [
+            190,
+            33
+          ]
+        ],
+        "final": {
+          "frame": 2004,
+          "room": 740,
+          "x": 326.0,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740arenaBrake",
+        "inputs": [
+          [
+            10,
+            2
+          ],
+          [
+            17,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            45,
+            0
+          ],
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            5,
+            16
+          ],
+          [
+            90,
+            17
+          ]
+        ],
+        "final": {
+          "frame": 2202,
+          "room": 740,
+          "x": 240.0,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740leftLadder",
+        "inputs": [
+          [
+            185,
+            33
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            50,
+            0
+          ],
+          [
+            120,
+            128
+          ]
+        ],
+        "final": {
+          "frame": 2567,
+          "room": 740,
+          "x": 45.828125,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740ladderAligned",
+        "inputs": [
+          [
+            8,
+            16
+          ],
+          [
+            120,
+            128
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 2865,
+          "room": 708,
+          "x": 504.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708ladder",
+        "inputs": [
+          [
+            25,
+            32
+          ],
+          [
+            100,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3071,
+          "room": 708,
+          "x": 422.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708ladderAligned",
+        "inputs": [
+          [
+            30,
+            16
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            90,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3297,
+          "room": 708,
+          "x": 422.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708trueLadder",
+        "inputs": [
+          [
+            41,
+            16
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            50,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3494,
+          "room": 708,
+          "x": 479.95703125,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708leftAdvance",
+        "inputs": [
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3656,
+          "room": 708,
+          "x": 217.53125,
+          "y": 121.14453125,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708middleLeft",
+        "inputs": [
+          [
+            60,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3797,
+          "room": 708,
+          "x": 345.99609375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708bombA",
+        "inputs": [
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3888,
+          "room": 708,
+          "x": 309.24609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708bombAcross",
+        "inputs": [
+          [
+            1,
+            18
+          ],
+          [
+            85,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3974,
+          "room": 708,
+          "x": 392.15234375,
+          "y": 244.84765625,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708middleOver",
+        "inputs": [
+          [
+            25,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            90,
+            1
+          ],
+          [
+            160,
+            17
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4389,
+          "room": 708,
+          "x": 569.99609375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708snooterStrike",
+        "inputs": [
+          [
+            30,
+            32
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4530,
+          "room": 708,
+          "x": 390.0,
+          "y": 360.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708snooterClear",
+        "inputs": [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4631,
+          "room": 708,
+          "x": 550.3359375,
+          "y": 376.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708metalPassed",
+        "inputs": [
+          [
+            1,
+            18
+          ],
+          [
+            100,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4732,
+          "room": 708,
+          "x": 697.99609375,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      }
+    ]
+  },
+  "max_health_result": "Fresh boot, actual790\u2192740\u2192708, intact F5 bank crossed; 5007 total frames. Every audited gameplay frame HP6, Burning3, no grab.",
+  "limitations": [
+    "Real592 Burning statue acquisition and guarded hub prefix are separately reviewed. The790 imported-equipment statue is fixture-only, not a production source.",
+    "No enemy, terrain, attack, boss-release, or runtime-memory edits. Native original ROM with disclosed startup/statue fixture and production500% scaler; not a full AP seed or direct1HP gameplay.",
+    "C/743 branches and reverse metal traversal are not accepted by this artifact. No room-reset/source-renewal claim.",
+    "Continuous HP6, equippedBurning3 and zero grab frames support a no-damage path, not arbitrary input safety."
+  ],
+  "max_health_audit": {
+    "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+    "segments": [
+      {
+        "id": "carrier707boot",
+        "inputs": [
+          [
+            180,
+            0
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            120,
+            0
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            120,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            240,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            180,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            240,
+            0
+          ],
+          [
+            1,
+            128
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 1176,
+          "room": 790,
+          "x": 72.0,
+          "y": 128.83203125,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          0,
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708west",
+        "inputs": [
+          [
+            25,
+            32
+          ],
+          [
+            100,
+            0
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 1451,
+          "room": 740,
+          "x": 696.0,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier740maxLadderRetry",
+        "inputs": [
+          [
+            1,
+            34
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            45,
+            16
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            95,
+            0
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            5,
+            32
+          ],
+          [
+            65,
+            33
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            17,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            45,
+            0
+          ],
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            5,
+            16
+          ],
+          [
+            25,
+            17
+          ],
+          [
+            155,
+            33
+          ],
+          [
+            60,
+            1
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            80,
+            128
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            80,
+            128
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 2387,
+          "room": 708,
+          "x": 504.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708ladder",
+        "inputs": [
+          [
+            25,
+            32
+          ],
+          [
+            100,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 2593,
+          "room": 708,
+          "x": 422.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708ladderAligned",
+        "inputs": [
+          [
+            30,
+            16
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            90,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 2819,
+          "room": 708,
+          "x": 422.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "carrier708trueLadder",
+        "inputs": [
+          [
+            41,
+            16
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            50,
+            128
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3016,
+          "room": 708,
+          "x": 479.95703125,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "upperKibbleCycle",
+        "inputs": [
+          [
+            1,
+            34
+          ],
+          [
+            80,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            90,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 3461,
+          "room": 708,
+          "x": 234.85546875,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "cleanupLowerKibble",
+        "inputs": [
+          [
+            11,
+            32
+          ],
+          [
+            60,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            80,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            10,
+            1
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            95,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            95,
+            0
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            10,
+            1
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            95,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4072,
+          "room": 708,
+          "x": 345.99609375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "cleanupBombAcross",
+        "inputs": [
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            85,
+            0
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            90,
+            1
+          ],
+          [
+            160,
+            17
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 4664,
+          "room": 708,
+          "x": 569.99609375,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      },
+      {
+        "id": "cleanupBankPassed",
+        "inputs": [
+          [
+            30,
+            32
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            1,
+            34
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            90,
+            0
+          ],
+          [
+            1,
+            18
+          ],
+          [
+            100,
+            0
+          ]
+        ],
+        "final": {
+          "frame": 5007,
+          "room": 708,
+          "x": 697.99609375,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minimum_hp": 6,
+        "abilities": [
+          3
+        ],
+        "hp_decrease_frames": [],
+        "grab_frames": []
+      }
+    ]
+  },
+  "exit_706_branches": {
+    "100": [
+      {
+        "id": "shaftHover",
+        "inputs": [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            95,
+            1
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            60,
+            1
+          ]
+        ],
+        "final": {
+          "label": "shaftHover",
+          "frame": 245,
+          "room": 708,
+          "x": 614.0,
+          "y": 214.62890625,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      },
+      {
+        "id": "shaftHoverUpper",
+        "inputs": [
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            20,
+            16
+          ],
+          [
+            60,
+            1
+          ]
+        ],
+        "final": {
+          "label": "shaftHoverUpper",
+          "frame": 385,
+          "room": 708,
+          "x": 697.99609375,
+          "y": 114.94140625,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      },
+      {
+        "id": "shaftLastSafe",
+        "inputs": [
+          [
+            45,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            80,
+            1
+          ],
+          [
+            75,
+            17
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "label": "shaftLastSafe",
+          "frame": 855,
+          "room": 706,
+          "x": 40.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      }
+    ],
+    "500": [
+      {
+        "id": "shaftHover",
+        "inputs": [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            95,
+            1
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            60,
+            1
+          ]
+        ],
+        "final": {
+          "label": "shaftHover",
+          "frame": 245,
+          "room": 708,
+          "x": 614.0,
+          "y": 214.62890625,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      },
+      {
+        "id": "shaftHoverUpper",
+        "inputs": [
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            25,
+            16
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            20,
+            16
+          ],
+          [
+            60,
+            1
+          ]
+        ],
+        "final": {
+          "label": "shaftHoverUpper",
+          "frame": 385,
+          "room": 708,
+          "x": 697.99609375,
+          "y": 114.94140625,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      },
+      {
+        "id": "shaftLastSafe",
+        "inputs": [
+          [
+            45,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            5,
+            33
+          ],
+          [
+            20,
+            32
+          ],
+          [
+            80,
+            1
+          ],
+          [
+            75,
+            17
+          ],
+          [
+            10,
+            2
+          ],
+          [
+            25,
+            0
+          ],
+          [
+            30,
+            64
+          ],
+          [
+            120,
+            0
+          ]
+        ],
+        "final": {
+          "label": "shaftLastSafe",
+          "frame": 855,
+          "room": 706,
+          "x": 40.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "world22_31": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "minhp": 6,
+        "abilities": [
+          3
+        ],
+        "grabs": []
+      }
+    ]
+  },
+  "bank_readback": {
+    "cells": [
+      [
+        36,
+        23
+      ],
+      [
+        37,
+        23
+      ]
+    ],
+    "values_before_exit_both_variants": [
+      0,
+      0
+    ],
+    "earned_position": [
+      697.99609375,
+      456.99609375
+    ],
+    "exit_record": "0x883C72",
+    "trigger": [
+      43,
+      2
+    ],
+    "native_destination": 706,
+    "live_arrival": [
+      40,
+      296.99609375
+    ]
+  }
+}

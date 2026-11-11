@@ -14,6 +14,9 @@ from test.general import setup_multiworld
 from worlds.Files import APPatchExtension, APTokenTypes
 from .. import KirbyAmWorld
 from ..data import data
+from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from ..traversal import CAPABILITY_ABILITIES
+from ..traversal_data import compile_room_graph, graph_items, load_room_traversal
 from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_ROM_OFFSET
 from ..options import AbilityRandomizationMode
 from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ITEM_ID, PHONE_MARKER, validate_phone_pairing
@@ -67,13 +70,19 @@ def test_production_generation_does_not_enable_phone_without_route_acceptance(
     world = multiworld.worlds[1]
     assert isinstance(world, KirbyAmWorld)
     slot_data = world.fill_slot_data()
+    # Main's source-aware starts and the inactive Phone boundary must coexist.
+    assert [item.name for item in multiworld.precollected_items[1]
+            if item.name.endswith(" Ability")] == ["Beam Ability"]
+    assert tuple(slot_data["ability_gateable_abilities"]) == (
+        GATEABLE_ENEMY_COPY_ABILITIES if ability_gating else ())
     assert "Phone a Friend" not in world.item_name_to_id
-    assert not slot_data.get("starting_phone_access", False)
+    assert "starting_phone_access" not in slot_data
+    assert not any("phone" in name.lower() for name in KirbyAmWorld.options_dataclass.type_hints)
     assert "Phone a Friend" not in slot_data.get("unique_items", ())
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.precollected_items[1])
     assert PHONE_ITEM_ID not in data.items
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.itempool)
-    assert not slot_data.get("phone_protocol_version", 0)
+    assert "phone_protocol_version" not in slot_data
     assert len(multiworld.itempool) == len(multiworld.get_unfilled_locations())
 
     patch = KirbyAmProcedurePatch()
@@ -101,3 +110,19 @@ def test_phone_guard_rejects_enabling_or_corrupting_tokens(
 
     with pytest.raises(ValueError, match="production Phone must remain disabled"):
         _assert_phone_disabled(patch, world.fill_slot_data(), synthetic_post_base)
+
+
+def test_production_traversal_has_no_phone_helper_provider_or_requirement() -> None:
+    """Keep helper observations out of active source-aware progression logic."""
+    assert not any("phone" in capability.lower() or "helper" in capability.lower()
+                   for capability in CAPABILITY_ABILITIES)
+    assert all("Phone a Friend" not in abilities for abilities in CAPABILITY_ABILITIES.values())
+    targets, sources, parts = load_room_traversal({
+        name: {"traversal": region.traversal} for name, region in data.regions.items()
+    })
+    assert targets  # Exercise the real merged catalog, not an empty stand-in.
+    for target in targets:
+        assert target["kind"] != "phone"
+        for definition in target["graphs"].values():
+            graph = compile_room_graph(definition, sources, area_keys=True, graph_parts=parts)
+            assert "Phone a Friend" not in graph_items(graph), target["id"]

@@ -1,0 +1,947 @@
+{
+  "schema_version": 1,
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "qualification": "Imported-equipment traversal and chest collection proof. OriginalUSA starts native212 beside216 door (live24,40.996), AI101. Doo template0x088C103C is replaced by Burning essence at40,40. Actual212→216 transition reaches live696,280.996. Native216 objects unchanged. No production source credit for this synthetic essence. Real291 Burning statue0x088C263C and reviewed291→215→212→216 carrier are separate prerequisites. No runtime writes, terrain or attack changes. Not an actual AP patch or direct1HP fixture.",
+  "fixture_changes": [
+    {
+      "offset": "0x2d8cb8",
+      "before": "2303230323032303",
+      "after": "d400650065006500",
+      "reason": "Start P1 in native212; AI in101"
+    },
+    {
+      "offset": "0x2d8cd0",
+      "before": "0060000000900000005000000090000000400000009000000030000000900000",
+      "after": "0020000000300000003000000050000000300000005000000030000000500000",
+      "reason": "Start P1 beside existing216 door, live24,40.996"
+    },
+    {
+      "offset": "0x8c1042",
+      "before": "10018000",
+      "after": "28002800",
+      "reason": "Move replaced212 Doo template from272,128 to imported-equipment fixture40,40"
+    },
+    {
+      "offset": "0x8c1048",
+      "before": "12",
+      "after": "92",
+      "reason": "Replace212 Doo with Burning essence, not a production source"
+    },
+    {
+      "offset": "0x8c104a",
+      "before": "00",
+      "after": "01",
+      "reason": "Burning essence subtype1"
+    }
+  ],
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "target": {
+    "template": "0x088C1380",
+    "position": [
+      608,
+      72
+    ],
+    "flag": 36
+  },
+  "attack": "Land on platform left of F5 at441.996,104.996, faceRight1 thenB1. Higher attacks at y75–78 were rejected by the solid cap. Low horizontal Burning crosses the bank; no downward Burning claim.",
+  "runs": {
+    "100": {
+      "rom_sha256": "520b257f98b964173646fb68abe299db599f37c3c34291d52e7f218ec3e2bb29",
+      "segments": [
+        {
+          "id": "burning212boot",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 212,
+            "x": 24,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": []
+        },
+        {
+          "id": "burning212capture",
+          "inputs": [
+            {
+              "frames": 8,
+              "keys": 16
+            },
+            {
+              "frames": 80,
+              "keys": 2
+            },
+            {
+              "frames": 1,
+              "keys": 128
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1234,
+            "room": 212,
+            "x": 32.78125,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": "burning212to216",
+          "inputs": [
+            {
+              "frames": 5,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1360,
+            "room": 216,
+            "x": 696,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216left",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1503,
+            "room": 216,
+            "x": 414.625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216shaft",
+          "inputs": [
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 160,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 1750,
+            "room": 216,
+            "x": 441.99609375,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216launch",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 22,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1773,
+            "room": 216,
+            "x": 441.99609375,
+            "y": 75.70703125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216lowcross",
+          "inputs": [
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 16
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 65,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1860,
+            "room": 216,
+            "x": 534.24609375,
+            "y": 77.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216chest",
+          "inputs": [
+            {
+              "frames": 35,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 35,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2032,
+            "room": 216,
+            "x": 554.17578125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216collected",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 16
+            },
+            {
+              "frames": 8,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2161,
+            "room": 216,
+            "x": 594.25390625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216flag",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 16
+            },
+            {
+              "frames": 8,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2270,
+            "room": 216,
+            "x": 608.39453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "actual216hold",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2390,
+            "room": 216,
+            "x": 608.39453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        }
+      ],
+      "flag36_masked": 16,
+      "metal_tiles": [
+        {
+          "x": 28,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 29,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 30,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 28,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 29,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 30,
+          "y": 6,
+          "tile": 0
+        }
+      ]
+    },
+    "500": {
+      "rom_sha256": "31ebfab91e817db8db5b08b04cedac66e885b3ce3af1a3623244716b8b9075bc",
+      "segments": [
+        {
+          "id": "burning212boot",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 212,
+            "x": 24,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "decrease_frames": [],
+          "abilities": []
+        },
+        {
+          "id": "burning212capture",
+          "inputs": [
+            {
+              "frames": 8,
+              "keys": 16
+            },
+            {
+              "frames": 80,
+              "keys": 2
+            },
+            {
+              "frames": 1,
+              "keys": 128
+            },
+            {
+              "frames": 60,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1234,
+            "room": 212,
+            "x": 32.78125,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": "burning212to216",
+          "inputs": [
+            {
+              "frames": 5,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1360,
+            "room": 216,
+            "x": 696,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216left",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1503,
+            "room": 216,
+            "x": 414.625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216shaft",
+          "inputs": [
+            {
+              "frames": 50,
+              "keys": 0
+            },
+            {
+              "frames": 25,
+              "keys": 17
+            },
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 160,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 1750,
+            "room": 216,
+            "x": 441.99609375,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216launch",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 22,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1773,
+            "room": 216,
+            "x": 441.99609375,
+            "y": 75.70703125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216lowcross",
+          "inputs": [
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 16
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 65,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1860,
+            "room": 216,
+            "x": 534.24609375,
+            "y": 77.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216chest",
+          "inputs": [
+            {
+              "frames": 35,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 35,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2032,
+            "room": 216,
+            "x": 554.17578125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216collected",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 16
+            },
+            {
+              "frames": 8,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2161,
+            "room": 216,
+            "x": 594.25390625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "burning216flag",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 16
+            },
+            {
+              "frames": 8,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2270,
+            "room": 216,
+            "x": 608.39453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        },
+        {
+          "id": "actual216hold",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 2390,
+            "room": 216,
+            "x": 608.39453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "decrease_frames": [],
+          "abilities": [
+            3
+          ]
+        }
+      ],
+      "flag36_masked": 16,
+      "metal_tiles": [
+        {
+          "x": 28,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 29,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 30,
+          "y": 5,
+          "tile": 0
+        },
+        {
+          "x": 28,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 29,
+          "y": 6,
+          "tile": 0
+        },
+        {
+          "x": 30,
+          "y": 6,
+          "tile": 0
+        }
+      ]
+    }
+  },
+  "health_sanity": {
+    "enemy_type": "0x22",
+    "hp_file_offset": "0x35197c",
+    "default": 2,
+    "max500": 10
+  },
+  "collection_note": "At608.394,72.996 holdUp30 frames then release90; flag36 readback16 at both100% and500%. Earlier one-frameUp attempts were not accepted. Chest object confirmed template0x088C1380 and runtime index36; initial visual absence did not establish a spawn failure."
+}

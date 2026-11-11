@@ -8,6 +8,7 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
+from BaseClasses import CollectionState, MultiWorld
 
 from .. import KirbyAmWorld
 from ..area_keys import (
@@ -346,7 +347,7 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
 
     room_regions = load_json_data("regions/rooms.json")
 
-    assert len(room_regions) == 322
+    assert len(room_regions) == 321  # Retired disconnected 742 upper-ledge alias.
     assert room_regions["REGION_COPY_ABILITY_ROOM/MAIN"]["locations"] == {}
 
     def room_sanity_metadata(region: dict[str, Any]) -> dict[str, Any]:
@@ -401,6 +402,10 @@ def test_room_subareas_pure_topology_with_all_rooms() -> None:
         f"{parent}__LOGIC__{name}" for parent, definition in room_regions.items()
         for name in definition.get("logical_subregions", {})
     )
+    declared_regions.update(
+        f"{parent}__ROOM_CHECK" for parent, definition in room_regions.items()
+        if definition.get("logical_subregions") and room_sanity_metadata(definition).get("included", False)
+    )
     for room_name, room_def in room_regions.items():
         exits, requirements = normalize_region_exits(room_name, room_def)
         assert set(requirements) <= set(exits)
@@ -451,9 +456,36 @@ def test_room_subareas_preserve_two_way_and_one_way_transitions() -> None:
 def test_room_reachability_from_start() -> None:
     from ..rules import _reachable_rooms_from
 
-    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE")
+    # Include compiled logical entry routing and singleton room-check sinks;
+    # the raw JSON adjacency omits those synthetic regions.
+    from ..data import data
+    topology = {name: {"exits": list(region.exits)} for name, region in data.regions.items()}
+    reachable = _reachable_rooms_from("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE", topology)
 
-    assert len(reachable) == 314
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD" in reachable
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT" in reachable
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK" in reachable
+    assert {
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07__ROOM_CHECK",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__ROOM_CHECK",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05__ROOM_CHECK",
+    } <= reachable
+    assert {
+        "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_03__ROOM_CHECK",
+    } <= reachable
+    assert {
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK",
+    } <= reachable
+    assert len(reachable) == 360
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_06" in reachable
@@ -616,9 +648,8 @@ def test_set_rules_applies_item_gates_to_physical_entrances() -> None:
     assert checked >= 20
 
 
-def _make_collection_state_room_graph():
+def _make_collection_state_room_graph() -> tuple[MultiWorld, CollectionState]:
     """Build the actual Kirby AM region graph without generating an item pool."""
-    from BaseClasses import CollectionState, MultiWorld
     from worlds.AutoWorld import World
 
     from ..regions import create_regions

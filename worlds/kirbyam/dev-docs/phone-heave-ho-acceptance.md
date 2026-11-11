@@ -2,6 +2,12 @@
 
 Status: **qualified real-hub crossings and native Chalk collection, not an accepted production traversal**. AI-assisted research, 2026-11-10. See the [implementation boundary](phone-implementation.md) and [sanitized input/checkpoint ledger](phone-heave-ho-evidence.json).
 
+## Current acceptance limits
+
+Only small-switch and Heave-Ho helper participation is eligible for future progression logic. Helper copy abilities and attacks are never prerequisites or source providers; native CPU behavior remains unchanged. The Normal collective pull below is within that candidate scope, but its bounded successes do not prove deterministic cooperation. Independent human solo solutions must remain OR alternatives for the same target.
+
+These ledgers predate the merged Beam-only automatic-start contract. Retain their original ROMs, gate masks and inputs as historical evidence, including the legacy `0x03FFFE76` gated variant below. Current Stone/Burning permissions and source-aware approach requirements need separately qualified acceptance; this main integration performs no new native replay. The physical Chalk identity and compartment observations remain valid independently of those progression claims. No Phone traversal is enabled.
+
 ## Positive and negative controls
 
 Two identical runs enter native room 146 through its real room-145 doorway, summon three native CPU Kirbys, displace the large `0x7D` block, and cross the bottom-right door into room 148. A matched unowned control uses the same inputs and frame schedule, spends no battery and remains blocked in room 146. The only runtime writes in the successful runs are the real client's guarded Phone grant and epoch publication. No pose, ability, enemy, switch or CPU state is injected.
