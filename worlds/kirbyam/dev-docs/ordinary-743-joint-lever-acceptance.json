@@ -1,0 +1,1996 @@
+{
+  "schema_version": 1,
+  "status": "accepted_directed_native743_main_to_dead_end_and_lever_departure",
+  "parent_artifact_blobs": [
+    "961677da5e29f459cf18e9e043654c76f9f1ff17",
+    "caab63f385a0837fa70fe9d9c49ac65ca1b93fcb"
+  ],
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "initial_state_lineage": "Each variant resumes its matching earned743 main arrival from the accepted790\u2192740\u2192708 fresh-bank\u2192C-left branch, live(88,40.996),HP6,Burning3. No independent room/startup substitution.",
+  "scaler": {
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "function": "scale_enemy_health_tables(rom_bytes,500)",
+    "applications": 1
+  },
+  "results": {
+    "joint": {
+      "100": {
+        "fixture_rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+        "audited_frames": 2393,
+        "segments": [
+          {
+            "id": "main743Down",
+            "inputs": [
+              [
+                30,
+                32
+              ],
+              [
+                90,
+                128
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                90,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 220,
+              "room": 743,
+              "x": 40.0,
+              "y": 88.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743FastDown",
+            "inputs": [
+              [
+                16,
+                16
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                16,
+                32
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                24,
+                16
+              ],
+              [
+                75,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 431,
+              "room": 743,
+              "x": 86.9453125,
+              "y": 288.10546875,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743BombTwice",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                65,
+                1
+              ],
+              [
+                120,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 828,
+              "room": 743,
+              "x": 89.99609375,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeMidDash",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                29,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                65,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 933,
+              "room": 743,
+              "x": 174.65234375,
+              "y": 256.69140625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeRightJump",
+            "inputs": [
+              [
+                35,
+                17
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                25,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 994,
+              "room": 743,
+              "x": 201.99609375,
+              "y": 229.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeColumnDrop",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                35,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1210,
+              "room": 743,
+              "x": 353.2734375,
+              "y": 328.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeLadderAlign",
+            "inputs": [
+              [
+                32,
+                16
+              ],
+              [
+                60,
+                128
+              ],
+              [
+                40,
+                16
+              ]
+            ],
+            "final": {
+              "frame": 1342,
+              "room": 743,
+              "x": 437.78125,
+              "y": 424.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leapLeftEscape",
+            "inputs": [
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ],
+              [
+                75,
+                33
+              ],
+              [
+                40,
+                1
+              ],
+              [
+                45,
+                17
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1712,
+              "room": 743,
+              "x": 457.99609375,
+              "y": 53.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743LeftDrop",
+            "inputs": [
+              [
+                130,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                55,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 1907,
+              "room": 743,
+              "x": 310.0,
+              "y": 146.18359375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "defaultSparkyPass",
+            "inputs": [
+              [
+                25,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                120,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 2123,
+              "room": 743,
+              "x": 265.99609375,
+              "y": 16.0,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mainToDeadEndpoint",
+            "inputs": [
+              [
+                85,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                25,
+                0
+              ],
+              [
+                30,
+                64
+              ],
+              [
+                120,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 2393,
+              "room": 708,
+              "x": 472.0,
+              "y": 456.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          }
+        ]
+      },
+      "500": {
+        "fixture_rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+        "audited_frames": 2388,
+        "segments": [
+          {
+            "id": "main743Down",
+            "inputs": [
+              [
+                30,
+                32
+              ],
+              [
+                90,
+                128
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                90,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 220,
+              "room": 743,
+              "x": 40.0,
+              "y": 88.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743FastDown",
+            "inputs": [
+              [
+                16,
+                16
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                16,
+                32
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                24,
+                16
+              ],
+              [
+                75,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 431,
+              "room": 743,
+              "x": 86.9453125,
+              "y": 288.10546875,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743BombTwice",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                65,
+                1
+              ],
+              [
+                120,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 828,
+              "room": 743,
+              "x": 89.99609375,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeMidDash",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                29,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                65,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 933,
+              "room": 743,
+              "x": 174.65234375,
+              "y": 256.69140625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeRightJump",
+            "inputs": [
+              [
+                35,
+                17
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                25,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 994,
+              "room": 743,
+              "x": 201.99609375,
+              "y": 229.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeColumnDrop",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                35,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1210,
+              "room": 743,
+              "x": 353.2734375,
+              "y": 328.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeLadderAlign",
+            "inputs": [
+              [
+                32,
+                16
+              ],
+              [
+                60,
+                128
+              ],
+              [
+                40,
+                16
+              ]
+            ],
+            "final": {
+              "frame": 1342,
+              "room": 743,
+              "x": 437.78125,
+              "y": 424.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leapLeftEscape",
+            "inputs": [
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ],
+              [
+                75,
+                33
+              ],
+              [
+                40,
+                1
+              ],
+              [
+                45,
+                17
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1712,
+              "room": 743,
+              "x": 457.99609375,
+              "y": 53.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743LeftDrop",
+            "inputs": [
+              [
+                130,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                55,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 1907,
+              "room": 743,
+              "x": 310.0,
+              "y": 146.18359375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743SparkyPass",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                120,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 2118,
+              "room": 743,
+              "x": 265.99609375,
+              "y": 16.0,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mainToDeadEndpoint",
+            "inputs": [
+              [
+                85,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                25,
+                0
+              ],
+              [
+                30,
+                64
+              ],
+              [
+                120,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 2388,
+              "room": 708,
+              "x": 472.0,
+              "y": 456.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          }
+        ]
+      }
+    },
+    "lever": {
+      "100": {
+        "fixture_rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+        "audited_frames": 2628,
+        "segments": [
+          {
+            "id": "main743Down",
+            "inputs": [
+              [
+                30,
+                32
+              ],
+              [
+                90,
+                128
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                90,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 220,
+              "room": 743,
+              "x": 40.0,
+              "y": 88.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743FastDown",
+            "inputs": [
+              [
+                16,
+                16
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                16,
+                32
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                24,
+                16
+              ],
+              [
+                75,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 431,
+              "room": 743,
+              "x": 86.9453125,
+              "y": 288.10546875,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743BombTwice",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                65,
+                1
+              ],
+              [
+                120,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 828,
+              "room": 743,
+              "x": 89.99609375,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeMidDash",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                29,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                65,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 933,
+              "room": 743,
+              "x": 174.65234375,
+              "y": 256.69140625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeRightJump",
+            "inputs": [
+              [
+                35,
+                17
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                25,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 994,
+              "room": 743,
+              "x": 201.99609375,
+              "y": 229.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeColumnDrop",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                35,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1210,
+              "room": 743,
+              "x": 353.2734375,
+              "y": 328.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeLadderAlign",
+            "inputs": [
+              [
+                32,
+                16
+              ],
+              [
+                60,
+                128
+              ],
+              [
+                40,
+                16
+              ]
+            ],
+            "final": {
+              "frame": 1342,
+              "room": 743,
+              "x": 437.78125,
+              "y": 424.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leapLeftEscape",
+            "inputs": [
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ],
+              [
+                75,
+                33
+              ],
+              [
+                40,
+                1
+              ],
+              [
+                45,
+                17
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1712,
+              "room": 743,
+              "x": 457.99609375,
+              "y": 53.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743LeftDrop",
+            "inputs": [
+              [
+                130,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                55,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 1907,
+              "room": 743,
+              "x": 310.0,
+              "y": 146.18359375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverApproach",
+            "inputs": [
+              [
+                25,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                30,
+                1
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                30,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                90,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 2164,
+              "room": 743,
+              "x": 200.375,
+              "y": 120.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverNormalTwoInhales",
+            "inputs": [
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                70,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                50,
+                0
+              ],
+              [
+                90,
+                2
+              ],
+              [
+                30,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 2408,
+              "room": 743,
+              "x": 200.5859375,
+              "y": 120.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            "minhp": 6,
+            "abilities": [
+              0
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverNormalDepart",
+            "inputs": [
+              [
+                10,
+                32
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                85,
+                64
+              ],
+              [
+                75,
+                32
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                30,
+                64
+              ]
+            ],
+            "final": {
+              "frame": 2628,
+              "room": 180,
+              "x": 72.0,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            "minhp": 6,
+            "abilities": [
+              0
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 4
+          }
+        ]
+      },
+      "500": {
+        "fixture_rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+        "audited_frames": 2623,
+        "segments": [
+          {
+            "id": "main743Down",
+            "inputs": [
+              [
+                30,
+                32
+              ],
+              [
+                90,
+                128
+              ],
+              [
+                10,
+                16
+              ],
+              [
+                90,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 220,
+              "room": 743,
+              "x": 40.0,
+              "y": 88.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743FastDown",
+            "inputs": [
+              [
+                16,
+                16
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                16,
+                32
+              ],
+              [
+                40,
+                128
+              ],
+              [
+                24,
+                16
+              ],
+              [
+                75,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 431,
+              "room": 743,
+              "x": 86.9453125,
+              "y": 288.10546875,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743BombTwice",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                90,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                65,
+                1
+              ],
+              [
+                120,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 828,
+              "room": 743,
+              "x": 89.99609375,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeMidDash",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                29,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                65,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 933,
+              "room": 743,
+              "x": 174.65234375,
+              "y": 256.69140625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeRightJump",
+            "inputs": [
+              [
+                35,
+                17
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                25,
+                17
+              ]
+            ],
+            "final": {
+              "frame": 994,
+              "room": 743,
+              "x": 201.99609375,
+              "y": 229.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeColumnDrop",
+            "inputs": [
+              [
+                10,
+                2
+              ],
+              [
+                35,
+                0
+              ],
+              [
+                1,
+                18
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1210,
+              "room": 743,
+              "x": 353.2734375,
+              "y": 328.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "mazeLadderAlign",
+            "inputs": [
+              [
+                32,
+                16
+              ],
+              [
+                60,
+                128
+              ],
+              [
+                40,
+                16
+              ]
+            ],
+            "final": {
+              "frame": 1342,
+              "room": 743,
+              "x": 437.78125,
+              "y": 424.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leapLeftEscape",
+            "inputs": [
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                100,
+                1
+              ],
+              [
+                75,
+                33
+              ],
+              [
+                40,
+                1
+              ],
+              [
+                45,
+                17
+              ],
+              [
+                100,
+                1
+              ]
+            ],
+            "final": {
+              "frame": 1712,
+              "room": 743,
+              "x": 457.99609375,
+              "y": 53.00390625,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "main743LeftDrop",
+            "inputs": [
+              [
+                130,
+                33
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                55,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 1907,
+              "room": 743,
+              "x": 310.0,
+              "y": 146.18359375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverApproach",
+            "inputs": [
+              [
+                20,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                60,
+                0
+              ],
+              [
+                5,
+                1
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                30,
+                1
+              ],
+              [
+                10,
+                2
+              ],
+              [
+                30,
+                0
+              ],
+              [
+                1,
+                34
+              ],
+              [
+                90,
+                0
+              ]
+            ],
+            "final": {
+              "frame": 2159,
+              "room": 743,
+              "x": 200.375,
+              "y": 120.99609375,
+              "hp": 6,
+              "ability": 3
+            },
+            "minhp": 6,
+            "abilities": [
+              3
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverNormalTwoInhales",
+            "inputs": [
+              [
+                1,
+                4
+              ],
+              [
+                1,
+                16
+              ],
+              [
+                70,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                50,
+                0
+              ],
+              [
+                90,
+                2
+              ],
+              [
+                30,
+                128
+              ]
+            ],
+            "final": {
+              "frame": 2403,
+              "room": 743,
+              "x": 200.5859375,
+              "y": 120.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            "minhp": 6,
+            "abilities": [
+              0
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 0
+          },
+          {
+            "id": "leverNormalDepart",
+            "inputs": [
+              [
+                10,
+                32
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                85,
+                64
+              ],
+              [
+                75,
+                32
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                30,
+                64
+              ]
+            ],
+            "final": {
+              "frame": 2623,
+              "room": 180,
+              "x": 72.0,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            "minhp": 6,
+            "abilities": [
+              0
+            ],
+            "grabs": [],
+            "hp_decrease_frames": [],
+            "flag18_mask4": 4
+          }
+        ]
+      }
+    }
+  },
+  "observations": [
+    "The lowerBomb(6,20) creates a maze with solid ceilings and0x5E hazards. The route uses a low Burning dash and jump at the left hazard, aligned lower ladder, and a leftward detour around the upper Leap. It does not require damage boosting.",
+    "Main\u2192dead-end remains within743 throughout the maze and upper climb, then uses actual743 door10,2 /record0x885CB6\u2192708 stored30,29, live472,456.996. No room reset is needed to reach both743 entrance compartments.",
+    "The lever branch continues from the same earned maze prefix to upperBomb14,7, then native chest-template0x088BE07C subtype99 /flag18 at184,112. It intentionally discardsBurning only after the final metal and uses Normal inhale/spit/inhale/swallow controller actions before collection. Ability readback staysNormal after discard; no source or dropped-star reacquisition is credited.",
+    "Lever flag18 starts0 and endsmask4 at0x02038962. Actual after-lever door6,7 /record0x885D1E\u2192180 stored5,3, live72,40.996, reachedNormalHP6.",
+    "Default timing needs25neutral frames at the leftdrop before the final leftward Burning pass;500% needs20. Separate complete audits retain this difference."
+  ],
+  "limitations": [
+    "The two terminal continuations are alternatives from the same earned main arrival, not a claim that a completed lever180 departure also returns to the dead-end during that visit. The dead-end has no independently verified check in this artifact.",
+    "No reverseF5 bank, arbitrary lower708\u2192main-room access, general room reset, source renewal, or occupancy-independent reset claim.",
+    "NativeROM startup/imported790 fixture and separately reviewed592 source-prefix qualification remain unchanged from parent. Not a fullAP seed/network check or direct1HP gameplay. ContinuousHP6/no decreases and zero grab support no-damage equivalence only.",
+    "The joint branch retainsBurning; the lever/after-lever branch endsNormal and must not export equippedBurning."
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "baseline_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "setup": "Original USA ROM, cold blank SRAM. Only start room array at ROM0x2D8CB8 and spawn coordinate array at0x2D8CD0 changed. P1 in tested room; AI in101 at48,80. Native terrain, objects, ability and attack code unchanged.",
+  "tile_read_formula": "0x02024ED0 + group*1950 + y*76 + x; P1 group0",
+  "runs": {
+    "102": {
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 1086,
+          "frames": 240,
+          "keys": 2
+        },
+        {
+          "start": 1326,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1356,
+          "frames": 90,
+          "keys": 32
+        },
+        {
+          "start": 1446,
+          "frames": 165,
+          "keys": 32
+        },
+        {
+          "start": 1611,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 1612,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 1632,
+          "frames": 100,
+          "keys": 0
+        }
+      ],
+      "rom_sha256": "dd72219b34dc1e07e53a2db7f207146c335564503e21cb3f573b59aff668a732",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "memory_writes": [],
+      "checkpoints": [
+        {
+          "label": "before",
+          "frame": 1085,
+          "room": 102,
+          "x": 536.0,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "after-inhale",
+          "frame": 1356,
+          "room": 102,
+          "x": 535.3203125,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "left-corridor",
+          "frame": 1446,
+          "room": 102,
+          "x": 422.3984375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "chest-position",
+          "frame": 1611,
+          "room": 102,
+          "x": 208.4140625,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "chest-animation",
+          "frame": 1632,
+          "room": 102,
+          "x": 207.171875,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "chest-open",
+          "frame": 1732,
+          "room": 102,
+          "x": 207.171875,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0
+        }
+      ],
+      "f7_coordinates": [
+        [
+          31,
+          19
+        ],
+        [
+          31,
+          20
+        ],
+        [
+          31,
+          21
+        ],
+        [
+          31,
+          22
+        ]
+      ],
+      "before": [
+        247,
+        247,
+        247,
+        247
+      ],
+      "after_inhale": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "conclusion": "Normal Kirby pulls Heave-Ho right into disposal shaft; all four F7 tiles disappear. Kirby then walks left to Battle Notes chest coordinates. Collection save flag not verified.",
+      "chest_template": {
+        "x": 208,
+        "y": 296,
+        "type": "0x80",
+        "subtype": 44
+      },
+      "fixture_spawn_pixels": [
+        544,
+        288
+      ],
+      "native_incoming_transition": {
+        "source_room": 113,
+        "record_offset": 9106462,
+        "source_tile": [
+          2,
+          4
+        ],
+        "spawn_tile": [
+          74,
+          8
+        ]
+      },
+      "entry_to_fixture_approach_verified": false
+    },
+    "134": {
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 1086,
+          "frames": 240,
+          "keys": 2
+        },
+        {
+          "start": 1326,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1356,
+          "frames": 90,
+          "keys": 16
+        }
+      ],
+      "rom_sha256": "3273c9e8c54d8bff51cf44c90545a7bb3d077feca099c630f46b288af0c4559d",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "memory_writes": [],
+      "checkpoints": [
+        {
+          "label": "before",
+          "frame": 1085,
+          "room": 134,
+          "x": 648.0,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "after-inhale",
+          "frame": 1356,
+          "room": 134,
+          "x": 648.703125,
+          "y": 248.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "right-corridor",
+          "frame": 1446,
+          "room": 134,
+          "x": 681.99609375,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        }
+      ],
+      "f7_coordinates": [
+        [
+          42,
+          17
+        ],
+        [
+          42,
+          18
+        ],
+        [
+          42,
+          19
+        ],
+        [
+          42,
+          20
+        ],
+        [
+          42,
+          21
+        ],
+        [
+          42,
+          22
+        ]
+      ],
+      "before": [
+        247,
+        247,
+        247,
+        247,
+        247,
+        247
+      ],
+      "after_inhale": [
+        247,
+        247,
+        247,
+        247,
+        247,
+        247
+      ],
+      "conclusion": "This attempt moved Heave-Ho but did not destroy F7 shaft. Do not require destruction for the existing Mini recovery and jump-over route.",
+      "fixture_spawn_pixels": [
+        668,
+        256
+      ]
+    }
+  },
+  "limits": [
+    "Synthetic initial placement, not full room-entry traversal.",
+    "Cannon/crumble room associations have no controller proof in this file.",
+    "No ordinary metal traversal permissions are established."
+  ]
+}

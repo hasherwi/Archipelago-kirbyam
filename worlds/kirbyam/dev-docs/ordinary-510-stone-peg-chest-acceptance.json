@@ -1,0 +1,787 @@
+{
+  "schema_version": 1,
+  "room": 510,
+  "qualification": {
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "native_source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "fixture": "Startup509 at[672,64], AI startup101 at[48,80]. Only509 battery template0x088C9038 becomes Stone essence type0x92 subtype4 at[664,48]. Actual509 door0x089B9AC trigger[41,3] enters510 stored[4,6]. All510 objects, peg, terrain, enemies, attacks and chest unchanged. Equipment fixture is not a production source; previously reviewed permanent Stone source/carry remains separate. No runtime writes.",
+    "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "scaling": "Production scale_enemy_health_tables once at500; not full AP seed or direct1HP fixture."
+  },
+  "target": {
+    "template": "0x088C9114",
+    "position": [
+      96,
+      456
+    ],
+    "flag": 53,
+    "readback": "0x02038966",
+    "mask": 32
+  },
+  "geometry": {
+    "peg": [
+      7,
+      7
+    ],
+    "opened_chain": {
+      "x": 7,
+      "y_inclusive": [
+        8,
+        24
+      ],
+      "initial": 242,
+      "replacement": 0
+    },
+    "metal": {
+      "x_inclusive": [
+        8,
+        17
+      ],
+      "y": 28,
+      "initial": 245,
+      "final": 245
+    }
+  },
+  "result": "Actual509 entry with imported Stone; dry transformation at x121.3086 above the peg opens the original peg/chain. Descend into the left pocket and use Up to collect chest flag53. Both cold100/500 retain HP6 and Stone8 without grabs, with all ten metal tiles intact. This proves no post-peg metal attack is required for the chest, not a generic right501 exit or independent permanent-source access.",
+  "audits": {
+    "100": {
+      "rom_sha256": "9c01065433d7d3d2238e1e46806908a63773482dd8731c56e1bbe89e1516a2ae",
+      "segments": [
+        {
+          "id": "stone509boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              50,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1305,
+            "room": 510,
+            "x": 56.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 8
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            8
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag53": 0,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "stone509RealChest",
+          "inputs": [
+            [
+              70,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              65,
+              17
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              9,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              130,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              14,
+              32
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1821,
+            "room": 510,
+            "x": 94.87109375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 8
+          },
+          "minhp": 6,
+          "abilities": [
+            8
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag53": 32,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              509,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              509,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              509,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1167,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1414,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1627,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              9
+            ]
+          ]
+        },
+        {
+          "frame": 1731,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              9
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    },
+    "500": {
+      "rom_sha256": "04622f542d22a20c531ea899100394549a19bda91f63201cd78551c319f056fe",
+      "segments": [
+        {
+          "id": "stone509boot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              50,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1305,
+            "room": 510,
+            "x": 56.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 8
+          },
+          "minhp": 6,
+          "abilities": [
+            0,
+            8
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag53": 0,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "stone509RealChest",
+          "inputs": [
+            [
+              70,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              65,
+              17
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              9,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              130,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              14,
+              32
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1821,
+            "room": 510,
+            "x": 94.87109375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 8
+          },
+          "minhp": 6,
+          "abilities": [
+            8
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "flag53": 32,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              509,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              509,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              509,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1167,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1414,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1627,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              9
+            ]
+          ]
+        },
+        {
+          "frame": 1731,
+          "actors": [
+            [
+              510,
+              8
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              9
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    }
+  }
+}

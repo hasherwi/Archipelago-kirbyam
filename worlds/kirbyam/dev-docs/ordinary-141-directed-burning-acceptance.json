@@ -1,0 +1,3332 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "scope": "Native141 directed metal banks, actual Flamer acquisition and Normal geometry. No AP unlock/randomized source/server assertion.",
+  "fixtures": {
+    "actual141": {
+      "initial_rooms": [
+        543,
+        101,
+        101,
+        101
+      ],
+      "initial_position_pixels": [
+        728,
+        144
+      ],
+      "native_arrival": [
+        40,
+        216.99609375
+      ],
+      "native_543_door_record_rom_offset": "0x8767D6"
+    },
+    "top141": {
+      "initial_rooms": [
+        545,
+        101,
+        101,
+        101
+      ],
+      "initial_position_pixels": [
+        56,
+        624
+      ],
+      "native_arrival": [
+        536,
+        56.99609375
+      ],
+      "native_545_door_record_rom_offset": "0x88F4D6"
+    },
+    "common": "Only startup room/position arrays altered. Cold FF SRAM. All native objects, source abilities, collision, attacks and doors unchanged. Segments resume controller-earned save states; no runtime writes. No save states or ROM data included."
+  },
+  "sources": [
+    {
+      "template": "0x088B78E8",
+      "position": [
+        152,
+        192
+      ],
+      "role": "lower",
+      "type": "0x13",
+      "ability": 3
+    },
+    {
+      "template": "0x088B7810",
+      "position": [
+        168,
+        64
+      ],
+      "role": "upper",
+      "type": "0x13",
+      "ability": 3
+    }
+  ],
+  "banks": {
+    "left": [
+      [
+        5,
+        7
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "right": [
+      [
+        27,
+        9
+      ],
+      [
+        28,
+        9
+      ],
+      [
+        27,
+        10
+      ],
+      [
+        28,
+        10
+      ]
+    ]
+  },
+  "results": {
+    "forward": "Actual543 door entry, actual lower Flamer captured, Burning carried through both banks rightward; all8 F5 changed to0; endpoint532.125,166.93359375,6HP,Burning3.",
+    "reverse": "Actual545 door entry, Normal crouch+DownA slide activates right-side Bomb(25,4); upper Flamer captured; drop through x12 right of cap into inner corridor; leftward Burning crosses left bank; endpoint50.15234375,209.68359375,5HP,Burning3.",
+    "east_top": "After actual forward-bank chain, move east, explicitly discard Burning withSelect; Normal jump/float x663.66015625 fromy136.99609375 to21.00390625 through upward-passable cap atrow4.",
+    "inner_top": "Branch after actual upper capture, explicitly discardBurning. Normal walks/drops viax201.99609375 to y136.99609375, then floats upward to21.00390625. UpperFlamer was already captured; no new capability is needed for movement.",
+    "limits": [
+      "No native144 transition established. Mirra/door remains a separate unresolved interaction; forward gate should stop at east compartment.",
+      "Do not infer downward passage through0x0F. Top\u2192inner drop used open x12 beside x10..11 cap. No top\u2192east downward route asserted.",
+      "Normal inner/top movement branch follows removal of upperFlamer by ordinary inhale; no source randomization guarantee follows.",
+      "No imported ability or essence fixture used. No ordinary capability beyond actualBurning3 validated."
+    ]
+  },
+  "chains": {
+    "actual_lower_source_forward_banks": [
+      {
+        "segment": "actual141",
+        "parent_controller_state": null,
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 180,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 181,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 301,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 302,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 422,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 423,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 663,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 664,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 844,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 845,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 1085,
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "start": 1086,
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "source543",
+            "frame": 1085,
+            "room": 543,
+            "x": 712.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "arrival141",
+            "frame": 1206,
+            "room": 141,
+            "x": 40.0,
+            "y": 216.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "actualcapture141",
+        "parent_controller_state": "actual141",
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 14,
+            "keys": 16
+          },
+          {
+            "start": 14,
+            "frames": 15,
+            "keys": 0
+          },
+          {
+            "start": 29,
+            "frames": 14,
+            "keys": 16
+          },
+          {
+            "start": 43,
+            "frames": 80,
+            "keys": 2
+          },
+          {
+            "start": 123,
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "start": 124,
+            "frames": 50,
+            "keys": 0
+          },
+          {
+            "start": 174,
+            "frames": 8,
+            "keys": 17
+          },
+          {
+            "start": 182,
+            "frames": 40,
+            "keys": 2
+          },
+          {
+            "start": 222,
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "start": 223,
+            "frames": 50,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "entry-approach",
+            "frame": 29,
+            "room": 141,
+            "x": 66.125,
+            "y": 216.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "approach141",
+            "frame": 174,
+            "room": 141,
+            "x": 123.53125,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "capture2141",
+            "frame": 273,
+            "room": 141,
+            "x": 159.875,
+            "y": 248.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "actualshaft141",
+        "parent_controller_state": "actualcapture141",
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 1,
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "start": 11,
+            "frames": 80,
+            "keys": 33
+          },
+          {
+            "start": 91,
+            "frames": 100,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 141,
+            "x": 159.875,
+            "y": 244.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 11,
+            "room": 141,
+            "x": 159.875,
+            "y": 242.08203125,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 91,
+            "room": 141,
+            "x": 80.921875,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 191,
+            "room": 141,
+            "x": 65.421875,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "actualbanks141",
+        "parent_controller_state": "actualshaft141",
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 1,
+            "keys": 2
+          },
+          {
+            "start": 1,
+            "frames": 12,
+            "keys": 0
+          },
+          {
+            "start": 13,
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "start": 14,
+            "frames": 50,
+            "keys": 0
+          },
+          {
+            "start": 64,
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "start": 65,
+            "frames": 65,
+            "keys": 0
+          },
+          {
+            "start": 130,
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "start": 131,
+            "frames": 65,
+            "keys": 0
+          },
+          {
+            "start": 196,
+            "frames": 32,
+            "keys": 16
+          },
+          {
+            "start": 228,
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "start": 258,
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "start": 259,
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "bank1141",
+            "frame": 64,
+            "room": 141,
+            "x": 189.828125,
+            "y": 131.55078125,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "corridor141",
+            "frame": 196,
+            "room": 141,
+            "x": 339.5,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "bank2141",
+            "frame": 349,
+            "room": 141,
+            "x": 532.125,
+            "y": 166.93359375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      }
+    ],
+    "actual_top_source_reverse_first_bank": [
+      {
+        "segment": "top141",
+        "parent_controller_state": null,
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 180,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 181,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 301,
+            "frames": 1,
+            "keys": 8
+          },
+          {
+            "start": 302,
+            "frames": 120,
+            "keys": 0
+          },
+          {
+            "start": 422,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 423,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 663,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 664,
+            "frames": 180,
+            "keys": 0
+          },
+          {
+            "start": 844,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 845,
+            "frames": 240,
+            "keys": 0
+          },
+          {
+            "start": 1085,
+            "frames": 1,
+            "keys": 64
+          },
+          {
+            "start": 1086,
+            "frames": 120,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "source545",
+            "frame": 1085,
+            "room": 545,
+            "x": 40.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "arrival141",
+            "frame": 1206,
+            "room": 141,
+            "x": 536.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "topbomb141",
+        "parent_controller_state": "top141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 75,
+            "keys": 32
+          },
+          {
+            "start": 75,
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "start": 85,
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "start": 86,
+            "frames": 1,
+            "keys": 129
+          },
+          {
+            "start": 87,
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 75,
+            "room": 141,
+            "x": 443.65625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 85,
+            "room": 141,
+            "x": 437.5625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 86,
+            "room": 141,
+            "x": 437.265625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 87,
+            "room": 141,
+            "x": 437.0,
+            "y": 68.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "4",
+            "frame": 177,
+            "room": 141,
+            "x": 436.21875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "topbomb2141",
+        "parent_controller_state": "topbomb141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 3,
+            "keys": 128
+          },
+          {
+            "start": 3,
+            "frames": 1,
+            "keys": 129
+          },
+          {
+            "start": 4,
+            "frames": 90,
+            "keys": 0
+          },
+          {
+            "start": 94,
+            "frames": 115,
+            "keys": 32
+          },
+          {
+            "start": 209,
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "start": 219,
+            "frames": 20,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 3,
+            "room": 141,
+            "x": 436.21875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 4,
+            "room": 141,
+            "x": 432.96875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 94,
+            "room": 141,
+            "x": 384.375,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 209,
+            "room": 141,
+            "x": 292.7578125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "4",
+            "frame": 219,
+            "room": 141,
+            "x": 286.6640625,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "5",
+            "frame": 239,
+            "room": 141,
+            "x": 286.7421875,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "uppercapture141",
+        "parent_controller_state": "topbomb2141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 44,
+            "keys": 32
+          },
+          {
+            "start": 44,
+            "frames": 80,
+            "keys": 2
+          },
+          {
+            "start": 124,
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "start": 154,
+            "frames": 1,
+            "keys": 128
+          },
+          {
+            "start": 155,
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 44,
+            "room": 141,
+            "x": 234.6015625,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 124,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 154,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 155,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "4",
+            "frame": 215,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "innerdrop141",
+        "parent_controller_state": "uppercapture141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 15,
+            "keys": 32
+          },
+          {
+            "start": 15,
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "start": 25,
+            "frames": 60,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 15,
+            "room": 141,
+            "x": 205.3515625,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 25,
+            "room": 141,
+            "x": 200.5703125,
+            "y": 76.11328125,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 85,
+            "room": 141,
+            "x": 201.99609375,
+            "y": 136.99609375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "reversebank141",
+        "parent_controller_state": "innerdrop141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 1,
+            "keys": 32
+          },
+          {
+            "start": 1,
+            "frames": 1,
+            "keys": 34
+          },
+          {
+            "start": 2,
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 141,
+            "x": 201.74609375,
+            "y": 136.99609375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 2,
+            "room": 141,
+            "x": 203.62109375,
+            "y": 136.99609375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 92,
+            "room": 141,
+            "x": 50.15234375,
+            "y": 209.68359375,
+            "hp": 5,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      }
+    ],
+    "normal_east_to_top": [
+      {
+        "segment": "actualeast141",
+        "parent_controller_state": "actualbanks141",
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 68,
+            "keys": 16
+          },
+          {
+            "start": 68,
+            "frames": 30,
+            "keys": 0
+          },
+          {
+            "start": 98,
+            "frames": 1,
+            "keys": 18
+          },
+          {
+            "start": 99,
+            "frames": 90,
+            "keys": 0
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 68,
+            "room": 141,
+            "x": 647.6953125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 98,
+            "room": 141,
+            "x": 677.171875,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 99,
+            "room": 141,
+            "x": 675.296875,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 189,
+            "room": 141,
+            "x": 663.66015625,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      },
+      {
+        "segment": "normaleasttop141",
+        "parent_controller_state": "actualeast141",
+        "rom_sha256": "9e4b2b286010756a0c67cff1e39b1b3b858c082281390b0642a8442ed1beac5e",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 1,
+            "keys": 4
+          },
+          {
+            "start": 1,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 2,
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "start": 12,
+            "frames": 90,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 141,
+            "x": 663.66015625,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 2,
+            "room": 141,
+            "x": 663.66015625,
+            "y": 132.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 12,
+            "room": 141,
+            "x": 663.66015625,
+            "y": 130.08203125,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 102,
+            "room": 141,
+            "x": 663.66015625,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      }
+    ],
+    "normal_inner_top_geometry": [
+      {
+        "segment": "normalinnerlink141",
+        "parent_controller_state": "uppercapture141",
+        "rom_sha256": "f431f3436ffd6257969530673fdbb97eb8f08e8c88429452cb013cea8580dab4",
+        "inputs": [
+          {
+            "start": 0,
+            "frames": 1,
+            "keys": 4
+          },
+          {
+            "start": 1,
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "start": 61,
+            "frames": 15,
+            "keys": 32
+          },
+          {
+            "start": 76,
+            "frames": 10,
+            "keys": 16
+          },
+          {
+            "start": 86,
+            "frames": 60,
+            "keys": 0
+          },
+          {
+            "start": 146,
+            "frames": 1,
+            "keys": 1
+          },
+          {
+            "start": 147,
+            "frames": 10,
+            "keys": 0
+          },
+          {
+            "start": 157,
+            "frames": 90,
+            "keys": 1
+          }
+        ],
+        "checkpoints": [
+          {
+            "label": "0",
+            "frame": 1,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "1",
+            "frame": 61,
+            "room": 141,
+            "x": 219.8828125,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "2",
+            "frame": 76,
+            "room": 141,
+            "x": 205.3515625,
+            "y": 72.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "3",
+            "frame": 86,
+            "room": 141,
+            "x": 200.5703125,
+            "y": 76.11328125,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "4",
+            "frame": 146,
+            "room": 141,
+            "x": 201.99609375,
+            "y": 136.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "5",
+            "frame": 147,
+            "room": 141,
+            "x": 201.99609375,
+            "y": 132.99609375,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "6",
+            "frame": 157,
+            "room": 141,
+            "x": 201.99609375,
+            "y": 130.08203125,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "label": "7",
+            "frame": 247,
+            "room": 141,
+            "x": 201.99609375,
+            "y": 21.00390625,
+            "hp": 5,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        ],
+        "writes": []
+      }
+    ]
+  },
+  "tile_observations": {
+    "actual141": [
+      {
+        "x": 5,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 241
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 241
+      },
+      {
+        "x": 43,
+        "y": 8,
+        "tile": 0
+      }
+    ],
+    "actualbanks141": [
+      {
+        "x": 5,
+        "y": 7,
+        "tile": 0
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "tile": 0
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "tile": 0
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "tile": 0
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 0
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "tile": 0
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "tile": 0
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 0
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 241
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 241
+      },
+      {
+        "x": 43,
+        "y": 8,
+        "tile": 0
+      }
+    ],
+    "top141": [
+      {
+        "x": 5,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 241
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 241
+      },
+      {
+        "x": 43,
+        "y": 8,
+        "tile": 0
+      }
+    ],
+    "topbomb2141": [
+      {
+        "x": 5,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "tile": 245
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 0
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 0
+      },
+      {
+        "x": 43,
+        "y": 8,
+        "tile": 0
+      }
+    ],
+    "reversebank141": [
+      {
+        "x": 5,
+        "y": 7,
+        "tile": 0
+      },
+      {
+        "x": 6,
+        "y": 7,
+        "tile": 0
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "tile": 0
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "tile": 0
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 27,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 0
+      },
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 0
+      },
+      {
+        "x": 43,
+        "y": 8,
+        "tile": 0
+      }
+    ]
+  }
+}

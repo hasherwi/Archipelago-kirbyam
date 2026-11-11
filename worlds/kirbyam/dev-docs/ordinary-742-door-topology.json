@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "note": "Decoded native door scalars, not full ROM, graphics or controller acceptance. Upper return placement is native record proof only; no clean layout or room reset follows from it.",
+  "native741_doors": [
+    {
+      "source": 741,
+      "offset": "0x884a48",
+      "trigger": [
+        3,
+        2
+      ],
+      "destination": 742,
+      "spawn_tile": [
+        19,
+        8
+      ]
+    },
+    {
+      "source": 741,
+      "offset": "0x884be2",
+      "trigger": [
+        1,
+        17
+      ],
+      "destination": 742,
+      "spawn_tile": [
+        30,
+        29
+      ]
+    }
+  ],
+  "native742_doors": [
+    {
+      "source": 742,
+      "offset": "0x885348",
+      "trigger": [
+        27,
+        2
+      ],
+      "destination": 705,
+      "spawn_tile": [
+        4,
+        39
+      ]
+    },
+    {
+      "source": 742,
+      "offset": "0x88554e",
+      "trigger": [
+        25,
+        12
+      ],
+      "destination": 741,
+      "spawn_tile": [
+        11,
+        8
+      ]
+    }
+  ]
+}

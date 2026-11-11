@@ -1,0 +1,195 @@
+{
+  "reference_commit": "754bac4799b57151a04fe11039d929918399e6b9",
+  "claim": "All 92 pre-existing compiled graphs are exactly equal in both Area Key settings. No old local, 707 or shared hub semantics change. This is representation equivalence, not new native route acceptance.",
+  "unchanged_witnesses": 92,
+  "area_key_hashes": {
+    "false": "5573773c88809c7cd712242ac53df9df2e6d3e111777fdf7a3f8e893ecf3ab48",
+    "true": "678e95141000da8297b10b51b18a33600a49feec1d5b6a668b69fc23c3e50437"
+  },
+  "witnesses": {
+    "frozen_825_sound_effects": [
+      "local"
+    ],
+    "fuse_126": [
+      "hub_statues",
+      "local",
+      "rainbow_hub194_statue",
+      "rainbow_hub592_burning"
+    ],
+    "fuse_323": [
+      "local"
+    ],
+    "fuse_502": [
+      "local"
+    ],
+    "fuse_827": [
+      "hub_statues",
+      "local",
+      "olive_hub592_burning",
+      "olive_hub890_statue"
+    ],
+    "metal_141_left_forward": [
+      "local"
+    ],
+    "metal_141_left_reverse": [
+      "local"
+    ],
+    "metal_141_right_forward": [
+      "lower_carry"
+    ],
+    "metal_176_goal2_drink": [
+      "local"
+    ],
+    "metal_205_to_209_top": [
+      "bonkers_carry",
+      "central_statues",
+      "peppermint290_statues",
+      "rainbow190_statues"
+    ],
+    "metal_216_chest": [
+      "central_statues",
+      "peppermint291_statues"
+    ],
+    "metal_228_chest": [
+      "bonkers_joint",
+      "copy_room_statues"
+    ],
+    "metal_229_left1up": [
+      "bonkers_joint",
+      "copy_room_statues"
+    ],
+    "metal_537_beginning_notes": [
+      "central_statues",
+      "rainbow190_statues"
+    ],
+    "metal_557_goal1_tomato": [
+      "local"
+    ],
+    "metal_707_to_712": [
+      "cabbage592_statues",
+      "central_statues"
+    ],
+    "metal_742_lower_to_warp": [
+      "clean_carry"
+    ],
+    "metal_742_sparerib": [
+      "clean_carry"
+    ],
+    "mini_134_ocean_spray": [
+      "local"
+    ],
+    "mini_312_warp": [
+      "local"
+    ],
+    "mini_321_cross_to_right": [
+      "local"
+    ],
+    "mini_321_lower": [
+      "local"
+    ],
+    "mini_321_right_lower": [
+      "local"
+    ],
+    "mini_736_chest": [
+      "local"
+    ],
+    "normal_208_to_209_bottom": [
+      "hub290_approach"
+    ],
+    "normal_210_to_209_upper": [
+      "205_arena_approach"
+    ],
+    "peg_149_35_18": [
+      "carry",
+      "hub_statues",
+      "local",
+      "statues"
+    ],
+    "peg_204_62_4": [
+      "carry",
+      "local"
+    ],
+    "peg_221_41_12": [
+      "carry",
+      "local"
+    ],
+    "peg_401_28_30": [
+      "carry",
+      "local"
+    ],
+    "peg_411_4_3": [
+      "carry",
+      "local"
+    ],
+    "peg_510_7_7": [
+      "carry",
+      "local"
+    ],
+    "peg_513_4_7": [
+      "carry",
+      "local"
+    ],
+    "peg_527_18_13": [
+      "carry",
+      "local"
+    ],
+    "peg_527_56_16": [
+      "carry",
+      "local"
+    ],
+    "peg_605_12_24": [
+      "carry",
+      "local"
+    ],
+    "peg_816_26_3": [
+      "carry",
+      "local"
+    ],
+    "reinforced_102_battle_notes": [
+      "local"
+    ],
+    "rope_143_23_14": [
+      "hub_statues",
+      "local",
+      "statues_190",
+      "statues_194"
+    ],
+    "rope_217_6_5": [
+      "hub_statues",
+      "kibble_216",
+      "local",
+      "statues_290",
+      "statues_291"
+    ],
+    "rope_227_20_12": [
+      "hub_statues",
+      "local",
+      "statues_290_lower",
+      "sword_210_lower"
+    ],
+    "rope_228_11_21": [
+      "hub_statues",
+      "local",
+      "statues_290"
+    ],
+    "rope_316_35_5": [
+      "hub_statues",
+      "local",
+      "statues_194_left_upper"
+    ],
+    "rope_553_26_7": [
+      "hub_statues",
+      "statues_191",
+      "statues_890",
+      "sword_811"
+    ],
+    "underwater_819_exit": [
+      "local"
+    ],
+    "wheel_108_chest": [
+      "hub_statues",
+      "local",
+      "statues"
+    ]
+  }
+}

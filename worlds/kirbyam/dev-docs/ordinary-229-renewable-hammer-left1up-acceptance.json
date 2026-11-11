@@ -1,0 +1,5642 @@
+{
+  "schema_version": 1,
+  "status": "accepted_retained_hammer_left1up",
+  "target": {
+    "name": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+    "ap_id": 3960593,
+    "template": "0x088C06B4",
+    "flag": 33,
+    "position": [
+      104,
+      440
+    ],
+    "metal_cluster": [
+      [
+        4,
+        27
+      ],
+      [
+        5,
+        27
+      ]
+    ]
+  },
+  "inherited_prefix_blob": "a4cca011f7f5d2e3ada5600c116a1f6b5663e74c",
+  "supersedes_partial_boundary_blob": "db8484d62480d702cee288702d41794744502157",
+  "qualification": "Controller-only continuous continuation from each accepted freshboot renewable228 collected-Hammer checkpoint, paired with its original default or exactproduction500% ROM. The upstream ROM/source-fixture qualification is inherited, not widened. No midrun state loads, ability reacquisition, RAM writes, ROM mutation, AI helpers, damage or grabs. This acceptance covers only the native229 left1Up chest.",
+  "route": [
+    "Retain Hammer17 and existing flags23+30 from collected228 checkpoint.",
+    "Clear228 Bomb(27,7), traverse into left branch, descend ladder and clear Bomb(12,11).",
+    "Contact the existing60-tick small switch; dash/jump/float back and crouch-slide beneath the naturally closing vertical door. Slot1 already clears at continuationframe1318; animation13 crosses x200 at1345 and x186 at1351. No permanent-open interpretation.",
+    "Climb and traverse actual left228 door trigger(16,4) to229 arrivalx264,y456.996.",
+    "Clear lower and upper229 Bomb staircases, climb to top left, break F4(5..7,2) with ordinary Hammer attacks, and jump through the opened top-left gap.",
+    "Descend outside left boundary in the same room; airborne Hammer breaks both F5(4..5,27) atframe3511. Recover with flight without taking damage, enter pocket atx105.996,y440.996, and pressUp.",
+    "Actual flag33 becomes2 atframe3682, retained alongside flag23=128 andflag30=64. Spray32 andfood34 remain0."
+  ],
+  "source": {
+    "original_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "note": "Decoded scalar collision semantics and object/door coordinates, not graphics or ROM bytes. Source table abilities do not establish randomized policy or reachability.",
+    "rooms": {
+      "228": {
+        "objects": [
+          {
+            "offset": "0x8c03b8",
+            "position": [
+              544,
+              392
+            ],
+            "type": "0x18",
+            "subtype": 0,
+            "table_ability": 6,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c03dc",
+            "position": [
+              488,
+              136
+            ],
+            "type": "0x18",
+            "subtype": 0,
+            "table_ability": 6,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0400",
+            "position": [
+              232,
+              264
+            ],
+            "type": "0x18",
+            "subtype": 0,
+            "table_ability": 6,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0424",
+            "position": [
+              320,
+              328
+            ],
+            "type": "0x18",
+            "subtype": 0,
+            "table_ability": 6,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0448",
+            "position": [
+              576,
+              264
+            ],
+            "type": "0x5f",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c046c",
+            "position": [
+              480,
+              200
+            ],
+            "type": "0x80",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0490",
+            "position": [
+              200,
+              144
+            ],
+            "type": "0x71",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 1,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c04b4",
+            "position": [
+              160,
+              208
+            ],
+            "type": "0x6d",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 1,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c04d8",
+            "position": [
+              240,
+              456
+            ],
+            "type": "0x80",
+            "subtype": 3,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c04fc",
+            "position": [
+              480,
+              384
+            ],
+            "type": "0x13",
+            "subtype": 1,
+            "table_ability": 3,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0520",
+            "position": [
+              176,
+              336
+            ],
+            "type": "0x7b",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0544",
+            "position": [
+              360,
+              72
+            ],
+            "type": "0x6f",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 256
+          },
+          {
+            "offset": "0x8c0568",
+            "position": [
+              264,
+              72
+            ],
+            "type": "0x6f",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 256
+          },
+          {
+            "offset": "0x8c058c",
+            "position": [
+              456,
+              72
+            ],
+            "type": "0x6f",
+            "subtype": 1,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 256
+          },
+          {
+            "offset": "0x8c05b0",
+            "position": [
+              456,
+              64
+            ],
+            "type": "0x34",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c05d4",
+            "position": [
+              240,
+              392
+            ],
+            "type": "0x5f",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          }
+        ],
+        "doors": [
+          {
+            "source": 228,
+            "offset": "0x88a7f4",
+            "trigger": [
+              16,
+              4
+            ],
+            "destination": 229,
+            "spawn_tile": [
+              17,
+              29
+            ]
+          },
+          {
+            "source": 228,
+            "offset": "0x88a802",
+            "trigger": [
+              22,
+              4
+            ],
+            "destination": 229,
+            "spawn_tile": [
+              23,
+              29
+            ]
+          },
+          {
+            "source": 228,
+            "offset": "0x88a822",
+            "trigger": [
+              28,
+              4
+            ],
+            "destination": 229,
+            "spawn_tile": [
+              29,
+              29
+            ]
+          }
+        ],
+        "width": 46,
+        "height": 33,
+        "tracked_tiles": [
+          {
+            "x": 27,
+            "y": 23,
+            "tile": "0xf5"
+          },
+          {
+            "x": 27,
+            "y": 24,
+            "tile": "0xf5"
+          }
+        ],
+        "mutations": [
+          {
+            "offset": 8956816,
+            "kind": 1,
+            "attribute": 245,
+            "x": 27,
+            "y": 23,
+            "replacement": 0
+          },
+          {
+            "offset": 8956852,
+            "kind": 1,
+            "attribute": 245,
+            "x": 27,
+            "y": 24,
+            "replacement": 0
+          }
+        ],
+        "attributes": {
+          "0": "0x1",
+          "32": "0x10c",
+          "33": "0x101",
+          "15": "0x4",
+          "80": "0x210",
+          "241": "0x101260",
+          "242": "0x240",
+          "243": "0x41",
+          "245": "0x201200",
+          "255": "0x4001"
+        }
+      },
+      "229": {
+        "objects": [
+          {
+            "offset": "0x8c0624",
+            "position": [
+              328,
+              376
+            ],
+            "type": "0x63",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0648",
+            "position": [
+              584,
+              136
+            ],
+            "type": "0x80",
+            "subtype": 28,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c066c",
+            "position": [
+              280,
+              200
+            ],
+            "type": "0x62",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 8
+          },
+          {
+            "offset": "0x8c0690",
+            "position": [
+              480,
+              368
+            ],
+            "type": "0x29",
+            "subtype": 0,
+            "table_ability": 18,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c06b4",
+            "position": [
+              104,
+              440
+            ],
+            "type": "0x80",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c06d8",
+            "position": [
+              152,
+              248
+            ],
+            "type": "0x80",
+            "subtype": 4,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c06fc",
+            "position": [
+              472,
+              216
+            ],
+            "type": "0x2b",
+            "subtype": 0,
+            "table_ability": 13,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0720",
+            "position": [
+              552,
+              288
+            ],
+            "type": "0x20",
+            "subtype": 0,
+            "table_ability": 8,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0744",
+            "position": [
+              552,
+              128
+            ],
+            "type": "0x21",
+            "subtype": 0,
+            "table_ability": 8,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c0768",
+            "position": [
+              552,
+              448
+            ],
+            "type": "0x1f",
+            "subtype": 0,
+            "table_ability": 8,
+            "room_state_slot": 0,
+            "unk22": 0
+          },
+          {
+            "offset": "0x8c078c",
+            "position": [
+              136,
+              312
+            ],
+            "type": "0x60",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 8
+          },
+          {
+            "offset": "0x8c07b0",
+            "position": [
+              360,
+              56
+            ],
+            "type": "0x6f",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 256
+          },
+          {
+            "offset": "0x8c07d4",
+            "position": [
+              392,
+              184
+            ],
+            "type": "0x5e",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 8
+          },
+          {
+            "offset": "0x8c07f8",
+            "position": [
+              344,
+              224
+            ],
+            "type": "0x90",
+            "subtype": 0,
+            "table_ability": 0,
+            "room_state_slot": 0,
+            "unk22": 0
+          }
+        ],
+        "doors": [
+          {
+            "source": 229,
+            "offset": "0x88ae58",
+            "trigger": [
+              22,
+              3
+            ],
+            "destination": 230,
+            "spawn_tile": [
+              23,
+              19
+            ]
+          }
+        ],
+        "width": 46,
+        "height": 33,
+        "tracked_tiles": [
+          {
+            "x": 4,
+            "y": 27,
+            "tile": "0xf5"
+          },
+          {
+            "x": 5,
+            "y": 27,
+            "tile": "0xf5"
+          }
+        ],
+        "mutations": [
+          {
+            "offset": 8958478,
+            "kind": 1,
+            "attribute": 245,
+            "x": 4,
+            "y": 27,
+            "replacement": 0
+          },
+          {
+            "offset": 8958496,
+            "kind": 1,
+            "attribute": 245,
+            "x": 5,
+            "y": 27,
+            "replacement": 0
+          }
+        ],
+        "attributes": {
+          "0": "0x1",
+          "32": "0x10c",
+          "33": "0x101",
+          "9": "0xa0000000",
+          "10": "0x90000000",
+          "15": "0x4",
+          "80": "0x210",
+          "81": "0x1100801",
+          "242": "0x240",
+          "243": "0x41",
+          "244": "0x101200",
+          "241": "0x101260",
+          "240": "0x1200",
+          "245": "0x201200",
+          "255": "0x4001"
+        }
+      }
+    },
+    "incoming": [
+      {
+        "source": 205,
+        "offset": "0x887306",
+        "trigger": [
+          44,
+          2
+        ],
+        "destination": 228,
+        "spawn_tile": [
+          26,
+          29
+        ]
+      },
+      {
+        "source": 228,
+        "offset": "0x88a7f4",
+        "trigger": [
+          16,
+          4
+        ],
+        "destination": 229,
+        "spawn_tile": [
+          17,
+          29
+        ]
+      },
+      {
+        "source": 228,
+        "offset": "0x88a802",
+        "trigger": [
+          22,
+          4
+        ],
+        "destination": 229,
+        "spawn_tile": [
+          23,
+          29
+        ]
+      },
+      {
+        "source": 228,
+        "offset": "0x88a822",
+        "trigger": [
+          28,
+          4
+        ],
+        "destination": 229,
+        "spawn_tile": [
+          29,
+          29
+        ]
+      }
+    ]
+  },
+  "switch_source_semantics": {
+    "switch_template": "0x088C04B4",
+    "switch_position": [
+      160,
+      208
+    ],
+    "timer_u16_at_0x18": 60,
+    "flags_u16_at_0x22": 0,
+    "room_state_slot": 1,
+    "sliding_door_template": "0x088C0490",
+    "sliding_door_position": [
+      200,
+      144
+    ],
+    "source_files": [
+      "katam/src/vert_sliding_door.c:VertSlidingDoorIdle,VertSlidingDoorOpen,VertSlidingDoorClose",
+      "katam/asm/big_small_switch.s:sub_081197D4,sub_08119980,sub_08119A20",
+      "katam/src/code_080023A4.c:GetStateSlot"
+    ],
+    "semantics": "Switch contact/attack sets slot1; release counts down the template delay then clears it. Door reads this live slot, not a permanent unlock. Runtime Hammer attack refreshed the slot; no substitution or RAM writes."
+  },
+  "channels": [
+    {
+      "trigger": [
+        16,
+        4
+      ],
+      "spawn_tile": [
+        17,
+        29
+      ],
+      "channel": "left",
+      "actual_arrival_validated": true,
+      "runtime_arrival": [
+        264,
+        456.99609375
+      ]
+    },
+    {
+      "trigger": [
+        22,
+        4
+      ],
+      "spawn_tile": [
+        23,
+        29
+      ],
+      "channel": "middle",
+      "actual_arrival_validated": true,
+      "runtime_arrival": [
+        360,
+        434.68359375
+      ],
+      "does_not_prove": "Left chest, Spray32, food34, or generic cross-channel access"
+    },
+    {
+      "trigger": [
+        28,
+        4
+      ],
+      "spawn_tile": [
+        29,
+        29
+      ],
+      "channel": "right",
+      "actual_arrival_validated": false,
+      "additional_source_boundary": "Mirra object0x34 at456,64 overlays subtype1 door; bounded Hammer attack did not produce a door traversal."
+    }
+  ],
+  "acceptances": [
+    {
+      "health_percent": 100,
+      "route": "left1up",
+      "initial": {
+        "frame": 0,
+        "room": 228,
+        "x": 472.35546875,
+        "y": 200.99609375,
+        "hp": 6,
+        "ability": 17,
+        "flag23": 128,
+        "flag30": 64,
+        "flag32": 0,
+        "flag33": 0,
+        "flag34": 0,
+        "room_slot1": 0
+      },
+      "segments": [
+        {
+          "name": "rise",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              35,
+              64
+            ],
+            [
+              20,
+              32
+            ],
+            [
+              35,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 0,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 110,
+            "room": 228,
+            "x": 454.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "bomb27",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              35,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 110,
+            "room": 228,
+            "x": 454.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 237,
+            "room": 228,
+            "x": 413.53125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 111,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 111,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 27,
+              "y": 7,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 27,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "descendmiddle",
+          "inputs": [
+            [
+              10,
+              128
+            ],
+            [
+              1,
+              129
+            ],
+            [
+              55,
+              128
+            ],
+            [
+              80,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 237,
+            "room": 228,
+            "x": 413.53125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 383,
+            "room": 228,
+            "x": 235.02734375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 238,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 238,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "leftdown",
+          "inputs": [
+            [
+              21,
+              16
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              100,
+              128
+            ],
+            [
+              35,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 383,
+            "room": 228,
+            "x": 235.02734375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 652,
+            "room": 228,
+            "x": 214.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 384,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 384,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "ladderdown",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              128
+            ]
+          ],
+          "initial": {
+            "frame": 652,
+            "room": 228,
+            "x": 214.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 767,
+            "room": 228,
+            "x": 264.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 653,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 653,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "bomb12",
+          "inputs": [
+            [
+              45,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 767,
+            "room": 228,
+            "x": 264.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1003,
+            "room": 228,
+            "x": 137.078125,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 768,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 768,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 911,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 992,
+              "room": 228,
+              "room_slot1": 0
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 11,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "climbgap",
+          "inputs": [
+            [
+              105,
+              80
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1003,
+            "room": 228,
+            "x": 137.078125,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1224,
+            "room": 228,
+            "x": 134.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1004,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1004,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1173,
+              "room": 228,
+              "room_slot1": 1
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "dashverify",
+          "inputs": [
+            [
+              5,
+              16
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              30,
+              16
+            ]
+          ],
+          "initial": {
+            "frame": 1224,
+            "room": 228,
+            "x": 134.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "final": {
+            "frame": 1264,
+            "room": 228,
+            "x": 189.359375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1225,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 1225,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1242,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1244,
+              "room": 228,
+              "room_slot1": 1
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "slidegate",
+          "inputs": [
+            [
+              20,
+              16
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              18,
+              32
+            ],
+            [
+              1,
+              160
+            ],
+            [
+              1,
+              161
+            ],
+            [
+              30,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1264,
+            "room": 228,
+            "x": 189.359375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "final": {
+            "frame": 1368,
+            "room": 228,
+            "x": 161.4375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1265,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 1265,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1318,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1341,
+              "event": "gate_crossing",
+              "threshold": 214,
+              "x": 212.2734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1343,
+              "event": "gate_crossing",
+              "threshold": 208,
+              "x": 205.7734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1345,
+              "event": "gate_crossing",
+              "threshold": 200,
+              "x": 199.2734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1348,
+              "event": "gate_crossing",
+              "threshold": 192,
+              "x": 190.7734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1351,
+              "event": "gate_crossing",
+              "threshold": 186,
+              "x": 185.078125,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1361,
+              "event": "gate_crossing",
+              "threshold": 170,
+              "x": 169.39453125,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "leftdoorapproach",
+          "inputs": [
+            [
+              100,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              80,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              2,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 1368,
+            "room": 228,
+            "x": 161.4375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1686,
+            "room": 229,
+            "x": 264.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1369,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1369,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1636,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1636,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": null
+        },
+        {
+          "name": "left229bomb",
+          "inputs": [
+            [
+              65,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 1686,
+            "room": 229,
+            "x": 264.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1843,
+            "room": 229,
+            "x": 182.0,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1687,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1687,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1687,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "trigger229bomb",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              20,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1843,
+            "room": 229,
+            "x": 182.0,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1944,
+            "room": 229,
+            "x": 134.0,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1844,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1844,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1844,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 14,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 25,
+              "before": 243,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 26,
+              "before": 241,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "climb229lower",
+          "inputs": [
+            [
+              65,
+              80
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              100,
+              64
+            ],
+            [
+              35,
+              80
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 1944,
+            "room": 229,
+            "x": 134.0,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2254,
+            "room": 229,
+            "x": 240.37890625,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1945,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1945,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1945,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "climb229middle",
+          "inputs": [
+            [
+              15,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              55,
+              96
+            ],
+            [
+              85,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 2254,
+            "room": 229,
+            "x": 240.37890625,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2474,
+            "room": 229,
+            "x": 197.90625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2255,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2255,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2255,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "upper229trigger",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              35,
+              32
+            ],
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              100,
+              80
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 2474,
+            "room": 229,
+            "x": 197.90625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2826,
+            "room": 229,
+            "x": 246.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2475,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2475,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2475,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 14,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 11,
+              "before": 243,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 12,
+              "before": 241,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "left229outer",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              150,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 2826,
+            "room": 229,
+            "x": 246.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3148,
+            "room": 229,
+            "x": 134.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2827,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2827,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2827,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            },
+            {
+              "frame": 2922,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                0
+              ]
+            },
+            {
+              "frame": 2923,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 6,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            },
+            {
+              "x": 7,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "outsideledge",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              15,
+              32
+            ],
+            [
+              145,
+              16
+            ]
+          ],
+          "initial": {
+            "frame": 3148,
+            "room": 229,
+            "x": 134.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3379,
+            "room": 229,
+            "x": 73.99609375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3149,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3149,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3149,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3179,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 5,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "descendouter",
+          "inputs": [
+            [
+              25,
+              32
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3379,
+            "room": 229,
+            "x": 73.99609375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3454,
+            "room": 229,
+            "x": 16.0,
+            "y": 291.68359375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3380,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3380,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3380,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "recovermetal",
+          "inputs": [
+            [
+              15,
+              0
+            ],
+            [
+              38,
+              16
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              25,
+              16
+            ],
+            [
+              65,
+              80
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3454,
+            "room": 229,
+            "x": 16.0,
+            "y": 291.68359375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3679,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3455,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3455,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3455,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3511,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 4,
+              "y": 27,
+              "before": 245,
+              "after": 0
+            },
+            {
+              "x": 5,
+              "y": 27,
+              "before": 245,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "collect229",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3679,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3829,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 2,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3680,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3680,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3680,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3682,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 2
+            }
+          ],
+          "collision_changes": []
+        }
+      ],
+      "identity": {
+        "rom_sha256": "d2f3f10181b3d9ff490bede7b46c077462ac1ba7fb43efdf436984df4b35c9c3",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "initial_save": "None",
+        "initial_state": "fullRenewJoint-100-final.ss"
+      },
+      "inherited_acceptance_blob": "a4cca011f7f5d2e3ada5600c116a1f6b5663e74c",
+      "qualification": "Continuation of accepted freshboot renewable joint228 checkpoint using corresponding ROM; no state loads after initial load, no RAM or ROM writes in this continuation. Acceptance is asserted only when accepted_left1up is true and the actual flag33 readback is set. The upstream fixture and source qualification remain inherited unchanged.",
+      "final": {
+        "frame": 3829,
+        "room": 229,
+        "x": 105.99609375,
+        "y": 440.99609375,
+        "hp": 6,
+        "ability": 17,
+        "flag23": 128,
+        "flag30": 64,
+        "flag32": 0,
+        "flag33": 2,
+        "flag34": 0,
+        "room_slot1": 0
+      },
+      "runtime_writes": [],
+      "accepted_left1up": true
+    },
+    {
+      "health_percent": 500,
+      "route": "left1up",
+      "initial": {
+        "frame": 0,
+        "room": 228,
+        "x": 472.35546875,
+        "y": 200.99609375,
+        "hp": 6,
+        "ability": 17,
+        "flag23": 128,
+        "flag30": 64,
+        "flag32": 0,
+        "flag33": 0,
+        "flag34": 0,
+        "room_slot1": 0
+      },
+      "segments": [
+        {
+          "name": "rise",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              35,
+              64
+            ],
+            [
+              20,
+              32
+            ],
+            [
+              35,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 0,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 110,
+            "room": 228,
+            "x": 454.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "bomb27",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              35,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 110,
+            "room": 228,
+            "x": 454.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 237,
+            "room": 228,
+            "x": 413.53125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 111,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 111,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 27,
+              "y": 7,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 27,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "descendmiddle",
+          "inputs": [
+            [
+              10,
+              128
+            ],
+            [
+              1,
+              129
+            ],
+            [
+              55,
+              128
+            ],
+            [
+              80,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 237,
+            "room": 228,
+            "x": 413.53125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 383,
+            "room": 228,
+            "x": 235.02734375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 238,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 238,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "leftdown",
+          "inputs": [
+            [
+              21,
+              16
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              100,
+              128
+            ],
+            [
+              35,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 383,
+            "room": 228,
+            "x": 235.02734375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 652,
+            "room": 228,
+            "x": 214.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 384,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 384,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "ladderdown",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              128
+            ]
+          ],
+          "initial": {
+            "frame": 652,
+            "room": 228,
+            "x": 214.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 767,
+            "room": 228,
+            "x": 264.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 653,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 653,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "bomb12",
+          "inputs": [
+            [
+              45,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 767,
+            "room": 228,
+            "x": 264.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1003,
+            "room": 228,
+            "x": 137.078125,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 768,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 768,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 911,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 992,
+              "room": 228,
+              "room_slot1": 0
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 11,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "climbgap",
+          "inputs": [
+            [
+              105,
+              80
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1003,
+            "room": 228,
+            "x": 137.078125,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1224,
+            "room": 228,
+            "x": 134.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1004,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1004,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1173,
+              "room": 228,
+              "room_slot1": 1
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "dashverify",
+          "inputs": [
+            [
+              5,
+              16
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              30,
+              16
+            ]
+          ],
+          "initial": {
+            "frame": 1224,
+            "room": 228,
+            "x": 134.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "final": {
+            "frame": 1264,
+            "room": 228,
+            "x": 189.359375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1225,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 1225,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1242,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1244,
+              "room": 228,
+              "room_slot1": 1
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "slidegate",
+          "inputs": [
+            [
+              20,
+              16
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              18,
+              32
+            ],
+            [
+              1,
+              160
+            ],
+            [
+              1,
+              161
+            ],
+            [
+              30,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1264,
+            "room": 228,
+            "x": 189.359375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 1
+          },
+          "final": {
+            "frame": 1368,
+            "room": 228,
+            "x": 161.4375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1265,
+              "room": 228,
+              "room_slot1": 1
+            },
+            {
+              "frame": 1265,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1318,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1341,
+              "event": "gate_crossing",
+              "threshold": 214,
+              "x": 212.2734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1343,
+              "event": "gate_crossing",
+              "threshold": 208,
+              "x": 205.7734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1345,
+              "event": "gate_crossing",
+              "threshold": 200,
+              "x": 199.2734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1348,
+              "event": "gate_crossing",
+              "threshold": 192,
+              "x": 190.7734375,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1351,
+              "event": "gate_crossing",
+              "threshold": 186,
+              "x": 185.078125,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1361,
+              "event": "gate_crossing",
+              "threshold": 170,
+              "x": 169.39453125,
+              "y": 136.99609375,
+              "animation": 13,
+              "room_slot1": 0
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "leftdoorapproach",
+          "inputs": [
+            [
+              100,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              80,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              2,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 1368,
+            "room": 228,
+            "x": 161.4375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1686,
+            "room": 229,
+            "x": 264.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1369,
+              "room": 228,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1369,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1636,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1636,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": null
+        },
+        {
+          "name": "left229bomb",
+          "inputs": [
+            [
+              65,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 1686,
+            "room": 229,
+            "x": 264.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1843,
+            "room": 229,
+            "x": 182.0,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1687,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1687,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1687,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "trigger229bomb",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              20,
+              32
+            ]
+          ],
+          "initial": {
+            "frame": 1843,
+            "room": 229,
+            "x": 182.0,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 1944,
+            "room": 229,
+            "x": 134.0,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1844,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1844,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1844,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 14,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 25,
+              "before": 243,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 26,
+              "before": 241,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "climb229lower",
+          "inputs": [
+            [
+              65,
+              80
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              100,
+              64
+            ],
+            [
+              35,
+              80
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 1944,
+            "room": 229,
+            "x": 134.0,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2254,
+            "room": 229,
+            "x": 240.37890625,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 1945,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 1945,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 1945,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "climb229middle",
+          "inputs": [
+            [
+              15,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              55,
+              96
+            ],
+            [
+              85,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 2254,
+            "room": 229,
+            "x": 240.37890625,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2474,
+            "room": 229,
+            "x": 197.90625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2255,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2255,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2255,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "upper229trigger",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              35,
+              32
+            ],
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              100,
+              80
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "initial": {
+            "frame": 2474,
+            "room": 229,
+            "x": 197.90625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 2826,
+            "room": 229,
+            "x": 246.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2475,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2475,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2475,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 12,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 14,
+              "y": 6,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 13,
+              "y": 7,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 12,
+              "y": 8,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 11,
+              "y": 9,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 9,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 10,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 11,
+              "before": 243,
+              "after": 0
+            },
+            {
+              "x": 8,
+              "y": 12,
+              "before": 241,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "left229outer",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              150,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 2826,
+            "room": 229,
+            "x": 246.0,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3148,
+            "room": 229,
+            "x": 134.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 2827,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 2827,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 2827,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                244
+              ]
+            },
+            {
+              "frame": 2922,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                244,
+                0
+              ]
+            },
+            {
+              "frame": 2923,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 6,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            },
+            {
+              "x": 7,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "outsideledge",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              15,
+              32
+            ],
+            [
+              145,
+              16
+            ]
+          ],
+          "initial": {
+            "frame": 3148,
+            "room": 229,
+            "x": 134.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3379,
+            "room": 229,
+            "x": 73.99609375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3149,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3149,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3149,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                244,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3179,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 5,
+              "y": 2,
+              "before": 244,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "descendouter",
+          "inputs": [
+            [
+              25,
+              32
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3379,
+            "room": 229,
+            "x": 73.99609375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3454,
+            "room": 229,
+            "x": 16.0,
+            "y": 291.68359375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3380,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3380,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3380,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": []
+        },
+        {
+          "name": "recovermetal",
+          "inputs": [
+            [
+              15,
+              0
+            ],
+            [
+              38,
+              16
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              25,
+              16
+            ],
+            [
+              65,
+              80
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              16
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3454,
+            "room": 229,
+            "x": 16.0,
+            "y": 291.68359375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3679,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3455,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3455,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3455,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                245,
+                245,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3511,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "collision_changes": [
+            {
+              "x": 4,
+              "y": 27,
+              "before": 245,
+              "after": 0
+            },
+            {
+              "x": 5,
+              "y": 27,
+              "before": 245,
+              "after": 0
+            }
+          ]
+        },
+        {
+          "name": "collect229",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "initial": {
+            "frame": 3679,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 0,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "final": {
+            "frame": 3829,
+            "room": 229,
+            "x": 105.99609375,
+            "y": 440.99609375,
+            "hp": 6,
+            "ability": 17,
+            "flag23": 128,
+            "flag30": 64,
+            "flag32": 0,
+            "flag33": 2,
+            "flag34": 0,
+            "room_slot1": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grab_values": [
+            0
+          ],
+          "room_slot_events": [
+            {
+              "frame": 3680,
+              "room": 229,
+              "room_slot1": 0
+            },
+            {
+              "frame": 3680,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 0
+            },
+            {
+              "frame": 3680,
+              "event": "tracked_229_tiles",
+              "coordinates": [
+                [
+                  4,
+                  27
+                ],
+                [
+                  5,
+                  27
+                ],
+                [
+                  5,
+                  2
+                ],
+                [
+                  6,
+                  2
+                ],
+                [
+                  7,
+                  2
+                ]
+              ],
+              "values": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "frame": 3682,
+              "event": "flags",
+              "flag23": 128,
+              "flag30": 64,
+              "flags32_34_masked": 2
+            }
+          ],
+          "collision_changes": []
+        }
+      ],
+      "identity": {
+        "rom_sha256": "2e58aea4401a89df524de4ba7138af6c1932d11826655078a398760513a9e565",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "initial_save": "None",
+        "initial_state": "fullRenewJoint-500-final.ss"
+      },
+      "inherited_acceptance_blob": "a4cca011f7f5d2e3ada5600c116a1f6b5663e74c",
+      "qualification": "Continuation of accepted freshboot renewable joint228 checkpoint using corresponding ROM; no state loads after initial load, no RAM or ROM writes in this continuation. Acceptance is asserted only when accepted_left1up is true and the actual flag33 readback is set. The upstream fixture and source qualification remain inherited unchanged.",
+      "final": {
+        "frame": 3829,
+        "room": 229,
+        "x": 105.99609375,
+        "y": 440.99609375,
+        "hp": 6,
+        "ability": 17,
+        "flag23": 128,
+        "flag30": 64,
+        "flag32": 0,
+        "flag33": 2,
+        "flag34": 0,
+        "room_slot1": 0
+      },
+      "runtime_writes": [],
+      "accepted_left1up": true
+    }
+  ],
+  "limits": [
+    "Only the left1Up native229 target is accepted. Do not transfer this gate to Spray32/AP3960508, food34/AP3960594, Warp approaches or generic ROOM_7_10 joins.",
+    "Other arrivals remain separately mapped. The middle arrival can be reached but does not grant this left-channel chest; the rightdoor source record is mapped but its Mirra traversal was not accepted.",
+    "No permission or evidence for production code changes, branch writes, merging or ROM/save distribution is implied by this artifact."
+  ]
+}

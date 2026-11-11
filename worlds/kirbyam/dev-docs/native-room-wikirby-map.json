@@ -627,12 +627,14 @@
       "object_list_index": 29,
       "ap_keys": [
         "REGION_RAINBOW_ROUTE/ROOM_1_41",
-        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT"
       ],
       "wiki_title": "Rainbow Route - Room 41",
       "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_41",
       "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Completion-index join; lower, inner/upper-left, top-right Mustard and east Moonlight compartments share this native room. Incoming native144/545 retain their separate physical sides."
     },
     {
       "native_id": 142,
@@ -995,7 +997,8 @@
       "completion_index": 89,
       "object_list_index": 89,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN"
       ],
       "wiki_title": "Peppermint Palace - Room 7",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_7",
@@ -1031,7 +1034,10 @@
       "completion_index": 92,
       "object_list_index": 92,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR"
       ],
       "wiki_title": "Peppermint Palace - Chest",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Chest",
@@ -1043,7 +1049,8 @@
       "completion_index": 93,
       "object_list_index": 93,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL"
       ],
       "wiki_title": "Peppermint Palace - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_5",
@@ -2157,12 +2164,13 @@
       "completion_index": 185,
       "object_list_index": 185,
       "ap_keys": [
-        "REGION_CABBAGE_CAVERN/ROOM_3_03"
+        "REGION_CABBAGE_CAVERN/ROOM_3_03",
+        "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT"
       ],
       "wiki_title": "Cabbage Cavern - Room 3",
       "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_3",
       "verification": "page",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Directed Normal Bomb routes join lower/right approaches; fresh upper-left entry is separate and returns only to512SUB. One physical RoomSanity check."
     },
     {
       "native_id": 530,
@@ -2743,8 +2751,8 @@
       ],
       "wiki_title": "Radish Ruins - Room 2",
       "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_2",
-      "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room; individual page rechecked 2026-11-09 (wikirby-room-crosscheck-followup.md)"
     },
     {
       "native_id": 622,
@@ -2868,10 +2876,11 @@
       "object_list_index": 72,
       "ap_keys": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_01",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
         "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP"
       ],
       "wiki_title": "Moonlight Mansion - Room 1",
       "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_1",
@@ -3146,12 +3155,12 @@
       "object_list_index": 79,
       "ap_keys": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_15",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN"
       ],
       "wiki_title": "Moonlight Mansion - Room 15",
       "wiki_url": "https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15",
       "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "note": "Completion-index join; AP compartments share this native room. Native 741 lower door enters canonical lower 742; its upper return door enters a distinct logical compartment with unknown prior outer-Bomb state. One generated room-check sink does not merge these arrivals."
     },
     {
       "native_id": 743,
@@ -3346,8 +3355,8 @@
       ],
       "wiki_title": "Olive Ocean - Room 21",
       "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_21",
-      "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room; individual page rechecked 2026-11-09 (wikirby-room-crosscheck-followup.md)"
     },
     {
       "native_id": 821,
@@ -3358,8 +3367,8 @@
       ],
       "wiki_title": "Olive Ocean - Room 22",
       "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_22",
-      "verification": "category",
-      "note": "Completion-index join; AP compartments share this native room"
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room; individual page rechecked 2026-11-09 (wikirby-room-crosscheck-followup.md)"
     },
     {
       "native_id": 822,

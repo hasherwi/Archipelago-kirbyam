@@ -1,0 +1,423 @@
+{
+  "baseline": {
+    "pr_head": "49ec2e22d0fe4b630750413c721a2af390a222c5",
+    "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_git_blob": "4d8ca561bf19893cbbc141e02f843b2afa9dad3d",
+    "base_patch_sha256": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea",
+    "patched_fixture_sha256": "300b18b66ac18a72b54b6db0f910fb884742247e9c6689960465a35f937e0830",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+  },
+  "fixture_changes": [
+    {
+      "offset": "0x2D8CB8",
+      "format": "4 little-endian uint16",
+      "values": [
+        113,
+        101,
+        101,
+        101
+      ]
+    },
+    {
+      "offset": "0x2D8CD0",
+      "format": "8 little-endian int32 in 24.8 fixed point",
+      "values_pixels": [
+        56,
+        80,
+        48,
+        80,
+        48,
+        80,
+        48,
+        80
+      ]
+    }
+  ],
+  "setup": "Apply exact inherited AP base patch to original USA ROM, then change only initial room/spawn arrays. Start P1 beside native room113 door; AI starts elsewhere. Cold blank SRAM. No terrain, enemy, attack, chest, or runtime code modifications beyond inherited AP patch.",
+  "runtime_memory_writes": [],
+  "inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 1086,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 1206,
+      "frames": 1,
+      "keys": 33
+    },
+    {
+      "start": 1207,
+      "frames": 2,
+      "keys": 32
+    },
+    {
+      "start": 1209,
+      "frames": 420,
+      "keys": 33
+    },
+    {
+      "start": 1629,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 1630,
+      "frames": 100,
+      "keys": 0
+    },
+    {
+      "start": 1730,
+      "frames": 260,
+      "keys": 32
+    },
+    {
+      "start": 1990,
+      "frames": 100,
+      "keys": 0
+    },
+    {
+      "start": 2090,
+      "frames": 30,
+      "keys": 128
+    },
+    {
+      "start": 2120,
+      "frames": 1,
+      "keys": 129
+    },
+    {
+      "start": 2121,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 2181,
+      "frames": 8,
+      "keys": 16
+    },
+    {
+      "start": 2189,
+      "frames": 1,
+      "keys": 32
+    },
+    {
+      "start": 2190,
+      "frames": 240,
+      "keys": 2
+    },
+    {
+      "start": 2430,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2460,
+      "frames": 240,
+      "keys": 2
+    },
+    {
+      "start": 2700,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2730,
+      "frames": 90,
+      "keys": 32
+    },
+    {
+      "start": 2820,
+      "frames": 169,
+      "keys": 32
+    },
+    {
+      "start": 2989,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 2990,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 3010,
+      "frames": 100,
+      "keys": 0
+    }
+  ],
+  "checkpoints": [
+    {
+      "label": "room113",
+      "frame": 1085,
+      "room": 113,
+      "x": 40.0,
+      "y": 72.99609375,
+      "hp": 6,
+      "ability": 0
+    },
+    {
+      "label": "entry",
+      "frame": 1206,
+      "room": 102,
+      "x": 1176.0,
+      "y": 120.99609375,
+      "hp": 6,
+      "ability": 0
+    },
+    {
+      "label": "approach",
+      "frame": 2181,
+      "room": 102,
+      "x": 534.0,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "after-inhale",
+      "frame": 2730,
+      "room": 102,
+      "x": 540.6484375,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "left-corridor",
+      "frame": 2820,
+      "room": 102,
+      "x": 427.7265625,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-position",
+      "frame": 2989,
+      "room": 102,
+      "x": 208.5546875,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-animation",
+      "frame": 3010,
+      "room": 102,
+      "x": 207.3125,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-open",
+      "frame": 3110,
+      "room": 102,
+      "x": 207.3125,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    }
+  ],
+  "observations": [
+    {
+      "phase": "room113",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "entry",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "approach",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "after-inhale",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "left-corridor",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "chest-position",
+      "native_chest_byte": 0,
+      "event_counter": 0,
+      "ring_source_pointers": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "chest-animation",
+      "native_chest_byte": 16,
+      "event_counter": 1,
+      "ring_source_pointers": [
+        "0x88d230c",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    },
+    {
+      "phase": "chest-open",
+      "native_chest_byte": 16,
+      "event_counter": 1,
+      "ring_source_pointers": [
+        "0x88d230c",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ]
+    }
+  ],
+  "collection_contract": {
+    "native_flag": 76,
+    "native_byte_address": "0x02038969",
+    "mask": "0x10",
+    "event_counter_address": "0x0203B08C",
+    "event_ring_address": "0x0203B090",
+    "expected_source_pointer": "0x088D230C",
+    "location_key": "MINOR_CHEST_MUSIC_NOTE_04",
+    "evidence": "Native chest byte changed 0 to16 and event counter0 to1 after Up at chest; first ring entry equals expected source. Both remain set at final checkpoint."
+  },
+  "outcome": "PASS: actual native113\u2192102 transition, Normal Kirby traversal and Heave-Ho disposal, Battle Notes chest collection, and exact local AP check event verified. Kirby survives with4HP and ability0.",
+  "scope_limits": [
+    "No AP server connection, server check acknowledgement, or item delivery tested.",
+    "Native chestFields RAM bit verified; battery persistence/reload not tested.",
+    "Fixture begins beside room113 door, not at game hub.",
+    "No ordinary-metal traversal rules or terrain changes."
+  ]
+}

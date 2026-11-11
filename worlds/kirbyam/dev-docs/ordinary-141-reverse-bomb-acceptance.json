@@ -1,0 +1,317 @@
+{
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": "Continuation of actual543\u2192141 lower-source route in ordinary-141-directed-burning-acceptance.json; unchanged objects/terrain. Resume actualshaft141 controller-earned state, clear onlyleftF5bank, discardBurning bySelect. Bombwall initially intact. No runtimewrites.",
+  "result": "Normal inner211.3203125,136.99609375\u2192floatviax201opening\u2192top-left201.1640625,21.00390625\u2192floatright306.6796875,21.00390625\u2192Bairpuff activates leftBomb(21,1)\u2192walk across newlycleared Bombwall\u2192Mustard-side top544.9140625,56.99609375,Normal6HP. This directly verifies reverse activation, not a previouslyopened Bombwall.",
+  "segments": [
+    {
+      "name": "freshreversebomb141",
+      "parent_controller_state": "actualshaft141",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1,
+          "frames": 12,
+          "keys": 0
+        },
+        {
+          "start": 13,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 14,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 64,
+          "frames": 80,
+          "keys": 0
+        },
+        {
+          "start": 144,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 145,
+          "frames": 50,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "normal-inner",
+          "frame": 195,
+          "room": 141,
+          "x": 211.3203125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0
+        }
+      ],
+      "writes": []
+    },
+    {
+      "name": "freshinnerclimb141",
+      "parent_controller_state": "freshreversebomb141",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 8,
+          "frames": 8,
+          "keys": 16
+        },
+        {
+          "start": 16,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 17,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 27,
+          "frames": 100,
+          "keys": 1
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 8,
+          "room": 141,
+          "x": 205.8203125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1",
+          "frame": 16,
+          "room": 141,
+          "x": 201.3203125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "2",
+          "frame": 17,
+          "room": 141,
+          "x": 201.2265625,
+          "y": 132.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "3",
+          "frame": 27,
+          "room": 141,
+          "x": 201.1640625,
+          "y": 130.08203125,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "4",
+          "frame": 127,
+          "room": 141,
+          "x": 201.1640625,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 0
+        }
+      ],
+      "writes": []
+    },
+    {
+      "name": "freshbombcross141",
+      "parent_controller_state": "freshinnerclimb141",
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 105,
+          "keys": 17
+        },
+        {
+          "start": 105,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 106,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 136,
+          "frames": 170,
+          "keys": 16
+        },
+        {
+          "start": 306,
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "start": 316,
+          "frames": 30,
+          "keys": 0
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "0",
+          "frame": 105,
+          "room": 141,
+          "x": 306.6796875,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "1",
+          "frame": 106,
+          "room": 141,
+          "x": 307.7109375,
+          "y": 21.15234375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "2",
+          "frame": 136,
+          "room": 141,
+          "x": 323.2734375,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "3",
+          "frame": 306,
+          "room": 141,
+          "x": 538.8203125,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "4",
+          "frame": 316,
+          "room": 141,
+          "x": 544.9140625,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "label": "5",
+          "frame": 346,
+          "room": 141,
+          "x": 544.9140625,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 0
+        }
+      ],
+      "writes": []
+    }
+  ],
+  "tile_observations": {
+    "freshreversebomb141": [
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 241
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 241
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "tile": 242
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      }
+    ],
+    "freshinnerclimb141": [
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 241
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 241
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "tile": 242
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      }
+    ],
+    "freshbombcross141": [
+      {
+        "x": 21,
+        "y": 1,
+        "tile": 0
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "tile": 0
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "tile": 0
+      },
+      {
+        "x": 27,
+        "y": 9,
+        "tile": 245
+      },
+      {
+        "x": 28,
+        "y": 10,
+        "tile": 245
+      }
+    ]
+  }
+}
+

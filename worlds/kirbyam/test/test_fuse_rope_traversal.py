@@ -1,5 +1,7 @@
 """Audited cannon/rope bindings, physical acquisition, and runtime policy contracts."""
 
+from .. import KirbyAmWorld
+
 from copy import deepcopy
 from dataclasses import replace
 import random
@@ -14,8 +16,8 @@ from ..data import data
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, starting_copy_abilities
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..traversal import CAPABILITY_ABILITIES, Grant, SourcePolicy
-from ..traversal_data import room_traversal_graph, room_traversal_targets
-from ..traversal_rules import graph_items, graph_succeeds, static_extra_witness
+from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
+from ..traversal_rules import graph_succeeds, static_extra_witness
 from .test_mini_traversal import make_world
 
 
@@ -40,13 +42,14 @@ ROPE_BINDINGS = {
 CANNON_PROVIDERS = frozenset({'Fire', 'Burning', 'Bomb', 'Laser', 'UFO', 'Master', 'Hammer'})
 
 
-def live_policy(weight, statues=False, pool=('Fire', 'Cutter', 'Laser', 'Bomb', 'Sword', 'Stone')):
+def live_policy(weight: int, statues: bool = False,
+                pool: tuple[str, ...] = ('Fire', 'Cutter', 'Laser', 'Bomb', 'Sword', 'Stone')) -> SourcePolicy:
     raw = build_enemy_copy_ability_policy(random.Random(427), 2, True, True,
                                           whitelist=pool, include_passive_enemies=True, no_ability_weight=weight)
     return SourcePolicy(raw, statues)
 
 
-def test_exact_ap_bindings_and_reviewed_census():
+def test_exact_ap_bindings_and_reviewed_census() -> None:
     fuse = room_traversal_targets('fuse')
     rope = room_traversal_targets('rope')
     assert {r['id']: (r['region'], r['exit']) for r in fuse} == FUSE_BINDINGS
@@ -56,7 +59,7 @@ def test_exact_ap_bindings_and_reviewed_census():
     assert sum(len(r['graphs']) for r in rope) >= 17
 
 
-def test_cannon_traversal_is_narrower_than_ignition_and_never_persistent():
+def test_cannon_traversal_is_narrower_than_ignition_and_never_persistent() -> None:
     assert CAPABILITY_ABILITIES['fuse'] == CANNON_PROVIDERS | {'Crash'}
     for row in room_traversal_targets('fuse'):
         local = room_traversal_graph(row['id'], 'local')
@@ -69,7 +72,7 @@ def test_cannon_traversal_is_narrower_than_ignition_and_never_persistent():
                     assert route.allowed_abilities and route.allowed_abilities <= CANNON_PROVIDERS
 
 
-def physical_exits(region):
+def physical_exits(region: str) -> set[str]:
     exits = set(data.regions[region].exits)
     for name in exits:
         if name.endswith('__ROOM_CHECK'):
@@ -77,7 +80,7 @@ def physical_exits(region):
     return {name for name in exits if not name.endswith('__ROOM_CHECK')}
 
 
-def test_mustard_compartments_and_olive_cannon_arrival_do_not_leak():
+def test_mustard_compartments_and_olive_cannon_arrival_do_not_leak() -> None:
     mustard = 'REGION_MUSTARD_MOUNTAIN/'
     assert physical_exits(mustard + 'ROOM_4_13') == {mustard + 'ROOM_4_14'}
     assert physical_exits(mustard + 'ROOM_4_13__LOGIC__CANNON_LEFT') == {
@@ -90,13 +93,13 @@ def test_mustard_compartments_and_olive_cannon_arrival_do_not_leak():
     assert not any(r.get('exit') == olive + 'ROOM_6_17' for r in room_traversal_targets('rope'))
 
 
-def test_radish_normal_bypass_needs_neither_fuse_nor_equipment():
+def test_radish_normal_bypass_needs_neither_fuse_nor_equipment() -> None:
     graph = replace(room_traversal_graph('fuse_502', 'local'), placements=())
     assert any(route.capability is None for route in graph.routes)
     assert graph_succeeds(graph, SourcePolicy({'mode': 0}), frozenset(), True, retries=False)
 
 
-def test_olive_chest_does_not_invent_a_behind_rope_kibble_source():
+def test_olive_chest_does_not_invent_a_behind_rope_kibble_source() -> None:
     row = next(r for r in room_traversal_targets('rope') if r['id'] == 'rope_553_26_7')
     for witness in row['graphs']:
         graph = room_traversal_graph(row['id'], witness)
@@ -110,8 +113,8 @@ def test_olive_chest_does_not_invent_a_behind_rope_kibble_source():
     ]
 
 
-def test_all_physical_source_identities_are_explicit_and_shared_consistently():
-    identities = {}
+def test_all_physical_source_identities_are_explicit_and_shared_consistently() -> None:
+    identities: dict[tuple[int, int], str] = {}
     for kind in ('fuse', 'rope'):
         for row in room_traversal_targets(kind):
             for witness in row['graphs']:
@@ -126,21 +129,21 @@ def test_all_physical_source_identities_are_explicit_and_shared_consistently():
 
 
 @pytest.mark.parametrize('ability', ['Fire', 'Bomb', 'Laser', 'UFO', 'Sword', 'Cupid', 'Cutter'])
-def test_new_provider_permission_items_are_progression(ability):
+def test_new_provider_permission_items_are_progression(ability: str) -> None:
     item = next(item for item in data.items.values() if item.label == ability + ' Ability')
     assert item.classification & ItemClassification.progression
     assert ability not in starting_copy_abilities(0)
 
 
 @pytest.mark.parametrize('mode', [0, 1, 2])
-def test_only_burning_permission_remains_starting(mode):
-    assert 'Burning' in starting_copy_abilities(mode)
+def test_fuse_and_rope_permissions_are_not_forced_starts(mode: int) -> None:
+    assert 'Burning' not in starting_copy_abilities(mode)
     assert 'Cutter' not in starting_copy_abilities(mode)
 
 
 @pytest.mark.parametrize('target', ['fuse_126', 'fuse_323', 'fuse_827'])
 @pytest.mark.parametrize('weight', [0, 99, 100])
-def test_ordinary_renewable_fuse_sources_need_positive_live_support(target, weight):
+def test_ordinary_renewable_fuse_sources_need_positive_live_support(target: str, weight: int) -> None:
     graph = room_traversal_graph(target, 'local')
     assert any(p.renewable and p.retry_evidence for p in graph.placements)
     policy = live_policy(weight, pool=('Fire', 'Stone'))
@@ -155,13 +158,17 @@ def test_ordinary_renewable_fuse_sources_need_positive_live_support(target, weig
     ('rope_143_23_14', 'statues_194'), ('rope_553_26_7', 'statues_191'),
     ('rope_227_20_12', 'statues_290_lower'), ('rope_228_11_21', 'statues_290'),
 ])
-def test_statue_carriers_survive_weight100_with_positive_provider_pool(target, witness, statues):
+def test_statue_carriers_survive_weight100_with_positive_provider_pool(
+    target: str,
+    witness: str,
+    statues: bool,
+) -> None:
     graph = room_traversal_graph(target, witness)
     assert graph_succeeds(graph, live_policy(100, statues), graph_items(graph), False, retries=True)
 
 
 @pytest.mark.parametrize('enabled', [False, True])
-def test_real_area_key_option_preserves_olive_source_path(enabled):
+def test_real_area_key_option_preserves_olive_source_path(enabled: bool) -> None:
     graph = room_traversal_graph('rope_553_26_7', 'statues_191', area_keys=enabled)
     expected = {'Olive Ocean - Hub Connection'} | ({'Olive Ocean - Area Key'} if enabled else set())
     assert graph_items(graph) == expected
@@ -172,11 +179,11 @@ def test_real_area_key_option_preserves_olive_source_path(enabled):
 
 
 @pytest.fixture(scope='module')
-def vanilla_world():
+def vanilla_world() -> KirbyAmWorld:
     return make_world(0, True)
 
 
-def test_all_four_chests_are_installed_and_require_physical_sources(vanilla_world):
+def test_all_four_chests_are_installed_and_require_physical_sources(vanilla_world: KirbyAmWorld) -> None:
     world = vanilla_world
     state = CollectionState(world.multiworld)
     for item in data.items.values():
@@ -190,7 +197,7 @@ def test_all_four_chests_are_installed_and_require_physical_sources(vanilla_worl
             assert not target.access_rule(state), row['id']
 
 
-def test_static_policy_uses_rom_assignments_without_forcing_sources():
+def test_static_policy_uses_rom_assignments_without_forcing_sources() -> None:
     raw = build_enemy_copy_ability_policy(random.Random(73), 1, True, True,
                                           whitelist=('Stone',), include_passive_enemies=True)
     before = deepcopy(raw)
@@ -205,7 +212,7 @@ def test_static_policy_uses_rom_assignments_without_forcing_sources():
 
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('statues', [False, True])
-def test_real_world_live_options_and_local_permission(gating, statues):
+def test_real_world_live_options_and_local_permission(gating: bool, statues: bool) -> None:
     world = make_world(2, gating, ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=100)
     assert bool(world.options.ability_randomization_statues.value) is statues
@@ -219,7 +226,7 @@ def test_real_world_live_options_and_local_permission(gating, statues):
     assert graph_succeeds(carrier, policy, graph_items(carrier) | permissions, gating, retries=True)
 
 
-def test_real_local_fuse_rule_needs_fire_permission_and_retains_ordinary_paths(vanilla_world):
+def test_real_local_fuse_rule_needs_fire_permission_and_retains_ordinary_paths(vanilla_world: KirbyAmWorld) -> None:
     world = vanilla_world
     state = CollectionState(world.multiworld)
     source, destination = FUSE_BINDINGS['fuse_126']
@@ -238,7 +245,7 @@ def test_real_local_fuse_rule_needs_fire_permission_and_retains_ordinary_paths(v
         assert world.multiworld.get_entrance(f'{source} -> {destination}', 1).access_rule(state)
 
 
-def test_joint_static_validation_rejects_bad_actual_assignment_without_rewriting():
+def test_joint_static_validation_rejects_bad_actual_assignment_without_rewriting() -> None:
     from ..peg_traversal import validate_peg_assignment
 
     raw = build_enemy_copy_ability_policy(random.Random(73), 1, True, True,
