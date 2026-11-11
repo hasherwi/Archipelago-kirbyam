@@ -48,9 +48,9 @@ def test_batafire_policy_and_permission_binding(
 ) -> None:
     if simulate_future_gate:
         simulate_burning_gating(monkeypatch)
-    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
+    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)
     row = next(row for row in room_traversal_targets("metal") if row["id"] == TARGET)
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(row, resolver)  # All assignments now require a reviewed OR witness.
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
     assert rules.static_extra_witness(resolver)
 
@@ -65,13 +65,15 @@ def test_batafire_policy_and_permission_binding(
         multiworld=SimpleNamespace(get_location=lambda name, player: target),
     )
     rules.install_extra_traversal_rules(world)
-    if not applies:
-        assert target.access_rule is original  # Unsupported assignments remain unvalidated.
     owned: set[str] = set()
-    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned)
-    assert target.access_rule(state) is (not (applies and simulate_future_gate))
+    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned,
+                            can_reach_region=lambda region, player: False)
+    assert not target.access_rule(state)  # Burning permission is now gated in production.
     owned.add("Burning Ability")
-    assert target.access_rule(state)
+    assert target.access_rule(state) is ("Burning" in resolver.grant(
+        "BATAFIRE", lambda ability: ability == "Burning").guaranteed)
+    owned.add("Smash Ability")
+    assert target.access_rule(state) is applies  # Mixed finite outcomes remain uncertain.
     state.base_rule = False
     assert not target.access_rule(state)
 
@@ -114,13 +116,11 @@ def test_only_reviewed_dry_burning_sequence(ability: str) -> None:
 
 def test_simulated_future_burning_unlock_cannot_unlock_its_own_chest(monkeypatch: pytest.MonkeyPatch) -> None:
     simulate_burning_gating(monkeypatch)
-    world = make_world(0, 1)  # type: ignore[no-untyped-call]
+    world = make_world(0, 1)
     multiworld = world.multiworld
     target = multiworld.get_location(data.locations[LOCATION].label, 1)
     item = world.create_item("Burning Ability")
-    # Classification/inventory removal is separate work. Only this fixture
-    # treats the chest item as progression so AP performs an advancement sweep.
-    item.classification = ItemClassification.progression
+    assert item.classification == ItemClassification.progression
     target.place_locked_item(item)
     multiworld.get_region("Menu", 1).connect(multiworld.get_region(OWNER, 1))
     state = CollectionState(multiworld)

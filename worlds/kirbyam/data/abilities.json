@@ -9,7 +9,7 @@
   },
   "Burning": {
     "runtime_ability_id": 3,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Cook": {
     "runtime_ability_id": 12,
@@ -87,7 +87,7 @@
   },
   "Stone": {
     "runtime_ability_id": 8,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Sword": {
     "runtime_ability_id": 18,

@@ -1,4 +1,11 @@
-"""Issue #957: fixed starting permissions are real AP inventory, never equipment."""
+"""Current Beam-only inventory and legacy six-item history remain distinct."""
+
+from collections.abc import Awaitable, Callable
+from typing import cast
+from ..client import KirbyAmClient
+
+from pathlib import Path
+from typing import Any
 from collections import Counter
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -20,7 +27,7 @@ STARTING_MASK = sum(1 << (item - 3860100) for item in STARTING_IDS)
 
 @pytest.mark.parametrize("gating", [0, 1])
 @pytest.mark.parametrize("explicit", [0, 1, 3])
-def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit):
+def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: bool, explicit: int) -> None:
     player = tmp_path / "player.yaml"
     player.write_text(
         "name: Starting Abilities\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
@@ -31,11 +38,11 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit)
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=957)
     decoded = load_multidata_from_archive(archive)
     inventory = Counter(decoded["precollected_items"][1])
-    expected_starts = STARTING_IDS - {3860106, 3860123, 3860104}
+    expected_starts = {3860107}  # Current automatic inventory, not the legacy history fixture.
     assert {code: inventory[code] for code in expected_starts} == {
         code: max(1, explicit) if code == 3860107 else 1 for code in expected_starts
     }
-    assert inventory[3860106] == inventory[3860123] == inventory[3860104] == 0
+    assert all(inventory[code] == 0 for code in STARTING_IDS - expected_starts)
     assert inventory[3860118] == 1  # Explicit Sword retained.
     assert inventory[3860026] == 2  # Unrelated multiplicity retained.
     locations = decoded["locations"][1]
@@ -50,10 +57,12 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path, gating, explicit)
 
 
 @pytest.mark.parametrize("gating", [0, 1])
-def test_bootstrap_preserves_initial_access_without_any_received_items(gating):
+def test_bootstrap_preserves_initial_access_without_any_received_items(gating: bool) -> None:
     world = SimpleNamespace(options=SimpleNamespace(ability_gating=SimpleNamespace(value=gating)))
-    gate = _initial_ability_gate_mask(world)
-    assert not gate & (STARTING_MASK & ~((1 << 6) | (1 << 23) | (1 << 4)))
+    gate = _initial_ability_gate_mask(cast(KirbyAmWorld, world))
+    assert not gate & (1 << 7)  # Only Beam is always permitted in a new patch.
+    assert bool(gate & (1 << 3)) == bool(gating)
+    assert bool(gate & (1 << 8)) == bool(gating)
     assert bool(gate & (1 << 23)) == bool(gating)
     assert bool(gate & (1 << 4)) == bool(gating)
     assert bool(gate & (1 << 6)) == bool(gating)
@@ -64,24 +73,28 @@ def test_bootstrap_preserves_initial_access_without_any_received_items(gating):
 @pytest.mark.asyncio
 @pytest.mark.parametrize("gating", [False, True])
 @pytest.mark.parametrize("normal_history", [False, True])
-async def test_stock_history_and_unlock_restoration(mock_bizhawk_context, gating, normal_history):
+async def test_stock_history_and_unlock_restoration(
+    mock_bizhawk_context: Any,
+    gating: bool,
+    normal_history: bool,
+) -> None:
     ctx = mock_bizhawk_context
-    client = await validated_client(ctx)
+    client = await cast(Callable[[Any], Awaitable[KirbyAmClient]], validated_client)(ctx)
     starting = [NetworkItem(code, -2, 0) for code in sorted(STARTING_IDS)]
     normal = [NetworkItem(3860026, 3960566, 1)] if normal_history else []
-    server, _ = await server_history(ctx, starting, normal)
+    server, _ = await cast(Callable[..., Awaitable[tuple[Any, Any]]], server_history)(ctx, starting, normal)
     packet = server.send_msgs.call_args.args[1][0]
     assert packet["index"] == 0 and packet["items"] == starting + normal
     ctx.items_received = packet["items"]
     ctx.slot_data = {"ability_gating": gating, "ability_unlock_items": {
         name: f"{name} Ability" for name in STARTING_COPY_ABILITIES
     }}
-    memory = {}
+    memory: dict[int, bytes] = {}
 
-    async def read(_ctx, requests):
+    async def read(_ctx: Any, requests: list[tuple[int, int, str]]) -> list[bytes]:
         return [memory.get(address, bytes(size)) for address, size, _domain in requests]
 
-    async def write(_ctx, requests):
+    async def write(_ctx: Any, requests: list[tuple[int, bytes, str]]) -> None:
         for address, value, _domain in requests:
             memory[address] = value
 
@@ -91,26 +104,26 @@ async def test_stock_history_and_unlock_restoration(mock_bizhawk_context, gating
             # Initial delivery, ROM/save-state loss, then a new client process.
             memory.clear()
             if reset == 2:
-                client = await validated_client(ctx)
+                client = await cast(Callable[[Any], Awaitable[KirbyAmClient]], validated_client)(ctx)
             client.on_package(ctx, 'Connected', {})
             client.on_package(ctx, 'ReceivedItems', packet)
             await client._sync_enemy_copy_ability_runtime_config(ctx)
             for _ in range(2):
                 client.on_package(ctx, 'ReceivedItems', packet)
                 await client._sync_enemy_copy_ability_runtime_config(ctx)
-            unlock = int.from_bytes(memory[client._transport_addr('ability_unlock_mask_runtime')], 'little')
-            gate = int.from_bytes(memory[client._transport_addr('ability_gate_mask_runtime')], 'little')
+            unlock = int.from_bytes(memory[cast(int, client._transport_addr('ability_unlock_mask_runtime'))], 'little')
+            gate = int.from_bytes(memory[cast(int, client._transport_addr('ability_gate_mask_runtime'))], 'little')
             assert unlock == STARTING_MASK
             assert gate & (STARTING_MASK & ~((1 << 6) | (1 << 23) | (1 << 4))) == 0
             assert bool(gate & (1 << 23)) == gating
             assert bool(gate) == gating
             # Runtime config never writes a held ability or any native Kirby field.
             assert set(memory) <= set(data.transport_ram_addresses.values())
-    lines = _run_abilities_command(ctx)
+    lines = cast(Callable[[Any], list[str]], _run_abilities_command)(ctx)
     assert all(name in lines for name in STARTING_COPY_ABILITIES)
 
 
-def test_starting_ownership_is_visible_to_collection_state_without_new_gates():
+def test_starting_ownership_is_visible_to_collection_state_without_new_gates() -> None:
     from BaseClasses import CollectionState, ItemClassification, MultiWorld
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
@@ -119,7 +132,8 @@ def test_starting_ownership_is_visible_to_collection_state_without_new_gates():
     state = CollectionState(multiworld)
     for name in STARTING_COPY_ABILITIES:
         item = world.create_item(f"{name} Ability")
-        expected = ItemClassification.progression if name in {"Cutter", "Mini", "Wheel"} else ItemClassification.useful
+        expected = (ItemClassification.progression if name in {"Cutter", "Mini", "Wheel", "Stone", "Burning"}
+                    else ItemClassification.useful)
         assert item.classification == expected
         assert not state.has(item.name, 1)
         assert world.collect(state, item)

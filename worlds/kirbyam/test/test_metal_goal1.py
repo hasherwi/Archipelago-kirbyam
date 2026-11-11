@@ -45,10 +45,10 @@ def test_partial_source_binding_matrix(
     monkeypatch: pytest.MonkeyPatch, mode: int, minibosses: bool, pool: list[str] | None,
     weight: int, applies: bool, gating: bool, enabled: bool, minimal: bool,
 ) -> None:
-    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
+    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)
     row = target_row()
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(row, resolver)  # All assignments now require a reviewed OR witness.
     assert rules.static_extra_witness(resolver)
 
     def original_rule(state: Any) -> bool:
@@ -71,13 +71,15 @@ def test_partial_source_binding_matrix(
         ), multiworld=SimpleNamespace(get_location=get_location),
     )
     rules.install_extra_traversal_rules(world)
-    if not applies or not enabled:
+    if not enabled:
         assert target.access_rule is original_rule  # Unreviewed is not synonymous with impossible or proven.
     owned: set[str] = set()
-    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned)
-    assert target.access_rule(state) is (not (applies and enabled and gating))
-    owned.add("Smash Ability")
-    assert target.access_rule(state)
+    state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned,
+                            can_reach_region=lambda region, player: False)
+    assert target.access_rule(state) is (not enabled or (applies and not gating))
+    owned.update({"Smash Ability", "Burning Ability"})
+    # Own both outcomes to preserve the finite mixed-pool uncertainty case.
+    assert target.access_rule(state) is (not enabled or applies)
     state.base_rule = False
     assert not target.access_rule(state)
 
@@ -116,7 +118,7 @@ def test_source_behind_metal_or_inaccessible_arena_cannot_bootstrap_chest() -> N
 
 @pytest.mark.parametrize("gating", [0, 1])
 def test_real_world_rule_is_local_to_chest_not_goal_door(gating: int) -> None:
-    world = make_world(0, gating)  # type: ignore[no-untyped-call]
+    world = make_world(0, gating)
     state = CollectionState(world.multiworld)
     target = world.multiworld.get_location(data.locations[LOCATION].label, 1)
     assert target.access_rule(state) is (not gating)
@@ -164,7 +166,7 @@ def test_chest_side_does_not_create_an_unreviewed_reverse_route() -> None:
 
 
 def test_smash_unlock_in_its_own_chest_cannot_collect_itself() -> None:
-    world = make_world(0, 1)  # type: ignore[no-untyped-call]
+    world = make_world(0, 1)
     multiworld = world.multiworld
     target = multiworld.get_location(data.locations[LOCATION].label, 1)
     target.place_locked_item(world.create_item("Smash Ability"))
@@ -182,3 +184,12 @@ def test_smash_unlock_in_its_own_chest_cannot_collect_itself() -> None:
     assert target.can_reach(state)
     state.sweep_for_advancements(locations=[target])
     assert target in state.advancements
+
+
+def test_finite_smash_pool_gate_filter_is_distinct_from_mixed_uncertainty() -> None:
+    graph = room_traversal_graph(TARGET, 'local')
+    resolver = policy(2, pool=['Smash', 'Burning'], weight=0)
+    target, = graph.required_targets
+    assert graph.evaluate(resolver, frozenset({'Smash Ability'}), True).reaches(target)
+    assert not graph.evaluate(resolver, frozenset({'Smash Ability', 'Burning Ability'}), True).reaches(target)
+    assert not graph.evaluate(resolver, frozenset(), True).reaches(target)

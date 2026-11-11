@@ -3,7 +3,7 @@
   "baseline_commit": "1cdde1ad93897ed01e76398a3dc749dd2152591e",
   "purpose": "Exhaustive F5 cluster-to-current-AP-target worklist. A category describes what needs review; it does not authorize a gate or certify accessibility.",
   "classification_basis": "Native F5 collision coordinates, native-to-AP mapping, WiKirby prose/composites, and bounded native-source role checks. See the linked role review for evidence levels and unresolved route questions. Visible artwork alone is not the metal definition.",
-  "implementation_status": "Native 557 Goal 1 and native 176 Goal 2 still use conditional local-source witnesses. The three native 141 rows and two clean native 742 rows now OR unchanged finite local sources with real hub-statue carriers and remain closed if none succeeds. The 141 reverse alternatives are ordinary lower-destination bypasses, not fresh reverse attacks; native 742 upper-return behavior remains unvalidated. Native 707, 708, 216, 537, 205, 228 and 229 have their documented unconditional source-backed targets. Native 529 has directed Normal Bomb/swim routes with all eight F5 cells intact; fresh upper-left arrival is separate. Individual records retain their exact fixture, source, health and joint-completion qualifications. No full AP or direct 1 HP replay is claimed. Starting Stone and Burning removal remains blocked by the remaining route and option audit.",
+  "implementation_status": "Current reconstructed candidate: native176 and557 OR unchanged finite local witnesses with guarded permanent Burning sources;825 has corresponding permanent Ice alternatives. Reviewed141/742 and707/708/216/537/205/228/229 source-backed targets remain intact. The unsupported742 upper-return Warp alias is removed.502/510/532/736 now have hash-preserved environmental mechanism or directed bypass evidence, without invented copy gates. Optional non-AP and scenery clusters remain separately classified, not generic providers. Beam-only starts are under fresh release validation; no lost-workspace test result is reused. Native source/carrier/suffix qualifications and no directAP1HP claim remain explicit.",
   "categories": {
     "ap_exit": "A directed AP edge may need metal traversal; entry/source/geometry still require acceptance.",
     "ap_target": "A specific AP item check may be protected; source and target identity still require acceptance.",
@@ -251,8 +251,8 @@
         {
           "id": "176:16,35",
           "classification": "ap_target",
-          "status": "conditional_source_witness",
-          "note": "Conditional Burning witness: actual175 entry and Normal approach; native defeated-Batafire source and scroll-boundary release contracts; disclosed post-defeat essence/boundary fixture proves airborne horizontal charge and exact AP chest event. No actual defeat/acquisition replay or other source-policy claim.",
+          "status": "reviewed_source_witness",
+          "note": "Conditional Burning witness: actual175 entry and Normal approach; native defeated-Batafire source and scroll-boundary release contracts; disclosed post-defeat essence/boundary fixture proves airborne horizontal charge and exact AP chest event. No actual defeat/acquisition replay or other source-policy claim. Reconstructed permanent-statue Burning OR alternatives retain exact hub guards and directed carrier geometry; original finite witness remains unchanged. See goal-burning-reconstruction.md for layered native fixture and local-evidence qualifications.",
           "tile_count": 6,
           "bounds": [
             16,
@@ -261,10 +261,10 @@
             36
           ],
           "accepted_target": "metal_176_goal2_drink",
-          "requires_guaranteed_source": {
-            "source_key": "BATAFIRE",
-            "ability": "Burning"
-          }
+          "accepted_evidence": [
+            "goal-burning-reconstruction.md",
+            "goal-burning-native-evidence-manifest.json"
+          ]
         }
       ]
     },
@@ -879,9 +879,9 @@
       "clusters": [
         {
           "id": "502:60,5",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "REGION_RADISH_RUINS/ROOM_8_17; ordinary door at native(74,5), optional fuse cannon also reaches native525. Do not impose a new metal gate yet. The apparent overhead gap needs bounded native collision/normal-flight confirmation; map pixels alone do not prove top-of-room collision clearance. No claim that the optional cannon or fuse is required.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Both actual524 left and617 return arrivals reach actual525 as Normal over intact metal at100/500 health. Optional fuse cannon is not required. Earlier approach inside524/617 remains separate.",
           "tile_count": 3,
           "bounds": [
             60,
@@ -889,7 +889,12 @@
             62,
             5
           ],
-          "role_review_cluster_id": "502:60,5"
+          "role_review_cluster_id": "502:60,5",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-502-normal-left-overhead-acceptance.json",
+            "ordinary-502-normal-return-overhead-acceptance.json"
+          ]
         }
       ]
     },
@@ -913,8 +918,8 @@
         {
           "id": "510:8,28",
           "classification": "ap_target",
-          "status": "pending_route_acceptance",
-          "note": "MINOR_CHEST_CABBAGE_CAVERN_3_09 at approximately (6,28). The corridor is one tile high in the image; native crouch/attack geometry and lower-right bomb-block approach need acceptance. Do not replace the existing peg witness or AND metal onto it. Upper-peg exit path may allow returning upward; no one-way escape requirement inferred.",
+          "status": "existing_mechanism_witness",
+          "note": "The existing source-aware Stone peg path descends directly to chest53 with all10 F5 intact; no additional metal strike is needed. Separate Normal509->501 and501->509 routes are proved with intact peg/metal. The imported Stone fixture is not a production source or a combined chest-plus-exit replay.",
           "tile_count": 10,
           "bounds": [
             8,
@@ -922,7 +927,12 @@
             17,
             28
           ],
-          "role_review_cluster_id": "510:8,28"
+          "role_review_cluster_id": "510:8,28",
+          "role_review_classification": "ap_target",
+          "accepted_evidence": [
+            "ordinary-510-stone-peg-chest-acceptance.json",
+            "ordinary-510-normal-exits-acceptance-sanitized.json"
+          ]
         }
       ]
     },
@@ -1110,9 +1120,9 @@
       "clusters": [
         {
           "id": "532:3,18",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "REGION_RAINBOW_ROUTE/ROOM_1_27 -> ROOM_1_27_UPPER_LEFT -> ROOM_1_28. Role and cannon alignment only; no controller launch or ability-source witness accepted here. Reverse entry fromRoom28 must be treated separately, rather than requiring metal in both directions.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Original cannon from actual139/main or571 arrival breaks all16 F5 and reaches actual138 (APRoom1_28), no copy permission. Fresh138 return uses Bomb10,8 to descend to571 with F5 intact. No reverse destruction assumption.",
           "tile_count": 16,
           "bounds": [
             3,
@@ -1120,7 +1130,12 @@
             10,
             19
           ],
-          "role_review_cluster_id": "532:3,18"
+          "role_review_cluster_id": "532:3,18",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-532-normal-cannon-exit-acceptance.json",
+            "ordinary-532-fresh-direction-737-return-audit.json"
+          ]
         }
       ]
     },
@@ -1225,8 +1240,8 @@
         {
           "id": "557:10,18",
           "classification": "ap_target",
-          "status": "conditional_source_witness",
-          "note": "Conditional Smash witness: actual entry/controller arena access, native defeated-Hand source contract and capture corridor, isolated AP-patched grounded Hammer swings and chest event. No complete actual-source replay or other provider/policy claim.",
+          "status": "reviewed_source_witness",
+          "note": "Conditional Smash witness: actual entry/controller arena access, native defeated-Hand source contract and capture corridor, isolated AP-patched grounded Hammer swings and chest event. No complete actual-source replay or other provider/policy claim. Reconstructed permanent-statue Burning OR alternatives retain exact hub guards and directed carrier geometry; original finite witness remains unchanged. See goal-burning-reconstruction.md for layered native fixture and local-evidence qualifications.",
           "tile_count": 14,
           "bounds": [
             10,
@@ -1235,10 +1250,10 @@
             20
           ],
           "accepted_target": "metal_557_goal1_tomato",
-          "requires_guaranteed_source": {
-            "source_key": "MASTER_HAND",
-            "ability": "Smash"
-          }
+          "accepted_evidence": [
+            "goal-burning-reconstruction.md",
+            "goal-burning-native-evidence-manifest.json"
+          ]
         }
       ]
     },
@@ -1462,9 +1477,9 @@
       "clusters": [
         {
           "id": "736:4,1",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "REGION_CARROT_CASTLE/ROOM_5_11, upper-left door approximately(1,2). Mandatory-vs-shortcut role unresolved: retain as exit-related pending native collision/entry review, not a certified mandatory metal gate. This cluster is not on the initial center cannon ring.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Actual735 arrival uses native NW cannon self-transition and original Gordo maze to actual737 as Normal at100/500, retaining F5. Native737 has no return door to736.",
           "tile_count": 2,
           "bounds": [
             4,
@@ -1472,13 +1487,18 @@
             5,
             1
           ],
-          "role_review_cluster_id": "736:4,1"
+          "role_review_cluster_id": "736:4,1",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-736-normal-nw-exit-acceptance.json",
+            "ordinary-532-fresh-direction-737-return-audit.json"
+          ]
         },
         {
           "id": "736:19,10",
-          "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "REGION_CARROT_CASTLE/ROOM_5_11 via northwest cannon branch. Native source/transition audit, not controller shot acceptance. Exact northwest destination spawn is not supplied in this pass; do not add a copy-ability requirement.",
+          "classification": "bypass",
+          "status": "existing_normal_bypass",
+          "note": "Native NW cannon self-transition bypasses this bank before the original maze to737. Continuous100/500 Normal proof keeps sampled F5 intact; no copy-metal gate.",
           "tile_count": 3,
           "bounds": [
             19,
@@ -1486,7 +1506,12 @@
             20,
             11
           ],
-          "role_review_cluster_id": "736:19,10"
+          "role_review_cluster_id": "736:19,10",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-736-normal-cannon-branches.json",
+            "ordinary-736-normal-nw-exit-acceptance.json"
+          ]
         },
         {
           "id": "736:23,10",
@@ -1575,8 +1600,8 @@
         {
           "id": "736:23,18",
           "classification": "ap_exit",
-          "status": "pending_route_acceptance",
-          "note": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1 through the lower Mini corridor. Native source/transition audit, not controller shot acceptance. Cannon clearance is separate from the later Mini requirement; no copy-ability metal gate should be inferred.",
+          "status": "existing_mechanism_witness",
+          "note": "Actual735 entry -> South cannon -> original Minny capture -> Mini corridor ->739 Vitality chest83 is proved at100/500 with no damage. Existing Mini source assignment and permission predicates remain required. This is not a Normal chest bypass or arbitrary arrival join.",
           "tile_count": 1,
           "bounds": [
             23,
@@ -1584,7 +1609,12 @@
             23,
             18
           ],
-          "role_review_cluster_id": "736:23,18"
+          "role_review_cluster_id": "736:23,18",
+          "role_review_classification": "ap_exit",
+          "accepted_evidence": [
+            "ordinary-736-normal-cannon-branches.json",
+            "ordinary-736-mini-chest-acceptance.json"
+          ]
         },
         {
           "id": "736:32,18",

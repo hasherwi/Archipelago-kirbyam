@@ -61,10 +61,8 @@ def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
 
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Cutter, Mini and Wheel use source-backed progression in every mode."""
-    return tuple(
-        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Cutter", "Mini", "Wheel"}
-    )
+    """Only Beam is forced; other abilities use reviewed physical-source logic."""
+    return ("Beam",)
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")

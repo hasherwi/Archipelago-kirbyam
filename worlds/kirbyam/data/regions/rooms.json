@@ -855,10 +855,6 @@
           "kind": "metal",
           "native_room": 557,
           "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01",
-          "requires_guaranteed_source": {
-            "source_key": "MASTER_HAND",
-            "ability": "Smash"
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -919,10 +915,152 @@
               "required_targets": [
                 "metal_557_goal1_tomato:chest"
               ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_557_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_557_carried:140",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 190 door 0x879ce4 -> 140, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_557_carried:chest"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_557_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_557_carried:140",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 190 door 0x879ce4 -> 140, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_557_carried:chest"
+              ]
             }
           }
         }
-      ]
+      ],
+      "graph_parts": {
+        "metal_557_permanent_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_557_carried:140",
+              "native_room": 140
+            },
+            {
+              "id": "metal_557_carried:108",
+              "native_room": 108
+            },
+            {
+              "id": "metal_557_carried:110",
+              "native_room": 110
+            },
+            {
+              "id": "metal_557_carried:554",
+              "native_room": 554
+            },
+            {
+              "id": "metal_557_carried:555",
+              "native_room": 555
+            },
+            {
+              "id": "metal_557_carried:556",
+              "native_room": 556
+            },
+            {
+              "id": "metal_557_carried:557",
+              "native_room": 557
+            },
+            {
+              "id": "metal_557_carried:chest",
+              "native_room": 557
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_557_carried:140",
+              "to": "metal_557_carried:108",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 140 door 0x878ffc -> 108. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:108",
+              "to": "metal_557_carried:110",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 108 door 0x87847a -> 110. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:110",
+              "to": "metal_557_carried:554",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 110 door 0x878f42 -> 554. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:554",
+              "to": "metal_557_carried:555",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 554 door 0x87b30c -> 555. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:555",
+              "to": "metal_557_carried:556",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 555 door 0x87bdee -> 556. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:556",
+              "to": "metal_557_carried:557",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 556 door 0x87c31c -> 557. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:557",
+              "to": "metal_557_carried:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/goal-burning-reconstruction.md: native 557 retained Burning defeats original boss, releases arena, breaks the fresh bank and collects the chest at 100/500% enemy health. Layered source/carrier and combat fixtures, not one uninterrupted source-to-check replay."
+              },
+              "evidence": "Atomic same-room retained Burning action. No source or dropped-star recovery. Terminal chest does not export equipment or authorize a goal exit."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2": {
@@ -945,10 +1083,6 @@
           "kind": "metal",
           "native_room": 176,
           "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01",
-          "requires_guaranteed_source": {
-            "source_key": "BATAFIRE",
-            "ability": "Burning"
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -1009,10 +1143,142 @@
               "required_targets": [
                 "metal_176_goal2_drink:chest"
               ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_176_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_194",
+                  "to": "metal_176_carried:127",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 194 door 0x87aaec -> 127, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_176_carried:chest"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_176_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_194",
+                  "to": "metal_176_carried:127",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 194 door 0x87aaec -> 127, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_176_carried:chest"
+              ]
             }
           }
         }
-      ]
+      ],
+      "graph_parts": {
+        "metal_176_permanent_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_176_carried:127",
+              "native_room": 127
+            },
+            {
+              "id": "metal_176_carried:504",
+              "native_room": 504
+            },
+            {
+              "id": "metal_176_carried:174",
+              "native_room": 174
+            },
+            {
+              "id": "metal_176_carried:173",
+              "native_room": 173
+            },
+            {
+              "id": "metal_176_carried:175",
+              "native_room": 175
+            },
+            {
+              "id": "metal_176_carried:176",
+              "native_room": 176
+            },
+            {
+              "id": "metal_176_carried:chest",
+              "native_room": 176
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_176_carried:127",
+              "to": "metal_176_carried:504",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 127 door 0x87a036 -> 504. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:504",
+              "to": "metal_176_carried:174",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 504 door 0x87acd4 -> 174. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:174",
+              "to": "metal_176_carried:173",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 174 door 0x880286 -> 173. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:173",
+              "to": "metal_176_carried:175",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 173 door 0x88011e -> 175. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:175",
+              "to": "metal_176_carried:176",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 175 door 0x880934 -> 176. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:176",
+              "to": "metal_176_carried:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/goal-burning-reconstruction.md: native 176 retained Burning defeats original boss, releases arena, breaks the fresh bank and collects the chest at 100/500% enemy health. Layered source/carrier and combat fixtures, not one uninterrupted source-to-check replay."
+              },
+              "evidence": "Atomic same-room retained Burning action. No source or dropped-star recovery. Terminal chest does not export equipment or authorize a goal exit."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3": {
@@ -8134,10 +8400,6 @@
           "kind": "block",
           "native_room": 825,
           "location": "MINOR_CHEST_MUSIC_NOTE_10",
-          "requires_guaranteed_source": {
-            "source_key": "MR_FROSTY",
-            "ability": "Ice"
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -8200,10 +8462,145 @@
                   "acquisition_evidence": "Distinct native target at (528,136), finite instance. Swallowing consumes it and cannot also produce a projectile."
                 }
               ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "frozen_825_permanent_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_890",
+                  "to": "frozen_825_permanent:811",
+                  "room_transition": true,
+                  "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "frozen_825_permanent:chest"
+              ]
+            },
+            "peppermint290_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "frozen_825_permanent_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_890",
+                  "to": "frozen_825_permanent:811",
+                  "room_transition": true,
+                  "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+                }
+              ],
+              "starts": [
+                "hub_290"
+              ],
+              "required_targets": [
+                "frozen_825_permanent:chest"
+              ]
             }
           }
         }
-      ]
+      ],
+      "graph_parts": {
+        "frozen_825_permanent_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "frozen_825_permanent:811",
+              "native_room": 811
+            },
+            {
+              "id": "frozen_825_permanent:829",
+              "native_room": 829
+            },
+            {
+              "id": "frozen_825_permanent:814",
+              "native_room": 814
+            },
+            {
+              "id": "frozen_825_permanent:831",
+              "native_room": 831
+            },
+            {
+              "id": "frozen_825_permanent:825",
+              "native_room": 825
+            },
+            {
+              "id": "frozen_825_permanent:launch",
+              "native_room": 825
+            },
+            {
+              "id": "frozen_825_permanent:chest",
+              "native_room": 825
+            }
+          ],
+          "routes": [
+            {
+              "from": "frozen_825_permanent:811",
+              "to": "frozen_825_permanent:829",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:829",
+              "to": "frozen_825_permanent:814",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:814",
+              "to": "frozen_825_permanent:831",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:831",
+              "to": "frozen_825_permanent:825",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:825",
+              "to": "frozen_825_permanent:launch",
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage. Original Frosty defeated with retained Ice and original ice-cube projectiles; no Frosty acquisition or source refresh."
+            },
+            {
+              "from": "frozen_825_permanent:launch",
+              "to": "frozen_825_permanent:chest",
+              "capability": "frozen_enemy_hit",
+              "uses_object": "0x088CD318",
+              "frozen_enemy_evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage. Freeze the distinct original Waddle, kick through wall into switch, cross temporary door and collect chest66/music1024. Atomic timed suffix; no persistent event.",
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            }
+          ],
+          "sources": [
+            {
+              "id": "0x088CD318",
+              "node": "frozen_825_permanent:launch",
+              "source_key": "WADDLE_DEE",
+              "acquisition_evidence": "Original finite projectile target; swallowing consumes the same identity and cannot also create a projectile."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {

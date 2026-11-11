@@ -38,15 +38,10 @@ def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 
 def goal2_ice_is_progression(world: Any) -> bool:
-    """Only the enabled, guaranteed-Frosty chest rule needs an Ice permission."""
-    raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if not isinstance(raw, dict) or not world._ability_gating_enabled():
-        return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_MUSIC_NOTE_10"].label, world.player)
-    except KeyError:
-        return False
-    return SourcePolicy(raw).grant("MR_FROSTY", lambda _: True).guaranteed == frozenset({"Ice"})
+    """Classify the enabled physical chest before region creation or precollection."""
+    return (world._ability_gating_enabled()
+            and bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
+            and data.locations["MINOR_CHEST_MUSIC_NOTE_10"].source_rom_offset is not None)
 
 
 def static_extra_witness(policy: SourcePolicy) -> bool:

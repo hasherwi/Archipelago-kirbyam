@@ -31,12 +31,12 @@ PROFILES = (
 )
 
 
-# One known accepted minimal seed for every mode/gating pair. The CI safeguard
-# lane must exercise playable archives as well as correctly refused unsafe fills.
-# Profile1 shuffled/gating0 places the Moonlight connection behind its accepted
-# carrier after the708 correction. Keep its refusal below, and require profile0
-# for that accepted-output mode/gating pair instead of weakening the guard.
-REQUIRED_MINIMAL_ARCHIVES = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (0, 2, 1), (1, 2, 0)})
+# Finite accepted samples after Beam-only starts and the source-backed goal rules.
+# Profile0 shuffled/gating1 and profile1 random/gating0 now have unsafe minimal
+# fills. Keep those refusals; profile0 supplies random/gating0, while the separate
+# seed105103 test supplies shuffled/gating1 without changing any option or guard.
+REQUIRED_MINIMAL_ARCHIVES = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
+EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({(0, 1, 1), (1, 2, 0)})
 
 
 def assert_generation_contract(
@@ -56,7 +56,7 @@ def assert_generation_contract(
     assert not automatic.intersection(placed)
     assert {code: placed[code] for code in gateable} == {code: int(gating) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
-    assert _gate_words(archive)[player] == expected_gate  # type: ignore[no-untyped-call]
+    assert _gate_words(archive)[player] == expected_gate
     assert set(decoded["slot_data"][player]["ability_gateable_abilities"]) == (
         set(GATEABLE_ENEMY_COPY_ABILITIES) if gating else set())
     began = perf_counter()
@@ -112,7 +112,7 @@ def test_generated_all_check_smoke_matrix(
         "ability_randomization_boss_spawns": bosses, "room_sanity": rooms, "area_keys": keys,
     }
     try:
-        multiworld, decoded, archive = _generate(  # type: ignore[no-untyped-call]
+        multiworld, decoded, archive = _generate(
             monkeypatch, tmp_path, 105100 + profile, [options],
         )
     except KirbyAmCheckAccessibilityError as error:
@@ -127,6 +127,7 @@ def test_generated_all_check_smoke_matrix(
         record_property("generation_outcome", "rejected_unsafe_fill")
         record_property("generation_error", str(error))
         return
+    assert accessibility != "minimal" or (profile, mode, gating) not in EXPECTED_REFUSED_MINIMAL_ARCHIVES
     record_property("generation_outcome", "all_checks_reachable")
     audit, elapsed = assert_generation_contract(multiworld, decoded, archive, 1)
     record_property("all_check_audit_seconds", elapsed)
@@ -135,7 +136,44 @@ def test_generated_all_check_smoke_matrix(
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
 
 
-def test_seed105101_refuses_moonlight_connection_behind_its_accepted_carrier(
+def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    # This exact old refusal is intentionally retained as an accepted-output
+    # regression. The new item ordering places Rainbow East here, not Moonlight.
+    options = {
+        "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 99, "ability_randomization_statues": 1,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 1,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 1, "area_keys": 0,
+    }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105101, [options])
+    location = multiworld.get_location("Room 2-05", 1)
+    assert location.item and location.item.name == "Rainbow Route East - Hub Connection"
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+
+
+def test_seed105103_supplies_accepted_shuffled_gated_minimal_archive(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    # First additional seed in the bounded probe succeeded. All options match
+    # profile0; only seed changes. This is finite evidence, not universal safety.
+    options = {
+        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
+    }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105103, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+    # Every mode/gating pair still has a mandatory accepted minimal archive.
+    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} | {(1, 1)} == {
+        (mode, gating) for mode in range(3) for gating in range(2)}
+
+
+def test_seed105100_refuses_smash_permission_behind_its_own_peg(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     original = check_accessibility.validate_all_checks
@@ -144,22 +182,29 @@ def test_seed105101_refuses_moonlight_connection_behind_its_accepted_carrier(
     def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
         state = CollectionState(multiworld)
         state.sweep_for_advancements()
-        location = multiworld.get_location("Room 2-05", 1)
-        assert location.item and location.item.name == "Moonlight Mansion - Hub Connection"
+        location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
+        assert location.item and location.item.name == "Smash Ability"
+        assert not state.has("Smash Ability", 1)
         assert not location.can_reach(state)
-        assert not state.has("Moonlight Mansion - Hub Connection", 1)
         assert location.can_reach(multiworld.get_all_state())
+        # The selected local source needs this very permission. An otherwise
+        # valid peg-breaking permission is not a substitute for its assignment.
+        for ability, reaches in (("Stone", False), ("Hammer", False), ("Smash", True)):
+            trial = state.copy()
+            trial.collect(multiworld.worlds[1].create_item(ability + " Ability"), prevent_sweep=True)
+            trial.sweep_for_advancements()
+            assert location.can_reach(trial) is reaches
         inspected.append(True)
         original(multiworld, players)
 
     monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
     options = {
-        "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
-        "ability_randomization_no_ability_weight": 99, "ability_randomization_statues": 1,
-        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 1,
-        "ability_randomization_boss_spawns": 0, "room_sanity": 1, "area_keys": 0,
+        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unavailable even with all inventory=\\[\\]"):
-        _generate(monkeypatch, tmp_path, 105101, [options])  # type: ignore[no-untyped-call]
+        _generate(monkeypatch, tmp_path, 105100, [options])
     assert inspected == [True]
     assert not tuple((tmp_path / "output").glob("*.zip"))

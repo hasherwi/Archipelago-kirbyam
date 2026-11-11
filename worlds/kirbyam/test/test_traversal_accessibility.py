@@ -13,7 +13,7 @@ from typing import Any, cast
 
 import pytest
 from Options import Accessibility
-from BaseClasses import MultiWorld
+from BaseClasses import Item, MultiWorld
 
 from .. import KirbyAmWorld, peg_traversal, traversal_rules, wheel_traversal
 from ..ability_randomization import build_enemy_copy_ability_policy
@@ -196,7 +196,7 @@ def test_generate_early_preserves_already_feasible_policy_under_minimal(
         return candidate
 
     monkeypatch.setattr(world_module, "build_enemy_copy_ability_policy", build)
-    world = make_world(  # type: ignore[no-untyped-call]
+    world = make_world(
         mode, True, accessibility="minimal", ability_randomization_statues=False,
         ability_randomization_no_ability_weight=100,
     )
@@ -291,17 +291,19 @@ def replay_rejected_fuzz_case(
     return multiworld
 
 
-def test_exact_fuzz_69_minimal_closes_all_checks_and_preserves_source_policy(
+def test_exact_fuzz_69_minimal_refuses_placed_strands_and_preserves_source_policy(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    # The reviewed707 source gate changes this exact placement order. It now
-    # closes all checks; mixed-player fixtures below still exercise guard rejection.
-    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
-    from ..check_accessibility import validate_all_checks
-
-    validate_all_checks(multiworld, (1,))
+    # Beam-only starts change this exact fill. All inventory remains feasible,
+    # but the actual placed progression strands Carrot and the Olive goal chest.
+    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
+    from .support.check_accessibility import audit_local_checks
+    audit = audit_local_checks(multiworld, 1)
+    assert audit.unfilled == audit.inventory_unreachable == ()
+    assert "Carrot Castle - Big Switch" in audit.progression_unreachable
+    assert "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest" in audit.progression_unreachable
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
@@ -340,10 +342,14 @@ def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(
 
 
 @pytest.mark.parametrize("companion", ["default", 95])
-def test_mixed_accessibility_rejects_stranded_fill_and_keeps_copy_room_per_player(
+def test_mixed_accessibility_closes_checks_and_keeps_copy_room_per_player(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, companion: str | int,
 ) -> None:
-    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
+    from .support.check_accessibility import audit_local_checks
+    for player in multiworld.player_ids:
+        audit = audit_local_checks(multiworld, player)
+        assert audit.unfilled == audit.inventory_unreachable == audit.progression_unreachable == ()
     minimal, full = multiworld.worlds[1], multiworld.worlds[2]
     assert minimal.options.accessibility.value == Accessibility.option_minimal
     assert full.options.accessibility.value == Accessibility.option_full
@@ -371,26 +377,32 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert list(audit.progression_unreachable) == expected["stranded_checks"]
+    assert list(audit.progression_unreachable) == expected["beam_only_stranded_checks"]
 
-    # These previously conditional rows used to be skipped when Flamer was not
-    # guaranteed. The new source-aware alternatives correctly gate that case,
-    # changing fill order rather than silently accepting unsupported crossings.
-    # Restore only the six historical placements to isolate that semantic change
-    # from the new deterministic fill, without weakening the production guard.
+    # Keep the six recorded historical assignments as a counterfactual, not an
+    # exact old-fill replay. Current fill has changed beyond those six slots, so
+    # balanced swaps find donors in the current world without creating any item.
+    from collections import Counter
     previous = expected["historical_changed_placements"]
-    changed = [multiworld.get_location(name, 1) for name in previous]
-    items = [location.item for location in changed]
-    assert all(item is not None for item in items)
-    for location in changed:
-        name, player = previous[location.name]
-        item = next(item for item in items if item is not None and (item.name, item.player) == (name, player))
-        items.remove(item)
-        location.item = item
-        item.location = location
+    locations = multiworld.get_filled_locations()
+    assert all(loc.item is not None for loc in locations)
+    before = Counter((cast(Item, loc.item).name, cast(Item, loc.item).player) for loc in locations)
+    original_objects = Counter(id(loc.item) for loc in locations)
+    fixed = set()
+    for name, (item_name, player) in previous.items():
+        location = multiworld.get_location(name, 1)
+        donor = next(loc for loc in locations if loc not in fixed
+                     and (cast(Item, loc.item).name, cast(Item, loc.item).player) == (item_name, player))
+        location.item, donor.item = donor.item, location.item
+        cast(Item, location.item).location, cast(Item, donor.item).location = location, donor
+        fixed.add(location)
+        assert (cast(Item, location.item).name, cast(Item, location.item).player) == (item_name, player)
+    assert Counter((cast(Item, loc.item).name, cast(Item, loc.item).player) for loc in locations) == before
+    assert Counter(id(loc.item) for loc in locations) == original_objects
+    assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert set(expected["historical_stranded_checks"]) < set(historical.progression_unreachable)
+    assert list(historical.progression_unreachable) == expected["beam_only_stranded_checks"]
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
         validate_all_checks(multiworld, (1,))

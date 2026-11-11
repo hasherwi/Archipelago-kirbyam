@@ -1,0 +1,711 @@
+{
+  "schema_version": 1,
+  "status": "accepted_617_return_branch_only",
+  "original_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": "OriginalUSA startup617 at432,64 pixels; AI slots101. No object/terrain/attack/source changes, no runtime writes. Actual617\u2192502 door used; not a proof of access through617 itself.",
+  "source_boundary": "Normal with no copy-source acquisition. Real502 left arrival from524 remains separately unaccepted as a full no-loss route.",
+  "route": [
+    "Actual617 door26,3 record0x8AD5F0\u2192502stored54,17/live856,264.996",
+    "Crouch then Down+Right+A slide activates Bomb56,16; fly through opened shaft atx906",
+    "Fly atceilingy16 over intactF5(60..62,5); no fuse ignition or cannon",
+    "Actual502 door74,5 record0x8ADDE4\u2192525stored2,19/live24,296.996"
+  ],
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "applications": 1
+  },
+  "runs": {
+    "100": {
+      "rom_sha256": "9d30f6c54b6f85a315709940ea8307038227c5decbd2008b5c9221f09f9ecf68",
+      "segments": [
+        {
+          "id": "normal502returnboot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 502,
+            "x": 856.0,
+            "y": 264.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Slide",
+          "inputs": [
+            [
+              5,
+              128
+            ],
+            [
+              20,
+              145
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              220,
+              1
+            ],
+            [
+              300,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 1870,
+            "room": 502,
+            "x": 1200.0,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Exit",
+          "inputs": [
+            [
+              6,
+              32
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2026,
+            "room": 502,
+            "x": 1200.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Actual525",
+          "inputs": [
+            [
+              8,
+              32
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2132,
+            "room": 525,
+            "x": 24.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              502,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2062,
+          "actors": [
+            [
+              525,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    },
+    "500": {
+      "rom_sha256": "7b46fdd9e76cf3d8cae4e97e1311c2b892574c0dc3f0a1b8c5f490c2d138a608",
+      "segments": [
+        {
+          "id": "normal502returnboot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 502,
+            "x": 856.0,
+            "y": 264.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Slide",
+          "inputs": [
+            [
+              5,
+              128
+            ],
+            [
+              20,
+              145
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              220,
+              1
+            ],
+            [
+              300,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 1870,
+            "room": 502,
+            "x": 1200.0,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Exit",
+          "inputs": [
+            [
+              6,
+              32
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2026,
+            "room": 502,
+            "x": 1200.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "return502Actual525",
+          "inputs": [
+            [
+              8,
+              32
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2132,
+            "room": 525,
+            "x": 24.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              617,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              502,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2062,
+          "actors": [
+            [
+              525,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    }
+  },
+  "limitations": [
+    "Do not treat this as a generic join from524left arrival or assume the two502 arrivals freely connect.",
+    "Not a fullAPseed/network acceptance or direct1HPfixture. Every audited gameplay frame HP6/Normal0/no grab; F5 read245/245/245 before and after overhead passage.",
+    "No detailed audit publication authorized at this checkpoint; artifact retained locally."
+  ]
+}

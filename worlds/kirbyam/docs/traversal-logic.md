@@ -1,5 +1,11 @@
 # Source-backed traversal (draft)
 
+The current candidate precollects only Beam. Stone, Burning, Cutter, Mini and Wheel
+use progression permissions and reviewed physical sources. Historical acceptance
+checkpoints below retain their original fixture and test scope; current inventory
+and release qualifications are summarized in
+[the source-backed release review](../dev-docs/reconstructed-release-review.md).
+
 ## Copy Ability Room access and source contract
 
 [PR #1025](https://github.com/hasherwi/Archipelago-kirbyam/pull/1025), merged as
@@ -203,7 +209,7 @@ regions as indirect dependencies for entrance rules.
 Mini, peg, Wheel, rope, and fuse targets use room-owned witness metadata and the
 resolved source policy, rather than parallel route/source catalogs. Research-only
 non-AP pegs and rope platforms belong in the evidence censuses below, not
-executable AP targets. Burning remains a starting ability; Cutter is a progression unlock.
+executable AP targets. Burning, Stone, and Cutter are progression unlocks; only Beam is automatically precollected.
 
 ## Ordinary hub statue network
 
@@ -341,7 +347,7 @@ Minny always grants Mini. Only the Minny carve-out option was removed; general
 randomization, statue, miniboss, boss-spawn and non-ability-enemy options remain.
 Mini can still appear from other randomized enemies. Statue pools preserve the
 former default exclusion of Mini. Mini remains gated and is no longer precollected.
-Wheel is also gated/progression and no longer precollected. Stone starting permission remains unchanged.
+Wheel and Stone are also gated progression permissions and are no longer automatically precollected.
 
 Raw Mini ability stars recover Mini under the same unlock gate in every mode.
 Other stars preserve existing behavior, including the existing native0x80 versus
@@ -614,8 +620,7 @@ in one controlled run; it is not an adversarial-AI or bounded-reset guarantee an
 does not assume unlimited phone battery. Native code rebuilds original collision
 for a fresh room slot. The final arrival matches the witnessed Wheel race start.
 See the Wheel evidence appendix below and the room-owned traversal metadata in
-`data/regions/rooms.json`. Wheel is removed from starting abilities in every mode,
-while Stone remains.
+`data/regions/rooms.json`. Wheel and Stone are removed from automatic starting abilities in every mode.
 
 ### Combined patched-ROM Wheel acceptance
 
@@ -732,8 +737,8 @@ Before treating this draft as gameplay accepted:
   patched ROM; other renewal claims still require evidence. AI occupancy can
   preserve an instance, so a doorway alone is not reset proof.
 - Complete target-specific Crash cannon timing and the remaining non-rope Cutter
-  dependency review before broadening those claims. Burning and Cutter remain
-  starting abilities.
+  dependency review before broadening those claims. That historical checkpoint
+  retained Burning and Cutter starts; the current source-backed release does not.
 - Verify checks against the final published commit, including hosting. The
   isolated hosting retry does not turn the preceding full run into a clean pass.
   The installed archive matrix above is complete for the earlier tested build,
@@ -1632,8 +1637,8 @@ cutting ability; ownership alone is not equipment.
 
 The complete native object inventory contains four fuse cannons and four fuse ends, in
 native rooms 126, 323, 502, and 827. The 57 rotating eight-direction cannons are a different
-object type and do not belong to this capability. Burning remains a starting ability; no
-starting ability or randomization option is changed by this audit.
+object type and do not belong to this capability. This historical mechanism audit did not
+change starting abilities; the current source-backed release precollects only Beam.
 
 ### Native attack capability
 
@@ -1767,8 +1772,8 @@ For the room graph, test both Mustard entrances, separation of its local sources
 destination statues, both ordinary progression bypasses, and the Olive cannon's upper
 arrival leading only to Room 6. Require the correct independent hub access, hub-connection
 items, and inter-area keys for remote carriers. Optional Mustard/Radish cannon failure must
-not invalidate their ordinary routes or shared checks. Burning starting behavior must remain
-unchanged.
+not invalidate their ordinary routes or shared checks. The original fuse audit did not change
+Burning starts; the current release separately validates its removal.
 
 Coverage is exhaustive for the four native fuse placements and their direct destinations.
 The carrier list is a reviewed sufficient set, not a claim to enumerate every possible
@@ -1964,7 +1969,7 @@ qualification, not a direct AP1HP replay. The terminal action exports neither
 opened-block persistence nor a reusable equipment postcondition. Both ordinary
 exits and RoomSanity remain unchanged; unsupported source assignments stay closed.
 See [the bounded source/carrier contract](../dev-docs/ordinary-216-source-carrier-contract.md).
-Starting Burning/Stone removal and other unreviewed ordinary-metal routes remain pending.
+This bounded 216 proof is one part of the current starting-permission release review, not a whole-game proof.
 
 
 ### metal_205_to_209_top and directed Peppermint chest approaches
@@ -1985,8 +1990,8 @@ summary edge, RoomSanity sink or generic210/209 alias joins these compartments.
 See [the directed check contract](../dev-docs/ordinary-205-209-directed-checks.md)
 for exact source identities, independent access, finite versus renewable policy,
 full controller/scaler qualifications and unreviewed alternatives. Check IDs and
-physical RoomSanity IDs/bits are unchanged. Starting Stone/Burning removal still
-depends on the remaining ordinary-metal coverage and option audit.
+physical RoomSanity IDs/bits are unchanged. The current release separately integrates
+the completed mandatory-metal coverage and option audit before removing Stone/Burning starts.
 
 ### Native529 directed ordinary passages
 

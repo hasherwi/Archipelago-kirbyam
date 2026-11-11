@@ -1,5 +1,10 @@
 # Stone and Burning starting-permission removal audit
 
+> Historical audit below. The current candidate integrates the guarded goal sources,
+> directed environmental coverage, and coordinated Beam-only inventory change.
+> See `reconstructed-release-review.md` for the current evidence and verification
+> boundary; statements below that removal is blocked describe earlier checkpoints.
+
 Baseline: `1cdde1ad93897ed01e76398a3dc749dd2152591e`, 2026-11-08.
 
 **Removal is blocked.** This change adds an all-check generation guard and its

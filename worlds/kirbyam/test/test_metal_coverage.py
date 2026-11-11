@@ -76,11 +76,28 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
             assert cluster["classification"] in matrix["categories"]
             assert cluster["status"] in {
                 "pending_route_acceptance", "existing_normal_bypass", "conditional_source_witness",
-                "reviewed_source_witness"}
+                "reviewed_source_witness", "existing_mechanism_witness"}
             assert cluster["note"].strip()
             if cluster["status"] == "existing_normal_bypass":
-                assert room["native_room"] in {529, 814, 819}
+                assert room["native_room"] in {502, 529, 532, 736, 814, 819}
                 assert cluster["classification"] == "bypass"
+
+
+def test_beam_only_release_has_no_pending_mandatory_metal_cluster() -> None:
+    """Keep the native evidence census separate from generated graph feasibility."""
+    from ..enemy_ability_data import starting_copy_abilities
+
+    assert all(starting_copy_abilities(mode) == ("Beam",) for mode in range(3))
+    for room in read("dev-docs/ordinary-metal-coverage.json")["rooms"]:
+        for cluster in room["clusters"]:
+            assert cluster["classification"] != "unknown", cluster["id"]
+            if cluster["classification"] in {"ap_exit", "ap_target"}:
+                assert cluster["status"] in {"reviewed_source_witness", "existing_mechanism_witness"}, cluster["id"]
+            elif cluster["classification"] == "bypass":
+                assert cluster["status"] == "existing_normal_bypass", cluster["id"]
+            else:
+                assert cluster["classification"] in {"scenery_no_required_passage", "optional_non_ap_pickup"}
+                assert cluster["status"] == "pending_route_acceptance"
 
 
 def test_accepted_coverage_links_to_the_exact_conditional_target() -> None:
@@ -158,10 +175,9 @@ def test_map_role_review_does_not_promote_route_acceptance() -> None:
             assert row["proposed_classification"] == historical_role
             assert row["status"] == "map_role_reviewed"
             assert row["evidence"] and row["limitations"] and row["sources"]
-            if room["native_room"] == 529:
+            if cluster["status"] in {"existing_normal_bypass", "existing_mechanism_witness"}:
                 # The map role itself remains unchanged. Later, separately
                 # audited fresh native routes establish the directed bypass.
-                assert cluster["status"] == "existing_normal_bypass"
                 assert cluster["accepted_evidence"]
                 assert all((ROOT / "dev-docs" / path).is_file() for path in cluster["accepted_evidence"])
             else:

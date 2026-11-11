@@ -1,3 +1,8 @@
+> Historical development checkpoints follow. For the current reconstructed
+> candidate, see `reconstructed-release-review.md`, the source contracts for
+> goal Burning/825, and the recovered environmental route contract. Statements
+> below about mandatory Stone/Burning starts describe earlier checkpoints.
+
 # Ordinary-metal traversal implementation checkpoint
 
 This checkpoint prepares directional ordinary-metal rules without pretending

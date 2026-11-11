@@ -733,7 +733,7 @@
   },
   "ABILITY_UNLOCK_BURNING": {
     "label": "Burning Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860103,
     "tags": ["Abilities", "Unique"]
   },
@@ -763,7 +763,7 @@
   },
   "ABILITY_UNLOCK_STONE": {
     "label": "Stone Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860108,
     "tags": ["Abilities", "Unique"]
   },

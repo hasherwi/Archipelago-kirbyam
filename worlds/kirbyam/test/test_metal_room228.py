@@ -58,8 +58,8 @@ def test_joint_finite_policy_is_not_a_renewable_or_permission_only_grant(
     mode: int, minibosses: bool, pool: list[str] | None, weight: int, expected: bool,
 ) -> None:
     graph = joint_graph()
-    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
-    assert graph.evaluate(resolver, frozenset({"Hammer Ability"}), True,
+    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)
+    assert graph.evaluate(resolver, frozenset({"Hammer Ability", "Stone Ability"}), True,
                           allow_documented_retries=True).reaches(END) is expected
     assert not graph.evaluate(resolver, frozenset(), True, allow_documented_retries=True).reaches(END)
 
@@ -89,3 +89,11 @@ def test_exact_joint_suffix_accepts_only_retained_hammer(ability: str) -> None:
     assert metal.capability == "metal" and metal.water_state == "dry"
     assert metal.allowed_abilities == frozenset({"Hammer"}) and not metal.room_transition
     assert {r.target for r in suffix} == {"metal_228:205_water_return", "metal_228:228_lower_arrival", END}
+
+
+def test_finite_hammer_pool_gate_filter_does_not_credit_mixed_equipment() -> None:
+    graph = joint_graph()
+    resolver = policy(2, pool=['Hammer', 'Stone'], weight=0)
+    assert graph.evaluate(resolver, frozenset({'Hammer Ability'}), True).reaches(END)
+    assert not graph.evaluate(resolver, frozenset({'Hammer Ability', 'Stone Ability'}), True).reaches(END)
+    assert not graph.evaluate(resolver, frozenset({'Stone Ability'}), True).reaches(END)
