@@ -109,12 +109,17 @@ def test_full_defined_product_has_exact_2304_unique_combinations() -> None:
     assert len(plan()) == 112  # Default plan is independent and unchanged.
 
 
-def test_bounded_jobs_have_parent_only_journal_writes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.mark.parametrize("journal_delay", (0.0, 0.05))
+def test_bounded_jobs_have_parent_only_journal_writes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, journal_delay: float,
+) -> None:
     import threading
     import time
     from ..tools import audit_release_generation as runner
     parent_thread = threading.get_ident()
     mutex = threading.Lock()
+    first_pair = {case['id'] for case in plan()[:2]}
+    first_pair_ready = threading.Barrier(2)
     active = 0
     maximum = 0
     called = []
@@ -123,6 +128,8 @@ def test_bounded_jobs_have_parent_only_journal_writes(tmp_path: Path, monkeypatc
 
     def append(path: Path, record: dict[str, Any]) -> None:
         writers.append(threading.get_ident())
+        # Exercise journal latency longer than the old worker's 20 ms sleep.
+        time.sleep(journal_delay)
         original_append(path, record)
 
     def fake_run(case: dict[str, Any], directory: Path, timeout: int) -> dict[str, Any]:
@@ -131,7 +138,11 @@ def test_bounded_jobs_have_parent_only_journal_writes(tmp_path: Path, monkeypatc
             active += 1
             maximum = max(maximum, active)
             called.append(case['id'])
-        time.sleep(0.02)
+        # A durable journal write can outlast any short sleep, especially on
+        # Windows. Require the first pair to overlap without assuming disk or
+        # thread scheduling speed; the final unpaired case must not wait here.
+        if case['id'] in first_pair:
+            first_pair_ready.wait(timeout=10)
         with mutex:
             active -= 1
         return {'case_id': case['id'], 'outcome': 'fixture_completed'}
