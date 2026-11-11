@@ -1,0 +1,1181 @@
+{
+  "schema_version": 1,
+  "parent_blob_sha": "ffeaa093981dbc80e247e30311e87106ef9e124f",
+  "parent_filename": "ordinary-742-carried-burning-acceptance.json",
+  "parent_sha256": "514c16248dd00f629b6232297b16f046e81edb03c0d652f17a58971c70175a86",
+  "scope": "Same-visit chest-to-Warp compatibility continuation at default and exact production500 enemy health.",
+  "result": "Both audited retained-Burning chest endpoints continue to native705 with chestflag17=2, minimumHP6 and no grabs. Burning is deliberately discarded withSelect; every subsequent frame isNormal0. No reacquisition, room reset, reentry or fresh-excursion assumption.",
+  "lineage": "Initial states are exact endpoint checkpoints written by the continuous parent default_chest/exact500_chest audits from accepted707 native712 arrivals. Each is loaded once before continuation frame0; no load, runtime write or room reset occurs thereafter. SHA256 identifies those checkpoint bytes, which are not distributed.",
+  "qualification": "All original parent fixture/source/imported-equipment qualifications remain in force. This addendum proves combined collection after a deliberate discard; it does not replace the separate branches that retainedBurning through either individual outcome.",
+  "camera_and_geometry": [
+    "Inspected private current screenshots at all500-returnright in both health settings: roofWaddleDoo is visible on its native upper block again. The recordedNormal inhale return route handles this actual current enemy, without an assumption of permanent enemy deletion.",
+    "At every recorded742 checkpoint, outerBomb(19,12) and innerBomb(26,12) remain0xF1; roofshaft(24,8),(25,8) remain0xF3. The upper passage avoids native spike(26,4).",
+    "Chestflag17 remains2 through actual705 transition. No AP server event or actualAPpatchedROM is asserted."
+  ],
+  "audits": {
+    "default": {
+      "pct": 100,
+      "start": {
+        "label": "start",
+        "frame": 0,
+        "room": 742,
+        "x": 414.16015625,
+        "y": 280.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "initial_state_sha256": "777b2f4763d4aed01dfd317b218af54123c60dfebfd2bfac5039ae5343ed7c68",
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "start_chest17": 2,
+      "segments": [
+        {
+          "segment": "deliberate_discard",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 4
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 21,
+            "room": 742,
+            "x": 414.16015625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-chestreturn1",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 45,
+              "keys": 1
+            },
+            {
+              "frames": 45,
+              "keys": 33
+            },
+            {
+              "frames": 40,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 162,
+            "room": 742,
+            "x": 358.0,
+            "y": 209.47265625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returnstage",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            }
+          ],
+          "final": {
+            "frame": 202,
+            "room": 742,
+            "x": 389.7265625,
+            "y": 156.97265625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returnright",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 1
+            },
+            {
+              "frames": 40,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 70,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 347,
+            "room": 742,
+            "x": 433.0546875,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returninhale2",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 12,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 2
+            }
+          ],
+          "final": {
+            "frame": 420,
+            "room": 742,
+            "x": 432.3984375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-roofearlyinhale",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 32
+            },
+            {
+              "frames": 6,
+              "keys": 1
+            },
+            {
+              "frames": 65,
+              "keys": 2
+            }
+          ],
+          "final": {
+            "frame": 492,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-spikeavoid",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 20,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 33
+            },
+            {
+              "frames": 40,
+              "keys": 1
+            },
+            {
+              "frames": 20,
+              "keys": 17
+            },
+            {
+              "frames": 25,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 660,
+            "room": 742,
+            "x": 388.33984375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-combinedwarp",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 45,
+              "keys": 1
+            },
+            {
+              "frames": 28,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 925,
+            "room": 742,
+            "x": 431.16015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-combined705",
+          "inputs": [
+            {
+              "frames": 7,
+              "keys": 16
+            },
+            {
+              "frames": 6,
+              "keys": 32
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1079,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2
+        }
+      ],
+      "writes": []
+    },
+    "exact500": {
+      "pct": 500,
+      "start": {
+        "label": "start",
+        "frame": 0,
+        "room": 742,
+        "x": 413.05859375,
+        "y": 280.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "initial_state_sha256": "d7350aea55fb6e4f700748abec78efb6696f03444305949d32937a146085aae7",
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "start_chest17": 2,
+      "segments": [
+        {
+          "segment": "deliberate_discard",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 4
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 21,
+            "room": 742,
+            "x": 413.05859375,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-chestreturn1",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 45,
+              "keys": 1
+            },
+            {
+              "frames": 45,
+              "keys": 33
+            },
+            {
+              "frames": 40,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 162,
+            "room": 742,
+            "x": 358.0,
+            "y": 206.84765625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returnstage",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            }
+          ],
+          "final": {
+            "frame": 202,
+            "room": 742,
+            "x": 389.7265625,
+            "y": 154.34765625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returnright",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 1
+            },
+            {
+              "frames": 40,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 70,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 347,
+            "room": 742,
+            "x": 433.0546875,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-returninhale2",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 12,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 2
+            }
+          ],
+          "final": {
+            "frame": 420,
+            "room": 742,
+            "x": 432.3984375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-roofearlyinhale",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 32
+            },
+            {
+              "frames": 6,
+              "keys": 1
+            },
+            {
+              "frames": 65,
+              "keys": 2
+            }
+          ],
+          "final": {
+            "frame": 492,
+            "room": 742,
+            "x": 431.2734375,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-spikeavoid",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 20,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 10,
+              "keys": 0
+            },
+            {
+              "frames": 30,
+              "keys": 33
+            },
+            {
+              "frames": 40,
+              "keys": 1
+            },
+            {
+              "frames": 20,
+              "keys": 17
+            },
+            {
+              "frames": 25,
+              "keys": 1
+            }
+          ],
+          "final": {
+            "frame": 660,
+            "room": 742,
+            "x": 388.33984375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-combinedwarp",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 45,
+              "keys": 1
+            },
+            {
+              "frames": 28,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 40,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 925,
+            "room": 742,
+            "x": 431.16015625,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2,
+          "tracked_tiles": [
+            {
+              "x": 19,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 26,
+              "y": 12,
+              "value": 241
+            },
+            {
+              "x": 24,
+              "y": 8,
+              "value": 243
+            },
+            {
+              "x": 25,
+              "y": 8,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "segment": "all500-combined705",
+          "inputs": [
+            {
+              "frames": 7,
+              "keys": 16
+            },
+            {
+              "frames": 6,
+              "keys": 32
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "final": {
+            "frame": 1079,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0
+          ],
+          "grab_frames": [],
+          "chest17": 2
+        }
+      ],
+      "writes": []
+    }
+  }
+}

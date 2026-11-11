@@ -1,0 +1,2327 @@
+{
+  "schema_version": 1,
+  "native_room": 141,
+  "result": "Accepted two directed fresh forward banks using retained imported Burning at default100 and exactproduction500. Reverse remains unvalidated by this artifact.",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture": {
+    "initial_rooms": [
+      190,
+      101,
+      101,
+      101
+    ],
+    "initial_position_array_pixels": [
+      [
+        160,
+        48
+      ],
+      [
+        48,
+        80
+      ],
+      [
+        48,
+        80
+      ],
+      [
+        48,
+        80
+      ]
+    ],
+    "startup_rom_offsets": [
+      "0x2d8cb8",
+      "0x2d8cd0"
+    ],
+    "source_substitution": {
+      "template_bus": "0x088B7CEC",
+      "rom_offset": "0x8b7cfa",
+      "original_subtype1": 4,
+      "fixture_subtype1": 1,
+      "type": 146,
+      "original_native_ability": 8,
+      "fixture_ability": 3,
+      "position_pixels": [
+        200,
+        48
+      ],
+      "justification": "ability_objects.c gUnk_083538FC and sub_080AA4EC map type0x92 subtype1=1 to Burning. Same real statue contact, object position and terrain; disclosed generation-time substitute, not native Burning or runtime equipment grant."
+    },
+    "initial_battery": "fresh32768 FF",
+    "no_runtime_writes": true,
+    "no_midrun_savestate_loads": true,
+    "unchanged": "All terrain, doors, enemies, native141 source objects and ability attack behavior unchanged. Only startup tables, statue subtype and production health tables differ from original."
+  },
+  "logical_guards": {
+    "source": "Require independently reachable native190 statue STATUE:353900 and policy guaranteeing assignment Burning. Permission alone, wrong assignment and mere room reachability do not qualify. Real hub acquisition/source-access prefix remains separate and unproved by startup fixture.",
+    "carrier": "Actual190\u2192143\u2192141 lower-right native door transitions, retained equipment throughout. No localFlamer acquisition, discard, recovery, grab or damage.",
+    "limits": [
+      "Not a native hub Burning acquisition proof.",
+      "No reverse-left fresh-bank proof or independent545 equipped arrival.",
+      "No native144 Mirra doorway proof.",
+      "Only100 and500 tested, no claim of intermediate multipliers or AP server delivery."
+    ]
+  },
+  "doors": [
+    {
+      "source": 190,
+      "record_rom_offset": "0x879cf2",
+      "trigger": [
+        14,
+        8
+      ],
+      "destination": 143,
+      "spawn_tile": [
+        3,
+        19
+      ]
+    },
+    {
+      "source": 143,
+      "record_rom_offset": "0x879858",
+      "trigger": [
+        1,
+        2
+      ],
+      "destination": 141,
+      "spawn_tile": [
+        43,
+        19
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "id": "metal_141_left_forward",
+      "endpoint": "metal_141:inner",
+      "direction": "left to right",
+      "cells": [
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          8
+        ]
+      ],
+      "endpoint_segment": "bankleft"
+    },
+    {
+      "id": "metal_141_right_forward",
+      "endpoint": "metal_141:east",
+      "direction": "left to right",
+      "cells": [
+        [
+          27,
+          9
+        ],
+        [
+          28,
+          9
+        ],
+        [
+          27,
+          10
+        ],
+        [
+          28,
+          10
+        ]
+      ],
+      "endpoint_segment": "east"
+    }
+  ],
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "application": "scale_enemy_health_tables(fixture_rom,500) exactly once before fresh boot. Both regular and boss HP/meter tables use production routine; no live object edits."
+  },
+  "audit_contract": {
+    "start_frame": 1086,
+    "every_frame": "HP==6, grab pointer==0, ability==3 after first actual acquisition. No memory writes; cold full replay.",
+    "scorer": "HP0x02020fe0, ability0x02020fe3, grab0x02020ff0, room0x02020f40, current collision0x02024ed0 rowstride46.",
+    "f5_before_after": "All8 intact245 at actual141 arrival; first4 cleared0 on left-forward, remaining4 cleared0 on right-forward.",
+    "f0_bomb": "Mutation snapshots in both runs: F0(8,12),(9,12) cleared during defensive Burning; corridor F0 x15..20,y7..8 cleared during inner traversal. No Bomb mutation in recorded changed-cell list."
+  },
+  "runs": {
+    "100": {
+      "mutations": [
+        {
+          "segment": "arrive141",
+          "changed_cells": []
+        },
+        {
+          "segment": "middle141",
+          "changed_cells": []
+        },
+        {
+          "segment": "defend",
+          "changed_cells": [
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "left",
+          "changed_cells": [
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "bankleft",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "inner",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "east",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                27,
+                9
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                28,
+                9
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                27,
+                10
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                28,
+                10
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "label": "initial",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1085,
+            "room": 190,
+            "x": 152.0,
+            "y": 41.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [],
+          "grabs": []
+        },
+        {
+          "label": "fly",
+          "inputs": [
+            [
+              20,
+              80
+            ],
+            [
+              15,
+              64
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1162,
+            "room": 190,
+            "x": 202.86328125,
+            "y": 38.94921875,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "touch",
+          "inputs": [
+            [
+              40,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1202,
+            "room": 190,
+            "x": 202.86328125,
+            "y": 50.52734375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0,
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "door190",
+          "inputs": [
+            [
+              15,
+              16
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1373,
+            "room": 190,
+            "x": 217.99609375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrive143",
+          "inputs": [
+            [
+              7,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1501,
+            "room": 190,
+            "x": 231.01953125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrived143",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1622,
+            "room": 143,
+            "x": 40.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "fast143",
+          "inputs": [
+            [
+              36,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              150,
+              80
+            ]
+          ],
+          "end": {
+            "frame": 1873,
+            "room": 143,
+            "x": 243.32421875,
+            "y": 157.28515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "middle143",
+          "inputs": [
+            [
+              32,
+              64
+            ],
+            [
+              74,
+              96
+            ],
+            [
+              55,
+              64
+            ]
+          ],
+          "end": {
+            "frame": 2034,
+            "room": 143,
+            "x": 170.7734375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "top143",
+          "inputs": [
+            [
+              122,
+              80
+            ],
+            [
+              40,
+              64
+            ],
+            [
+              260,
+              96
+            ]
+          ],
+          "end": {
+            "frame": 2456,
+            "room": 143,
+            "x": 39.67578125,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrive141",
+          "inputs": [
+            [
+              40,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 2617,
+            "room": 141,
+            "x": 680.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "middle141",
+          "inputs": [
+            [
+              26,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              440,
+              33
+            ]
+          ],
+          "end": {
+            "frame": 3164,
+            "room": 141,
+            "x": 183.65625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "defend",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3216,
+            "room": 141,
+            "x": 125.09375,
+            "y": 191.09765625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "left",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "end": {
+            "frame": 3364,
+            "room": 141,
+            "x": 22.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "bankleft",
+          "inputs": [
+            [
+              24,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3452,
+            "room": 141,
+            "x": 176.703125,
+            "y": 131.55078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "inner",
+          "inputs": [
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3584,
+            "room": 141,
+            "x": 326.375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "east",
+          "inputs": [
+            [
+              38,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3743,
+            "room": 141,
+            "x": 529.9453125,
+            "y": 168.0234375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        }
+      ],
+      "f5_changes": [
+        {
+          "frame": 2516,
+          "cells": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3415,
+          "cells": [
+            0,
+            245,
+            0,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3423,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3683,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            245,
+            0,
+            245
+          ]
+        },
+        {
+          "frame": 3690,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "ram_writes": [],
+      "rom_sha256": "5c32fbc6012a9e542466071a30f3d0d031c37d4c28781ff3ac6dc0fc1e195f7d"
+    },
+    "500": {
+      "mutations": [
+        {
+          "segment": "arrive141",
+          "changed_cells": []
+        },
+        {
+          "segment": "middle141",
+          "changed_cells": []
+        },
+        {
+          "segment": "defend",
+          "changed_cells": [
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "left",
+          "changed_cells": [
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "bankleft",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "inner",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        },
+        {
+          "segment": "east",
+          "changed_cells": [
+            {
+              "cell": [
+                5,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                7
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                7
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                5,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                6,
+                8
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                15,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                16,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                17,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                18,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                19,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                20,
+                8
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                27,
+                9
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                28,
+                9
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                27,
+                10
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                28,
+                10
+              ],
+              "native": 245,
+              "live": 0
+            },
+            {
+              "cell": [
+                8,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            },
+            {
+              "cell": [
+                9,
+                12
+              ],
+              "native": 240,
+              "live": 0
+            }
+          ]
+        }
+      ],
+      "segments": [
+        {
+          "label": "initial",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1085,
+            "room": 190,
+            "x": 152.0,
+            "y": 41.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [],
+          "grabs": []
+        },
+        {
+          "label": "fly",
+          "inputs": [
+            [
+              20,
+              80
+            ],
+            [
+              15,
+              64
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1162,
+            "room": 190,
+            "x": 202.86328125,
+            "y": 38.94921875,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "touch",
+          "inputs": [
+            [
+              40,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1202,
+            "room": 190,
+            "x": 202.86328125,
+            "y": 50.52734375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0,
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "door190",
+          "inputs": [
+            [
+              15,
+              16
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1373,
+            "room": 190,
+            "x": 217.99609375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrive143",
+          "inputs": [
+            [
+              7,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1501,
+            "room": 190,
+            "x": 231.01953125,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrived143",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 1622,
+            "room": 143,
+            "x": 40.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "fast143",
+          "inputs": [
+            [
+              36,
+              80
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              150,
+              80
+            ]
+          ],
+          "end": {
+            "frame": 1873,
+            "room": 143,
+            "x": 243.32421875,
+            "y": 157.28515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "middle143",
+          "inputs": [
+            [
+              32,
+              64
+            ],
+            [
+              74,
+              96
+            ],
+            [
+              55,
+              64
+            ]
+          ],
+          "end": {
+            "frame": 2034,
+            "room": 143,
+            "x": 170.7734375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "top143",
+          "inputs": [
+            [
+              122,
+              80
+            ],
+            [
+              40,
+              64
+            ],
+            [
+              260,
+              96
+            ]
+          ],
+          "end": {
+            "frame": 2456,
+            "room": 143,
+            "x": 39.67578125,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "arrive141",
+          "inputs": [
+            [
+              40,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 2617,
+            "room": 141,
+            "x": 680.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "middle141",
+          "inputs": [
+            [
+              26,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              440,
+              33
+            ]
+          ],
+          "end": {
+            "frame": 3164,
+            "room": 141,
+            "x": 183.65625,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "defend",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3216,
+            "room": 141,
+            "x": 125.09375,
+            "y": 191.09765625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "left",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "end": {
+            "frame": 3364,
+            "room": 141,
+            "x": 22.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "bankleft",
+          "inputs": [
+            [
+              24,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3452,
+            "room": 141,
+            "x": 176.703125,
+            "y": 131.55078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "inner",
+          "inputs": [
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3584,
+            "room": 141,
+            "x": 326.375,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        },
+        {
+          "label": "east",
+          "inputs": [
+            [
+              38,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "end": {
+            "frame": 3743,
+            "room": 141,
+            "x": 529.9453125,
+            "y": 168.0234375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            3
+          ],
+          "grabs": [
+            0
+          ]
+        }
+      ],
+      "f5_changes": [
+        {
+          "frame": 2516,
+          "cells": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3415,
+          "cells": [
+            0,
+            245,
+            0,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3423,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "frame": 3683,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            245,
+            0,
+            245
+          ]
+        },
+        {
+          "frame": 3690,
+          "cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "ram_writes": [],
+      "rom_sha256": "6088656cfe59234a6ad3056b93713e1e4e6e80415c73dd5b78d26302ebce7c15"
+    }
+  },
+  "scorer_provenance": {
+    "prefix.py": "930e28e982f4507be9798fea8518ced905df4a31d0b16be5f1dbb82501074a93",
+    "replay.py": "7e1adc3baba5e3ac1bbf00e08cb88eab110a91c3c6f8c76c6f1e106d89a13b32",
+    "probe.py": "c64cb50a5f3ae13fad58b3574bca5a50d9b75d22859e82e5f6a79e9e60f2ef8c",
+    "runtime_support_sha256": "d65b82733820fdf7c39ad6a61cf629415727b1e3d7f617d959f63de6ecd12e73",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+  }
+}

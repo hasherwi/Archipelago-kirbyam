@@ -1,0 +1,964 @@
+{
+  "workflow_run": "https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42519129270",
+  "job": 128848547130,
+  "artifact": 13632602479,
+  "artifact_zip_sha256": "5abd6570ffe3d4c321edba3b1a12165cc212d97deb5a95a6a49e45fd5a488869",
+  "published_head": "5a01bb955db1cf8d781491979922605364eedf1e",
+  "tested_merge": "ca7aee9097cf574878af1e589fb3bd604313f507",
+  "raw_stats": {
+    "total": 500,
+    "success": 395,
+    "failure": 105,
+    "timeout": 0,
+    "ignored": 0
+  },
+  "classification": "single_player_minimal_placed_progression_only",
+  "scope": "All 105 logs and YAML artifacts reviewed; all single-player minimal, unfilled=[], unavailable even with all inventory=[]. Rejections are not playable generations.",
+  "rejections": [
+    {
+      "case": 1,
+      "seed": 271418054,
+      "log_sha256": "d43b9b1dc10b6ce8de2e9b68da41ba9a733df30c2819cf449fc78be92da96986",
+      "yaml_sha256": "4d450086f2e39d6056ccc5fc5bf7bc9290e616a555ac915d39941f4ef3d2cf1d",
+      "stranded_check_count": 44,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 6,
+      "seed": 327876361,
+      "log_sha256": "7877dd7d2dcf63d09d48b6f3d37af8fe308d431364ac6b0580b37fa993c811f7",
+      "yaml_sha256": "c2f7c78965c0301426182a5df7bdbe2ff731896f27722240cbea774612d70399",
+      "stranded_check_count": 341,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 14,
+      "seed": 200821495,
+      "log_sha256": "2e17f0486cd17408783ce1205b2d2a1a4d4d4cdc85fd0bafc6132a05a96006e1",
+      "yaml_sha256": "cb269decae580cdba92ec72ce675f1cc6d47b8f872da7f1ad9de87c80b7c82d8",
+      "stranded_check_count": 5,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 17,
+      "seed": 743342213,
+      "log_sha256": "511d55193635b89e35199948a34764ca94ec9fa35e0ca8cc6c16f7d62e3e4ef1",
+      "yaml_sha256": "ac49a097724b81d94685b37ef960a410a7843039d0db21a9f808c7407fa44f24",
+      "stranded_check_count": 2,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 18,
+      "seed": 117520305,
+      "log_sha256": "ac3f3fa1eaf12ddefe2a9670fad6672e28334f20a2d9c5b1472e135afd2c987d",
+      "yaml_sha256": "63a1a75e4b31559599f75e98c2c75d1d24657167571ec1ceef13272563c8cadb",
+      "stranded_check_count": 23,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 28,
+      "seed": 446157118,
+      "log_sha256": "353f4af9c90036fde31c957fa8c5cced96ea6a5cd9d050ee5ae703e6da56e5de",
+      "yaml_sha256": "9041a881cc0205a659efcfe4ee115e19a2d0a317ebabf7f78b167c064a566d83",
+      "stranded_check_count": 74,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 37,
+      "seed": 576351535,
+      "log_sha256": "ec8962d8b76b9d7c96f4ed90f0bc38546444e68ee882cc1edcbcc66f61d3695e",
+      "yaml_sha256": "344a71cc42325dda09fa1799694534796bbd64560f2b6131a2752fdc3eab2066",
+      "stranded_check_count": 171,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 38,
+      "seed": 672739185,
+      "log_sha256": "ce261aaf71b21e56fb8b405c9f98136d40bde95b0c24f5935ad7b963546119b3",
+      "yaml_sha256": "84d52e79ec43cfd5ca7cb7cf49663af3548c7986bead7e5eec6a6ff65dae1a0d",
+      "stranded_check_count": 26,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 39,
+      "seed": 332409605,
+      "log_sha256": "78a56706a33c6c827335c413d5a10e6fd0d8102683297df4eb9a989428a61259",
+      "yaml_sha256": "32f36dbce973e5e3585042abc17af0a9f215c7982ab36ba6aaefd3e7e300605f",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 45,
+      "seed": 361691017,
+      "log_sha256": "801e125e2681cc9cfe2bafc2338000259754cb1b8a677e36c10e6185936bbec2",
+      "yaml_sha256": "16207e711ba8e8c1d4b558af5eb3775fc432e8ba6224aa942dc507dc1e6cbbc2",
+      "stranded_check_count": 42,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 49,
+      "seed": 567253868,
+      "log_sha256": "89fe78f05a76ac38a41f14d48ae6302661441ec623af7f45e6a350cac9a8a41b",
+      "yaml_sha256": "32902380549d73c44122f92b7e0c162aa78bf6a991e126b1a2ceaaab71e6d6f9",
+      "stranded_check_count": 2,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 57,
+      "seed": 453967938,
+      "log_sha256": "c70ee7f97be45be5ca5ea15b578fb02af104cec30164b5828e0810b880e7e076",
+      "yaml_sha256": "43af92b66b4513ead4c80d3aa940cbfc6f926c688fb06a36f5b5f81d24322d34",
+      "stranded_check_count": 13,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 59,
+      "seed": 269293015,
+      "log_sha256": "5284dc3b32c09964cddc38ff06cff5fdbd0a297c6ad305840d505b57b1f7a73c",
+      "yaml_sha256": "08d93f15c59bf8338169525e1cc34062b9be7b99ef4858bf2f7755fe0601e95e",
+      "stranded_check_count": 49,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 72,
+      "seed": 325127896,
+      "log_sha256": "a00d8470ef996a4e8040a6f169f2351f361b2ae63d051eb235d4a642b5697432",
+      "yaml_sha256": "65dfc587cdbac80d910c795682734856e5048eda476d5a9dd6e89404c6a14ff8",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 85,
+      "seed": 430332920,
+      "log_sha256": "b87599e0d57078c23a894b65e18be07ea53aa5a8a394abd7b1a47f842f854bf3",
+      "yaml_sha256": "accb7edfb3d86ae4e0ad85c9475e482288d1228fc1abc3283b0815d180ce4579",
+      "stranded_check_count": 303,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 86,
+      "seed": 179695340,
+      "log_sha256": "d286da55a50eb0b3bbac47041499a31efd169f77cb509c27267054b4d4d55a9c",
+      "yaml_sha256": "f6ad5a7f6a18d4dca828c953df65445f99535836f616d5c3d0e8e74700c0f4c8",
+      "stranded_check_count": 45,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 88,
+      "seed": 815135567,
+      "log_sha256": "17d45f7567abf5023dd6e892cc5fcf1b16a27d46b287852f978d8d18c49a5ab0",
+      "yaml_sha256": "f15ff4412f941d7597954995f82ed7f5112dd8c3a7bd3e7a00fb87e65551bdcf",
+      "stranded_check_count": 87,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 90,
+      "seed": 887145810,
+      "log_sha256": "7fbe4dbf2f04861efd037c90d5d382ab4a2b52116154390ef868788b75995077",
+      "yaml_sha256": "ea8c6e7e19b817a946bd89e22a7257ec43098a75d91c5ea50c88920ada7a84e5",
+      "stranded_check_count": 5,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 95,
+      "seed": 594578523,
+      "log_sha256": "33ec86abe9420ea56dbe480f9f9dc6d440591097bdef07e51df493f55762eea5",
+      "yaml_sha256": "1c0a3ffc36a00d7e390ad76fa707e210fb3b7606282cb018091590300113be73",
+      "stranded_check_count": 210,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 96,
+      "seed": 200545039,
+      "log_sha256": "dfbd7aa8d0a31dc0a1827fb3d2038a07aa25c2e5afa2509926115f3610846de3",
+      "yaml_sha256": "38b136b5fdfa60252f4539884672cb5a4a03750379365267e4a9cefe32838831",
+      "stranded_check_count": 115,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 97,
+      "seed": 167124152,
+      "log_sha256": "14666d3ebe0369f19147c82f4d0cc83bb609c7f4c388c88a0ba5853e99c81d46",
+      "yaml_sha256": "e5ad62204bf10021b6468a75834db25c203a05d98150394321d2587f6bbeb701",
+      "stranded_check_count": 281,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 104,
+      "seed": 912578004,
+      "log_sha256": "5d7e41417b5a69fbd4c234966a18d8211a24cfd4ee0e4345fecee47d65f89217",
+      "yaml_sha256": "c978cd59db03d6e1ab019e00d35baeec4290fe396ca2a54af432628a0c67a0cc",
+      "stranded_check_count": 78,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 105,
+      "seed": 908035161,
+      "log_sha256": "a915667da46bf9d7b0e3447b16127886fbb2d69eef90972b483d69ede189cb4e",
+      "yaml_sha256": "e5ed59364525ab8b232dcdec1163693e57e6af11c0e3745a40a14fa755b3b4d2",
+      "stranded_check_count": 39,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 106,
+      "seed": 483463901,
+      "log_sha256": "a62064d106fbabd854dc36a2ef5749709da3816abb0a2025fd007c0ae03864fb",
+      "yaml_sha256": "47406d80df8d2fbc5a0100b807b06ebe60f6f58ebcdb96af24a577d3ff8aebe6",
+      "stranded_check_count": 156,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 112,
+      "seed": 597255535,
+      "log_sha256": "f6c1bce73ba206d2cde8010da988872caafa461e1373e60f6bc0bff69cd70c30",
+      "yaml_sha256": "d280479188ef3249db3496cf8200d6717cb3539026f2a63c7ce50bf1edebbd10",
+      "stranded_check_count": 86,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 117,
+      "seed": 401694417,
+      "log_sha256": "88e47d5304c08df510a2033e57a01f0f7ec984ba95a41e3c48ac7b1fe052a280",
+      "yaml_sha256": "99cdd567d0cf00e12e4973e8c77b8b343897334735980166f024b7ffcda3be6a",
+      "stranded_check_count": 118,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 119,
+      "seed": 280701184,
+      "log_sha256": "c2ce87984e8ea2dcb6bb04a4124caacd705794f8eea34eea46a867b0a2d6ad75",
+      "yaml_sha256": "d7eb398642e6b8da0b96c955dfbe4f8bd51b6d7499c7a98ec705d40f53488edf",
+      "stranded_check_count": 112,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 123,
+      "seed": 493869701,
+      "log_sha256": "a796687f7e60ef9294884d8c5e7030942fe9ccad7873b097c7b3425e4764c4bd",
+      "yaml_sha256": "9b493fa46818a78ae498155475d57c135a9b419cb11441d81c8eb2f4983d9767",
+      "stranded_check_count": 278,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 132,
+      "seed": 349591613,
+      "log_sha256": "83a32c4ef12719e25518513fb6258e79a5a4ed2cbf1647618cb3fc4f98a738f6",
+      "yaml_sha256": "ca7cfbfbeffb4a0f31a57e0b565a2834e8cdf8038502d85cdb649a484e614b0e",
+      "stranded_check_count": 41,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 135,
+      "seed": 329221937,
+      "log_sha256": "91ec7ce7cdd0ec72b089542f35d26e54e8506618e32079cecd08aae4debfd902",
+      "yaml_sha256": "f0a3e2977c3a4781bc84d1eb26167e8bef6e23bd0ceafeeac66cdc51010d094b",
+      "stranded_check_count": 14,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 140,
+      "seed": 850916336,
+      "log_sha256": "b40a78efec3645afbb51b7cce608abe179e35f3728529035b8bad03e5b241b9c",
+      "yaml_sha256": "e54ea8cf95485e17d55a0ffdc1f4e670b823cef312c8fdf5f1015b1bd5dcf8d8",
+      "stranded_check_count": 53,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 152,
+      "seed": 62803993,
+      "log_sha256": "032a80f076d6ccfc2ada55115f4c3a0f8911f7cade25afd5374ecd97f8b35b84",
+      "yaml_sha256": "0821997d540830e406d14293ffe84a98a75c006e3492ada875c9000b90b6e0b2",
+      "stranded_check_count": 341,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 153,
+      "seed": 605564135,
+      "log_sha256": "6a05d3ee8d99e3848b878efd811948797b6081f75e4b9f9e3ee61d998a2f9b46",
+      "yaml_sha256": "a902ff738c5377f5aac48f48b7952d867debdf94643700e7fb48cb931901a22a",
+      "stranded_check_count": 207,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 161,
+      "seed": 598712894,
+      "log_sha256": "32f9a33cb18ec8fbac159eb33381c6bde0c9574f914faef311d220cdcea94556",
+      "yaml_sha256": "78acbbab7840b1a4a9860e0f0c35f1bcde7c19dfdf1b641ac58c35f4a90e2f02",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 167,
+      "seed": 706742195,
+      "log_sha256": "4337167b8fe7d73d21b1f041bee55f01f586459232af907c91818d8b331befe4",
+      "yaml_sha256": "f7ae2f10e7bb6f2bf02d057bf4aa6538c0cf0378de5b5a9493f7d9f3d92e4a16",
+      "stranded_check_count": 250,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 172,
+      "seed": 971646884,
+      "log_sha256": "e455b9fb5e42a5bf5c3e918d83bc4c887f9cf2e5b77f590031521f38b6a4dac8",
+      "yaml_sha256": "c3005ff3c38770b5c234c220c951fa6ff351fa0e20d27323ba3d25e2949dcd7d",
+      "stranded_check_count": 173,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 176,
+      "seed": 64698168,
+      "log_sha256": "43f4f213d01ec5ebdcffffd4bb61d1ef3815deecbd91fc90ead3551804703487",
+      "yaml_sha256": "209cecae8b2dfa0e8c9577b702e8b376854e24bd85d329c41ae8a104b7c530c8",
+      "stranded_check_count": 330,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 180,
+      "seed": 427244655,
+      "log_sha256": "761cd955f693679f12f679757f52fcc03ffece62325bb2f2803cd5e178dc55d2",
+      "yaml_sha256": "ca2c778c1e111aab5abeb91921b0c2920ee09e91ec0b54505c282f392e15c57f",
+      "stranded_check_count": 303,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 194,
+      "seed": 864218378,
+      "log_sha256": "47ebe7fc076e9955cf160eeef12014283613aa23efa94e97422028acb49eaf62",
+      "yaml_sha256": "25885af7504832a677192847634419705eea4fc161956327d72b3af3096b091e",
+      "stranded_check_count": 281,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 202,
+      "seed": 347346515,
+      "log_sha256": "e4ea7157d39a0a534544d290214aa037af7c072e1eb5ed65f1c5ee06525bac64",
+      "yaml_sha256": "d490cbb380c28b684916adbea1fccad38e816e98d2be27db292e44fa767edd81",
+      "stranded_check_count": 43,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 207,
+      "seed": 396344762,
+      "log_sha256": "d3aeef95059f5eadafe9504000339abaa27b1d637f24161cb399fa5c2eb16c2d",
+      "yaml_sha256": "2d1ae4a8dc8a5c7ef432b597790d068b4b30c4e7161465772fd4b10fbcc1dfb7",
+      "stranded_check_count": 79,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 212,
+      "seed": 148273981,
+      "log_sha256": "5f0ffcef6e33674ecf872b59030c1bc2fba43820f86d52cec2d07a0fa79f5bf2",
+      "yaml_sha256": "29804d51a51cb49c1baf17d16420f927f49a096f87f2e0eb647587a326e2fcef",
+      "stranded_check_count": 112,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 218,
+      "seed": 669267016,
+      "log_sha256": "1515342414408437dd8c9775576b3fb39d392403fbf788bd75e7302cd551754f",
+      "yaml_sha256": "2a73a59147cc0f9672bcdf6689067dc97609ef49a78f99a9b161732259e500eb",
+      "stranded_check_count": 17,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 222,
+      "seed": 942277916,
+      "log_sha256": "fe5799953c00d3bd7ffc79cf9e9f419ddc06456b9b5784249a55162f6685c98b",
+      "yaml_sha256": "ddf772b5d091faa8d119d4cc6cd72454f790ec6d93c696a3807086e45a3ebae6",
+      "stranded_check_count": 121,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 225,
+      "seed": 121948683,
+      "log_sha256": "b51debb41e1acbe7df5f59d783d0c79f236e0ea2076f9a41b6167028043c90fe",
+      "yaml_sha256": "b31e843e3048c2ff51096e2c4963b10020b420e6d1156da96a7a592babd531be",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 226,
+      "seed": 710531119,
+      "log_sha256": "4b60dcb2ec9cde625b3b0290e1ee31db0a1706c644eb676e4c9336c91d186c34",
+      "yaml_sha256": "09665cccf6a032d06eb373357e20c18d2c3bfa6449490849fc48256ef625bb86",
+      "stranded_check_count": 300,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 228,
+      "seed": 254429063,
+      "log_sha256": "7f77e3fa7094adbc79d3fa54b54c87fbd23c0b86ae7a1b31255790d701b006a2",
+      "yaml_sha256": "05c203b43ed86829062c8389067ca26e45572744ed29a08683b539574cd759f7",
+      "stranded_check_count": 114,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 230,
+      "seed": 896764435,
+      "log_sha256": "af72dcd6e5e59668c64e3f0a68aa54b3fb60ae738bf98d65fbc81079ba8cc3d9",
+      "yaml_sha256": "afe17cfa0abc95df00f4d61918f5e3b78cfb389dfca627a355730051822c4dd2",
+      "stranded_check_count": 245,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 231,
+      "seed": 526690275,
+      "log_sha256": "f4075611d41e1d255f992efca96f097bb9645563477a5e0c8a92b053bb83901b",
+      "yaml_sha256": "dbe1ef00467267486facc6a05e26c9d8a50af42074381c5c371d547edf982456",
+      "stranded_check_count": 64,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 232,
+      "seed": 409337412,
+      "log_sha256": "bb3e09e4c5ca0f30fabcfbd6cc86d14968e54a477ab60d8b663d3c39c449d8c2",
+      "yaml_sha256": "0d445e0f4d463df12d7915e924f00cbea0712f243f63d835c45917167f521b64",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 234,
+      "seed": 459908608,
+      "log_sha256": "e30d2381eaa0b2d7cc74bbe5107dfbee8513f4ec298b5810ed8f8faff886e4e9",
+      "yaml_sha256": "5a6d228df6bf66cd595e6e464c1658956841e2e5a3e1e3020fad637d656426f7",
+      "stranded_check_count": 300,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 236,
+      "seed": 820489542,
+      "log_sha256": "8e42e5361f814ae582dd1a2143d3813e0c5bc827fa754070ac47107600ba2b82",
+      "yaml_sha256": "3fb84f7cb3ddf6ce97eda4c1bad1e367868bd3d8ae440305b7e431f272b3000c",
+      "stranded_check_count": 212,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 244,
+      "seed": 861035151,
+      "log_sha256": "447a2bb19aab82df17d81ec5f1825e9fd20e152b9ce1f5b1894e0223d668036f",
+      "yaml_sha256": "7ad4ff3930613f5788a9de49c909b6d078d62d23ba83fbf15aae9898733dbd30",
+      "stranded_check_count": 52,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 247,
+      "seed": 66574032,
+      "log_sha256": "9d8dae73702b6f81ccc06c07fd3f5193be88cce94e7b55f715a1fa4b20e38984",
+      "yaml_sha256": "26c599d36115deed9cb8ee2632989015461aaaf53e19d79e5413d0ccbcf1dee2",
+      "stranded_check_count": 85,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 248,
+      "seed": 915271542,
+      "log_sha256": "bd1d5a759b18688fc47f1f0d31717375ab91428fcfec24b78f8302e28ed1a554",
+      "yaml_sha256": "eb5e3392ad88519a3a0cd1c65d8198f5e6e231433c161c591e7f3f50c1229cd0",
+      "stranded_check_count": 12,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 253,
+      "seed": 132052424,
+      "log_sha256": "f9c0840f43c6f9189b22b483869de97b8b18cf6c264462fc7f57b566413c1c70",
+      "yaml_sha256": "9f52e39445728a624d143b4021ec0e1d1f423a749b03ddf78ed7a8a08e350e16",
+      "stranded_check_count": 303,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 261,
+      "seed": 921434371,
+      "log_sha256": "357ad12342408362922bfd046f2bf04a214a4d7e14eff1aed158f49595894ed4",
+      "yaml_sha256": "bf160ad4b7291010058847d4d8141a07a94d23b4db8b2e2fa0968235ca37b9b8",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 263,
+      "seed": 656508423,
+      "log_sha256": "bbfc0aa29f22c81467a525d566c62a2ebc2b2dfff13c4532d79d363ef148db11",
+      "yaml_sha256": "46c3b3f1e855119240430ca84028a9dd96c73f70b400bc29c6e7a6e4aa71729c",
+      "stranded_check_count": 281,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 266,
+      "seed": 57431356,
+      "log_sha256": "025f7b4c0c31b42cec613c8aebd28f7b3237a7936df6293762bee0f9b4e95408",
+      "yaml_sha256": "34d5d8e940ab261aa82bb01847dbe5df8380e9dc32495386a49037821575f881",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 275,
+      "seed": 610584111,
+      "log_sha256": "307a269095a4da950b47360050cb39c4dd8a623714dc091deccd455f9cc2e2d4",
+      "yaml_sha256": "bd74f3a08d0425dd121e9715da0f51bf94d7b7dee4812aaf5761d73c681d2f7f",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 277,
+      "seed": 320432654,
+      "log_sha256": "93d612d6ee3d79a1559230dbfb357f653fde352283f973f4e564092dc103545f",
+      "yaml_sha256": "98e35d28f04bf21809f52d1c311b2f1d79b71a8765771fa4a716fda1124c4d13",
+      "stranded_check_count": 83,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 278,
+      "seed": 646985426,
+      "log_sha256": "3d6b30b584fe79bb5a788618eafb0c283fddee813714acd69004a9f5fa1b66f0",
+      "yaml_sha256": "b1ebbd8a6260a6ebc8093aee84ea319efedc4ff91ce3d52d2c9f90352702b7e7",
+      "stranded_check_count": 43,
+      "mode": 2,
+      "gating": 1
+    },
+    {
+      "case": 279,
+      "seed": 151023599,
+      "log_sha256": "5c87ec55fb69ec18da1413e7fd688f1e108d52140cdaf61cfe16a889e6d0d945",
+      "yaml_sha256": "e11b58f84adde7f66f74a4ed70fe1f93aeee46de5c4d93db56f3ca9e4eed76a0",
+      "stranded_check_count": 101,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 282,
+      "seed": 653352376,
+      "log_sha256": "8f410e1de1c19663b0c6217b43a62c1687b4bab86cf238fdd6972777161fd739",
+      "yaml_sha256": "c2067166cfeacbb042c001ce2daa640c1519b4e1b8bebb89a63ed989c9da5ad8",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 285,
+      "seed": 597316247,
+      "log_sha256": "05cf30c707e5ee6ee5a63a8534fac7b94963ee03ef7c74256979d43f45d81ffa",
+      "yaml_sha256": "8e37186128a20f7054acdbceb2a315252039bfa95a8fd5674561b76d8fdccd7f",
+      "stranded_check_count": 250,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 290,
+      "seed": 735341087,
+      "log_sha256": "1b104dfa35feae87b45b25d21c40b011a82225c2fbf43ebad234d64cee493b5a",
+      "yaml_sha256": "1c5630d491f6586b172ac62f1ea1b76ccb17b29b9a960084d757f078c904fd91",
+      "stranded_check_count": 26,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 295,
+      "seed": 133415592,
+      "log_sha256": "e86caf1d11c1f9ce32d48acb7154f69164e893e2abe421bb6a11511c547c775f",
+      "yaml_sha256": "f0e4b0515812bd427b8a91cb84ff426892353f49d1b36c8c34cfea2279c2229d",
+      "stranded_check_count": 194,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 296,
+      "seed": 828583187,
+      "log_sha256": "9136516e32f974627afed42d95eec8f2f9a6452deb6266944c79143ee63c9956",
+      "yaml_sha256": "3e212c90cc9d5b5f4108dc4232ea6a5b0b60c3db807b2cf35139976a1fe38854",
+      "stranded_check_count": 118,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 297,
+      "seed": 404223707,
+      "log_sha256": "8b23b1c30077f39e1471ff4c2e409e927bd57e513402638d7a2cde67e577935e",
+      "yaml_sha256": "52dacdc058bbd1b580761c1d52fb73215b0401d48d25caab2d2984d7d542b695",
+      "stranded_check_count": 341,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 300,
+      "seed": 298579501,
+      "log_sha256": "09d5ebf9f547882549736d6dc12584ef320cc7f3952743698a11f5a9e23a4243",
+      "yaml_sha256": "151dfeec4f44b96f91e18baf2b95acb1283b1e244992daa854947c4a35db5ea6",
+      "stranded_check_count": 5,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 302,
+      "seed": 390902719,
+      "log_sha256": "43fe32a2f65a7bc1b4ecbacc0d71766fd41954b5d7e0398b51c17c39d952cebb",
+      "yaml_sha256": "0ba4bf2b43eaaac65a1a3c15826eeabdb58cfcabcbf86e68edea8ed9e1e9364d",
+      "stranded_check_count": 281,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 311,
+      "seed": 322617846,
+      "log_sha256": "d72fc2515bc6562d6607a9b70d89be7af54e037f1ba0921aacfc846b177d6a91",
+      "yaml_sha256": "4a04acef38d69ad9fa1f7a9cf7b46b2e12f5a496b1df157bd7e74f348405ead1",
+      "stranded_check_count": 33,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 322,
+      "seed": 4105926,
+      "log_sha256": "0e7fc4328ce66965306b93fd2abdfb4d631d8998804a1fe74a132b3c0314294a",
+      "yaml_sha256": "62fcadd24453228e150268c3337b61cea5f14ffd28760edd9b7f4d7c2bf0487a",
+      "stranded_check_count": 93,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 324,
+      "seed": 600190582,
+      "log_sha256": "9f18cea34ce8154af189a427866f26e0a7d7da8fb26f22a7dbee07726d35b25c",
+      "yaml_sha256": "b9b23813d0a814b2804ad4c15a09393182390c708f3a8601fe58d9d804e29810",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 330,
+      "seed": 277266150,
+      "log_sha256": "4960db8e73e5c8aa6a1fcf7391ed1b4daded33603fa02c866dd2658deb15c132",
+      "yaml_sha256": "6b6f1b17ee5a39adcb0c4a39c724b7d35e5057a12633b11aa36f3b6cdcd763dc",
+      "stranded_check_count": 97,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 342,
+      "seed": 538720550,
+      "log_sha256": "1c6a80ba05cf9a5c95577dccba7b5fe727c11daa855184cb6ffddb2a65b4bd38",
+      "yaml_sha256": "ebb229f3189a301c879238ee604e2e97c19867d639ae645900d579e0d229b4f8",
+      "stranded_check_count": 318,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 343,
+      "seed": 855287032,
+      "log_sha256": "ace9d984ff671291ab3985c0a309f1f383c07f14335ca608c7ea5b64aced6559",
+      "yaml_sha256": "150b273e3de402065eed5e57de944d53571954205a4c6a2bf04b23603583331b",
+      "stranded_check_count": 112,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 344,
+      "seed": 159286074,
+      "log_sha256": "52f29582385729062e4b16859aa2a0fe34e7fdd3cfdb7d983a36216d1cc9b685",
+      "yaml_sha256": "97bf01c96b5c35b78eadc04d017421950e2263e9016989b31a7085208fd13600",
+      "stranded_check_count": 71,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 347,
+      "seed": 617004201,
+      "log_sha256": "8bffffdbe224328ced9848fe9d60374a540d4d33c20146c340ffe8174508be36",
+      "yaml_sha256": "cd144115ff25b8a8555942b84485bd296937a8d4a194b2665750e9304a68906e",
+      "stranded_check_count": 76,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 348,
+      "seed": 676297409,
+      "log_sha256": "9264ba21ad7d2a0423b668d0b941986e1b961a14f002e4e3fee57455d33191e3",
+      "yaml_sha256": "6791807905abf279ad5f0bb1cf5927a480e93f695bcc24f3217c06f5c0fe2088",
+      "stranded_check_count": 91,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 355,
+      "seed": 443189724,
+      "log_sha256": "deb50143a4862f710a3f28e2fb5bfb76db0be46f8551777756b97690911889cf",
+      "yaml_sha256": "acebe246b2ccc8d128baed61429bdf48709b5535df475318c79d10fe18837619",
+      "stranded_check_count": 4,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 358,
+      "seed": 288792003,
+      "log_sha256": "dd7b19ca649918c3946b2995c5566f1b4bf9b08ca95a3629bcfdedf5b94b76e8",
+      "yaml_sha256": "34c5790ca92dddb9258f4b7c650119c9f9dd5f11ab38941bbd7b85e60e81b2d1",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 371,
+      "seed": 412193558,
+      "log_sha256": "4009a334ec73d9c4c079403778949cfa61be77989cd2730273e6a4b9e4b9e585",
+      "yaml_sha256": "cf6507b48fba03a94d60ea5cf4ea671c6143da8988beeed4bfdc5fd9b029cf64",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 373,
+      "seed": 536200717,
+      "log_sha256": "4e3bb0cee779d35578111c4d66ef39821f51eaa909f1c5b332d4c18f9a498d3a",
+      "yaml_sha256": "dd8d25886a46b791ede9c8f34dd4b4e39b4df2788b8b85d18edcce2abdc84865",
+      "stranded_check_count": 281,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 374,
+      "seed": 966283772,
+      "log_sha256": "12b5eb3a05c9a1a4f741d9bf9cba70cd7f108981b04b7d8868f1818b8a7ed453",
+      "yaml_sha256": "ba42556868f0dc385a973333892d915fbac9905fd2dff76cf6e79943c5ef5115",
+      "stranded_check_count": 112,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 388,
+      "seed": 318090974,
+      "log_sha256": "f1dd223a569f77376bd52a0a5d61e70c65a2fe6cdeace59e22fef05303558cc0",
+      "yaml_sha256": "d89f815ac1fe9b287cc30676c6e94c891b6803001a48c7b24f103f290a5b01e7",
+      "stranded_check_count": 240,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 393,
+      "seed": 574144728,
+      "log_sha256": "630370fb90893b9f5f963c2f4415fac10cd57aab95d13148578c53f88a83df78",
+      "yaml_sha256": "4c7b28051f4c625fb1ee27c01cbfb85e4282198b6b177760a04f3bf2d074589e",
+      "stranded_check_count": 112,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 401,
+      "seed": 769651756,
+      "log_sha256": "58be8887d663a61e9750ced26c6eed5b8ac887e5fd29095188f690942cdd2a54",
+      "yaml_sha256": "578079dbc6cfe9ab457c9b0a0133ab6bcaaf5ab22da4621782bb2a96992e2e2f",
+      "stranded_check_count": 133,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 405,
+      "seed": 161787200,
+      "log_sha256": "7e9785764279207cd4890db76c0f970c0f8b57695ecac89f0fefd8675df17b18",
+      "yaml_sha256": "c1a751a4a5785c790e51dd315608bc9444d4826eeed12c759772204b5d202c5d",
+      "stranded_check_count": 39,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 412,
+      "seed": 160700105,
+      "log_sha256": "b8ebd22a5f2f7bb7ac99fdf04cb7ec74008b5236142607f97267908cd8bd0302",
+      "yaml_sha256": "f5d330928a3e48784892a8c4816c0725f9f195d3e5457cbc7a2c48f0a52856fd",
+      "stranded_check_count": 40,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 414,
+      "seed": 133356368,
+      "log_sha256": "7b3dd7200d9104ea6883b18a73d0a2e0d76f059917f7f4ea882bd4e2740eca09",
+      "yaml_sha256": "8fc207d04c1050c9ceb94da682326f9bed14183132a98727d71d083eee02e7fe",
+      "stranded_check_count": 255,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 415,
+      "seed": 999391588,
+      "log_sha256": "4cc7f7b76a365b3f38fbf61db15fcf131ea041c38649cc1dc5c2eef64e73dd2f",
+      "yaml_sha256": "34134a7583c7718b5863b4b16b440368d88b0dc0bf8b6f7cd203904a4dc2a2d6",
+      "stranded_check_count": 6,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 418,
+      "seed": 919581069,
+      "log_sha256": "ea8e8e7c3faefa5b540fa0967012019b308ef4f527e364e621243be5c7cbb8fc",
+      "yaml_sha256": "7dab961f6504e8534f49b7205171a25fb11166ec58188d88cafebdc4a4322673",
+      "stranded_check_count": 51,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 421,
+      "seed": 947549421,
+      "log_sha256": "2a735339a87a3d7bb9a716c188e8d2878577337f48b44272e111651490f6e8e5",
+      "yaml_sha256": "c4057ad92b158845fd44fdaca65802945f6f51aff1e71a8848ef6237dd35e78c",
+      "stranded_check_count": 39,
+      "mode": 1,
+      "gating": 0
+    },
+    {
+      "case": 423,
+      "seed": 420290815,
+      "log_sha256": "b3768dbf943bf5b698c9b4c029b5ed1b11b71c318bf1aea32343c48302b47c50",
+      "yaml_sha256": "243abab867e91b1972071313e8857dfb89528d86426f95a3953d7ebe588fa941",
+      "stranded_check_count": 100,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 424,
+      "seed": 540675248,
+      "log_sha256": "d04c3a174d6d63e1e3edfd2314a26fc3e53395e63dd916b570a149955472f198",
+      "yaml_sha256": "3c63f06dec87ab0b1f5f5e6cf44c18df6418300393907d89c8b3b431eff2288c",
+      "stranded_check_count": 175,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 425,
+      "seed": 339843426,
+      "log_sha256": "68a74b39be9931f23abab099dade46e8999744f72ef79930051fff03902c32f6",
+      "yaml_sha256": "b467e675c15f7799a7c190e43abb54f21ec9986e7e3df6061206bdbd4039db41",
+      "stranded_check_count": 13,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 437,
+      "seed": 648214329,
+      "log_sha256": "724358b017c3cd6838eb388080b4153d5649a76eb789fe7417d0eccd6810e4e6",
+      "yaml_sha256": "4c7bae047040a45aa2a2966627230706cddda1f4abb4ce0916275a55116c2ad7",
+      "stranded_check_count": 5,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 443,
+      "seed": 472743639,
+      "log_sha256": "a786ce7c4fb4a0a71f19b8957d8b44a416e33c4794f33bd921d6af8adeae78d3",
+      "yaml_sha256": "989584642df3a4f006b67de57622d3ab7ccf3a6a1df3ad41520e77eb569e867c",
+      "stranded_check_count": 24,
+      "mode": 1,
+      "gating": 1
+    },
+    {
+      "case": 444,
+      "seed": 428075253,
+      "log_sha256": "bd5db55ec679a2478789e7b41ea5e535b2bf4a6e191d79214dccdcffc38651ab",
+      "yaml_sha256": "3034485eb3791e50cf5bca6937e42d96408678d6933f4999534fa7e1b2667021",
+      "stranded_check_count": 41,
+      "mode": 0,
+      "gating": 0
+    },
+    {
+      "case": 447,
+      "seed": 77149093,
+      "log_sha256": "73f123bc9a66b03009533177932c111f250d7b3155cacddac528cb1b0c8a3700",
+      "yaml_sha256": "91099a4a8db40f6830978f197f6f692bb2e79fceb777e5ef4548b267d2de6840",
+      "stranded_check_count": 50,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 454,
+      "seed": 441237117,
+      "log_sha256": "f8864acdf93fe93e7a9e950a2cafce18fb042768d94664b8f6385ac3a1135b83",
+      "yaml_sha256": "85ecb70397d654795002d8a0efd0031112c3d0882161049fd03008c900157099",
+      "stranded_check_count": 1,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 479,
+      "seed": 6562637,
+      "log_sha256": "d1bcf53c9212a55e7e8d46428f73a76832f1743268af19952818705e6eeeb102",
+      "yaml_sha256": "475c088906186afb884d1d2bb9a9fb2715280d7da4470140a7a526e638c38080",
+      "stranded_check_count": 171,
+      "mode": 0,
+      "gating": 1
+    },
+    {
+      "case": 481,
+      "seed": 701346793,
+      "log_sha256": "2bf5158745c064a0b12e100d7fd6ad894584c3feca8e49c495b554ea90819165",
+      "yaml_sha256": "e865219053b63ad5de5c34e330dcd360ece7d6722b63b3ba8d2d28c20ae86948",
+      "stranded_check_count": 24,
+      "mode": 2,
+      "gating": 0
+    },
+    {
+      "case": 482,
+      "seed": 329392043,
+      "log_sha256": "6b6d83fbb0e5e4e254e4e00840a752665b140dfcbed309f0f3426aee7256b51d",
+      "yaml_sha256": "4b6fe2ac07320c7a912b5df87473f49cdeed97258e4b267a77eb93e6ce40f2de",
+      "stranded_check_count": 37,
+      "mode": 0,
+      "gating": 1
+    }
+  ]
+}

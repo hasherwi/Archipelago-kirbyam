@@ -37,7 +37,7 @@ def test_only_hammer_and_master_can_start_underwater_metal_attack(ability):
     assert run(route, ability=ability).reaches('chest') == (ability in {'Hammer', 'Master'})
 
 
-@pytest.mark.parametrize('ability', ['Stone', 'Smash', 'Burning', 'Missile', 'UFO', 'Throw'])
+@pytest.mark.parametrize('ability', ['Stone', 'Smash', 'Burning', 'Missile', 'UFO'])
 def test_land_metal_providers_are_not_automatically_swimming_providers(ability):
     route = Route('launch', 'chest', 'metal')
     assert run(route, ability=ability).reaches('chest')
@@ -229,6 +229,7 @@ def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
     from ..traversal_data import room_traversal_targets
     assert {row['id'] for row in room_traversal_targets('block')} == {
         'underwater_819_exit', 'frozen_825_sound_effects',
+        'normal_208_to_209_bottom', 'normal_210_to_209_upper',
     }
     items = json.loads(pkgutil.get_data('worlds.kirbyam', 'data/items.json'))
     assert items['ABILITY_UNLOCK_ICE']['classification'] == 'USEFUL'

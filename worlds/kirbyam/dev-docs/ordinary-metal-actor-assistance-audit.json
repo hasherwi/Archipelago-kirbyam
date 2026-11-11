@@ -1,0 +1,4391 @@
+{
+  "schema_version": 1,
+  "status": "original_fixtures_replayed_no_identified_ai_assistance",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "artifacts_audited": [
+    "d718181f8fe97aa99d698ea41ed7d55d0f88af62",
+    "a4cca011f7f5d2e3ada5600c116a1f6b5663e74c",
+    "961677da5e29f459cf18e9e043654c76f9f1ff17",
+    "caab63f385a0837fa70fe9d9c49ac65ca1b93fcb",
+    "da16f59c09fd1ce7ae882538a40ba6cf09dba787"
+  ],
+  "method": [
+    "Cold replay each original fixture with byte-identical ROM hash and published input sequences. No isolated-AI fixture substitution and no runtime-memory writes.",
+    "After every emulated frame read all4 Kirby rooms/abilities using base0x02020EE0,stride0x1A8,room+0x60,ability+0x103. Preserve change-log for all frames including startup.",
+    "For Box Boxer, identify runtime object by template0x088BF7E4. Read signed16-bit HP at+0x80 each frame. At every decrease read attack pointer base.unk6C(+0x6C), attack kind/room/damage/parent/kirby2 and allKirbys.",
+    "Source-verified ObjectBase parent offset0x70 and kirby2 offset0x74, size0x78 (include/data.h). The Magic cross-room effect explicitly stores its caster in kirby2 (src/code_0806F780.c sub_080838DC/sub_08083B04).",
+    "No AI ever heldCook12,Magic21,Crash24 in these exact replays. Carrier audits also found no AI in the same room asP1 after startup. This rules out the specifically identified off-room Magic assistance, rather than treating off-room placement alone as isolation."
+  ],
+  "stone_boxer": {
+    "100": {
+      "rom_sha256": "2467967c925ea6b64cd547caa22d889a66fefba78f8f7411af1da9679d69b329",
+      "frames": 9182,
+      "live_boss_damage_event_count": 5,
+      "post_zero_lifecycle_decreases_included": 1,
+      "events": [
+        {
+          "frame": 3372,
+          "segment": "stone210boxattack",
+          "before": 40,
+          "after": 31,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3732,
+          "segment": "boxcycle-pass",
+          "before": 31,
+          "after": 22,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4345,
+          "segment": "boxcycle2",
+          "before": 22,
+          "after": 13,
+          "attack": {
+            "pointer": "0x300429c",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4909,
+          "segment": "boxcycle3",
+          "before": 13,
+          "after": 4,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4925,
+          "segment": "boxcycle3",
+          "before": 4,
+          "after": 0,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4926,
+          "segment": "boxcycle3",
+          "before": 0,
+          "after": -9,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              290,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1297,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1545,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6025,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              1
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6035,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              101,
+              1
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 7855,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              101,
+              1
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              3
+            ]
+          ]
+        },
+        {
+          "frame": 8671,
+          "actors": [
+            [
+              209,
+              8
+            ],
+            [
+              101,
+              1
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              3
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "stone209collect",
+        "final": {
+          "frame": 9182,
+          "room": 209,
+          "x": 53.6171875,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 8
+        },
+        "minhp": 6,
+        "hp_drops": [],
+        "flag23": 128
+      },
+      "result": "All live HP losses have P1-owned effects and no foreign caster. Published health/equipment/check result reproduced."
+    },
+    "500": {
+      "rom_sha256": "e4cc4bbba90d986bdaf945615c19fe116935254811db328091d11b962c3ca14d",
+      "frames": 20627,
+      "live_boss_damage_event_count": 29,
+      "post_zero_lifecycle_decreases_included": 1,
+      "events": [
+        {
+          "frame": 3372,
+          "segment": "stone210boxattack",
+          "before": 200,
+          "after": 191,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3826,
+          "segment": "box500-hit1",
+          "before": 191,
+          "after": 182,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4219,
+          "segment": "box500-hit2",
+          "before": 182,
+          "after": 173,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4235,
+          "segment": "box500-hit2",
+          "before": 173,
+          "after": 164,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4251,
+          "segment": "box500-hit2",
+          "before": 164,
+          "after": 155,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4626,
+          "segment": "box500-hit3",
+          "before": 155,
+          "after": 146,
+          "attack": {
+            "pointer": "0x30041d4",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5115,
+          "segment": "box500-hit4",
+          "before": 146,
+          "after": 143,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 5707,
+          "segment": "box500-hit5",
+          "before": 143,
+          "after": 140,
+          "attack": {
+            "pointer": "0x3004280",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 6674,
+          "segment": "box500-hit6",
+          "before": 140,
+          "after": 137,
+          "attack": {
+            "pointer": "0x3004250",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 7161,
+          "segment": "box500-hit7",
+          "before": 137,
+          "after": 134,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 7717,
+          "segment": "box500-hit8",
+          "before": 134,
+          "after": 125,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 8588,
+          "segment": "box500-hit9",
+          "before": 125,
+          "after": 116,
+          "attack": {
+            "pointer": "0x30042b0",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 9027,
+          "segment": "box500-hit10",
+          "before": 116,
+          "after": 113,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 9629,
+          "segment": "box500-hit11",
+          "before": 113,
+          "after": 104,
+          "attack": {
+            "pointer": "0x3004394",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 10016,
+          "segment": "box500-hit12",
+          "before": 104,
+          "after": 101,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 10489,
+          "segment": "box500-hit13",
+          "before": 101,
+          "after": 98,
+          "attack": {
+            "pointer": "0x30042fc",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 10895,
+          "segment": "box500-hit14",
+          "before": 98,
+          "after": 89,
+          "attack": {
+            "pointer": "0x3004280",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 11337,
+          "segment": "box500-hit15",
+          "before": 89,
+          "after": 80,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 11629,
+          "segment": "box500-hit16",
+          "before": 80,
+          "after": 71,
+          "attack": {
+            "pointer": "0x3004220",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 12101,
+          "segment": "box500-hit17",
+          "before": 71,
+          "after": 62,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 12426,
+          "segment": "box500-hit18",
+          "before": 62,
+          "after": 53,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 13065,
+          "segment": "box500-hit19",
+          "before": 53,
+          "after": 50,
+          "attack": {
+            "pointer": "0x3004204",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 13628,
+          "segment": "box500-hit20",
+          "before": 50,
+          "after": 47,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 14564,
+          "segment": "box500-hit21",
+          "before": 47,
+          "after": 44,
+          "attack": {
+            "pointer": "0x300429c",
+            "kind": 2,
+            "room": 210,
+            "damage": 4,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 14941,
+          "segment": "box500-hit22",
+          "before": 44,
+          "after": 35,
+          "attack": {
+            "pointer": "0x3004250",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 15383,
+          "segment": "box500-hit23",
+          "before": 35,
+          "after": 26,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 15675,
+          "segment": "box500-hit24",
+          "before": 26,
+          "after": 17,
+          "attack": {
+            "pointer": "0x30041d4",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 16043,
+          "segment": "box500-hit25",
+          "before": 17,
+          "after": 8,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 16364,
+          "segment": "box500-hit26",
+          "before": 8,
+          "after": 0,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 16365,
+          "segment": "box500-hit26",
+          "before": 0,
+          "after": -9,
+          "attack": {
+            "pointer": "0x3004188",
+            "kind": 2,
+            "room": 210,
+            "damage": 10,
+            "flags": "0xa2040401",
+            "unk68": "0x30005003",
+            "parent": "0x2020ee0",
+            "kirby2": "0x0"
+          },
+          "kirby_room_ability_at_drop": [
+            [
+              210,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        }
+      ],
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              290,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1297,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1545,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4620,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 4963,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              13
+            ]
+          ]
+        },
+        {
+          "frame": 8902,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 8938,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              101,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 15984,
+          "actors": [
+            [
+              210,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 17480,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 18227,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 18375,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              106,
+              0
+            ],
+            [
+              101,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 18394,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              106,
+              0
+            ],
+            [
+              106,
+              16
+            ]
+          ]
+        },
+        {
+          "frame": 18912,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              106,
+              0
+            ],
+            [
+              106,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 19151,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              106,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 19479,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              106,
+              19
+            ],
+            [
+              106,
+              13
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 19992,
+          "actors": [
+            [
+              205,
+              8
+            ],
+            [
+              107,
+              19
+            ],
+            [
+              106,
+              13
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 20116,
+          "actors": [
+            [
+              209,
+              8
+            ],
+            [
+              107,
+              19
+            ],
+            [
+              106,
+              13
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "stone209collect",
+        "final": {
+          "frame": 20627,
+          "room": 209,
+          "x": 53.6171875,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 8
+        },
+        "minhp": 6,
+        "hp_drops": [],
+        "flag23": 128
+      },
+      "result": "All live HP losses have P1-owned effects and no foreign caster. Published health/equipment/check result reproduced."
+    }
+  },
+  "carriers": [
+    {
+      "trace": "hammer228",
+      "percent": 100,
+      "rom_sha256": "d2f3f10181b3d9ff490bede7b46c077462ac1ba7fb43efdf436984df4b35c9c3",
+      "frames": 13701,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              290,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1297,
+          "actors": [
+            [
+              210,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1545,
+          "actors": [
+            [
+              210,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2703,
+          "actors": [
+            [
+              227,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3323,
+          "actors": [
+            [
+              227,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 4685,
+          "actors": [
+            [
+              204,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 5675,
+          "actors": [
+            [
+              203,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 7408,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 8184,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 8737,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 9558,
+          "actors": [
+            [
+              209,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 10244,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 12007,
+          "actors": [
+            [
+              228,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 13423,
+          "actors": [
+            [
+              228,
+              17
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              10
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "jointHammer228collect",
+        "final": {
+          "frame": 13701,
+          "room": 228,
+          "x": 472.35546875,
+          "y": 200.99609375,
+          "hp": 6,
+          "ability": 17
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 128,
+        "flag30": 64,
+        "flag18": 0
+      }
+    },
+    {
+      "trace": "hammer228",
+      "percent": 500,
+      "rom_sha256": "2e58aea4401a89df524de4ba7138af6c1932d11826655078a398760513a9e565",
+      "frames": 14102,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1073,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              290,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1107,
+          "actors": [
+            [
+              290,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1297,
+          "actors": [
+            [
+              210,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1545,
+          "actors": [
+            [
+              210,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2703,
+          "actors": [
+            [
+              227,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3323,
+          "actors": [
+            [
+              227,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 4685,
+          "actors": [
+            [
+              204,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 5675,
+          "actors": [
+            [
+              203,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 7408,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              5
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 8184,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 9536,
+          "actors": [
+            [
+              209,
+              17
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 9726,
+          "actors": [
+            [
+              209,
+              17
+            ],
+            [
+              101,
+              6
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 10224,
+          "actors": [
+            [
+              205,
+              17
+            ],
+            [
+              101,
+              6
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        },
+        {
+          "frame": 12408,
+          "actors": [
+            [
+              228,
+              17
+            ],
+            [
+              101,
+              6
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "jointHammer228collect",
+        "final": {
+          "frame": 14102,
+          "room": 228,
+          "x": 472.35546875,
+          "y": 200.99609375,
+          "hp": 6,
+          "ability": 17
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 128,
+        "flag30": 64,
+        "flag18": 0
+      }
+    },
+    {
+      "trace": "burning743lever",
+      "percent": 100,
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "frames": 7917,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2731,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5151,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6277,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6841,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        },
+        {
+          "frame": 7428,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              13
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        },
+        {
+          "frame": 7454,
+          "actors": [
+            [
+              743,
+              0
+            ],
+            [
+              101,
+              13
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        },
+        {
+          "frame": 7908,
+          "actors": [
+            [
+              180,
+              0
+            ],
+            [
+              101,
+              13
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "leverNormalDepart",
+        "final": {
+          "frame": 7917,
+          "room": 180,
+          "x": 72.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 4
+      }
+    },
+    {
+      "trace": "burning743lever",
+      "percent": 500,
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "frames": 8187,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2253,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2320,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3590,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5426,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6781,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6814,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              25
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 7724,
+          "actors": [
+            [
+              743,
+              0
+            ],
+            [
+              101,
+              25
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 8178,
+          "actors": [
+            [
+              180,
+              0
+            ],
+            [
+              101,
+              25
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "leverNormalDepart",
+        "final": {
+          "frame": 8187,
+          "room": 180,
+          "x": 72.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 4
+      }
+    },
+    {
+      "trace": "burning743joint",
+      "percent": 100,
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "frames": 7682,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2731,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5151,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6277,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6841,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        },
+        {
+          "frame": 7544,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              18
+            ],
+            [
+              101,
+              5
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "mainToDeadEndpoint",
+        "final": {
+          "frame": 7682,
+          "room": 708,
+          "x": 472.0,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 0
+      }
+    },
+    {
+      "trace": "burning743joint",
+      "percent": 500,
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "frames": 7952,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2253,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2320,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3590,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5426,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6781,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 6814,
+          "actors": [
+            [
+              743,
+              3
+            ],
+            [
+              101,
+              25
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 7814,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              25
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "mainToDeadEndpoint",
+        "final": {
+          "frame": 7952,
+          "room": 708,
+          "x": 472.0,
+          "y": 456.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 0
+      }
+    },
+    {
+      "trace": "burning708exit706",
+      "percent": 100,
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "frames": 5587,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2731,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5449,
+          "actors": [
+            [
+              706,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "shaftLastSafe",
+        "final": {
+          "frame": 5587,
+          "room": 706,
+          "x": 40.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 0
+      }
+    },
+    {
+      "trace": "burning708exit706",
+      "percent": 500,
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "frames": 5862,
+      "ai_magic_cook_crash_frame_count": 0,
+      "same_room_ai_frames_after_boot": 0,
+      "actor_change_log": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1075,
+          "actors": [
+            [
+              790,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1108,
+          "actors": [
+            [
+              790,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1313,
+          "actors": [
+            [
+              740,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2253,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2320,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3590,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 5614,
+          "actors": [
+            [
+              708,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              17
+            ]
+          ]
+        },
+        {
+          "frame": 5724,
+          "actors": [
+            [
+              706,
+              3
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              15
+            ],
+            [
+              101,
+              17
+            ]
+          ]
+        }
+      ],
+      "final": {
+        "id": "shaftLastSafe",
+        "final": {
+          "frame": 5862,
+          "room": 706,
+          "x": 40.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 3
+        },
+        "minhp_after_boot": 6,
+        "hp_decreases": [],
+        "flag23": 0,
+        "flag30": 0,
+        "flag18": 0
+      }
+    }
+  ],
+  "limitations": [
+    "This addendum audits the listed exact traces only, not every previously generated fixture or all conceivable AI mechanisms.",
+    "Noncombat carrier attribution is based on complete actor/ability/room history, not a hook on every enemy collision. Box Boxer damage has direct last-attacker evidence.",
+    "All earlier fixture/source-prefix, native-vs-AP, terminal equipment and no-general-reset qualifications remain. No production logic or original evidence was changed."
+  ],
+  "audit_script_sha256": {
+    "auditStoneActors.py": "2f8d810644b3924f22669375b4ef6b3d5fd925902dce4dc631c54cc3b0bb57ed",
+    "auditCarrierActors.py": "80b1d9039559cb0489683c4f3980fe6a33928beefa7f6518d4c245db252cfce0"
+  }
+}

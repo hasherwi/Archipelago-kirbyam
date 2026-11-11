@@ -1,0 +1,218 @@
+{
+  "checked_on": "2026-11-08",
+  "scope": "Pinned public source references for data interpretation, not complete room traversal proofs. Line references correspond to the exact revision. Source assets and full collision grids are not bundled.",
+  "native_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "repository_url": "https://github.com/jiangzhengwenjz/katam",
+  "references": [
+    {
+      "id": "object_template_layout",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "include/data.h",
+      "symbol": "ObjectTemplate",
+      "lines": [
+        250,
+        277
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h#L250-L277",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h",
+      "file_sha256": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+      "supports": "Native x/y/type layout used to identify physical sources; this structure is not source acquisition or reachability proof."
+    },
+    {
+      "id": "room_property_layout",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "include/data.h",
+      "symbol": "RoomProps",
+      "lines": [
+        447,
+        470
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h#L447-L470",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h",
+      "file_sha256": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+      "supports": "Foreground, solidity and object-list table indices used by the optional local-ROM reader."
+    },
+    {
+      "id": "native_ability_table_layout",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "include/data.h",
+      "symbol": "Unk_08351648",
+      "lines": [
+        550,
+        561
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h#L550-L561",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h",
+      "file_sha256": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+      "supports": "The kirbyAbility field is a 16-bit field at offset 6 of a 24-byte entry."
+    },
+    {
+      "id": "solidity_map_layout",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "include/data.h",
+      "symbol": "SolidityMap",
+      "lines": [
+        877,
+        884
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h#L877-L884",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/include/data.h",
+      "file_sha256": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+      "supports": "Compressed scalar collision grid and mutation-record list pointers."
+    },
+    {
+      "id": "room_table_loading",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/level.c",
+      "symbol": "FillLevelInfo",
+      "lines": [
+        149,
+        223
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c#L149-L223",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c",
+      "file_sha256": "fb2b396338b76e9d9c72e0a2a1ec245d2193818308c8746353212af52ddd0d85",
+      "supports": "Associates native room properties with foreground, solidity records and object list."
+    },
+    {
+      "id": "room_instance_lifetime",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/level.c",
+      "symbol": "FillLevelInfo",
+      "lines": [
+        323,
+        365
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c#L323-L365",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/level.c",
+      "file_sha256": "fb2b396338b76e9d9c72e0a2a1ec245d2193818308c8746353212af52ddd0d85",
+      "supports": "A Kirby already occupying a room causes shared-instance reuse. Recompression/reset occurs on the other branch; taking a door is not unconditional reset proof."
+    },
+    {
+      "id": "object_spawn_and_grant",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/object.c",
+      "symbol": "InitObject",
+      "lines": [
+        2026,
+        2050
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c#L2026-L2050",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/object.c",
+      "file_sha256": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645",
+      "supports": "Object position/type from template and default grant from gUnk_08351648[type].kirbyAbility."
+    },
+    {
+      "id": "collision_lookup",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/code_080023A4.c",
+      "symbol": "GetCollisionTile",
+      "lines": [
+        1270,
+        1332
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L1270-L1332",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c",
+      "file_sha256": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+      "supports": "Reads room-instance scalar collision data; no movement acceptance is inferred."
+    },
+    {
+      "id": "collision_write",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/code_080023A4.c",
+      "symbol": "sub_0800255C",
+      "lines": [
+        1334,
+        1343
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L1334-L1343",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c",
+      "file_sha256": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+      "supports": "Writes the room-instance collision tile value."
+    },
+    {
+      "id": "mutation_record_lookup",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/code_080023A4.c",
+      "symbol": "sub_080025AC",
+      "lines": [
+        1345,
+        1360
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L1345-L1360",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c",
+      "file_sha256": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+      "supports": "Locates a coordinate-specific mutation record."
+    },
+    {
+      "id": "apply_mutation_record",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/code_080023A4.c",
+      "symbol": "sub_08001408",
+      "lines": [
+        586,
+        662
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c#L586-L662",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_080023A4.c",
+      "file_sha256": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+      "supports": "Applies record type 1 replacement at +16 or type 2 at +12 to collision data and updates visuals."
+    },
+    {
+      "id": "bomb_chain_neighbors",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/code_0800E0E4.c",
+      "symbol": "sub_0800E27C",
+      "lines": [
+        47,
+        150
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0800E0E4.c#L47-L150",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/code_0800E0E4.c",
+      "file_sha256": "2bb00626a906b3b9ce5720dc3a4cbca5bd3974a3c16dc7f5753047682a168bf3",
+      "supports": "Expands Bomb propagation to four-neighbor tiles with collision attribute 0x40. This supports separate connected-component analysis, not a controller path through it."
+    },
+    {
+      "id": "throw_held_input",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/kirby.c",
+      "symbol": "sub_08063A88",
+      "lines": [
+        18660,
+        18700
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L18660-L18700",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c",
+      "file_sha256": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+      "supports": "Held-object state selects throw direction/release and has no ordinary new walk/jump dispatch. It does not justify transporting held ammo up a shaft or across a door."
+    },
+    {
+      "id": "throw_release",
+      "repository": "jiangzhengwenjz/katam",
+      "revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "file": "src/kirby.c",
+      "symbol": "sub_08063BFC",
+      "lines": [
+        18702,
+        18722
+      ],
+      "url": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c#L18702-L18722",
+      "raw_url": "https://raw.githubusercontent.com/jiangzhengwenjz/katam/7d969fbce14fdc838d2c1ea01389717fb96c3189/src/kirby.c",
+      "file_sha256": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+      "supports": "Starts one of the directional throw animations. Attack trajectory and barrier contact still need room-specific acceptance."
+    }
+  ]
+}

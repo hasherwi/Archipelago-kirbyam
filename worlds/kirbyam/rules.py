@@ -45,7 +45,7 @@ from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
 from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
-from .traversal import CAPABILITY_ABILITIES
+from .traversal import CAPABILITY_ABILITIES, METAL_BREAKING_ABILITIES
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -92,7 +92,7 @@ _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unc
 # unrelated movement/block requirements retain their existing policy.
 _ABILITY_GATE_PLACEHOLDER_SOURCES = {
     "CanCutRopes": CAPABILITY_ABILITIES["rope"],
-    "CanBreakBlocks": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+    "CanBreakBlocks": METAL_BREAKING_ABILITIES,
     "CanUseMini": CAPABILITY_ABILITIES["mini_corridor"],
     "CanLightFuses": CAPABILITY_ABILITIES["fuse"],
     "CanPoundPegs": CAPABILITY_ABILITIES["peg"],

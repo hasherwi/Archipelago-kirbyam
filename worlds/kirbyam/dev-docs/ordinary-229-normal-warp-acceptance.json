@@ -1,0 +1,1044 @@
+{
+  "schema": "ordinary-229-normal-warp-acceptance-v1",
+  "claim": "Normal from actual native205 doorway into pristine228 lower arrival reaches actual middle229 and230Warp without breaking228F5. Does not certify Normal access through upstream205 or Spray32/food34.",
+  "qualification": "Default starts preserved jointHammer205spikegap checkpoint;500 starts matching jointHammer500shaft40 and replays spikegap. Actual Select discardsHammer in205 before228 entry. Inherited finite source fixture qualification remains upstream only; no terrain or room228/229 object edits, no RAM writes. Source209 flag23 is inherited and not part of independent access claim.",
+  "upstream_finite_blob": "d050d3a81c862617fc45cf8fde2a6c61d158d5bd",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "accepted": [
+    {
+      "enemy_health_percent": 100,
+      "rom_sha256": "d6b5d464e7eb1d100d8838c35625cafc0820d787ba0f2349dae2cc76a17566c7",
+      "initial_checkpoint": "jointHammer205spikegap.ss",
+      "segments": [
+        {
+          "id": "normal228entry",
+          "inputs": [
+            [
+              1,
+              4
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 231,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228lower",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 598,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middleclimb",
+          "inputs": [
+            [
+              60,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              130,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              100,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 918,
+            "room": 228,
+            "x": 494.19921875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228rightbomb",
+          "inputs": [
+            [
+              110,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              45,
+              16
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 1239,
+            "room": 228,
+            "x": 585.99609375,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228upperright",
+          "inputs": [
+            [
+              28,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              25,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1433,
+            "room": 228,
+            "x": 534.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228jumpupper",
+          "inputs": [
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              28,
+              32
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              70,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1823,
+            "room": 228,
+            "x": 486.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middlebomb",
+          "inputs": [
+            [
+              25,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              75,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              100,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2187,
+            "room": 228,
+            "x": 337.4765625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal229middleentry",
+          "inputs": [
+            [
+              20,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              230,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2538,
+            "room": 230,
+            "x": 360.0,
+            "y": 277.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "enemy_health_percent": 500,
+      "rom_sha256": "a7fc22189406419ee739cafc1c37507106a9c6f7f29beb23e69bee23e9ea3faf",
+      "initial_checkpoint": "jointHammer500shaft40.ss",
+      "segments": [
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 416,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            17
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal228entry",
+          "inputs": [
+            [
+              1,
+              4
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 647,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228lower",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1014,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middleclimb",
+          "inputs": [
+            [
+              60,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              130,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              100,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 1334,
+            "room": 228,
+            "x": 494.19921875,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228rightbomb",
+          "inputs": [
+            [
+              110,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              45,
+              16
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 1655,
+            "room": 228,
+            "x": 585.99609375,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228upperright",
+          "inputs": [
+            [
+              28,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              25,
+              96
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1849,
+            "room": 228,
+            "x": 534.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228jumpupper",
+          "inputs": [
+            [
+              100,
+              2
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              28,
+              32
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              70,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2239,
+            "room": 228,
+            "x": 486.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal228middlebomb",
+          "inputs": [
+            [
+              25,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              45,
+              64
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              75,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              100,
+              64
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2603,
+            "room": 228,
+            "x": 337.4765625,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ],
+          "F5_27_23_24": [
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal229middleentry",
+          "inputs": [
+            [
+              20,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              230,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2954,
+            "room": 230,
+            "x": 360.0,
+            "y": 277.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": [
+            0
+          ],
+          "flags23_30_32_33_34": [
+            128,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "route": "228 lower408,456.996; ladder18 then23, side gap wall27 rows19/20; ordinary airpuff Bomb32,15, far-right shaft, ordinary airpuff Bomb27,7, ladder21 to middle door22,4;229 middle360,434.684;Up230frames to230. F5(27,23/24)=245 at all228 segment readbacks; no ability after discard, HP6/grab0.",
+  "unresolved": {
+    "Spray32": "Top corridor reached from middle, but downward join through row4 one-way tiles not established. Right228 Mirra preserves on35-frame ladder/grounded approach; inhale causes flee and no door. Needs actual destruction or other route.",
+    "food34": "Top to left lower pocket not established; F0 ownership unchanged. Independent left228 Normal approach remains untested, not Hammer-required.",
+    "boundary": "Bounded negative input tests do not prove permanent channel isolation."
+  }
+}

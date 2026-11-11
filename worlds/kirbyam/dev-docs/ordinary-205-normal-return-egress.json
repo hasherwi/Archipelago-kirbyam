@@ -1,0 +1,1539 @@
+{
+  "schema_version": 1,
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "qualification": "Disclosed original-USA startup fixture at native209 position176,48 (live168,40.996), matching actual205 top arrival. Normal ability, AI101. This does not independently prove access to209. No runtime state writes, terrain edits, attack edits or source substitution. Max500 applies pinned production health scaler once before fresh boot; not an actual AP1HP fixture.",
+  "scaler": {
+    "commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098"
+  },
+  "result": "Directed Normal209 top return into205 water pocket, then Bomb-shaft egress to outer middle above intact floor. No claim of every205 exit or other209 compartment connectivity.",
+  "mechanism": "Actual209 return0x08883D4 arrives205 stored29,18/live456,280.996. Watergun activates Bomb23,12; cells24,12;25,12;25,11;25,10 become water0x48 and25,9 becomes upward-passable0x0F. Ascend shaft, fly left to347.230,21.004. Both F5 banks remain intact.",
+  "chains": {
+    "default": {
+      "rom_sha256": "dcec478d13236fd09920bcc4ed09a2e17742f1770c3f233ee161e13afd60967e",
+      "segments": [
+        {
+          "id": "entry209top",
+          "parent_state": null,
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "disclosed205-arrival-position",
+              "frame": 1085,
+              "room": 209,
+              "x": 168,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "normal209return205",
+          "parent_state": "entry209top",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 10,
+              "room": 209,
+              "x": 159.953125,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 11,
+              "room": 209,
+              "x": 159.953125,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 131,
+              "room": 205,
+              "x": 456,
+              "y": 280.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "normal205fishclear",
+          "parent_state": "normal209return205",
+          "inputs": [
+            {
+              "frames": 55,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 1
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 55,
+              "room": 205,
+              "x": 403.2421875,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 65,
+              "room": 205,
+              "x": 395,
+              "y": 283.68359375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 66,
+              "room": 205,
+              "x": 394.4765625,
+              "y": 282.49609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "3",
+              "frame": 81,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 278.41015625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "4",
+              "frame": 82,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 278.72265625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "5",
+              "frame": 97,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 286.84765625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "6",
+              "frame": 98,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 287.62890625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "7",
+              "frame": 113,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "8",
+              "frame": 114,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "9",
+              "frame": 129,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "10",
+              "frame": 130,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "11",
+              "frame": 145,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "12",
+              "frame": 146,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "13",
+              "frame": 161,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "14",
+              "frame": 162,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "15",
+              "frame": 177,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "16",
+              "frame": 178,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "17",
+              "frame": 193,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "18",
+              "frame": 194,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "19",
+              "frame": 209,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "20",
+              "frame": 210,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "21",
+              "frame": 225,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "normal205leftclear",
+          "parent_state": "normal205fishclear",
+          "inputs": [
+            {
+              "frames": 360,
+              "keys": 32
+            },
+            {
+              "frames": 100,
+              "keys": 1
+            },
+            {
+              "frames": 160,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 360,
+              "room": 205,
+              "x": 198,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 460,
+              "room": 205,
+              "x": 198,
+              "y": 213.31640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 620,
+              "room": 205,
+              "x": 361.99609375,
+              "y": 173.62890625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "3",
+              "frame": 630,
+              "room": 205,
+              "x": 358.12890625,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "normal205shaftbase",
+          "parent_state": "normal205leftclear",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 128
+            },
+            {
+              "frames": 5,
+              "keys": 16
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 90,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 30,
+              "room": 205,
+              "x": 353.95703125,
+              "y": 194.06640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 35,
+              "room": 205,
+              "x": 355.01171875,
+              "y": 198.44140625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 36,
+              "room": 205,
+              "x": 355.30859375,
+              "y": 199.31640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "3",
+              "frame": 126,
+              "room": 205,
+              "x": 409.99609375,
+              "y": 187.16015625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "4",
+              "frame": 136,
+              "room": 205,
+              "x": 406.12890625,
+              "y": 176.22265625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "return205shaftwait40",
+          "parent_state": "normal205shaftbase",
+          "inputs": [
+            {
+              "frames": 40,
+              "keys": 0
+            },
+            {
+              "frames": 25,
+              "keys": 1
+            },
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 1
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "end",
+              "frame": 126,
+              "room": 205,
+              "x": 406,
+              "y": 117.00390625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "normal205outerleft",
+          "parent_state": "return205shaftwait40",
+          "inputs": [
+            {
+              "frames": 55,
+              "keys": 33
+            },
+            {
+              "frames": 10,
+              "keys": 17
+            },
+            {
+              "frames": 90,
+              "keys": 1
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 55,
+              "room": 205,
+              "x": 353.609375,
+              "y": 88.03515625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 65,
+              "room": 205,
+              "x": 347.7109375,
+              "y": 74.91015625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 155,
+              "room": 205,
+              "x": 347.23046875,
+              "y": 21.00390625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        }
+      ]
+    },
+    "all500": {
+      "rom_sha256": "22efb8d90f5a97a98853acd09f44e4147812cdf2855f0f6f199ee3fff4bf5293",
+      "segments": [
+        {
+          "id": "all500-entry209top",
+          "parent_state": null,
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "final",
+              "frame": 1085,
+              "room": 209,
+              "x": 168,
+              "y": 40.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "all500-normal209return205",
+          "parent_state": "all500-entry209top",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "final",
+              "frame": 131,
+              "room": 205,
+              "x": 456,
+              "y": 280.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "all500-normal205fishclear",
+          "parent_state": "all500-normal209return205",
+          "inputs": [
+            {
+              "frames": 55,
+              "keys": 32
+            },
+            {
+              "frames": 10,
+              "keys": 1
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 15,
+              "keys": 0
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "final",
+              "frame": 225,
+              "room": 205,
+              "x": 392.2265625,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "fish500-j0-s1",
+          "parent_state": "all500-normal205fishclear",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 19,
+              "keys": 0
+            },
+            {
+              "frames": 360,
+              "keys": 32
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "end",
+              "frame": 660,
+              "room": 205,
+              "x": 198,
+              "y": 296.99609375,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "all500-safeleftclimb",
+          "parent_state": "fish500-j0-s1",
+          "inputs": [
+            {
+              "frames": 100,
+              "keys": 1
+            },
+            {
+              "frames": 160,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            },
+            {
+              "frames": 30,
+              "keys": 128
+            },
+            {
+              "frames": 5,
+              "keys": 16
+            },
+            {
+              "frames": 1,
+              "keys": 2
+            },
+            {
+              "frames": 90,
+              "keys": 17
+            },
+            {
+              "frames": 10,
+              "keys": 33
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 100,
+              "room": 205,
+              "x": 198,
+              "y": 213.31640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 260,
+              "room": 205,
+              "x": 361.99609375,
+              "y": 173.62890625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 270,
+              "room": 205,
+              "x": 358.12890625,
+              "y": 165.00390625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "3",
+              "frame": 300,
+              "room": 205,
+              "x": 353.95703125,
+              "y": 194.06640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "4",
+              "frame": 305,
+              "room": 205,
+              "x": 355.01171875,
+              "y": 198.44140625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "5",
+              "frame": 306,
+              "room": 205,
+              "x": 355.30859375,
+              "y": 199.31640625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "6",
+              "frame": 396,
+              "room": 205,
+              "x": 409.99609375,
+              "y": 187.16015625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "7",
+              "frame": 406,
+              "room": 205,
+              "x": 406.12890625,
+              "y": 176.22265625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "return500shaftwait0",
+          "parent_state": "all500-safeleftclimb",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 1
+            },
+            {
+              "frames": 1,
+              "keys": 0
+            },
+            {
+              "frames": 60,
+              "keys": 1
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "end",
+              "frame": 86,
+              "room": 205,
+              "x": 406,
+              "y": 117.00390625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        },
+        {
+          "id": "all500-normal205outerleft",
+          "parent_state": "return500shaftwait0",
+          "inputs": [
+            {
+              "frames": 55,
+              "keys": 33
+            },
+            {
+              "frames": 10,
+              "keys": 17
+            },
+            {
+              "frames": 90,
+              "keys": 1
+            }
+          ],
+          "checkpoints": [
+            {
+              "label": "0",
+              "frame": 55,
+              "room": 205,
+              "x": 353.609375,
+              "y": 88.03515625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "1",
+              "frame": 65,
+              "room": 205,
+              "x": 347.7109375,
+              "y": 74.91015625,
+              "hp": 6,
+              "ability": 0
+            },
+            {
+              "label": "2",
+              "frame": 155,
+              "room": 205,
+              "x": 347.23046875,
+              "y": 21.00390625,
+              "hp": 6,
+              "ability": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "audits": [
+    {
+      "segment": "normal209return205",
+      "frames": 131,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "normal205fishclear",
+      "frames": 225,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "normal205leftclear",
+      "frames": 630,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "normal205shaftbase",
+      "frames": 136,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "return205shaftwait40",
+      "frames": 126,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "normal205outerleft",
+      "frames": 155,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-normal209return205",
+      "frames": 131,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-normal205fishclear",
+      "frames": 225,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "fish500-j0-s1",
+      "frames": 660,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-safeleftclimb",
+      "frames": 406,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "return500shaftwait0",
+      "frames": 86,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    },
+    {
+      "segment": "all500-normal205outerleft",
+      "frames": 155,
+      "minimum_hp": 6,
+      "decrease_frames": [],
+      "abilities": [
+        0
+      ]
+    }
+  ],
+  "observations": {
+    "default": {
+      "final": {
+        "label": "final",
+        "frame": 0,
+        "room": 205,
+        "x": 347.23046875,
+        "y": 21.00390625,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "metal_tiles": [
+        {
+          "x": 21,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 9,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 9,
+          "tile": 245
+        },
+        {
+          "x": 24,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 25,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 26,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 24,
+          "y": 4,
+          "tile": 245
+        },
+        {
+          "x": 25,
+          "y": 4,
+          "tile": 245
+        },
+        {
+          "x": 26,
+          "y": 4,
+          "tile": 245
+        }
+      ],
+      "shaft_tiles": [
+        {
+          "x": 23,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 24,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 11,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 10,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 9,
+          "tile": 15
+        }
+      ]
+    },
+    "all500": {
+      "final": {
+        "label": "final",
+        "frame": 0,
+        "room": 205,
+        "x": 347.23046875,
+        "y": 21.00390625,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "metal_tiles": [
+        {
+          "x": 21,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 8,
+          "tile": 245
+        },
+        {
+          "x": 21,
+          "y": 9,
+          "tile": 245
+        },
+        {
+          "x": 22,
+          "y": 9,
+          "tile": 245
+        },
+        {
+          "x": 24,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 25,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 26,
+          "y": 3,
+          "tile": 245
+        },
+        {
+          "x": 24,
+          "y": 4,
+          "tile": 245
+        },
+        {
+          "x": 25,
+          "y": 4,
+          "tile": 245
+        },
+        {
+          "x": 26,
+          "y": 4,
+          "tile": 245
+        }
+      ],
+      "shaft_tiles": [
+        {
+          "x": 23,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 24,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 12,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 11,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 10,
+          "tile": 72
+        },
+        {
+          "x": 25,
+          "y": 9,
+          "tile": 15
+        }
+      ]
+    }
+  },
+  "timing": "Max500 surviving Blipper invalidated the default left-swim continuation. Accepted replacement uses15 cycles of left-facing watergun B1/release19 before swimming left. Default shaft emergence waits40 frames; max500 timing permits immediate emergence. These are no-damage paths, not assumed enemy kills or invulnerability passage."
+}

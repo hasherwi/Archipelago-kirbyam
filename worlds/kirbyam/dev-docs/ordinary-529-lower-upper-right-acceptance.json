@@ -1,0 +1,1787 @@
+{
+  "schema_version": 2,
+  "accepted_direction": "Native523 actual door -> native529 lower entry -> native529 upper-right exit -> native512",
+  "accepted_enemy_health_percent": [
+    100,
+    500
+  ],
+  "unproved_directions": [
+    "upper-right to lower",
+    "lower to upper-left",
+    "upper-left to lower"
+  ],
+  "limitations": [
+    "Each accepted run cold-boots from a disclosed startup523 fixture. Access to523 is not established.",
+    "Original native terrain, doors, objects and attacks. Only startup fixtures and production500% enemyHP/meter tables differ. No runtime writes or save-state loads in accepted replays.",
+    "Controller discovery used private setup-state branches; accepted runs replay fixed recorded gamepad inputs from fresh blank battery saves.",
+    "Only the directed lower-to-upper-right connection is established. No reverse, upper-left, randomized placement or actual AP1HP fixture claim."
+  ],
+  "source_blobs": [
+    "93537b9ba45c2f1253afe4774326ce52bc04345c",
+    "54fcafaf9353b82bc1a86eaf4dc7efa482848e76"
+  ],
+  "runs": {
+    "100": {
+      "schema_version": 1,
+      "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "enemy_health_percent": 100,
+      "rom_sha256": "4a8b4dc79510323c939c8bf5f82931fa7207fb2065746fe71c570a1c2d942e22",
+      "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+      "scaler_commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+      "fixture": "Original USA ROM with disclosed startup523 at stored position288,48 (live280,40.996), AI startup101. All other native bytes unchanged for100%; exact production enemy HP/meter table scaler applied once before fresh boot for500%. Blank battery save. No runtime writes, state loads, object/terrain/attack patches or AP configuration. Does not prove access to523 or randomized AP placement.",
+      "route": "Actual523 door0x89E3F8 trigger17,2 to529 stored spawn5,29; visible bottom connector below spikes; ordinary Normal water-gun activates lower-right and upper-right Bomb chains; actual529 upper-right door0x89EB0E trigger24,2 to512 stored spawn23,19. No reverse or upper-left route claim.",
+      "inputs": [
+        {
+          "label": "actual523-to529",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "frames": 1176
+        },
+        {
+          "label": "jump-entry-glunk",
+          "inputs": [
+            {
+              "frames": 40,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 18
+            },
+            {
+              "frames": 20,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 17
+            },
+            {
+              "frames": 15,
+              "keys": 144
+            }
+          ],
+          "frames": 115
+        },
+        {
+          "label": "descend-to-visible-connector",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 128
+            },
+            {
+              "frames": 15,
+              "keys": 16
+            }
+          ],
+          "frames": 45
+        },
+        {
+          "label": "cross-visible-connector-and-rise",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 80
+            },
+            {
+              "frames": 14,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 80
+            },
+            {
+              "frames": 42,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 128
+            },
+            {
+              "frames": 11,
+              "keys": 80
+            },
+            {
+              "frames": 31,
+              "keys": 64
+            }
+          ],
+          "frames": 102
+        },
+        {
+          "label": "normal-water-gun-and-right-ascent",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 162
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 162
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 160
+            },
+            {
+              "frames": 1,
+              "keys": 130
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 130
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 30,
+              "keys": 81
+            },
+            {
+              "frames": 50,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 1,
+              "keys": 66
+            },
+            {
+              "frames": 109,
+              "keys": 65
+            },
+            {
+              "frames": 18,
+              "keys": 81
+            },
+            {
+              "frames": 45,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 82
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 20,
+              "keys": 81
+            },
+            {
+              "frames": 30,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 66
+            },
+            {
+              "frames": 29,
+              "keys": 65
+            },
+            {
+              "frames": 1,
+              "keys": 66
+            },
+            {
+              "frames": 79,
+              "keys": 65
+            },
+            {
+              "frames": 60,
+              "keys": 17
+            },
+            {
+              "frames": 23,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 128
+            },
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 70,
+              "keys": 0
+            }
+          ],
+          "frames": 749
+        },
+        {
+          "label": "actual529-to512",
+          "inputs": [
+            {
+              "frames": 8,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 70,
+              "keys": 0
+            }
+          ],
+          "frames": 79
+        }
+      ],
+      "segments": [
+        {
+          "label": "actual523-to529",
+          "start": 0,
+          "end": 1176,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1176,
+            "room": 529,
+            "x": 72.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "jump-entry-glunk",
+          "start": 1176,
+          "end": 1291,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1291,
+            "room": 529,
+            "x": 118.75,
+            "y": 421.15234375,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "descend-to-visible-connector",
+          "start": 1291,
+          "end": 1336,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1336,
+            "room": 529,
+            "x": 130.43359375,
+            "y": 461.31640625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "cross-visible-connector-and-rise",
+          "start": 1336,
+          "end": 1438,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1438,
+            "room": 529,
+            "x": 217.99609375,
+            "y": 412.69140625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "normal-water-gun-and-right-ascent",
+          "start": 1438,
+          "end": 2187,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2187,
+            "room": 529,
+            "x": 401.37109375,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "actual529-to512",
+          "start": 2187,
+          "end": 2266,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2266,
+            "room": 512,
+            "x": 360.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        }
+      ],
+      "audit": {
+        "frames": 1181,
+        "from_frame": 1086,
+        "to_frame": 2266,
+        "per_frame_sha256": "a9eefe060efae8ae65ec56ee973b211165c414a4354ccf0451b7cbdc366a5337",
+        "minimum_hp": 6,
+        "hp_drop_frames": [],
+        "abilities": [
+          0
+        ],
+        "runtime_write_count": 0,
+        "f5_coordinates": [
+          [
+            8,
+            5
+          ],
+          [
+            9,
+            5
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            12,
+            18
+          ],
+          [
+            13,
+            18
+          ],
+          [
+            12,
+            19
+          ],
+          [
+            13,
+            19
+          ]
+        ],
+        "529_frames_sampled": 1118,
+        "529_all8_f5_frames": 1118,
+        "529_non_f5_samples": [],
+        "visible_bottom_crossing": {
+          "from_frame": 1337,
+          "to_frame": 1396,
+          "x_range": [
+            131.55859375,
+            204.29296875
+          ],
+          "y_range": [
+            449.50390625,
+            462.19140625
+          ],
+          "minimum_hp": 6
+        },
+        "last529_collision": {
+          "frame": 2214,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ],
+          "bombs": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ]
+        },
+        "final": {
+          "frame": 2266,
+          "keys": 0,
+          "hp": 6,
+          "ability": 0,
+          "room": 512,
+          "x": 360.0,
+          "y": 296.99609375
+        }
+      },
+      "bomb_replacements": [
+        {
+          "offset": 9039106,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039124,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039142,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039160,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039196,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039214,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039232,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039250,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039268,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039286,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 12,
+          "replacement": 72
+        },
+        {
+          "offset": 9039304,
+          "kind": 1,
+          "attribute": 241,
+          "x": 18,
+          "y": 12,
+          "replacement": 72
+        },
+        {
+          "offset": 9039430,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 13,
+          "replacement": 72
+        },
+        {
+          "offset": 9039970,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9039988,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040006,
+          "kind": 1,
+          "attribute": 241,
+          "x": 16,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040024,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040042,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040060,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040078,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040096,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040114,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040132,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040204,
+          "kind": 1,
+          "attribute": 241,
+          "x": 14,
+          "y": 23,
+          "replacement": 72
+        },
+        {
+          "offset": 9040222,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 23,
+          "replacement": 72
+        },
+        {
+          "offset": 9040240,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 23,
+          "replacement": 72
+        }
+      ],
+      "success": true
+    },
+    "500": {
+      "schema_version": 1,
+      "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+      "enemy_health_percent": 500,
+      "rom_sha256": "9aea2a5849b67d0a2c6aaf9e451ade06401305df9f28acd2eece62de82216b59",
+      "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+      "scaler_commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+      "fixture": "Original USA ROM with disclosed startup523 at stored position288,48 (live280,40.996), AI startup101. All other native bytes unchanged for100%; exact production enemy HP/meter table scaler applied once before fresh boot for500%. Blank battery save. No runtime writes, state loads, object/terrain/attack patches or AP configuration. Does not prove access to523 or randomized AP placement.",
+      "route": "Actual523 door0x89E3F8 trigger17,2 to529 stored spawn5,29; visible bottom connector below spikes; ordinary Normal water-gun activates lower-right and upper-right Bomb chains; actual529 upper-right door0x89EB0E trigger24,2 to512 stored spawn23,19. No reverse or upper-left route claim.",
+      "inputs": [
+        {
+          "label": "actual523-to529",
+          "inputs": [
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 8
+            },
+            {
+              "frames": 120,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 180,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 1
+            },
+            {
+              "frames": 240,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 90,
+              "keys": 0
+            }
+          ],
+          "frames": 1176
+        },
+        {
+          "label": "jump-entry-glunk",
+          "inputs": [
+            {
+              "frames": 40,
+              "keys": 2
+            },
+            {
+              "frames": 20,
+              "keys": 18
+            },
+            {
+              "frames": 20,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 17
+            },
+            {
+              "frames": 15,
+              "keys": 144
+            }
+          ],
+          "frames": 115
+        },
+        {
+          "label": "descend-to-visible-connector",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 128
+            },
+            {
+              "frames": 15,
+              "keys": 16
+            }
+          ],
+          "frames": 45
+        },
+        {
+          "label": "cross-visible-connector-and-rise",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 80
+            },
+            {
+              "frames": 14,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 80
+            },
+            {
+              "frames": 42,
+              "keys": 144
+            },
+            {
+              "frames": 1,
+              "keys": 128
+            },
+            {
+              "frames": 11,
+              "keys": 80
+            },
+            {
+              "frames": 31,
+              "keys": 64
+            }
+          ],
+          "frames": 102
+        },
+        {
+          "label": "max-native-lower-floor",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 16
+            },
+            {
+              "frames": 20,
+              "keys": 0
+            }
+          ],
+          "frames": 45
+        },
+        {
+          "label": "max-lower-puff-interception-and-bomb",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 32
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 1,
+              "keys": 34
+            },
+            {
+              "frames": 39,
+              "keys": 0
+            },
+            {
+              "frames": 55,
+              "keys": 65
+            },
+            {
+              "frames": 18,
+              "keys": 66
+            },
+            {
+              "frames": 90,
+              "keys": 65
+            }
+          ],
+          "frames": 764
+        },
+        {
+          "label": "max-downward-blipper-hit",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 81
+            },
+            {
+              "frames": 40,
+              "keys": 130
+            }
+          ],
+          "frames": 65
+        },
+        {
+          "label": "max-dynamic-guard",
+          "inputs": [
+            {
+              "frames": 23,
+              "keys": 130
+            },
+            {
+              "frames": 17,
+              "keys": 34
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 8,
+              "keys": 65
+            },
+            {
+              "frames": 30,
+              "keys": 130
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 8,
+              "keys": 65
+            },
+            {
+              "frames": 67,
+              "keys": 130
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 8,
+              "keys": 65
+            },
+            {
+              "frames": 51,
+              "keys": 130
+            }
+          ],
+          "frames": 302
+        },
+        {
+          "label": "max-upper-bomb-cross",
+          "inputs": [
+            {
+              "frames": 20,
+              "keys": 18
+            },
+            {
+              "frames": 30,
+              "keys": 81
+            }
+          ],
+          "frames": 50
+        },
+        {
+          "label": "max-upper-contact",
+          "inputs": [
+            {
+              "frames": 25,
+              "keys": 18
+            }
+          ],
+          "frames": 25
+        },
+        {
+          "label": "max-platform-approach",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 65
+            },
+            {
+              "frames": 25,
+              "keys": 17
+            }
+          ],
+          "frames": 55
+        },
+        {
+          "label": "max-adaptive-upper2",
+          "inputs": [
+            {
+              "frames": 1,
+              "keys": 130
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 8,
+              "keys": 65
+            },
+            {
+              "frames": 30,
+              "keys": 64
+            },
+            {
+              "frames": 8,
+              "keys": 65
+            },
+            {
+              "frames": 23,
+              "keys": 64
+            }
+          ],
+          "frames": 100
+        },
+        {
+          "label": "max-door-approach",
+          "inputs": [
+            {
+              "frames": 30,
+              "keys": 65
+            },
+            {
+              "frames": 60,
+              "keys": 17
+            },
+            {
+              "frames": 30,
+              "keys": 128
+            }
+          ],
+          "frames": 120
+        },
+        {
+          "label": "max-exit512",
+          "inputs": [
+            {
+              "frames": 10,
+              "keys": 32
+            },
+            {
+              "frames": 30,
+              "keys": 128
+            },
+            {
+              "frames": 1,
+              "keys": 64
+            },
+            {
+              "frames": 70,
+              "keys": 0
+            }
+          ],
+          "frames": 111
+        }
+      ],
+      "segments": [
+        {
+          "label": "actual523-to529",
+          "start": 0,
+          "end": 1176,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1176,
+            "room": 529,
+            "x": 72.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "jump-entry-glunk",
+          "start": 1176,
+          "end": 1291,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1291,
+            "room": 529,
+            "x": 118.75,
+            "y": 421.15234375,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "descend-to-visible-connector",
+          "start": 1291,
+          "end": 1336,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1336,
+            "room": 529,
+            "x": 130.43359375,
+            "y": 461.31640625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "cross-visible-connector-and-rise",
+          "start": 1336,
+          "end": 1438,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1438,
+            "room": 529,
+            "x": 217.99609375,
+            "y": 412.69140625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-native-lower-floor",
+          "start": 1438,
+          "end": 1483,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 1483,
+            "room": 529,
+            "x": 249.99609375,
+            "y": 423.84765625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-lower-puff-interception-and-bomb",
+          "start": 1483,
+          "end": 2247,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2247,
+            "room": 529,
+            "x": 249.91015625,
+            "y": 342.66015625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-downward-blipper-hit",
+          "start": 2247,
+          "end": 2312,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2312,
+            "room": 529,
+            "x": 265.99609375,
+            "y": 296.75390625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-dynamic-guard",
+          "start": 2312,
+          "end": 2614,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2614,
+            "room": 529,
+            "x": 265.99609375,
+            "y": 207.97265625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-upper-bomb-cross",
+          "start": 2614,
+          "end": 2664,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2664,
+            "room": 529,
+            "x": 280.45703125,
+            "y": 204.44140625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-upper-contact",
+          "start": 2664,
+          "end": 2689,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2689,
+            "room": 529,
+            "x": 293.51953125,
+            "y": 189.59765625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-platform-approach",
+          "start": 2689,
+          "end": 2744,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2744,
+            "room": 529,
+            "x": 314.41015625,
+            "y": 139.84765625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-adaptive-upper2",
+          "start": 2744,
+          "end": 2844,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2844,
+            "room": 529,
+            "x": 327.73046875,
+            "y": 54.98828125,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-door-approach",
+          "start": 2844,
+          "end": 2964,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 2964,
+            "room": 529,
+            "x": 400.9609375,
+            "y": 25.765625,
+            "hp": 6,
+            "ability": 0
+          }
+        },
+        {
+          "label": "max-exit512",
+          "start": 2964,
+          "end": 3075,
+          "minimum_hp": 6,
+          "hp_drop_frames": [],
+          "abilities": [
+            0
+          ],
+          "final": {
+            "frame": 3075,
+            "room": 512,
+            "x": 360.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 0
+          }
+        }
+      ],
+      "audit": {
+        "frames": 1990,
+        "from_frame": 1086,
+        "to_frame": 3075,
+        "per_frame_sha256": "7a5a1fe77f299cf66f1f9566471d3c88405abaca91ab172e051ed839f5e499fa",
+        "minimum_hp": 6,
+        "hp_drop_frames": [],
+        "abilities": [
+          0
+        ],
+        "runtime_write_count": 0,
+        "f5_coordinates": [
+          [
+            8,
+            5
+          ],
+          [
+            9,
+            5
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            12,
+            18
+          ],
+          [
+            13,
+            18
+          ],
+          [
+            12,
+            19
+          ],
+          [
+            13,
+            19
+          ]
+        ],
+        "529_frames_sampled": 1927,
+        "529_all8_f5_frames": 1927,
+        "529_non_f5_samples": [],
+        "visible_bottom_crossing": {
+          "from_frame": 1337,
+          "to_frame": 1396,
+          "x_range": [
+            131.55859375,
+            204.29296875
+          ],
+          "y_range": [
+            449.50390625,
+            462.19140625
+          ],
+          "minimum_hp": 6
+        },
+        "last529_collision": {
+          "frame": 3023,
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ],
+          "bombs": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ]
+        },
+        "final": {
+          "frame": 3075,
+          "keys": 0,
+          "hp": 6,
+          "ability": 0,
+          "room": 512,
+          "x": 360.0,
+          "y": 296.99609375
+        }
+      },
+      "bomb_replacements": [
+        {
+          "offset": 9039106,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039124,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039142,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039160,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 10,
+          "replacement": 72
+        },
+        {
+          "offset": 9039196,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039214,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039232,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039250,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039268,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 11,
+          "replacement": 72
+        },
+        {
+          "offset": 9039286,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 12,
+          "replacement": 72
+        },
+        {
+          "offset": 9039304,
+          "kind": 1,
+          "attribute": 241,
+          "x": 18,
+          "y": 12,
+          "replacement": 72
+        },
+        {
+          "offset": 9039430,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 13,
+          "replacement": 72
+        },
+        {
+          "offset": 9039970,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9039988,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040006,
+          "kind": 1,
+          "attribute": 241,
+          "x": 16,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040024,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040042,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 21,
+          "replacement": 72
+        },
+        {
+          "offset": 9040060,
+          "kind": 1,
+          "attribute": 242,
+          "x": 14,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040078,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040096,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040114,
+          "kind": 1,
+          "attribute": 242,
+          "x": 17,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040132,
+          "kind": 1,
+          "attribute": 242,
+          "x": 18,
+          "y": 22,
+          "replacement": 72
+        },
+        {
+          "offset": 9040204,
+          "kind": 1,
+          "attribute": 241,
+          "x": 14,
+          "y": 23,
+          "replacement": 72
+        },
+        {
+          "offset": 9040222,
+          "kind": 1,
+          "attribute": 242,
+          "x": 15,
+          "y": 23,
+          "replacement": 72
+        },
+        {
+          "offset": 9040240,
+          "kind": 1,
+          "attribute": 242,
+          "x": 16,
+          "y": 23,
+          "replacement": 72
+        }
+      ],
+      "success": true
+    }
+  }
+}

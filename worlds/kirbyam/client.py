@@ -28,7 +28,7 @@ from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
+from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .health import (
     MAXIMUM_HEALTH_DEFAULT,
@@ -393,17 +393,13 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         if not isinstance(slot_data, dict):
             slot_data = {}
         ability_gating_enabled = KirbyAmClient._coerce_bool(slot_data.get("ability_gating", True), True)
-        gateable_abilities = slot_data.get("ability_gateable_abilities")
-        if not isinstance(gateable_abilities, list) or not gateable_abilities:
-            gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
+        gateable_abilities = resolve_slot_gateable_abilities(slot_data.get("ability_gateable_abilities"))
 
         # Wait is an internal native state, not a player-facing copy ability.
         all_abilities = set(ABILITY_NAME_TO_ID) - {"Wait"}
         unlocked_abilities = all_abilities.copy()
         if ability_gating_enabled:
-            unlocked_abilities.difference_update(
-                ability_name for ability_name in gateable_abilities if isinstance(ability_name, str)
-            )
+            unlocked_abilities.difference_update(gateable_abilities)
 
         for item in getattr(self.ctx, "items_received", ()):
             item_id = KirbyAmClient._coerce_u32(getattr(item, "item", None))
@@ -2456,12 +2452,8 @@ class KirbyAmClient(BizHawkClient):
         gated_mask = 0
         unlocked_mask = 0
         if ability_gating_enabled:
-            gateable_abilities = slot_data.get("ability_gateable_abilities", [])
-            if not isinstance(gateable_abilities, list) or not gateable_abilities:
-                gateable_abilities = list(GATEABLE_ENEMY_COPY_ABILITIES)
+            gateable_abilities = resolve_slot_gateable_abilities(slot_data.get("ability_gateable_abilities"))
             for ability_name in gateable_abilities:
-                if not isinstance(ability_name, str):
-                    continue
                 ability_id = ABILITY_NAME_TO_ID.get(ability_name)
                 if ability_id is not None and 0 < ability_id <= 31:
                     gated_mask |= 1 << ability_id
