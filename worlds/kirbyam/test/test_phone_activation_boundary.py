@@ -1,17 +1,27 @@
 """Unaccepted helper routes cannot accidentally enable the experimental gate."""
 from pathlib import Path
 
+import pytest
+
 from test.general import setup_multiworld
 from .. import KirbyAmWorld
 from ..data import data
 from ..phone_protocol import PHONE_ITEM_ID
 
 
-def test_production_generation_does_not_enable_phone_without_route_acceptance() -> None:
+@pytest.mark.parametrize("ability_gating", [0, 1])
+@pytest.mark.parametrize("area_keys", [0, 1])
+@pytest.mark.parametrize("room_sanity", [0, 1])
+def test_production_generation_does_not_enable_phone_without_route_acceptance(
+        ability_gating: int, area_keys: int, room_sanity: int) -> None:
     multiworld = setup_multiworld(KirbyAmWorld, seed=1086, options={
-        "ability_gating": 1, "area_keys": 1, "room_sanity": 1,
+        "ability_gating": ability_gating, "area_keys": area_keys, "room_sanity": room_sanity,
     })
     world = multiworld.worlds[1]
+    assert "Phone a Friend" not in world.item_name_to_id
+    assert not world.fill_slot_data().get("starting_phone_access", False)
+    assert "Phone a Friend" not in world.fill_slot_data().get("unique_items", ())
+    assert all(item.code != PHONE_ITEM_ID for item in multiworld.precollected_items[1])
     assert PHONE_ITEM_ID not in data.items
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.itempool)
     assert not world.fill_slot_data().get("phone_protocol_version", 0)

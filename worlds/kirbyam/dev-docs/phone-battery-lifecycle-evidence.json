@@ -1,0 +1,3610 @@
+{
+  "schema_version": 1,
+  "status": "Qualified native lifecycle observations; not helper-route or BizHawk transport acceptance",
+  "ai_assisted": true,
+  "date": "2026-11-11",
+  "production_base_commit": "23316b4080c2ad7c1bbb618e407c82ece40f40d6",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "scope": [
+    "Shipping payload, original retail startup rooms and positions, existing post-tutorial native file 0.",
+    "Experimental Phone config enabled before boot, synthetic authentication identity and complete item history; no live AP server.",
+    "Ability gating ON, health minimum 6 and maximum 10, Area Keys ON, unchanged finite Sir Kibble Cutter source.",
+    "The actual guarded Phone queue grants ownership after native Cutter acquisition; no pose, equipment, HP, battery, room or CPU-state writes.",
+    "Earlier approach takes native damage from HP 6 to 5; this is not minimum-health or damage-free route evidence.",
+    "Snapshots are checkpoint observations, not a per-frame trace.",
+    "Historical write-origin labels production-mailbox-four-item-history refer to the three initial receipts (East Hub, Moonlight Key, Cutter); Phone is appended later and granted through its separate queue."
+  ],
+  "findings": [
+    "Three eligible calls in 143, 801 and 190 naturally exhaust batteries 3 to 2 to 1 to 0.",
+    "At zero battery L still returns from 190 to 801 and ordinary movement works.",
+    "With all three CPUs still in 190, a subsequent 60-frame R hold in 801 does not spend or start a call at the recorded checkpoint; Phone remains owned.",
+    "An offline cold reload of the resulting native save preserves Phone ownership, refills batteries to 3 and recreates all four Kirbys with Normal in 801. No client reads or writes are invoked by the offline harness.",
+    "A separate offline reload of that same saved file under a different synthetic ROM identity invalidates ownership and retains native control.",
+    "An eight-frame R press enters native startup; releasing R for one frame and holding L for 120 does not cancel the pending call. It consumes one battery, brings all CPUs to 143, and a later L returns to 801 with movement restored."
+  ],
+  "limits": [
+    "Only native file 0 is exercised here; cross-file acceptance and broader ability/state coverage remain open.",
+    "No arbitrary source assignment, new helper traversal, solo alternative, RoomSanity behavior or runtime multiplayer guarantee follows.",
+    "The native mGBA bridge is not the BizHawk Lua transport.",
+    "Generated Phone activation remains disabled.",
+    "A one-frame exploratory R press did not enter a call; the eight-frame trial does not establish a minimum press duration or general interruption behavior."
+  ],
+  "runs": [
+    {
+      "name": "battery-exhaustion-final",
+      "trace_sha256": "43afe7758c6bbc98d5f947f5e2064f747b782fac7b783f4b3d377d52ab86f8ec",
+      "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+      "end_save_sha256": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a",
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 302,
+          "keys": 0
+        },
+        {
+          "start": 2430,
+          "frames": 140,
+          "keys": 80
+        },
+        {
+          "start": 2570,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2571,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 2731,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2732,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 2912,
+          "frames": 70,
+          "keys": 16
+        },
+        {
+          "start": 2982,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 3012,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3013,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 3133,
+          "frames": 6,
+          "keys": 32
+        },
+        {
+          "start": 3139,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3159,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 3280,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 3310,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 3320,
+          "frames": 100,
+          "keys": 64
+        },
+        {
+          "start": 3420,
+          "frames": 130,
+          "keys": 16
+        },
+        {
+          "start": 3550,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 3610,
+          "frames": 60,
+          "keys": 96
+        },
+        {
+          "start": 3670,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 3671,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3672,
+          "frames": 25,
+          "keys": 0
+        },
+        {
+          "start": 3697,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 3712,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 3713,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 3758,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 3759,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 3819,
+          "frames": 13,
+          "keys": 16
+        },
+        {
+          "start": 3832,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3852,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 3867,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 3875,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3895,
+          "frames": 65,
+          "keys": 64
+        },
+        {
+          "start": 3960,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 3961,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3962,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 3963,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 4008,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 4009,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4099,
+          "frames": 35,
+          "keys": 32
+        },
+        {
+          "start": 4134,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 4154,
+          "frames": 35,
+          "keys": 33
+        },
+        {
+          "start": 4189,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 4239,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 4254,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 4255,
+          "frames": 70,
+          "keys": 2
+        },
+        {
+          "start": 4325,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 4326,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4416,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 4476,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4478,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 4538,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 5138,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 5258,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 6758,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 6818,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 7418,
+          "frames": 166,
+          "keys": 80
+        },
+        {
+          "start": 7584,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 7585,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 7745,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 7746,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 7926,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 7986,
+          "frames": 602,
+          "keys": 0
+        },
+        {
+          "start": 8588,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 8648,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 8650,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 8770,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 10270,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 10300,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 10302,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 10362,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 10422,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-hub-complete-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "b1e73a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "49e63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "8ae63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2256,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "03000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "40000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 4476,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 4476,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "checkpoint_observations": [
+        {
+          "label": "hub-replay-4326",
+          "frame": 4416,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "gated-genuine-cutter-acquired",
+          "frame": 4416,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "cutter-locked-r",
+          "frame": 4476,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "cutter-real-phone-grant",
+          "frame": 4478,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "first-r",
+          "frame": 4538,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "first-r-settle",
+          "frame": 5138,
+          "room": 143,
+          "x": 86.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "first-l",
+          "frame": 5258,
+          "room": 143,
+          "x": 81.0,
+          "y": 145.49609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x8057775",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x344",
+          "kirby_unkC": "0x1048000"
+        },
+        {
+          "label": "first-l-settle",
+          "frame": 6758,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "second-r-at-hub",
+          "frame": 6818,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "second-r-settle",
+          "frame": 7418,
+          "room": 801,
+          "x": 203.2421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "fly-east",
+          "frame": 7584,
+          "room": 801,
+          "x": 373.1171875,
+          "y": 26.83984375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x80488e1",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x44",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "deflate",
+          "frame": 7585,
+          "room": 801,
+          "x": 374.1484375,
+          "y": 25.67578125,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x8049a61",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x20",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "land-east",
+          "frame": 7745,
+          "room": 801,
+          "x": 389.8984375,
+          "y": 200.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "east-door",
+          "frame": 7746,
+          "room": 801,
+          "x": 389.8984375,
+          "y": 200.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x8055c15",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0xb00",
+          "kirby_unkC": "0x1001000"
+        },
+        {
+          "label": "east-door-settle",
+          "frame": 7926,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 1,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "third-r",
+          "frame": 7986,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "third-r-settle",
+          "frame": 8586,
+          "room": 190,
+          "x": 89.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "third-r-release",
+          "frame": 8588,
+          "room": 190,
+          "x": 89.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "empty-r",
+          "frame": 8648,
+          "room": 190,
+          "x": 89.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "empty-r-release",
+          "frame": 8650,
+          "room": 190,
+          "x": 89.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "empty-l",
+          "frame": 8770,
+          "room": 190,
+          "x": 84.99609375,
+          "y": 145.49609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x8057775",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x344",
+          "kirby_unkC": "0x1048000"
+        },
+        {
+          "label": "empty-l-settle",
+          "frame": 10270,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "post-empty-l-control",
+          "frame": 10300,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "release-movement",
+          "frame": 10302,
+          "room": 801,
+          "x": 273.15625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "empty-r-separated-cpus",
+          "frame": 10362,
+          "room": 801,
+          "x": 285.4609375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "empty-r-settle",
+          "frame": 10422,
+          "room": 801,
+          "x": 285.4609375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "post-empty-r-control",
+          "frame": 10452,
+          "room": 801,
+          "x": 319.4453125,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 0,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "cpu_abilities": [
+            6,
+            7,
+            0,
+            7
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        }
+      ]
+    },
+    {
+      "name": "offline-same-seed",
+      "trace_sha256": "6c737a7e70d9ac3c0b70f260007de810ce55c993d7f0d3f035c8499ef09eb6f6",
+      "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial_save_sha256": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a",
+      "end_save_sha256": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a",
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoint_observations": [
+        {
+          "label": "offline-same-seed",
+          "frame": 2248,
+          "room": 801,
+          "x": 232.5,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "offline-same-seed-movement",
+          "frame": 2278,
+          "room": 801,
+          "x": 266.484375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        }
+      ]
+    },
+    {
+      "name": "offline-new-seed",
+      "trace_sha256": "afbd543488a9039af67d678ac4bf69988b85f00f68383f91e3adab3b971cf972",
+      "rom_sha256": "bd31f3b698a59eff8079a5cd83ac602db3f79c0c12bf49993a67ec6473ff5ac3",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial_save_sha256": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a",
+      "end_save_sha256": "fbd5753417e119f3707869057cd1c2af082855dd4383c660d9f99fd91bc277dc",
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [],
+      "checkpoint_observations": [
+        {
+          "label": "offline-new-seed",
+          "frame": 2248,
+          "room": 801,
+          "x": 232.5,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "offline-new-seed-movement",
+          "frame": 2278,
+          "room": 801,
+          "x": 266.484375,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        }
+      ]
+    },
+    {
+      "name": "short-r-interruption-8",
+      "trace_sha256": "5bd06708150dc990e602bbb8b969b678ecb3c1cc7aa2c9a7d804a7c0bb77d262",
+      "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+      "end_save_sha256": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a",
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 302,
+          "keys": 0
+        },
+        {
+          "start": 2430,
+          "frames": 140,
+          "keys": 80
+        },
+        {
+          "start": 2570,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2571,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 2731,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2732,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 2912,
+          "frames": 70,
+          "keys": 16
+        },
+        {
+          "start": 2982,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 3012,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3013,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 3133,
+          "frames": 6,
+          "keys": 32
+        },
+        {
+          "start": 3139,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3159,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3160,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 3280,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 3310,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 3320,
+          "frames": 100,
+          "keys": 64
+        },
+        {
+          "start": 3420,
+          "frames": 130,
+          "keys": 16
+        },
+        {
+          "start": 3550,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 3610,
+          "frames": 60,
+          "keys": 96
+        },
+        {
+          "start": 3670,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 3671,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3672,
+          "frames": 25,
+          "keys": 0
+        },
+        {
+          "start": 3697,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 3712,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 3713,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 3758,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 3759,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 3819,
+          "frames": 13,
+          "keys": 16
+        },
+        {
+          "start": 3832,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3852,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 3867,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 3875,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3895,
+          "frames": 65,
+          "keys": 64
+        },
+        {
+          "start": 3960,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 3961,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 3962,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 3963,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 4008,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 4009,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4099,
+          "frames": 35,
+          "keys": 32
+        },
+        {
+          "start": 4134,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 4154,
+          "frames": 35,
+          "keys": 33
+        },
+        {
+          "start": 4189,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 4239,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 4254,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 4255,
+          "frames": 70,
+          "keys": 2
+        },
+        {
+          "start": 4325,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 4326,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4416,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 4476,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4478,
+          "frames": 8,
+          "keys": 256
+        },
+        {
+          "start": 4486,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 4487,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 4607,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 5207,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 5327,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 6827,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "guarded_client_writes": [
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-hub-complete-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "b1e73a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "49e63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "8ae63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2256,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "03000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "40000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 4476,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 4476,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "checkpoint_observations": [
+        {
+          "label": "hub-replay-4326",
+          "frame": 4416,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "gated-genuine-cutter-acquired",
+          "frame": 4416,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "cutter-locked-r",
+          "frame": 4476,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "cutter-real-phone-grant",
+          "frame": 4478,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "short-r-press",
+          "frame": 4486,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x2300",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "short-r-release",
+          "frame": 4487,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x2302",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "l-during-call",
+          "frame": 4607,
+          "room": 143,
+          "x": 105.46875,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x0"
+        },
+        {
+          "label": "short-r-settle",
+          "frame": 5207,
+          "room": 143,
+          "x": 86.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1001010"
+        },
+        {
+          "label": "l-after-call",
+          "frame": 5327,
+          "room": 143,
+          "x": 81.0,
+          "y": 145.49609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x8057775",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            143,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x344",
+          "kirby_unkC": "0x1048000"
+        },
+        {
+          "label": "l-after-call-settle",
+          "frame": 6827,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        },
+        {
+          "label": "post-call-control",
+          "frame": 6857,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 6,
+          "humans": 1,
+          "slot": 0,
+          "battery": 2,
+          "caller": 255,
+          "state": "0x80412ad",
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "cpu_rooms": [
+            801,
+            143,
+            143,
+            143
+          ],
+          "cpu_abilities": [
+            6,
+            0,
+            0,
+            0
+          ],
+          "kirby_flags": "0x4",
+          "kirby_unkC": "0x1010"
+        }
+      ]
+    }
+  ]
+}

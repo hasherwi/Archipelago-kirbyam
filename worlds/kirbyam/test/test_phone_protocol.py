@@ -8,6 +8,7 @@ from unittest.mock import AsyncMock
 import pytest
 from worlds import _bizhawk as bizhawk
 from .. import phone_protocol as protocol
+from ..copy_room_protocol import COPY_ROOM_CONTEXT_ADDRESS
 
 
 def _ctx(items: Sequence[int] = (), precollected: bool = False) -> SimpleNamespace:
@@ -175,3 +176,115 @@ async def test_reverse_pairing_stops_watcher_side_effects(monkeypatch: pytest.Mo
     guarded.assert_not_called()
     death.assert_not_called()
     ctx.send_msgs.assert_not_called()
+
+
+@pytest.mark.parametrize("version", [None, False, True, -1, 2, "1", 1.0, [], {}])
+def test_malformed_capability_never_reads_memory(monkeypatch: pytest.MonkeyPatch, version: Any) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    ctx.slot_data["phone_protocol_version"] = version
+    read = AsyncMock()
+    monkeypatch.setattr(bizhawk, "read", read)
+    with pytest.raises(ValueError):
+        asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    read.assert_not_called()
+
+
+@pytest.mark.parametrize("owned", [None, 0, 1, "true", [], {}])
+def test_malformed_starting_ownership_never_reads_memory(monkeypatch: pytest.MonkeyPatch, owned: Any) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    ctx.slot_data["starting_phone_access"] = owned
+    read = AsyncMock()
+    monkeypatch.setattr(bizhawk, "read", read)
+    with pytest.raises(ValueError):
+        asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    read.assert_not_called()
+
+
+@pytest.mark.parametrize("field", ["server_seed_name", "team", "slot", "server", "bizhawk_ctx"])
+@pytest.mark.parametrize("pending_read", [1, 2])
+def test_session_replacement_during_either_read_never_grants(
+        monkeypatch: pytest.MonkeyPatch, field: str, pending_read: int) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    raw, fence = _reads(ctx)
+    calls = 0
+
+    async def read(_ctx: object, _requests: object) -> list[bytes]:
+        nonlocal calls
+        calls += 1
+        if calls == pending_read:
+            setattr(ctx, field, object())
+        return raw if calls == 1 else fence
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write = AsyncMock()
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    write.assert_not_called()
+
+
+@pytest.mark.parametrize("key,value", [
+    ("phone_protocol_version", 0), ("phone_protocol_version", True),
+    ("copy_ability_room_protocol_version", 0), ("shared_save_protocol_version", 1),
+    ("starting_phone_access", False), ("starting_phone_access", 1),
+])
+@pytest.mark.parametrize("pending_read", [1, 2])
+def test_in_place_slot_change_during_read_never_grants(
+        monkeypatch: pytest.MonkeyPatch, key: str, value: Any, pending_read: int) -> None:
+    ctx = _ctx(precollected=True)
+    raw, fence = _reads(ctx)
+    calls = 0
+
+    async def read(_ctx: object, _requests: object) -> list[bytes]:
+        nonlocal calls
+        calls += 1
+        if calls == pending_read:
+            ctx.slot_data[key] = value
+        return raw if calls == 1 else fence
+
+    monkeypatch.setattr(bizhawk, "read", read)
+    write = AsyncMock(return_value=True)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    write.assert_not_called()
+
+
+def test_failed_guard_can_retry_only_with_fresh_snapshot(monkeypatch: pytest.MonkeyPatch) -> None:
+    ctx = _ctx([protocol.PHONE_ITEM_ID])
+    raw, fence = _reads(ctx)
+    next_raw, next_fence = _reads(ctx, slot=2)
+    read = AsyncMock(side_effect=[raw, fence, next_raw, next_fence])
+    write = AsyncMock(side_effect=[False, True])
+    monkeypatch.setattr(bizhawk, "read", read)
+    monkeypatch.setattr(bizhawk, "guarded_write", write)
+    assert not asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    assert asyncio.run(protocol.sync_phone_ownership(ctx, lambda _: True))
+    assert read.await_count == 4
+    assert write.await_count == 2
+    assert write.call_args is not None
+    assert write.call_args.args[2] == [
+        (COPY_ROOM_CONTEXT_ADDRESS, next_fence[0], "System Bus"),
+        (protocol.PHONE_CONTEXT_ADDRESS, next_fence[1], "System Bus"),
+        (0xF00000, base64.b64decode(ctx.auth), "ROM"),
+        (protocol.PHONE_CONFIG_OFFSET, protocol.PHONE_ENABLED_CONFIG, "ROM"),
+    ]
+
+
+@pytest.mark.asyncio
+async def test_disconnect_during_pairing_read_does_not_poison_reconnected_session(
+        monkeypatch: pytest.MonkeyPatch) -> None:
+    from ..client import KirbyAmClient
+    client = KirbyAmClient()
+    client.initialize_client()
+    ctx = SimpleNamespace(slot_data={}, bizhawk_ctx=object(), items_received=[],
+                          server=SimpleNamespace(socket=SimpleNamespace(closed=False)))
+
+    async def disconnect(_ctx: object, _requests: object) -> list[bytes]:
+        ctx.server = None
+        return [protocol.PHONE_ENABLED_CONFIG]
+
+    monkeypatch.setattr(bizhawk, "read", disconnect)
+    assert not await client._health_protocol_ready(ctx, require_identity=False)
+    assert not getattr(client, "_last_health_protocol_error", None)
+    ctx.server = SimpleNamespace(socket=SimpleNamespace(closed=False))
+    monkeypatch.setattr(bizhawk, "read", AsyncMock(return_value=[protocol.PHONE_MARKER + bytes(4)]))
+    assert await client._health_protocol_ready(ctx, require_identity=False)

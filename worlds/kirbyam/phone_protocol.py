@@ -52,6 +52,12 @@ async def sync_phone_ownership(ctx: Any, history_ready: Callable[[Any], bool]) -
     slot = getattr(ctx, "slot_data", {})
     if not phone_slot_version(slot) or not history_ready(ctx):
         return False
+    # Keep the scalar authorization fields as well as the dictionary identity:
+    # a pending connector read can outlive an in-place capability update.
+    grant_config = {key: slot.get(key) for key in (
+        "phone_protocol_version", "copy_ability_room_protocol_version",
+        "shared_save_protocol_version", "starting_phone_access",
+    )}
     session = _session(ctx)
     items = tuple(ctx.items_received)
     owned = slot.get("starting_phone_access", False)
@@ -71,6 +77,8 @@ async def sync_phone_ownership(ctx: Any, history_ready: Callable[[Any], bool]) -
     raw = await bizhawk.read(ctx.bizhawk_ctx, reads)
     fence = await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"), *reads[1:]])
     if (session != _session(ctx) or ctx.slot_data is not slot or not history_ready(ctx)
+            or any(type(slot.get(key)) is not type(value) or slot.get(key) != value
+                   for key, value in grant_config.items())
             or tuple(ctx.items_received) != items or len(raw) != 4 or len(fence) != 4
             or bytes(raw[2]) != auth or bytes(fence[2]) != auth
             or bytes(raw[3]) != PHONE_ENABLED_CONFIG or bytes(fence[3]) != PHONE_ENABLED_CONFIG
