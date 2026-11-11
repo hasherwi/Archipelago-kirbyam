@@ -33,10 +33,39 @@ def evaluate(graph: TraversalGraph, resolver: SourcePolicy, owned: frozenset[str
     return solver(graph.nodes, graph.routes, graph.placements, graph.starts, resolver, owned, gating, retries)
 
 
-def test_unoptimized_reference_search_body_stays_byte_identical() -> None:
-    source = Path(__file__).with_name('traversal_reference.py').read_bytes()
-    tail = source.split(b'    queue = deque(starts)\n', 1)[1]
+def assert_reference_search_body_unchanged(source: bytes) -> None:
+    # Git may check out CRLF on Windows. Preserve every other source byte.
+    canonical = source.replace(b'\r\n', b'\n')
+    marker = b'    queue = deque(starts)\n'
+    assert marker in canonical, "Frozen reference search marker is missing"
+    tail = canonical.split(marker, 1)[1]
     assert hashlib.sha256(tail).hexdigest() == '44711c286fe14c4b02ce9aa9e9a0daf2ac677f60fd43c410ea98bc3ae9400510'
+
+
+def test_unoptimized_reference_search_body_stays_byte_identical() -> None:
+    assert_reference_search_body_unchanged(Path(__file__).with_name('traversal_reference.py').read_bytes())
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+def test_frozen_reference_guard_accepts_checkout_line_endings(line_ending: bytes) -> None:
+    source = Path(__file__).with_name('traversal_reference.py').read_bytes().replace(b'\r\n', b'\n')
+    assert_reference_search_body_unchanged(source.replace(b'\n', line_ending))
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+@pytest.mark.parametrize('before,after', [
+    (b'if identity in position.consumed:', b'if identity not in position.consumed:'),
+    (b'abilities = grant.guaranteed', b'abilities = grant.abilities'),
+    (b'        visited.add(position)', b'        visited.add( position)'),
+    (b'        visited.add(position)\n', b'        visited.add(position) \n'),
+    (b'        visited.add(position)\n', b'        visited.add(position)\r'),
+], ids=['consumption', 'guarantee', 'internal-space', 'trailing-space', 'bare-CR'])
+def test_frozen_reference_guard_rejects_body_mutations(line_ending: bytes, before: bytes, after: bytes) -> None:
+    source = Path(__file__).with_name('traversal_reference.py').read_bytes().replace(b'\r\n', b'\n')
+    assert source.count(before) == 1
+    changed = source.replace(before, after, 1).replace(b'\n', line_ending)
+    with pytest.raises(AssertionError):
+        assert_reference_search_body_unchanged(changed)
 
 
 @pytest.mark.parametrize('spec', POLICIES)
