@@ -19,6 +19,10 @@ implemented. The current source-backed subset includes:
   separate health supplement covers32 nativeHP1/2/4 tuples with one tested
   percentage each, without claiming all phases or upstream1HP composition.
 
+- An ordinary Normal large-star alternative for native 177 Goal 3 chest, documented
+  in `rainbow-normal177-source-witness.md`. This preserves its existing null
+  rule and adds no generic Normal capability or copied-ability requirement.
+
 The move-family catalog below identifies candidates. It does not grant an
 ability, arbitrary range, collision equivalence or a complete route.
 
@@ -401,3 +405,21 @@ gating-on acquisition check retain their distinct scopes. Contact precedes
 terrain, Cutter is retained, and the timed gate never earns persistent credit.
 This does not finish the broader ranged-attack checklist or prove arbitrary
 arrivals, every integer health percentage, global RNG states or universal range.
+
+## Rainbow Goal 3: ordinary Normal alternative
+
+Four independently reviewed ungated HP 1/6 × enemy 100/500 witnesses start at
+exact 178 right arrival and traverse into 177, complete the Box Boxer fight and
+capture two original Flamers in one pass. Damage 25 large-star object-door
+bypass opens slot 2 and leads to physical chest 0x088BB0BC and local client 3960568.
+The existing `MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3` null rule remains; no copied
+ability, generic Normal power, health restriction, new target or AP edge follows.
+Matched final-shot omissions remain sealed through their bounded prefix stops.
+These distinct recipes do not prove upstream 138/new-game access, all RNG/options,
+a full gated matrix, RoomSanity or central-circle return. This is not terrain piercing.
+See `rainbow-normal177-source-witness.md` and `rainbow-normal177-acceptance.json`.
+
+A separate independently reviewed gated/no-items representative at actual 1 HP
+and 500% enemy health also reaches this chest with Normal equipment and zero
+unlock mask. Its own final-shot omission stays sealed. This is one additional
+case, not all random policies or a full gated health matrix.

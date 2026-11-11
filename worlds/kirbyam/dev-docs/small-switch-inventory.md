@@ -51,7 +51,7 @@ Coordinates are native pixels. T is the template release-counter parameter, not 
 | Native room | WiKirby room | Switch instances (index: X,Y; T) | Classification |
 | --- | --- | --- | --- |
 | 147 / 0x093 | [Moonlight Mansion - Room 19](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_19) | 7: 520,112; T=35 | ordinary timing with clear remote alternative |
-| 177 / 0x0B1 | [Rainbow Route - Goal 3](https://wikirby.com/wiki/Rainbow_Route_-_Goal_3) | 9: 120,288; T=60 | fighter suggested switch route |
+| 177 / 0x0B1 | [Rainbow Route - Goal 3](https://wikirby.com/wiki/Rainbow_Route_-_Goal_3) | 9: 120,288; T=60 | ordinary Normal large-star route reviewed; Fighter remains a suggestion |
 | 209 / 0x0D1 | [Peppermint Palace - Chest](https://wikirby.com/wiki/Peppermint_Palace_-_Chest) | 3: 288,624; T=100 | geometry dependent pending |
 | 228 / 0x0E4 | [Peppermint Palace - Room 9](https://wikirby.com/wiki/Peppermint_Palace_-_Room_9) | 7: 160,208; T=60 | ordinary alternate exit gate |
 | 310 / 0x136 | [Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest) | 2: 312,144; T=0 | remote or cooperative timing |
@@ -91,7 +91,21 @@ WiKirby: Absorbing Box Boxer for Fighter lets Kirby open the switch gate to the 
 
 One switch, counter 60, with a clear initial static row to its gate. The article proposes Fighter, but does not establish a specific Fighter move, exclusive ability need or arbitrary projectile compatibility.
 
-Still needed: Exact attack trajectories, helper positioning, timing and full route acceptance remain untested. No blanket ability grant follows from this description.
+Reviewed ordinary alternative: `rainbow-normal177-source-witness.md` and its
+acceptance JSON establish exact 178 right arrival → 177, Normal Box Boxer combat,
+same-pass original-Flamer pair capture, damage 25 object-door bypass, slot 2 and
+physical chest 0x088BB0BC with local client 3960568. Four ungated actual HP 1/6 ×
+enemy 100/500 positives and matched final-shot omissions preserve the existing
+`MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3` null rule. This is not terrain piercing or
+Copy Ability ownership. Upstream 138/new-game access, all RNG/options,
+central-circle return, RoomSanity and helper routes remain unproved.
+The Fighter suggestion and failed upper/ordinary-star routes do not establish
+an exclusive ability gate.
+
+A separate independently reviewed gated/no-items representative at actual 1 HP
+and 500% enemy health also reaches this chest with Normal equipment and zero
+unlock mask. Its own final-shot omission stays sealed. This is one additional
+case, not all random policies or a full gated health matrix.
 
 ### 209: Peppermint Palace - Chest
 
