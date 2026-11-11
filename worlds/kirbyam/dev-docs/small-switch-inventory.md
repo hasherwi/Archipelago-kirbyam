@@ -69,7 +69,7 @@ Coordinates are native pixels. T is the template release-counter parameter, not 
 | 720 / 0x2D0 | [Carrot Castle - Room 14](https://wikirby.com/wiki/Carrot_Castle_-_Room_14) | 1: 600,96; T=30 | ordinary timing gate |
 | 742 / 0x2E6 | [Moonlight Mansion - Room 15](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_15) | 5: 280,464; T=120 | ordinary timing and hazard gate |
 | 804 / 0x324 | [Labyrinth Entrance Stage](https://wikirby.com/wiki/Labyrinth_Entrance_Stage) | 7: 136,80; T=0<br>8: 296,128; T=0 | tutorial cooperative switch route |
-| 815 / 0x32F | [Olive Ocean - Chest 1](https://wikirby.com/wiki/Olive_Ocean_-_Chest_1) | 6: 312,80; T=0<br>7: 168,144; T=0 | staged inhale spit puzzle |
+| 815 / 0x32F | [Olive Ocean - Chest 1](https://wikirby.com/wiki/Olive_Ocean_-_Chest_1) | 6: 312,80; T=0<br>7: 168,144; T=0 | reviewed moved block and Normal puff |
 | 825 / 0x339 | [Olive Ocean - Goal 2](https://wikirby.com/wiki/Olive_Ocean_-_Goal_2) | 5: 656,144; T=255 | wall separated target |
 | 831 / 0x33F | [Olive Ocean - Room 14](https://wikirby.com/wiki/Olive_Ocean_-_Room_14) | 4: 472,224; T=240 | optional timing or explosive route |
 | 911 / 0x38F | [Dimension Mirror (level)](https://wikirby.com/wiki/Dimension_Mirror_(level)) | 1: 56,256; T=60<br>2: 136,304; T=90<br>5: 72,304; T=80 | sequential timing puzzle |
@@ -261,7 +261,7 @@ Retained WiKirby assessment: The upper puzzle leading to Vitality can be solved 
 
 Two zero-counter switches, each using mode 0x8000, cross-control vertically separated gates: index 6 at (312,80) sets slot 2 for lower gate 5, and index 7 at (168,144) sets slot 1 for upper gate 3. Do not collapse into one remote attack check.
 
-Still needed: Trace stage progression and ordinary spit sources; no blanket Copy Ability requirement is established.
+Reviewed native witness: Normal inhale moves silver block `0x088CCCFC` into maintained lower-switch contact, without swallowing or spitting it. Inclusive integer contact at x175 holds the upper gate open. A final intrinsic air puff triggers the upper switch; its release and gate animation leave time to cross below, slide and collect Vitality. Four actual 1/6 HP × 100/500% runs and a matched final-puff omission control retain the ordinary `can_break_block` rule. The qualified late 551 approach is not arbitrary upstream access. See `olive-normal815-source-witness.md` and its compact manifest.
 
 ### 825: Olive Ocean - Goal 2
 

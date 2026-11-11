@@ -3809,11 +3809,12 @@
         "rle_length_validated": true
       },
       "assessment": {
-        "classification": "staged_inhale_spit_puzzle",
+        "classification": "reviewed_normal_moved_block_and_puff",
         "in_scope": true,
         "wiki_summary": "The upper puzzle leading to Vitality can be solved with inhale/spit and quick movement; the underwater lower route skips it.",
-        "assessment": "Two zero-counter switches, each using mode 0x8000, cross-control vertically separated gates: index 6 at (312,80) sets slot 2 for lower gate 5, and index 7 at (168,144) sets slot 1 for upper gate 3. Do not collapse into one remote attack check.",
-        "unresolved": "Trace stage progression and ordinary spit sources; no blanket Copy Ability requirement is established."
+        "assessment": "Two mode 0x8000 switches cross-control the gates. Reviewed Normal inhale moves silver block 0x088CCCFC to maintain lower-switch contact; intrinsic air puff triggers the upper switch for a timed lower-gate crossing, then ordinary slide reaches Vitality. The block is not swallowed or spat.",
+        "unresolved": "Accepted only from the qualified late 551 approach at actual 1/6 HP and 100/500% enemy health. Other arrivals, policies and resets remain unproved; preserve can_break_block and the independent underwater exit.",
+        "evidence": "olive-normal815-acceptance.json"
       },
       "vertical_gates": [
         {

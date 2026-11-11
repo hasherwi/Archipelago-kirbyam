@@ -442,3 +442,16 @@ gate, health restriction, new AP edge, RoomSanity or outgoing 420 credit. The
 all-frame claim is limited to 1085–4154; arbitrary 419/new-game access and reset
 persistence remain unproved. See `candy-normal426-acceptance.json` and its witness.
 This does not finish the broader ranged-attack checklist.
+
+## Olive Vitality: ordinary Normal alternative
+
+The reviewed native 815 route moves silver block `0x088CCCFC` with sustained
+Normal inhale to maintain lower-switch contact, then uses an intrinsic air puff
+and timed lower-gate crossing before ordinary slide and chest `0x088CCC90`.
+It never consumes or spits the block. Four actual 1/6 HP × 100/500% cold runs
+emit only local `3960301`; a one-bit final-puff omission does not cross or check.
+Keep the existing `can_break_block` rule, RoomSanity and other exits unchanged.
+The qualified late 551 approach is not arbitrary upstream/new-game access or a
+generic Normal capability. Review audited recorded evidence and source without
+rerunning the emulator or reconstructing every collision tile. See
+`olive-normal815-source-witness.md` and `olive-normal815-acceptance.json`.

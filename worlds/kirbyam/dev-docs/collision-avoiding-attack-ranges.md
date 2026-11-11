@@ -170,3 +170,13 @@ This extension identifies concrete omissions and rejects several misleading flag
 ## Use with runtime evidence
 
 For each proposed gate replacement, record the exact room/target, approach side and coordinate, launch height, attack variant, target hitbox distance, and an actual successful/failed activation. Spark opening a different upper Bomb Block must not be presented as proof about a lower gate. These source results explain why Spark has a shorter local reach, why launched frozen enemies can cross terrain but do not directly scan Bomb Blocks, and why some projectiles require camera-aware rather than timer-only range tests. They do not establish that all existing Beam classifications should also accept Spark or Ice.
+
+### Bounded Normal family witness: Olive 815
+
+`olive-normal815-source-witness.md` records sustained inhale moving, not
+consuming/spitting, silver block `0x088CCCFC` into maintained switch contact.
+Intrinsic Normal air puff then triggers the upper switch for a timed lower-gate
+crossing and ordinary slide/chest continuation. Actual 1/6 HP × 100/500% runs
+from one qualified late 551 approach retain the ordinary rule. This is neither
+wall-piercing nor generic Normal/block/puff equivalence; the matched final-puff
+omission fails only this sequence. Other arrivals and switches remain separate.
