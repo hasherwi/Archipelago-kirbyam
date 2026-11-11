@@ -32,6 +32,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Verify native pause/resume during Phone call startup with a cold neutral control: exactly one battery debit, retained ownership and restored L/movement control. Keep production Phone disabled (PR #1086).
+- Recheck the bounded Heave-Ho solo Sword attempt: genuine source/carry and quake displacement do not establish its doorway. Separate the final terrain obstruction from earlier body contact without claiming universal solo impossibility or enabling Phone (PR #1086).
 - Clarify helper Normal requests, actual room-transition resets and the limits of a bounded natural-UFO search. Identify Mustard 11’s large-block pocket as outside current AP checks/exits; add no Phone dependency or activation (PR #1086).
 - Verify the same Mustard 12 Burning solo route with production ability gating ON and generated starting permissions. Audit ordinary client configuration separately from controller-only gameplay; this does not claim a new Burning unlock or activate Phone (PR #1086).
 - Verify separate solo Mustard 12 routes at native HP 6 and HP 1: Normal reaches the ordinary lower exit, while source-acquired Burning clears the large block and upper secret exit through real wall quakes. Keep the destination compartments separate and Phone generation disabled (PR #1086).

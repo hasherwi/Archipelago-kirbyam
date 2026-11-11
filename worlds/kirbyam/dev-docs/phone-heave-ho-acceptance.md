@@ -91,6 +91,17 @@ For the reviewed native-146 `0x7D` block, the shared implementation in `asm/star
 This source chain identifies a candidate independent solo control, not a completed doorway crossing. An actual solo witness still needs a reachable Smash or separately accepted Sword source, genuine acquisition and carried equipment, no helper contribution, and real doorway/collection evidence. The Phone approach's finite Sir Kibble-to-Cutter pickup proves none of those solo equipment conditions.
 
 
+## Bounded solo Sword route and terrain stop
+
+The [solo-gap ledger](phone-heaveho-solo-gap-evidence.json) rechecks an earlier source-qualified Sword experiment. The production shuffled-policy fixture genuinely assigns Sword to native 143's Sir Kibble, and the human acquires it, clears the rope, loses and recovers the dropped ability through ordinary play, then carries Sword through 145 into 146. It starts from the real post-tutorial save and retail startup positions, with 22 production receipt/configuration writes. The approach takes damage from HP 6 to 4. Phone is disabled and no R occurs in the audited post-reload procedure. This is policy/source validation, not complete generated-seed fill acceptance or a minimum-health witness.
+
+Thirty-three actual quake movements shift the block from x160 to x224.996: thirty-two +2px pulses and one clipped final pulse. Early adjacent-player controls really do suppress movement, but the trial already moves Kirby clear. The final rearmed quake still cannot move the block with Kirby distant at x145.516, separating the right-wall obstruction from the earlier body contact. The final floor approach stops at x203.996, short of the doorway's x208–223 tile, with no native 148 entry or Chalk flag/event.
+
+Current source review finds all 50 selected geometry/behavior ranges unchanged in the patch. Different remote Sword, Burning or Stone quake origins feed the same direction and obstruction branch, so simply repeating the distant landing is not a new clearance plan. This does not exclude all intermediate block positions or special collision states: the old Sword trace reaches the top of the x218 block, and its limited crossing attempts do not exhaust those alternatives. No successful solo route, universal impossibility or mandatory Phone requirement follows.
+
+
+A source-only Mini follow-up checks intermediate block positions x200/202/204 separately from the older x218 and terminal attempts. Mini's narrower bounds admit a conditional path shape, but ordinary doors clear Mini, mouth-held sources are expelled, and no applicable Mini source exists inside 146 in the inspected policy. Fetching one elsewhere with all helpers absent also destroys the displaced block and recreates it at x160. No continuous solo plan or new trial follows. Crouch, slide, attack-specific bounds and exact corner routes remain outside that bounded audit.
+
 ## Revised no-health-loss route and 1–1 health
 
 The [revised route ledger](phone-no-damage-evidence.json) retains a complete source-conditioned route with no sampled health loss. It begins from the same successfully persisted Phone-owned post-tutorial native save, with original startup positions, Area Keys ON, ability gating ON and fixed finite Sir Kibble-to-Cutter plus real permission. Controller revisions remove the exploratory waits, falls and escape timing that damaged the earlier accepted prefix; those older traces remain unchanged.
