@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "status": "PASS",
+  "scope": "Finite lower Waddle Doo -> Fire from independent native170 access; dry Fire carry and B-only target breath opens only native719 to734 lower entry.",
+  "source_commit": "7a417dc96ef8902401aa32533f6ea6b85ce28a9f",
+  "generation_seed": 18,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 2395008880317811979,
+    "mapping_style": "per_enemy_type"
+  },
+  "preserved_graph_sha256": {
+    "room5_entry": "27f3a97188f0523ddc2f723f62894eb079752964dc540fb1831f43e19138dc8a",
+    "room5_fighter_entry": "c50dec1012d51bc0e5b834581e966e0f26b7c99915ca5cabbc02396463dfdc07",
+    "room5_sword_entry": "77a4d975b508e547fd35f9449e94627d9cc8c9b774c61f40ec115adae8bfeaf2"
+  },
+  "native_source_sha256": {
+    "src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+    "src/code_0806F780.c": "c1379a8c878d5863485a31d276b24336ac147764bc282f70854447b6e4f38963",
+    "asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a"
+  },
+  "input_sha256": "85dc9cdd0020dc83af4602d60a36c9fe6b11e98ed0822bdefe85caa4747cfed5",
+  "private_artifact_sha256": {
+    "REPORT.md": "e920353fd0b73dbc03d2b7cdcaf1e843adcd100f9ede0ed372b6c39d3d497faa",
+    "acceptance.json": "20131bf0008e227a8336167f289730cca601e0b2083d30486df81d613a0835e9",
+    "FINAL-SHA256SUMS": "3586ee6cde078794d007ad6ded805bd5a6e76d5f8402bf4457dbf1096a88a047",
+    "ENEMY-NAME-ERRATUM.md": "48d870eb35ec102a3f4518e2d0e9393ad3e34a1a522c13aa7de50ccfc10f6649"
+  },
+  "independent_endpoint_review_sha256": "125b079f3c3bc0bccaf14e5e815a228e52f627b05739dbc46625d7ed9faad8e6",
+  "health_supplement_index_sha256": "58e6558f4790ca43e2e19970c3e198ff21ca6572bb6610891d8413071fc77490",
+  "health_supplement_manifest_sha256": "aea02eb0b6391d8515d07aa54cd6e7fd87f907ef1a6a74068091f2fe8cd93a25",
+  "independent_supplement_review_sha256": "b73e3ef611f0439f88c531d0f4fd02d1f997dff76043e7b971753c3b9e742bfd",
+  "independent_supplement_results_sha256": "b8edd8aa452e7a9c9b019e00d2fac642d6d41d08236c151c08ffcc40dca63b88",
+  "independent_supplement_index_sha256": "2dc8f8084e1519c3f3a1a7307b0c59cf7441666e621598a8352e14ece637ca2d",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "build_sha256": {
+    "100-1hp": {
+      "production.apkirbyam": "25e9271bbb0986e4b7e0e6ed6aef5ddb369e72b9b8e08323a7d1bf971511ef68",
+      "production.gba": "0801d2a10baea587a067fa71a6cbaf70efc74390c66bc7ed896b8db55ed88727",
+      "fixture.gba": "40816db49829b1409d77f8c15ac4f0e397dfdc1f893fa4f8933481ba45841f41",
+      "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+    },
+    "100-6hp": {
+      "production.apkirbyam": "a372e85b45e9e8f754aee60c819fc3bcc7040fc3dbbac855939208b38307d607",
+      "production.gba": "d9ad0de3589d60fc9171001a7316b797f0daadf41434b3b898f251c52164fc81",
+      "fixture.gba": "baa9f9fc3609f70930bdf79abacc06768ed5fef901d40281a67a5b350beddd40",
+      "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+    },
+    "500-1hp": {
+      "production.apkirbyam": "d69f09672cf202f69d3db7a0624aaa038be260bcb00d20d1fecd7f1fcd67a1c4",
+      "production.gba": "e1a549d9ead0ae6f35284b5e2ff454aa42013bf679cecc2d0d6c8de84144d6a2",
+      "fixture.gba": "7bfcb4357b2c5a1daa21c1a123d54c3b4b0b301ae32215200e12f82c50275ee4",
+      "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+    },
+    "500-6hp": {
+      "production.apkirbyam": "79394d0e0932989ca6edd50571a41a8d67859bcd6c5da7807c8159c6cc59fdfa",
+      "production.gba": "639aafca6046b0e05793a31de120c622f299c9440269dfa46cd87ab31c7b0688",
+      "fixture.gba": "bb8c817e9632b1862e5a494be05d90aff718bc88b5c5cf1052e384413d45d396",
+      "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+    }
+  },
+  "gated_build_sha256": {
+    "production.apkirbyam": "a2e8c826bae8471718a85ddcc71f5d28bf42b70a527f46b9bd2b39262d7d0473",
+    "production.gba": "cb3bf1142b9dff7a378d596bab18d017599baca413fe7d902e25c9b6224f78e1",
+    "fixture.gba": "3847f3a7193d342944e5f0832c3b7b30b9d42f6992977d262e1f42fabaf6310d",
+    "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+  },
+  "limits": [
+    "Startup fixture establishes qualified native170 ingress, not game-start access.",
+    "28 encountered enemy-HP tuples cover integer50..500 discretely; not every integer, all RNG, all arrivals or HP2-5 replayed.",
+    "Supplement adds no omission controls; no-permission companion is acquisition-only.",
+    "Only dry719 lower734 entry is supported: no reward, upper Secret Notes, other exit, source renewal or global Fire range."
+  ]
+}

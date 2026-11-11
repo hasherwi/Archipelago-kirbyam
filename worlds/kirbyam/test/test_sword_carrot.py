@@ -207,7 +207,8 @@ def test_kernel_and_compiler_reject_widened_attack(mutation):
 
 def test_three_or_alternatives_exact_target_and_preserved_prior_graphs():
     row = target_row()
-    assert set(row["graphs"]) == {"room5_entry", "room5_fighter_entry", "room5_sword_entry"}
+    assert set(row["graphs"]) == {
+        "room5_entry", "room5_fighter_entry", "room5_sword_entry", "room5_fire_entry"}
     expected = json.loads(EVIDENCE.read_text())["preserved_graph_sha256"]
     assert set(expected) == {"room5_entry", "room5_fighter_entry"}
     for key, digest in expected.items():
@@ -217,7 +218,7 @@ def test_three_or_alternatives_exact_target_and_preserved_prior_graphs():
         assert rules.target_applies(row, resolver)
         outcomes = [rules.graph_succeeds(g, resolver, frozenset({f"{ability} Ability"}), True, retries=True)
                     for g in rules.target_graphs(row, False)]
-        assert outcomes == [ability == "Beam", ability == "Fighter", ability == "Sword"]
+        assert outcomes == [ability == "Beam", ability == "Fighter", ability == "Sword", False]
     assert rules.target_applies(row, policy())  # Native Beam assignment is unchanged.
     for key, wrong in [("id", "bomb_other"), ("native_room", 517), ("kind", "switch"),
                        ("region", UPSTREAM), ("exit", "REGION_CARROT_CASTLE/ROOM_5_14")]:

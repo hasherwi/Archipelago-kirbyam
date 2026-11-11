@@ -47,10 +47,13 @@ def test_independent_beam_smash_fire_or_policy(mode, pool, weight, ability, stat
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
         assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol')]
-    # The same enemy key does not widen Carrot's independently reviewed alternatives.
+    # Carrot now has its own reviewed Fire graph, not a reuse of the517 effect.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Fire':
-        assert not rules.target_applies(carrot, resolver)
+        assert rules.target_applies(carrot, resolver)
+        graph = room_traversal_graph('bomb_719_room13', 'room5_fire_entry')
+        assert graph.routes[-1].capability == 'bomb_719_fire_breath'
+        assert graph.routes[-1].capability != room_traversal_graph(TARGET, 'hub2_fire_entry').routes[-1].capability
 
 
 @pytest.mark.parametrize('gating', [False, True])

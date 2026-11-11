@@ -22,6 +22,7 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 | `bomb_719_fighter_first_combo` | Same lower-entry gate, ordinary first combo | Fighter |
 | `bomb_719_sword_repeated_slash` | Same lower-entry gate, three-tap animation111 | Sword |
+| `bomb_719_fire_breath` | Same lower-entry gate, qualified carry and traveling breath | Fire |
 | `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 
 Both route endpoints must belong to the named native room and use the reviewed

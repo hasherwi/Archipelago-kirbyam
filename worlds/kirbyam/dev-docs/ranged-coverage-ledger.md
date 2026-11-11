@@ -6,7 +6,7 @@ implemented. The current source-backed subset includes:
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
   Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol for the Cabbage Chocolate
-  chest, and Beam/Fighter/Sword for the Carrot lower Room13 entry.
+  chest, and Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
@@ -455,3 +455,22 @@ The qualified late 551 approach is not arbitrary upstream/new-game access or a
 generic Normal capability. Review audited recorded evidence and source without
 rerunning the emulator or reconstructing every collision tile. See
 `olive-normal815-source-witness.md` and `olive-normal815-acceptance.json`.
+
+## Carrot Room7: bounded Fire traveling breath
+
+A separate guaranteed finite lower WADDLE_DOO→Fire graph OR-composes with
+unchanged Beam/Fighter/Sword graphs on `bomb_719_room13`. Independent native170
+entry, Normal acquisition and the qualified longer directional Fire carry are
+required. The dry719-only final B breath uses a traveling player-parented packet,
+not its mouth effect, to open F1(1,14)/15F2 and enter734 lower. It does not extend
+Fire517, upper Secret Notes, other exits or RoomSanity. Fire is already gateable
+and progression; permission/equipment and item lifecycle remain unchanged.
+
+Eight endpoint/control runs cover HP1/6×enemy100/500, plus a gated1HP500 route
+and acquisition-only no-permission control. Independent supplement review covers
+26 remaining encountered enemy-HP tuple representatives at1HP, for28 distinct
+tuples across50..500. This is bounded discrete-health coverage, not all RNG or
+all arrivals. Correct names are Chip(type08) and Blockin(type0D); the original
+report's name erratum preserves raw IDs/results. See
+`carrot-room7-fire-witness.md` and `carrot-room7-fire-acceptance.json` for scope,
+input/source hashes and independent review provenance.

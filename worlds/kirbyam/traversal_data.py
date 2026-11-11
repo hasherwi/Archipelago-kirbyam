@@ -177,7 +177,7 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
 
 
 def _validate_carrot_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
-    if condition == {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Fighter", "Sword"]}:
+    if condition == {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Fighter", "Sword", "Fire"]}:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
             "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
             "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
