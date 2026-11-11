@@ -19,6 +19,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
+- Goal Game checks require matching protocol-2 seeds, client and ROM patch. Fresh emulator acceptance of the integrated three-file persistence remains pending; older single-save prototype evidence does not validate this payload. Preserve original saves and do not downgrade a payload after saving Goal Game flags (PR #1026).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
@@ -29,6 +30,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Store sixteen Goal Game flags beside Copy Room ownership in the existing authenticated, isolated three-file WORLD record. Fence reconnect reporting by current save, ROM and session identity (PR #1026).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0
