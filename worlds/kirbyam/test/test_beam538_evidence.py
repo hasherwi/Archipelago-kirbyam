@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from ..data import data, load_json_data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from ..tools.build_ranged_target_coverage import build_coverage
@@ -34,6 +36,37 @@ def raw_targets(value):
             yield from raw_targets(child)
 
 
+def before_reviewed_fire719_addition(rooms):
+    """Compare frozen Beam538 snapshots without erasing the later reviewed Fire OR."""
+    previous = json.loads(json.dumps(rooms))
+    target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_719_room13']
+    assert target['requires_guaranteed_source'] == {
+        'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Fighter', 'Sword', 'Fire']}
+    graph = target['graphs'].pop('room5_fire_entry')
+    assert digest(graph) == '3b2302e9a5279b590640ae82d4803d38dc039e1897103f25d447ef931f1a0d4f'
+    assert graph['requires_guaranteed_source'] == {'source_key': 'WADDLE_DOO', 'ability': 'Fire'}
+    assert graph['routes'][-1]['capability'] == 'bomb_719_fire_breath'
+    target['requires_guaranteed_source']['abilities'].remove('Fire')
+    return previous
+
+
+@pytest.mark.parametrize('mutation', ['access', 'placement', 'route'])
+def test_historical_reconstruction_rejects_changed_fire719_graph(mutation):
+    rooms = load_json_data('regions/rooms.json')
+    # Do not mutate the shared loaded room data while probing this hash guard.
+    rooms = json.loads(json.dumps(rooms))
+    target, = [row for row in raw_targets(rooms) if row['id'] == 'bomb_719_room13']
+    graph = target['graphs']['room5_fire_entry']
+    if mutation == 'access':
+        graph['access']['region'] = 'REGION_CARROT_CASTLE/ROOM_5_07'
+    elif mutation == 'placement':
+        graph['sources'][0]['node'] = 'bomb_719_room13:left_door'
+    else:
+        graph['routes'][2]['required_equipment'] = []
+    with pytest.raises(AssertionError):
+        before_reviewed_fire719_addition(rooms)
+
+
 def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     e, rooms = evidence(), load_json_data('regions/rooms.json')
     assert e['target'] == {
@@ -47,7 +80,8 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': False}
     for name, sha256 in e['preserved_region_sha256'].items():
         assert digest(rooms[name]) == sha256
-    targets = {t['id']: t for t in raw_targets(rooms)}
+    # Frozen historical identities still hold after accounting for the exact later OR addition.
+    targets = {t['id']: t for t in raw_targets(before_reviewed_fire719_addition(rooms))}
     assert len(e['preserved_target_sha256']) == 37
     for name, sha256 in e['preserved_target_sha256'].items():
         assert digest(targets[name]) == sha256
@@ -141,7 +175,12 @@ def test_current_ownership_snapshot_contains_one_extra_surface_and_target():
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert set(snapshot['input_sha256']) == set(current['input_sha256'])
     for path, expected in snapshot['input_sha256'].items():
-        assert lf_text_sha256((ROOT / path).read_bytes()) == expected
+        raw = (ROOT / path).read_bytes()
+        if path == 'data/regions/rooms.json':
+            # Keep the native Beam538 packet frozen; Fire719 adds no surface or target.
+            previous = before_reviewed_fire719_addition(json.loads(raw))
+            raw = (json.dumps(previous, indent=2) + '\n').encode()
+        assert lf_text_sha256(raw) == expected
     assert snapshot['new_surface'] == {
         'owner': OWNER, 'kind': 'exit', 'target': DESTINATION, 'requirement': None, 'room_sanity': False}
 
