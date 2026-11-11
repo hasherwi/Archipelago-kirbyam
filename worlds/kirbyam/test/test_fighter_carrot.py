@@ -10,7 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .. import KirbyAmWorld, traversal_rules as rules
-from ..traversal import SourcePolicy
+from ..traversal import ROOM_SCOPED_CAPABILITIES, SourcePolicy
 from ..traversal_data import room_traversal_graph, room_traversal_targets, load_room_traversal
 from .test_mini_traversal import make_world
 from .test_traversal import policy
@@ -62,8 +62,19 @@ def test_source_scope_and_progression(mode, pool, weight, applies, promotes, sta
     world = SimpleNamespace(_enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: gating)
     assert rules.carrot_fighter_is_progression(world) is (promotes and gating)
     cabbage = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_517_chocolate')
-    if pool == ['Fighter']:
-        assert not rules.target_applies(cabbage, resolver)
+    # Chocolate has its own later finite Fighter witness; neither graph grants the other's attack.
+    if pool and 'Fighter' in pool:
+        assert rules.target_applies(cabbage, resolver) is promotes
+    carrot_graph = room_traversal_graph('bomb_719_room13', 'room5_fighter_entry')
+    cabbage_graph = room_traversal_graph('bomb_517_chocolate', 'hub2_fighter_entry')
+    assert carrot_graph.routes[-1].capability == 'bomb_719_fighter_first_combo'
+    assert cabbage_graph.routes[-1].capability == 'bomb_517_fighter_first_combo'
+    assert ROOM_SCOPED_CAPABILITIES[carrot_graph.routes[-1].capability] == 719
+    assert ROOM_SCOPED_CAPABILITIES[cabbage_graph.routes[-1].capability] == 517
+    assert carrot_graph.access_region == UPSTREAM
+    assert cabbage_graph.access_region == 'REGION_CABBAGE_CAVERN/ROOM_3_HUB_2'
+    assert carrot_graph.placements[0].identity == '0x088D3BF4'
+    assert cabbage_graph.placements[0].identity == '0x088CA04C'
 
 
 def test_source_condition_cannot_spread_to_another_surface():
