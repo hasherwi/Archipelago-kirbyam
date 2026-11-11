@@ -49,10 +49,12 @@ def before_reviewed_fire719_addition(rooms):
     target['requires_guaranteed_source']['abilities'].remove('Fire')
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_517_chocolate']
     assert target['requires_guaranteed_source'] == {
-        'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice']}
+        'source_key': 'WADDLE_DOO',
+        'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword']}
     for ability, sha256 in (
         ('Spark', '3a1c44ebb5f4aa00972240ce29ebed4d1dbf41de0c42695c015321ab16b94591'),
         ('Ice', '5e34628d8ec3d5e184a1c7b804ac3cef54f6e723a98d82f596d0db82e72a2f15'),
+        ('Sword', '5ed43c0175b3f0c7eef920f50217a710b2d025e679c996c82e2dc6c808cf0b43'),
     ):
         assert digest(target['graphs'].pop(f'hub2_{ability.lower()}_entry')) == sha256
         target['requires_guaranteed_source']['abilities'].remove(ability)
@@ -248,7 +250,7 @@ def test_all32_health_tuples_have_actual_native_representatives_not_interpolatio
         assert case['hashes']['inputs.json'] == packets['primary'][recipe]['hashes']['inputs.json']
 
 
-@pytest.mark.parametrize('ability', ['Spark', 'Ice'])
+@pytest.mark.parametrize('ability', ['Spark', 'Ice', 'Sword'])
 @pytest.mark.parametrize('mutation', ['access', 'placement', 'route', 'applicability', 'unrelated'])
 def test_historical_reconstruction_does_not_mask_cabbage_edits(ability, mutation):
     rooms = json.loads(json.dumps(load_json_data('regions/rooms.json')))
