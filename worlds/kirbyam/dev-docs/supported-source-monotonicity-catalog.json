@@ -7,12 +7,12 @@
     "worlds/kirbyam/enemy_ability_data.py": "8ecd2e11b456f4c7ab8c45403c82bbf02e29aac09cb17611990c962e229872bb",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "db508c41fa75b9f702adbee1bb6c57f73d161119a7d2ba5da97daea0ad5bb98d",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "33b3f93b8aca7147f2f0861a8bdff4a15a306dbe7db2b2d09a496095c20af9d3",
-    "worlds/kirbyam/traversal.py": "52b31ea1be261f10216e69c7dfd7e36f2425ec87260f519cd09d79cb4dec7560",
+    "worlds/kirbyam/data/regions/rooms.json": "dacedf561314a1fdeca48b5f3670f0061578d12ba834fdb9cc4eac80a3df897e",
+    "worlds/kirbyam/traversal.py": "3675c55e4f663916e80c3ffd4930add186ae2bbed22c6f184a225e0c15e799f1",
     "worlds/kirbyam/traversal_data.py": "2c783db52aba1190096c16f3b63bd2d825b97d77fc994ba11a98a502dab9561e"
   },
-  "witnesses": 143,
-  "variants": 286,
+  "witnesses": 144,
+  "variants": 288,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -103,6 +103,12 @@
     ],
     "bomb_110_room9_underwater_sword": [
       "Sword"
+    ],
+    "bomb_110_upper_normal_spit": [
+      "Normal"
+    ],
+    "bomb_110_room9_underwater_normal_spray": [
+      "Normal"
     ],
     "bomb_138_green": [
       "Spark"
@@ -1888,17 +1894,11 @@
         }
       ],
       "target_source_condition": null,
-      "target_source_alternatives": [
-        {
-          "source_key": "SPARKY",
-          "ability": "Spark"
-        },
-        {
-          "source_key": "SWORD_KNIGHT",
-          "ability": "Sword"
-        }
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SPARKY",
+        "Spark"
       ],
-      "graph_source_condition": null,
       "equipment_routes": []
     },
     {
@@ -1924,17 +1924,11 @@
         }
       ],
       "target_source_condition": null,
-      "target_source_alternatives": [
-        {
-          "source_key": "SPARKY",
-          "ability": "Spark"
-        },
-        {
-          "source_key": "SWORD_KNIGHT",
-          "ability": "Sword"
-        }
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SPARKY",
+        "Spark"
       ],
-      "graph_source_condition": null,
       "equipment_routes": []
     },
     {
@@ -1960,17 +1954,11 @@
         }
       ],
       "target_source_condition": null,
-      "target_source_alternatives": [
-        {
-          "source_key": "SPARKY",
-          "ability": "Spark"
-        },
-        {
-          "source_key": "SWORD_KNIGHT",
-          "ability": "Sword"
-        }
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SWORD_KNIGHT",
+        "Sword"
       ],
-      "graph_source_condition": null,
       "equipment_routes": []
     },
     {
@@ -1996,17 +1984,11 @@
         }
       ],
       "target_source_condition": null,
-      "target_source_alternatives": [
-        {
-          "source_key": "SPARKY",
-          "ability": "Spark"
-        },
-        {
-          "source_key": "SWORD_KNIGHT",
-          "ability": "Sword"
-        }
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SWORD_KNIGHT",
+        "Sword"
       ],
-      "graph_source_condition": null,
       "equipment_routes": []
     },
     {
@@ -13360,6 +13342,200 @@
       "target_source_alternatives": null,
       "graph_source_condition": null,
       "equipment_routes": []
+    },
+    {
+      "target": "bomb_110_room9",
+      "witness": "upper_entry_normal_water",
+      "area_keys": false,
+      "source_ids": [
+        "SWORD_KNIGHT@0x088B74CC"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_110_room9:normal:payload",
+          "to": "bomb_110_room9:normal:upper_chain",
+          "capability": "bomb_110_upper_normal_spit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_110_room9:normal:spray_pose",
+          "to": "bomb_110_room9:normal:opened_shaft",
+          "capability": "bomb_110_room9_underwater_normal_spray",
+          "water_state": "swimming",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Normal",
+          "beam_accepted": true,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_110_room9:normal:lower_mid",
+          "to": "bomb_110_room9:normal:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:arrival",
+          "to": "bomb_110_room9:normal:payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:payload",
+          "to": "bomb_110_room9:normal:upper_chain",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:upper_chain",
+          "to": "bomb_110_room9:normal:lower_approach",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:lower_approach",
+          "to": "bomb_110_room9:normal:spray_pose",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:spray_pose",
+          "to": "bomb_110_room9:normal:opened_shaft",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:opened_shaft",
+          "to": "bomb_110_room9:normal:exit_pool",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:exit_pool",
+          "to": "bomb_110_room9:normal:right_door",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_110_room9",
+      "witness": "upper_entry_normal_water",
+      "area_keys": true,
+      "source_ids": [
+        "SWORD_KNIGHT@0x088B74CC"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_110_room9:normal:payload",
+          "to": "bomb_110_room9:normal:upper_chain",
+          "capability": "bomb_110_upper_normal_spit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_110_room9:normal:spray_pose",
+          "to": "bomb_110_room9:normal:opened_shaft",
+          "capability": "bomb_110_room9_underwater_normal_spray",
+          "water_state": "swimming",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Normal",
+          "beam_accepted": true,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_110_room9:normal:lower_mid",
+          "to": "bomb_110_room9:normal:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:arrival",
+          "to": "bomb_110_room9:normal:payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:payload",
+          "to": "bomb_110_room9:normal:upper_chain",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:upper_chain",
+          "to": "bomb_110_room9:normal:lower_approach",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:lower_approach",
+          "to": "bomb_110_room9:normal:spray_pose",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:spray_pose",
+          "to": "bomb_110_room9:normal:opened_shaft",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:opened_shaft",
+          "to": "bomb_110_room9:normal:exit_pool",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_110_room9:normal:exit_pool",
+          "to": "bomb_110_room9:normal:right_door",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
     }
   ],
   "previous_source_head": "e91dd1732225a69711b46e8ea6c2e6446b7fb0a1",

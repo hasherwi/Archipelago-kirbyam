@@ -1,0 +1,3357 @@
+{
+  "schema": "normal110-neutral-route-v2",
+  "date": "2026-11-11",
+  "production_commit": "714a06f8794076e3261062344dfad8f3810d6898",
+  "production_tree": "49a999340b61aa144c3e77118c8ee3ec7c9a41c7",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "independent_entry": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+  "entry_door_rom_offset": "0x0087847A",
+  "entry_door_record": "03ff22120e00ffff6e00070800ff",
+  "target": "native110 F1(13,57), AP Room8 to Room9/native554",
+  "excluded_entrance": "503 enters distinct lower-left chamber and is not a bypass",
+  "cold_repeat100_every_sample_equal": true,
+  "cold_runs": 18,
+  "positive_runs": 12,
+  "matched_controls": 6,
+  "scope": "Native replays cover specified discrete health/policy configurations. The health kill/capture partition and legal single-payload copy-field equivalence are source arguments, not exhaustive option/seed replay. No helper participation, gameplay writes, state restoration or copied human ability. AI0 fixture only; not a normal AI300 replay, arbitrary arrival proof or complete PR implementation.",
+  "review_status": "independently_accepted_bounded_native_evidence",
+  "private_packet_sha256": {
+    "final-acceptance.json": "d03c21fadd2c4e5af73611b405f14edb2577107445d670ec0b1f2b801747913b",
+    "final-manifest.json": "5cccc724d14c485dfc0eb3925db1cbe8996057ffcfdc029a0c16a2767501097e",
+    "report.md": "c3409f46f5d9824d6653ac35555b88bb207b47a8461e9a96d5b75fe14a076cc3"
+  },
+  "runs": [
+    {
+      "name": "verified-gated-mode1-500-1hp-control",
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "73d04c6698d409e05c0f8afc954326fa83f0133c104493edaeabb99f997e0ed1",
+      "fixture_sha256": "f10e39c470148776160f9149c4218ecd3374b1fbb30427b1462c2ced124f1c61",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "8dffb03f7c3b872544817d564123505fdc86735aa44b3eb2e44fa6b0336d0a04",
+        "per-frame.json": "a2f97026d1af126468188fe6395c64df23211dd78a53264f2afaa1c9e43c4b85",
+        "effects.json": "87deff467b5b063e8dc90399b2191ebed527ad8a7fbda5516c7ce2d19c6e5ee5"
+      }
+    },
+    {
+      "name": "verified-gated-mode1-500-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "73d04c6698d409e05c0f8afc954326fa83f0133c104493edaeabb99f997e0ed1",
+      "fixture_sha256": "f10e39c470148776160f9149c4218ecd3374b1fbb30427b1462c2ced124f1c61",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003d0c",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "22494b8d0ace563f9e3c4159a1ec39664ffcdd6ebb424bc14b4aa43574da8419",
+        "per-frame.json": "97c6c5a3ac72fb405ff05911302360c989b79002ab9c1c88abec4226fed25794",
+        "effects.json": "2cda3901ce0fbf0f3a7a427384218075e6720ca20276f62a8df2b07ce4ea1773"
+      }
+    },
+    {
+      "name": "verified-gated-mode2-500-1hp-control",
+      "options": {
+        "ability_randomization_mode": 2,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "95692b70dca9438f0093e525e329a0842a735f5e3c116b8b1e583e6b5e5f2aa6",
+      "fixture_sha256": "32ae72ba76221ae95f4cc74731bcb1fad714ac6bdc0dccd6de58ed375918cee9",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 2,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "6120a41ec9c20af6f4efb091f90224c96a1a2b6c12a0be96a8430b4a5e1dabcc",
+        "per-frame.json": "9f70c8a4be401cb969deec9f2c70bc2014d9ab2a9169850b1256b019fc0d3001",
+        "effects.json": "94dbd3c1697903034dd0d1bd8c15e84e06a00f6450c545715bce9dc47942b44c"
+      }
+    },
+    {
+      "name": "verified-gated-mode2-500-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 2,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "95692b70dca9438f0093e525e329a0842a735f5e3c116b8b1e583e6b5e5f2aa6",
+      "fixture_sha256": "32ae72ba76221ae95f4cc74731bcb1fad714ac6bdc0dccd6de58ed375918cee9",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 2,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003d0c",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "8b41e0c053d207bafc12306ca52bfe9c31e77f386638ec3479eb0e70676e4ac2",
+        "per-frame.json": "4d67c1f410885eed7005d6961afa0ab38e2564f524b25293df92d03cb4f1abf3",
+        "effects.json": "edae1f811468aa4bad7f58d8dae2b376484467a4cf002bf5e358ea2882d7fa7b"
+      }
+    },
+    {
+      "name": "verified-natural100-1hp-control",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "8fb119a716c007580d8f4db85eec3e6132adfd59e3cbe2df7727d7d56dbfaf26",
+      "fixture_sha256": "0a168292d077d2704d0b2c940c8ee08ca4733ea129434d3c19b312d435ba2b8c",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "0c9cee2707ccc6d302f53df0f869edd7e657576557823bdbebcab1857fa0d2c1",
+        "per-frame.json": "e5b6cf9494be86f07a3464a4aa95c08d3fc380ea20652e67c21e92f841bc8984",
+        "effects.json": "81e935aaba63b9d7bdd2d17e384b79d9f087af082ccbce3538a0505c756d88ab"
+      }
+    },
+    {
+      "name": "verified-natural100-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "8fb119a716c007580d8f4db85eec3e6132adfd59e3cbe2df7727d7d56dbfaf26",
+      "fixture_sha256": "0a168292d077d2704d0b2c940c8ee08ca4733ea129434d3c19b312d435ba2b8c",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "21091c09fe87334d97ad6d751ef1d46dcc27c30ecf163d73d7c2958f070310e7",
+        "per-frame.json": "c68e5aa41890d48f873fa707d28b7fc031b4e180c3090a487f26add23571ef7c",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural100-1hp-repeat",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "8fb119a716c007580d8f4db85eec3e6132adfd59e3cbe2df7727d7d56dbfaf26",
+      "fixture_sha256": "0a168292d077d2704d0b2c940c8ee08ca4733ea129434d3c19b312d435ba2b8c",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "21091c09fe87334d97ad6d751ef1d46dcc27c30ecf163d73d7c2958f070310e7",
+        "per-frame.json": "c68e5aa41890d48f873fa707d28b7fc031b4e180c3090a487f26add23571ef7c",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural100-6hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "control": false,
+      "production_sha256": "a07961a87cbb643b82f7f182dadfe4c49435005a5fa8f0c5c4f9ee36c56b40b9",
+      "fixture_sha256": "4b60d15990804caa5d279a33bda89f28cf88d001a0babcb236844b0adc29d0d5",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 6,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "4a4022c6fed574431d4bea205895adedaaec675856a36ea641bdeaae12dbd2f8",
+        "per-frame.json": "c3245b098592475a94f8a5e424e1315cd0231542f6f78641388b6034d5a51e27",
+        "effects.json": "a96bed03314e0b598e89e1bee9bbf50ff4f5206f059ff1d9a9a42555c3a02af4"
+      }
+    },
+    {
+      "name": "verified-natural124-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 124,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "bd835d258a1dd79264748334eb0ded6ac3b8ba73a78e44731fdd3b9e05f2e13d",
+      "fixture_sha256": "477aebe77ad9b93ae9061dd96f763bc1d04d402ac40af63b6c8c7447752fba31",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "2b8b99634f081cc3bfb1f0bbdce6e8745c4b3ee5335438f39988c3badb0bbdb6",
+        "per-frame.json": "c68e5aa41890d48f873fa707d28b7fc031b4e180c3090a487f26add23571ef7c",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural125-1hp-control",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 125,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "d4ee759e2617888b105417b57b8e5108288e4b94edadcb699e445db4db6e4299",
+      "fixture_sha256": "1654d00fde25e4f2696633b6a80d85543ce66732ad6e16891d29dc69087691b5",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "f4bb11ce5827e3b3c3cbb92b629e1f538d28b050b99375b060ea942469319015",
+        "per-frame.json": "ce30877529090da630b05808557abc3fe4b60fe32ab891d1df43bcf8ac2b6415",
+        "effects.json": "81e935aaba63b9d7bdd2d17e384b79d9f087af082ccbce3538a0505c756d88ab"
+      }
+    },
+    {
+      "name": "verified-natural125-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 125,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "d4ee759e2617888b105417b57b8e5108288e4b94edadcb699e445db4db6e4299",
+      "fixture_sha256": "1654d00fde25e4f2696633b6a80d85543ce66732ad6e16891d29dc69087691b5",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "95f3eed3ba47e45cf51075ef961d74542cf8072b443eda4d3e416185d3eab61d",
+        "per-frame.json": "147f782e8052de9fd1a64f0a6967796d68f3fa4cb878c32b2cb35bb2c7e9c11e",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural50-1hp-control",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 50,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "bf6f10aa4daad827743a8a7461f31495fbd76d366310b675dcf3e52e0a9805cc",
+      "fixture_sha256": "826d69253d77d26188bef32d6f911308c499b708e70c8d6ecc74779bcc48b19e",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "6c783fe7710ec2cb5a4bf8d1c972c1cb60e6edfbd729c88bc073a22749bfc0d4",
+        "per-frame.json": "e5b6cf9494be86f07a3464a4aa95c08d3fc380ea20652e67c21e92f841bc8984",
+        "effects.json": "81e935aaba63b9d7bdd2d17e384b79d9f087af082ccbce3538a0505c756d88ab"
+      }
+    },
+    {
+      "name": "verified-natural50-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 50,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "bf6f10aa4daad827743a8a7461f31495fbd76d366310b675dcf3e52e0a9805cc",
+      "fixture_sha256": "826d69253d77d26188bef32d6f911308c499b708e70c8d6ecc74779bcc48b19e",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "b68107b0657c62a31479a775bafd3c34ef82eba3a13f894bffd5d4f4f597fcc0",
+        "per-frame.json": "c68e5aa41890d48f873fa707d28b7fc031b4e180c3090a487f26add23571ef7c",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural500-1hp-control",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": true,
+      "production_sha256": "577e6b098b66735dcca1b04468e09513b2eb2d0521a2e2c38940352cabaa63c5",
+      "fixture_sha256": "53c095a6189f3c49cc9359bc3a1fd8cd65ce6de9b17c30eda1d9390d33002293",
+      "input_sha256": "97b4f4a015e734ae5be24757d3f668ed6da8e0a906b8b5e5c82c7b46849e1b53",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": true,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": null,
+      "hit_effects": [],
+      "first554_frame": null,
+      "final": {
+        "frame": 3572,
+        "room": 110,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": true,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "8112317d1f6b54eb23c8750aa7b49389add1663e6e5fc1c425033df98e3994fa",
+        "per-frame.json": "ce30877529090da630b05808557abc3fe4b60fe32ab891d1df43bcf8ac2b6415",
+        "effects.json": "81e935aaba63b9d7bdd2d17e384b79d9f087af082ccbce3538a0505c756d88ab"
+      }
+    },
+    {
+      "name": "verified-natural500-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "577e6b098b66735dcca1b04468e09513b2eb2d0521a2e2c38940352cabaa63c5",
+      "fixture_sha256": "53c095a6189f3c49cc9359bc3a1fd8cd65ce6de9b17c30eda1d9390d33002293",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "35d96372746e1d3147167c256128a3f1558f4c3f4b217484c46861a9df1d0674",
+        "per-frame.json": "147f782e8052de9fd1a64f0a6967796d68f3fa4cb878c32b2cb35bb2c7e9c11e",
+        "effects.json": "acbe1382d9510fe460d752ff6de9f598cdfc374ed43c8e7c9ae5a6174f264ac9"
+      }
+    },
+    {
+      "name": "verified-natural500-6hp-positive",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "control": false,
+      "production_sha256": "fb160c90aef35ca88f43771f76584ba9508c1ef8646410baba6972cbb309fe59",
+      "fixture_sha256": "605ce08670430cdc8a96ee04bbb9f8aba6f2458c4bee51e1fab7742d935e52d0",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 0,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 6,
+        "water": false,
+        "area_keys": "0x0",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "37000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "ed4fe3a33b11c6d39362a5fbd53d3029a4cdc62133258b536e263d03c88bab2d",
+        "per-frame.json": "8cd99ec4aa143378979f807cf3dee250d825ec2f7f1dc5fccde5514732ea3a34",
+        "effects.json": "a96bed03314e0b598e89e1bee9bbf50ff4f5206f059ff1d9a9a42555c3a02af4"
+      }
+    },
+    {
+      "name": "verified-ungated-mode1-500-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_randomization_no_ability_weight": 0,
+        "ability_gating": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "27d8165148da95915ed04c9dff668d998348fa41e9d0d13411b30196a0b6a1c6",
+      "fixture_sha256": "64e900cb6af37812f75619ea43594cc68bbf0247d30d170d12595182e64afa1f",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 8,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 5,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 0,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "a0b2cae1475267eee8e1760697471a13901f55558937fdad1fe2f01c0823f6f9",
+        "per-frame.json": "0ba164546ec0db82baf8599124af6939d93f84446bd50d933f1773ea67f22bf9",
+        "effects.json": "06a8735bccb13aaa44f2a18a7d06c8310d9d0ff13571bfd25ccd3695c2b16cb9"
+      }
+    },
+    {
+      "name": "verified-ungated-mode2-500-1hp-positive",
+      "options": {
+        "ability_randomization_mode": 2,
+        "ability_randomization_no_ability_weight": 0,
+        "ability_gating": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "control": false,
+      "production_sha256": "d4e1add652328fb5d116a9677cc6477ca1b90b185e34543104daea73cd041be2",
+      "fixture_sha256": "35478267629df6a7bf4e25bc3f52d36ce48741af66c471e4b6832db26afa1168",
+      "input_sha256": "88171657ef0bb59b584e9981e8e5acc98e7e7dc457e8a581e307ed6583fa9181",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 2488,
+      "frames": 3572,
+      "mouth_transitions": [
+        {
+          "frame": 1085,
+          "mouth_ability": 0,
+          "animation": 0,
+          "state_fn": "0x8056129",
+          "kflags": "0x202"
+        },
+        {
+          "frame": 1443,
+          "mouth_ability": 6,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x81"
+        },
+        {
+          "frame": 1580,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x20"
+        },
+        {
+          "frame": 1796,
+          "mouth_ability": 18,
+          "animation": 30,
+          "state_fn": "0x8054951",
+          "kflags": "0x8000080"
+        },
+        {
+          "frame": 1814,
+          "mouth_ability": 0,
+          "animation": 38,
+          "state_fn": "0x805509d",
+          "kflags": "0x1"
+        }
+      ],
+      "copy_event_max": 2,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0,
+      "matched_prefix_through2785": false,
+      "all110_selective_12_50_sealed": true,
+      "all_equipped_normal": true,
+      "no_swallow_or_copy_animation": true,
+      "entry": {
+        "frame": 1218,
+        "room": 110,
+        "x": 104.0,
+        "y": 120.99609375,
+        "ability": 0
+      },
+      "hit": {
+        "frame": 2788,
+        "room": 110,
+        "x": 174.09375,
+        "y": 926.73046875,
+        "water": true,
+        "ability": 0,
+        "animation": 66
+      },
+      "hit_effects": [
+        {
+          "address": "0x3003cc0",
+          "parent": "0x2020ee0",
+          "category": "0x30000043",
+          "x": 197.2734375,
+          "y": 926.73046875,
+          "flags": "0xa0084004",
+          "animation": "0x2e",
+          "variant": 0,
+          "bounds": [
+            -8,
+            -12,
+            12,
+            10
+          ],
+          "damage_box": [
+            -8,
+            -12,
+            10,
+            11
+          ],
+          "sprite_box": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "first554_frame": 3493,
+      "final": {
+        "frame": 3572,
+        "room": 554,
+        "ability": 0,
+        "mouth_ability": 0,
+        "hp": 1,
+        "water": false,
+        "area_keys": "0x4",
+        "ability_unlocks": "0x0"
+      },
+      "configuration_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "2d5a5b52",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "7a906454",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0c0",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_area_key_runtime_config"
+        }
+      ],
+      "artifact_sha256": {
+        "result.json": "108b912fe4ae3132cb83c1034c498ad94235be0a7d8fcb0a34a20697921fa867",
+        "per-frame.json": "4520b892cfc10a7c4601f7df323e2f1a65308a46123af4629ae177f1a516b38e",
+        "effects.json": "92caf818943c8a1b14440a62b7a7d410a68578bb3ac0de3cc654f18cfb6b4c7d"
+      }
+    }
+  ],
+  "payload": {
+    "source_key": "SWORD_KNIGHT",
+    "identity": "0x088B74CC",
+    "type": 26,
+    "xy": [
+      120,
+      215.99609375
+    ],
+    "capture_frame": 1443,
+    "spit_frame": 1580,
+    "upper_targets": [
+      [
+        14,
+        21
+      ],
+      [
+        11,
+        26
+      ]
+    ],
+    "pending_is_not_equipment": true,
+    "finite": true,
+    "renewable": false,
+    "swallowed": false
+  },
+  "optional_obstacle": {
+    "identity": "0x088B7484",
+    "native_hp": 2,
+    "body_damage": 2,
+    "death_percent_range": [
+      50,
+      124
+    ],
+    "survives_percent_range": [
+      125,
+      500
+    ],
+    "survivor_capture_frame": 1796,
+    "survivor_spit_frame": 1814,
+    "spit_direction": "left",
+    "independent_copy_source": false
+  },
+  "limitations": [
+    "Independent108 LOWER_MID access is assumed; neither arbitrary108/110 nor503 lower-left access is established.",
+    "18 discrete cold runs, not451 health percentages or every randomized assignment; bounded source-derived health partition is documented separately.",
+    "The capture-time copy hook runs, but pending ability never becomes equipment and generic spit clears it.",
+    "No helper participation, gameplay writes, state restoration, source refresh, permanent open event or second target-ammunition grant.",
+    "First100 historical packet stays unchanged; original500 Waddle swallow and earlier failed/misasserted explorations are excluded.",
+    "Native evidence and the separate helper supplement are independently accepted within their bounded scope. Implementation review is separate; this is not a complete PR1052 implementation."
+  ],
+  "provenance_correction": {
+    "address": "0x203b0c0",
+    "raw_origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config",
+    "actual_origin": "KirbyAmClient._sync_area_key_runtime_config",
+    "reason": "Raw Transport logger hardcoded the copy-sync origin for every setup write. Only this key-address label is corrected in the derived record; raw trace hashes remain unchanged."
+  },
+  "startup_helper_qualification": "Startup fixture puts helpers in room 101 and records global AI0. Not a normal globalAI300 replay. The independently reviewed read-only supplement matches all 2,488 frozen human samples. Helpers remain in 101, separate from the human in 108, 110 and 554. Helper 1 acquires Fighter remotely; helpers are not absent, disabled or all Normal. No helper participation is credited.",
+  "independent_review_sha256": {
+    "final-review.md": "c1e91c1b6238e1dfb3baa4eb98d8c90fd8882df7b8c3cd0bde74dd04bd1f36b8",
+    "final-review-data.json": "3a595004a2e9bc4afcdd198427e77cc5f0b365adb3677b2acb16b6b1eb78d59f",
+    "helper-supplement-review.md": "852c721a2e581da4c7ab302bd6187a8ba4ee133fef209cd37c89c3cff3bf6da0",
+    "helper-supplement-review-data.json": "1bb9dbcec17f296ecc498dc68e4780345cbaa2d114d5e71761a29f5e50e4605c",
+    "review-manifest.json": "28cd3b98846404162e63d38c3759425395479443d0948ee3c0b5de43e475d3c0"
+  },
+  "helper_supplement": {
+    "manifest_sha256": "9919d805dc4909f381e91738e4b09cbad07075bc585bd85967cc98ed950b59f5",
+    "artifact_sha256": {
+      "acceptance.json": "de32da52c23dec8c183220777c82963efea4beb50998301987f42db9943f1c20",
+      "provenance-correction.json": "89838501a08b28f761e0b1515ba569356fae2c96795ba88b6585c4fad4ea3943",
+      "report.md": "48bdd6f6a4ea9149f026eff241e5bc413bd79542a01c67df1298882de529fdc0"
+    },
+    "samples": 2488,
+    "human_samples_equal_frozen500": true,
+    "ai_state": 0,
+    "actors": [
+      {
+        "index": 0,
+        "rooms": [
+          108,
+          110,
+          554
+        ],
+        "abilities": [
+          0
+        ],
+        "task_pointer": [
+          "0x3001a2c"
+        ],
+        "live_task_samples": 2488,
+        "distinct_positions": 1573
+      },
+      {
+        "index": 1,
+        "rooms": [
+          101
+        ],
+        "abilities": [
+          0,
+          19
+        ],
+        "task_pointer": [
+          "0x3001a90"
+        ],
+        "live_task_samples": 2488,
+        "distinct_positions": 2363
+      },
+      {
+        "index": 2,
+        "rooms": [
+          101
+        ],
+        "abilities": [
+          0
+        ],
+        "task_pointer": [
+          "0x3001a68"
+        ],
+        "live_task_samples": 2488,
+        "distinct_positions": 2410
+      },
+      {
+        "index": 3,
+        "rooms": [
+          101
+        ],
+        "abilities": [
+          0
+        ],
+        "task_pointer": [
+          "0x3001a54"
+        ],
+        "live_task_samples": 2488,
+        "distinct_positions": 2410
+      }
+    ],
+    "target_hit_frame": 2788,
+    "first554_frame": 3493,
+    "target_effect_parent": "0x02020EE0",
+    "original_artifacts_unchanged": 96,
+    "original_private_dependencies_unchanged": 7,
+    "first100_artifacts_unchanged": true,
+    "gameplay_ram_writes": 0,
+    "ai_state_writes": 0,
+    "state_restores": 0,
+    "task_qualification": "TASK_INACTIVE clear and live task identity establish scheduler eligibility, not callback execution on every frame; global scheduler flags were not sampled.",
+    "registry_correction": {
+      "nonzero_kind1_frames": [
+        1218,
+        1219,
+        1220,
+        1221,
+        1222,
+        1223,
+        1224,
+        1225,
+        1226
+      ],
+      "entries_per_nonzero_sample": 3,
+      "entry_room": 108,
+      "entry_parent": "0x0",
+      "kind2_attack_count_always_zero": true
+    },
+    "registry_qualification": "Three kind-1 room-108 entries persist at frames 1218 through 1226. Kind-2 attack counts are zero after each frame. Counts are cleared after collision processing and do not prove attack absence. Effect-parent identity, continuous helper room separation, room-scoped mechanics and the matched omission control support nonparticipation; the pointer scan is not a complete live-attack census."
+  }
+}

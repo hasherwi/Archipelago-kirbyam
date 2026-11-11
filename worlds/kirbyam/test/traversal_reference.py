@@ -2,8 +2,9 @@
 
 Keep its unoptimized source expansion unchanged when adjusting the optimized
 source loop. The main/ranged union adds only the independently tested per-route
-required_equipment guard to this reference; source deduplication is not copied. The
-shared value types and pure policy helpers allow exact full-result comparison.
+required_equipment guard to this reference. The later Normal110 addition extends
+only exact action validation; the unoptimized search loop remains frozen. No
+source deduplication is copied. The shared value types and pure policy helpers allow exact full-result comparison.
 This is a synthetic algorithm oracle, not native gameplay evidence.
 """
 
@@ -67,10 +68,22 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError("A metal attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw"}) != (route.uses_object is not None):
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+            route.uses_object is not None
+        ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw"} and route.opens is not None:
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+                and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
+        if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
+            medium = "dry" if route.capability == "bomb_110_upper_normal_spit" else "swimming"
+            if (node_by_key[route.source].room != 110 or node_by_key[route.target].room != 110
+                    or route.water_state != medium):
+                raise ValueError("Normal110 action requires its exact room and attack medium")
+            if route.required_equipment != frozenset({"Normal"}):
+                raise ValueError("Normal110 actions require actual Normal equipment")
+            if route.opens is not None or route.room_transition:
+                raise ValueError("Normal110 actions are atomic local sequences without persistent opens")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
@@ -79,6 +92,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 raise ValueError("Conflicting physical source identity for projectile target")
             if not candidates or candidates[0].identity is None or candidates[0].node != route.source:
                 raise ValueError("Route object must be a physical source in its launch compartment")
+            if route.capability == "bomb_110_upper_normal_spit" and (
+                candidates[0].source_key != "SWORD_KNIGHT" or candidates[0].identity != "0x088B74CC"
+            ):
+                raise ValueError("Normal110 spit needs its original finite Sword Knight payload")
             if route.capability == "metal_throw":
                 target_source = _SOURCE_BY_KEY.get(candidates[0].source_key)
                 if target_source is None or not target_source.can_be_swallowed:

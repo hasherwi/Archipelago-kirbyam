@@ -35,7 +35,11 @@ def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
     alternatives = row.get("requires_any_guaranteed_source")
     if condition is None and alternatives is None:
         return True
-    conditions = alternatives if alternatives is not None else (condition,)
+    if alternatives is not None:
+        conditions = alternatives
+    else:
+        assert condition is not None
+        conditions = (condition,)
     return any(
         len(grant := policy.grant(entry["source_key"], lambda _: True).guaranteed) == 1
         and grant <= frozenset(entry.get("abilities", (entry.get("ability"),)))
@@ -87,14 +91,19 @@ def cabbage_element_is_progression(world: Any, ability: str) -> bool:
 
 
 def rainbow_spark_is_progression(world: Any) -> bool:
-    """Room8 and optional Green Paint share the guaranteed Sparky permission.
+    """Only enabled Green Paint needs the guaranteed Sparky permission now.
 
-    Room8 remains enabled when minor chests are disabled, so Green Paint adds
-    no new promotion condition. Inventory is still permission, not equipment.
+    Room8 has a source-policy-independent Normal route. Chocolate's separate
+    Spark classification is combined by create_item_by_code, not inferred here.
     """
     raw = getattr(world, "_enemy_copy_ability_policy", None)
-    return (isinstance(raw, dict) and world._ability_gating_enabled()
-            and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"}))
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_04"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"})
 
 
 def mustard_crash_is_progression(world: Any) -> bool:

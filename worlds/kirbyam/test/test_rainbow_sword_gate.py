@@ -11,6 +11,7 @@ from test.general import setup_multiworld
 from worlds.AutoWorld import call_all
 
 from .support.source_policy import set_rule_test_policy
+from .support.normal110_history import before_normal110
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from ..traversal import Grant, Node, Position, Route, SourcePolicy, reachable_positions
@@ -46,23 +47,23 @@ def test_actual_world_policy_or_requires_only_the_available_permission(
     set_rule_test_policy(monkeypatch, lambda *a, **kw: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=weight)
-    assert rules.target_applies(target_row(), resolver) is applies
+    assert rules.target_applies(before_normal110(target_row()), resolver) is applies
+    assert rules.target_applies(target_row(), resolver)
     entrance = world.multiworld.get_entrance(f'{OWNER} -> {EXIT}', 1)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
-    assert entrance.access_rule(state) is (not applies or not gating)
+    assert entrance.access_rule(state)  # Independent Normal alternative needs no permission.
     for ability, source in (('Spark', 'SPARKY'), ('Sword', 'SWORD_KNIGHT')):
         item = world.create_item(f'{ability} Ability')
         state.collect(item, prevent_sweep=True)
-        supported = resolver.grant(source, lambda _: True).guaranteed == frozenset({ability})
-        assert entrance.access_rule(state) is (not applies or not gating or supported)
+        assert entrance.access_rule(state)  # Copy permission is optional for this target.
         state.remove(item)
     # Neither owner nor another Room6 compartment supplies the reviewed entry,
     # even with both permissions owned.
     for ability in ('Spark', 'Sword'):
         state.collect(world.create_item(f'{ability} Ability'), prevent_sweep=True)
     state.can_reach_region = lambda name, player: name in {OWNER, 'REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER'}
-    assert entrance.access_rule(state) is (not applies)
+    assert not entrance.access_rule(state)
     spark_progression = gating and resolver.grant('SPARKY', lambda _: True).guaranteed == frozenset({'Spark'})
     assert world.create_item('Spark Ability').classification == (
         ItemClassification.progression if spark_progression else ItemClassification.useful)
@@ -107,7 +108,7 @@ def test_both_alternatives_require_their_own_finite_physical_source(
     Grant(frozenset({'Sword'}), randomized=True, can_fail=True),
 ])
 def test_no_source_or_finite_uncertainty_is_not_an_or_guarantee(grant):
-    assert not rules.target_applies(target_row(), SimpleNamespace(grant=lambda *args: grant))
+    assert not rules.target_applies(before_normal110(target_row()), SimpleNamespace(grant=lambda *args: grant))
 
 
 @pytest.mark.parametrize('blocked,expected', [
@@ -118,10 +119,11 @@ def test_blocked_source_policy_does_not_disable_the_independent_alternative(bloc
     native = policy()
     resolver = SimpleNamespace(grant=lambda key, permitted: (
         Grant(frozenset()) if key in blocked else native.grant(key, permitted)))
-    assert rules.target_applies(target_row(), resolver) is any(expected)
+    assert rules.target_applies(before_normal110(target_row()), resolver) is any(expected)
+    assert rules.target_applies(target_row(), resolver)
     owned = frozenset({'Spark Ability', 'Sword Ability'})
     assert [rules.graph_succeeds(graph, resolver, owned, True, retries=True)
-            for graph in rules.target_graphs(target_row(), False)] == expected
+            for graph in rules.target_graphs(target_row(), False)] == expected + [True]
 
 
 @pytest.mark.parametrize('ability', ABILITY_NAME_TO_ID)
@@ -180,7 +182,7 @@ def test_malformed_or_conditions_are_rejected(condition):
     {'requires_guaranteed_source': {'source_key': 'SPARKY', 'ability': 'Spark'}},
 ])
 def test_source_or_is_target_specific_and_exclusive_with_legacy_condition(update):
-    row = deepcopy(target_row())
+    row = before_normal110(target_row())
     row.update(update)
     owner = row.pop('region')
     with pytest.raises(ValueError, match='guaranteed-source alternatives|mutually exclusive'):
@@ -196,7 +198,7 @@ def test_actual_world_either_permission_opens_only_the_same_room9_exit(gating, a
     target = world.multiworld.get_entrance(f'{OWNER} -> {EXIT}', 1)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     for ability in ('Spark', 'Sword'):
-        assert target.access_rule(state) is (not gating)
+        assert target.access_rule(state)  # Normal is an independent third OR.
         item = world.create_item(f'{ability} Ability')
         state.collect(item, prevent_sweep=True)
         assert target.access_rule(state)  # OR, never a second add_rule AND.

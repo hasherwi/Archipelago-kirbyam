@@ -2,6 +2,8 @@
 
 ## Result and scope
 
+Current implementation status is tracked in [ranged completion status](ranged-completion-status.md). This inventory retains its historical source/geometry observations; it is not current-generator or complete native-route proof. Main resolved 209's coarse token, 310/533 have conditional installed graphs, and 825 has one unconditional four-witness OR target. The JSON scan and historical native packets are unchanged.
+
 The unmodified USA ROM contains **35 native small-switch instances in 24 populated room slots**. This is an exhaustive scan of all 983 native room slots and all 287 object lists, not a search for rooms already using an AP capability token. It includes both Dimension Mirror puzzle rooms, even though they have no AP room key. The scan covers 3,482 object templates, checks the 697 unused-slot sentinels, and checks the unreferenced object list 4 (no small switches). All 37 native Object Spawner templates were also checked; none spawns a small switch.
 
 This is documentation and static evidence only. This static scan changes no gameplay logic and uses no emulator. Separate runtime witnesses are documented elsewhere. The ROM was read only; no ROM, extracted graphics or complete collision map is in the deliverable.
@@ -10,9 +12,9 @@ This is documentation and static evidence only. This static scan changes no game
 
 The clearest wall-independent ranged alternative is native **147 / Moonlight Mansion Room 19**: WiKirby explicitly describes striking the switch from near the gate instead of racing; the sampled initial static row between switch and gate is all 0x00. This still does not prove every candidate move, source, range or firing stance.
 
-Native **310 / Mustard Mountain Chest** and **533 / Mustard Mountain Room 15** are strong remote/cooperative or delayed-attack candidates, but their switch-height horizontal rows contain intervening 0x0D geometry. Therefore the wiki's remote wording does **not** prove a flat non-wall-piercing shot. Native **825 / Olive Ocean Goal 2** is clearly a separated switch inside the locked treasure chamber. Native **209 / Peppermint Palace Chest** remains a geometry/entry-route review priority: its legacy AP token is not proof, and the sampled row contains a raised 0x50 floor.
+Native **310 / Mustard Mountain Chest** and **533 / Mustard Mountain Room 15** are strong remote/cooperative or delayed-attack candidates, but their switch-height horizontal rows contain intervening 0x0D geometry. Therefore the wiki's remote wording does **not** prove a flat non-wall-piercing shot. Native **825 / Olive Ocean Goal 2** is clearly a separated switch inside the locked treasure chamber. Native **209 / Peppermint Palace Chest** had a legacy token in the inventory snapshot; main now supplies directed entry/Normal/Snow-loop logic. The sampled raised 0x50 floor remains a geometry observation, not evidence for a new ranged requirement.
 
-Calling other Kirbys, Ice, Laser, UFO and Cupid remain **candidate alternatives requiring individual witnesses**. No blanket capability grant is made here. A helper also requires positioning/behavior evidence; a helper option is not simply a ranged attack.
+At this inventory snapshot, calling other Kirbys, Ice, Laser, UFO and Cupid were **candidate alternatives requiring individual witnesses**. Later bounded witnesses are listed in the completion status and ledger. No blanket capability grant is made here. Never rely on helper Copy Abilities, Bomb activation, combat, acquisition or carry. Only small switches and Heave-Ho blocks may use helper assistance, with positioning/behavior evidence; no Phone capability is implemented.
 
 ## Enumeration correction
 
@@ -52,7 +54,7 @@ Coordinates are native pixels. T is the template release-counter parameter, not 
 | --- | --- | --- | --- |
 | 147 / 0x093 | [Moonlight Mansion - Room 19](https://wikirby.com/wiki/Moonlight_Mansion_-_Room_19) | 7: 520,112; T=35 | ordinary timing with clear remote alternative |
 | 177 / 0x0B1 | [Rainbow Route - Goal 3](https://wikirby.com/wiki/Rainbow_Route_-_Goal_3) | 9: 120,288; T=60 | ordinary Normal large-star route reviewed; Fighter remains a suggestion |
-| 209 / 0x0D1 | [Peppermint Palace - Chest](https://wikirby.com/wiki/Peppermint_Palace_-_Chest) | 3: 288,624; T=100 | geometry dependent pending |
+| 209 / 0x0D1 | [Peppermint Palace - Chest](https://wikirby.com/wiki/Peppermint_Palace_-_Chest) | 3: 288,624; T=100 | directed Normal/Snow map loop integrated; exact entries remain qualified |
 | 228 / 0x0E4 | [Peppermint Palace - Room 9](https://wikirby.com/wiki/Peppermint_Palace_-_Room_9) | 7: 160,208; T=60 | ordinary alternate exit gate |
 | 310 / 0x136 | [Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest) | 2: 312,144; T=0 | remote or cooperative timing |
 | 404 / 0x194 | [Candy Constellation - Room 1](https://wikirby.com/wiki/Candy_Constellation_-_Room_1) | 3: 440,64; T=0 | falling switch timing |
@@ -111,9 +113,9 @@ case, not all random policies or a full gated health matrix.
 
 Retained WiKirby assessment: Intertwining chambers require different entrances for the map and smaller chests. The article does not describe this small switch. [Source](https://wikirby.com/wiki/Peppermint_Palace_-_Chest).
 
-Existing AP map-chest rule says can_hit_far_switch. Native gate is (224,608), switch (288,624), counter parameter 100. The horizontal sample crosses raised-floor code 0x50, so do not equate this placeholder with an unobstructed shot.
+The historical AP map-chest rule said can_hit_far_switch. Native gate is (224,608), switch (288,624), counter parameter 100. The horizontal sample crosses raised-floor code 0x50, so that token never proved an unobstructed shot.
 
-Still needed: Verify the entry-side route and firing position before deciding whether wall collision, height, timing or remote activation is the actual requirement.
+Current integration: Normal208→BOTTOM_MINOR and Normal210→UPPER_ENTRY are separate targets. The reviewed210/Snow loop reaches LOWER_MAP, which owns the map. The coarse token is gone. `ordinary-209-snow-map-loop-acceptance.json` retains its qualified upper210 arrival and100%/500% variants, not arbitrary209 joins or a universal projectile route.
 
 ### 228: Peppermint Palace - Room 9
 
@@ -129,7 +131,7 @@ Retained WiKirby assessment: The map-chest gate closes almost immediately after 
 
 Confirmed remote/cooperation candidate. Switch (312,144), gate (440,144), counter parameter 0. Static 0x0D tiles intervene at switch height, so a generic horizontal non-wall-piercing attack is not proven by the wiki description.
 
-Still needed: Separate helper positioning, delayed attacks and arcing/angled trajectories. Ice, Laser, UFO and Cupid each need an actual route and attack witness.
+Current bounded implementation: guaranteed Twister→UFO/Crash/Cupid/Cutter each has its own graph and qualified native witness. Native Tornado and other source-policy/ordinary alternatives remain open. Unproved Ice, Laser or helper routes cannot inherit those witnesses. See the completion status and `mustard-map-*-source-witness.md` records.
 
 ### 404: Candy Constellation - Room 1
 
@@ -189,7 +191,7 @@ Retained WiKirby assessment: The Room 16 gate resets quickly, and the nearby Fol
 
 Confirmed delayed/remote candidate. Switch (312,144), gate (152,128), counter parameter 0. Static 0x0D tiles lie between them at switch height. Foley is an environmental route to investigate, not evidence that every projectile works.
 
-Still needed: Verify Foley timing/position and distinguish delayed, angled, wall-piercing and helper alternatives.
+Current bounded implementation: guaranteed Foley→Bomb/UFO/Crash/Magic has four distinct OR graphs. Acquiring copied Bomb is separate from the environmental Foley drop/explosion, whose crossing still needs acceptance. Other source-policy and helper alternatives remain open; see the completion status and `mustard-room15-*-source-witness.md` records.
 
 ### 608: Radish Ruins - Room 11
 
@@ -269,7 +271,7 @@ Retained WiKirby assessment: The Sound Effects chest and its switch are both ins
 
 Confirmed separated-target candidate for the wall-aware part of #1052. The initial horizontal sample to switch (656,144) crosses 0x0D tiles. Keep distinct from free-air ranged timing alternatives.
 
-Still needed: The article hints at Ice but does not prove which Ice move or projectile path succeeds; all ability alternatives require exact witnesses.
+The article alone does not prove an Ice move or projectile path. Current integration has one unconditional target with finite Frosty Ice/UFO and permanent Central/Peppermint290 statue Ice alternatives. Keep their distinct source/carry/native boundaries, including layered permanent Ice evidence, rather than treating them as uninterrupted current-generator chest replays. See `main-ranged-integration.md`.
 
 ### 831: Olive Ocean - Room 14
 
@@ -309,4 +311,4 @@ Still needed: Shared article is too general to prove a remote-only solution; est
 
 ## Follow-up geometry and existing Ice implementation
 
-[Exact geometry supplement](remote-small-switch-geometry.md) refines initial switch contact bounds and confirms solid 0x0D obstructions in native 310/533, versus the clear initial lane in 147. Counter parameters 0/35 initialize 2/37, not measured gate-open durations. See the main inventory's Olive Goal 2 section for the already committed conditional guaranteed-Frosty Ice traversal and two upper-arena cold replays; it is not a blanket source-independent Ice rule.
+[Exact geometry supplement](remote-small-switch-geometry.md) refines initial switch contact bounds and confirms solid 0x0D obstructions in native 310/533, versus the clear initial lane in 147. Counter parameters 0/35 initialize 2/37, not measured gate-open durations. The earlier conditional guaranteed-Frosty Ice traversal and two upper-arena cold replays remain historical evidence. Current main integration instead has one unconditional four-witness target: finite Frosty Ice/UFO plus independent permanent Ice sources. Those records retain their own source, carry and native-proof limits; this is not blanket source-independent Ice equipment.

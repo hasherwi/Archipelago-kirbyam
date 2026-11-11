@@ -1,7 +1,9 @@
 # Ranged-attack coverage ledger
 
 This is the broad scope of PR #1052, not a claim that all ranged logic is
-implemented. The current source-backed subset includes:
+implemented. [Reproducible completion status](ranged-completion-status.md) tracks
+the six known source-policy fallbacks and the remaining evidence boundaries.
+The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
@@ -13,7 +15,10 @@ implemented. The current source-backed subset includes:
   the original Bomb record is `mustard-room15-source-witness.md`.
 - Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
-- The finite-source conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
+- The 825 Sound Effects target is unconditional, with four OR witnesses: finite
+  Frosty Ice/UFO and independent Central/Peppermint290 statue Ice. Only the finite
+  graphs have Frosty source conditions; their native evidence remains individually
+  qualified. See `main-ranged-integration.md` and `olive-sound-effects-ufo.md`.
 - An optional, fail-closed native538 Beam left exit from VERTICAL directly to
   Rainbow39/native537, documented in `rainbow-beam538-source-witness.md`. It
   adds no reverse crossover, direct539 route or mandatory Beam requirement. The
@@ -33,7 +38,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (144 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -94,7 +99,7 @@ All anchors below refer to native1197474. Their category-mask compatibility is n
 
 Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big switches have different masks/player handling. Small switches also accept overlapping star-stone/large-star-stone objects (`big_small_switch.c:135–197`). Fuses admit categories0x100/0x10000 (`cannon_fuse.c:39–53,603–610`). Star-stone objects have strength4 resistance and physical behavior (`star_stone_block.c:14–37`); they are not background tiles. Destroyable rock blocks use Kirby position/state/delay (`destroyable_rock_block.c:13–64`), not an inferred attack from their name. Animated door opening is not completed traversal.
 
-Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Mustard Chest310, Mustard15/native533→Mustard16/native325, and Peppermint Chest209. They must not become blanket ability gates:
+Two raw `can_hit_far_switch` strings remain: Mustard Chest310 and Mustard15/native533→Mustard16/native325. Both receive installed source-aware constraints under their reviewed source policies; the strings alone are not missing implementations. Outside those policies the extra rule is skipped, preserving the permissive base rule. They must not become blanket ability gates:
 
 - 310 has a solid intervening wall and near-zero release timer. The guaranteed
   TWISTER → UFO subset uses the complete Normal Hub4/native 590 → 534 approach,
@@ -117,11 +122,16 @@ Three coarse `can_hit_far_switch` surfaces currently remain in this branch: Must
   this same target, summarized below. Unsupported source assignments retain
   prior behavior. Environmental Foley contact and other attack alternatives
   remain unproved.
-- 209 is a dependency on **published** PR #1051 head177d765: `ordinary-209-snow-map-loop-acceptance.json` proves a qualified upper210-arrival Normal route through Snow and the first Bomb chain to the map, with100%/500% enemy-health variants. It does not prove arbitrary209 entry joins. Do not duplicate that coarse placeholder as a ranged requirement or import unrelated unpublished #1051 work.
+- 209 was resolved by main integration: directed Normal208→BOTTOM_MINOR and
+  Normal210→UPPER_ENTRY targets preserve separate entrances. The reviewed
+  210/Snow loop reaches LOWER_MAP, which owns the map.
+  `ordinary-209-snow-map-loop-acceptance.json` retains its qualified upper210
+  arrival and100%/500% health evidence, not arbitrary209 entry joins. No
+  `can_hit_far_switch` string remains there; do not recreate a generic gate.
 
 147 is calibration only: ordinary timed traversal is an alternative, so a ranged witness alone does not justify a mandatory AP gate. Further work must inspect all actual target/check associations, enemy-health/interception, source randomization, 1HP/no-damage movement, precise entry compartments and matched controls.
 
-For future Phone/ranged alternatives on the same AP surface, use alternative witness graphs inside **one target row** (OR). Separate installed rows combine through `add_rule` as AND and must not accidentally require both Phone and a solo attack.
+No Phone capability or unmerged #1086 implementation is included. Never rely on helper Copy Abilities, Bomb activation, combat, acquisition or carry; only small switches and Heave-Ho blocks may use separately justified helper assistance. For any future reviewed alternatives on the same AP surface, use alternative witness graphs inside **one target row** (OR). Separate installed rows combine through `add_rule` as AND and must not accidentally require both Phone and a solo attack.
 
 ## Cabbage Chocolate chest Smash alternative
 
@@ -145,6 +155,18 @@ RoomSanity reachability, arbitrary health interpolation and global Smash
 collision equivalence remain unproved. This Smash evidence adds no Carrot route;
 Carrot now has separate Beam, Fighter and Sword witnesses on its lower entry.
 See `cabbage-smash-source-witness.md` and `cabbage-smash-source-runtime.json`.
+
+## Rainbow110 Normal payload/spray route
+
+The exact110→554 target now also has a source-policy-independent Normal graph.
+It requires actual108 LOWER_MID entry and consumes original Knight0x088B74CC as
+ordinary upper-chain ammunition, never copied Sword. A distinct lower swimming
+spray opens13,57 and completes554. The Waddle obstacle's death-or-spit-left
+partition is documented, not an extra copy source. Spark/Sword graphs preserve
+their original evidence with raw source predicates moved locally. Other exits,
+503, Green Paint and RoomSanity are unchanged. The18-run frozen packet and
+accepted independent native review are in `rainbow-normal110-source-witness.md`.
+The historical two-witness account below retains its original tested scope.
 
 ## Rainbow110 underwater Sword alternative
 

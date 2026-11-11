@@ -35,7 +35,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
         rainbow = targets['bomb_110_room9']
         self.assertEqual(rainbow['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_08')
         self.assertEqual(rainbow['target']['exit'], 'REGION_RAINBOW_ROUTE/ROOM_1_09')
-        self.assertEqual(set(rainbow['target']['graphs']), {'upper_entry', 'upper_entry_sword'})
+        self.assertEqual(set(rainbow['target']['graphs']),
+                         {'upper_entry', 'upper_entry_sword', 'upper_entry_normal_water'})
         green_target = targets['bomb_138_green']
         self.assertEqual(green_target['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_28')
         self.assertEqual(green_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_04')

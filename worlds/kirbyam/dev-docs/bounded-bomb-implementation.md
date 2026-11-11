@@ -1,9 +1,9 @@
 # Bounded bomb traversal implementation
 
-Status: partial implementation, 2026-11-11. The conditional Rainbow110→554
-upper-source rule, conditional Cabbage517 Chocolate chest rule, conditional
+Status: partial implementation, 2026-11-11. The entry-bound Rainbow110→554
+Normal/Spark/Sword OR rule, conditional Cabbage517 Chocolate chest rule, conditional
 Carrot719→734 lower-compartment rule, selective Rainbow138 Green Paint
-chest rule and entry-bound Carrot733 Yellow Paint UFO rule are installed. Other source-policy/target subsets remain open.
+chest rule and entry-bound Carrot733 Yellow Paint UFO rule are installed. Other source-policy/target subsets remain open. See [current completion status](ranged-completion-status.md) for reproducible policy-gap checks. The validation records below retain their historical snapshot/fixture qualifications.
 
 ## Implemented kernel behavior
 
@@ -14,6 +14,8 @@ no global wall-piercing class or numerical range assumption:
 | --- | --- | --- |
 | `bomb_110_room9` | Room110 wall-separated chain opening the Room9 route | Spark, from the closer dry pose above the waterline |
 | `bomb_110_room9_underwater_sword` | Same exact Room110 lower F1(13,57), same Room9 route | Attached underwater Sword spin, separate from landing wave |
+| `bomb_110_upper_normal_spit` | Upper110 F1(14,21) chain | Finite original Knight captured/carried/spat as Normal mouth payload |
+| `bomb_110_room9_underwater_normal_spray` | Exact lower110 F1(13,57) | Normal swimming spray, with completed554 continuation |
 | `bomb_138_green` | Room138 Green Paint selective lower trigger, upper trigger intact | Spark, finite natural source/carry from Room27 upper-left |
 | `bomb_517_chocolate` | Room517 Chocolate Spray Paint barrier | Beam, closer upper-step Spark, ordinary Ice breath, rising Smash Up+B |
 | `bomb_517_fire_breath` | Same exact Room517 F1 (14,7) and Chocolate chest | Neutral traveling Fire breath packet from the reviewed dry pose |
@@ -29,7 +31,7 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_733_yellow_ufo_top_charge` | Room733 Yellow Paint lower trigger, upper intact | UFO top charge after two finite Sparky acquisitions |
 
 Both route endpoints must belong to the named native room and use the reviewed
-medium: dry except for the separate underwater Sword effect. These are action
+medium: dry except for the separate underwater Sword and Normal spray effects. These are action
 steps inside a room, not the subsequent cross-room door
 transition. Each provider set records known successful routes, not an exhaustive
 claim that every other ability is impossible. Direct Spark at the sealed719 gate
@@ -39,9 +41,10 @@ The kernel still begins with Normal unless a preceding physical path has acquire
 an ability. Inventory never supplies equipment. Source-policy grants, finite
 source consumption, permissions and independently declared access remain intact.
 Beam is not gateable in the current ROM. Fire, Missile, Spark, Ice, Smash, Sword and UFO are gateable.
-Spark becomes progression when gating is enabled and the installed Rainbow
-source-policy condition applies. Ice would require classification review before
-installing an Ice-dependent new target; Fire, Smash, Sword and UFO are already progression. Runtime
+Spark becomes progression when gating is enabled and an enabled Green Paint
+or Chocolate source-policy condition needs it. Room8 no longer mandates Spark. Ice progression and starting-permission lifecycle
+handling are now integrated; see `traversal-start-inventory-lifecycle.md` and
+`main-ranged-integration.md`. Fire, Smash, Sword and UFO are already progression. Runtime
 permission eligibility remains unchanged. Missile is conditionally promoted only
 for the enabled guaranteed-Doo Chocolate chest rule when gating is on.
 
@@ -56,7 +59,8 @@ entry, native Beam acquisition and complete chest collection. The new
 native Beam acquisition/carry and the lower Room13 doorway. Missing evidence
 is not replaced by room-wide enemy assumptions:
 
-- Rainbow110: installed for guaranteed SPARKY→Spark **or** SWORD_KNIGHT→Sword,
+- Rainbow110: one always-installed OR adds the exact Normal payload/spray route
+  to finite SPARKY→Spark **or** SWORD_KNIGHT→Sword,
   with independent Room6 lower-mid access, finite acquisition and intact carry.
   The unchanged dry Spark graph and separate swimming Sword graph are OR
   alternatives under one target/exit rule. The [Sword witness](rainbow-route-8-sword-witness.md)
@@ -66,13 +70,16 @@ is not replaced by room-wide enemy assumptions:
   native assignment/gating-off packet covers actual1HP at enemy50/100/500% and actual6HP
   at100/500%, with three matched no-attack controls. Other health values and
   same-ability randomized/gating-on source policies were not natively replayed.
-  Unsupported source policies retain prior behavior and remain unresolved.
+  Those finite witnesses retain their limits. The independent Normal branch
+  removes this target source-policy fallback; see its separate accepted native
+  [witness and review status](rainbow-normal110-source-witness.md).
 - Rainbow138: installed only for guaranteed SPARKY→Spark, with exact Room27
   upper-left access, original finite Sparky and selective lower-trigger carry.
   See [the Green Paint witness](rainbow-green-source-witness.md). Native replays
   cover natural mode, gating off, actual HP1/6 and enemy100%/500%; supported
   50–99% and 101–499% settings remain unreplayed. Only the optional paint
-  check is gated, with existing Room8 Spark classification unchanged.
+  check is gated. Its enabled status still promotes Spark; Room8 itself no
+  longer creates a Spark progression requirement.
 - Cabbage 517: installed only for a raw guaranteed singleton WADDLE_DOO grant
   of Beam, Smash, Fire, Missile, Parasol, Spark, Ice, Sword, Fighter or UFO,
   with independent Cabbage Hub2 access. These ten alternatives are separate OR
@@ -82,10 +89,11 @@ is not replaced by room-wide enemy assumptions:
   The [UFO witness](cabbage-ufo-source-witness.md) adds only its dry maximum-charge
   large shot; the earlier source witnesses and all nine prior graphs remain
   unchanged. No room-wide source access or new exit follows from these proofs.
-- Carrot719: installed only for guaranteed WADDLE_DOO→Beam/Fighter/Sword, using
+- Carrot719: installed only for guaranteed WADDLE_DOO→Beam/Fighter/Sword/Fire, using
   the lower native Doo(568,456) and independent Room5 access. Separate Beam,
-  [Fighter](carrot-room7-fighter-witness.md) and
-  [Sword](carrot-room7-sword-witness.md) OR graphs preserve their own carry and
+  [Fighter](carrot-room7-fighter-witness.md),
+  [Sword](carrot-room7-sword-witness.md) and
+  [Fire](carrot-room7-fire-witness.md) OR graphs preserve their own carry and
   target attacks. Sword guards the raw singleton source before permission
   filtering; its three-tap111 combo is not a general range or landing wave.
   The other Doo(616,232) is recorded in the complete source inventory, not
@@ -102,8 +110,10 @@ policy and disabled optional location categories.
 The 35 small switches remain an evidence inventory: ordinary timing alternatives
 and unresolved attack/door sequences cannot become blanket ability gates.
 Rainbow138's selective lower trigger is not equivalent to an arbitrary bomb hit.
-Olive825's existing guaranteed-Frosty rule is unchanged; no unpublished #1051
-source expansion or artifact is imported.
+Olive825 now has one unconditional target with four OR witnesses from main
+integration: finite Frosty Ice/UFO and independent Central/Peppermint290 statue
+Ice. Only finite graphs have Frosty source predicates. Native source, carrier
+and suffix records retain their individual qualifications; see `main-ranged-integration.md`.
 
 ## Validation
 
@@ -123,7 +133,8 @@ and inventory-only negatives, target-scoped applicability validation, and actual
 world policy, gating, optional minor-chest, statue, RoomSanity and Area-Key checks.
 Restricted policy/option fixtures use minimal accessibility to isolate rule wiring,
 not to claim those fixtures are valid full-accessibility seeds. Beam remains
-non-gateable and Carrot's source condition remains Beam-only.
+non-gateable. That historical Smash-only snapshot had a Beam-only Carrot
+condition; current Carrot coverage is Beam/Fighter/Sword/Fire.
 `test_cabbage_smash_evidence.py` checks the retained production policy, exact
 source/chest/client-check identities, four HP/enemy-health configurations, two
 matched negatives, eight initial configuration writes, and no gameplay writes or
@@ -152,8 +163,8 @@ finite-source tests, dry/swimming rejection and actual-world option wiring.
 `test_rainbow_sword_evidence.py` checks the five retained production records and
 three matched1HP controls without replaying ROMs. Native seed110 and Sword-only
 shuffled seeds30/17 sample restrictive fills at1HP assert beatability and full
-accessibility. This alternative adds no second target or AND rule. The later optional native538 Beam left-exit witness brings the catalog to38 targets,
-including Yellow Paint. See `rainbow-beam538-source-witness.md` for its distinct new-edge semantics.
+accessibility. This alternative adds no second target or AND rule. The later optional native538 Beam left-exit witness brought that historical catalog to38 targets,
+including Yellow Paint. Current main integration has57 normalized targets/144 witnesses, not38. See `rainbow-beam538-source-witness.md` for its distinct new-edge semantics.
 
 ## Carrot Yellow Paint
 

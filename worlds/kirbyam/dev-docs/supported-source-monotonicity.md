@@ -30,8 +30,10 @@ not, by themselves, repair that problem.
    evaluate raw source policy with every permission available, never the
    transient permission-filtered live grant. A supported mixed live pool cannot
    activate those conditional witnesses merely by starting with Beam alone.
-   The remaining Beam-compatible capability is swimming Water Gun at
-   `underwater_819_exit/local`, which succeeds from Normal with no sources.
+   Swimming Water Gun at `underwater_819_exit/local` succeeds without sources.
+   The separate110 swimming spray also uses Normal, after an exact finite Knight
+   mouth-payload route. Its capture/spit does not depend on the randomized pending
+   ability. It cannot create a live copy guarantee or ordinary projectile stock.
    Ranged movement edges additionally retain their explicit carried-equipment
    guards. Their raw source conditions and fixed assignments do not disappear
    when source expansion is deduplicated.
@@ -67,8 +69,8 @@ silently treated as fixed by this release's public-option invariant.
 
 ## Complete enumerated catalog
 
-`supported-source-monotonicity-catalog.json` records all 143 installed witnesses,
-286 compiled Area Key variants and 108 distinct physical source/key identities.
+`supported-source-monotonicity-catalog.json` records all 144 installed witnesses,
+288 compiled Area Key variants and 108 distinct physical source/key identities.
 It includes logical subregions, per-witness finite/renewable variants, capability providers,
 water dispatch, raw target/graph source conditions, carried-equipment guards,
 and every capability/recovery edge. Source hashes identify the

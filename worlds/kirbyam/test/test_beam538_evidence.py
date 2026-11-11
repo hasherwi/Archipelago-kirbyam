@@ -13,6 +13,7 @@ from ..traversal import CAPABILITY_ABILITIES, ROOM_SCOPED_CAPABILITIES
 from ..traversal_data import room_traversal_targets
 from .test_beam538_crossover import CAPABILITY, DESTINATION, OWNER, TARGET, UPSTREAM
 from .test_yellow_ufo_upstream_evidence import lf_text_sha256
+from .support.normal110_history import before_normal110
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
@@ -39,6 +40,11 @@ def raw_targets(value):
 def before_reviewed_fire719_addition(rooms):
     """Compare frozen Beam538 snapshots without erasing the later reviewed Fire OR."""
     previous = json.loads(json.dumps(rooms))
+    for row in raw_targets(previous):
+        if row['id'] == 'bomb_110_room9':
+            projected = before_normal110(row)
+            row.clear()
+            row.update(projected)
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_719_room13']
     assert target['requires_guaranteed_source'] == {
         'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Fighter', 'Sword', 'Fire']}

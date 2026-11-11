@@ -46,6 +46,9 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # Target-specific native witnesses, NOT a general wall-piercing class.
     "bomb_110_room9": frozenset({"Spark"}),
     "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
+    # Exact finite mouth payload and lower spray; not generic Normal ammunition.
+    "bomb_110_upper_normal_spit": frozenset({"Normal"}),
+    "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
     "bomb_138_green": frozenset({"Spark"}),
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
@@ -78,10 +81,12 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "wheel_race": frozenset({"Wheel"}),
 }
 # Each target effect keeps its reviewed room and attack medium. The underwater
-# Sword spin is separate from the existing dry Spark effect on the same target.
+# Sword spin and Normal spray remain separate from the dry Spark effect.
 ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9": 110,
     "bomb_110_room9_underwater_sword": 110,
+    "bomb_110_upper_normal_spit": 110,
+    "bomb_110_room9_underwater_normal_spray": 110,
     "bomb_138_green": 138,
     "bomb_538_beam_left_crossover": 538,
     "bomb_733_yellow_ufo_top_charge": 733,
@@ -108,7 +113,9 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
 }
 
 ROOM_SCOPED_ATTACK_WATER_STATES: Mapping[str, str] = {
-    capability: "swimming" if capability == "bomb_110_room9_underwater_sword" else "dry"
+    capability: "swimming" if capability in {
+        "bomb_110_room9_underwater_sword", "bomb_110_room9_underwater_normal_spray",
+    } else "dry"
     for capability in ROOM_SCOPED_CAPABILITIES
 }
 
@@ -344,7 +351,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError(f"Unknown traversal endpoint: {route}")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
-        if route.capability in ROOM_SCOPED_CAPABILITIES:
+        if route.capability is not None and route.capability in ROOM_SCOPED_CAPABILITIES:
             native_room = ROOM_SCOPED_CAPABILITIES[route.capability]
             medium = ROOM_SCOPED_ATTACK_WATER_STATES[route.capability]
             if (node_by_key[route.source].room != native_room
@@ -374,10 +381,18 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 raise ValueError("An ordinary-block attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw"}) != (route.uses_object is not None):
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+            route.uses_object is not None
+        ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw"} and route.opens is not None:
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+                and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
+        if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
+            if route.required_equipment != frozenset({"Normal"}):
+                raise ValueError("Normal110 actions require actual Normal equipment")
+            if route.opens is not None or route.room_transition:
+                raise ValueError("Normal110 actions are atomic local sequences without persistent opens")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
@@ -386,6 +401,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 raise ValueError("Conflicting physical source identity for projectile target")
             if not candidates or candidates[0].identity is None or candidates[0].node != route.source:
                 raise ValueError("Route object must be a physical source in its launch compartment")
+            if route.capability == "bomb_110_upper_normal_spit" and (
+                candidates[0].source_key != "SWORD_KNIGHT" or candidates[0].identity != "0x088B74CC"
+            ):
+                raise ValueError("Normal110 spit needs its original finite Sword Knight payload")
             if route.capability == "metal_throw":
                 target_source = _SOURCE_BY_KEY.get(candidates[0].source_key)
                 if target_source is None or not target_source.can_be_swallowed:
@@ -574,8 +593,11 @@ def _validate_heave_ho_evidence(row: Mapping[str, Any]) -> None:
 
 
 def _validate_projectile_evidence(row: Mapping[str, Any]) -> None:
-    evidence_key = {"frozen_enemy_hit": "frozen_enemy_evidence", "metal_throw": "throw_evidence"}.get(
-        row.get("capability", ""))
+    evidence_key = {
+        "frozen_enemy_hit": "frozen_enemy_evidence", "metal_throw": "throw_evidence",
+        # One atomic capture/carry/spit witness uses the existing evidence field.
+        "bomb_110_upper_normal_spit": "evidence",
+    }.get(row.get("capability", ""))
     if row.get("uses_object") is not None:
         if evidence_key is None:
             raise ValueError("Physical target object requires a projectile capability")

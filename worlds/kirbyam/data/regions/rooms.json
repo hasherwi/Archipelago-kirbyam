@@ -1757,7 +1757,11 @@
                   "capability": "bomb_110_room9",
                   "evidence": "dev-docs/rainbow-route-8-source-witness.md; continuous intact Spark carry via ordinary bomb chain, close dry attack above waterline, cleared right shaft and lower bomb to door. Replay reaches554 with6HP and Spark; no persistent event or alternate arrival inferred."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SPARKY",
+                "ability": "Spark"
+              }
             },
             "upper_entry_sword": {
               "version": 1,
@@ -1867,19 +1871,145 @@
                   "water_state": "swimming",
                   "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Carry Sword through lower exit pool, briefly dry3297/reenter3314, and physically cross110 to554 at3388. Transient water flag clears3398; no underwater554 landing claim."
                 }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SWORD_KNIGHT",
+                "ability": "Sword"
+              }
+            },
+            "upper_entry_normal_water": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:normal:lower_mid",
+                  "native_room": 108
+                },
+                {
+                  "id": "bomb_110_room9:normal:arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:payload",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:upper_chain",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:lower_approach",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:spray_pose",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:opened_shaft",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:exit_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:normal:lower_mid"
+              ],
+              "required_targets": [
+                "bomb_110_room9:normal:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B74CC",
+                  "node": "bomb_110_room9:normal:payload",
+                  "source_key": "SWORD_KNIGHT",
+                  "acquisition_evidence": "dev-docs/rainbow-normal110-source-witness.md; Original finite Sword Knight at (120,216). Normal captures it as ordinary mouth payload, carries and spits right without Down/swallowing. Copy-policy hook runs at capture; pending ability is cleared by generic spit, never equipped. Same physical identity is consumed, not renewed."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:normal:lower_mid",
+                  "to": "bomb_110_room9:normal:arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Actual108 lower-mid door0x87847A at tile(34,18) enters110 at (104,120.996) at1218. Start requires exact independent compartment, not arbitrary108/110 access.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_110_room9:normal:arrival",
+                  "to": "bomb_110_room9:normal:payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal approach reaches original Sword Knight capture compartment; no permission equips an ability."
+                },
+                {
+                  "from": "bomb_110_room9:normal:payload",
+                  "to": "bomb_110_room9:normal:upper_chain",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Atomic original Sword Knight capture/carry/spit: pending mouth ability appears at1443, B-only spit clears it at1580; F1(14,21) opens1586 and linked F1(11,26)1634. Entire carry starts and ends Normal; no abstract ammunition or persistent mouth state.",
+                  "capability": "bomb_110_upper_normal_spit",
+                  "uses_object": "0x088B74CC"
+                },
+                {
+                  "from": "bomb_110_room9:normal:upper_chain",
+                  "to": "bomb_110_room9:normal:lower_approach",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Original Waddle Dee0x088B7484 dies to2damage at50-124% or survives at125-500%; the revised recipe inhales1796 and spits LEFT1814, with no Down or copied equipment. This clears an optional obstacle, not target ammunition or an independent copy source. Normal slides F1(13,32), floats over the first pool and slides F1(2,43) then F1(2,55)/chain to2,63."
+                },
+                {
+                  "from": "bomb_110_room9:normal:lower_approach",
+                  "to": "bomb_110_room9:normal:spray_pose",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Enter lower water at2759 and reach the exact right-facing spray approach. No carried copied ability or generic underwater clearance.",
+                  "water_state": "swimming"
+                },
+                {
+                  "from": "bomb_110_room9:normal:spray_pose",
+                  "to": "bomb_110_room9:normal:opened_shaft",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal swimming spray category0x30000043, bounds(-8,-12,12,10), flips exact lower F1(13,57) at2788 through column12; upper F1(12,50) stays sealed. Action is not dry puff, Sword spin or global Normal range.",
+                  "water_state": "swimming",
+                  "capability": "bomb_110_room9_underwater_normal_spray"
+                },
+                {
+                  "from": "bomb_110_room9:normal:opened_shaft",
+                  "to": "bomb_110_room9:normal:exit_pool",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Exit lower water and descend the opened right shaft; later enter exit pool at3245. Atomic continuation preserves Normal, finite payload consumption and no persistent room-open event."
+                },
+                {
+                  "from": "bomb_110_room9:normal:exit_pool",
+                  "to": "bomb_110_room9:normal:right_door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal swim continues to actual110-to554 transition at3493; final3572 remains Normal and alive. Transient water flag is not an underwater554 landing claim.",
+                  "water_state": "swimming"
+                }
               ]
             }
-          },
-          "requires_any_guaranteed_source": [
-            {
-              "source_key": "SPARKY",
-              "ability": "Spark"
-            },
-            {
-              "source_key": "SWORD_KNIGHT",
-              "ability": "Sword"
-            }
-          ]
+          }
         }
       ]
     }

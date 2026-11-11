@@ -23,7 +23,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
-- Ranged-attack coverage is incomplete. Unsupported source assignments and routes retain their existing partial behavior; the implemented subset does not establish universal wall piercing, maximum range or removal of starting abilities (PR #1052).
+- Ranged-attack coverage is incomplete. Six bounded targets preserve the older base rule outside reviewed source assignments, including native Mustard map and Yellow Paint assignments; relevant physical outcomes still need adjudication. Unsupported source assignments and routes retain their existing partial behavior; the implemented subset does not establish universal wall piercing, maximum range or removal of starting abilities (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
@@ -45,6 +45,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Add a source-fingerprinted bounded ranged status report and real-installer coverage checks, separating public policy samples from synthetic narrowed pools. Correct stale 209/310/533/825 scope wording without changing traversal or upgrading historical native evidence (PR #1052).
 - Add a normalized traversal-target ownership ledger, move-specific native evidence and regressions. Correct the native-object scanner to follow size-terminated streams and the actual spawn-list field (PR #1052).
 - Preserve the historical 22-ability fallback for legacy slots, add source-aware traversal and native-evidence regressions, and classify expected unsafe minimal-accessibility generation rejections separately from successful fuzz runs (PR #1051).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).

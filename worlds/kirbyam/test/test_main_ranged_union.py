@@ -10,6 +10,7 @@ from .. import traversal_rules as rules
 from ..traversal import compile_traversal_graph
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
 from .test_traversal import policy
+from .support.normal110_history import before_normal110
 
 TARGET = 'frozen_825_sound_effects'
 
@@ -125,7 +126,7 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
             assert row['id'] not in catalogs['targets']
-            catalogs['targets'][row['id']] = {'region': region, **row}
+            catalogs['targets'][row['id']] = before_normal110({'region': region, **row})
         for kind in ('graph_parts', 'source_sets'):
             for key, value in traversal.get(kind, {}).items():
                 assert key not in catalogs[kind]

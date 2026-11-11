@@ -1,0 +1,114 @@
+# Ranged completion status
+
+PR #1052 remains **partial**. The bounded routes have real source-aware logic,
+but six targets skip their extra rule outside reviewed guaranteed source
+assignments. Relevant physical outcomes also remain unadjudicated. Neither a
+large test count nor a machine inventory certifies every move against every
+surface, current-generator acceptance, or native gameplay completion.
+
+## Reproduce the current status
+
+From the repository root, with the normal test dependencies installed:
+
+```sh
+AP_TEST_WORLDS=kirbyam python -c 'import unittest, test, runpy; runpy.run_module("worlds.kirbyam.tools.build_ranged_completion_status", run_name="__main__")' --check
+AP_TEST_WORLDS=kirbyam python -m unittest discover -s worlds/kirbyam/tools/tests -p test_ranged_completion_status.py -v
+AP_TEST_WORLDS=kirbyam python -m pytest worlds/kirbyam/tools/tests/test_ranged_completion_status.py -q
+```
+
+The first command prints a short report. Add `--output ranged-status.json` to
+write machine-readable details instead. The test bootstrap prevents dependency
+updates and settings autosave. No ROM, emulator, private path, network call or
+generated export is required. `--check` checks declaration consistency, **not
+completion**: a successful check still reports partial coverage.
+
+The two test commands run the same runner-agnostic `unittest.TestCase` tests,
+using `test.param.classvar_matrix`: 120 public-profile installer probes,
+270 synthetic installer probes and seven contract checks (397 tests total).
+These are case counts, not 397 distinct physical targets or native replays.
+
+The report derives exact owners, target source conditions, witness names and
+policy applicability from production-normalized data and the production policy
+resolver. It fingerprints the data, normalizer, policy builder/runtime patch,
+traversal compiler/installer, legacy rules, inventory and declaration inputs.
+The companion tests exercise the actual installer with its real compiled graphs
+on isolated enabled targets. With gating enabled, no items and no independent
+access, an applied rule constrains an initially true base rule. A skipped rule
+preserves it. An initially false base rule must never become true. These probes
+do not generate seeds or establish a physical softlock.
+
+Public profiles use the full 25-ability pool: native mode, one deterministic
+shuffled policy built with seed 427, live mode at Normal weights 0/99/100, and a
+live example with passive enemies excluded. They sample supported option shapes,
+not every seed, option combination or accepted generation. Internal singleton,
+mixed Beam/Spark and failure-bearing Beam diagnostics are explicitly separate.
+There is **no public custom-whitelist option**.
+
+## Known source-policy gaps
+
+| Target | Exact bounded surface | Fallback scope |
+| --- | --- | --- |
+| `bomb_138_green` | Rainbow Green Paint | Outside guaranteed Sparky→Spark |
+| `bomb_517_chocolate` | Cabbage Chocolate Paint | Outside its ten reviewed Doo assignments |
+| `bomb_719_room13` | Carrot Room7→Room13 lower entry | Outside Doo→Beam/Fighter/Sword/Fire |
+| `bomb_733_yellow` | Carrot Yellow Paint | Outside guaranteed Sparky→UFO |
+| `switch_533_room16` | Mustard Room15→16 | Outside Foley→Bomb/UFO/Crash/Magic |
+| `switch_310_mustard_map` | Mustard map only | Outside Twister→UFO/Crash/Cupid/Cutter |
+
+Native Twister→Tornado and Sparky→Spark already leave the 310 and 733 rules
+unapplied. The three full live-pool weight profiles skip all six. The older
+base rule remaining permissive is a coverage gap, not evidence that every such
+room is physically impossible. Do not replace this gap with blanket fail-closed
+restrictions or assume helper abilities provide a solution.
+
+Two raw `can_hit_far_switch` strings remain, at 310 and 533. They acquire real
+constraints under the supported source assignments above. Main resolved 209
+through directed compartment/Normal/Snow-loop logic; it is not a third missing
+far-switch implementation. Preserve exact entry and historical native limits.
+
+110 is one unconditional target with three OR witnesses. Its Normal route
+consumes the original Knight as ordinary mouth payload and uses a separate
+underwater spray; it is source-policy-independent, not physically source-free.
+Finite Spark/Sword branches keep their own raw source conditions. Exact108
+LOWER_MID access remains mandatory; native503 is not an alternate entry.
+See `rainbow-normal110-source-witness.md` for the accepted native evidence and
+its native/policy/health qualifications.
+
+825 is **one unconditional target with four OR witnesses**, not an eighth
+conditional target. Its finite Frosty Ice/UFO graphs retain source predicates;
+its independent permanent Ice graphs do not depend on Frosty assignment.
+Chocolate retains ten OR alternatives. The optional 538 Beam edge remains
+always installed and fail-closed, without becoming a mandatory route.
+
+## Completion boundary and maintaining the contract
+
+`ranged-completion-scope.json` declares the reviewed bounded set, current
+conditional targets and sampled public fallbacks. A change to applicability
+must update the implementation, declaration and tests together after review.
+The tests compare explicit declared outcomes to actual installation; they do
+not require legacy permissiveness forever or silently accept arbitrary results.
+A missing/new conditional target or changed public fallback fails `--check`.
+Repairing a gap is progress, not a reason to preserve a failing legacy outcome.
+The schema deliberately cannot promote an inventory into a completion claim.
+
+Before making a broader completion claim:
+
+- Assign relevant physical outcomes to exact AP checks, directed exits or goal
+  routes. Distinguish irrelevant loot and valid ordinary alternatives from
+  unresolved dependencies. 417 static F1/F6 cells are not 417 missing gates; the
+  completion audit left 395 individually unadjudicated. The 35 small switches
+  likewise do not all require a copied ability.
+- Cover supported source-policy classes with reviewed source, acquisition,
+  carried-equipment, target-action and continuation contracts. Preserve ordinary
+  solutions instead of adding mandatory copied-ability gates from one witness.
+- Retain each native record's entry, health, permission, timing and continuity
+  qualifications. Historical fixtures are not current-generator seed proof.
+- Never rely on helper Copy Abilities, Bomb activation, combat, acquisition or
+  carry. Only small-switch and Heave-Ho assistance may be considered, with its
+  own positioning/timing evidence. No Phone capability or unmerged #1086 logic
+  is supplied by this contract.
+
+The normalized inventory has 382 regions, 384 locations and 1,083 AP surfaces.
+Its 57 targets/144 witnesses include `mini_321_right_lower` and `fuse_323`, which
+normalization adds to the 55 top-level union catalog rows. Those counts describe
+structure, not 57 universally complete routes or all move×surface pairings.

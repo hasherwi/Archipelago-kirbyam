@@ -138,10 +138,10 @@ def test_optional_chest_preserves_exits_room_sanity_and_area_keys(
     else:
         with pytest.raises(KeyError):
             multiworld.get_location(data.locations[CHEST].label, 1)
-    # Existing mandatory Room8 rule uses this same source policy, even without
-    # optional paint. No blanket classification or source eligibility change.
+    # Room8 no longer mandates Spark; only enabled Green Paint promotes this
+    # native assignment (native Chocolate still uses Beam).
     assert world.create_item("Spark Ability").classification == (
-        ItemClassification.progression if gating else ItemClassification.useful)
+        ItemClassification.progression if gating and minor_chests else ItemClassification.useful)
     state.can_reach_region = lambda name, player: name == OWNER
     owner = multiworld.get_region(OWNER, 1)
     assert all(entrance.access_rule(state) for entrance in owner.exits)

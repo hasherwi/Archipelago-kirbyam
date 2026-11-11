@@ -12,6 +12,7 @@ from .. import traversal_rules as rules
 from ..traversal_data import room_traversal_graph, room_traversal_targets
 from .test_mini_traversal import make_world
 from .test_traversal import policy
+from .support.normal110_history import before_normal110
 
 OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_08'
 UPSTREAM = 'REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID'
@@ -31,7 +32,8 @@ def test_rainbow_conditional_policy_entry_and_permission_matrix(
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_110_room9')
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(before_normal110(row), resolver) is applies
+    assert rules.target_applies(row, resolver)
     assert rules.static_extra_witness(resolver)
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
     dependencies = []
@@ -59,19 +61,19 @@ def test_rainbow_conditional_policy_entry_and_permission_matrix(
     state.has = lambda item, player: item in owned
     # Generic owner access cannot bootstrap the upper source path.
     state.can_reach_region = lambda name, player: name == OWNER or (name == UPSTREAM and state.upstream)
-    assert target.access_rule(state) is (not applies)
+    assert not target.access_rule(state)
     owned.add('Spark Ability')
-    assert target.access_rule(state) is (not applies)
+    assert not target.access_rule(state)
     state.upstream = True
     assert target.access_rule(state)
     owned.clear()
-    assert target.access_rule(state) is (not applies or not gating)
+    assert target.access_rule(state)
     state.base_rule = False
     assert not target.access_rule(state)
-    assert dependencies == ([UPSTREAM] if applies else [])
+    assert dependencies == [UPSTREAM]
     code = KirbyAmWorld.item_name_to_id['Spark Ability']
     item = KirbyAmWorld.create_item_by_code(world, code)
-    assert item.classification == (ItemClassification.progression if applies and gating else ItemClassification.useful)
+    assert item.classification == ItemClassification.useful  # No Green or Chocolate chest in this fixture.
 
 
 def test_rainbow_graph_has_real_finite_source_and_no_equipped_start():
@@ -95,7 +97,7 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(gating, area_keys
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     target = world.multiworld.get_entrance(f'{OWNER} -> {EXIT}', 1)
-    assert target.access_rule(state) is (not gating)
+    assert target.access_rule(state)  # Source-policy-independent Normal route.
     item = world.create_item('Spark Ability')
     state.collect(item, prevent_sweep=True)
     assert state.has('Spark Ability', 1) is bool(gating)

@@ -207,21 +207,33 @@ or be applied through an unrelated capability. No implicit object refresh is
 supported. Room-local consumption prevents swallowed or fired targets from
 being reused.
 
-Only `bomb_110_room9` on `REGION_RAINBOW_ROUTE/ROOM_1_08`'s exact
-`REGION_RAINBOW_ROUTE/ROOM_1_09` exit may use `requires_any_guaranteed_source`.
-Its value is exactly the ordered pair `{source_key: "SPARKY", ability: "Spark"}`
-and `{source_key: "SWORD_KNIGHT", ability: "Sword"}`. This is an OR across
-independently proved physical sources, not an AND and not a mixed live-pool
-guarantee. It cannot coexist with `requires_guaranteed_source`, even if that
-field is null. Both graph witnesses keep independent Room6 lower-mid access.
-Legacy one-source conditions and their existing validated forms are unchanged.
+`bomb_110_room9` now has one always-installed target rule with three OR graphs.
+The finite `upper_entry` and `upper_entry_sword` graphs respectively require raw
+SPARKY→Spark and SWORD_KNIGHT→Sword via graph-local `requires_guaranteed_source`.
+The `upper_entry_normal_water` graph instead requires the exact finite original
+Sword Knight as ordinary mouth payload. It needs no copy assignment or permission.
+All three retain independent Room6 LOWER_MID access; owner/503 access is insufficient.
+Legacy `requires_any_guaranteed_source` remains supported only for this exact
+historical target/owner/exit and its original ordered pair, never combined with
+a target-level `requires_guaranteed_source`. Current110 data does not use it.
 
-`bomb_110_room9` remains dry Spark only. The distinct
-`bomb_110_room9_underwater_sword` effect is Sword only, scoped to native110 at
-both endpoints and `water_state: "swimming"`. Dry use, another native room,
-landing-wave substitution and global Sword reach are not supported. The Sword
-graph marks its dry/swimming carry segments separately without treating water
-as an ability change or permission as equipment.
+`bomb_110_room9` remains dry Spark only, and
+`bomb_110_room9_underwater_sword` remains native110/swimming Sword only.
+Two separate Normal110 effects retain exact native110 endpoints:
+`bomb_110_upper_normal_spit` is dry, and
+`bomb_110_room9_underwater_normal_spray` is swimming. Both require
+`required_equipment: ["Normal"]`, forbid room transitions and persistent `opens`,
+and cannot grant a global Normal, puff, projectile or wall-piercing capability.
+
+The upper spit uses existing `uses_object` and route `evidence`, not a new state
+schema. Its one-use placement must be original `SWORD_KNIGHT` identity0x088B74CC
+in the capture compartment. The atomic edge includes capture, carried mouth
+payload and spit; consuming the placement prevents copied/swallowed ammunition
+reuse. Capture-time policy output is pending data, never equipment. Ordinary
+spit clears it. An optional Waddle obstacle is either killed by fixed body damage
+or captured/spat left inside the subsequent reviewed Normal continuation; no
+independent live Waddle source is invented. The lower spray has no `uses_object`.
+
 
 A target may specify `requires_guaranteed_source` with a valid swallowable
 `source_key` and a non-Normal `ability` name. The Goal 2 target is unconditional and ORs finite Ice/UFO and permanent Ice

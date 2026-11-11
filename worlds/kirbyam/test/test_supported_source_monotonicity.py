@@ -94,16 +94,27 @@ def test_installed_beam_routes_require_raw_source_scope_or_source_free_water_gun
                             continue
                         assert route.water_state == 'swimming'
                         assert attack_provider('Normal', route.water_state) in allowed
-                        assert not graph.placements and not route.uses_object and not route.opens
+                        assert not route.uses_object and not route.opens
+                        if route.capability == 'bomb_110_room9_underwater_normal_spray':
+                            assert (target['id'], witness) == ('bomb_110_room9', 'upper_entry_normal_water')
+                            payload, = graph.placements
+                            assert (payload.source_key, payload.identity, payload.renewable) == (
+                                'SWORD_KNIGHT', '0x088B74CC', False)
+                            spit, = [edge for edge in graph.routes if edge.uses_object]
+                            assert spit.uses_object == payload.identity
+                            assert spit.capability == 'bomb_110_upper_normal_spit'
+                        else:
+                            assert not graph.placements
                         assert graph.evaluate(SourcePolicy({'mode': 0}), frozenset(), True).reaches(route.target)
     assert beam_capabilities == {
         ('underwater_819_exit', 'local', 'underwater_block_hit'),
+        ('bomb_110_room9', 'upper_entry_normal_water', 'bomb_110_room9_underwater_normal_spray'),
         ('bomb_538_beam_left_exit', 'normal544_beam_entry', 'bomb_538_beam_left_crossover'),
         ('bomb_517_chocolate', 'hub2_entry', 'bomb_517_chocolate'),
         ('bomb_719_room13', 'room5_entry', 'bomb_719_room13'),
     }
     assert recovery == {'mini_321_cross_to_right', 'mini_134_ocean_spray'}
-    assert len(seen) == 286  # All143 witnesses, both key modes, including logical subregions.
+    assert len(seen) == 288  # All144 witnesses, both key modes, including logical subregions.
 
 
 @pytest.mark.parametrize('target,witness', [('metal_176_goal2_drink', 'local'),
@@ -198,12 +209,22 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
     actual = {(target['id'], witness, keys): room_traversal_graph(target['id'], witness, keys)
               for target in _room_catalog()[0] for witness in target['graphs'] for keys in (False, True)}
     saved = {(row['target'], row['witness'], row['area_keys']): row for row in record['graphs']}
-    assert len(saved) == len(record['graphs']) == record['variants'] == 286
-    assert record['witnesses'] == 143 and set(saved) == set(actual)
+    assert len(saved) == len(record['graphs']) == record['variants'] == 288
+    assert record['witnesses'] == 144 and set(saved) == set(actual)
     assert record['ungated_pool_abilities'] == ['Beam']
     assert record['capability_providers'] == {key: sorted(values) for key, values in CAPABILITY_ABILITIES.items()}
     source_ids = set()
+    targets = {target['id']: target for target in _room_catalog()[0]}
     for identity, graph in actual.items():
+        target, witness, _ = identity
+        raw = targets[target]
+        assert saved[identity]['target_source_condition'] == raw.get('requires_guaranteed_source')
+        assert saved[identity]['target_source_alternatives'] == raw.get('requires_any_guaranteed_source')
+        assert saved[identity]['graph_source_condition'] == (
+            list(graph.required_guaranteed_source) if graph.required_guaranteed_source else None)
+        assert saved[identity]['equipment_routes'] == [
+            {'from': route.source, 'to': route.target, 'required_equipment': sorted(route.required_equipment)}
+            for route in graph.routes if route.required_equipment is not None]
         assert all(source.identity is not None for source in graph.placements)
         expected = sorted({source.source_key + '@' + cast(str, source.identity) for source in graph.placements})
         assert saved[identity]['source_ids'] == expected
