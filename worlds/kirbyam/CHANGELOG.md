@@ -27,7 +27,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Bug Fixes
 - Keep the Carrot Castle Room 7 route limited to Room 13's lower compartment, and gate only the reviewed Rainbow Green Paint, Carrot Yellow Paint and Cabbage Chocolate chest targets. Preserve unrelated exits, Secret Notes and Room Sanity checks (PR #1052).
-- Reconcile conditional Ice, Crash, Missile, Parasol and Magic starting permissions after their target locations or entrances exist, preserving requested item counts and unrelated classifications (PR #1052).
+- Reconcile conditional Ice, Crash, Missile, Parasol, Magic and Spark starting permissions after their target locations or entrances exist, preserving requested item counts and unrelated classifications (PR #1052).
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 

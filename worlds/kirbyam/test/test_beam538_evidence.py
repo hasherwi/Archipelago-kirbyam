@@ -47,6 +47,15 @@ def before_reviewed_fire719_addition(rooms):
     assert graph['requires_guaranteed_source'] == {'source_key': 'WADDLE_DOO', 'ability': 'Fire'}
     assert graph['routes'][-1]['capability'] == 'bomb_719_fire_breath'
     target['requires_guaranteed_source']['abilities'].remove('Fire')
+    target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_517_chocolate']
+    assert target['requires_guaranteed_source'] == {
+        'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice']}
+    for ability, sha256 in (
+        ('Spark', '3a1c44ebb5f4aa00972240ce29ebed4d1dbf41de0c42695c015321ab16b94591'),
+        ('Ice', '5e34628d8ec3d5e184a1c7b804ac3cef54f6e723a98d82f596d0db82e72a2f15'),
+    ):
+        assert digest(target['graphs'].pop(f'hub2_{ability.lower()}_entry')) == sha256
+        target['requires_guaranteed_source']['abilities'].remove(ability)
     return previous
 
 
@@ -237,3 +246,27 @@ def test_all32_health_tuples_have_actual_native_representatives_not_interpolatio
         assert runtime['0x88b6060']['hp'] == h1  # Scarfy.
         recipe = 'full05' if case['options']['enemy_health_multiplier'] < 125 else 'full500-04'
         assert case['hashes']['inputs.json'] == packets['primary'][recipe]['hashes']['inputs.json']
+
+
+@pytest.mark.parametrize('ability', ['Spark', 'Ice'])
+@pytest.mark.parametrize('mutation', ['access', 'placement', 'route', 'applicability', 'unrelated'])
+def test_historical_reconstruction_does_not_mask_cabbage_edits(ability, mutation):
+    rooms = json.loads(json.dumps(load_json_data('regions/rooms.json')))
+    target, = [row for row in raw_targets(rooms) if row['id'] == 'bomb_517_chocolate']
+    graph = target['graphs'][f'hub2_{ability.lower()}_entry']
+    if mutation == 'access':
+        graph['access']['region'] = 'REGION_CABBAGE_CAVERN/ROOM_3_06'
+    elif mutation == 'placement':
+        graph['sources'][0]['node'] = 'bomb_517_chocolate:chest'
+    elif mutation == 'route':
+        graph['routes'][-1]['allowed_abilities'] = ['Beam']
+    elif mutation == 'applicability':
+        target['requires_guaranteed_source']['abilities'].remove(ability)
+    else:
+        target['graphs']['hub2_entry']['routes'][-1]['allowed_abilities'] = ['Ice']
+        previous = before_reviewed_fire719_addition(rooms)
+        restored, = [row for row in raw_targets(previous) if row['id'] == 'bomb_517_chocolate']
+        assert digest(restored) != evidence()['preserved_target_sha256']['bomb_517_chocolate']
+        return
+    with pytest.raises(AssertionError):
+        before_reviewed_fire719_addition(rooms)

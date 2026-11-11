@@ -139,7 +139,7 @@ initial client configuration writes before movement, not gameplay injection.
 Only `MINOR_CHEST_SPRAY_PAINT_12` gains this alternative. Independent Hub2
 access remains required, gating-on needs Smash permission, and the existing
 Beam proof is unchanged. Live-random multi-outcome or failure-weighted grants
-from the finite source do not gain an eventual-draw promise. Spark/Ice carries, other entry sides or exits,
+from the finite source do not gain an eventual-draw promise. Other entry sides or exits,
 RoomSanity reachability, arbitrary health interpolation and global Smash
 collision equivalence remain unproved. This Smash evidence adds no Carrot route;
 Carrot now has separate Beam, Fighter and Sword witnesses on its lower entry.
@@ -474,3 +474,27 @@ all arrivals. Correct names are Chip(type08) and Blockin(type0D); the original
 report's name erratum preserves raw IDs/results. See
 `carrot-room7-fire-witness.md` and `carrot-room7-fire-acceptance.json` for scope,
 input/source hashes and independent review provenance.
+
+
+## Cabbage Chocolate chest: finite Spark and Ice alternatives
+
+Two exact OR graphs add guaranteed original WADDLE_DOO→Spark and →Ice to
+`bomb_517_chocolate`, preserving all five earlier graphs. Each requires independent
+Hub2 access, Normal 591→517 entry, finite source 0x088CA04C, source-corridor
+clearing and actual retained equipment. Spark uses the dry upper step
+(201.9961,88.9961) and its attached field. Ice uses ordinary right-facing traveling
+breath from (185.9961,120.9961), with no frozen enemy, platform or kicked payload.
+Each packet has four full HP1/6 × enemy100/500 positives and four full target-only
+omissions, plus a real-client single-permission full positive and bounded
+no-permission acquisition negative. Non-source enemies are avoided; observed
+HP-to1 transitions with despawn flags are removals, not damage dependencies.
+Physical chest57 and local client check3960511 are verified; server receipt,
+intermediate health percentages, other arrivals and global range are not claimed.
+
+Spark and Ice remain useful/gateable baseline items. The enabled actual Chocolate
+location, gating and matching raw singleton Doo grant add a progression reason,
+OR-composed with existing Rainbow Spark and Goal2 Ice reasons. Spark joins early
+precollected-item reconciliation; inventory still does not equip Kirby. Mixed and
+Normal-weight pools retain prior partial-policy behavior, and no unrelated Wheel
+bypass is added. See `cabbage-spark-source-witness.md`, `cabbage-ice-source-witness.md`
+and their compact acceptance manifests for frozen provenance and bounded scope.

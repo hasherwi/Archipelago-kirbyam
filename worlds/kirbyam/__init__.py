@@ -619,7 +619,7 @@ class KirbyAmWorld(World):
             # Their early useful instances were not collected into current state.
             for item in self.multiworld.precollected_items[self.player]:
                 if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
-                                 "Parasol Ability", "Magic Ability"} \
+                                 "Parasol Ability", "Magic Ability", "Spark Ability"} \
                         and not item.advancement:
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
@@ -1328,16 +1328,16 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
-        from .traversal_rules import mustard_magic_is_progression
+        from .traversal_rules import cabbage_element_is_progression, mustard_magic_is_progression
 
         classification = get_item_classification(item_code)
         if self.item_id_to_name[item_code] == "Ice Ability":
             from .traversal_rules import goal2_ice_is_progression
-            if goal2_ice_is_progression(self):
+            if goal2_ice_is_progression(self) or cabbage_element_is_progression(self, "Ice"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Spark Ability":
             from .traversal_rules import rainbow_spark_is_progression
-            if rainbow_spark_is_progression(self):
+            if rainbow_spark_is_progression(self) or cabbage_element_is_progression(self, "Spark"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Crash Ability":
             from .traversal_rules import mustard_crash_is_progression

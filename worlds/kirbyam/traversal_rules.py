@@ -78,6 +78,18 @@ def cabbage_parasol_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Parasol"})
 
 
+def cabbage_element_is_progression(world: Any, ability: str) -> bool:
+    """Only the enabled Chocolate chest's raw guaranteed Spark/Ice carry needs permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if ability not in {"Spark", "Ice"} or not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({ability})
+
+
 def rainbow_spark_is_progression(world: Any) -> bool:
     """Room8 and optional Green Paint share the guaranteed Sparky permission.
 

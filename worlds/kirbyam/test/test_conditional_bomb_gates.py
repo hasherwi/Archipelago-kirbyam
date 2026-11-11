@@ -35,6 +35,11 @@ def test_rainbow_conditional_policy_entry_and_permission_matrix(
     assert rules.static_extra_witness(resolver)
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
     dependencies = []
+
+    def absent_location(name, player):
+        # This isolated Rainbow fixture has no Chocolate chest to promote Spark.
+        raise KeyError(name)
+
     world = SimpleNamespace(
         player=1, _enemy_copy_ability_policy=resolver.policy,
         _ability_gating_enabled=lambda: gating, _area_keys_enabled=lambda: area_keys,
@@ -43,6 +48,7 @@ def test_rainbow_conditional_policy_entry_and_permission_matrix(
         multiworld=SimpleNamespace(
             get_entrance=lambda name, player: target,
             get_region=lambda name, player: name,
+            get_location=absent_location,
             register_indirect_condition=lambda region, entrance: dependencies.append(region),
         ),
         item_id_to_name=KirbyAmWorld.item_id_to_name,
@@ -104,7 +110,7 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(gating, area_keys
 
 
 @pytest.mark.parametrize('mode,pool,weight,applies', [
-    (0, None, 0, True), (1, ['Beam'], 0, True), (1, ['Spark'], 0, False),
+    (0, None, 0, True), (1, ['Beam'], 0, True), (1, ['Spark'], 0, True), (1, ['Ice'], 0, True),
     (2, ['Beam'], 0, True), (2, ['Beam', 'Spark'], 0, False),
     (2, ['Beam'], 50, False), (2, ['Beam'], 100, False),
 ])
@@ -135,12 +141,22 @@ def test_cabbage_conditional_policy_category_and_entry_matrix(
         item_id_to_name=KirbyAmWorld.item_id_to_name,
     )
     rules.install_extra_traversal_rules(world)
-    state = SimpleNamespace(base_rule=True, upstream=False, has=lambda item, player: False)
+    owned = set()
+    state = SimpleNamespace(base_rule=True, upstream=False, has=lambda item, player: item in owned)
     state.can_reach_region = lambda name, player: name == 'REGION_CABBAGE_CAVERN/ROOM_3_06' or (
         name == 'REGION_CABBAGE_CAVERN/ROOM_3_HUB_2' and state.upstream)
     assert target.access_rule(state) is (not (applies and enabled))
     state.upstream = True
-    assert target.access_rule(state)  # Beam is not a gateable permission.
+    assignment = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed
+    needs_permission = enabled and applies and gating and bool(assignment & {'Spark', 'Ice'})
+    assert target.access_rule(state) is (not needs_permission)
+    if needs_permission:
+        # The independent entry is necessary but not a substitute for permission.
+        owned.add('Missile Ability')
+        assert not target.access_rule(state)
+        ability, = assignment
+        owned.add(f'{ability} Ability')
+        assert target.access_rule(state)
     state.base_rule = False
     assert not target.access_rule(state)
     item = KirbyAmWorld.create_item_by_code(world, KirbyAmWorld.item_name_to_id['Beam Ability'])

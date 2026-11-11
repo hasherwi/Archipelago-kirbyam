@@ -31,7 +31,7 @@ def cabbage_row():
 
 @pytest.mark.parametrize('mode,pool,weight,applies', [
     (0, None, 0, True), (1, ['Beam'], 0, True), (1, ['Smash'], 0, True),
-    (1, ['Spark'], 0, False), (1, ['Ice'], 0, False),
+    (1, ['Spark'], 0, True), (1, ['Ice'], 0, True),
     (2, ['Beam'], 0, True), (2, ['Smash'], 0, True),
     (2, ['Beam', 'Smash'], 0, False), (2, ['Smash', 'Spark'], 0, False),
     (2, ['Smash'], 50, False), (2, ['Smash'], 100, False),
@@ -47,7 +47,7 @@ def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, app
         ability, = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed
         results = [rules.graph_succeeds(graph, resolver, frozenset({f'{ability} Ability'}), True,
                                         retries=False) for graph in rules.target_graphs(row, False)]
-        assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol')]
+        assert results == [ability == name for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice')]
     # Same source key does not extend Carrot's independently proved Beam carry.
     carrot = next(row for row in room_traversal_targets('block') if row['id'] == 'bomb_719_room13')
     assert rules.target_applies(carrot, resolver) is (
@@ -210,7 +210,7 @@ def test_full_generation_seed173_keeps_production_smash_assignment(tmp_path, mon
 
 @pytest.mark.parametrize('mode,pool,weight,applies', [
     (0, None, 0, True), (1, ['Smash'], 0, True), (1, ['Beam'], 0, True),
-    (1, ['Spark'], 0, False), (1, ['Ice'], 0, False),
+    (1, ['Spark'], 0, True), (1, ['Ice'], 0, True),
     (2, ['Smash'], 0, True), (2, ['Beam', 'Smash'], 0, False),
     (2, ['Smash'], 50, False), (2, ['Smash'], 100, False), (2, None, 0, False),
 ])
@@ -226,7 +226,7 @@ def test_actual_world_policy_applicability_preserves_unproved_assignments(
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert chest.access_rule(state) is (not applies)
-    for ability in ('Beam', 'Smash'):
+    for ability in ('Beam', 'Smash', 'Spark', 'Ice'):
         state.collect(world.create_item(f'{ability} Ability'), prevent_sweep=True)
     assert chest.access_rule(state) is (not applies)
     state.can_reach_region = lambda name, player: name == UPSTREAM
