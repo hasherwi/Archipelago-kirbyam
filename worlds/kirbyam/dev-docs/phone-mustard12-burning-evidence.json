@@ -1,0 +1,1631 @@
+{
+  "schema_version": 1,
+  "scope": "Native solo Burning upper-block clear and upper 315 to 323 LEFT entry; declared local startup, not a full hub approach",
+  "invariant_start_frame": 2248,
+  "fixtures": [
+    {
+      "name": "production",
+      "production_commit": "333013402704496befad41698d57676fc4b833af",
+      "seed": 1086,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "ability_randomization_statues": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 10
+      },
+      "source_assignment": "Production mode off: fixed native enemy grants; source ABI explicitly versioned",
+      "production_rom_sha256": "78b58fa147253e4a5ee57d971fbfd7986da014704dcedf828e34b47993fb8fd9",
+      "fixture_rom_sha256": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+      "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+      "preboot_differences": [
+        "Declared native startup rooms 316/801/801/801",
+        "Declared native startup positions: local (80,128), CPUs (232,232)",
+        "Experimental Phone gate enabled; ownership remains unowned"
+      ],
+      "byte_difference_count": 14,
+      "runtime_injections": false,
+      "save_state_loads": false
+    },
+    {
+      "name": "production-hp1",
+      "production_commit": "51baf87e27ebed64c14dd18f502bcd221d6c2928",
+      "seed": 1086,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "ability_randomization_statues": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "source_assignment": "Production mode off: fixed native enemy grants; source ABI explicitly versioned",
+      "production_rom_sha256": "f6a34bd88f4f04ff8b1981d1093c646e756f7dfa0826c5236e536f4907e6dd53",
+      "fixture_rom_sha256": "0efa4f698212f2317100ebb240ba228f44af8b7f8f12edb7cbaa72f2f1429d99",
+      "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+      "preboot_differences": [
+        "Declared native startup rooms 316/801/801/801",
+        "Declared native startup positions: local (80,128), CPUs (232,232)",
+        "Experimental Phone gate enabled; ownership remains unowned"
+      ],
+      "byte_difference_count": 14,
+      "runtime_injections": false,
+      "save_state_loads": false
+    }
+  ],
+  "source_native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "runs": [
+    {
+      "name": "upper-burning-calibration-01",
+      "accepted": true,
+      "instrumented": false,
+      "health": 6,
+      "last_frame": 8491,
+      "native_flame_source": "0x088C4598",
+      "pending_burning_frame": 5838,
+      "burning_committed_frame": 5921,
+      "quake_pulses": [],
+      "destruction": {},
+      "plume_changes": [],
+      "upper_entry": {
+        "frame": 8302,
+        "room": 323,
+        "x": 200.0,
+        "y": 568.99609375,
+        "hp": 6
+      },
+      "destination_control": {
+        "frame": 8491,
+        "room": 323,
+        "x": 178.984375,
+        "y": 568.99609375,
+        "hp": 6,
+        "ability": 3
+      },
+      "runtime_writes": 0,
+      "r_inputs": 0,
+      "phone_unowned": true,
+      "other_kirby_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "hashes": {
+        "frames.jsonl": "352649de49bbf28ffdad4899cc23170b9b4cb0712e4b876956bc62794c8d4037",
+        "commands.json": "75e5404f7972e12e3cce0fc916f1e0f57aca5ba83225514f13585353ace4dc64",
+        "runtime.json": "ce1562031c1ff754b67063acc3b378c5b1b2c4565de6d60e0386a821c54ed796",
+        "fixture.gba": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+        "initial.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+        "outcome.json": "ef3c4daf132b41790cf0bb8af62378128885448e13506d82e426f457762d7e14"
+      }
+    },
+    {
+      "name": "upper-burning-hp6-repeat",
+      "accepted": true,
+      "instrumented": true,
+      "health": 6,
+      "last_frame": 8491,
+      "native_flame_source": "0x088C4598",
+      "pending_burning_frame": 5838,
+      "burning_committed_frame": 5921,
+      "quake_pulses": [
+        {
+          "quake_rise_frame": 5988,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 5989,
+          "block_x": 162.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6013
+        },
+        {
+          "quake_rise_frame": 6085,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6086,
+          "block_x": 164.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6110
+        },
+        {
+          "quake_rise_frame": 6180,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6181,
+          "block_x": 166.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6205
+        },
+        {
+          "quake_rise_frame": 6275,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6276,
+          "block_x": 168.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6300
+        },
+        {
+          "quake_rise_frame": 6370,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6371,
+          "block_x": 170.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6395
+        },
+        {
+          "quake_rise_frame": 6465,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6466,
+          "block_x": 172.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6490
+        },
+        {
+          "quake_rise_frame": 6560,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6561,
+          "block_x": 174.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6585
+        },
+        {
+          "quake_rise_frame": 6655,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6656,
+          "block_x": 176.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6680
+        },
+        {
+          "quake_rise_frame": 6750,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6751,
+          "block_x": 178.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6775
+        },
+        {
+          "quake_rise_frame": 6845,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6846,
+          "block_x": 180.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6870
+        },
+        {
+          "quake_rise_frame": 6940,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6941,
+          "block_x": 182.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6965
+        },
+        {
+          "quake_rise_frame": 7035,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7036,
+          "block_x": 184.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7060
+        },
+        {
+          "quake_rise_frame": 7130,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7131,
+          "block_x": 186.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7155
+        },
+        {
+          "quake_rise_frame": 7225,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7226,
+          "block_x": 188.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7250
+        },
+        {
+          "quake_rise_frame": 7320,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7321,
+          "block_x": 190.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7345
+        },
+        {
+          "quake_rise_frame": 7415,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7416,
+          "block_x": 192.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0
+        }
+      ],
+      "destruction": {
+        "slot1_clear_frame": 7417,
+        "lava_wall_last_active_frame": 7417,
+        "lava_wall_first_absent_frame": 7418,
+        "block_last_active_frame": 7548,
+        "block_first_absent_frame": 7549,
+        "validation": "Every frame walks native active linked tasks from gTaskPtrs[0]; sanitizer also requires ObjectMain 0x08099B81, rejecting reused allocations with a different main. No freed-pointer inference."
+      },
+      "plume_changes": [
+        {
+          "frame": 7415,
+          "plume_collision_cells": [
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7417,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7438,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7446,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7452,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7458,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91
+          ]
+        },
+        {
+          "frame": 7463,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "upper_entry": {
+        "frame": 8302,
+        "room": 323,
+        "x": 200.0,
+        "y": 568.99609375,
+        "hp": 6
+      },
+      "destination_control": {
+        "frame": 8491,
+        "room": 323,
+        "x": 178.984375,
+        "y": 568.99609375,
+        "hp": 6,
+        "ability": 3
+      },
+      "runtime_writes": 0,
+      "r_inputs": 0,
+      "phone_unowned": true,
+      "other_kirby_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "hashes": {
+        "frames.jsonl": "f98f4c553e0ebe373e6264ba9c496fb59b8bd92ceef7aa6b35bef9aa8eec3271",
+        "commands.json": "75e5404f7972e12e3cce0fc916f1e0f57aca5ba83225514f13585353ace4dc64",
+        "runtime.json": "b1a08bb4693ad6ea689d2c1da1c39bc3d09154d128ec3e11dfd171fb15e61041",
+        "fixture.gba": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+        "initial.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+        "outcome.json": "f7346bb14bc811cbdd7fad30cd32eb711335db1fe2ea01526f835ede5792b256"
+      }
+    },
+    {
+      "name": "upper-burning-hp1",
+      "accepted": true,
+      "instrumented": true,
+      "health": 1,
+      "last_frame": 8491,
+      "native_flame_source": "0x088C4598",
+      "pending_burning_frame": 5838,
+      "burning_committed_frame": 5921,
+      "quake_pulses": [
+        {
+          "quake_rise_frame": 5988,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 5989,
+          "block_x": 162.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6013
+        },
+        {
+          "quake_rise_frame": 6085,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6086,
+          "block_x": 164.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6110
+        },
+        {
+          "quake_rise_frame": 6180,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6181,
+          "block_x": 166.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6205
+        },
+        {
+          "quake_rise_frame": 6275,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6276,
+          "block_x": 168.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6300
+        },
+        {
+          "quake_rise_frame": 6370,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6371,
+          "block_x": 170.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6395
+        },
+        {
+          "quake_rise_frame": 6465,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6466,
+          "block_x": 172.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6490
+        },
+        {
+          "quake_rise_frame": 6560,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6561,
+          "block_x": 174.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6585
+        },
+        {
+          "quake_rise_frame": 6655,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6656,
+          "block_x": 176.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6680
+        },
+        {
+          "quake_rise_frame": 6750,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6751,
+          "block_x": 178.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6775
+        },
+        {
+          "quake_rise_frame": 6845,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6846,
+          "block_x": 180.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6870
+        },
+        {
+          "quake_rise_frame": 6940,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 6941,
+          "block_x": 182.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 6965
+        },
+        {
+          "quake_rise_frame": 7035,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7036,
+          "block_x": 184.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7060
+        },
+        {
+          "quake_rise_frame": 7130,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7131,
+          "block_x": 186.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7155
+        },
+        {
+          "quake_rise_frame": 7225,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7226,
+          "block_x": 188.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7250
+        },
+        {
+          "quake_rise_frame": 7320,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7321,
+          "block_x": 190.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0,
+          "rearmed_frame": 7345
+        },
+        {
+          "quake_rise_frame": 7415,
+          "quake_flags": "0x300",
+          "quake_intensity": 3,
+          "player_xy": [
+            87.46875,
+            246.14453125
+          ],
+          "prior_player_state": "0x805de19",
+          "prior_terrain": 261,
+          "block_move_frame": 7416,
+          "block_x": 192.0,
+          "block_obstruction_on_edge": 12,
+          "block_net_inhale": 0,
+          "block_contributions": 0
+        }
+      ],
+      "destruction": {
+        "slot1_clear_frame": 7417,
+        "lava_wall_last_active_frame": 7417,
+        "lava_wall_first_absent_frame": 7418,
+        "block_last_active_frame": 7548,
+        "block_first_absent_frame": 7549,
+        "validation": "Every frame walks native active linked tasks from gTaskPtrs[0]; sanitizer also requires ObjectMain 0x08099B81, rejecting reused allocations with a different main. No freed-pointer inference."
+      },
+      "plume_changes": [
+        {
+          "frame": 7415,
+          "plume_collision_cells": [
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7417,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7438,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7446,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7452,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            91
+          ]
+        },
+        {
+          "frame": 7458,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            91
+          ]
+        },
+        {
+          "frame": 7463,
+          "plume_collision_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "upper_entry": {
+        "frame": 8302,
+        "room": 323,
+        "x": 200.0,
+        "y": 568.99609375,
+        "hp": 1
+      },
+      "destination_control": {
+        "frame": 8491,
+        "room": 323,
+        "x": 178.984375,
+        "y": 568.99609375,
+        "hp": 1,
+        "ability": 3
+      },
+      "runtime_writes": 0,
+      "r_inputs": 0,
+      "phone_unowned": true,
+      "other_kirby_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "hashes": {
+        "frames.jsonl": "752db7d5c037e2b0ca82727427abe3cfefb3c19a95909298c953b113410d8646",
+        "commands.json": "75e5404f7972e12e3cce0fc916f1e0f57aca5ba83225514f13585353ace4dc64",
+        "runtime.json": "827659facf2caacff1a96c2718eda5281524222b9d894323f7e5a3bce31dc511",
+        "fixture.gba": "0efa4f698212f2317100ebb240ba228f44af8b7f8f12edb7cbaa72f2f1429d99",
+        "initial.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+        "outcome.json": "63819d2d33866dc4f8985cda20eccb6655f8bb6ab720738883c9984ef1b895e0"
+      }
+    }
+  ],
+  "controller_actions": [
+    [
+      1,
+      32,
+      "face-left"
+    ],
+    [
+      100,
+      2,
+      "inhale-left"
+    ],
+    [
+      12,
+      32,
+      "onto-door"
+    ],
+    [
+      60,
+      64,
+      "enter-322"
+    ],
+    [
+      180,
+      0,
+      "settle-322"
+    ],
+    [
+      20,
+      2,
+      "exhale-start"
+    ],
+    [
+      100,
+      32,
+      "approach-left-bomb"
+    ],
+    [
+      100,
+      2,
+      "inhale-left-bomb"
+    ],
+    [
+      120,
+      96,
+      "fly-left"
+    ],
+    [
+      40,
+      0,
+      "settle-left"
+    ],
+    [
+      15,
+      2,
+      "exhale-left"
+    ],
+    [
+      60,
+      0,
+      "land-left"
+    ],
+    [
+      15,
+      64,
+      "enter-left-door"
+    ],
+    [
+      150,
+      0,
+      "settle-destination"
+    ],
+    [
+      60,
+      64,
+      "rise-left"
+    ],
+    [
+      120,
+      33,
+      "float-cross-left"
+    ],
+    [
+      20,
+      2,
+      "exhale-at-door"
+    ],
+    [
+      90,
+      0,
+      "drop-at-door"
+    ],
+    [
+      32,
+      32,
+      "onto-exit"
+    ],
+    [
+      60,
+      64,
+      "enter-315"
+    ],
+    [
+      180,
+      0,
+      "settle-315"
+    ],
+    [
+      30,
+      16,
+      "destination-control"
+    ],
+    [
+      80,
+      64,
+      "rise-315"
+    ],
+    [
+      300,
+      96,
+      "fly-left-315-a"
+    ],
+    [
+      150,
+      96,
+      "fly-left-315-b"
+    ],
+    [
+      30,
+      0,
+      "inspect-left-315"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-0"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-0"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-1"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-1"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-2"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-2"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-3"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-3"
+    ],
+    [
+      10,
+      32,
+      "approach-shaft"
+    ],
+    [
+      90,
+      64,
+      "rise-shaft"
+    ],
+    [
+      110,
+      80,
+      "middle-right-observe-hazards"
+    ],
+    [
+      10,
+      96,
+      "brake-left-below-RolyPoly"
+    ],
+    [
+      10,
+      64,
+      "let-RolyPoly-pass-right"
+    ],
+    [
+      20,
+      80,
+      "rise-behind-RolyPoly"
+    ],
+    [
+      85,
+      64,
+      "reach-upper-air-corridor"
+    ],
+    [
+      240,
+      96,
+      "fly-above-main-platform-and-isolated-plume"
+    ],
+    [
+      10,
+      16,
+      "brake-above-bomb-passage"
+    ],
+    [
+      50,
+      0,
+      "drop-right-of-bomb"
+    ],
+    [
+      1,
+      32,
+      "face-bomb"
+    ],
+    [
+      15,
+      0,
+      "settle-inflated-at-bomb-height"
+    ],
+    [
+      20,
+      2,
+      "air-puff-bomb-at-height"
+    ],
+    [
+      45,
+      0,
+      "descend-chain-passage"
+    ],
+    [
+      70,
+      32,
+      "cross-central-lower-corridor-left"
+    ],
+    [
+      120,
+      32,
+      "approach-lower-door"
+    ],
+    [
+      10,
+      32,
+      "align-lower-door"
+    ],
+    [
+      1,
+      64,
+      "enter-lower-door"
+    ],
+    [
+      180,
+      0,
+      "settle-323-right"
+    ],
+    [
+      35,
+      16,
+      "approach-ShadowKirby-from-left"
+    ],
+    [
+      1,
+      64,
+      "inflate-facing-ShadowKirby"
+    ],
+    [
+      12,
+      0,
+      "low-inflation"
+    ],
+    [
+      20,
+      2,
+      "air-puff-ShadowKirby"
+    ],
+    [
+      120,
+      32,
+      "walk-left-after-encounter-release"
+    ],
+    [
+      80,
+      2,
+      "inhale-real-lower-left-Flamer"
+    ],
+    [
+      12,
+      128,
+      "swallow-native-Flamer"
+    ],
+    [
+      60,
+      0,
+      "settle-native-Burning-acquisition"
+    ],
+    [
+      35,
+      2,
+      "Burning-dash-into-harmless-left-wall"
+    ],
+    [
+      60,
+      0,
+      "quake-rearm-and-land"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-02"
+    ],
+    [
+      60,
+      0,
+      "rearm-02"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-03"
+    ],
+    [
+      60,
+      0,
+      "rearm-03"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-04"
+    ],
+    [
+      60,
+      0,
+      "rearm-04"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-5"
+    ],
+    [
+      60,
+      0,
+      "rearm-5"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-6"
+    ],
+    [
+      60,
+      0,
+      "rearm-6"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-7"
+    ],
+    [
+      60,
+      0,
+      "rearm-7"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-8"
+    ],
+    [
+      60,
+      0,
+      "rearm-8"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-9"
+    ],
+    [
+      60,
+      0,
+      "rearm-9"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-10"
+    ],
+    [
+      60,
+      0,
+      "rearm-10"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-11"
+    ],
+    [
+      60,
+      0,
+      "rearm-11"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-12"
+    ],
+    [
+      60,
+      0,
+      "rearm-12"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-13"
+    ],
+    [
+      60,
+      0,
+      "rearm-13"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-14"
+    ],
+    [
+      60,
+      0,
+      "rearm-14"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-15"
+    ],
+    [
+      60,
+      0,
+      "rearm-15"
+    ],
+    [
+      35,
+      2,
+      "Burning-wall-pulse-16"
+    ],
+    [
+      60,
+      0,
+      "rearm-16"
+    ],
+    [
+      125,
+      16,
+      "return-right-to-upper-approach-shaft"
+    ],
+    [
+      100,
+      64,
+      "rise-below-upper-lava-wall"
+    ],
+    [
+      35,
+      96,
+      "left-below-upper-platform"
+    ],
+    [
+      110,
+      64,
+      "rise-right-of-cleared-volcano"
+    ],
+    [
+      5,
+      96,
+      "nudge-left-into-narrow-upper-shaft"
+    ],
+    [
+      5,
+      80,
+      "brake-in-upper-shaft"
+    ],
+    [
+      100,
+      64,
+      "climb-upper-shaft"
+    ],
+    [
+      200,
+      96,
+      "cross-cleared-plume-to-upper-left"
+    ],
+    [
+      20,
+      2,
+      "deflate-above-secret-door"
+    ],
+    [
+      100,
+      0,
+      "land-at-upper-secret-door"
+    ],
+    [
+      1,
+      64,
+      "enter-upper-secret-door"
+    ],
+    [
+      180,
+      0,
+      "settle-native323-left"
+    ],
+    [
+      20,
+      32,
+      "323-left-native-control"
+    ]
+  ],
+  "mechanism": {
+    "ability_source": "Actual in-room Flamer template 0x088C4598, fixed-source mode, swallowed through controller inputs",
+    "quake_source": "Burning harmless-wall collision requests 0x203 in pinned source. Runtime observes same-room flags 0x300 (active bit 0x100 plus quake bit 0x200) and intensity 3, not an intercepted C call argument.",
+    "wall": "Harmless left lower-corridor wall: solid column 4 spans x64-79, with right boundary x80; actual contact occurs at player x86 before rebound.",
+    "block": "Active 0x88 block moves right through sixteen separate +2px pulses with zero inhale contributions",
+    "lava": "Slot 1 clears and the active Lava Wall task is destroyed, then all sixteen plume cells change from 0x5B to air",
+    "route": "Carry native Burning through the original upper door, spawning in 323 LEFT at (200,568.99609375)"
+  },
+  "limits": [
+    "Fixed native source assignments and ability gating OFF only",
+    "Area Keys ON and native same-area approaches",
+    "Production health6-10 and health1-1 configurations only, enemy health100%",
+    "No Phone necessity or generic helper reliability claim",
+    "Qualified startup in316 from original blank files, not a full hub approach",
+    "No completed cannon use or onward goal traversal",
+    "No live server or native BizHawk transport",
+    "No Stone or Sword alternative tested",
+    "No graph modification, merge or production activation"
+  ],
+  "artifact_hashes": {
+    "upper_replay.py": "833bca7a2fac87a60a42411188f6549dd4602242d22e3ad417b4a8bc86a1f851",
+    "replay-v5.py": "dfb0a46257bf2d5bc26af4948173bcc97ff739d206a1d453e2d9c5ee9495d4bb",
+    "upper-accepted-actions.json": "ea064ab2f2afa3b9e70c74a5a4e8812d6dc0336d60ecde72a487bf5bdb18d071",
+    "build.py": "71f1f1f49708a25e5398fea1d5b1d08a9b94a7563d4d9bc3adbb006577e8d138",
+    "build_hp1.py": "804391cb7c4fc9c7d6f9b726e8c22c9c56a15af792d0dea9e9d65a3a07f73c8f"
+  },
+  "reviewed_head": "51baf87e27ebed64c14dd18f502bcd221d6c2928",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "production_activation": false,
+  "trace_scope": {
+    "recorded_frames_per_run": 8491,
+    "settled_gameplay_start_frame": 2248,
+    "settled_gameplay_frames_per_run": 6244,
+    "accepted_runs": 3,
+    "recorded_frames_total": 25473,
+    "settled_gameplay_frames_total": 18732,
+    "invariants": "Initial health, unowned Phone, CPU rooms, battery and caller are checked from frame2248 onward. Ability is genuinely acquired through native inhalation and swallowing. No R input and no runtime writes apply to the complete runs."
+  },
+  "repeat_comparison": {
+    "scope": "Selected per-frame telemetry, not byte-identical full traces or save files",
+    "all_three_runs": "Same fixed controller inputs, player position, room, ability, CPU rooms and Phone ownership",
+    "two_instrumented_runs": "Same direct quake and room-state records; active-task identity used for object liveness",
+    "health": "Each run preserves its independently configured initial HP; different health values are expected."
+  },
+  "controller_label_note": "Historical action labels describe intended actions, not observed outcomes. In particular, enter-lower-door and settle-323-right at frames5450-5630 remain in native315 at the x216 camera boundary. The accepted upper route enters323 LEFT only at frame8302; per-frame telemetry is authoritative."
+}
