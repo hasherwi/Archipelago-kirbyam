@@ -568,3 +568,25 @@ health settings. The no-permission control is acquisition-only. Host validation
 passed 2,265 focused tests, including 24 complete seed 52 generations across
 gating, Area Keys, enemy 100%/500% and starting UFO counts 0/1/3 at HP1. These
 host tests are not new native replay evidence or a full aggregate test pass.
+
+## Candy Paint 6: qualified ordinary Normal suffix
+
+The reviewed 427→404→403 ENTRY_FROM_9_01 route uses only human Normal puff,
+body contact and flight to collect Paint 6 / 3960505. Actual 6 HP/100%,
+1 HP/100% and 1 HP/500% each have an identical cold repeat and surviving
+one-frame puff-omission control. The corrected 1 HP controller removes Right
+only at 1882–1889; the literal-controller death at 1905 remains excluded.
+Helpers stay in 101, and no source acquisition, copied ability or combat is used.
+
+404's existing null exit already binds to the Paint-only compartment. No new
+graph or rule is warranted. Host mode/gating and Candy key admission checks
+are not broader native replay acceptance. Independent upstream 427 availability,
+407/230 ingresses, all-settings/RNG coverage and server acknowledgement remain
+separate. See `candy-normal404-source-witness.md` and its scalar acceptance.
+
+Audit group 404:27,4 is now `qualified_normal427_to_paint6_route`: one shared
+switch/gate outcome, not two independent F1 recipes. Its two cells were already
+narrowed in v4. Keep 43 narrowed-role cells and 352 unresolved-role cells in
+249 groups unchanged; 395 remains the historical prior-unadjudicated baseline.
+All 382/384/1,083 structural counts, 57 targets/144 witnesses, six conditional
+source fallbacks and partial completion remain unchanged.

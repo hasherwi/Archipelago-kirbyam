@@ -796,11 +796,12 @@
         "rle_length_validated": true
       },
       "assessment": {
-        "classification": "falling_switch_timing",
+        "classification": "reviewed_normal_puff_falling_switch",
         "in_scope": true,
         "wiki_summary": "Bomb Blocks beneath the switch must be broken to reveal the Chest 2 door, but doing so drops the switch into a pit. The gate must be crossed before it closes.",
-        "assessment": "A timing plus destructible-support puzzle, not simply a permanent remote target. The initial switch-height corridor to the gate is all 0x00, but the switch and objective move/change after the Bomb Blocks break.",
-        "unresolved": "Activation order, falling trajectory and whether a candidate attack also breaks the support must be verified."
+        "assessment": "Reviewed qualified 427-to-404 Normal puff clears lower F1, then support and upper F1; human body presses the falling switch and flight crosses its closing gate to 403 ENTRY_FROM_9_01 Paint 6. Actual 6 HP/100%, 1 HP/100% and 1 HP/500% each have an identical cold repeat and surviving one-frame puff-omission control. No copy, combat or helper reliance; existing local rules remain null.",
+        "unresolved": "Independent upstream 427 availability, 407/230 ingress composition and broader native settings/RNG remain unproved. No 6 HP/500% run, server acknowledgement or global-AI-300 whole-game claim. The two F1 cells are one shared outcome, not two independent trigger recipes.",
+        "evidence": "candy-normal404-acceptance.json"
       },
       "vertical_gates": [
         {

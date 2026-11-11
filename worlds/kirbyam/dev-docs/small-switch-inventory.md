@@ -57,7 +57,7 @@ Coordinates are native pixels. T is the template release-counter parameter, not 
 | 209 / 0x0D1 | [Peppermint Palace - Chest](https://wikirby.com/wiki/Peppermint_Palace_-_Chest) | 3: 288,624; T=100 | directed Normal/Snow map loop integrated; exact entries remain qualified |
 | 228 / 0x0E4 | [Peppermint Palace - Room 9](https://wikirby.com/wiki/Peppermint_Palace_-_Room_9) | 7: 160,208; T=60 | ordinary alternate exit gate |
 | 310 / 0x136 | [Mustard Mountain - Chest](https://wikirby.com/wiki/Mustard_Mountain_-_Chest) | 2: 312,144; T=0 | remote or cooperative timing |
-| 404 / 0x194 | [Candy Constellation - Room 1](https://wikirby.com/wiki/Candy_Constellation_-_Room_1) | 3: 440,64; T=0 | falling switch timing |
+| 404 / 0x194 | [Candy Constellation - Room 1](https://wikirby.com/wiki/Candy_Constellation_-_Room_1) | 3: 440,64; T=0 | reviewed qualified Normal puff/falling-switch Paint 6 route |
 | 426 / 0x1AA | [Candy Constellation - Chest 3](https://wikirby.com/wiki/Candy_Constellation_-_Chest_3) | 5: 312,128; T=0<br>6: 312,64; T=0<br>7: 184,64; T=0 | reviewed ordinary Normal staged map route |
 | 427 / 0x1AB | [Candy Constellation - Room 2](https://wikirby.com/wiki/Candy_Constellation_-_Room_2) | 4: 56,240; T=300<br>5: 424,144; T=120 | two ordinary timing gates |
 | 511 / 0x1FF | [Cabbage Cavern - Room 5](https://wikirby.com/wiki/Cabbage_Cavern_-_Room_5) | 10: 56,112; T=135 | ordinary timing or cooperative chest route |
@@ -137,9 +137,9 @@ Current bounded implementation: guaranteed Twister→UFO/Crash/Cupid/Cutter each
 
 Retained WiKirby assessment: Bomb Blocks beneath the switch must be broken to reveal the Chest 2 door, but doing so drops the switch into a pit. The gate must be crossed before it closes. [Source](https://wikirby.com/wiki/Candy_Constellation_-_Room_1).
 
-A timing plus destructible-support puzzle, not simply a permanent remote target. The initial switch-height corridor to the gate is all 0x00, but the switch and objective move/change after the Bomb Blocks break.
+Reviewed qualified 427-to-404 Normal puff clears lower F1, then support and upper F1; human body presses the falling switch and flight crosses its closing gate to 403 ENTRY_FROM_9_01 Paint 6. Actual 6 HP/100%, 1 HP/100% and 1 HP/500% each have an identical cold repeat and surviving one-frame puff-omission control. No copy, combat or helper reliance is used; existing local rules remain null. Slot 0 is high 1903–1912, including release countdown, not continuous contact. See [source witness](candy-normal404-source-witness.md) and [scalar acceptance](candy-normal404-acceptance.json).
 
-Still needed: Activation order, falling trajectory and whether a candidate attack also breaks the support must be verified.
+Still separate: independent upstream 427 availability, 407/230 ingress composition and broader native settings/RNG. No 6 HP/500% run, server acknowledgement or global-AI-300 whole-game claim. The two F1 cells are one shared outcome, not two independent trigger recipes.
 
 ### 426: Candy Constellation - Chest 3
 

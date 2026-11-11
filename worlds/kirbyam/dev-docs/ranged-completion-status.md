@@ -80,6 +80,15 @@ its independent permanent Ice graphs do not depend on Frosty assignment.
 Chocolate retains ten OR alternatives. The optional 538 Beam edge remains
 always installed and fail-closed, without becoming a mandatory route.
 
+404 now has reviewed ordinary human Normal evidence for the qualified
+427→404→403 Paint 6 suffix at 6 HP/100%, 1 HP/100% and 1 HP/500%, each with
+repeat and surviving puff-omission control. Its existing local predicates stay
+null; no graph or source-policy fallback changes. Upstream availability,
+407/230 ingress and broader native settings remain separate. See
+`candy-normal404-source-witness.md`. One shared physical outcome is evidenced,
+not two independent trigger recipes. The two cells were already among v4's
+43 narrowed-role cells, leaving 352 unresolved-role cells in 249 groups.
+
 ## Completion boundary and maintaining the contract
 
 `ranged-completion-scope.json` declares the reviewed bounded set, current
@@ -96,8 +105,9 @@ Before making a broader completion claim:
 - Assign relevant physical outcomes to exact AP checks, directed exits or goal
   routes. Distinguish irrelevant loot and valid ordinary alternatives from
   unresolved dependencies. 417 static F1/F6 cells are not 417 missing gates; the
-  completion audit left 395 individually unadjudicated. The 35 small switches
-  likewise do not all require a copied ability.
+  historical completion audit left 395 individually unadjudicated before
+  role reconciliation. That historical baseline is not a new current metric.
+  The 35 small switches likewise do not all require a copied ability.
 - Cover supported source-policy classes with reviewed source, acquisition,
   carried-equipment, target-action and continuation contracts. Preserve ordinary
   solutions instead of adding mandatory copied-ability gates from one witness.
