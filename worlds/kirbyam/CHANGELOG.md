@@ -14,20 +14,25 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Add source-aware, entry-specific ranged routes for selected Bomb Blocks, timed switches, the Mustard map and Olive Sound Effects chest. Each accepted alternative keeps its own finite source, carried ability, attack and timing requirements; ordinary solo alternatives remain available (PR #1052).
 - Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
+- Ranged-attack coverage is incomplete. Unsupported source assignments and routes retain their existing partial behavior; the implemented subset does not establish universal wall piercing, maximum range or removal of starting abilities (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
 
 ### Bug Fixes
+- Keep the Carrot Castle Room 7 route limited to Room 13's lower compartment, and gate only the reviewed Rainbow Green Paint, Carrot Yellow Paint and Cabbage Chocolate chest targets. Preserve unrelated exits, Secret Notes and Room Sanity checks (PR #1052).
+- Reconcile conditional Ice, Crash, Missile, Parasol and Magic starting permissions after their target locations or entrances exist, preserving requested item counts and unrelated classifications (PR #1052).
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Add a normalized traversal-target ownership ledger, move-specific native evidence and regressions. Correct the native-object scanner to follow size-terminated streams and the actual spawn-list field (PR #1052).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0
