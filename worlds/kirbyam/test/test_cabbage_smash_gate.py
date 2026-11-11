@@ -48,7 +48,7 @@ def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, app
         results = [rules.graph_succeeds(graph, resolver, frozenset({f'{ability} Ability'}), True,
                                         retries=False) for graph in rules.target_graphs(row, False)]
         assert results == [ability == name for name in
-                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword')]
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter')]
     # Same source key does not extend Carrot's independently proved Beam carry.
     carrot = next(row for row in room_traversal_targets('block') if row['id'] == 'bomb_719_room13')
     assert rules.target_applies(carrot, resolver) is (

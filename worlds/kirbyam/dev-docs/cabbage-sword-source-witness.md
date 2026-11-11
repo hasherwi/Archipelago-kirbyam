@@ -18,7 +18,8 @@ All helpers remain in native101. Startup-only room/coordinate fixtures and fresh
 blank32KiB saves are declared; the only eight real-client configuration writes
 occur at1085. There are no gameplay writes or state restores.
 
-The accepted Sword route waits8 frames before an82-frame left walk at2067.
+The accepted Sword route waits during frames 2067-2074, then walks left for
+82 frames during 2075-2156.
 The unadjusted Ice route overshot into a falling Foley and is not acceptance.
 All subsequent source-corridor and carry attacks remain in every target control.
 Permission grants only authorization to acquire Sword, not equipped state.

@@ -5,7 +5,7 @@ implemented. The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
-  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol/Spark/Ice/Sword for the Cabbage Chocolate
+  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol/Spark/Ice/Sword/Fighter for the Cabbage Chocolate
   chest, and Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
@@ -514,3 +514,16 @@ All seven earlier graphs remain unchanged; inventory permission still cannot
 replace source acquisition or independent Hub2 access. Sword already has
 progression classification, so no item factory or lifecycle change is needed.
 No exit, RoomSanity, other target, starting removal or wider arrival is added.
+
+## Cabbage Chocolate chest: finite Fighter first combo
+
+`hub2_fighter_entry` adds raw guaranteed original Doo to Fighter as a ninth
+same-target alternative. The separate room 517 capability uses the ordinary
+first combo and a Fighter-specific short-punch/flight carry, not the charged
+or HP1 wave. Ten fresh native traces and independent review are documented
+in `cabbage-fighter-source-witness.md` and its sanitized acceptance JSON.
+Endpoint positives open at 3328, linked cells finish at 3358, and chest 57
+opens at 4252. Full single-tap omissions remain sealed with maximum HP.
+The eight prior graphs, all other room data and existing Carrot progression
+reason remain unchanged. No item factory, reconciliation, exit, RoomSanity
+or starting-removal change is introduced.

@@ -212,3 +212,15 @@ Full seed4 generations cover 1HP, gating/keys, enemy100/500 and duplicate starti
 Sword permissions without adding item-promotion or reconciliation behavior.
 Native ten-run acceptance is separate from host tests and remains bounded to
 its documented source, carry, pose and endpoint settings.
+
+## Cabbage Fighter validation
+
+`test_cabbage_fighter.py` checks the ninth alternative's finite source, raw
+policy guard, separate capability and exact Chocolate ownership. It preserves
+the eight earlier graphs and the whole prior room catalog. Full seed 39
+generations cover gating, Area Keys, health endpoints and duplicate starting
+permissions. Fighter's existing guaranteed-Doo Carrot progression reason is
+retained even with minor chests disabled; there is no new lifecycle behavior.
+Historical reconstruction tests pin the reviewed Fighter graph before removing
+it from old snapshots, and mutation tests still reject edited source/access
+conditions or unrelated changes. Native acceptance is separate from host tests.

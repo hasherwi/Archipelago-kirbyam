@@ -185,6 +185,9 @@ def test_prior_catalog_and_graphs_unchanged():
         assert digest(row['graphs'][name]) == expected
     stripped = deepcopy(rooms)
     target = stripped[OWNER]['traversal']['targets'][0]
+    # Fighter has its own later full-catalog preservation contract against the Sword checkpoint.
+    target['graphs'].pop('hub2_fighter_entry')
+    target['requires_guaranteed_source']['abilities'].remove('Fighter')
     target['graphs'].pop('hub2_sword_entry')
     target['requires_guaranteed_source']['abilities'].remove('Sword')
     assert digest(stripped) == doc['prior_room_catalog_sha256']

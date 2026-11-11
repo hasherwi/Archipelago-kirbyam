@@ -228,7 +228,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             "MINOR_CHEST_MUSIC_NOTE_10",
         )),
         ({"source_key": "WADDLE_DOO",
-          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword"]}, (
+          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter"]}, (
             "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
             "MINOR_CHEST_SPRAY_PAINT_12",
         )),

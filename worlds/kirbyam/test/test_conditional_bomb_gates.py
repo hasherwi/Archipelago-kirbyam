@@ -112,6 +112,7 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(gating, area_keys
 @pytest.mark.parametrize('mode,pool,weight,applies', [
     (0, None, 0, True), (1, ['Beam'], 0, True), (1, ['Spark'], 0, True), (1, ['Ice'], 0, True),
     (1, ['Sword'], 0, True), (2, ['Sword'], 0, True),
+    (1, ['Fighter'], 0, True), (2, ['Fighter'], 0, True),
     (2, ['Beam'], 0, True), (2, ['Beam', 'Spark'], 0, False),
     (2, ['Beam'], 50, False), (2, ['Beam'], 100, False),
 ])
@@ -149,7 +150,7 @@ def test_cabbage_conditional_policy_category_and_entry_matrix(
     assert target.access_rule(state) is (not (applies and enabled))
     state.upstream = True
     assignment = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed
-    needs_permission = enabled and applies and gating and bool(assignment & {'Spark', 'Ice', 'Sword'})
+    needs_permission = enabled and applies and gating and bool(assignment & {'Spark', 'Ice', 'Sword', 'Fighter'})
     assert target.access_rule(state) is (not needs_permission)
     if needs_permission:
         # The independent entry is necessary but not a substitute for permission.

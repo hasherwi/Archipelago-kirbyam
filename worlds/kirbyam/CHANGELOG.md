@@ -14,6 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Add the original finite Waddle Doo-to-Fighter route and ordinary first combo as a ninth Chocolate chest alternative, preserving prior routes and Fighter permission behavior (PR #1052).
 - Add the original finite Waddle Doo-to-Sword route and ordinary first slash as another Chocolate chest alternative, preserving its seven existing routes (PR #1052).
 - Add source-aware, entry-specific ranged routes for selected Bomb Blocks, timed switches, the Mustard map and Olive Sound Effects chest. Each accepted alternative keeps its own finite source, carried ability, attack and timing requirements; ordinary solo alternatives remain available (PR #1052).
 - Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
