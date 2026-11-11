@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 from BaseClasses import CollectionState, ItemClassification
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import CAPABILITY_ABILITIES, CAPABILITY_CONSUMED_ABILITIES, Position, SourcePolicy
@@ -89,7 +90,7 @@ def test_actual_world_scope_and_existing_progression(
         monkeypatch, gating, area_keys, statues, room_sanity, minor_chests):
     raw = document()['source_policy']
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity)
     state = CollectionState(world.multiworld)
@@ -185,12 +186,17 @@ def test_prior_catalog_and_graphs_unchanged():
         assert digest(row['graphs'][name]) == expected
     stripped = deepcopy(rooms)
     target = stripped[OWNER]['traversal']['targets'][0]
+    assert digest(target['graphs'].pop('hub2_ufo_entry')) == (
+        '6ef3439b8a90da73387bdc7e9d4372baae9e889eb936c82508b5a0e74e15986a')
+    target['requires_guaranteed_source']['abilities'].remove('UFO')
     # Fighter has its own later full-catalog preservation contract against the Sword checkpoint.
     target['graphs'].pop('hub2_fighter_entry')
     target['requires_guaranteed_source']['abilities'].remove('Fighter')
     target['graphs'].pop('hub2_sword_entry')
     target['requires_guaranteed_source']['abilities'].remove('Sword')
-    assert digest(stripped) == doc['prior_room_catalog_sha256']
+    # Whole-catalog hash in native evidence is historical after the main merge.
+    # Preserve this exact historical target; the union catalog guards other targets.
+    assert digest(target) == 'ce3d579238309e6c778f9776595b48ae253a2406d00a4d9e3d9a69d2a644f51f'
     owners = [(row['id'], name) for row in room_traversal_targets('block') for name, graph in row['graphs'].items()
               if any(route.get('capability') == CAPABILITY for route in graph['routes'])]
     assert owners == [(TARGET, 'hub2_sword_entry')]

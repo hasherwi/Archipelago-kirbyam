@@ -9,16 +9,7 @@ from typing import Any, cast
 
 from ..client import KirbyAmClient
 from ..data import data
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
-
-
-def _gateable_ability_mask() -> int:
-    mask = 0
-    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
-        ability_id = ABILITY_NAME_TO_ID.get(ability_name)
-        if ability_id is not None and 0 < ability_id <= 31:
-            mask |= 1 << ability_id
-    return mask
+from ..enemy_ability_data import ABILITY_NAME_TO_ID
 
 
 def _written_u32_by_address(mock_write: AsyncMock) -> dict[int, int]:
@@ -61,7 +52,7 @@ async def test_legacy_slot_data_still_syncs_statue_gating_masks(
     with patch("worlds.kirbyam.client.bizhawk.write", new_callable=AsyncMock) as mock_write:
         await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
 
-    gate_mask = _gateable_ability_mask()
+    gate_mask = 0x03FFFE76  # Frozen legacy catalog, independent of future generation.
     assert client._last_ability_runtime_config_signature == (
         0,
         0,

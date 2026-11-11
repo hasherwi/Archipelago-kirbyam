@@ -5,6 +5,7 @@ from dataclasses import replace
 import pytest
 from BaseClasses import CollectionState, ItemClassification
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -89,7 +90,7 @@ def test_actual_world_scope(monkeypatch, ability, gating, area_keys, statues, ro
     # Start with shuffled assignments, then isolate Doo so prior promotion reasons are absent.
     raw = natural_policy(ability)
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity)
     state = CollectionState(world.multiworld)
@@ -181,7 +182,7 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
     assert not multiworld.get_unfilled_locations()
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     expected = count if gating and minor_chests else 0
-    assert before == [0] and after == [expected]
+    assert before == [expected if ability == 'Ice' else 0] and after == [expected]
     starting = [item for item in multiworld.precollected_items[1] if item.name == name]
     assert len(starting) == count
     assert all(item.classification == (ItemClassification.progression if gating and minor_chests
@@ -249,7 +250,7 @@ def test_reconciliation_does_not_double_collect_progression(monkeypatch, ability
     from test.general import setup_multiworld
 
     raw = natural_policy(ability)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=22, options={
         'ability_randomization_mode': 1, 'ability_gating': 1, 'accessibility': 'minimal',
     })
@@ -260,9 +261,10 @@ def test_reconciliation_does_not_double_collect_progression(monkeypatch, ability
     multiworld.push_precollected(ready)
     for _ in range(2):
         early = world.create_item(name)
-        assert early.classification == ItemClassification.useful
+        assert early.classification == (ItemClassification.progression if ability == 'Ice'
+                                        else ItemClassification.useful)
         multiworld.push_precollected(early)
-    assert multiworld.state.count(name, 1) == 1
+    assert multiworld.state.count(name, 1) == (3 if ability == 'Ice' else 1)
     world.create_regions()
     assert multiworld.state.count(name, 1) == CollectionState(multiworld).count(name, 1) == 3
 
@@ -271,10 +273,11 @@ def test_reconciliation_does_not_double_collect_progression(monkeypatch, ability
 @pytest.mark.parametrize('pool,weight', [(['Spark', 'Ice'], 0), (['Spark'], 50), (['Ice'], 100)])
 def test_uncertain_policy_keeps_fallback_and_does_not_promote(monkeypatch, ability, pool, weight):
     raw = policy(2, pool=pool, weight=weight).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(2, 1, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     item = world.create_item(f'{ability} Ability')
-    assert item.classification == ItemClassification.useful
+    assert item.classification == (ItemClassification.progression if ability == 'Ice'
+                                   else ItemClassification.useful)
     assert not rules.cabbage_element_is_progression(world, ability)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
@@ -285,7 +288,7 @@ def test_uncertain_policy_keeps_fallback_and_does_not_promote(monkeypatch, abili
 def test_prior_independent_promotion_reason_is_preserved(monkeypatch, ability):
     # Singleton policies retain the earlier guaranteed Sparky/Frosty reason even without Chocolate.
     raw = policy(1, pool=[ability]).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, 1, accessibility='minimal')
     get_location = world.multiworld.get_location
 
@@ -301,11 +304,11 @@ def test_prior_independent_promotion_reason_is_preserved(monkeypatch, ability):
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
 @pytest.mark.parametrize('weight', [0, 50, 100])
-def test_uncertain_early_duplicates_stay_useful(monkeypatch, ability, weight):
+def test_uncertain_chocolate_preserves_independent_early_ice_progression(monkeypatch, ability, weight):
     from test.general import setup_multiworld
 
     raw = policy(2, pool=['Spark', 'Ice'] if weight == 0 else [ability], weight=weight).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=22, options={
         'ability_randomization_mode': 2, 'ability_gating': 1, 'accessibility': 'minimal',
         'ability_randomization_no_ability_weight': weight,
@@ -315,5 +318,7 @@ def test_uncertain_early_duplicates_stay_useful(monkeypatch, ability, weight):
     for item in items:
         multiworld.push_precollected(item)
     world.create_regions()
-    assert all(item.classification == ItemClassification.useful for item in items)
-    assert multiworld.state.count(items[0].name, 1) == CollectionState(multiworld).count(items[0].name, 1) == 0
+    classification = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
+    assert all(item.classification == classification for item in items)
+    expected = 3 if ability == 'Ice' else 0
+    assert multiworld.state.count(items[0].name, 1) == CollectionState(multiworld).count(items[0].name, 1) == expected

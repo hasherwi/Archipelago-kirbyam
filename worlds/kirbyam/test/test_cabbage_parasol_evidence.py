@@ -122,7 +122,17 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
     evidence = json.loads(EVIDENCE.read_text(encoding='utf-8'))
     assert evidence['tracked_text_hash_format'] == 'UTF-8 text with LF line endings (Git blob content)'
     root = Path(__file__).parents[1]
+    assert evidence['preserved_source_text_sha256'] == {
+        'data/abilities.json': 'ef5f85b8d44fea48bb325209bee3cd599c56b3b840f23e0b796c686499a30d27',
+        'data/items.json': '97b2760dcb8d42d64671e91c353674f83f7639da9a65f19961363390ea21b72a',
+        'data/enemies.json': '802474ec871dc4fad66f789456d069f426ed1dfa6301fe248bd2c88ab145e7c8',
+        'data/minor_chest_manifest.json': 'aaf761f9941a23278e6654d71667a96857846ac2934eba8b7a68735800ad95c3',
+    }
+    # The native packet keeps its historical hashes; main deliberately changes
+    # the client/catalog. Their current hashes come from the pinned main input.
+    union = json.loads((root / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for name, digest in evidence['preserved_source_text_sha256'].items():
+        digest = union['adopted_main_source_sha256'].get(name, digest)
         raw = (root / name).read_bytes()
         assert lf_text_sha256(raw) == lf_text_sha256(raw.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')) == digest
     assert all(private not in EVIDENCE.read_text(encoding='utf-8') for private in ('/home/', '/Users/', 'C:\\'))

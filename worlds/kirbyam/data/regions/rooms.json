@@ -846,6 +846,221 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_557_goal1_tomato",
+          "kind": "metal",
+          "native_room": 557,
+          "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_557_goal1_tomato:entry",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:arena",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:launch",
+                  "native_room": 557
+                },
+                {
+                  "id": "metal_557_goal1_tomato:chest",
+                  "native_room": 557
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_557_goal1_tomato:entry",
+                  "to": "metal_557_goal1_tomato:arena",
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json entry_approach: actual556 door0x87C31C arrives24,72.996; Normal right descent, left shelf and ladder reach arena; controller continuation reaches common floor341.078,328.996."
+                },
+                {
+                  "from": "metal_557_goal1_tomato:arena",
+                  "to": "metal_557_goal1_tomato:launch",
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json native_source_contract.capture_to_launch_geometry: after successful in-arena capture, open x15..30,y19..20 and solid floor y21 connect to264,328.996; no additional barrier/water. Normal controller bridge reaches268.656,328.996. Ordinary movement carries Smash."
+                },
+                {
+                  "from": "metal_557_goal1_tomato:launch",
+                  "to": "metal_557_goal1_tomato:chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "metal_evidence": {
+                    "Smash": "dev-docs/ordinary-557-smash-acceptance.json isolated_smash_to_chest: dry grounded Left+B Hammer twice from right, advancing after first swing; clears13/14 F5 (only10,18 remains), enters pocket and collects exact chest0x088B9280."
+                  },
+                  "evidence": "dev-docs/ordinary-557-smash-acceptance.json: physical fixture essence establishes attack/collection only. Actual source is separate Master Hand below; no generic floor/ceiling or reverse attack claim."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9358",
+                  "node": "metal_557_goal1_tomato:arena",
+                  "source_key": "MASTER_HAND",
+                  "acquisition_evidence": "dev-docs/ordinary-557-smash-acceptance.json native_source_contract: actual type0x3E at440,264; shared defeated-miniboss inhale/swallow contract supplies table0x351C1E, gated by actual source policy. Existing ordinary boss-combat assumption; full actual defeat/swallow/chest replay is not claimed. In-arena capture is before F5 barrier."
+                }
+              ],
+              "starts": [
+                "metal_557_goal1_tomato:entry"
+              ],
+              "required_targets": [
+                "metal_557_goal1_tomato:chest"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_557_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_557_carried:140",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 190 door 0x879ce4 -> 140, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_557_carried:chest"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_557_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_557_carried:140",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 190 door 0x879ce4 -> 140, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_557_carried:chest"
+              ]
+            }
+          }
+        }
+      ],
+      "graph_parts": {
+        "metal_557_permanent_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_557_carried:140",
+              "native_room": 140
+            },
+            {
+              "id": "metal_557_carried:108",
+              "native_room": 108
+            },
+            {
+              "id": "metal_557_carried:110",
+              "native_room": 110
+            },
+            {
+              "id": "metal_557_carried:554",
+              "native_room": 554
+            },
+            {
+              "id": "metal_557_carried:555",
+              "native_room": 555
+            },
+            {
+              "id": "metal_557_carried:556",
+              "native_room": 556
+            },
+            {
+              "id": "metal_557_carried:557",
+              "native_room": 557
+            },
+            {
+              "id": "metal_557_carried:chest",
+              "native_room": 557
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_557_carried:140",
+              "to": "metal_557_carried:108",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 140 door 0x878ffc -> 108. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:108",
+              "to": "metal_557_carried:110",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 108 door 0x87847a -> 110. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:110",
+              "to": "metal_557_carried:554",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 110 door 0x878f42 -> 554. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:554",
+              "to": "metal_557_carried:555",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 554 door 0x87b30c -> 555. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:555",
+              "to": "metal_557_carried:556",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 555 door 0x87bdee -> 556. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:556",
+              "to": "metal_557_carried:557",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 556 door 0x87c31c -> 557. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_557_carried:557",
+              "to": "metal_557_carried:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/goal-burning-reconstruction.md: native 557 retained Burning defeats original boss, releases arena, breaks the fresh bank and collects the chest at 100/500% enemy health. Layered source/carrier and combat fixtures, not one uninterrupted source-to-check replay."
+              },
+              "evidence": "Atomic same-room retained Burning action. No source or dropped-star recovery. Terminal chest does not export equipment or authorize a goal exit."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2": {
@@ -859,6 +1074,211 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_floating_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_176_goal2_drink",
+          "kind": "metal",
+          "native_room": 176,
+          "location": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_176_goal2_drink:entry",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:defeated_arena",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:launch",
+                  "native_room": 176
+                },
+                {
+                  "id": "metal_176_goal2_drink:chest",
+                  "native_room": 176
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_176_goal2_drink:entry",
+                  "to": "metal_176_goal2_drink:defeated_arena",
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json entry_approach and arena_release_contract: actual175 door0x880934 arrives456,40.996; Normal controller descent reaches actual Batafire floor184.652,616.996. Existing ordinary miniboss-combat assumption defeats Batafire; native shared state slot1 deletes scroll-lock0x8BAEBC and restores boundaries. Actual defeat is source-established, not a completed controller replay."
+                },
+                {
+                  "from": "metal_176_goal2_drink:defeated_arena",
+                  "to": "metal_176_goal2_drink:launch",
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json native_source_contract.capture_to_launch: in-arena capture then ordinary floor/slopes connect to the right launch. Normal reaches active boundary248,592.996; isolated post-defeat Burning walks to249.996,591 without another ability or metal break."
+                },
+                {
+                  "from": "metal_176_goal2_drink:launch",
+                  "to": "metal_176_goal2_drink:chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-176-burning-acceptance.json isolated_post_defeat_burning_to_chest: from249.996,591 hold A2 frames then Right+B; one airborne dry horizontal charge clears all six F5 atx16..18,y35..36. Walk right and Up emits exact AP chest event0x088BAEE0, native flag9."
+                  },
+                  "evidence": "dev-docs/ordinary-176-burning-acceptance.json Physical fixture replaces Batafire with a Burning essence and relocates only the scroll lock to simulate source-proven post-defeat release. No terrain, attack or chest edits; no actual acquisition or other provider proof."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088BAE50",
+                  "node": "metal_176_goal2_drink:defeated_arena",
+                  "source_key": "BATAFIRE",
+                  "acquisition_evidence": "dev-docs/ordinary-176-burning-acceptance.json native_source_contract: actual type0x3B at40,544, table0x351BD6=Burning3; shared defeated-miniboss inhale/swallow mechanism under actual source policy. Normal entry and capture-to-launch floor/slopes precede F5. Ordinary boss-combat assumption, not a full defeat/acquisition replay."
+                }
+              ],
+              "starts": [
+                "metal_176_goal2_drink:entry"
+              ],
+              "required_targets": [
+                "metal_176_goal2_drink:chest"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_176_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_194",
+                  "to": "metal_176_carried:127",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 194 door 0x87aaec -> 127, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_176_carried:chest"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_176_permanent_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_194",
+                  "to": "metal_176_carried:127",
+                  "room_transition": true,
+                  "evidence": "dev-docs/goal-burning-reconstruction.md: original 194 door 0x87aaec -> 127, with imported Burning retained. Real statue access and hub guards are separate unchanged ordinary_hub_statues obligations."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_176_carried:chest"
+              ]
+            }
+          }
+        }
+      ],
+      "graph_parts": {
+        "metal_176_permanent_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_176_carried:127",
+              "native_room": 127
+            },
+            {
+              "id": "metal_176_carried:504",
+              "native_room": 504
+            },
+            {
+              "id": "metal_176_carried:174",
+              "native_room": 174
+            },
+            {
+              "id": "metal_176_carried:173",
+              "native_room": 173
+            },
+            {
+              "id": "metal_176_carried:175",
+              "native_room": 175
+            },
+            {
+              "id": "metal_176_carried:176",
+              "native_room": 176
+            },
+            {
+              "id": "metal_176_carried:chest",
+              "native_room": 176
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_176_carried:127",
+              "to": "metal_176_carried:504",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 127 door 0x87a036 -> 504. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:504",
+              "to": "metal_176_carried:174",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 504 door 0x87acd4 -> 174. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:174",
+              "to": "metal_176_carried:173",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 174 door 0x880286 -> 173. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:173",
+              "to": "metal_176_carried:175",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 173 door 0x88011e -> 175. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:175",
+              "to": "metal_176_carried:176",
+              "room_transition": true,
+              "evidence": "dev-docs/goal-burning-reconstruction.md: actual native 175 door 0x880934 -> 176. Retained Burning carrier; no source, recovery, generic room access or reverse join."
+            },
+            {
+              "from": "metal_176_carried:176",
+              "to": "metal_176_carried:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/goal-burning-reconstruction.md: native 176 retained Burning defeats original boss, releases arena, breaks the fresh bank and collects the chest at 100/500% enemy health. Layered source/carrier and combat fixtures, not one uninterrupted source-to-check replay."
+              },
+              "evidence": "Atomic same-room retained Burning action. No source or dropped-star recovery. Terminal chest does not export equipment or authorize a goal exit."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3": {
@@ -2729,6 +3149,151 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_38": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": null
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_537_stone_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_537:143_arrival",
+              "native_room": 143
+            },
+            {
+              "id": "metal_537:141_lower_right",
+              "native_room": 141
+            },
+            {
+              "id": "metal_537:543_arrival",
+              "native_room": 543
+            },
+            {
+              "id": "metal_537:542_arrival",
+              "native_room": 542
+            },
+            {
+              "id": "metal_537:536_arrival",
+              "native_room": 536
+            },
+            {
+              "id": "metal_537:537_left_arrival",
+              "native_room": 537
+            },
+            {
+              "id": "metal_537:chest",
+              "native_room": 537
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_537:143_arrival",
+              "to": "metal_537:141_lower_right",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual143 to141 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:141_lower_right",
+              "to": "metal_537:543_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual141 to543 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:543_arrival",
+              "to": "metal_537:542_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual543 to542 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:542_arrival",
+              "to": "metal_537:536_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual542 to536 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:536_arrival",
+              "to": "metal_537:537_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual536 to537 directed door with retained Stone and continuous6HP at default/production500%. dev-docs/ordinary-537-source-carrier-contract.md identifies each exact door, ordinary Bomb/F0 mutation and excluded join. No source or recovery in this carrier; the final Stone-only action enforces retention. This edge does not separately accept Normal passage."
+            },
+            {
+              "from": "metal_537:537_left_arrival",
+              "to": "metal_537:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Stone"
+              ],
+              "metal_evidence": {
+                "Stone": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual536 left entry; dry downward Stone transform clearsF5(30..31,6..7). Untransform without discarding Stone, walk lower corridor and Up collects nativeflag1/AP3960514. Default/500 no-loss and retainedStone8. No horizontal-only provider, right-shaft Normal descent or underwater activation inferred."
+              },
+              "evidence": "Complete attack/passage/collection is atomic and terminal, with no opens/reset or reusable equipment export. dev-docs/ordinary-537-source-carrier-contract.md."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_537_beginning_notes",
+          "kind": "metal",
+          "native_room": 537,
+          "location": "MINOR_CHEST_MUSIC_NOTE_01",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_537_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_537:143_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual native190 Stone statue0x088B7CEC/STATUE:353900 is acquired, then native190 door0x879CF2 ->143 stored3,19/live40,296.996. No source substitution. Existing hub access/carry and alternative source assignments remain separately qualified by dev-docs/ordinary-537-source-carrier-contract.md; presence in190 is not independent Central access."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_537:chest"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_537_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_537:143_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/native-537-stone-source-carrier-acceptance.json: actual native190 Stone statue0x088B7CEC/STATUE:353900 is acquired, then native190 door0x879CF2 ->143 stored3,19/live40,296.996. No source substitution. Existing hub access/carry and alternative source assignments remain separately qualified by dev-docs/ordinary-537-source-carrier-contract.md; presence in190 is not independent Central access."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_537:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_40": {
@@ -2766,31 +3331,544 @@
           "can_break_metal"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_141_lower_burning_carry": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_141:lower_entry",
+              "native_room": 141
+            },
+            {
+              "id": "metal_141:lower_source",
+              "native_room": 141
+            },
+            {
+              "id": "metal_141:left_launch",
+              "native_room": 141
+            },
+            {
+              "id": "metal_141:inner",
+              "native_room": 141
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_141:lower_entry",
+              "to": "metal_141:lower_source",
+              "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual543 door arrives40,216.996; Normal clears ordinary stars, approaches and captures actual lower Flamer. ordinary-141-lower-arrival-join.json separately joins actual143 lower arrival to the same platform with all F5 intact."
+            },
+            {
+              "from": "metal_141:lower_source",
+              "to": "metal_141:left_launch",
+              "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: controller-earned Burning is retained through ordinary left-shaft flight to the dry left launch near64,130.5; no held Throw movement or imported equipment."
+            },
+            {
+              "from": "metal_141:left_launch",
+              "to": "metal_141:inner",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: rightward Burning from the left pocket clears all four F5 atx5..6,y7..8 and reaches the inner corridor; unchanged attack and terrain,6HP."
+              },
+              "evidence": "Forward left bank only; no inferred reverse opening or room-reload persistence."
+            }
+          ],
+          "sources": [
+            {
+              "id": "0x088B78E8",
+              "node": "metal_141:lower_source",
+              "source_key": "FLAMER",
+              "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal\u2192Burning3, before either F5 bank. Actual source policy and permission still apply."
+            }
+          ]
+        },
+        "metal_141_imported_lower_destination": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_141:143_carried_arrival",
+              "native_room": 143
+            },
+            {
+              "id": "metal_141:lower_carried_arrival",
+              "native_room": 141
+            },
+            {
+              "id": "metal_141:lower_return",
+              "native_room": 141
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_141:143_carried_arrival",
+              "to": "metal_141:lower_carried_arrival",
+              "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 143 record 0x879858, trigger (1,2), reaches native 141 lower-right stored (43,19). Both health variants retain imported Burning and leave all eight metal cells intact on entry.",
+              "room_transition": true
+            },
+            {
+              "from": "metal_141:lower_carried_arrival",
+              "to": "metal_141:lower_return",
+              "capability": "ordinary_block_hit",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: arrive141 through defend/left is a source-free retained-Burning ordinary-block itinerary to the lower-left compartment, ending (22,117.00390625) before either bank. Defensive Burning clears only F0 (8,12)/(9,12); all eight F5 remain intact at this endpoint. This is a destination bypass, NOT reverse metal traversal. Both default/500 runs retain 6 HP, Burning and no grabs. Independent hub access is required; no generic inner/top/east start or room reset is credited."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_141_left_forward",
+          "kind": "metal",
+          "native_room": 141,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "graph_parts": [
+                "metal_141_lower_burning_carry"
+              ],
+              "starts": [
+                "metal_141:lower_entry"
+              ],
+              "required_targets": [
+                "metal_141:inner"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:inner"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_141:inner"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "logical_subregions": {
+      "TOP_MUSTARD": {
+        "locations": [],
+        "exits": {
+          "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER": null,
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": "can_mirra"
+        },
+        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual545 entry lands536,56.996 above the banks; Normal crouch/Down+A activates right Bomb trigger25,4 and reaches upper-left pocket, then open x12 leads inner. Return Mirra/545 door keeps its prior ordinary requirement; not a newly accepted transition."
+      },
+      "EAST_MOONLIGHT": {
+        "locations": [],
+        "exits": {
+          "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD": null,
+          "REGION_MOONLIGHT_MANSION/ROOM_2_16": "can_mirra"
+        },
+        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json normal_east_to_top: explicitly Normal ordinary flight crosses row4 0x0F upward. Native144 record0x8822FC arrives141spawn43,9 on this east side, not lower. The outward Mirra/native144 transition is unaccepted; retain its existing can_mirra placeholder separately."
+      }
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER": {
     "locations": {},
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT": {
         "all": [
           "can_break_block",
-          "can_break_metal",
-          "can_mirra"
+          "can_break_metal"
         ]
       },
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": {
-        "all": [
-          "can_break_floating_block",
-          "can_mirra"
-        ]
-      },
+      "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD": "can_break_floating_block",
       "REGION_RAINBOW_ROUTE/ROOM_1_41": {
         "all": [
           "can_break_block",
           "can_break_metal"
         ]
-      }
-    }
+      },
+      "REGION_RAINBOW_ROUTE/ROOM_1_41__ROOM_CHECK": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_141_right_forward",
+          "kind": "metal",
+          "native_room": 141,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+          "graphs": {
+            "lower_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "graph_parts": [
+                "metal_141_lower_burning_carry"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:right_launch",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:east",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:right_launch",
+                  "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: retain the captured Burning, clear ordinary star corridor, descend to right-bank launch390.02,168.996. This is continuous lower-source carry, not free equipment at inner AP entry."
+                },
+                {
+                  "from": "metal_141:right_launch",
+                  "to": "metal_141:east",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: rightward horizontal Burning clears four F5 atx27..28,y9..10, endpoint532.125,166.934,6HP. All eight room F5 read0 after the complete lower-source chain."
+                  },
+                  "evidence": "Target is the east compartment only. Mirra and native144 doorway are separate and unaccepted by this controller record."
+                }
+              ],
+              "starts": [
+                "metal_141:lower_entry"
+              ],
+              "required_targets": [
+                "metal_141:east"
+              ],
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_41"
+              }
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:east",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:east",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: bankleft through east continues with the same Burning through ordinary blocks and clears fresh F5 (27-28,9-10) rightward. Both banks are cleared in one continuous default/500 trace; endpoint is the east compartment, not the Mirra doorway."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:east"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:east",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:east",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: bankleft through east continues with the same Burning through ordinary blocks and clears fresh F5 (27-28,9-10) rightward. Both banks are cleared in one continuous default/500 trace; endpoint is the east compartment, not the Mirra doorway."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                },
+                {
+                  "from": "metal_141:lower_return",
+                  "to": "metal_141:inner",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/native-141-imported-burning-forward-acceptance.json: retained Burning traverses the lower corridor and left shaft, then clears fresh F5 (5-6,7-8) rightward. The bankleft endpoint is in the inner corridor; no local Flamer is acquired. Both cold default and 500% runs retain 6 HP, Burning and no grabs."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_141:east"
+              ]
+            }
+          }
+        },
+        {
+          "id": "metal_141_left_reverse",
+          "kind": "metal",
+          "native_room": 141,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_141:inner",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:upper_source",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:reverse_launch",
+                  "native_room": 141
+                },
+                {
+                  "id": "metal_141:lower_return",
+                  "native_room": 141
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_141:inner",
+                  "to": "metal_141:upper_source",
+                  "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json normal_inner_top_geometry: ordinary flight through open x12 connects inner corridor to upper-left pocket, not through the 0x0F cap. actual_top_source_reverse_first_bank proves actual upper Flamer acquisition from this pocket; no metal crossing is needed to approach it."
+                },
+                {
+                  "from": "metal_141:upper_source",
+                  "to": "metal_141:reverse_launch",
+                  "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_top_source_reverse_first_bank: captured Burning drops atx201.996 beside the cap into the inner corridor at136.996 and approaches left bank from its right. Same native room, source retained."
+                },
+                {
+                  "from": "metal_141:reverse_launch",
+                  "to": "metal_141:lower_return",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_top_source_reverse_first_bank: independent leftward Burning clears first bank from right, then drops to lower50.152,209.684. Readback:left four F5 cleared,right four remain.5HP, not a damage-free claim."
+                  },
+                  "evidence": "Separate reverse source/attack proof; does not inherit the forward route's broken-bank state."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088B7810",
+                  "node": "metal_141:upper_source",
+                  "source_key": "FLAMER",
+                  "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_top_source_reverse_first_bank: actual upper Flamer type0x13 at168,64 captured and swallowed after native545 entry and Normal Bomb activation. It is before the reverse left bank; source policy and permission apply."
+                }
+              ],
+              "starts": [
+                "metal_141:inner"
+              ],
+              "required_targets": [
+                "metal_141:lower_return"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_141:lower_return"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_141_imported_lower_destination"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_190",
+                  "to": "metal_141:143_carried_arrival",
+                  "evidence": "dev-docs/native-141-imported-burning-forward-acceptance.json: actual native 190 door 0x879CF2 reaches native 143 stored (3,19). The subtype substitution is imported-equipment evidence only; production uses actual hub source policy and guarded carry. See dev-docs/carried-burning-source-contract.md.",
+                  "room_transition": true
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_141:lower_return"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "evidence": "Inner and upper-left pocket connect by ordinary flight/drop beside x10..11 cap. The existing floating-block/Bomb requirement toward the top-right Mustard side is retained: left-trigger reverse Bomb crossing is not controller-accepted. No top\u2192east downward-cap route is added."
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42": {
     "locations": {
@@ -3210,42 +4288,363 @@
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
-        "all": [
-          "can_break_block",
-          "can_break_metal_throw"
-        ]
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": null
+    },
+    "logical_subregions": {
+      "RIGHT_TOP": {
+        "locations": [],
+        "exits": {
+          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null
+        },
+        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay."
       }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_708_burning_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_708:740_hub_arrival",
+              "native_room": 740
+            },
+            {
+              "id": "metal_708:upper_left_arrival",
+              "native_room": 708
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_708:740_hub_arrival",
+              "to": "metal_708:upper_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: actual 790 left door 0x88564C enters 740 at (696, 88.996); retained Burning passes still-live Frosty via ladder, then actual 740 door 0x884878 enters 708 at (504, 40.996). Default and production 500% health continuously no loss/grab. This source-free carrier is not separately accepted Normal movement; final Burning-only action enforces retained equipment. dev-docs/ordinary-708-source-carrier-contract.md."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_708_forward",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:706_lower_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:706_lower_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: fresh 708 upper-left arrival, left Bomb partitions and exact rightward Burning through F5 (36-37, 23), then an 855-frame spike-shaft flight to actual 706 lower door 0x883C72, live (40, 296.996). No fresh reverse or lower 743 claim."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:706_lower_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:706_lower_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:706_lower_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json: fresh 708 upper-left arrival, left Bomb partitions and exact rightward Burning through F5 (36-37, 23), then an 855-frame spike-shaft flight to actual 706 lower door 0x883C72, live (40, 296.996). No fresh reverse or lower 743 claim."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:706_lower_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM": {
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_02": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_climb"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_climb",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": {
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": "can_fly",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "can_break_metal"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_708_743_main",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_main_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_main_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json main: same fresh-bank carrier, then leftward Burning activates C and crosses before its divider closes; fly to door (22, 28) and enter 743 main at (88, 40.996). C ends solid at (26, 27-28). No cross-divider return or persistent opening is exported."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:743_main_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_main_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_main_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json main: same fresh-bank carrier, then leftward Burning activates C and crosses before its divider closes; fly to door (22, 28) and enter 743 main at (88, 40.996). C ends solid at (26, 27-28). No cross-divider return or persistent opening is exported."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:743_main_door"
+              ]
+            }
+          }
+        },
+        {
+          "id": "metal_708_743_dead_end",
+          "kind": "metal",
+          "native_room": 708,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_dead_end_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_dead_end_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json dead_end: same fresh-bank carrier, then Burning activates C but stops right of its closing divider; actual door (28, 28) enters 743 dead-end at (184, 40.996). This is not a C-free or main-door witness."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_708:743_dead_end_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_708_burning_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_708:743_dead_end_door",
+                  "native_room": 708
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_708:740_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-708-forward-burning-706-acceptance.json carrier708west: actual 790 left door to 740; fixture statue 0x088BDDF0 supplies imported Burning only. Production grants remain real ordinary_hub_statues, including 592 STATUE:3538FD; no synthetic 790 source."
+                },
+                {
+                  "from": "metal_708:upper_left_arrival",
+                  "to": "metal_708:743_dead_end_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-708-forward-burning-706-acceptance.json plus dev-docs/ordinary-708-c-743-alternative-acceptance.json dead_end: same fresh-bank carrier, then Burning activates C but stops right of its closing divider; actual door (28, 28) enters 743 dead-end at (184, 40.996). This is not a C-free or main-door witness."
+                  },
+                  "evidence": "Complete same-room attack/carrier branch is atomic and terminal. No source/recovery/reset/opens flag, or state union across C branches. dev-docs/ordinary-708-source-carrier-contract.md states the accepted endpoint and separate 743 check itineraries, including the deliberate Normal postcondition after the lever."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_708:743_dead_end_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": {
     "locations": {},
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "can_break_block"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "can_break_block",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": {
     "locations": {},
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS": "can_break_block",
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_02": {
@@ -3302,6 +4701,9 @@
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01": null,
       "REGION_MOONLIGHT_MANSION/ROOM_2_05": null
+    },
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01": "RIGHT_TOP"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04": {
@@ -3327,6 +4729,111 @@
           "can_break_metal"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_707_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_707:706_hub_arrival",
+              "native_room": 706
+            },
+            {
+              "id": "metal_707:707_left_arrival",
+              "native_room": 707
+            },
+            {
+              "id": "metal_707:712_door",
+              "native_room": 707
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_707:706_hub_arrival",
+              "to": "metal_707:707_left_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier706lower through carrier707actual: controller-earned Burning retained through ladders, ordinary blocks/Bombs and actual706 door0x88358A ->707 left arrival24,152.996. This is a carrier edge, not a separately accepted Normal bypass. There are no source placements or recovery actions anywhere in the suffix, so its final Burning-only action enforces continuous equipment. dev-docs/ordinary-707-all500-acceptance.json supplies the qualified high-enemy-health continuation; dev-docs/ordinary-707-source-carrier-contract.md states the source and health qualification."
+            },
+            {
+              "from": "metal_707:707_left_arrival",
+              "to": "metal_707:712_door",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier707left through carrier712actual: retained Burning crosses Bomb partitions, button/door atomically, lower-right hazards and upper shaft, breaks F5(69,4)/(70,4) rightward and activates native707 door0x8836F4 ->712. No source, dropped-star recovery, persistent door-open flag or room-reset assumption. dev-docs/ordinary-707-all500-acceptance.json all500-knightpulse98 through all500-712final: repeated Burning and ordinary flight avoid durable Heavy Knight, with every audited frame HP6 and ability3. No temporary Normal or dropped-star recovery."
+              },
+              "evidence": "Whole same-room carrier is atomic because only this exact Burning sequence is reviewed. Terminal node records successful712 departure, not reusable equipment or independently reachable intermediate timer/shaft states. dev-docs/ordinary-707-all500-acceptance.json supplies the qualified high-enemy-health continuation; dev-docs/ordinary-707-source-carrier-contract.md states the source and health qualification."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_707_to_712",
+          "kind": "metal",
+          "native_room": 707,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_707:712_door"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_707:712_door"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07": {
@@ -3469,12 +4976,6 @@
     },
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": {
-        "all": [
-          "can_climb",
-          "can_fly"
-        ]
-      },
       "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER": {
         "all": [
           "can_climb",
@@ -3552,6 +5053,9 @@
           "can_fly"
         ]
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_MOONLIGHT_MANSION/ROOM_2_15": "UPPER_RETURN"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_15": {
@@ -3577,12 +5081,378 @@
           "can_break_metal"
         ]
       }
-    }
-  },
-  "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN": {
-    "locations": {},
-    "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_WARP": "can_break_metal"
+    },
+    "logical_subregions": {
+      "UPPER_RETURN": {
+        "locations": [],
+        "exits": {}
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_742_clean_source_prefix": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_742:741_arrival",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:741_main_source",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:clean_lower",
+              "native_room": 742
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_742:741_arrival",
+              "to": "metal_742:741_main_source",
+              "evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage; dev-docs/ordinary-742-all500-acceptance.json shared: actual712 door0x884640 to741 Normal arrival, ordinary Bombs24,38/25,26 and actual mainFlamer approach. Both linked variants have continuous no-loss audit before any742 visit."
+            },
+            {
+              "from": "metal_742:741_main_source",
+              "to": "metal_742:clean_lower",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json safe_lowerdoor741/safeentrywait60; dev-docs/ordinary-742-all500-acceptance.json shared: carry captured Burning through native741 lower door0x884BE2 to first742 arrival472,456.996. No upper-return entry or room reset credit."
+            }
+          ],
+          "sources": [
+            {
+              "id": "0x088BD8AC",
+              "node": "metal_742:741_main_source",
+              "source_key": "FLAMER",
+              "acquisition_evidence": "dev-docs/ordinary-742-no-loss-source-acceptance.json safesourcewait15; dev-docs/ordinary-742-all500-acceptance.json shared: actual native Flamer0x088BD8AC,type0x13 at200,224 inhaled/swallowed before742; Normal becomesBurning with6HP. Permission and finalized source policy still apply."
+            }
+          ]
+        },
+        "metal_742_imported_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_742:712_carried_arrival",
+              "native_room": 712
+            },
+            {
+              "id": "metal_742:741_carried_arrival",
+              "native_room": 741
+            },
+            {
+              "id": "metal_742:clean_lower",
+              "native_room": 742
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_742:712_carried_arrival",
+              "to": "metal_742:741_carried_arrival",
+              "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: the exact earned 707 endpoint continues through all native 712 switch, gate, shaft and ladder travel, then actual door 0x884640 to native 741. Both matching default/500 continuations retain Burning, 6 HP and no grabs.",
+              "room_transition": true
+            },
+            {
+              "from": "metal_742:741_carried_arrival",
+              "to": "metal_742:clean_lower",
+              "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: carried Burning passes native 741 Bombs (24,38)/(25,26) and uses lower door 0x884BE2 for the first native 742 arrival (472,456.996). The 500% variant changes Chippy/Sword Knight avoidance. No Flamer capture, upper-return entry or room reset is used.",
+              "room_transition": true
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_742_sparerib",
+          "kind": "metal",
+          "native_room": 742,
+          "location": "MINOR_CHEST_MOONLIGHT_MANSION_2_15_OBJECT_01",
+          "graphs": {
+            "clean_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+              },
+              "graph_parts": [
+                "metal_742_clean_source_prefix"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-all500-acceptance.json shared+chest; dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage+clean_chest_branch: Burning supplies timed120-frame door, shaftBomb11,9 and rightward F5 top-row passage. OuterBomb19,12, doorBomb26,12 and roof24/25,8 stay unchanged. Chest variant deliberately drops Burning after F5, uses Normal inhale/spit rather than assuming a durableDoo kill, then collects flag17. Terminal Normal outcome; equipment must not be reexported. dev-docs/ordinary-742-all500-combined-checks.json independently proves same-visit chest thenWarp using the one initial Flamer, with no reset or new copy."
+                  },
+                  "evidence": "Atomic accepted sequence requires Burning at clean lower arrival, not throughout its terminal continuation. No dirty/unknown return joins or outgoing endpoint edges."
+                }
+              ],
+              "starts": [
+                "metal_742:741_arrival"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% chest branches collect flag 17 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_chest",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% chest branches collect flag 17 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_742:clean_chest"
+              ]
+            }
+          }
+        },
+        {
+          "id": "metal_742_lower_to_warp",
+          "kind": "metal",
+          "native_room": 742,
+          "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+          "graphs": {
+            "clean_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+              },
+              "graph_parts": [
+                "metal_742_clean_source_prefix"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-all500-acceptance.json shared+warp; dev-docs/ordinary-742-no-loss-source-acceptance.json shared_actual_source_to_metal_passage+clean_warp_branch: Burning supplies timed120-frame door, shaftBomb11,9 and rightward F5 top-row passage. OuterBomb19,12, doorBomb26,12 and roof24/25,8 stay unchanged. Warp variant uses extra Burning/prompt avoidance of survivingDoo and enters705 with Burning, without requiring chest collection. dev-docs/ordinary-742-all500-combined-checks.json independently proves same-visit chest thenWarp using the one initial Flamer, with no reset or new copy."
+                  },
+                  "evidence": "Atomic accepted sequence requires Burning at clean lower arrival, not throughout its terminal continuation. No dirty/unknown return joins or outgoing endpoint edges."
+                }
+              ],
+              "starts": [
+                "metal_742:741_arrival"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% Warp branches enter actual native 705 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            },
+            "cabbage592_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_707_burning_carrier",
+                "metal_742_imported_approach"
+              ],
+              "nodes": [
+                {
+                  "id": "metal_742:clean_warp",
+                  "native_room": 742
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub_790",
+                  "to": "metal_707:706_hub_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-707-imported-burning-acceptance.json carrier790right/carrier706actual: actual790 door0x88565A ->706 upper/main arrival56,40.996. The synthetic790 statue supplies fixture equipment only; production sources remain ordinary_hub_statues. Same actual transition is present in dev-docs/ordinary-707-all500-acceptance.json."
+                },
+                {
+                  "from": "metal_707:712_door",
+                  "to": "metal_742:712_carried_arrival",
+                  "evidence": "dev-docs/ordinary-742-carried-burning-acceptance.json: actual accepted carrier712actual/all500-712final endpoints are continued with the same ROM and earned checkpoint, pinned by artifact/state hashes. This explicitly qualifies retained Burning beyond the original terminal 707 witness; mere AP 712 reachability does not equip it.",
+                  "room_transition": true
+                },
+                {
+                  "from": "metal_742:clean_lower",
+                  "to": "metal_742:clean_warp",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Burning"
+                  ],
+                  "metal_evidence": {
+                    "Burning": "dev-docs/ordinary-742-carried-burning-acceptance.json: the default and 500% Warp branches enter actual native 705 after the timed door, shaft Bomb and rightward F5 top-row passage, retaining Burning and 6 HP. Outer/inner Bomb and roof mutations remain unused. dev-docs/ordinary-742-carried-burning-combined-checks.json separately proves same-visit chest then Warp after explicit Burning discard, ending Normal without reset or reacquisition. Both target results are terminal and export no equipment."
+                  },
+                  "evidence": "Only the recorded dry Burning carrier is accepted. No local acquisition, recovery or persistent opening is inferred."
+                }
+              ],
+              "starts": [
+                "hub_592"
+              ],
+              "required_targets": [
+                "metal_742:clean_warp"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_16": {
@@ -3596,6 +5466,9 @@
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_41": null
+    },
+    "logical_exit_overrides": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_41": "EAST_MOONLIGHT"
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_17": {
@@ -4329,7 +6202,15 @@
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_01": "can_swim",
       "REGION_CABBAGE_CAVERN/ROOM_3_04": "can_swim",
-      "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": "can_swim"
+      "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT": "can_swim"
+    },
+    "logical_subregions": {
+      "UPPER_LEFT": {
+        "locations": [],
+        "exits": {
+          "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB": null
+        }
+      }
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_04": {
@@ -4350,6 +6231,9 @@
     "exits": {
       "REGION_CABBAGE_CAVERN/ROOM_3_03": null,
       "REGION_CABBAGE_CAVERN/ROOM_3_05": null
+    },
+    "logical_exit_overrides": {
+      "REGION_CABBAGE_CAVERN/ROOM_3_03": "UPPER_LEFT"
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_05": {
@@ -4402,7 +6286,8 @@
               "Spark",
               "Ice",
               "Sword",
-              "Fighter"
+              "Fighter",
+              "UFO"
             ]
           },
           "graphs": {
@@ -4999,6 +6884,82 @@
               "requires_guaranteed_source": {
                 "source_key": "WADDLE_DOO",
                 "ability": "Fighter"
+              }
+            },
+            "hub2_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-ufo-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting UFO 14 at frame 1939. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous native 591 to 517 entry at frame 1109 with Normal. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Normal approaches from the right arrival, jumps and inhales the original Doo above the sealed corridor chain, then swallows. No room-wide source access is assumed.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_ufo_top_charge",
+                  "allowed_abilities": [
+                    "UFO"
+                  ],
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous UFO-specific corridor whip (2016), obstacle clearing (2201/2272) and carried flight reach dry right-facing pose (185.9961,120.9961). Maximum counter3/animation23 charge releases the player-owned large shot 0x198; its tile scanner, not damage box, reaches F1 (14,7) at 2873 through the wall. Seven F2 cells finish 2903, physical chest57 opens 3345 and the unchanged client emits local check3960511. Four HP1/6 by enemy100/500 positives and full target omissions; separate low/medium wall-stop and bounded no-permission controls. No source refresh, helper, non-source combat, generic range or intermediate-health claim.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "UFO"
               }
             }
           }
@@ -6530,6 +8491,9 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_41": null,
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": "can_break_block"
+    },
+    "logical_exit_overrides": {
+      "REGION_RAINBOW_ROUTE/ROOM_1_41": "TOP_MUSTARD"
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_08": {
@@ -8880,13 +10844,6 @@
           "kind": "block",
           "native_room": 825,
           "location": "MINOR_CHEST_MUSIC_NOTE_10",
-          "requires_guaranteed_source": {
-            "source_key": "MR_FROSTY",
-            "abilities": [
-              "Ice",
-              "UFO"
-            ]
-          },
           "graphs": {
             "local": {
               "version": 1,
@@ -8948,6 +10905,62 @@
                   "source_key": "WADDLE_DEE",
                   "acquisition_evidence": "Distinct native target at (528,136), finite instance. Swallowing consumes it and cannot also produce a projectile."
                 }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY",
+                "ability": "Ice"
+              }
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "frozen_825_permanent_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_890",
+                  "to": "frozen_825_permanent:811",
+                  "room_transition": true,
+                  "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "frozen_825_permanent:chest"
+              ]
+            },
+            "peppermint290_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "frozen_825_permanent_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_890",
+                  "to": "frozen_825_permanent:811",
+                  "room_transition": true,
+                  "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+                }
+              ],
+              "starts": [
+                "hub_290"
+              ],
+              "required_targets": [
+                "frozen_825_permanent:chest"
               ]
             },
             "ufo_entry": {
@@ -9035,11 +11048,98 @@
                   "source_key": "MR_FROSTY",
                   "acquisition_evidence": "Original finite Frosty HP30/150 defeated with Normal shots; swallow dizzy source to acquire guaranteed singleton UFO. Cold endpoint runs preserve actual Kirby HP1/6. No retries, gameplay writes or restores."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY",
+                "ability": "UFO"
+              }
             }
           }
         }
-      ]
+      ],
+      "graph_parts": {
+        "frozen_825_permanent_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "frozen_825_permanent:811",
+              "native_room": 811
+            },
+            {
+              "id": "frozen_825_permanent:829",
+              "native_room": 829
+            },
+            {
+              "id": "frozen_825_permanent:814",
+              "native_room": 814
+            },
+            {
+              "id": "frozen_825_permanent:831",
+              "native_room": 831
+            },
+            {
+              "id": "frozen_825_permanent:825",
+              "native_room": 825
+            },
+            {
+              "id": "frozen_825_permanent:launch",
+              "native_room": 825
+            },
+            {
+              "id": "frozen_825_permanent:chest",
+              "native_room": 825
+            }
+          ],
+          "routes": [
+            {
+              "from": "frozen_825_permanent:811",
+              "to": "frozen_825_permanent:829",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:829",
+              "to": "frozen_825_permanent:814",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:814",
+              "to": "frozen_825_permanent:831",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:831",
+              "to": "frozen_825_permanent:825",
+              "room_transition": true,
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            },
+            {
+              "from": "frozen_825_permanent:825",
+              "to": "frozen_825_permanent:launch",
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage. Original Frosty defeated with retained Ice and original ice-cube projectiles; no Frosty acquisition or source refresh."
+            },
+            {
+              "from": "frozen_825_permanent:launch",
+              "to": "frozen_825_permanent:chest",
+              "capability": "frozen_enemy_hit",
+              "uses_object": "0x088CD318",
+              "frozen_enemy_evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage. Freeze the distinct original Waddle, kick through wall into switch, cross temporary door and collect chest66/music1024. Atomic timed suffix; no persistent event.",
+              "evidence": "dev-docs/reconstructed-825-source-contract.md: separately qualified imported890 solo cold carrier and imported831 retained-Ice boss/projectile suffix at100/500%; not uninterrupted290-to-chest or a shared RNG lineage."
+            }
+          ],
+          "sources": [
+            {
+              "id": "0x088CD318",
+              "node": "frozen_825_permanent:launch",
+              "source_key": "WADDLE_DEE",
+              "acquisition_evidence": "Original finite projectile target; swallowing consumes the same identity and cannot also create a projectile."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_BOSS": {
@@ -10393,14 +12493,33 @@
         "location_id": 3961178,
         "bit_index": 92
       },
-      "MAJOR_CHEST_PEPPERMINT_PALACE": "can_hit_far_switch",
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": null,
-      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02": null
+      "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_01": null
     },
     "exits": {
-      "REGION_PEPPERMINT_PALACE/ROOM_7_03": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_05": null,
-      "REGION_PEPPERMINT_PALACE/ROOM_7_07": null
+      "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN": null
+    },
+    "logical_subregions": {
+      "UPPER_ENTRY": {
+        "locations": [],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL": null
+        },
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: exact upper210 arrival 24,136.996, wide Normal star-block attack clears Mirra and actual209 door1,13 reaches separate210 Snow hallway472,376.996. Not access to209 TOP or210 main."
+      },
+      "LOWER_MAP": {
+        "locations": [
+          "MAJOR_CHEST_PEPPERMINT_PALACE"
+        ],
+        "exits": {},
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: actual Snow-hall return arrives24,312.996, Normal Bomb4,17 delayed chain opens map shaft; Up sets flag22=64. Second Bomb15,23 stays241. Terminal target branch exports no mutated layout/return join."
+      },
+      "BOTTOM_MINOR": {
+        "locations": [
+          "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02"
+        ],
+        "exits": {},
+        "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: actual208 door arrives40,616.996; Normal flight and Up collect flag24=1. No access toTOP/map/left-return pocket is inferred. The minor is terminal in this conservative logic model."
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1": {
@@ -10507,6 +12626,63 @@
       "REGION_PEPPERMINT_PALACE/ROOM_7_02": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": "can_fly",
       "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "can_fly"
+    },
+    "logical_exit_overrides": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "BOTTOM_MINOR"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_208_to_209_bottom",
+          "kind": "block",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
+          "graphs": {
+            "hub290_approach": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "normal_208:hub290",
+                  "native_room": 290
+                },
+                {
+                  "id": "normal_208:upper208",
+                  "native_room": 208
+                },
+                {
+                  "id": "normal_208:bottom209",
+                  "native_room": 209
+                }
+              ],
+              "routes": [
+                {
+                  "from": "normal_208:hub290",
+                  "to": "normal_208:upper208",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: actual290 door arrives208 at232,40.996. Independent access to290 is required; startup does not grant hub unlocks."
+                },
+                {
+                  "from": "normal_208:upper208",
+                  "to": "normal_208:bottom209",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-208-bottom209-minor24-acceptance.json: Normal upper208 corridor to actual door0x888132 and209 bottom40,616.996, then minor24 collection. Bothdurabilities no loss."
+                }
+              ],
+              "starts": [
+                "normal_208:hub290"
+              ],
+              "required_targets": [
+                "normal_208:bottom209"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_04": {
@@ -10524,7 +12700,6 @@
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_05": {
     "locations": {
-      "MINOR_CHEST_SPRAY_PAINT_05": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961179,
@@ -10541,6 +12716,63 @@
           "can_climb"
         ]
       }
+    },
+    "logical_exit_overrides": {
+      "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST": "UPPER_ENTRY"
+    },
+    "logical_subregions": {
+      "SNOW_HALL": {
+        "locations": [
+          "MINOR_CHEST_SPRAY_PAINT_05"
+        ],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP": null
+        },
+        "evidence": "dev-docs/ordinary-209-snow-map-loop-acceptance.json: from actual209 Mirra door Normal crosses separate hallway, Up sets Snow flag25=2, then actual210 door29,28 reenters209 lower. No alias to210 main/Bonkers/205 or lower-right corridor."
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_210_to_209_upper",
+          "kind": "block",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+          "graphs": {
+            "205_arena_approach": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "normal_210:209_upper",
+                  "native_room": 209
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "normal_210:209_upper",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-210-bonkers-side209-entrance.json: disclosed source-proven post-defeat boundary, Normal air puff activates overhead Bomb29,12; chain changes29,12/13/14 to0/0/255. Actual door0x888D00 arrives209 at24,136.996. Scroll release alone is not door opening."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "normal_210:209_upper"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_06": {
@@ -10821,6 +13053,269 @@
         ]
       },
       "REGION_PEPPERMINT_PALACE/ROOM_7_11": null
+    },
+    "logical_subregions": {
+      "WATER_RETURN": {
+        "locations": [],
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_11": null
+        },
+        "evidence": "dev-docs/ordinary-205-normal-return-egress.json and ordinary-205-water-return-outer-join.json: actual209 TOP return into205 water, Normal Bomb23,12 opens the separate shaft, then outer-middle endpoint347.230,21.004 and left corridor reach actual205door1,2 to203. Bothdurabilities no loss, F5 intact. Only this203 exit is granted, not205 main or all outer exits."
+      }
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_205_bonkers_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:outer",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:210_upper",
+              "native_room": 210
+            },
+            {
+              "id": "metal_205:defeated_bonkers_arena",
+              "native_room": 210
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:outer",
+              "to": "metal_205:210_upper",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json normal_source_approach: actual205 door10,18 to210 live264,40.996, Normal6HP. The max500 artifact repeats this prefix."
+            },
+            {
+              "from": "metal_205:210_upper",
+              "to": "metal_205:defeated_bonkers_arena",
+              "evidence": "dev-docs/ordinary-205-source-carrier-contract.md: actual Normal ladder/right-shaft route reaches Bonkers arena393.141,232.996. Existing ordinary miniboss-combat assumption and native shared slot2 defeat/scroll-release contract, not a combined boss defeat/capture replay."
+            }
+          ]
+        },
+        "metal_205_stone_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:stone_210_lower",
+              "native_room": 210
+            },
+            {
+              "id": "metal_205:stone_floor_launch",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:stone_door_threshold",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:209_top",
+              "native_room": 209
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:stone_210_lower",
+              "to": "metal_205:stone_floor_launch",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: retain Stone through the actual lower210 climb and real Box Boxer defeat/release, then actual210 door15,2 to205 lower dry arrival. No boss/scroll substitution, copy replacement or reacquisition. Continue to the dry floor launch at350.383,120.996. The final Stone-only move requires retaining this same equipment; this private carrier does not independently certify Normal combat."
+            },
+            {
+              "from": "metal_205:stone_floor_launch",
+              "to": "metal_205:stone_door_threshold",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Stone"
+              ],
+              "metal_evidence": {
+                "Stone": "dev-docs/ordinary-205-imported-stone-acceptance.json: dry B transformation falls through all four F5x21..22/y8..9 and continues into water. Untransform without dropping Stone, swim around the shelf, use repeated ordinary water-gun shots against Blipper, then shoot the door-side Bomb and approach the209 door. Default and500% retain Stone8 with every-frame6HP. Stone cannot initiate this move while already swimming."
+              },
+              "evidence": "dev-docs/ordinary-205-209-directed-checks.md: complete dry transformation/floor/water continuation is atomic. No partial floor-only success, generic underwater Stone attack, room-persistent opening or other provider is accepted."
+            },
+            {
+              "from": "metal_205:stone_door_threshold",
+              "to": "metal_205:209_top",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual205 door29,17 reaches209 top at168,40.996; the subsequent top-pocket approach and Up set minor23 flag128 while retaining Stone. Terminal result grants no other209 compartment or reusable equipment state."
+            }
+          ]
+        },
+        "metal_205_hammer_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_205:floor_launch",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:door_threshold",
+              "native_room": 205
+            },
+            {
+              "id": "metal_205:209_top",
+              "native_room": 209
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_205:floor_launch",
+              "to": "metal_205:door_threshold",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-205-hammer-source-acceptance.json and ordinary-205-hammer-all500-acceptance.json: A1, release8, B1, wait60 twice destroys all four F5 atx21..22/y8..9; higher A6 timing failed. Both accepted traces retain Hammer with continuous6HP."
+              },
+              "evidence": "dev-docs/ordinary-205-209-directed-checks.md: the dry low aerial Hammer sequence crosses the floor, not a generic horizontal Burning or underwater floor attack. The same atomic retained-Hammer sequence includes swimming around the shelf, the final water Hammer attack and immediate approach to the209 door. No room-persistent opening is exported."
+            },
+            {
+              "from": "metal_205:door_threshold",
+              "to": "metal_205:209_top",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-205-hammer-all500-acceptance.json: swim around shelf without Bomb, left-facing water Hammer and prompt actual205 door29,17 into209 TOP, then Up sets minor23 flag128. The preceding atomic move includes the water attack; this last edge is only the door threshold crossing. Hammer retained on the accepted trace. Default independently accepted. No other209 compartment is granted."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_205_to_209_top",
+          "kind": "metal",
+          "native_room": 209,
+          "exit": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+          "graphs": {
+            "bonkers_carry": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_205_bonkers_approach"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            },
+            "rainbow190_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_190"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            },
+            "peppermint290_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_205_stone_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_290",
+                  "to": "metal_205:stone_210_lower",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-imported-stone-acceptance.json: actual290 door1,8 ->210 stored27,49/live424,776.996 with retained Stone. The synthetic290 statue only supplies imported fixture equipment; real190 Stone0x088B7CEC/STATUE:353900 and other eligible reviewed hub sources retain their actual source policy, retouch evidence and connection/key guards."
+                }
+              ],
+              "starts": [
+                "hub_290"
+              ],
+              "required_targets": [
+                "metal_205:209_top"
+              ]
+            }
+          }
+        }
+      ],
+      "source_sets": {
+        "metal_210_bonkers": {
+          "native_room": 210,
+          "sources": [
+            {
+              "id": "0x088BF730",
+              "source_key": "BONKERS",
+              "acquisition_evidence": "dev-docs/ordinary-205-source-carrier-contract.md: native Bonkers0x39 at440,232 has ability field0x351BA6=Hammer17; shared defeated-body inhale and swallow under actual policy. Finite source, no retry/respawn credit; disclosed essence is not a production placement."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_08": {
@@ -11047,8 +13542,212 @@
               }
             }
           }
+        },
+        {
+          "id": "metal_228_chest",
+          "kind": "metal",
+          "native_room": 228,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
+          "graphs": {
+            "bonkers_joint": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: resume the actual previously collected209 minor23 Hammer checkpoint, then actual209 return door9,2 ->205 stored29,18/live456,280.996. Matching parent ROM/checkpoint hashes and both flags prove one finite-source joint itinerary, not independent acquisition or assumed reset."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
+            "copy_room_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "routes": [
+                {
+                  "from": "metal_228:203",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual203 door0x08886F88 trigger59,4 to205 stored3,3; retain Hammer to the reviewed dry floor launch. No lower Box Boxer or Bonkers acquisition/release fixture."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: continuous fresh-boot itinerary collects209 minor23, then takes the actual209 return to205 water pocket retaining the same Hammer. No checkpoint splicing or reacquisition."
+                }
+              ],
+              "starts": [
+                "metal_228:970"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_228_copy_room_approach",
+                "metal_205_hammer_carrier",
+                "metal_228_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "graph_parts": {
+        "metal_228_hammer_continuation": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_228:205_water_return",
+              "native_room": 205
+            },
+            {
+              "id": "metal_228:228_lower_arrival",
+              "native_room": 228
+            },
+            {
+              "id": "metal_228:chest",
+              "native_room": 228
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_228:205_water_return",
+              "to": "metal_228:228_lower_arrival",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: retained-Hammer water-gun/Bomb shaft ascent, outer205 spike-gap flight and attack timing, then actual205 door44,2 ->228 stored26,29/live408,456.996. Default3634/max5003934 whole continuation frames remain6HP/Hammer17. This private carrier is qualified by the final Hammer-only action, not an independent Normal route."
+            },
+            {
+              "from": "metal_228:228_lower_arrival",
+              "to": "metal_228:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-228-joint-hammer-acceptance.json: ascend lower caps from below, grounded rightward Hammer near409.926,392.996 clears F5(27,23)/(27,24). Continue under the partition and up the far-right shaft, approach chest0x088C046C from the right, and Up sets flag30=64 while retaining prior flag23=128/Hammer17. Neither closing Bomb17,23 nor32,15 is activated; their F3 cells remain243. No down-through-cap or other attack provider is inferred."
+              },
+              "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: complete same-room attack/collection is atomic and terminal. No opened flag, enemy deletion, room-reset persistence, new source or equipment recovery is exported. Separate rope chest flag31 remains0; no229 route is accepted."
+            }
+          ]
+        },
+        "metal_228_copy_room_approach": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_228:970",
+              "native_room": 970
+            },
+            {
+              "id": "metal_228:801",
+              "native_room": 801
+            },
+            {
+              "id": "metal_228:290",
+              "native_room": 290
+            },
+            {
+              "id": "metal_228:210_lower",
+              "native_room": 210
+            },
+            {
+              "id": "metal_228:227",
+              "native_room": 227
+            },
+            {
+              "id": "metal_228:204",
+              "native_room": 204
+            },
+            {
+              "id": "metal_228:203",
+              "native_room": 203
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_228:970",
+              "to": "metal_228:801",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#copy-ability-room-access-and-source-contract: actual970 return record0x088B4AB8 trigger14,5 to801 stored5,4; ordinary retained-copy flight from the statues."
+            },
+            {
+              "from": "metal_228:801",
+              "to": "metal_228:290",
+              "items": [
+                "Peppermint Palace East - Hub Connection"
+              ],
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#ordinary-hub-statue-network",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "metal_228:290",
+              "to": "metal_228:210_lower",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual290 lower door to210 bottom; retain imported Hammer and leave left without entering the Box Boxer arena."
+            },
+            {
+              "from": "metal_228:210_lower",
+              "to": "metal_228:227",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual210 door0x08888D0E trigger1,23 to227 stored58,17; lower corridor avoids the boss lock."
+            },
+            {
+              "from": "metal_228:227",
+              "to": "metal_228:204",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Enter shaft from above the intact rope platform on its right; no rope cutting. Actual227 door0x0888A310 trigger16,2 to204 stored56,9."
+            },
+            {
+              "from": "metal_228:204",
+              "to": "metal_228:203",
+              "room_transition": true,
+              "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Ordinary bypass of the peg branch; actual204 door0x088870D4 trigger73,3 to203 stored3,19."
+            }
+          ],
+          "source_sets": [
+            {
+              "id": "statues_970",
+              "node": "metal_228:970",
+              "retry_evidence": "Permanent970 statue retouch before departure; eventual positive-support Hammer acquisition is the existing documented fairness assumption. Full actual source outcomes are retained."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
@@ -11064,6 +13763,134 @@
     },
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "metal_229_left1up",
+          "kind": "metal",
+          "native_room": 229,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
+          "graphs": {
+            "bonkers_joint": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-205-hammer-source-acceptance.json post_defeat_suffix and all500 counterpart: carry acquired Hammer through actual210 door15,2 to205 lower dry arrival152,296.996, climb left shaft and fly over the platform to350.121,120.996."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-joint-hammer-acceptance.json: resume the actual previously collected209 minor23 Hammer checkpoint, then actual209 return door9,2 ->205 stored29,18/live456,280.996. Matching parent ROM/checkpoint hashes and both flags prove one finite-source joint itinerary, not independent acquisition or assumed reset."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: retained-Hammer continuation after actual228 minor30; activate Bomb27,7 and12,11, use the native60-tick switch and slide under its closing door (slot1 already0 during crossing), then actual228 leftdoor0x0888A7F4 trigger16,4 to229 stored17,29/live264,456.996. This atomic carrier is qualified by the final Hammer-only action; it grants no generic229 entry, persistent switch flag or independent Normal route. The finite-source counterpart ordinary-229-finite-hammer-left1up-acceptance.json separately replays this exact suffix from the Bonkers-qualified228 checkpoint at both durability settings; no endpoint or enemy-state equivalence is assumed."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_205_hammer_carrier",
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
+            "copy_room_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "routes": [
+                {
+                  "from": "metal_228:203",
+                  "to": "metal_205:floor_launch",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: Actual203 door0x08886F88 trigger59,4 to205 stored3,3; retain Hammer to the reviewed dry floor launch. No lower Box Boxer or Bonkers acquisition/release fixture."
+                },
+                {
+                  "from": "metal_205:209_top",
+                  "to": "metal_228:205_water_return",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-228-renewable-hammer-joint-acceptance.json: continuous fresh-boot itinerary collects209 minor23, then takes the actual209 return to205 water pocket retaining the same Hammer. No checkpoint splicing or reacquisition."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "room_transition": true,
+                  "evidence": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: retained-Hammer continuation after actual228 minor30; activate Bomb27,7 and12,11, use the native60-tick switch and slide under its closing door (slot1 already0 during crossing), then actual228 leftdoor0x0888A7F4 trigger16,4 to229 stored17,29/live264,456.996. This atomic carrier is qualified by the final Hammer-only action; it grants no generic229 entry, persistent switch flag or independent Normal route. The finite-source counterpart ordinary-229-finite-hammer-left1up-acceptance.json separately replays this exact suffix from the Bonkers-qualified228 checkpoint at both durability settings; no endpoint or enemy-state equivalence is assumed."
+                }
+              ],
+              "starts": [
+                "metal_228:970"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_228_copy_room_approach",
+                "metal_205_hammer_carrier",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_COPY_ABILITY_ROOM/MAIN"
+              }
+            }
+          }
+        }
+      ],
+      "graph_parts": {
+        "metal_229_hammer_continuation": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_229:left_arrival",
+              "native_room": 229
+            },
+            {
+              "id": "metal_229:left_chest",
+              "native_room": 229
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_229:left_arrival",
+              "to": "metal_229:left_chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Hammer"
+              ],
+              "metal_evidence": {
+                "Hammer": "dev-docs/ordinary-229-renewable-hammer-left1up-acceptance.json: climb both left Bomb staircases, attack top-left F4 gap and descend the exterior left side; airborne Hammer clears F5(4..5,27), then recover by flight and Up at105.996,440.996 sets nativeflag33=2. Both default/500% retainHammer17 and priorflags23/30 without damage or reacquisition."
+              },
+              "evidence": "Complete same-room carrier, attack and collection is atomic and terminal. No opened state, equipment recovery, reset assumption or passage to the other229 checks is exported. The separate Spray32, food34 and central Warp are outside this acceptance."
+            }
+          ]
+        }
+      }
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_11": {
@@ -11358,6 +14185,121 @@
     "exits": {
       "REGION_PEPPERMINT_PALACE/ROOM_7_18": null,
       "REGION_PEPPERMINT_PALACE/ROOM_7_20": null
+    },
+    "traversal": {
+      "version": 1,
+      "graph_parts": {
+        "metal_216_burning_carrier": {
+          "version": 1,
+          "status": "reviewed",
+          "nodes": [
+            {
+              "id": "metal_216:215_arrival",
+              "native_room": 215
+            },
+            {
+              "id": "metal_216:212_arrival",
+              "native_room": 212
+            },
+            {
+              "id": "metal_216:216_right_arrival",
+              "native_room": 216
+            },
+            {
+              "id": "metal_216:chest",
+              "native_room": 216
+            }
+          ],
+          "routes": [
+            {
+              "from": "metal_216:215_arrival",
+              "to": "metal_216:212_arrival",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay."
+            },
+            {
+              "from": "metal_216:212_arrival",
+              "to": "metal_216:216_right_arrival",
+              "room_transition": true,
+              "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. Actual212-to216 transition is independently controller-proven in dev-docs/ordinary-216-imported-burning-acceptance.json at both100% and500% enemy health, retaining Burning."
+            },
+            {
+              "from": "metal_216:216_right_arrival",
+              "to": "metal_216:chest",
+              "capability": "metal",
+              "allowed_abilities": [
+                "Burning"
+              ],
+              "metal_evidence": {
+                "Burning": "dev-docs/ordinary-216-imported-burning-acceptance.json: from actual212 arrival(696,280.996), retain Burning through the lower corridor and shaft, land at(441.996,104.996), then low rightward dash through F5x28..30/y5..6. Float to chest0x088C1380 and holdUp30/release90 for native flag36 mask16. Default and500% use continuous no-loss traces. High launches into the solid cap are not accepted; no downward Burning, other provider, source reacquisition or permanent opened flag is inferred."
+              },
+              "evidence": "Exact same-room carrier/attack/collection sequence is atomic and terminal; no independent access to intermediate geometry or reusable post-check equipment is exported. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+            }
+          ]
+        }
+      },
+      "targets": [
+        {
+          "id": "metal_216_chest",
+          "kind": "metal",
+          "native_room": 216,
+          "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_19",
+          "graphs": {
+            "central_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_216_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_291",
+                  "to": "metal_216:215_arrival",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+                }
+              ],
+              "starts": [
+                "hub_801"
+              ],
+              "required_targets": [
+                "metal_216:chest"
+              ]
+            },
+            "peppermint291_statues": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+              },
+              "graph_parts": [
+                "ordinary_hub_statues",
+                "metal_216_burning_carrier"
+              ],
+              "nodes": [],
+              "routes": [
+                {
+                  "from": "hub_291",
+                  "to": "metal_216:215_arrival",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5: reviewed ordinary291 ->215 spawn(27,29) ->212 spawn(74,9) ->216 spawn(44,18) carrier uses ordinary F0 clearing and preserves equipped ability; no metal-chest branch is needed before216. This remains source/geometry evidence, not a full291-to-check controller replay. dev-docs/ordinary-216-source-carrier-contract.md separates the actual hub source from the synthetic212 imported-equipment fixture and states the positive-HP/maximum-enemy-health qualification."
+                }
+              ],
+              "starts": [
+                "hub_291"
+              ],
+              "required_targets": [
+                "metal_216:chest"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_20": {
@@ -12713,6 +15655,68 @@
     },
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_23": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "reinforced_102_battle_notes",
+          "native_room": 102,
+          "exit": null,
+          "location": "MINOR_CHEST_MUSIC_NOTE_04",
+          "kind": "reinforced",
+          "graphs": {
+            "local": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "reinforced_102_battle_notes:arrival",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:right_approach",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:cleared_corridor",
+                  "native_room": 102
+                },
+                {
+                  "id": "reinforced_102_battle_notes:target",
+                  "native_room": 102
+                }
+              ],
+              "routes": [
+                {
+                  "from": "reinforced_102_battle_notes:arrival",
+                  "to": "reinforced_102_battle_notes:right_approach",
+                  "evidence": "dev-docs/heave-ho-entry-acceptance.json and dev-docs/reinforced-traversal-implementation.md: native room 113 transition 0x008AF41E enters room 102 at spawn (74,8). Normal float-left, descend to the lower corridor and approach Heave-Ho from its right. Controller-only traversal begins in room 113, enters room 102 at (1176,120.996), reaches the approach and chest target with 4 HP from 6; no ability or enemy acquisition. Not a damage-free or one-hit witness."
+                },
+                {
+                  "from": "reinforced_102_battle_notes:right_approach",
+                  "to": "reinforced_102_battle_notes:cleared_corridor",
+                  "capability": "heave_ho_pull",
+                  "evidence": "dev-docs/heave-ho-native-acceptance.json and dev-docs/reinforced-traversal-implementation.md: Normal right-hand suction and leftward passage.",
+                  "heave_ho_evidence": "Native room 102 type 0x79 template 0x008D21C8 starts at (488,280). Pull from its right into disposal shaft column 31; falling attack flag 0x800 removes F7 at (31,19..22). The cleared target corridor is left, not down through the shaft. Controller proof retains Normal and crosses left; no carried-ability preservation or room-reload lifetime assumed."
+                },
+                {
+                  "from": "reinforced_102_battle_notes:cleared_corridor",
+                  "to": "reinforced_102_battle_notes:target",
+                  "evidence": "Controller walks left along the now-clear tunnel to native Battle Notes chest 0x008D230C at (208,296). Target position reached with Normal; collection-save acceptance is separate."
+                }
+              ],
+              "sources": [],
+              "starts": [
+                "reinforced_102_battle_notes:arrival"
+              ],
+              "required_targets": [
+                "reinforced_102_battle_notes:target"
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_23": {

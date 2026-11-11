@@ -9,6 +9,7 @@ from types import SimpleNamespace
 import pytest
 from BaseClasses import CollectionState, ItemClassification
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..client import KirbyAmClient
 from ..data import data
@@ -29,7 +30,7 @@ POLICIES = [
     (0, None, 0, 'Beam'), (1, ['Beam'], 0, 'Beam'), (1, ['Smash'], 0, 'Smash'),
     (1, ['Missile'], 0, 'Missile'), (1, ['Fire'], 0, 'Fire'), (1, ['Spark'], 0, 'Spark'),
     (1, ['Ice'], 0, 'Ice'), (1, ['Sword'], 0, 'Sword'),
-    (1, ['Fighter'], 0, 'Fighter'),
+    (1, ['Fighter'], 0, 'Fighter'), (1, ['UFO'], 0, 'UFO'),
     (2, ['Missile'], 0, 'Missile'), (2, ['Missile', 'Smash'], 0, None),
     (2, ['Missile', 'Fire'], 0, None), (2, ['Missile', 'Ice'], 0, None),
     (2, ['Missile'], 50, None), (2, ['Missile'], 100, None),
@@ -51,7 +52,7 @@ def test_independent_beam_smash_missile_or_policy(mode, pool, weight, ability, s
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
         assert results == [ability == name for name in
-                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter')]
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # The same enemy key does not widen Carrot's independently reviewed alternatives.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Missile':
@@ -128,7 +129,7 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
         monkeypatch, gating, area_keys, statues, room_sanity, minor_chests):
     raw = json.loads(EVIDENCE.read_text())['source_policy']
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=0)
@@ -175,7 +176,7 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
 @pytest.mark.parametrize('gating', [0, 1])
 def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool, weight, ability, gating):
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     assert world.create_item('Missile Ability').classification == (
@@ -183,7 +184,7 @@ def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert chest.access_rule(state) is (ability is None)
-    for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Spark', 'Ice', 'Sword', 'Fighter'):
+    for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
     assert chest.access_rule(state) is (ability is None)
     state.can_reach_region = lambda name, player: name == UPSTREAM
@@ -294,7 +295,7 @@ def test_reconciliation_does_not_recollect_already_progression_missile(monkeypat
     from test.general import setup_multiworld
 
     raw = json.loads(EVIDENCE.read_text())['source_policy']
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=5, options={
         'ability_randomization_mode': 1, 'ability_gating': 1, 'accessibility': 'minimal',
     })

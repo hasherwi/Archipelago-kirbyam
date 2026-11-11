@@ -14,10 +14,12 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Add the finite original Waddle Doo-to-UFO carry and maximum-charge large shot as a tenth Chocolate chest alternative, preserving source permission and all nine existing routes (PR #1052).
 - Add the original finite Waddle Doo-to-Fighter route and ordinary first combo as a ninth Chocolate chest alternative, preserving prior routes and Fighter permission behavior (PR #1052).
 - Add the original finite Waddle Doo-to-Sword route and ordinary first slash as another Chocolate chest alternative, preserving its seven existing routes (PR #1052).
 - Add source-aware, entry-specific ranged routes for selected Bomb Blocks, timed switches, the Mustard map and Olive Sound Effects chest. Each accepted alternative keeps its own finite source, carried ability, attack and timing requirements; ordinary solo alternatives remain available (PR #1052).
-- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
+- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. Stone and Burning are now progression unlocks when ability gating is enabled; only Beam is automatically precollected. Explicit starting inventory and historical seed gate lists remain supported (PR #1051).
+- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest accepts its finite Frosty Ice/UFO witnesses or a guarded permanent Ice source and carry route, independently of Frosty assignment (PRs #1048, #1051, #1052).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
@@ -25,16 +27,26 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
+- Beam remains automatically precollected. Native evidence consists of bounded source, carrier and action proofs, not uninterrupted full-game, direct AP one-HP or universal multiplayer replays.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
 - Keep the Carrot Castle Room 7 route limited to Room 13's lower compartment, and gate only the reviewed Rainbow Green Paint, Carrot Yellow Paint and Cabbage Chocolate chest targets. Preserve unrelated exits, Secret Notes and Room Sanity checks (PR #1052).
 - Reconcile conditional Ice, Crash, Missile, Parasol, Magic and Spark starting permissions after their target locations or entrances exist, preserving requested item counts and unrelated classifications (PR #1052).
+- Add guarded permanent Burning alternatives for the Batafire and Master Hand chests, and classify required Ice before region creation for explicit Main-order starting inventory (PR #1051).
+- Require reviewed Burning routes through Rainbow Route Room 41 and Moonlight Mansion Rooms 4, 5 and 15, preserving directed entrances and independent checks. Remove the unvalidated Moonlight Room 15 upper-return shortcut to its Warp Star (PR #1051).
+- Add reviewed Stone access to Beginning Notes and retained-Hammer access to Peppermint Palace's left 1-Up chest. Keep separately demonstrated Normal routes free of unnecessary copied-ability requirements (PR #1051).
+- Require an actual Hammer source and reviewed carry route for the Peppermint Palace7-9 metal chest. Joint native traces preserve the same Hammer through its earlier Room7 chest; renewable Copy Ability Room statues support mixed-live source policies without assuming a lucky Bonkers grant. The separate rope chest is unchanged.
+- Keep Cabbage Cavern Room3's fresh upper-left entrance separate from its lower/right passages. Preserve the directed Normal Bomb and swimming routes without requiring a metal ability or duplicating its room check.
+- Keep Peppermint Palace's three chest-room approaches and Snow hallway separate. Require a reviewed Bonkers-Hammer or renewable statue-backed Stone route through the Room7 floor, preserving exact check IDs and one room check per physical room.
+- Require a reviewed physical Burning source and carry route for the Peppermint Palace7-19 metal chest, while preserving both ordinary exits and its room check.
+- Reject seeds that leave enabled Kirby checks unreachable, including under minimal accessibility. Reuse bounded source-assignment validation for minimal and audit actual placed progression after finalization; the safety guard is separate from the source-backed starting-inventory change.
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
 - Add a normalized traversal-target ownership ledger, move-specific native evidence and regressions. Correct the native-object scanner to follow size-terminated streams and the actual spawn-list field (PR #1052).
+- Preserve the historical 22-ability fallback for legacy slots, add source-aware traversal and native-evidence regressions, and classify expected unsafe minimal-accessibility generation rejections separately from successful fuzz runs (PR #1051).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0

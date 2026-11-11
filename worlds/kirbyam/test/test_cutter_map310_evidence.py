@@ -165,10 +165,13 @@ def test_tracked_source_uses_lf_but_frozen_packet_hashes_remain_raw():
     e = evidence()
     raw = (Path(__file__).resolve().parents[1] / 'client.py').read_bytes()
     assert e['tracked_client_hash_format'] == 'UTF-8 text with LF line endings (Git blob content)'
-    assert e['tracked_client_sha256'] == lf_text_sha256(raw)
+    assert e['tracked_client_sha256'] == 'b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9'
+    # Preserve e's historical client identity; current client comes from main.
+    union = json.loads((Path(__file__).parents[1] / 'dev-docs/main-ranged-union-catalog.json').read_text())
+    assert union['adopted_main_source_sha256']['client.py'] == lf_text_sha256(raw)
     lf = raw.replace(b'\r\n', b'\n').replace(b'\r', b'\n')
     assert lf_text_sha256(lf.replace(b'\n', b'\r\n')) == hashlib.sha256(lf).hexdigest()
-    assert lf_text_sha256(raw + b' ') != e['tracked_client_sha256']
+    assert lf_text_sha256(raw + b' ') != union['adopted_main_source_sha256']['client.py']
     assert e['private_artifact_sha256']['primary/packet-manifest.json'] == (
         '2a5babe84f2595c3ecf8433979e8128a0443bcd21ca9f5f4dee4c8008f28f3eb')
     assert e['private_artifact_sha256']['primary/acceptance.json'] == (

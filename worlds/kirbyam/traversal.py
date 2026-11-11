@@ -20,6 +20,11 @@ from .enemy_ability_runtime_patch import (
 )
 
 
+METAL_BREAKING_ABILITIES = frozenset({
+    "Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master",
+})
+
+
 CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
     "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
@@ -27,8 +32,16 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "mini_corridor": frozenset({"Mini"}),
     # These are attack classes, not permission-to-equip shortcuts. Room data
     # must still establish direction, reach, source and water state.
-    "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+    "metal": METAL_BREAKING_ABILITIES - {"Throw"},
+    # Throw is a physical capture-and-release sequence, never an unarmed attack.
+    "metal_throw": frozenset({"Throw"}),
+    # A reviewed dry ordinary-block attack/carry, not a metal crossing. Only
+    # Burning has an accepted provider witness for this class so far.
+    "ordinary_block_hit": frozenset({"Burning"}),
     "frozen_enemy_hit": frozenset({"Ice"}),
+    # Normal suction moves an existing Heave-Ho into a reviewed disposal path.
+    # This is not an attack against metal or an inventory-granted ability.
+    "heave_ho_pull": frozenset({"Normal"}),
     "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     # Target-specific native witnesses, NOT a general wall-piercing class.
     "bomb_110_room9": frozenset({"Spark"}),
@@ -44,6 +57,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_517_parasol_swing": frozenset({"Parasol"}),
     "bomb_517_sword_first_slash": frozenset({"Sword"}),
     "bomb_517_fighter_first_combo": frozenset({"Fighter"}),
+    "bomb_517_ufo_top_charge": frozenset({"UFO"}),
     "bomb_719_room13": frozenset({"Beam"}),
     "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
     "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
@@ -77,6 +91,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_517_parasol_swing": 517,
     "bomb_517_sword_first_slash": 517,
     "bomb_517_fighter_first_combo": 517,
+    "bomb_517_ufo_top_charge": 517,
     "bomb_719_room13": 719,
     "bomb_719_fighter_first_combo": 719,
     "bomb_719_sword_repeated_slash": 719,
@@ -341,22 +356,43 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             or not route.required_equipment <= _NATIVE_EQUIPMENT
         ):
             raise ValueError("Required equipment must be a nonempty set of native ability names")
+        if route.capability == "heave_ho_pull":
+            if route.water_state != "dry":
+                raise ValueError("Heave-Ho pulling needs a dry Normal suction approach")
+            if route.opens is not None:
+                raise ValueError("Heave-Ho pulling does not model a persistent opens event")
+            if route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room:
+                raise ValueError("Heave-Ho pulling must be a local mechanism sequence")
+        if route.capability in {"metal", "metal_throw"} and (
+            route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room
+        ):
+            raise ValueError("A metal attack sequence must remain in its native room")
+        if route.capability == "ordinary_block_hit":
+            if route.opens is not None:
+                raise ValueError("Atomic ordinary-block carrier cannot have a persistent opens event")
+            if route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room:
+                raise ValueError("An ordinary-block attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability == "frozen_enemy_hit") != (route.uses_object is not None):
-            raise ValueError("A frozen-enemy hit needs a physical target object and no unrelated capability")
-        if route.capability == "frozen_enemy_hit" and route.opens is not None:
-            raise ValueError("Frozen-enemy hit cannot have a persistent opens event")
+        if (route.capability in {"frozen_enemy_hit", "metal_throw"}) != (route.uses_object is not None):
+            raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
+        if route.capability in {"frozen_enemy_hit", "metal_throw"} and route.opens is not None:
+            raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
             candidates = objects.get(route.uses_object, ())
             if len(set(candidates)) > 1:
-                raise ValueError("Conflicting physical source identity for frozen target")
+                raise ValueError("Conflicting physical source identity for projectile target")
             if not candidates or candidates[0].identity is None or candidates[0].node != route.source:
                 raise ValueError("Route object must be a physical source in its launch compartment")
+            if route.capability == "metal_throw":
+                target_source = _SOURCE_BY_KEY.get(candidates[0].source_key)
+                if target_source is None or not target_source.can_be_swallowed:
+                    raise ValueError(
+                        "Throw target must be a reviewed eligible enemy, not a statue or ineligible source")
             if candidates[0].renewable:
-                raise ValueError("Frozen enemy needs a one-use physical placement")
+                raise ValueError("Projectile target needs a one-use physical placement")
         # Native cannon_fuse.c regrows the fuse after its timed pause; ignition
         # cannot grant a persistent room-local opened event. The Crash533 and
         # Magic533 gates close during the witnessed Normal crossing. UFO825 also uses
@@ -391,6 +427,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[str, Grant] = {}
+    expanded_sources: set[tuple[str, frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
@@ -412,25 +449,32 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
             queue.append(Position(position.node, "Normal", position.opened, position.consumed))
-        for source in sources[position.node]:
-            if not source.requirements <= owned:
-                continue
-            identity = source.identity or f"{source.node}:{source.source_key}"
-            if identity in position.consumed:
-                continue
-            consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = source_grant(source.source_key)
-            abilities = grant.guaranteed
-            if (allow_documented_retries and source.renewable and source.retry_evidence
-                    and grant.randomized and grant.abilities):
-                abilities = grant.abilities
-                assumptions.add(source.retry_evidence)
-            for granted_ability in abilities:
-                queue.append(Position(position.node, granted_ability, position.opened, consumed))
-            if not grant.can_fail and grant.abilities and not abilities:
-                # Player receives one of these, not all of them. Retain the
-                # uncertainty: a subsequent edge must work for EVERY outcome.
-                queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+        # Acquiring a source replaces equipment; its successors depend only on
+        # this physical phase and the fixed policy/permissions, not what is held.
+        # Keep both phase sets: finite source use and opened barriers must never
+        # be merged. Route, drop and recovery expansion still uses every Position.
+        source_phase = (position.node, position.opened, position.consumed)
+        if source_phase not in expanded_sources:
+            expanded_sources.add(source_phase)
+            for source in sources[position.node]:
+                if not source.requirements <= owned:
+                    continue
+                identity = source.identity or f"{source.node}:{source.source_key}"
+                if identity in position.consumed:
+                    continue
+                consumed = position.consumed if source.renewable else position.consumed | {identity}
+                grant = source_grant(source.source_key)
+                abilities = grant.guaranteed
+                if (allow_documented_retries and source.renewable and source.retry_evidence
+                        and grant.randomized and grant.abilities):
+                    abilities = grant.abilities
+                    assumptions.add(source.retry_evidence)
+                for granted_ability in abilities:
+                    queue.append(Position(position.node, granted_ability, position.opened, consumed))
+                if not grant.can_fail and grant.abilities and not abilities:
+                    # Player receives one of these, not all of them. Retain the
+                    # uncertainty: a subsequent edge must work for EVERY outcome.
+                    queue.append(Position(position.node, grant.abilities, position.opened, consumed))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -520,12 +564,59 @@ class TraversalGraph:
         )
 
 
+def _validate_heave_ho_evidence(row: Mapping[str, Any]) -> None:
+    if row.get("capability") == "heave_ho_pull":
+        evidence = row.get("heave_ho_evidence")
+        if not isinstance(evidence, str) or not evidence.strip():
+            raise ValueError("Heave-Ho pulling requires object, approach and disposal evidence")
+    elif "heave_ho_evidence" in row:
+        raise ValueError("Heave-Ho evidence requires the local pulling mechanism")
+
+
+def _validate_projectile_evidence(row: Mapping[str, Any]) -> None:
+    evidence_key = {"frozen_enemy_hit": "frozen_enemy_evidence", "metal_throw": "throw_evidence"}.get(
+        row.get("capability", ""))
+    if row.get("uses_object") is not None:
+        if evidence_key is None:
+            raise ValueError("Physical target object requires a projectile capability")
+        evidence = row.get(evidence_key)
+        if not isinstance(evidence, str) or not evidence.strip():
+            raise ValueError("Projectile requires freeze/kick evidence or capture/throw evidence")
+    for key in ("frozen_enemy_evidence", "throw_evidence"):
+        if key in row and (key != evidence_key or row.get("uses_object") is None):
+            raise ValueError("Projectile evidence requires the matching physical target object")
+    if evidence_key is not None and row.get("opens") is not None:
+        raise ValueError("Projectile hit cannot have a persistent opens event")
+
+
+def _validate_metal_evidence(row: Mapping[str, Any]) -> None:
+    """Each accepted move is an atomic room witness, not another search state.
+
+    Evidence must cover the launch/capture point, direction, clearance, charge,
+    water at initiation and impact, and exact native barrier. The compiler only
+    checks completeness of provider attribution; it cannot prove that evidence.
+    """
+    if row.get("capability") not in {"metal", "metal_throw"}:
+        if "metal_evidence" in row:
+            raise ValueError("Metal evidence requires an ordinary-metal capability")
+        return
+    allowed = row.get("allowed_abilities")
+    if (not isinstance(allowed, list) or not allowed
+            or any(not isinstance(ability, str) for ability in allowed)
+            or len(set(allowed)) != len(allowed)):
+        raise ValueError("Metal routes need explicit unique reviewed ability providers")
+    evidence = row.get("metal_evidence")
+    if (not isinstance(evidence, dict) or set(evidence) != set(allowed)
+            or any(not isinstance(value, str) or not value.strip() for value in evidence.values())):
+        raise ValueError("Metal routes need move and geometry evidence for every allowed ability")
+
+
 def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     if set(row) - {
         "from", "to", "capability", "opens", "items", "area_key_items", "evidence",
         "allowed_abilities", "recover_dropped_ability", "room_transition",
         "room_instance", "reset_evidence", "water_state", "uses_object",
-        "frozen_enemy_evidence", "required_equipment",
+        "frozen_enemy_evidence", "required_equipment", "heave_ho_evidence", "metal_evidence", "throw_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -534,18 +625,12 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         raise ValueError("Unknown room instance policy")
     if row.get("room_instance") == "reset" and not row.get("reset_evidence"):
         raise ValueError("Room reset is missing evidence")
-    if row.get("uses_object") is not None and (
-        not isinstance(row.get("frozen_enemy_evidence"), str)
-        or not row["frozen_enemy_evidence"].strip()
-    ):
-        raise ValueError("Frozen enemy requires freeze/kick evidence")
-    if "frozen_enemy_evidence" in row and row.get("uses_object") is None:
-        raise ValueError("Frozen-enemy evidence requires a physical target object")
-    if row.get("capability") == "frozen_enemy_hit" and row.get("opens") is not None:
-        raise ValueError("Frozen-enemy hit cannot have a persistent opens event")
+    _validate_projectile_evidence(row)
     for key in ("recover_dropped_ability", "room_transition"):
         if not isinstance(row.get(key, False), bool):
             raise ValueError(f"{key} must be a boolean")
+    _validate_heave_ho_evidence(row)
+    _validate_metal_evidence(row)
     equipment = row.get("required_equipment")
     if "required_equipment" in row and (
         not isinstance(equipment, list) or not equipment
@@ -561,6 +646,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
             and row.get("opens") is not None):
         raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                          if capability == "fuse" else "Timed switch attack cannot have a persistent opens event")
+    if capability == "ordinary_block_hit" and row.get("opens") is not None:
+        raise ValueError("Atomic ordinary-block carrier cannot have a persistent opens event")
     providers = CAPABILITY_ABILITIES.get(capability, frozenset()) if isinstance(capability, str) else frozenset()
     if allowed is not None and (
         not allowed or not set(allowed) <= providers

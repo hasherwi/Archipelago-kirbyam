@@ -1,0 +1,38 @@
+[
+  {
+    "filename": "ordinary-176-solo-burning-acceptance.json",
+    "sha256": "c3dfdd87c5902a8ffeda525f8f1a82ec7509078022c0e6d66a4d3475842584f7",
+    "bytes": 105136,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  },
+  {
+    "filename": "ordinary-194-176-burning-carrier-acceptance.json",
+    "sha256": "3c295062809d796ed907d8eb1c11fd7c277aa4cb90714b45bbf49c79525ae41f",
+    "bytes": 43618,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  },
+  {
+    "filename": "ordinary-592-hub-conditional-burning-prefix.json",
+    "sha256": "dadb3b23be04527e4bfd68d8af1d681d0c7182fff3de6bbb00cdc784745418cc",
+    "bytes": 14312,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  },
+  {
+    "filename": "carrier-reviewed-100.json",
+    "sha256": "0aeb5349cae89cbbd3a807c5721c380add7249ecc1592b2283bebba6398eaee0",
+    "bytes": 470980,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  },
+  {
+    "filename": "carrier-reviewed-500.json",
+    "sha256": "e6a7f8cf9fa84021d8a415991a0a7ff83a5007ec99b70b1a34b726021cf2b940",
+    "bytes": 505626,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  },
+  {
+    "filename": "ordinary-557-carried-burning-combined-acceptance.json",
+    "sha256": "c8dbe9d1bb2f7a5ed0e556dd3cae4eae024a0129762501797cd2d33a101b1724",
+    "bytes": 100919,
+    "scope": "Hash and size reference to a locally reviewed validation input. Raw controller payload is not included in this repository."
+  }
+]

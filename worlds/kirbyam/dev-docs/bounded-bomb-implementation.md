@@ -1,6 +1,6 @@
 # Bounded bomb traversal implementation
 
-Status: partial implementation, 2026-11-10. The conditional Rainbow110→554
+Status: partial implementation, 2026-11-11. The conditional Rainbow110→554
 upper-source rule, conditional Cabbage517 Chocolate chest rule, conditional
 Carrot719→734 lower-compartment rule, selective Rainbow138 Green Paint
 chest rule and entry-bound Carrot733 Yellow Paint UFO rule are installed. Other source-policy/target subsets remain open.
@@ -19,6 +19,9 @@ no global wall-piercing class or numerical range assumption:
 | `bomb_517_fire_breath` | Same exact Room517 F1 (14,7) and Chocolate chest | Neutral traveling Fire breath packet from the reviewed dry pose |
 | `bomb_517_missile_blast` | Same exact Room517 F1 (14,7) and Chocolate chest | Down-right local Missile detonation with a ±24 tile scanner |
 | `bomb_517_parasol_swing` | Same exact Room 517 F1 (14,7) and Chocolate chest | Dry active forward swing with actual bounds (16,-11,48,11), not held umbrella |
+| `bomb_517_sword_first_slash` | Same exact Room 517 F1 (14,7) and Chocolate chest | Ordinary first slash after finite original Doo acquisition and Sword carry |
+| `bomb_517_fighter_first_combo` | Same exact Room 517 F1 (14,7) and Chocolate chest | Ordinary first combo after finite original Doo acquisition and Fighter carry |
+| `bomb_517_ufo_top_charge` | Same exact Room 517 F1 (14,7) and Chocolate chest | Maximum-charge large shot from the witnessed dry pose after finite original Doo acquisition and UFO carry |
 | `bomb_719_room13` | Room719 recessed door to Room13's 1-Up compartment | Beam |
 | `bomb_719_fighter_first_combo` | Same lower-entry gate, ordinary first combo | Fighter |
 | `bomb_719_sword_repeated_slash` | Same lower-entry gate, three-tap animation111 | Sword |
@@ -70,16 +73,15 @@ is not replaced by room-wide enemy assumptions:
   cover natural mode, gating off, actual HP1/6 and enemy100%/500%; supported
   50–99% and 101–499% settings remain unreplayed. Only the optional paint
   check is gated, with existing Room8 Spark classification unchanged.
-- Cabbage517: installed only for a guaranteed singleton WADDLE_DOO→Beam,
-  WADDLE_DOO→Smash, WADDLE_DOO→Fire or WADDLE_DOO→Missile, with independent
-  Cabbage Hub2 access.
-  Separate [Smash](cabbage-smash-source-witness.md) and
-  [Fire](cabbage-fire-source-witness.md) and
-  [Missile](cabbage-missile-source-witness.md) witnesses prove complete production
-  acquisition/carry and the physical chest check. Beam, Smash, Fire and Missile
-  are separate OR graphs inside one target row. Fire and Missile guard the
-  raw source policy before permission filtering, rejecting mixed random pools.
-  Spark/Ice target-hit witnesses still do not establish their source carry routes.
+- Cabbage 517: installed only for a raw guaranteed singleton WADDLE_DOO grant
+  of Beam, Smash, Fire, Missile, Parasol, Spark, Ice, Sword, Fighter or UFO,
+  with independent Cabbage Hub2 access. These ten alternatives are separate OR
+  graphs on the same Chocolate target, each retaining its own finite original
+  source acquisition, carried ability and witnessed attack. Permission filtering
+  does not narrow an uncertain mixed pool into a guarantee or supply equipment.
+  The [UFO witness](cabbage-ufo-source-witness.md) adds only its dry maximum-charge
+  large shot; the earlier source witnesses and all nine prior graphs remain
+  unchanged. No room-wide source access or new exit follows from these proofs.
 - Carrot719: installed only for guaranteed WADDLE_DOO→Beam/Fighter/Sword, using
   the lower native Doo(568,456) and independent Room5 access. Separate Beam,
   [Fighter](carrot-room7-fighter-witness.md) and
@@ -224,3 +226,24 @@ retained even with minor chests disabled; there is no new lifecycle behavior.
 Historical reconstruction tests pin the reviewed Fighter graph before removing
 it from old snapshots, and mutation tests still reject edited source/access
 conditions or unrelated changes. Native acceptance is separate from host tests.
+
+## Cabbage UFO validation
+
+`test_cabbage_ufo.py` and `test_cabbage_ufo_evidence.py` cover the tenth
+Chocolate alternative's finite original source, strict raw singleton guarantee,
+independent Hub2 access, actual equipment, dry room 517 capability and exact
+chest ownership. The focused suite passed 2,265 tests, including 24 complete
+seed 52 generations across gating, Area Keys, enemy 100%/500% and starting UFO
+counts 0/1/3 at HP1. Exact graph/catalog hashes preserve all nine prior
+alternatives; historical reconstruction removes only the hash-pinned UFO
+addition. UFO already has progression classification, so no factory or
+starting-inventory lifecycle change is required.
+
+The separately reviewed native evidence is documented in
+`cabbage-ufo-source-witness.md` and `cabbage-ufo-acceptance.json`. All 12 accepted
+traces were independently audited; only the HP1, enemy 500% positive/omission
+pair was freshly replayed by that review. The evidence is bounded to its finite
+source, actual carry, dry launch pose and HP1/6 by enemy 100%/500% endpoints.
+Low/medium wall-stop controls do not rule out every other possible route, and
+the no-permission negative is acquisition-only. Host tests are not native
+replays, a full aggregate pass or proof of arbitrary arrivals and RNG.

@@ -1,4 +1,4 @@
-"""Finite Frosty UFO825 alternative, separate from the unchanged Ice witness."""
+"""Finite Frosty UFO825 alternative alongside finite and permanent Ice witnesses."""
 
 from copy import deepcopy
 from dataclasses import replace
@@ -35,8 +35,12 @@ def qualified_endpoint_graph(keys=False):
     (2, True, ['Ice', 'UFO'], 0, False), (2, True, ['UFO'], 1, False),
     (2, True, ['UFO'], 100, False),
 ])
-def test_exact_singleton_applicability(mode, minibosses, pool, weight, expected):
-    assert rules.target_applies(row(), policy(mode, minibosses=minibosses, pool=pool, weight=weight)) is expected
+def test_target_unconditional_finite_graphs_require_raw_singletons(mode, minibosses, pool, weight, expected):
+    resolver = policy(mode, minibosses=minibosses, pool=pool, weight=weight)
+    assert rules.target_applies(row(), resolver)
+    owned = frozenset({'Ice Ability', 'UFO Ability'})
+    finite = (room_traversal_graph(TARGET, 'local'), graph())
+    assert any(g.evaluate(resolver, owned, True).reaches(next(iter(g.required_targets))) for g in finite) is expected
 
 
 @pytest.mark.parametrize('gating', [False, True])
@@ -84,8 +88,8 @@ def test_compiler_rejects_persistent_credit():
 
 def test_partial_witness_cannot_be_reused_for_another_target():
     payload = deepcopy(row())
-    payload['id'] = 'not_the_reviewed_chest'
-    with pytest.raises(ValueError, match='only to its reviewed chest'):
+    payload['requires_guaranteed_source'] = {'source_key': 'MR_FROSTY', 'abilities': ['Ice', 'UFO']}
+    with pytest.raises(ValueError, match='Unsupported guaranteed-source'):
         load_room_traversal({payload['region']: {'traversal': {'version': 1, 'targets': [payload]}}})
 
 
@@ -102,15 +106,15 @@ def test_entry_requires_independent_known831_arrival():
 
 def test_same_location_or_graph_and_ice_classification_unchanged():
     r = row()
-    assert set(r['graphs']) == {'local', 'ufo_entry'}
+    assert set(r['graphs']) == {'local', 'ufo_entry', 'central_statues', 'peppermint290_statues'}
     assert r['location'] == 'MINOR_CHEST_MUSIC_NOTE_10'
     assert r['region'] == 'REGION_OLIVE_OCEAN/ROOM_6_GOAL_2'
     world = SimpleNamespace(
-        player=1, _enemy_copy_ability_policy=policy(1, pool=['UFO']).policy,
+        player=1, ENABLE_MINOR_CHESTS=True, _enemy_copy_ability_policy=policy(1, pool=['UFO']).policy,
         _ability_gating_enabled=lambda: True,
         multiworld=SimpleNamespace(get_location=lambda *_: object()),
     )
-    assert not rules.goal2_ice_is_progression(world)
+    assert rules.goal2_ice_is_progression(world)
     ice = room_traversal_graph(TARGET, 'local')
     target, = ice.required_targets
     assert ice.evaluate(policy(), frozenset({'Ice Ability'}), True).reaches(target)
@@ -140,7 +144,7 @@ def test_real_world_conditional_binding_under_explicit_entry_qualification(monke
     label = data.locations['MINOR_CHEST_MUSIC_NOTE_10'].label
     item = world.create_item('UFO Ability')
     assert item.classification == ItemClassification.progression
-    assert not rules.goal2_ice_is_progression(world)
+    assert rules.goal2_ice_is_progression(world) is (enabled and gating)
     if not enabled:
         with pytest.raises(KeyError):
             world.multiworld.get_location(label, 1)
@@ -275,5 +279,7 @@ def test_original_ice_payload_is_unchanged():
     import hashlib
     import json
 
-    digest = hashlib.sha256(json.dumps(row()['graphs']['local'], sort_keys=True).encode()).hexdigest()
+    payload = deepcopy(row()['graphs']['local'])
+    assert payload.pop('requires_guaranteed_source') == {'source_key': 'MR_FROSTY', 'ability': 'Ice'}
+    digest = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
     assert digest == '0877c16ae5f777b0bf6961c4ea89d6f7c7e165b6f5358dd8157a444ff3557622'

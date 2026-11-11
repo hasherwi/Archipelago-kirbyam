@@ -59,6 +59,15 @@ def test_each_compartment_reaches_one_physical_check_without_traversal(parent, e
         # These compartments have reviewed ordinary one-way egress to main.
         # In Mustard 5, the right-side bomb opens the return path to the left.
         expected.add(parent)
+    if entry == "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT":
+        # ordinary-141-directed-burning-acceptance.json normal_east_to_top:
+        # Normal flies upward through the0x0F cap from the east corridor.
+        # This directed physical edge is not provided by the room-check sink.
+        expected.add("REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD")
+    if entry == "REGION_CABBAGE_CAVERN/ROOM_3_03":
+        # Native529 lower/right approaches can activate the left Bomb chain
+        # from below. Fresh upper-left arrival cannot borrow that opened path.
+        expected.add("REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT")
     assert {name for name in names if regions[name].can_reach(state)} == expected
 
 

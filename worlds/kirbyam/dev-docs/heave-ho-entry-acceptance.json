@@ -1,0 +1,372 @@
+{
+  "baseline_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "fixture_changes": [
+    {
+      "offset": "0x2D8CB8",
+      "type": "4 little-endian uint16",
+      "values": [
+        113,
+        101,
+        101,
+        101
+      ],
+      "purpose": "Start P1 beside existing native113\u2192102 door; place AI elsewhere"
+    },
+    {
+      "offset": "0x2D8CD0",
+      "type": "8 little-endian int32,24.8 fixed point",
+      "values_pixels": [
+        56,
+        80,
+        48,
+        80,
+        48,
+        80,
+        48,
+        80
+      ]
+    }
+  ],
+  "rom_sha256": "2eb6e90b4c3e3f477f391432fe4d8604541e50987d62006ee67b0c8cfda0bd94",
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "initial_save": "blank 32768-byte FF SRAM; cold boot through native new-game sequence",
+  "inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 1086,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 1206,
+      "frames": 1,
+      "keys": 33
+    },
+    {
+      "start": 1207,
+      "frames": 2,
+      "keys": 32
+    },
+    {
+      "start": 1209,
+      "frames": 420,
+      "keys": 33
+    },
+    {
+      "start": 1629,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 1630,
+      "frames": 100,
+      "keys": 0
+    },
+    {
+      "start": 1730,
+      "frames": 260,
+      "keys": 32
+    },
+    {
+      "start": 1990,
+      "frames": 100,
+      "keys": 0
+    },
+    {
+      "start": 2090,
+      "frames": 30,
+      "keys": 128
+    },
+    {
+      "start": 2120,
+      "frames": 1,
+      "keys": 129
+    },
+    {
+      "start": 2121,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 2181,
+      "frames": 8,
+      "keys": 16
+    },
+    {
+      "start": 2189,
+      "frames": 1,
+      "keys": 32
+    },
+    {
+      "start": 2190,
+      "frames": 240,
+      "keys": 2
+    },
+    {
+      "start": 2430,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2460,
+      "frames": 240,
+      "keys": 2
+    },
+    {
+      "start": 2700,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2730,
+      "frames": 90,
+      "keys": 32
+    },
+    {
+      "start": 2820,
+      "frames": 165,
+      "keys": 32
+    },
+    {
+      "start": 2985,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 2986,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 3006,
+      "frames": 100,
+      "keys": 0
+    }
+  ],
+  "runtime_memory_writes": [],
+  "checkpoints": [
+    {
+      "label": "room113",
+      "frame": 1085,
+      "room": 113,
+      "x": 40.0,
+      "y": 72.99609375,
+      "hp": 6,
+      "ability": 0
+    },
+    {
+      "label": "entry",
+      "frame": 1206,
+      "room": 102,
+      "x": 1176.0,
+      "y": 120.99609375,
+      "hp": 6,
+      "ability": 0
+    },
+    {
+      "label": "approach",
+      "frame": 2181,
+      "room": 102,
+      "x": 534.0,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "after-inhale",
+      "frame": 2730,
+      "room": 102,
+      "x": 540.6484375,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "left-corridor",
+      "frame": 2820,
+      "room": 102,
+      "x": 427.7265625,
+      "y": 280.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-position",
+      "frame": 2985,
+      "room": 102,
+      "x": 213.7421875,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-animation",
+      "frame": 3006,
+      "room": 102,
+      "x": 212.5,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    },
+    {
+      "label": "chest-open",
+      "frame": 3106,
+      "room": 102,
+      "x": 212.5,
+      "y": 296.99609375,
+      "hp": 4,
+      "ability": 0
+    }
+  ],
+  "native_entry": {
+    "source_room": 113,
+    "door_record_offset": 9106462,
+    "source_tile": [
+      2,
+      4
+    ],
+    "destination_room": 102,
+    "destination_spawn_tile": [
+      74,
+      8
+    ],
+    "observed_destination_xy": [
+      1176.0,
+      120.99609375
+    ]
+  },
+  "heave_ho": {
+    "template_offset": "0x8D21C8",
+    "type": "0x79",
+    "native_xy": [
+      488,
+      280
+    ],
+    "interaction": "Normal inhale from right pulls block right into disposal shaft"
+  },
+  "tile_observation": {
+    "formula": "0x02024ED0 + group*1950 + y*76 + x",
+    "group": 0,
+    "coordinates": [
+      [
+        31,
+        19
+      ],
+      [
+        31,
+        20
+      ],
+      [
+        31,
+        21
+      ],
+      [
+        31,
+        22
+      ]
+    ],
+    "on_entry": [
+      247,
+      247,
+      247,
+      247
+    ],
+    "at_approach": [
+      247,
+      247,
+      247,
+      247
+    ],
+    "after_inhale": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "at_target": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "outcome": "Actual native room entry, route to right-side pull position, Heave-Ho disposal, and leftward corridor traversal to Battle Notes chest position verified. Normal ability0 throughout; survives with 4 HP.",
+  "target": {
+    "chest_xy": [
+      208,
+      296
+    ],
+    "kirby_xy": [
+      213.7421875,
+      296.99609375
+    ],
+    "template_type": "0x80",
+    "template_subtype": 44,
+    "collection_save_flag_verified": false
+  },
+  "limits": [
+    "Fixture starts beside incoming door in room 113, not from the game hub.",
+    "A concrete successful route,not minimum damage or perfect play.",
+    "Chest proximity and Up interaction recorded; collection save flag not verified.",
+    "No broadened ordinary metal capability or across-room persistence established."
+  ]
+}

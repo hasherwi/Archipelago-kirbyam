@@ -10,6 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from test.general import setup_multiworld
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import Grant, SourcePolicy
@@ -48,7 +49,7 @@ def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, app
         results = [rules.graph_succeeds(graph, resolver, frozenset({f'{ability} Ability'}), True,
                                         retries=False) for graph in rules.target_graphs(row, False)]
         assert results == [ability == name for name in
-                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter')]
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # Same source key does not extend Carrot's independently proved Beam carry.
     carrot = next(row for row in room_traversal_targets('block') if row['id'] == 'bomb_719_room13')
     assert rules.target_applies(carrot, resolver) is (
@@ -121,7 +122,7 @@ def test_actual_world_only_chocolate_chest_uses_smash_permission(
     # Minimal accessibility avoids unrelated statue-source feasibility for these
     # option fixtures; full accessibility is tested by the real generation below.
     raw = json.loads(EVIDENCE.read_text())['source_policy']
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=173, options={
         'ability_randomization_mode': 1, 'ability_gating': gating, 'area_keys': area_keys,
         'ability_randomization_statues': statues, 'room_sanity': room_sanity,
@@ -221,7 +222,7 @@ def test_actual_world_policy_applicability_preserves_unproved_assignments(
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
     # Restricted pools are rule-layer fixtures, not successful full generations.
     # Minimal accessibility skips unrelated source feasibility, not access rules.
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     state = CollectionState(world.multiworld)

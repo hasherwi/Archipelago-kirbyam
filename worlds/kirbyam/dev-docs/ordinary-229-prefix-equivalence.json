@@ -1,0 +1,68 @@
+{
+  "baseline_commit": "541266f2106b3d35810de827ad134074a1684742",
+  "scope": "All baseline rooms.json compiled graph fields and route multisets unchanged with Area Keys off/on; the two228 renewable instances differ only in route-list order after extracting their standalone shared approach. Full evaluator results for all205/228 source families match across eight policies, both gating modes and both retry modes. This is semantic refactor verification, not new native gameplay evidence.",
+  "catalog_sha256": "670c6a0b0d6fbef1efe55703fa5d18e7f6768f931023d3fb8b5d95a1ac276726",
+  "compiled_graph_pairs": 172,
+  "route_order_only_changes": [
+    [
+      "metal_228_chest",
+      "copy_room_statues",
+      false
+    ],
+    [
+      "metal_228_chest",
+      "copy_room_statues",
+      true
+    ]
+  ],
+  "full_result_pairs": 384,
+  "source_policy_cases": [
+    {
+      "mode": 0
+    },
+    {
+      "mode": 1,
+      "statues": false,
+      "minibosses": false
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true,
+      "pool": [
+        "Hammer"
+      ]
+    },
+    {
+      "mode": 1,
+      "statues": true,
+      "minibosses": true,
+      "pool": [
+        "Stone"
+      ]
+    },
+    {
+      "mode": 2,
+      "statues": false,
+      "minibosses": true
+    },
+    {
+      "mode": 2,
+      "statues": true,
+      "minibosses": true,
+      "weight": 0
+    },
+    {
+      "mode": 2,
+      "statues": true,
+      "minibosses": true,
+      "weight": 100
+    }
+  ],
+  "result": "pass"
+}

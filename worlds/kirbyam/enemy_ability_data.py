@@ -44,11 +44,25 @@ def _parse_address(value: Any) -> int:
 STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
 
 
+# Seeds without an explicit nonempty gate list used this exact catalog. Keep it
+# independent of current gateability and starting permissions as those evolve.
+LEGACY_SLOT_GATEABLE_ABILITIES: tuple[str, ...] = (
+    "Bomb", "Cook", "Crash", "Cutter", "Cupid", "Fighter", "Fire", "Hammer", "Ice", "Laser", "Magic",
+    "Mini", "Missile", "Parasol", "Smash", "Sleep", "Spark", "Sword", "Throw", "Tornado", "UFO", "Wheel",
+)
+
+
+def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
+    """Honor a nonempty slot list, otherwise use the frozen legacy fallback."""
+    # Select before filtering: [None] is an explicit empty set of valid names,
+    # whereas [] retains the historical fallback convention.
+    selected = value if isinstance(value, list) and value else LEGACY_SLOT_GATEABLE_ABILITIES
+    return tuple(name for name in selected if isinstance(name, str))
+
+
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Cutter, Mini and Wheel use source-backed progression in every mode."""
-    return tuple(
-        ability for ability in STARTING_COPY_ABILITIES if ability not in {"Cutter", "Mini", "Wheel"}
-    )
+    """Only Beam is forced; other abilities use reviewed physical-source logic."""
+    return ("Beam",)
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")

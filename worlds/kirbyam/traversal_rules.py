@@ -1,4 +1,4 @@
-"""Install reviewed fuse, rope, block and switch witnesses from the shared room catalog."""
+"""Install reviewed action witnesses from the shared room catalog."""
 
 from __future__ import annotations
 
@@ -15,7 +15,8 @@ from .traversal_data import (
 
 def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
     return (room_traversal_targets("fuse") + room_traversal_targets("rope")
-            + room_traversal_targets("block") + room_traversal_targets("switch"))
+            + room_traversal_targets("block") + room_traversal_targets("switch")
+            + room_traversal_targets("reinforced") + room_traversal_targets("metal"))
 
 
 def target_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
@@ -43,15 +44,10 @@ def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 
 def goal2_ice_is_progression(world: Any) -> bool:
-    """Only the enabled, guaranteed-Frosty chest rule needs an Ice permission."""
-    raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if not isinstance(raw, dict) or not world._ability_gating_enabled():
-        return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_MUSIC_NOTE_10"].label, world.player)
-    except KeyError:
-        return False
-    return SourcePolicy(raw).grant("MR_FROSTY", lambda _: True).guaranteed == frozenset({"Ice"})
+    """Classify the enabled physical chest before region creation or precollection."""
+    return (world._ability_gating_enabled()
+            and bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
+            and data.locations["MINOR_CHEST_MUSIC_NOTE_10"].source_rom_offset is not None)
 
 
 def cabbage_missile_is_progression(world: Any) -> bool:

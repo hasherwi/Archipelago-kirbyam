@@ -8,6 +8,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from Options import Accessibility
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..area_keys import area_key_entrance_area_ids
 from ..data import data
@@ -96,7 +97,7 @@ def test_missing_policy_also_closes_new_edge(monkeypatch, raw):
 def test_actual_normalized_edge_preserves_corridors_checks_keys_and_classification(
         monkeypatch, mode, pool, weight, supported, gating, area_keys, disabled, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *a, **k: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *a, **k: resolver.policy)
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', not disabled)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=int(not disabled),

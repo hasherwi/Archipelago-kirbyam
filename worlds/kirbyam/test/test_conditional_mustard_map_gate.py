@@ -7,6 +7,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from Options import Accessibility
 
+from .support.source_policy import set_rule_test_policy
 from .. import traversal_rules as rules
 from ..data import data
 from ..traversal_data import room_traversal_graph, room_traversal_targets
@@ -89,7 +90,7 @@ def test_actual_world_wires_only_map_and_preserves_ufo_progression(
     # A controlled production policy exercises the real generate/create/set-rules
     # lifecycle. Minimal accessibility keeps unrelated finite-source gates from
     # rejecting these deliberately restricted assignment pools.
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=weight)

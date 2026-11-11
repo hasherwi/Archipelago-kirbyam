@@ -12,6 +12,7 @@ from BaseClasses import CollectionState, ItemClassification
 from Options import Accessibility
 from test.general import setup_multiworld
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -97,7 +98,7 @@ def test_conditional_policy_preserves_base_rule_and_independent_entry(
 def test_actual_world_only_map_and_unchanged_cutter_classification(
         monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, room_sanity, maps):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=weight, start_with_all_maps=maps)
@@ -233,7 +234,7 @@ def test_unconditional_start_inventory_is_already_owned_before_regions(monkeypat
     raw = json.loads(EVIDENCE.read_text(encoding='utf-8'))['source_policy']
     if scenario == 'wrong_source':
         raw = policy(1, pool=['Bomb']).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=2, options={
         'ability_randomization_mode': 1, 'ability_gating': int(scenario != 'gating_off'), 'accessibility': 'minimal'})
     world = multiworld.worlds[1]

@@ -1,6 +1,7 @@
 """Entry-bound Yellow Paint requires two distinct finite UFO acquisitions."""
 
 import json
+import hashlib
 from copy import deepcopy
 from dataclasses import replace
 from pathlib import Path
@@ -10,6 +11,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from test.general import setup_multiworld
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import Grant, SourcePolicy
@@ -39,7 +41,7 @@ def target_row():
 @pytest.mark.parametrize('statues', [0, 1])
 def test_actual_world_guaranteed_source_policy(monkeypatch, mode, pool, weight, applies, gating, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *a, **kw: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *a, **kw: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=weight)
     assert rules.target_applies(target_row(), SourcePolicy(world._enemy_copy_ability_policy, bool(statues))) is applies
@@ -137,7 +139,7 @@ def test_ufo_applicability_cannot_spread_to_another_target(update):
 def test_only_optional_yellow_chest_changes(monkeypatch, gating, area_keys, statues, room_sanity, minor_chests):
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
     raw = json.loads(EVIDENCE.read_text())['source_policy']
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *a, **kw: raw)
+    set_rule_test_policy(monkeypatch, lambda *a, **kw: raw)
     mw = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=8, options={
         'ability_randomization_mode': 1, 'ability_gating': gating, 'area_keys': area_keys,
         'ability_randomization_statues': statues, 'room_sanity': room_sanity, 'accessibility': 'minimal',
@@ -195,7 +197,17 @@ def test_720_cycle_cannot_supply_its_own_independent_entry():
 def test_actual_full_generation_seed8_at_one_hp(
         tmp_path, monkeypatch, gating, area_keys, statues, room_sanity, mode, applies):
     import Main
+    from .. import build_enemy_copy_ability_policy
 
+    builder_calls = 0
+
+    def counted_builder(*args, **kwargs):
+        nonlocal builder_calls
+        builder_calls += 1
+        return build_enemy_copy_ability_policy(*args, **kwargs)
+
+    # Observe real draws without replacing policies, RNG inputs or validators.
+    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', counted_builder)
     generated = []
     main = Main.main
 
@@ -215,15 +227,20 @@ def test_actual_full_generation_seed8_at_one_hp(
     archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=8)
     decoded = load_multidata_from_archive(archive)
     raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
-    # Enabling statues legitimately rerolls seed8's source feasibility. The
-    # resulting Cutter assignment is unsupported here, rather than pretending
-    # every option combination keeps the native UFO policy.
+    # Enabling statues rerolls seed8's source feasibility: the isolated ranged
+    # catalog selected Cutter, while the merged catalog selects Smash. Neither
+    # is supported here. Preserve the historical native UFO policy separately.
     applies = applies and not statues
     if applies:
         assert {**raw, 'allowed_abilities': list(raw['allowed_abilities'])} == (
             json.loads(EVIDENCE.read_text())['source_policy'])
-    expected_ability = 'Spark' if mode == 0 else ('Cutter' if statues else 'UFO')
+    expected_ability = 'Spark' if mode == 0 else ('Smash' if statues else 'UFO')
     assert SourcePolicy(raw).grant('SPARKY', lambda _: True).guaranteed == frozenset({expected_ability})
+    if (mode, gating, area_keys, statues, room_sanity) == (1, 1, 1, 1, 1):
+        assert builder_calls == 157
+        assert hashlib.sha256(json.dumps(raw, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
+            '91e4b21f2cdf460d94aa5623a25f2153878ac68ec1c0c748ae43e94bed85742c'
+        )
     assert rules.target_applies(target_row(), SourcePolicy(raw)) is applies
     assert decoded['locations'][1][3960501]
     mw, = generated

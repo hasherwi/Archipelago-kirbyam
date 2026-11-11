@@ -1,0 +1,5374 @@
+{
+  "schema_version": 1,
+  "status": "accepted_bounded_imported_equipment_carrier_and_joint_checks",
+  "purpose": "Renewable-source Hammer carrier from native290 through the noncombat lower210 route, then joint native209 minor23 and native228 minor30 collection without dropping or reacquiring Hammer.",
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "fixture": {
+    "base": "Original USA game, not a generated AP seed",
+    "startup_room": 290,
+    "startup_position_table_pixels": [
+      96,
+      48
+    ],
+    "initial_live_position_pixels": [
+      88,
+      41.14453125
+    ],
+    "edits": [
+      {
+        "file_offset": "0x2D8CB8",
+        "purpose": "Startup room slots",
+        "values": [
+          290,
+          101,
+          101,
+          101
+        ]
+      },
+      {
+        "file_offset": "0x2D8CD0",
+        "purpose": "Startup coordinates in fixed-point units",
+        "pixel_pairs": [
+          [
+            96,
+            48
+          ],
+          [
+            48,
+            80
+          ],
+          [
+            48,
+            80
+          ],
+          [
+            48,
+            80
+          ]
+        ]
+      },
+      {
+        "template": "0x088C0ED0",
+        "purpose": "Disclosed imported equipment fixture",
+        "type": 147,
+        "original_subtype": 1,
+        "replacement_subtype": 6,
+        "granted_ability": 17
+      }
+    ],
+    "save": "Fresh erased battery save for each complete replay",
+    "unchanged": [
+      "All terrain and collision records",
+      "All attack and movement tables",
+      "All bosses and scroll locks",
+      "All source templates except the one disclosed 290 statue"
+    ],
+    "runtime_writes": []
+  },
+  "source_prefix_boundary": {
+    "production_source": "Real Hammer statue in native970, template0x088D5FA0, keySTATUE:35390A",
+    "required": "Separately reviewed item-gated source and guarded970-to801-to-hub-to290 carrier. This artifact does not replay or replace that prefix.",
+    "fixture_not_production_source": "The changed290 statue must not be credited as an actual Hammer source."
+  },
+  "route": [
+    "290",
+    "210 lower corridor without Box Boxer combat",
+    "227 lower entry, approach intact rope platform from right above it",
+    "204 main upper passage without peg action",
+    "203",
+    "205 upper-left arrival and dry aerial Hammer floor break",
+    "209 top arrival and minor23 collection",
+    "205 actual water return and outer-route carrier",
+    "228 actual lower arrival, right-facing Hammer wall break, minor30 collection"
+  ],
+  "actual_transition_records": [
+    {
+      "source": 210,
+      "record": "0x08888D0E",
+      "trigger": [
+        1,
+        23
+      ],
+      "target": 227,
+      "stored_arrival": [
+        58,
+        17
+      ]
+    },
+    {
+      "source": 227,
+      "record": "0x0888A310",
+      "trigger": [
+        16,
+        2
+      ],
+      "target": 204,
+      "stored_arrival": [
+        56,
+        9
+      ]
+    },
+    {
+      "source": 204,
+      "record": "0x088870D4",
+      "trigger": [
+        73,
+        3
+      ],
+      "target": 203,
+      "stored_arrival": [
+        3,
+        19
+      ]
+    },
+    {
+      "source": 203,
+      "record": "0x08886F88",
+      "trigger": [
+        59,
+        4
+      ],
+      "target": 205,
+      "stored_arrival": [
+        3,
+        3
+      ]
+    },
+    {
+      "source": 205,
+      "record": "0x08887306",
+      "trigger": [
+        44,
+        2
+      ],
+      "target": 228,
+      "stored_arrival": [
+        26,
+        29
+      ]
+    }
+  ],
+  "physical_actions": {
+    "205_floor": "Two dry aerial Hammer actions break the two-row F5 floor at x21..22,y8..9. Water landing is subsequent, not an underwater Hammer floor attack.",
+    "228_wall": "Right-facing Hammer action from the left at the lower two-cell bank x27,y23..24; this is not a Stone side-breaking claim.",
+    "max_health_timing": "The500% continuation adds directional underwater B inputs before the left water descent and right-facing aerial Hammer defense on the return shaft. Inputs and every-frame state audit are authoritative; emitted underwater projectile identity was not separately instrumented."
+  },
+  "joint_check_observation": {
+    "209_chest": "Native flag23 readback128 after actual interaction",
+    "228_chest": "Template0x088C046C at480,200, flag30 readback64 after actual interaction",
+    "excluded": "Separate rope chest flag31 remains0. Both228 Bomb triggers17,23 and32,15 remainF1=241; closing-chain cells remainF3=243."
+  },
+  "max_health": {
+    "percent": 500,
+    "module_commit": "a062278eea84ce3c2a6a7bbc601262cda0f3fab2",
+    "module_path": "worlds/kirbyam/enemy_health_scaling.py",
+    "module_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "module_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "function": "scale_enemy_health_tables",
+    "application": "Once to original-game imported-equipment fixture before fresh boot; no cross-ROM state loads",
+    "sanity_readback": {
+      "regular_type": "0x12 Waddle Doo",
+      "original_hp": 4,
+      "scaled_hp": 20
+    }
+  },
+  "audit_semantics": "Each run is a single fresh-boot controller trace. After boot, HP, equipped ability and grab pointer are sampled after every frame. HP remains6 continuously, so no hidden damage-plus-healing, damage boost or grab is credited. After acquisition Hammer17 remains equipped. No checkpoint splicing, source respawn or reacquisition is needed.",
+  "limitations": [
+    "This is not direct AP one-hit-option gameplay; positive-HP movement equivalence remains a separate source-level qualification.",
+    "The real970 source and hub prefix are separately reviewed, not newly replayed here.",
+    "No claim of retained-Hammer Box Boxer defeat is made; the route avoids its arena.",
+    "No broad all-room connectivity or arbitrary attack substitution is established.",
+    "The rejected Stone228 experiments are outside this positive artifact."
+  ],
+  "runs": {
+    "100": {
+      "rom_sha256": "d2f3f10181b3d9ff490bede7b46c077462ac1ba7fb43efdf436984df4b35c9c3",
+      "fresh_boot": true,
+      "segments": [
+        {
+          "id": "renewHammer290",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 290,
+            "x": 88.0,
+            "y": 41.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone290acquire",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              60,
+              32
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1435,
+            "room": 210,
+            "x": 424.0,
+            "y": 776.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0,
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone210climb2",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              65,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1641,
+            "room": 210,
+            "x": 345.359375,
+            "y": 776.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammerRamp-d0",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              255,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1996,
+            "room": 210,
+            "x": 64.96875,
+            "y": 597.53125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "sweepstone210tmp",
+          "inputs": [
+            [
+              60,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              95,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 2521,
+            "room": 210,
+            "x": 134.05859375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227entry",
+          "inputs": [
+            [
+              100,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2841,
+            "room": 227,
+            "x": 920.0,
+            "y": 264.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227west1",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              33
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3091,
+            "room": 227,
+            "x": 886.0,
+            "y": 197.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227lowFlight",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              48,
+              32
+            ],
+            [
+              5,
+              33
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              10,
+              34
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "final": {
+            "frame": 3249,
+            "room": 227,
+            "x": 701.0625,
+            "y": 251.93359375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227sparkGuard",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              90,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              5,
+              33
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              50,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 3596,
+            "room": 227,
+            "x": 527.125,
+            "y": 199.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227leftOver",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              90,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 3861,
+            "room": 227,
+            "x": 406.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227ropeTop",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4007,
+            "room": 227,
+            "x": 310.0,
+            "y": 184.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227exitShaft",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              130,
+              1
+            ],
+            [
+              40,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4407,
+            "room": 227,
+            "x": 262.0,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer204actual",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              34,
+              17
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              42,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4823,
+            "room": 204,
+            "x": 888.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "204_high_and_preSpark",
+          "inputs": [
+            [
+              100,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              9,
+              17
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              81,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 5203,
+            "room": 204,
+            "x": 826.01171875,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer204timedCross",
+          "inputs": [
+            [
+              90,
+              1
+            ],
+            [
+              300,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5663,
+            "room": 204,
+            "x": 1169.8671875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203entry",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5813,
+            "room": 203,
+            "x": 40.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "203_high_and_preShotzo",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              81,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 6259,
+            "room": 203,
+            "x": 236.9609375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203visibleWait",
+          "inputs": [
+            [
+              110,
+              17
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              330,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 6789,
+            "room": 203,
+            "x": 713.94140625,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203lowRight",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              55,
+              0
+            ],
+            [
+              110,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              130,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 7104,
+            "room": 203,
+            "x": 825.99609375,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205outerEntry",
+          "inputs": [
+            [
+              60,
+              17
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 7546,
+            "room": 205,
+            "x": 40.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205timedGuard",
+          "inputs": [
+            [
+              120,
+              0
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 7962,
+            "room": 205,
+            "x": 258.18359375,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205renewFloorApproach",
+          "inputs": [
+            [
+              74,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              80,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 8226,
+            "room": 205,
+            "x": 348.16015625,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205renewFloorBreak",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 8366,
+            "room": 205,
+            "x": 348.16015625,
+            "y": 176.62109375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "renewHammerWaterDown",
+          "inputs": [
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              180,
+              32
+            ],
+            [
+              1,
+              128
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              280,
+              16
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              20,
+              144
+            ]
+          ],
+          "final": {
+            "frame": 9483,
+            "room": 205,
+            "x": 473.99609375,
+            "y": 245.47265625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone209entry",
+          "inputs": [
+            [
+              5,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              55,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 9694,
+            "room": 209,
+            "x": 168.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone209collect",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              85,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              17,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              18,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 10067,
+            "room": 209,
+            "x": 53.6171875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer209return",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 10382,
+            "room": 205,
+            "x": 456.0,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205shaft",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              360,
+              32
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              30,
+              128
+            ],
+            [
+              5,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 11499,
+            "room": 205,
+            "x": 406.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 11915,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer228entry",
+          "inputs": [
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 12145,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228lowerwalk",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 12415,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 357.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228metalapproach",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              90,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 12621,
+            "room": 228,
+            "x": 456.41015625,
+            "y": 396.11328125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightbottom",
+          "inputs": [
+            [
+              100,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 12891,
+            "room": 228,
+            "x": 556.49609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightshaft",
+          "inputs": [
+            [
+              15,
+              17
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              15,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 13161,
+            "room": 228,
+            "x": 553.99609375,
+            "y": 229.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228chest",
+          "inputs": [
+            [
+              18,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 13559,
+            "room": 228,
+            "x": 454.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228collect",
+          "inputs": [
+            [
+              22,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 13701,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            64,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        }
+      ],
+      "audited_post_boot_frames": 12616,
+      "final_flags": {
+        "minor23_mask128": 128,
+        "minor30_mask64": 64,
+        "separate_rope_minor31_mask128": 0
+      }
+    },
+    "500": {
+      "rom_sha256": "2e58aea4401a89df524de4ba7138af6c1932d11826655078a398760513a9e565",
+      "fresh_boot": true,
+      "segments": [
+        {
+          "id": "renewHammer290",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1085,
+            "room": 290,
+            "x": 88.0,
+            "y": 41.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minimum_hp": null,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone290acquire",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              60,
+              32
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1435,
+            "room": 210,
+            "x": 424.0,
+            "y": 776.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            0,
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone210climb2",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              65,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1641,
+            "room": 210,
+            "x": 345.359375,
+            "y": 776.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammerRamp-d0",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              255,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1996,
+            "room": 210,
+            "x": 64.96875,
+            "y": 597.53125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "sweepstone210tmp",
+          "inputs": [
+            [
+              60,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              95,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 2521,
+            "room": 210,
+            "x": 134.05859375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227entry",
+          "inputs": [
+            [
+              100,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2841,
+            "room": 227,
+            "x": 920.0,
+            "y": 264.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227west1",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              33
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3091,
+            "room": 227,
+            "x": 886.0,
+            "y": 197.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227lowFlight",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              48,
+              32
+            ],
+            [
+              5,
+              33
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              10,
+              34
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "final": {
+            "frame": 3249,
+            "room": 227,
+            "x": 701.0625,
+            "y": 251.93359375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227sparkGuard",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              90,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              40,
+              32
+            ],
+            [
+              5,
+              33
+            ],
+            [
+              5,
+              32
+            ],
+            [
+              50,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 3596,
+            "room": 227,
+            "x": 527.125,
+            "y": 199.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227leftOver",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              90,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 3861,
+            "room": 227,
+            "x": 406.0,
+            "y": 101.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227ropeTop",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4007,
+            "room": 227,
+            "x": 310.0,
+            "y": 184.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer227exitShaft",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              130,
+              1
+            ],
+            [
+              40,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4407,
+            "room": 227,
+            "x": 262.0,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer204actual",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              34,
+              17
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              42,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4823,
+            "room": 204,
+            "x": 888.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "204_high_and_preSpark",
+          "inputs": [
+            [
+              100,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              9,
+              17
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              81,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 5203,
+            "room": 204,
+            "x": 826.01171875,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer204timedCross",
+          "inputs": [
+            [
+              90,
+              1
+            ],
+            [
+              300,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5663,
+            "room": 204,
+            "x": 1169.8671875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203entry",
+          "inputs": [
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5813,
+            "room": 203,
+            "x": 40.0,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "203_high_and_preShotzo",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              81,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 6259,
+            "room": 203,
+            "x": 236.9609375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203visibleWait",
+          "inputs": [
+            [
+              110,
+              17
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              330,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 6789,
+            "room": 203,
+            "x": 713.94140625,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer203lowRight",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              55,
+              0
+            ],
+            [
+              110,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              130,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 7104,
+            "room": 203,
+            "x": 825.99609375,
+            "y": 181.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205outerEntry",
+          "inputs": [
+            [
+              60,
+              17
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 7546,
+            "room": 205,
+            "x": 40.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205timedGuard",
+          "inputs": [
+            [
+              120,
+              0
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              55,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              100,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 7962,
+            "room": 205,
+            "x": 258.18359375,
+            "y": 21.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205renewFloorApproach",
+          "inputs": [
+            [
+              74,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              80,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 8226,
+            "room": 205,
+            "x": 348.16015625,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hammer205renewFloorBreak",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 8366,
+            "room": 205,
+            "x": 348.16015625,
+            "y": 176.62109375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "waterAttackBeforeDrop",
+          "inputs": [
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              32
+            ]
+          ],
+          "final": {
+            "frame": 8947,
+            "room": 205,
+            "x": 214.78125,
+            "y": 233.65234375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "waterDownIntercept12",
+          "inputs": [
+            [
+              1,
+              128
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              130
+            ],
+            [
+              11,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 9128,
+            "room": 205,
+            "x": 211.91015625,
+            "y": 296.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "water500LowerRight",
+          "inputs": [
+            [
+              280,
+              16
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              20,
+              144
+            ]
+          ],
+          "final": {
+            "frame": 9463,
+            "room": 205,
+            "x": 473.99609375,
+            "y": 245.47265625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone209entry",
+          "inputs": [
+            [
+              5,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              55,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 9674,
+            "room": 209,
+            "x": 168.0,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "stone209collect",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              85,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              17,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              18,
+              16
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 10047,
+            "room": 209,
+            "x": 53.6171875,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer209return",
+          "inputs": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              85,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 10362,
+            "room": 205,
+            "x": 456.0,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "renewShaftDefended",
+          "inputs": [
+            [
+              55,
+              32
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              19,
+              0
+            ],
+            [
+              360,
+              32
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              160,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              30,
+              128
+            ],
+            [
+              5,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              60,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 11900,
+            "room": 205,
+            "x": 406.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer205spikegap",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              70,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              17,
+              16
+            ],
+            [
+              90,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 12316,
+            "room": 205,
+            "x": 687.96484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "jointHammer228entry",
+          "inputs": [
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 12546,
+            "room": 228,
+            "x": 408.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228lowerwalk",
+          "inputs": [
+            [
+              70,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 12816,
+            "room": 228,
+            "x": 296.84765625,
+            "y": 357.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 245
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 245
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228metalapproach",
+          "inputs": [
+            [
+              10,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              90,
+              16
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 13022,
+            "room": 228,
+            "x": 456.41015625,
+            "y": 396.11328125,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightbottom",
+          "inputs": [
+            [
+              100,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 13292,
+            "room": 228,
+            "x": 556.49609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228rightshaft",
+          "inputs": [
+            [
+              15,
+              17
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              15,
+              33
+            ],
+            [
+              90,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 13562,
+            "room": 228,
+            "x": 553.99609375,
+            "y": 229.00390625,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228chest",
+          "inputs": [
+            [
+              18,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              85,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 13960,
+            "room": 228,
+            "x": 454.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            0,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        },
+        {
+          "id": "jointHammer228collect",
+          "inputs": [
+            [
+              22,
+              16
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 14102,
+            "room": 228,
+            "x": 472.35546875,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 17
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            17
+          ],
+          "grab_frames": [],
+          "flags23_30_31": [
+            128,
+            64,
+            0
+          ],
+          "tiles": [
+            {
+              "x": 27,
+              "y": 23,
+              "value": 0
+            },
+            {
+              "x": 27,
+              "y": 24,
+              "value": 0
+            },
+            {
+              "x": 17,
+              "y": 23,
+              "value": 241
+            },
+            {
+              "x": 17,
+              "y": 19,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 15,
+              "value": 241
+            },
+            {
+              "x": 32,
+              "y": 11,
+              "value": 243
+            },
+            {
+              "x": 32,
+              "y": 12,
+              "value": 243
+            }
+          ]
+        }
+      ],
+      "audited_post_boot_frames": 13017,
+      "final_flags": {
+        "minor23_mask128": 128,
+        "minor30_mask64": 64,
+        "separate_rope_minor31_mask128": 0
+      }
+    }
+  }
+}

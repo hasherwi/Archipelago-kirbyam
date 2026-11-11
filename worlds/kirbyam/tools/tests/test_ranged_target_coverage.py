@@ -14,8 +14,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_all_production_regions(self):
         self.assertEqual({r['region'] for r in self.coverage['regions']}, set(data.regions))
-        self.assertEqual(len(data.regions), 366)
-        self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 343)
+        self.assertEqual(len(data.regions), 382)
+        self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 352)
 
     def test_locations_owned_once_after_moves(self):
         rows = [s for s in self.coverage['surfaces'] if s['kind'] == 'location']
@@ -29,7 +29,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 38)
+        self.assertEqual(len(targets), 57)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
         rainbow = targets['bomb_110_room9']
@@ -66,9 +66,12 @@ class TestRangedTargetCoverage(unittest.TestCase):
         expected = {(key, target) for key, region in data.regions.items() for target in region.exits}
         self.assertEqual(actual, expected)
 
-    def test_three_far_switch_placeholders_are_exposed(self):
+    def test_remaining_far_switch_placeholders_are_exposed(self):
         rows = [s for s in self.coverage['surfaces'] if 'can_hit_far_switch' in str(s['requirement'])]
-        self.assertEqual(len(rows), 3)
+        self.assertEqual({(row['owner'], row['target']) for row in rows}, {
+            ('REGION_MUSTARD_MOUNTAIN/ROOM_4_15', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_16'),
+            ('REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST', 'MAJOR_CHEST_MUSTARD_MOUNTAIN'),
+        })
 
     def test_every_target_binds_to_exact_owner_surface(self):
         surfaces = {(s['owner'], s['kind'], s['target']) for s in self.coverage['surfaces']}

@@ -1,18 +1,21 @@
 """Real world wiring and archive generation for the reviewed Mini corridors."""
 
+from pathlib import Path
+
 from argparse import Namespace
+from typing import Any
 
 import pytest
-from BaseClasses import CollectionState, MultiWorld
+from BaseClasses import Entrance, Location, CollectionState, MultiWorld
 
 from .. import KirbyAmWorld
-from ..enemy_ability_data import STARTING_COPY_ABILITIES, starting_copy_abilities
+from ..enemy_ability_data import starting_copy_abilities
 from ..mini_traversal import mini_routes
 from ..traversal import SourcePolicy
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
 
-def make_world(mode, gating, **extra_options):
+def make_world(mode: int, gating: bool | int, **extra_options: Any) -> KirbyAmWorld:
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
     multiworld.player_name = {1: "Mini traversal"}
@@ -23,6 +26,7 @@ def make_world(mode, gating, **extra_options):
         setattr(args, name, {1: option.from_any(overrides.get(name, option.default))})
     multiworld.set_options(args)
     world = multiworld.worlds[1]
+    assert isinstance(world, KirbyAmWorld)
     multiworld.state = CollectionState(multiworld)
     world.generate_early()
     world.create_regions()
@@ -32,12 +36,13 @@ def make_world(mode, gating, **extra_options):
 
 @pytest.mark.parametrize("mode", [0, 1, 2])
 @pytest.mark.parametrize("gating", [0, 1])
-def test_all_reviewed_branches_and_bypasses(mode, gating):
+def test_all_reviewed_branches_and_bypasses(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
     state = CollectionState(world.multiworld)
     assert not state.has("Mini Ability", 1)
-    assert state.has("Stone Ability", 1) and not state.has("Wheel Ability", 1)
+    assert not state.has("Stone Ability", 1) and not state.has("Wheel Ability", 1)
     for row, graph in mini_routes():
+        target: Entrance | Location
         if row["exit"]:
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1)
         else:
@@ -53,21 +58,21 @@ def test_all_reviewed_branches_and_bypasses(mode, gating):
         assert not result.reaches(row["id"] + ":target")
 
 
-def test_only_minny_option_removed():
+def test_only_minny_option_removed() -> None:
     options = KirbyAmWorld.options_dataclass.type_hints
     assert "ability_randomization_minny" not in options
     assert {"ability_randomization_mode", "ability_randomization_statues", "ability_gating",
             "ability_randomization_minibosses", "ability_randomization_boss_spawns"} <= options.keys()
 
 
-def test_mini_and_wheel_removed_in_all_modes_without_changing_stone():
+def test_only_beam_is_forced_in_all_modes() -> None:
     assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == set(STARTING_COPY_ABILITIES) - {"Cutter", "Mini", "Wheel"}
+    assert set(starting_copy_abilities(0)) == {"Beam"}
     assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 
 @pytest.mark.parametrize("mode,gating", [(0, 1), (1, 1), (1, 0), (2, 1)])
-def test_full_generation_accessibility_and_slot_contract(tmp_path, mode, gating):
+def test_full_generation_accessibility_and_slot_contract(tmp_path: Path, mode: int, gating: bool) -> None:
     player = tmp_path / "player.yaml"
     player.write_text(
         "name: Mini\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
@@ -81,7 +86,7 @@ def test_full_generation_accessibility_and_slot_contract(tmp_path, mode, gating)
     assert "ability_randomization_minny" not in slot
     assert slot["enemy_copy_ability_policy"]["ability_randomization_minny"] is False
     assert (3860123 in decoded["precollected_items"][1]) is False
-    assert 3860108 in decoded["precollected_items"][1]  # Stone is never removed.
+    assert 3860108 not in decoded["precollected_items"][1]  # Stone is now progression.
     assert (3860123 in [item[0] for item in decoded["locations"][1].values()]) == bool(gating)
 
 
@@ -89,7 +94,12 @@ def test_full_generation_accessibility_and_slot_contract(tmp_path, mode, gating)
 @pytest.mark.parametrize("gating", [False, True])
 @pytest.mark.parametrize("right_entry", [False, True])
 @pytest.mark.parametrize("room_sanity", [False, True])
-def test_mustard_5_arrivals_preserve_normal_chest_alternative(mode, gating, right_entry, room_sanity):
+def test_mustard_5_arrivals_preserve_normal_chest_alternative(
+    mode: int,
+    gating: bool,
+    right_entry: bool,
+    room_sanity: bool,
+) -> None:
     from ..data import LocationCategory, data
 
     world = make_world(mode, gating, room_sanity=room_sanity)
@@ -103,6 +113,7 @@ def test_mustard_5_arrivals_preserve_normal_chest_alternative(mode, gating, righ
     # not supply the independent right-side entry in the left-only negative case.
     for region in (left_region, right_region):
         for entrance in region.entrances:
+            assert entrance.parent_region is not None
             if entrance.parent_region.name not in (base, right):
                 entrance.access_rule = lambda state: False
     menu = mw.get_region("Menu", 1)
@@ -130,7 +141,7 @@ def test_mustard_5_arrivals_preserve_normal_chest_alternative(mode, gating, righ
     assert all(mw.get_entrance(f"{name} -> {lower}", 1).can_reach(state) for name in (base, right))
 
 
-def test_mustard_5_native_entries_and_local_sources_are_not_merged():
+def test_mustard_5_native_entries_and_local_sources_are_not_merged() -> None:
     from ..data import data
     from ..traversal_data import room_traversal_graph
 
@@ -145,7 +156,7 @@ def test_mustard_5_native_entries_and_local_sources_are_not_merged():
         assert {p.identity for p in room_traversal_graph(target, "local").placements} == {source}
 
 
-def test_mustard_cross_side_metadata_records_sufficient_recovery_witness():
+def test_mustard_cross_side_metadata_records_sufficient_recovery_witness() -> None:
     from ..traversal_data import room_traversal_graph, room_traversal_targets
 
     target = "mini_321_cross_to_right"
@@ -167,7 +178,7 @@ def test_mustard_cross_side_metadata_records_sufficient_recovery_witness():
 
 
 @pytest.mark.parametrize("gating", [False, True])
-def test_mustard_cross_side_recovery_still_needs_local_minny_and_permission(gating):
+def test_mustard_cross_side_recovery_still_needs_local_minny_and_permission(gating: bool) -> None:
     from dataclasses import replace
     from .test_traversal import policy
     from ..traversal_data import room_traversal_graph
@@ -186,7 +197,10 @@ def test_mustard_cross_side_recovery_still_needs_local_minny_and_permission(gati
 
 
 @pytest.mark.parametrize("recovery", ["absent", "wrong_ability", "uncertain", "can_fail"])
-def test_mustard_cross_side_requires_supported_guaranteed_recovery(monkeypatch, recovery):
+def test_mustard_cross_side_requires_supported_guaranteed_recovery(
+    monkeypatch: pytest.MonkeyPatch,
+    recovery: str,
+) -> None:
     from ..traversal import Grant
     from ..traversal_data import room_traversal_graph
     from .test_traversal import policy
@@ -205,7 +219,7 @@ def test_mustard_cross_side_requires_supported_guaranteed_recovery(monkeypatch, 
     assert result.reaches("mini_321_cross_to_right:bypass")
 
 
-def test_installed_mustard_cross_side_recovery_does_not_gate_ordinary_upper_exit():
+def test_installed_mustard_cross_side_recovery_does_not_gate_ordinary_upper_exit() -> None:
     from unittest.mock import patch
     from ..traversal import Grant
 

@@ -13,6 +13,7 @@ from typing import Any, Mapping
 from Options import Accessibility
 
 from .data import LocationCategory, data
+from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
 
 
@@ -141,7 +142,7 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "switch"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "switch", "reinforced", "metal"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
@@ -198,6 +199,16 @@ def _validate_new_connection(row: Mapping[str, Any]) -> None:
         raise ValueError("New optional connections need unconditional rule installation, not target applicability")
 
 
+def _validate_source_condition(condition: Any) -> None:
+    """Narrow a partial witness to a native source policy, never invent a source."""
+    sources = {source.key for source in ABILITY_SOURCES if source.can_be_swallowed}
+    if (not isinstance(condition, dict) or set(condition) != {"source_key", "ability"}
+            or not isinstance(condition["source_key"], str) or condition["source_key"] not in sources
+            or not isinstance(condition["ability"], str) or condition["ability"] == "Normal"
+            or condition["ability"] not in ABILITY_NAME_TO_ID):
+        raise ValueError("Unsupported guaranteed-source applicability condition")
+
+
 def _validate_target(row: Mapping[str, Any]) -> None:
     _validate_new_connection(row)
     condition = row.get("requires_guaranteed_source")
@@ -223,12 +234,8 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             "switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
             "MAJOR_CHEST_MUSTARD_MOUNTAIN",
         )),
-        ({"source_key": "MR_FROSTY", "abilities": ["Ice", "UFO"]}, (
-            "frozen_825_sound_effects", "block", 825, "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
-            "MINOR_CHEST_MUSIC_NOTE_10",
-        )),
         ({"source_key": "WADDLE_DOO",
-          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter"]}, (
+          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}, (
             "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
             "MINOR_CHEST_SPRAY_PAINT_12",
         )),
@@ -243,14 +250,8 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     if scoped_target is not None:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
             raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")
-    elif condition is not None and condition not in (
-        {"source_key": "MR_FROSTY", "ability": "Ice"},
-        {"source_key": "SPARKY", "ability": "Spark"},
-        {"source_key": "WADDLE_DOO", "ability": "Beam"},
-        {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash"]},
-        {"source_key": "TWISTER", "ability": "UFO"},
-    ):
-        raise ValueError("Unsupported guaranteed-source applicability condition")
+    elif condition is not None:
+        _validate_source_condition(condition)
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")
     if not row.get("required_for_generation", True) and not row.get("optional_route_evidence"):

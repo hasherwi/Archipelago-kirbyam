@@ -1,0 +1,7291 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "purpose": "Retained Burning continuation from actual native712 arrival through741 and clean first-entry742 lower approach to both chest17 and Warp705, without Flamer acquisition.",
+  "qualification": [
+    "The inherited707 fixture boots native790 with its existing Bomb statue subtype changed to Burning. This is synthetic imported equipment, NOT evidence for acquiring a production Burning statue. Actual592 acquisition and upstream carrier certification remain separate.",
+    "All continued712/741/742 terrain, enemies, doors and attack behavior are native and untouched. No RAM writes or state loads during either accepted continuous audit. Controller-earned initial checkpoint loaded once before frame0.",
+    "Exact500 fixture uses production scale_enemy_health_tables applied once; module commit a062278eea84ce3c2a6a7bbc601262cda0f3fab2 and blob bbae3fc5368eddecc7183590ce7f4defaf7effa4. Native source-equivalent HP transformation, not a full AP-patched ROM or direct1HP configuration.",
+    "Every accepted frame hasHP6, ability3 and no grab pointer. No source inhale, ability loss, discard or reacquisition is needed. HP6/no-decrease supports no-damage, not a claim of running direct1HP.",
+    "Chest and Warp are separate branches of the same clean742 entry. A combined same-visit chest-to-Warp route retainingBurning has not been accepted. No assumption that enemies remain dead after camera scrolling."
+  ],
+  "parent_acceptances": {
+    "100": {
+      "filename": "ordinary-707-imported-burning-acceptance.json",
+      "sha256": "325b48354f829bd1892a3d85f2c6a329806f0851cb2299bb3073686954cf22fa",
+      "ending_segment": "carrier712actual"
+    },
+    "500": {
+      "filename": "ordinary-707-all500-acceptance.json",
+      "sha256": "2918dd1d0d7e189fe04da937601d367fb6eff65f0dc5c31e17ba4a27bf166e14",
+      "ending_segment": "all500-712final"
+    }
+  },
+  "audits": {
+    "default_chest": {
+      "pct": 100,
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "initial_state_sha256": "28dbdbb61fc12a4957bb7625d08ed894e257654886c5b1e5c1cb4618a374cba4",
+      "start": {
+        "label": "initial",
+        "frame": 0,
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "segment": "start",
+          "inputs": [],
+          "final": {
+            "frame": 0,
+            "room": 712,
+            "x": 24.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "rise712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              200,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 211,
+            "room": 712,
+            "x": 24.0,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "east712",
+          "inputs": [
+            [
+              150,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 361,
+            "room": 712,
+            "x": 73.99609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "run712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 484,
+            "room": 712,
+            "x": 214.86328125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 715,
+            "room": 712,
+            "x": 265.99609375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "eastshaft712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 868,
+            "room": 712,
+            "x": 239.6640625,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "button712",
+          "inputs": [
+            [
+              40,
+              128
+            ],
+            [
+              60,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 968,
+            "room": 712,
+            "x": 311.3828125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "buttonpress712",
+          "inputs": [
+            [
+              30,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1028,
+            "room": 712,
+            "x": 345.99609375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crossgate712",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              52,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1174,
+            "room": 712,
+            "x": 376.51171875,
+            "y": 411.78515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upper712",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              210,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1457,
+            "room": 712,
+            "x": 455.5,
+            "y": 437.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaftup712",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1687,
+            "room": 712,
+            "x": 437.98046875,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "high712",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1975,
+            "room": 712,
+            "x": 406.10546875,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "ladderdirect712",
+          "inputs": [
+            [
+              70,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 712,
+            "x": 331.33203125,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "trueclimb712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2262,
+            "room": 712,
+            "x": 328.0,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "starhall712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2354,
+            "room": 712,
+            "x": 435.0,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "door712",
+          "inputs": [
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2601,
+            "room": 712,
+            "x": 457.99609375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "top712",
+          "inputs": [
+            [
+              16,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2707,
+            "room": 712,
+            "x": 436.15234375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "topclimb712",
+          "inputs": [
+            [
+              14,
+              33
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2815,
+            "room": 712,
+            "x": 424.0,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "enter741",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3021,
+            "room": 712,
+            "x": 365.51171875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "arrival741",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3142,
+            "room": 741,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lowrise741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3285,
+            "room": 741,
+            "x": 56.65625,
+            "y": 568.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "dash741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3400,
+            "room": 741,
+            "x": 201.99609375,
+            "y": 582.86328125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "middash741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3540,
+            "room": 741,
+            "x": 349.37109375,
+            "y": 568.19140625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "bomb741",
+          "inputs": [
+            [
+              18,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3669,
+            "room": 741,
+            "x": 442.43359375,
+            "y": 592.57421875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3917,
+            "room": 741,
+            "x": 401.796875,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upperalign741",
+          "inputs": [
+            [
+              30,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4023,
+            "room": 741,
+            "x": 361.71875,
+            "y": 350.23828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "leftshaft741",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4123,
+            "room": 741,
+            "x": 342.0,
+            "y": 218.98828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "offsetdash741",
+          "inputs": [
+            [
+              35,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4237,
+            "room": 741,
+            "x": 174.203125,
+            "y": 211.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crosslower741",
+          "inputs": [
+            [
+              24,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              55,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4317,
+            "room": 741,
+            "x": 16.0,
+            "y": 272.30078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lower742",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              6,
+              32
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              180,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4589,
+            "room": 742,
+            "x": 317.2421875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safetime742",
+          "inputs": [
+            [
+              20,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4812,
+            "room": 742,
+            "x": 110.625,
+            "y": 447.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_climbshaft742",
+          "inputs": [
+            [
+              25,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              270,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5158,
+            "room": 742,
+            "x": 70.0,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftleft742",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              28,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              95,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5349,
+            "room": 742,
+            "x": 167.19140625,
+            "y": 340.14453125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftrest742",
+          "inputs": [
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5402,
+            "room": 742,
+            "x": 167.19140625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftwait40742",
+          "inputs": [
+            [
+              40,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5563,
+            "room": 742,
+            "x": 181.34765625,
+            "y": 172.11328125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_topbomb742",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5710,
+            "room": 742,
+            "x": 161.73828125,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_topbomb2742",
+          "inputs": [
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5815,
+            "room": 742,
+            "x": 281.99609375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_metal742",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6011,
+            "room": 742,
+            "x": 358.0,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_chestshaft742",
+          "inputs": [
+            [
+              25,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6106,
+            "room": 742,
+            "x": 390.0,
+            "y": 194.15234375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safefullchest742",
+          "inputs": [
+            [
+              23,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              25,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              26,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              8,
+              32
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6629,
+            "room": 742,
+            "x": 414.16015625,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 2
+        }
+      ]
+    },
+    "default_warp": {
+      "pct": 100,
+      "rom_sha256": "240c3f75489ba59cdbe0c2cfdddbf7425bcbb5109ca40a487cfa580115bde3ee",
+      "initial_state_sha256": "28dbdbb61fc12a4957bb7625d08ed894e257654886c5b1e5c1cb4618a374cba4",
+      "start": {
+        "label": "initial",
+        "frame": 0,
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "segment": "start",
+          "inputs": [],
+          "final": {
+            "frame": 0,
+            "room": 712,
+            "x": 24.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "rise712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              200,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 211,
+            "room": 712,
+            "x": 24.0,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "east712",
+          "inputs": [
+            [
+              150,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 361,
+            "room": 712,
+            "x": 73.99609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "run712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 484,
+            "room": 712,
+            "x": 214.86328125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 715,
+            "room": 712,
+            "x": 265.99609375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "eastshaft712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 868,
+            "room": 712,
+            "x": 239.6640625,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "button712",
+          "inputs": [
+            [
+              40,
+              128
+            ],
+            [
+              60,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 968,
+            "room": 712,
+            "x": 311.3828125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "buttonpress712",
+          "inputs": [
+            [
+              30,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1028,
+            "room": 712,
+            "x": 345.99609375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crossgate712",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              52,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1174,
+            "room": 712,
+            "x": 376.51171875,
+            "y": 411.78515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upper712",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              210,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1457,
+            "room": 712,
+            "x": 455.5,
+            "y": 437.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaftup712",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1687,
+            "room": 712,
+            "x": 437.98046875,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "high712",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1975,
+            "room": 712,
+            "x": 406.10546875,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "ladderdirect712",
+          "inputs": [
+            [
+              70,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 712,
+            "x": 331.33203125,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "trueclimb712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2262,
+            "room": 712,
+            "x": 328.0,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "starhall712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2354,
+            "room": 712,
+            "x": 435.0,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "door712",
+          "inputs": [
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2601,
+            "room": 712,
+            "x": 457.99609375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "top712",
+          "inputs": [
+            [
+              16,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2707,
+            "room": 712,
+            "x": 436.15234375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "topclimb712",
+          "inputs": [
+            [
+              14,
+              33
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2815,
+            "room": 712,
+            "x": 424.0,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "enter741",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3021,
+            "room": 712,
+            "x": 365.51171875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "arrival741",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3142,
+            "room": 741,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lowrise741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3285,
+            "room": 741,
+            "x": 56.65625,
+            "y": 568.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "dash741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3400,
+            "room": 741,
+            "x": 201.99609375,
+            "y": 582.86328125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "middash741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3540,
+            "room": 741,
+            "x": 349.37109375,
+            "y": 568.19140625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "bomb741",
+          "inputs": [
+            [
+              18,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3669,
+            "room": 741,
+            "x": 442.43359375,
+            "y": 592.57421875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3917,
+            "room": 741,
+            "x": 401.796875,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upperalign741",
+          "inputs": [
+            [
+              30,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4023,
+            "room": 741,
+            "x": 361.71875,
+            "y": 350.23828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "leftshaft741",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4123,
+            "room": 741,
+            "x": 342.0,
+            "y": 218.98828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "offsetdash741",
+          "inputs": [
+            [
+              35,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4237,
+            "room": 741,
+            "x": 174.203125,
+            "y": 211.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crosslower741",
+          "inputs": [
+            [
+              24,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              55,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4317,
+            "room": 741,
+            "x": 16.0,
+            "y": 272.30078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lower742",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              6,
+              32
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              180,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4589,
+            "room": 742,
+            "x": 317.2421875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safetime742",
+          "inputs": [
+            [
+              20,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4812,
+            "room": 742,
+            "x": 110.625,
+            "y": 447.18359375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_climbshaft742",
+          "inputs": [
+            [
+              25,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              270,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5158,
+            "room": 742,
+            "x": 70.0,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftleft742",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              28,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              95,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5349,
+            "room": 742,
+            "x": 167.19140625,
+            "y": 340.14453125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftrest742",
+          "inputs": [
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5402,
+            "room": 742,
+            "x": 167.19140625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_shaftwait40742",
+          "inputs": [
+            [
+              40,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5563,
+            "room": 742,
+            "x": 181.34765625,
+            "y": 172.11328125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_topbomb742",
+          "inputs": [
+            [
+              20,
+              33
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5710,
+            "room": 742,
+            "x": 161.73828125,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_topbomb2742",
+          "inputs": [
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5815,
+            "room": 742,
+            "x": 281.99609375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_metal742",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6011,
+            "room": 742,
+            "x": 358.0,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_clearroof742",
+          "inputs": [
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              110,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6134,
+            "room": 742,
+            "x": 425.16015625,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_warpleft742",
+          "inputs": [
+            [
+              1,
+              32
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              110,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6258,
+            "room": 742,
+            "x": 383.7578125,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_warpdoor742",
+          "inputs": [
+            [
+              14,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6509,
+            "room": 742,
+            "x": 370.0,
+            "y": 120.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_warpclimb742",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              35,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 6625,
+            "room": 742,
+            "x": 411.35546875,
+            "y": 16.41015625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "carry-safe_warpexit742",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              15,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6832,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        }
+      ]
+    },
+    "exact500_chest": {
+      "pct": 500,
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "initial_state_sha256": "92321f59694fe4b694b94d42ed22f7102a3363818e45758e13aaaff8a0f481a8",
+      "start": {
+        "label": "initial",
+        "frame": 0,
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "segment": "start",
+          "inputs": [],
+          "final": {
+            "frame": 0,
+            "room": 712,
+            "x": 24.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "rise712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              200,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 211,
+            "room": 712,
+            "x": 24.0,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "east712",
+          "inputs": [
+            [
+              150,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 361,
+            "room": 712,
+            "x": 73.99609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "run712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 484,
+            "room": 712,
+            "x": 214.86328125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 715,
+            "room": 712,
+            "x": 265.99609375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "eastshaft712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 868,
+            "room": 712,
+            "x": 239.6640625,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "button712",
+          "inputs": [
+            [
+              40,
+              128
+            ],
+            [
+              60,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 968,
+            "room": 712,
+            "x": 311.3828125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "buttonpress712",
+          "inputs": [
+            [
+              30,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1028,
+            "room": 712,
+            "x": 345.99609375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crossgate712",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              52,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1174,
+            "room": 712,
+            "x": 376.51171875,
+            "y": 411.78515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upper712",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              210,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1457,
+            "room": 712,
+            "x": 455.5,
+            "y": 437.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaftup712",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1687,
+            "room": 712,
+            "x": 437.98046875,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "high712",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1975,
+            "room": 712,
+            "x": 406.10546875,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "ladderdirect712",
+          "inputs": [
+            [
+              70,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 712,
+            "x": 331.33203125,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "trueclimb712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2262,
+            "room": 712,
+            "x": 328.0,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "starhall712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2354,
+            "room": 712,
+            "x": 431.375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "door712",
+          "inputs": [
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2601,
+            "room": 712,
+            "x": 457.33984375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "top712",
+          "inputs": [
+            [
+              16,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2707,
+            "room": 712,
+            "x": 435.49609375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "topclimb712",
+          "inputs": [
+            [
+              14,
+              33
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2815,
+            "room": 712,
+            "x": 424.0,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "enter741",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3021,
+            "room": 712,
+            "x": 365.51171875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "arrival741",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3142,
+            "room": 741,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lowrise741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3285,
+            "room": 741,
+            "x": 56.65625,
+            "y": 568.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxoffset741",
+          "inputs": [
+            [
+              10,
+              32
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3443,
+            "room": 741,
+            "x": 196.015625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxsecond741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3613,
+            "room": 741,
+            "x": 344.65625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxbomb741",
+          "inputs": [
+            [
+              24,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3743,
+            "room": 741,
+            "x": 442.43359375,
+            "y": 592.57421875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-shaft741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3991,
+            "room": 741,
+            "x": 401.796875,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-upperalign741",
+          "inputs": [
+            [
+              30,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4097,
+            "room": 741,
+            "x": 361.71875,
+            "y": 350.23828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxrightshaft741",
+          "inputs": [
+            [
+              100,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4197,
+            "room": 741,
+            "x": 361.71875,
+            "y": 218.98828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxupperdash741",
+          "inputs": [
+            [
+              54,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4330,
+            "room": 741,
+            "x": 159.296875,
+            "y": 228.91796875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxdrop741",
+          "inputs": [
+            [
+              12,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              55,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4398,
+            "room": 741,
+            "x": 16.0,
+            "y": 272.30078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-arrival742",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4539,
+            "room": 742,
+            "x": 472.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-cross",
+          "inputs": [
+            [
+              1,
+              32
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4645,
+            "room": 742,
+            "x": 322.4296875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-timewait0",
+          "inputs": [
+            [
+              24,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4872,
+            "room": 742,
+            "x": 72.984375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-climb2",
+          "inputs": [
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4978,
+            "room": 742,
+            "x": 70.0,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix2",
+          "inputs": [
+            [
+              28,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              95,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5123,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix3",
+          "inputs": [
+            [
+              65,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5299,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix5",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5406,
+            "room": 742,
+            "x": 151.66015625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix6",
+          "inputs": [
+            [
+              70,
+              0
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5614,
+            "room": 742,
+            "x": 153.19140625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftrest",
+          "inputs": [
+            [
+              13,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5667,
+            "room": 742,
+            "x": 171.22265625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-rise120",
+          "inputs": [
+            [
+              120,
+              0
+            ],
+            [
+              18,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5966,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-bomb",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6128,
+            "room": 742,
+            "x": 163.984375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-bombexit",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6239,
+            "room": 742,
+            "x": 246.74609375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-metalshort",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6440,
+            "room": 742,
+            "x": 369.82421875,
+            "y": 103.48046875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-roofescape",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              35,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6496,
+            "room": 742,
+            "x": 419.30859375,
+            "y": 75.19140625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-roofrepeat",
+          "inputs": [
+            [
+              5,
+              0
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6557,
+            "room": 742,
+            "x": 372.4375,
+            "y": 77.16796875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxchestdesc742",
+          "inputs": [
+            [
+              11,
+              0
+            ],
+            [
+              15,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              40,
+              0
+            ],
+            [
+              22,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6755,
+            "room": 742,
+            "x": 390.0,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-carry-safefullchest742",
+          "inputs": [
+            [
+              23,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              25,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              26,
+              17
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              8,
+              32
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 7278,
+            "room": 742,
+            "x": 413.05859375,
+            "y": 280.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 2
+        }
+      ]
+    },
+    "exact500_warp": {
+      "pct": 500,
+      "rom_sha256": "9521dec5522b8394994f5a6056184fc7ad7de4cc3f5e1b761667e9d8821dca32",
+      "initial_state_sha256": "92321f59694fe4b694b94d42ed22f7102a3363818e45758e13aaaff8a0f481a8",
+      "start": {
+        "label": "initial",
+        "frame": 0,
+        "room": 712,
+        "x": 24.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 3,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "segments": [
+        {
+          "segment": "start",
+          "inputs": [],
+          "final": {
+            "frame": 0,
+            "room": 712,
+            "x": 24.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "rise712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              200,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 211,
+            "room": 712,
+            "x": 24.0,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "east712",
+          "inputs": [
+            [
+              150,
+              17
+            ]
+          ],
+          "final": {
+            "frame": 361,
+            "room": 712,
+            "x": 73.99609375,
+            "y": 421.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "run712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 484,
+            "room": 712,
+            "x": 214.86328125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaft712",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              40,
+              17
+            ],
+            [
+              180,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 715,
+            "room": 712,
+            "x": 265.99609375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "eastshaft712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 868,
+            "room": 712,
+            "x": 239.6640625,
+            "y": 408.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "button712",
+          "inputs": [
+            [
+              40,
+              128
+            ],
+            [
+              60,
+              16
+            ]
+          ],
+          "final": {
+            "frame": 968,
+            "room": 712,
+            "x": 311.3828125,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "buttonpress712",
+          "inputs": [
+            [
+              30,
+              16
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1028,
+            "room": 712,
+            "x": 345.99609375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "crossgate712",
+          "inputs": [
+            [
+              1,
+              34
+            ],
+            [
+              52,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1174,
+            "room": 712,
+            "x": 376.51171875,
+            "y": 411.78515625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "upper712",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              42,
+              17
+            ],
+            [
+              210,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1457,
+            "room": 712,
+            "x": 455.5,
+            "y": 437.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "shaftup712",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1687,
+            "room": 712,
+            "x": 437.98046875,
+            "y": 293.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "high712",
+          "inputs": [
+            [
+              28,
+              17
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              150,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1975,
+            "room": 712,
+            "x": 406.10546875,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "ladderdirect712",
+          "inputs": [
+            [
+              70,
+              33
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 712,
+            "x": 331.33203125,
+            "y": 149.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "trueclimb712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              100,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2262,
+            "room": 712,
+            "x": 328.0,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "starhall712",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2354,
+            "room": 712,
+            "x": 431.375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "door712",
+          "inputs": [
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              64
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2601,
+            "room": 712,
+            "x": 457.33984375,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "top712",
+          "inputs": [
+            [
+              16,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              80,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2707,
+            "room": 712,
+            "x": 435.49609375,
+            "y": 69.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "topclimb712",
+          "inputs": [
+            [
+              14,
+              33
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              65,
+              64
+            ]
+          ],
+          "final": {
+            "frame": 2815,
+            "room": 712,
+            "x": 424.0,
+            "y": 37.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "enter741",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3021,
+            "room": 712,
+            "x": 365.51171875,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "arrival741",
+          "inputs": [
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3142,
+            "room": 741,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "lowrise741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3285,
+            "room": 741,
+            "x": 56.65625,
+            "y": 568.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxoffset741",
+          "inputs": [
+            [
+              10,
+              32
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3443,
+            "room": 741,
+            "x": 196.015625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxsecond741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              90,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3613,
+            "room": 741,
+            "x": 344.65625,
+            "y": 584.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxbomb741",
+          "inputs": [
+            [
+              24,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3743,
+            "room": 741,
+            "x": 442.43359375,
+            "y": 592.57421875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-shaft741",
+          "inputs": [
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3991,
+            "room": 741,
+            "x": 401.796875,
+            "y": 424.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-upperalign741",
+          "inputs": [
+            [
+              30,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              55,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4097,
+            "room": 741,
+            "x": 361.71875,
+            "y": 350.23828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxrightshaft741",
+          "inputs": [
+            [
+              100,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4197,
+            "room": 741,
+            "x": 361.71875,
+            "y": 218.98828125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxupperdash741",
+          "inputs": [
+            [
+              54,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              65,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4330,
+            "room": 741,
+            "x": 159.296875,
+            "y": 228.91796875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "maxdrop741",
+          "inputs": [
+            [
+              12,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              55,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4398,
+            "room": 741,
+            "x": 16.0,
+            "y": 272.30078125,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-arrival742",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4539,
+            "room": 742,
+            "x": 472.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-cross",
+          "inputs": [
+            [
+              1,
+              32
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4645,
+            "room": 742,
+            "x": 322.4296875,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-timewait0",
+          "inputs": [
+            [
+              24,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              28,
+              33
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              25,
+              32
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              70,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 4872,
+            "room": 742,
+            "x": 72.984375,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-climb2",
+          "inputs": [
+            [
+              30,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              65,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 4978,
+            "room": 742,
+            "x": 70.0,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix2",
+          "inputs": [
+            [
+              28,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              95,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5123,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 373.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix3",
+          "inputs": [
+            [
+              65,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5299,
+            "room": 742,
+            "x": 91.2109375,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix5",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5406,
+            "room": 742,
+            "x": 151.66015625,
+            "y": 392.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftfix6",
+          "inputs": [
+            [
+              70,
+              0
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5614,
+            "room": 742,
+            "x": 153.19140625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-shaftrest",
+          "inputs": [
+            [
+              13,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              30,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 5667,
+            "room": 742,
+            "x": 171.22265625,
+            "y": 328.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-rise120",
+          "inputs": [
+            [
+              120,
+              0
+            ],
+            [
+              18,
+              32
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              110,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 5966,
+            "room": 742,
+            "x": 146.78515625,
+            "y": 165.00390625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-bomb",
+          "inputs": [
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6128,
+            "room": 742,
+            "x": 163.984375,
+            "y": 168.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-bombexit",
+          "inputs": [
+            [
+              6,
+              16
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              100,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6239,
+            "room": 742,
+            "x": 246.74609375,
+            "y": 200.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-metalshort",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              12,
+              0
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              40,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6440,
+            "room": 742,
+            "x": 369.82421875,
+            "y": 103.48046875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-roofescape",
+          "inputs": [
+            [
+              20,
+              17
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              35,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6496,
+            "room": 742,
+            "x": 419.30859375,
+            "y": 75.19140625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-roofrepeat",
+          "inputs": [
+            [
+              5,
+              0
+            ],
+            [
+              10,
+              32
+            ],
+            [
+              1,
+              34
+            ],
+            [
+              45,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6557,
+            "room": 742,
+            "x": 372.4375,
+            "y": 77.16796875,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-warptry2",
+          "inputs": [
+            [
+              11,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              20,
+              17
+            ],
+            [
+              20,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 6649,
+            "room": 742,
+            "x": 408.953125,
+            "y": 37.41015625,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-warpdone",
+          "inputs": [
+            [
+              15,
+              17
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              50,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 6846,
+            "room": 742,
+            "x": 428.8203125,
+            "y": 40.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        },
+        {
+          "segment": "max-all500-doo20-warp705",
+          "inputs": [
+            [
+              8,
+              16
+            ],
+            [
+              6,
+              32
+            ],
+            [
+              20,
+              0
+            ],
+            [
+              1,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 7001,
+            "room": 705,
+            "x": 56.0,
+            "y": 616.99609375,
+            "hp": 6,
+            "ability": 3
+          },
+          "minimum_hp": 6,
+          "hp_decrease_frames": [],
+          "abilities": [
+            3
+          ],
+          "grab_frames": [],
+          "chest17": 0
+        }
+      ]
+    }
+  },
+  "mechanisms": [
+    "712: bottom switch and gate crossed by controller, right shaft, ladder corridors and top door to741. No teleport from712 arrival to exit.",
+    "741: Burning jumps cross bottom columns and activateBomb24,38, then25,26. At500 the first dash launch shifts left to land safely after Chippy rebound. Left-side shaft ascent is accepted at default; right-side ascent avoids SwordKnight at500.",
+    "741: leftward upper Burning and a second dash at approximately y259 reach the native lower742 door without taking Flamer. Entry742 is native(472,457), no prior742 visit.",
+    "742: timed button/gate, cannon shaft, innerBomb and directional metal passage use recorded controller actions. Both chest and Warp preserveBurning, including the500 chest branch."
+  ],
+  "observations": {
+    "metal_100": {
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "value": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "value": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "value": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "value": 245
+        }
+      ],
+      "chest17": 0,
+      "writes": []
+    },
+    "metal_500": {
+      "tiles": [
+        {
+          "x": 20,
+          "y": 6,
+          "value": 0
+        },
+        {
+          "x": 21,
+          "y": 6,
+          "value": 0
+        },
+        {
+          "x": 20,
+          "y": 7,
+          "value": 245
+        },
+        {
+          "x": 21,
+          "y": 7,
+          "value": 245
+        }
+      ],
+      "chest17": 0,
+      "writes": []
+    }
+  }
+}

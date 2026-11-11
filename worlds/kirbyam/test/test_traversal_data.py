@@ -160,7 +160,9 @@ def test_target_catalog_counts_and_provider_separation():
         "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
         "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
         "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
-        "metal": frozenset({"Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master"}),
+        "metal": frozenset({"Hammer", "Stone", "Burning", "Missile", "UFO", "Smash", "Master"}),
+        "metal_throw": frozenset({"Throw"}),
+        "ordinary_block_hit": frozenset({"Burning"}),
         "bomb_110_room9": frozenset({"Spark"}),
         "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
         "bomb_138_green": frozenset({"Spark"}),
@@ -172,6 +174,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_517_parasol_swing": frozenset({"Parasol"}),
         "bomb_517_sword_first_slash": frozenset({"Sword"}),
         "bomb_517_fighter_first_combo": frozenset({"Fighter"}),
+        "bomb_517_ufo_top_charge": frozenset({"UFO"}),
         "bomb_719_room13": frozenset({"Beam"}),
         "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
         "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
@@ -186,6 +189,7 @@ def test_target_catalog_counts_and_provider_separation():
         "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
         "switch_825_ufo_top_charge": frozenset({"UFO"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
+        "heave_ho_pull": frozenset({"Normal"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
     }
 

@@ -1,0 +1,2221 @@
+{
+  "schema_version": 1,
+  "ability": "UFO",
+  "generation_local_commit": "3ebb8a2c8db87dc23a5de28c6a9fbd57a3061f07",
+  "generation_public_tree_equivalent_commit": "0db01bdd5c91bd971993e59dc92f38572a33c908",
+  "generation_tree": "b9aa0f9b3a0898d0ccba1b253104dd960b6f1064",
+  "public_tree_equivalence_basis": "Supplied prior verification; independent review verified the exact local tree.",
+  "integration_local_base": "10060925eaa7a4bcaf6e0e96f8f2f23a0b4a9345",
+  "integration_public_tree_equivalent_base": "974a15d2cc30bd8a75f630e04ba8d0cf8ca44f0c",
+  "integration_base_tree": "702046c2addbe5c90bd5968ea1c3443c17850be3",
+  "integration_ci_followup": {
+    "local_commit": "c5a43b6319b4eee3cd461822611829e09ba725c0",
+    "public_commit": "5571a970ae948e3323237241c9752824501ffd18",
+    "tree": "61a23d5ba0086ba4e03067bab5bbea7251f83099",
+    "scope": "One prior Fighter test correction only; the nine-graph room-catalog baseline is unchanged."
+  },
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "private_manifest_sha256": "3071e0369137e672f5584189eb91bc8884bdc1a4d94bf81465174705696183b6",
+  "independent_report_sha256": "1f73e8582eb15fc7617e4a50f34c84c1b000c87bbc4965bf1a5ed74858fe2acc",
+  "generation_seed": 52,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 8531114801390986422,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088CA04C",
+    "native_type": 18,
+    "native_copy": 7,
+    "native_xy": [
+      528,
+      264
+    ],
+    "finite": true,
+    "renewal": false,
+    "acquisition_frame": 1939
+  },
+  "target": {
+    "capability": "bomb_517_ufo_top_charge",
+    "graph": "hub2_ufo_entry",
+    "location": "MINOR_CHEST_SPRAY_PAINT_12",
+    "location_id": 3960511,
+    "room": 517,
+    "f1": [
+      14,
+      7
+    ],
+    "f1_rect": [
+      224,
+      112,
+      239,
+      127
+    ],
+    "linked_cells": 7,
+    "chest": 57,
+    "template": "0x088CA0B8"
+  },
+  "setup": {
+    "predecessor": 591,
+    "initial_ability": "Normal",
+    "helpers_room": 101,
+    "independent_hub2_access_assumed": true,
+    "startup_fixture_only": true,
+    "fresh_save_bytes": 32768,
+    "fresh_save_fill": 255,
+    "initial_state_restored": false,
+    "configuration_write_count": 8,
+    "configuration_frame": 1085,
+    "later_gameplay_writes": 0
+  },
+  "input_sha256": {
+    "positive-inputs.json": "dee2ab8c63eb9945fb9e724cba689dcb731e965989cd99709c85aa8105b8ea45",
+    "low-inputs.json": "9d0bfa0393594105c77d067ad17a353349839bfa92c669205b3ad4679934edf1",
+    "medium-inputs.json": "ec5587eee4b97a42a1d5504e4fb277ca3a36727dbeff680f76a090dff299a4ec"
+  },
+  "control": {
+    "omitted_B_half_open": [
+      2701,
+      2861
+    ],
+    "common_state_through": 2701,
+    "full_target_omission_controls": 4,
+    "full_lower_charge_controls": 2,
+    "no_permission_acquisition_only": true
+  },
+  "combat": {
+    "independently_reviewed": true,
+    "non_source_combat_dependency": false,
+    "non_source_hp_reductions": "Stable original enemies end at HP1 with removal flag 0x1000; native object.c removal path. Recycled slots are not compared.",
+    "frozen_platform_or_payload_dependency": false
+  },
+  "runs": {
+    "qualified100-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": 2873,
+      "linked_complete_frame": 2903,
+      "chest_frame": 3345,
+      "final_ability": 14,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "final_xy": [
+        321.12109375,
+        135.25390625
+      ],
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "0970d2489dc9a69aed738b6c64b8d48c3a72bd01fe64fad18565f1056f30eaaf",
+        "commands.json": "5fe7477ddcddeb43e691718d2723ebf417c95f53755648484e93d3dd7a580cb4",
+        "runtime.json": "02b3857cd6346808b37bb48d3c23c134d3dd8cc425796019d828835bc2b7380a",
+        "tile-deltas.json": "6c97863be7e0d230a3d1a1d27c68ca04644be88c611a0a2e1a0b38b663bb1c26",
+        "client.json": "8808c83bd9ec87798f2f598979be4bdcad600efb17b67e88d2c2872cf6870a32"
+      },
+      "fixture_rom_sha256": "0a1abf299276b47381c51c720d7d3e724b739d9f2c2f65027e0c3373e1fb5dc3",
+      "charge": {
+        "hold_half_open": [
+          2701,
+          2861
+        ],
+        "milestones": [
+          {
+            "frame": 2715,
+            "counter": 1,
+            "animation": 21,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2752,
+            "counter": 2,
+            "animation": 22,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2813,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2861,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          }
+        ],
+        "release_frame": 2862,
+        "release_animation": 31,
+        "release_state": "0x806dbcd",
+        "release_phase": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "end_of_frame_recoil": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "attack": {
+        "task_fn": "0x8070581",
+        "parent": "0x2020ee0",
+        "mask": "0x20001103",
+        "flags": "0xa0084102",
+        "scan_box": [
+          -6,
+          -4,
+          6,
+          4
+        ],
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "callbacks": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x8084edd"
+        ],
+        "x": 219.99609375,
+        "y": 122.99609375,
+        "anim_id": 408,
+        "variant": 0,
+        "integer_rect": [
+          213,
+          118,
+          225,
+          126
+        ],
+        "chain_parent_matches": true
+      },
+      "trajectory": [
+        {
+          "frame": 2870,
+          "x": 201.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004100"
+        },
+        {
+          "frame": 2871,
+          "x": 207.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2872,
+          "x": 213.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2873,
+          "x": 219.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0084102"
+        }
+      ],
+      "carry": [
+        {
+          "frame": 2007,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 2,
+          "ability": 14
+        },
+        {
+          "frame": 2016,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2201,
+          "xy": [
+            374.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2272,
+          "xy": [
+            316.0,
+            293.00390625
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2329,
+          "xy": [
+            316.0,
+            197.00390625
+          ],
+          "animation": 42,
+          "ability": 14
+        },
+        {
+          "frame": 2569,
+          "xy": [
+            39.0,
+            85.00390625
+          ],
+          "animation": 41,
+          "ability": 14
+        },
+        {
+          "frame": 2681,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 37,
+          "ability": 14
+        },
+        {
+          "frame": 2701,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 3,
+          "ability": 14
+        }
+      ],
+      "original_hp_transitions": [
+        {
+          "frame": 1398,
+          "template": "0x88ca100",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 1833,
+          "template": "0x88ca04c",
+          "before": 4,
+          "after": 0,
+          "removal": false
+        },
+        {
+          "frame": 2281,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2377,
+          "template": "0x88ca1b4",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2405,
+          "template": "0x88ca148",
+          "before": 4,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2521,
+          "template": "0x88ca0dc",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 3064,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        }
+      ]
+    },
+    "qualified100-1hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "d457ab4d038c17a5afa0ed9a98179d6e0b6a320fb78c9765db1c0cebdd35078b",
+        "commands.json": "1dd0d54fa371d97b983c6b28673789312367e612386c5d4ce6fec3c245d725f0",
+        "runtime.json": "e8e474288b722614cfb76ee03f4ebe0cbb3a298cb7d2d68dcde39abd2b649339",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "0a1abf299276b47381c51c720d7d3e724b739d9f2c2f65027e0c3373e1fb5dc3"
+    },
+    "qualified100-6hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": 2873,
+      "linked_complete_frame": 2903,
+      "chest_frame": 3345,
+      "final_ability": 14,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "final_xy": [
+        321.12109375,
+        135.25390625
+      ],
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "d61e8c31a2d6ea57d377a8ad8f81cc483a77285e540102eb3cd0cf75d7539e37",
+        "commands.json": "5fe7477ddcddeb43e691718d2723ebf417c95f53755648484e93d3dd7a580cb4",
+        "runtime.json": "647a8c8b7c6eb93388f3b6ed9cc33e3d2165115849c528e9ff02a34149fcf0a1",
+        "tile-deltas.json": "6c97863be7e0d230a3d1a1d27c68ca04644be88c611a0a2e1a0b38b663bb1c26",
+        "client.json": "8808c83bd9ec87798f2f598979be4bdcad600efb17b67e88d2c2872cf6870a32"
+      },
+      "fixture_rom_sha256": "ca633aa97c916a2cdd17b566a3e053b396bd8f28b00ed3d3a7ec39f6621db91c",
+      "charge": {
+        "hold_half_open": [
+          2701,
+          2861
+        ],
+        "milestones": [
+          {
+            "frame": 2715,
+            "counter": 1,
+            "animation": 21,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2752,
+            "counter": 2,
+            "animation": 22,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2813,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2861,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          }
+        ],
+        "release_frame": 2862,
+        "release_animation": 31,
+        "release_state": "0x806dbcd",
+        "release_phase": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "end_of_frame_recoil": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "attack": {
+        "task_fn": "0x8070581",
+        "parent": "0x2020ee0",
+        "mask": "0x20001103",
+        "flags": "0xa0084102",
+        "scan_box": [
+          -6,
+          -4,
+          6,
+          4
+        ],
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "callbacks": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x8084edd"
+        ],
+        "x": 219.99609375,
+        "y": 122.99609375,
+        "anim_id": 408,
+        "variant": 0,
+        "integer_rect": [
+          213,
+          118,
+          225,
+          126
+        ],
+        "chain_parent_matches": true
+      },
+      "trajectory": [
+        {
+          "frame": 2870,
+          "x": 201.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004100"
+        },
+        {
+          "frame": 2871,
+          "x": 207.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2872,
+          "x": 213.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2873,
+          "x": 219.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0084102"
+        }
+      ],
+      "carry": [
+        {
+          "frame": 2007,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 2,
+          "ability": 14
+        },
+        {
+          "frame": 2016,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2201,
+          "xy": [
+            374.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2272,
+          "xy": [
+            316.0,
+            293.00390625
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2329,
+          "xy": [
+            316.0,
+            197.00390625
+          ],
+          "animation": 42,
+          "ability": 14
+        },
+        {
+          "frame": 2569,
+          "xy": [
+            39.0,
+            85.00390625
+          ],
+          "animation": 41,
+          "ability": 14
+        },
+        {
+          "frame": 2681,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 37,
+          "ability": 14
+        },
+        {
+          "frame": 2701,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 3,
+          "ability": 14
+        }
+      ],
+      "original_hp_transitions": [
+        {
+          "frame": 1399,
+          "template": "0x88ca100",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 1833,
+          "template": "0x88ca04c",
+          "before": 4,
+          "after": 0,
+          "removal": false
+        },
+        {
+          "frame": 2281,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2377,
+          "template": "0x88ca1b4",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2405,
+          "template": "0x88ca148",
+          "before": 4,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2521,
+          "template": "0x88ca0dc",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 3064,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        }
+      ]
+    },
+    "qualified100-6hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "9d08dee5949d87fd6d9d2e426d86afc177e77c617557d54c6583869cf1608ed5",
+        "commands.json": "1dd0d54fa371d97b983c6b28673789312367e612386c5d4ce6fec3c245d725f0",
+        "runtime.json": "15e78db6653ccc62373793824ca4daf663807e83cc742c10aab888f418ccb459",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "ca633aa97c916a2cdd17b566a3e053b396bd8f28b00ed3d3a7ec39f6621db91c"
+    },
+    "qualified500-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": 2873,
+      "linked_complete_frame": 2903,
+      "chest_frame": 3345,
+      "final_ability": 14,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "final_xy": [
+        321.12109375,
+        135.25390625
+      ],
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "04797fee57df6f12d078503e2b76af62d503ccdd3c7af70e47a819b7fdab20d6",
+        "commands.json": "5fe7477ddcddeb43e691718d2723ebf417c95f53755648484e93d3dd7a580cb4",
+        "runtime.json": "8a53affa1828416b5ede99bb8fb4dffe192495deafc550c2a20c9c327d9b1c94",
+        "tile-deltas.json": "6c97863be7e0d230a3d1a1d27c68ca04644be88c611a0a2e1a0b38b663bb1c26",
+        "client.json": "8808c83bd9ec87798f2f598979be4bdcad600efb17b67e88d2c2872cf6870a32"
+      },
+      "fixture_rom_sha256": "206a311feeb991789333b9e08eaef88b261970d4372da95346c3c845247e9272",
+      "charge": {
+        "hold_half_open": [
+          2701,
+          2861
+        ],
+        "milestones": [
+          {
+            "frame": 2715,
+            "counter": 1,
+            "animation": 21,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2752,
+            "counter": 2,
+            "animation": 22,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2813,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2861,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          }
+        ],
+        "release_frame": 2862,
+        "release_animation": 31,
+        "release_state": "0x806dbcd",
+        "release_phase": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "end_of_frame_recoil": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "attack": {
+        "task_fn": "0x8070581",
+        "parent": "0x2020ee0",
+        "mask": "0x20001103",
+        "flags": "0xa0084102",
+        "scan_box": [
+          -6,
+          -4,
+          6,
+          4
+        ],
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "callbacks": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x8084edd"
+        ],
+        "x": 219.99609375,
+        "y": 122.99609375,
+        "anim_id": 408,
+        "variant": 0,
+        "integer_rect": [
+          213,
+          118,
+          225,
+          126
+        ],
+        "chain_parent_matches": true
+      },
+      "trajectory": [
+        {
+          "frame": 2870,
+          "x": 201.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004100"
+        },
+        {
+          "frame": 2871,
+          "x": 207.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2872,
+          "x": 213.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2873,
+          "x": 219.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0084102"
+        }
+      ],
+      "carry": [
+        {
+          "frame": 2007,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 2,
+          "ability": 14
+        },
+        {
+          "frame": 2016,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2201,
+          "xy": [
+            374.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2272,
+          "xy": [
+            316.0,
+            293.00390625
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2329,
+          "xy": [
+            316.0,
+            197.00390625
+          ],
+          "animation": 42,
+          "ability": 14
+        },
+        {
+          "frame": 2569,
+          "xy": [
+            39.0,
+            85.00390625
+          ],
+          "animation": 41,
+          "ability": 14
+        },
+        {
+          "frame": 2681,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 37,
+          "ability": 14
+        },
+        {
+          "frame": 2701,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 3,
+          "ability": 14
+        }
+      ],
+      "original_hp_transitions": [
+        {
+          "frame": 1398,
+          "template": "0x88ca100",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 1833,
+          "template": "0x88ca04c",
+          "before": 20,
+          "after": 0,
+          "removal": false
+        },
+        {
+          "frame": 2281,
+          "template": "0x88ca244",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2352,
+          "template": "0x88ca268",
+          "before": 5,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2377,
+          "template": "0x88ca1b4",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2405,
+          "template": "0x88ca148",
+          "before": 20,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2521,
+          "template": "0x88ca0dc",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 3064,
+          "template": "0x88ca244",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        }
+      ]
+    },
+    "qualified500-1hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "46e0d6d77af426908725f135e6d5cd178b9293ddadc9fdc79411d55bf68818ca",
+        "commands.json": "1dd0d54fa371d97b983c6b28673789312367e612386c5d4ce6fec3c245d725f0",
+        "runtime.json": "7174fae8303cf4989d1109649f8df1e2abab971db61a15bca46c4ac4152b3b28",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "206a311feeb991789333b9e08eaef88b261970d4372da95346c3c845247e9272"
+    },
+    "qualified500-6hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": 2873,
+      "linked_complete_frame": 2903,
+      "chest_frame": 3345,
+      "final_ability": 14,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "final_xy": [
+        321.12109375,
+        135.25390625
+      ],
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "d942f1505a006c1339bf77668b2f4e294795cfd3250534f239fd7c0d21080f0b",
+        "commands.json": "5fe7477ddcddeb43e691718d2723ebf417c95f53755648484e93d3dd7a580cb4",
+        "runtime.json": "613f8e8277eeed511fa81a7dc5ede0593479b3ff57327475415fb4cee33dd49e",
+        "tile-deltas.json": "6c97863be7e0d230a3d1a1d27c68ca04644be88c611a0a2e1a0b38b663bb1c26",
+        "client.json": "8808c83bd9ec87798f2f598979be4bdcad600efb17b67e88d2c2872cf6870a32"
+      },
+      "fixture_rom_sha256": "448b04f635d1a74608382bffbe0dfd9f0f3d523a8252eea4763a5ea3eea109ff",
+      "charge": {
+        "hold_half_open": [
+          2701,
+          2861
+        ],
+        "milestones": [
+          {
+            "frame": 2715,
+            "counter": 1,
+            "animation": 21,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2752,
+            "counter": 2,
+            "animation": 22,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2813,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2861,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          }
+        ],
+        "release_frame": 2862,
+        "release_animation": 31,
+        "release_state": "0x806dbcd",
+        "release_phase": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "end_of_frame_recoil": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "attack": {
+        "task_fn": "0x8070581",
+        "parent": "0x2020ee0",
+        "mask": "0x20001103",
+        "flags": "0xa0084102",
+        "scan_box": [
+          -6,
+          -4,
+          6,
+          4
+        ],
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "callbacks": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x8084edd"
+        ],
+        "x": 219.99609375,
+        "y": 122.99609375,
+        "anim_id": 408,
+        "variant": 0,
+        "integer_rect": [
+          213,
+          118,
+          225,
+          126
+        ],
+        "chain_parent_matches": true
+      },
+      "trajectory": [
+        {
+          "frame": 2870,
+          "x": 201.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004100"
+        },
+        {
+          "frame": 2871,
+          "x": 207.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2872,
+          "x": 213.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2873,
+          "x": 219.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0084102"
+        }
+      ],
+      "carry": [
+        {
+          "frame": 2007,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 2,
+          "ability": 14
+        },
+        {
+          "frame": 2016,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2201,
+          "xy": [
+            374.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2272,
+          "xy": [
+            316.0,
+            293.00390625
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2329,
+          "xy": [
+            316.0,
+            197.00390625
+          ],
+          "animation": 42,
+          "ability": 14
+        },
+        {
+          "frame": 2569,
+          "xy": [
+            39.0,
+            85.00390625
+          ],
+          "animation": 41,
+          "ability": 14
+        },
+        {
+          "frame": 2681,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 37,
+          "ability": 14
+        },
+        {
+          "frame": 2701,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 3,
+          "ability": 14
+        }
+      ],
+      "original_hp_transitions": [
+        {
+          "frame": 1399,
+          "template": "0x88ca100",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 1833,
+          "template": "0x88ca04c",
+          "before": 20,
+          "after": 0,
+          "removal": false
+        },
+        {
+          "frame": 2281,
+          "template": "0x88ca244",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2352,
+          "template": "0x88ca268",
+          "before": 5,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2377,
+          "template": "0x88ca1b4",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2405,
+          "template": "0x88ca148",
+          "before": 20,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2521,
+          "template": "0x88ca0dc",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 3064,
+          "template": "0x88ca244",
+          "before": 10,
+          "after": 1,
+          "removal": true
+        }
+      ]
+    },
+    "qualified500-6hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "ce75ae7d38ecdb071d77cd93b49388649ac3aef0b503484ec77db22a405c7f31",
+        "commands.json": "1dd0d54fa371d97b983c6b28673789312367e612386c5d4ce6fec3c245d725f0",
+        "runtime.json": "cf08e7bfbdc404821d151e27a92b164498e4a4855272e4917006d1983df6f682",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "448b04f635d1a74608382bffbe0dfd9f0f3d523a8252eea4763a5ea3eea109ff"
+    },
+    "qualified100-1hp-low": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "0db24761dd1c70d4e090c876247e106df4f09a8171e652eb0c4d8a3987eb2c48",
+        "commands.json": "27b72c8b505cece55c9653a3ef245061801b02f1a3b326434b7687067ab5e7ba",
+        "runtime.json": "a29db8df6abff7b48eca065e4a65ac70d9c682e357ec8fd28bcf6b9f8a6d4098",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "0a1abf299276b47381c51c720d7d3e724b739d9f2c2f65027e0c3373e1fb5dc3",
+      "lower_charge": {
+        "hold_frames": 30,
+        "release_frame": 2731,
+        "counter": 1,
+        "animation": 21,
+        "shots": [
+          {
+            "frame": 2735,
+            "task_fn": "0x8070581",
+            "parent": "0x2020ee0",
+            "mask": "0x20000103",
+            "flags": "0xa0044800",
+            "scan_box": [
+              -1,
+              -1,
+              1,
+              1
+            ],
+            "damage_box": [
+              -6,
+              -3,
+              6,
+              3
+            ],
+            "callbacks": [
+              "0x8084b95",
+              "0x8084bd9",
+              "0x807c1a1",
+              "0x8084edd"
+            ],
+            "x": 197.99609375,
+            "y": 122.99609375,
+            "anim_id": 409,
+            "variant": 0
+          },
+          {
+            "frame": 2736,
+            "task_fn": "0x8070581",
+            "parent": "0x2020ee0",
+            "mask": "0x20000103",
+            "flags": "0xa0045800",
+            "scan_box": [
+              -1,
+              -1,
+              1,
+              1
+            ],
+            "damage_box": [
+              -6,
+              -3,
+              6,
+              3
+            ],
+            "callbacks": [
+              "0x8084b95",
+              "0x8084bd9",
+              "0x807c1a1",
+              "0x8084edd"
+            ],
+            "x": 197.99609375,
+            "y": 122.99609375,
+            "anim_id": 409,
+            "variant": 0
+          }
+        ],
+        "absent_frame": 2737
+      }
+    },
+    "qualified100-1hp-medium": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 14,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        249.99609375,
+        165.00390625
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "f001753bef567d709430036c38fe4862586b2436f6b0b72febbf94c3f5d74d18",
+        "commands.json": "ae74ae8a1f35d1cdb9a12bd06f0ebf9221765de7dcd5091f7ef1aadb1a004591",
+        "runtime.json": "a4ea0c49ac85baebfabf251df3583ad8a4161b02d9abd009f7fdd3b185519c62",
+        "tile-deltas.json": "f3cdfc4aa23aa3678861dc68cdee202e5c52851006780cd9c733361ba90e2bbc",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "0a1abf299276b47381c51c720d7d3e724b739d9f2c2f65027e0c3373e1fb5dc3",
+      "lower_charge": {
+        "hold_frames": 80,
+        "release_frame": 2781,
+        "counter": 2,
+        "animation": 22,
+        "shots": [
+          {
+            "frame": 2788,
+            "task_fn": "0x8070581",
+            "parent": "0x2020ee0",
+            "mask": "0x20000103",
+            "flags": "0xa0044800",
+            "scan_box": [
+              -6,
+              -4,
+              6,
+              4
+            ],
+            "damage_box": [
+              -12,
+              -8,
+              12,
+              8
+            ],
+            "callbacks": [
+              "0x0",
+              "0x8084bfd",
+              "0x8084c21",
+              "0x8084edd"
+            ],
+            "x": 201.99609375,
+            "y": 122.99609375,
+            "anim_id": 410,
+            "variant": 0
+          },
+          {
+            "frame": 2789,
+            "task_fn": "0x8070581",
+            "parent": "0x2020ee0",
+            "mask": "0x20000103",
+            "flags": "0xa0045800",
+            "scan_box": [
+              -6,
+              -4,
+              6,
+              4
+            ],
+            "damage_box": [
+              -12,
+              -8,
+              12,
+              8
+            ],
+            "callbacks": [
+              "0x0",
+              "0x8084bfd",
+              "0x8084c21",
+              "0x8084edd"
+            ],
+            "x": 201.99609375,
+            "y": 122.99609375,
+            "anim_id": 410,
+            "variant": 0
+          }
+        ],
+        "absent_frame": 2790
+      }
+    },
+    "gated100-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 3403,
+      "sample_count": 2319,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2016,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": 2873,
+      "linked_complete_frame": 2903,
+      "chest_frame": 3345,
+      "final_ability": 14,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "final_xy": [
+        321.12109375,
+        135.25390625
+      ],
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "91e7b80b388b118840dd5a56647979f606cc9077c604438cc4a069f6ee913bbe",
+        "commands.json": "5fe7477ddcddeb43e691718d2723ebf417c95f53755648484e93d3dd7a580cb4",
+        "runtime.json": "ec4786b68d8cd35a56902a2854af61514971bd1d3278449d65a5004497c6eb06",
+        "tile-deltas.json": "6c97863be7e0d230a3d1a1d27c68ca04644be88c611a0a2e1a0b38b663bb1c26",
+        "client.json": "8808c83bd9ec87798f2f598979be4bdcad600efb17b67e88d2c2872cf6870a32"
+      },
+      "fixture_rom_sha256": "2b384899f725bc8eb7c1ad4097dda8766a98163d7565cd1e374aca686a26cf97",
+      "gate_mask": 67108470,
+      "permission_mask": 16384,
+      "charge": {
+        "hold_half_open": [
+          2701,
+          2861
+        ],
+        "milestones": [
+          {
+            "frame": 2715,
+            "counter": 1,
+            "animation": 21,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2752,
+            "counter": 2,
+            "animation": 22,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2813,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          },
+          {
+            "frame": 2861,
+            "counter": 3,
+            "animation": 23,
+            "state": "0x806d0f5"
+          }
+        ],
+        "release_frame": 2862,
+        "release_animation": 31,
+        "release_state": "0x806dbcd",
+        "release_phase": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "end_of_frame_recoil": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "attack": {
+        "task_fn": "0x8070581",
+        "parent": "0x2020ee0",
+        "mask": "0x20001103",
+        "flags": "0xa0084102",
+        "scan_box": [
+          -6,
+          -4,
+          6,
+          4
+        ],
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "callbacks": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x8084edd"
+        ],
+        "x": 219.99609375,
+        "y": 122.99609375,
+        "anim_id": 408,
+        "variant": 0,
+        "integer_rect": [
+          213,
+          118,
+          225,
+          126
+        ],
+        "chain_parent_matches": true
+      },
+      "trajectory": [
+        {
+          "frame": 2870,
+          "x": 201.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004100"
+        },
+        {
+          "frame": 2871,
+          "x": 207.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2872,
+          "x": 213.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0004102"
+        },
+        {
+          "frame": 2873,
+          "x": 219.99609375,
+          "y": 122.99609375,
+          "flags": "0xa0084102"
+        }
+      ],
+      "carry": [
+        {
+          "frame": 2007,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 2,
+          "ability": 14
+        },
+        {
+          "frame": 2016,
+          "xy": [
+            566.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2201,
+          "xy": [
+            374.0,
+            296.9921875
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2272,
+          "xy": [
+            316.0,
+            293.00390625
+          ],
+          "animation": 25,
+          "ability": 14
+        },
+        {
+          "frame": 2329,
+          "xy": [
+            316.0,
+            197.00390625
+          ],
+          "animation": 42,
+          "ability": 14
+        },
+        {
+          "frame": 2569,
+          "xy": [
+            39.0,
+            85.00390625
+          ],
+          "animation": 41,
+          "ability": 14
+        },
+        {
+          "frame": 2681,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 37,
+          "ability": 14
+        },
+        {
+          "frame": 2701,
+          "xy": [
+            185.99609375,
+            120.99609375
+          ],
+          "animation": 3,
+          "ability": 14
+        }
+      ],
+      "original_hp_transitions": [
+        {
+          "frame": 1398,
+          "template": "0x88ca100",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 1833,
+          "template": "0x88ca04c",
+          "before": 4,
+          "after": 0,
+          "removal": false
+        },
+        {
+          "frame": 2281,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2377,
+          "template": "0x88ca1b4",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2405,
+          "template": "0x88ca148",
+          "before": 4,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 2521,
+          "template": "0x88ca0dc",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        },
+        {
+          "frame": 3064,
+          "template": "0x88ca244",
+          "before": 2,
+          "after": 1,
+          "removal": true
+        }
+      ]
+    },
+    "gated100-1hp-no-permission": {
+      "positive": false,
+      "acquisition_only": true,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 2067,
+      "sample_count": 983,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": null,
+      "corridor_frame": null,
+      "mouth_full_frame": 1850,
+      "source_last_active_frame": 1850,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 0,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "final_xy": [
+        566.0,
+        296.99609375
+      ],
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "hashes": {
+        "states.json": "5ed913ec1963d700782be8ad689a99ee69b2063749f836f2a1a6379398747e15",
+        "commands.json": "8eb2d478a7fb8616b9336f8b723d95117a751146eae580381640fdf410924ae4",
+        "runtime.json": "604f6c07f582046ad20e74e79ccbcb0f852b04d6e7ab36f74144dd08cd759eb7",
+        "tile-deltas.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "client.json": "c1e3151c9897982d7f0baee03c8c63e2ffa77f6a5bb88e3f724a9e7acfaf0704"
+      },
+      "fixture_rom_sha256": "2b384899f725bc8eb7c1ad4097dda8766a98163d7565cd1e374aca686a26cf97",
+      "gate_mask": 67108470,
+      "permission_mask": 0
+    }
+  },
+  "builds": {
+    "build100-1hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "sha256": {
+        "production.apkirbyam": "07c8b46bec1b14b8109b81a102a2a4108c505d33c3da7de45db8dd87a618c56c",
+        "production.gba": "92cc20adb33d4af61626e43a205e1e7c15aec917ba38f74dfa025cebc1fb9ffe",
+        "fixture.gba": "0a1abf299276b47381c51c720d7d3e724b739d9f2c2f65027e0c3373e1fb5dc3",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      },
+      "build_metadata_sha256": "388934edbeae775ad7634335b4824351f7158f8411415ade51bde06f74d60ceb",
+      "fixture_changed_bytes": 15
+    },
+    "build100-6hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "sha256": {
+        "production.apkirbyam": "32963267d7e7f3a85fdb95b802593dc697668490a592c75b675473968daed5d1",
+        "production.gba": "ef300daceb5c3d9cc9a8b8ec03a20af55c2bdcf64b7f3af2569527cfce4d8553",
+        "fixture.gba": "ca633aa97c916a2cdd17b566a3e053b396bd8f28b00ed3d3a7ec39f6621db91c",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      },
+      "build_metadata_sha256": "524c75d2c4e7f14e64cf96917f01d3d9b7edc0dc29cd01b2acf36bb8fe08cdc5",
+      "fixture_changed_bytes": 15
+    },
+    "build500-1hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "sha256": {
+        "production.apkirbyam": "9be482a70b428c7153af703bc74f589f04233a99d73bc3dc278744c91d120096",
+        "production.gba": "2af19aeb1982a9d0b430214c1aca3015fc4579a91cf1e440181a41447045c8d8",
+        "fixture.gba": "206a311feeb991789333b9e08eaef88b261970d4372da95346c3c845247e9272",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      },
+      "build_metadata_sha256": "170c94f5d5353ea9b81b29b02897475b99c6434ce61ed097c18c1a0f5956fa45",
+      "fixture_changed_bytes": 15
+    },
+    "build500-6hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "sha256": {
+        "production.apkirbyam": "d3b30321c84bbdadeb4d36f58e47ca45c910fed73cfd7712068fe7f607fade25",
+        "production.gba": "6d636569669d2ccd2b5c9029d2baa8a77debfe7c98aeb0b338d9ab9cc8c7c943",
+        "fixture.gba": "448b04f635d1a74608382bffbe0dfd9f0f3d523a8252eea4763a5ea3eea109ff",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      },
+      "build_metadata_sha256": "8a138dc44bbfc056bd5805a12d98c31dbb7a3a94caa38414eebbaf4fbefe87a6",
+      "fixture_changed_bytes": 15
+    },
+    "build-gated100-1hp": {
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 1,
+        "ability_randomization_no_ability_weight": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "sha256": {
+        "production.apkirbyam": "382025fe2ac1d3cb250ddf06c178d4fb33dd35c1856b4860d259bef8104e5085",
+        "production.gba": "21610d8ac22807bbdf8b6bd8ad28fa55b1dac33f4a5f4c99b4f01f843944dd90",
+        "fixture.gba": "2b384899f725bc8eb7c1ad4097dda8766a98163d7565cd1e374aca686a26cf97",
+        "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+      },
+      "build_metadata_sha256": "b24421cd72e864408d9d3096a45c624fdedcacccc5fa35f5bd533c0dcc481a9d",
+      "fixture_changed_bytes": 15
+    }
+  },
+  "excluded_diagnostics": {
+    "explore1": "First success before route correction; not accepted.",
+    "final100-1hp-control": "Died after unnecessary descent when the closed chain blocked collection; excluded.",
+    "accepted100-1hp-pair": "Preliminary corrected route; final qualified runs add recoil/damage observations."
+  },
+  "limits": [
+    "Independent Hub2 access is assumed, not game-start reachability.",
+    "Finite original source only; no renewal or random retry.",
+    "Inventory permission is not equipped ability.",
+    "Endpoint HP1/6 and enemy100/500 only; no intermediate-health or all-RNG guarantee.",
+    "Maximum-charge shot at the witnessed dry pose only; low/medium controls do not exclude all other possible routes.",
+    "No generic range, arrival envelope, other target, exit, helper route or RoomSanity guarantee.",
+    "Frame-sampled and source-reconciled attribution, not instruction-breakpoint tracing.",
+    "Local client poll only; no server submission or receipt.",
+    "Independent replay covers the HP1/enemy500 pair; the other ten accepted traces were audited, not replayed."
+  ],
+  "prior_room_catalog_sha256": "c2efdd65b6d48d7045a10270499ffce4406cf7d0c54b6bef4baefdd0ab957685",
+  "prior_graphs_sha256": {
+    "hub2_entry": "b6bdfd79f8e96d060b0b056647ed1db98b7135ab7d036194d2efb8ec8a90bc40",
+    "hub2_smash_entry": "80e208da9be231463f253a26f7684ab50ced43c450da083e828c5ca4f47962ff",
+    "hub2_fire_entry": "9b28904963759d5f50271892cb2dacfef0557fe093c3ea3ded9d309d6535ed5a",
+    "hub2_missile_entry": "7bddf54bdfb8911b4948bcaf68d84c91ff311189b4f8daba8aba2a00ea35ce4a",
+    "hub2_parasol_entry": "253048c65f433ea580dfee2c8463baa217c20154d73dda1702d154eb8cfc9a4e",
+    "hub2_spark_entry": "a411ea6913b767fa9f08488f2cd0e1a046f787985272d526d10ae793bcf1edca",
+    "hub2_ice_entry": "c0aa62ce4b7a43f5865d1cbc531bd8f38ce22dc29881a39daa212f8437865980",
+    "hub2_sword_entry": "3fa32ce6e0b8060b9a36c90d00094caa1f9fde643dde79d72e1daef722d41aa5",
+    "hub2_fighter_entry": "c97bf52d12421de3519764396416a995bde2446bfb8166439fcdb792196a2f97"
+  }
+}

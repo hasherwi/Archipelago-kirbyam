@@ -7,6 +7,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from Options import Accessibility
 
+from .support.source_policy import set_rule_test_policy
 from .. import traversal_rules as rules
 from ..data import data
 from ..traversal_data import room_traversal_graph, room_traversal_targets
@@ -90,7 +91,7 @@ def test_actual_world_wires_only_map_and_preserves_crash_progression(
     # A controlled production policy exercises the real generate/create/set-rules
     # lifecycle. Minimal accessibility keeps unrelated finite-source gates from
     # rejecting these deliberately restricted assignment pools.
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=weight, start_with_all_maps=start_with_all_maps)
@@ -300,7 +301,10 @@ def test_public_evidence_and_single_capability_owner():
             assert run['final']['ability'] == 0
     client = evidence['client_poll']
     assert client['no_server_transmission']
-    assert client['client_sha256'] == lf_text_sha256((root / 'client.py').read_bytes())
+    # The native record keeps its historical client; the union adopts main's client.
+    assert client['client_sha256'] == 'b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9'
+    union = json.loads((root / 'dev-docs/main-ranged-union-catalog.json').read_text())
+    assert union['adopted_main_source_sha256']['client.py'] == lf_text_sha256((root / 'client.py').read_bytes())
     assert client['runs']['positive']['captured_client_messages'] == [{'cmd': 'LocationChecks', 'locations': [3960205]}]
     owners = [(row['id'], key) for row in room_traversal_targets('switch') for key, g in row['graphs'].items()
               if any(r.get('capability') == 'switch_310_crash_viewport' for r in g['routes'])]

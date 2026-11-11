@@ -1,0 +1,1613 @@
+{
+  "schema_version": 1,
+  "room": 532,
+  "scope": "Normal lower/main arrival from139 through left-facing cannon and metal bank to actual138/Room1_28 exit. Reverse direction and571 entry not certified by this trace.",
+  "qualification": {
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "fixture": "OriginalUSA with startup139 at[464,48], AI startup101 at[48,80]. No object, source, attack, terrain or lock changes. Actual139 door(28,2),record0x87F564 enters532 stored[10,29]. Fresh blank save, no runtime writes. Does not establish earlier approach through139.",
+    "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+    "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "max_fixture": "Production500% scaler applied once, not fullAP seed or direct1HP replay."
+  },
+  "mechanism": {
+    "cannon_template": "0x088B576C",
+    "position": [
+      208,
+      304
+    ],
+    "direction": 6,
+    "unk22": 1,
+    "behavior": "Automatic rotation returns to native direction6 (left), then launches Normal Kirby. All16 F5 atx3\u201310/y18\u201319 change245\u21920. Native source EightDirCannonRotate\u2192sub_08051F70. No copy attack used.",
+    "approach": "Actual lower entry; bottom automatic cannon chain reaches upper-right. Descend existing ladders, use ordinary air puff on F0 at throat, walk into original left-facing cannon, then fly through opened bank and left ladder pockets."
+  },
+  "exit": {
+    "record": "0x87537C",
+    "trigger": [
+      2,
+      3
+    ],
+    "destination": 138,
+    "stored_spawn": [
+      44,
+      7
+    ],
+    "live_endpoint": [
+      696,
+      104.99609375
+    ],
+    "ap_mapping": "REGION_RAINBOW_ROUTE/ROOM_1_28; earlier128 shorthand was incorrect."
+  },
+  "audits": {
+    "100": {
+      "rom_sha256": "f956bd312f2209618457ff6cab5cffd8c5ecd7c24dfbacd3464dac33cb1be25a",
+      "segments": [
+        {
+          "id": "normal532bottomboot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 532,
+            "x": 152.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532BottomCannon",
+          "inputs": [
+            [
+              40,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              170,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1485,
+            "room": 532,
+            "x": 429.75,
+            "y": 293.75,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532CannonChain",
+          "inputs": [
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1725,
+            "room": 532,
+            "x": 434.453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532MiddleApproach",
+          "inputs": [
+            [
+              100,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1915,
+            "room": 532,
+            "x": 285.21484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532LadderDown",
+          "inputs": [
+            [
+              30,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              130,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 532,
+            "x": 248.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532SecondLadderWalk",
+          "inputs": [
+            [
+              28,
+              16
+            ],
+            [
+              100,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 2274,
+            "room": 532,
+            "x": 280.0,
+            "y": 248.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532StarClear",
+          "inputs": [
+            [
+              29,
+              16
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              25,
+              2
+            ]
+          ],
+          "final": {
+            "frame": 2347,
+            "room": 532,
+            "x": 342.078125,
+            "y": 341.68359375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532ThroatAlign",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "final": {
+            "frame": 2457,
+            "room": 532,
+            "x": 305.625,
+            "y": 318.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532MetalCannon",
+          "inputs": [
+            [
+              12,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              55,
+              32
+            ],
+            [
+              150,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2675,
+            "room": 532,
+            "x": 79.7890625,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532LeftRise",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              65,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 2875,
+            "room": 532,
+            "x": 81.73828125,
+            "y": 244.34765625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532UpperLeftPocket",
+          "inputs": [
+            [
+              55,
+              1
+            ],
+            [
+              48,
+              33
+            ],
+            [
+              75,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3053,
+            "room": 532,
+            "x": 22.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532UpperDoor",
+          "inputs": [
+            [
+              78,
+              17
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3427,
+            "room": 138,
+            "x": 696.0,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              139,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              139,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              532,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2831,
+          "actors": [
+            [
+              532,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              9
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3349,
+          "actors": [
+            [
+              138,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              9
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    },
+    "500": {
+      "rom_sha256": "35fbca54715443312c23450ecc87e92f3445a2fea1e56ec529a7d37b5e9a8307",
+      "segments": [
+        {
+          "id": "normal532bottomboot",
+          "inputs": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1235,
+            "room": 532,
+            "x": 152.0,
+            "y": 456.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532BottomCannon",
+          "inputs": [
+            [
+              40,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              170,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1485,
+            "room": 532,
+            "x": 429.75,
+            "y": 293.75,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532CannonChain",
+          "inputs": [
+            [
+              240,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 1725,
+            "room": 532,
+            "x": 434.453125,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532MiddleApproach",
+          "inputs": [
+            [
+              100,
+              32
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 1915,
+            "room": 532,
+            "x": 285.21484375,
+            "y": 16.0,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532LadderDown",
+          "inputs": [
+            [
+              30,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              70,
+              0
+            ],
+            [
+              130,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 2146,
+            "room": 532,
+            "x": 248.0,
+            "y": 136.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532SecondLadderWalk",
+          "inputs": [
+            [
+              28,
+              16
+            ],
+            [
+              100,
+              128
+            ]
+          ],
+          "final": {
+            "frame": 2274,
+            "room": 532,
+            "x": 280.0,
+            "y": 248.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532StarClear",
+          "inputs": [
+            [
+              29,
+              16
+            ],
+            [
+              18,
+              0
+            ],
+            [
+              1,
+              32
+            ],
+            [
+              25,
+              2
+            ]
+          ],
+          "final": {
+            "frame": 2347,
+            "room": 532,
+            "x": 342.078125,
+            "y": 341.68359375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532ThroatAlign",
+          "inputs": [
+            [
+              20,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              40,
+              32
+            ]
+          ],
+          "final": {
+            "frame": 2457,
+            "room": 532,
+            "x": 305.625,
+            "y": 318.14453125,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245,
+            245
+          ]
+        },
+        {
+          "id": "normal532MetalCannon",
+          "inputs": [
+            [
+              12,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              55,
+              32
+            ],
+            [
+              150,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 2675,
+            "room": 532,
+            "x": 79.7890625,
+            "y": 312.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532LeftRise",
+          "inputs": [
+            [
+              35,
+              16
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              65,
+              33
+            ]
+          ],
+          "final": {
+            "frame": 2875,
+            "room": 532,
+            "x": 81.73828125,
+            "y": 244.34765625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532UpperLeftPocket",
+          "inputs": [
+            [
+              55,
+              1
+            ],
+            [
+              48,
+              33
+            ],
+            [
+              75,
+              1
+            ]
+          ],
+          "final": {
+            "frame": 3053,
+            "room": 532,
+            "x": 22.0,
+            "y": 117.00390625,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "normal532UpperDoor",
+          "inputs": [
+            [
+              78,
+              17
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              55,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "frame": 3427,
+            "room": 138,
+            "x": 696.0,
+            "y": 104.99609375,
+            "hp": 6,
+            "ability": 0
+          },
+          "minhp": 6,
+          "abilities": [
+            0
+          ],
+          "hp_decreases": [],
+          "grabs": [],
+          "f5": null
+        }
+      ],
+      "actor_changes": [
+        {
+          "frame": 1,
+          "actors": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1068,
+          "actors": [
+            [
+              139,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ],
+            [
+              65535,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1074,
+          "actors": [
+            [
+              139,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 1097,
+          "actors": [
+            [
+              532,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 2831,
+          "actors": [
+            [
+              532,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              9
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        },
+        {
+          "frame": 3349,
+          "actors": [
+            [
+              138,
+              0
+            ],
+            [
+              101,
+              0
+            ],
+            [
+              101,
+              9
+            ],
+            [
+              101,
+              0
+            ]
+          ]
+        }
+      ],
+      "ai_global_ability_frames": []
+    }
+  }
+}

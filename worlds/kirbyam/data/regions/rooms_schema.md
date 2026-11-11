@@ -207,13 +207,6 @@ or be applied through an unrelated capability. No implicit object refresh is
 supported. Room-local consumption prevents swallowed or fired targets from
 being reused.
 
-A target may specify `requires_guaranteed_source` with `source_key: "MR_FROSTY"`
-and `ability: "Ice"` for the conditional Goal 2 witness. Both feasibility and rule
-installation skip this partial witness unless the finalized source policy
-unconditionally grants Ice. Unsupported configurations preserve prior behavior;
-this condition does not assert they are impossible.
-
-
 Only `bomb_110_room9` on `REGION_RAINBOW_ROUTE/ROOM_1_08`'s exact
 `REGION_RAINBOW_ROUTE/ROOM_1_09` exit may use `requires_any_guaranteed_source`.
 Its value is exactly the ordered pair `{source_key: "SPARKY", ability: "Spark"}`
@@ -229,3 +222,60 @@ both endpoints and `water_state: "swimming"`. Dry use, another native room,
 landing-wave substitution and global Sword reach are not supported. The Sword
 graph marks its dry/swimming carry segments separately without treating water
 as an ability change or permission as equipment.
+
+A target may specify `requires_guaranteed_source` with a valid swallowable
+`source_key` and a non-Normal `ability` name. The Goal 2 target is unconditional and ORs finite Ice/UFO and permanent Ice
+witnesses; finite conditions belong only on their individual graphs. Both feasibility and rule installation skip
+this partial witness unless the finalized source policy unconditionally grants
+that ability. Unsupported configurations preserve prior behavior and remain
+unvalidated; this condition does not assert they are impossible or safe.
+
+### Reinforced barriers and Heave-Ho movement
+
+The `reinforced` target kind records reviewed environmental traversal witnesses.
+It does not infer a gate from every native `0xF7` tile: that collision class also
+backs crumbling platforms and cannon paths. Ordinary `metal` providers must not
+be used to clear this separate class.
+
+A `heave_ho_pull` route is one directed, dry, same-room sequence using Normal
+suction to move the identified Heave-Ho into its reviewed disposal path. It needs
+nonempty `heave_ho_evidence` identifying the object, accessible approach and
+resulting clearance, in addition to the usual route evidence. There is no
+ability item or randomized enemy source for this mechanism. Carried abilities
+must be dropped before this sequence, so they are not silently preserved.
+
+No `opens` event is exposed by this route: the graph records the one-way action
+and resulting compartment, without granting persistent switch credit or an
+unreviewed reverse path. Native disposal persistence is a separate fact from
+room-instance lifetime. A partial pull that permits jumping over the object is
+not evidence that reinforced tiles were destroyed. The existing Olive Ocean
+Room 6 Mini/drop/recovery witness remains independent of full disposal.
+
+### Ordinary-metal atomic witnesses
+
+The `metal` target kind uses the shared target installer, source policy and
+finite-state planner. Both `metal` and `metal_throw` routes require an explicit,
+unique `allowed_abilities` list and a `metal_evidence` object whose keys exactly
+match that list. Each value is a nonempty evidence reference for that provider's
+move, approach/capture position, direction, clearance, charge, and water state
+at initiation and impact. A shared acceptance-record link can avoid repeating
+long explanations. Validation checks provider attribution, not native physics.
+
+`metal` is a direct attack by a reviewed subset of Burning, Hammer, Stone,
+Missile, UFO, Smash and Master. Throw is still one of the eight metal-breaking
+abilities, but belongs exclusively to `metal_throw`, which additionally needs
+`uses_object` and `throw_evidence`. The named one-use enemy must be in the capture
+compartment, with its availability requirements met. Swallowing that same enemy
+for an ability and throwing it are mutually exclusive. Statues and enemies
+explicitly excluded by the source registry are not admitted as ammunition.
+Registry eligibility is necessary but does not replace Throw-specific capture proof.
+Holding does not grant a walk, jump, remote capture or cross-room transport edge.
+No implicit reset, persistent `opens`, or ammunition renewal is added for Throw.
+Other object types require a separately reviewed future representation.
+
+These are same-native-room atomic action sequences. Any door transition is a
+separate edge, as is any independently proven return route. `water_state`
+records attack initiation: swimming cannot initiate Stone, Missile or Throw.
+A completed dry Stone transformation sinking into water or dry Missile launch
+into water needs its own exact sequence evidence; neither creates a universal
+swimming attack. No global facing, charge or movement-state dimension is added.

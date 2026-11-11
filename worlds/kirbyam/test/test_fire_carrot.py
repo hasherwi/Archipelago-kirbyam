@@ -17,6 +17,7 @@ from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from ..traversal import CAPABILITY_CONSUMED_ABILITIES, Position, SourcePolicy, compile_traversal_graph
 from ..traversal_data import _validate_target, room_traversal_graph, room_traversal_targets
+from .support.source_policy import set_rule_test_policy
 from .test_mini_traversal import make_world
 from .test_traversal import policy
 
@@ -98,7 +99,7 @@ def test_conditional_raw_policy_preserves_original_rule_and_independent_access(
 def test_actual_world_only_normalized_lower_entry_and_unchanged_fire_classification(
         monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, room_sanity, minor_chests):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
-    monkeypatch.setattr("worlds.kirbyam.build_enemy_copy_ability_policy", lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     monkeypatch.setattr(KirbyAmWorld, "ENABLE_MINOR_CHESTS", minor_chests)
     world = make_world(mode, gating, accessibility="minimal", area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
@@ -235,7 +236,7 @@ def test_four_or_alternatives_exact_target_and_preserved_prior_graphs():
 @pytest.mark.parametrize("gating,source", [(1, "Fire"), (0, "Fire"), (1, "Bomb")])
 def test_start_inventory_is_already_owned_before_regions_without_promotion(monkeypatch, gating, source):
     resolver = policy(1, pool=[source])
-    monkeypatch.setattr("worlds.kirbyam.build_enemy_copy_ability_policy", lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     multiworld = setup_multiworld(KirbyAmWorld, steps=("generate_early",), seed=18, options={
         "ability_randomization_mode": 1, "ability_gating": gating, "accessibility": "minimal"})
     world = multiworld.worlds[1]

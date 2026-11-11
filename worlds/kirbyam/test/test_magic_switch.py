@@ -10,6 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from test.general import setup_multiworld
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
 from ..traversal import Node, Position, Route, SourcePolicy, compile_traversal_graph, reachable_positions
@@ -172,7 +173,7 @@ def test_raw_source_guard_never_filters_mixed_pool_into_a_guarantee(mode, pool, 
 def test_actual_world_source_permission_options_and_unrelated_exits(
         monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, room_sanity):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=weight)
@@ -232,7 +233,7 @@ def test_starting_inventory_reconciles_only_enabled_raw_source_once(monkeypatch,
         raw = policy(2, pool=['Magic', 'Bomb'] if scenario == 'mixed' else
                      ['Beam'] if scenario == 'wrong_source' else ['Magic'],
                      weight=50 if scenario == 'failable' else 0).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=12, options={
         'ability_randomization_mode': 1, 'ability_gating': int(scenario != 'gating_off'), 'accessibility': 'minimal'})
     world = multiworld.worlds[1]

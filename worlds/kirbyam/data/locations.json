@@ -262,7 +262,7 @@
   },
   "MAJOR_CHEST_PEPPERMINT_PALACE": {
     "label": "Peppermint Palace Map - Big Chest",
-    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
     "default_item": "MAP_PEPPERMINT_PALACE",
     "tags": [
       "BigChest",
@@ -686,7 +686,7 @@
   },
   "MINOR_CHEST_SPRAY_PAINT_05": {
     "label": "Peppermint Palace 7-05 - Spray Paint #5 Chest",
-    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
     "default_item": "SPRAY_PAINT_05",
     "tags": [
       "SmallChest",
@@ -1122,7 +1122,7 @@
   },
   "MINOR_CHEST_PEPPERMINT_PALACE_7_CHEST_OBJECT_02": {
     "label": "Peppermint Palace Chest - Small Chest #2",
-    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+    "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
     "tags": [
       "SmallChest",
       "ExactEventLocation",

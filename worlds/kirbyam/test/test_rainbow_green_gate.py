@@ -14,6 +14,7 @@ from ..data import data
 from ..traversal import Grant, SourcePolicy
 from ..traversal_data import room_traversal_graph, room_traversal_targets
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+from .support.source_policy import set_rule_test_policy
 from .test_mini_traversal import make_world
 from .test_traversal import policy
 
@@ -41,7 +42,7 @@ def test_actual_world_guaranteed_source_policy_and_classification(
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
     # Deliberately restricted policy fixtures isolate rule wiring. They do not
     # assert a fully accessible generation or randomized native replay.
-    monkeypatch.setattr("worlds.kirbyam.build_enemy_copy_ability_policy", lambda *a, **kw: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *a, **kw: resolver.policy)
     world = make_world(mode, gating, accessibility="minimal", ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=weight)
     assert rules.target_applies(target_row(), SourcePolicy(world._enemy_copy_ability_policy, bool(statues))) is applies
@@ -110,7 +111,7 @@ def test_optional_chest_preserves_exits_room_sanity_and_area_keys(
         monkeypatch, gating, area_keys, statues, room_sanity, minor_chests):
     monkeypatch.setattr(KirbyAmWorld, "ENABLE_MINOR_CHESTS", minor_chests)
     raw = json.loads(EVIDENCE.read_text())["source"]["source_policy"]
-    monkeypatch.setattr("worlds.kirbyam.build_enemy_copy_ability_policy", lambda *a, **kw: raw)
+    set_rule_test_policy(monkeypatch, lambda *a, **kw: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=("generate_early",), seed=138, options={
         "ability_randomization_mode": 0, "ability_gating": gating, "area_keys": area_keys,
         "ability_randomization_statues": statues, "room_sanity": room_sanity,

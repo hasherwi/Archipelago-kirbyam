@@ -1,5 +1,11 @@
 # Source-backed traversal (draft)
 
+The current candidate precollects only Beam. Stone, Burning, Cutter, Mini and Wheel
+use progression permissions and reviewed physical sources. Historical acceptance
+checkpoints below retain their original fixture and test scope; current inventory
+and release qualifications are summarized in
+[the source-backed release review](../dev-docs/reconstructed-release-review.md).
+
 ## Copy Ability Room access and source contract
 
 [PR #1025](https://github.com/hasherwi/Archipelago-kirbyam/pull/1025), merged as
@@ -15,8 +21,8 @@ the separate room-access feature's evidence and limits.
 
 Access is permission to enter, not equipment or an ability-unlock grant. The
 nineteen room 970 statue sources are owned by `REGION_COPY_ABILITY_ROOM/MAIN` and
-shared by exactly two traversal consumers: the Wheel 108 chest and Smash 149 peg
-carriers. Each consumer requires independently reachable room 970; the shared source set
+shared by four traversal consumers: the Wheel108 chest, Smash149 peg, joint
+Hammer228 chest and joint Hammer229 left1Up carriers. Each consumer requires independently reachable room 970; the shared source set
 also requires the access item at acquisition. Actual statue assignments, category
 inclusion/exclusion, eligible output pools, and ability-item gates still apply.
 Fixed excluded statues supply their native Wheel/Smash grants only after reaching
@@ -42,17 +48,29 @@ remain separate from those results.
 
 ## Generation and accessibility
 
-Full accessibility retains source-feasibility preflight and static-assignment
-validation for required traversal targets. Minimal accessibility does not demand
-a witness for every check before fill: it keeps the original static assignment
-and installs the same source-aware access rules. Missing sources leave their
-routes closed, and normal fill, beatability, and accessibility validation decide
-whether the seed succeeds. Minimal accessibility does not guarantee generation
-for every option combination or goal. Neither mode invents an ability grant or
-opens a failed witness. With 100% Normal included enemies and fixed excluded
-statues, room 970 can now supply the Wheel/Smash witnesses after item-gated access
-and the relevant ability permissions. Fill must still place progression without
-requiring a source behind its own target.
+Every enabled Kirby check must be reachable in a generated seed, including when
+`accessibility: minimal` is selected. Static source-assignment validation uses
+the same bounded search for full and minimal; it does not change the option
+value or force individual grants. The selected AP accessibility still controls
+normal fill. A Kirby-specific final audit therefore runs after every world's
+finalizer and progression balancing, before output, including `--skip-output`.
+It sweeps actual reachable progression across the whole multiworld and rejects
+stranded Kirby checks with their names and player. An all-inventory state is
+used only to distinguish source/graph failures from actual placement cycles.
+It is not accepted as proof that the player can acquire those items.
+
+This safety check does not make every minimal seed generate successfully. Use
+full accessibility for stronger fill guarantees; other players may keep their
+own selected accessibility. Unsupported source assignments or fills fail
+clearly rather than producing an unsafe archive. Missing native rules remain a
+separate coverage issue that neither state audit can detect. See the
+[starting-permission dependency audit](../dev-docs/starting-permission-removal-audit.md)
+for the exact baseline matrix, examples, benchmarks and remaining blockers.
+
+With 100% Normal included enemies and fixed excluded statues, room 970 can
+supply the Wheel/Smash witnesses after item-gated access and the relevant ability
+permissions. Fill must still place progression without requiring a source
+behind its own target.
 
 Historical pre-integration regression evidence comes from [CI run 42378067551](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551),
 [artifact 13576028492](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/42378067551/artifacts/13576028492):
@@ -67,15 +85,16 @@ Historical pre-integration regression evidence comes from [CI run 42378067551](h
   raised `FillError` for the Moonlight Mansion 2-20 and Rainbow Route 1-06 Lower
   chests. Beating the goal does not satisfy full accessibility.
 
-These historical results distinguish valid optional omissions from a
-full-accessibility failure before the room-access integration. On the combined
-build, both exact, unchanged case 69 and case 95 YAML fixtures now generate and
-fulfill accessibility. Every check is reachable, including the formerly closed
-targets through actual Copy Ability Room sources. Case 69 retains its original policy seed `4994526115634732429`
-without resampling. Removing every copy of the room-access item closes the two
-affected checks again. Mixed case 69/default and case 69/95 worlds also preserve
-per-player access. The replay tests use the pinned fixture hashes and normal
-generation entrypoints in
+These historical results describe the previous goal-only minimal policy. After
+the Copy Room integration, case 69 and case 95 both passed the configured AP
+accessibility and an all-inventory reachability check. That was not proof of
+actual progression accessibility. The later fresh-state audit finds 19 stranded
+checks in case 69's solo fill, and 16 or 2 in its default/95 mixed-world variants.
+Those exact fixtures now fail clearly before output. Case 95 full still passes.
+Case 69 retains its original live-random policy seed `4994526115634732429`; the
+failure is placement reachability, not a missing theoretical Copy Room source.
+The tests retain the per-player room-access negatives on the captured final
+world while requiring the unsafe fill to be rejected, not silently accepted:
 [`test_traversal_accessibility.py`](../test/test_traversal_accessibility.py).
 
 The initial focused integration suite passes all 325 tests, including these exact
@@ -190,7 +209,7 @@ regions as indirect dependencies for entrance rules.
 Mini, peg, Wheel, rope, and fuse targets use room-owned witness metadata and the
 resolved source policy, rather than parallel route/source catalogs. Research-only
 non-AP pegs and rope platforms belong in the evidence censuses below, not
-executable AP targets. Burning remains a starting ability; Cutter is a progression unlock.
+executable AP targets. Burning, Stone, and Cutter are progression unlocks; only Beam is automatically precollected.
 
 ## Ordinary hub statue network
 
@@ -286,9 +305,9 @@ reachable grant. With fixed excluded statues and100% Normal included enemies,
 this ordinary-hub network provides neither Wheel nor Smash. The separate room 970
 source set can supply them through item-gated room access and actual eligible
 statue grants. It does not make ordinary-hub fixed statues gain those outputs or
-rescue a missing access item, ability permission, or carry requirement. Full
-accessibility requires those checks; minimal accessibility may leave them closed
-when the normal fill and goal-accessibility checks succeed.
+rescue a missing access item, ability permission, or carry requirement. Both full and minimal
+Kirby seeds must pass the final all-check audit; a missing necessary source or
+stranded access item causes generation to fail before output.
 
 ### Network regression contract
 
@@ -328,7 +347,7 @@ Minny always grants Mini. Only the Minny carve-out option was removed; general
 randomization, statue, miniboss, boss-spawn and non-ability-enemy options remain.
 Mini can still appear from other randomized enemies. Statue pools preserve the
 former default exclusion of Mini. Mini remains gated and is no longer precollected.
-Wheel is also gated/progression and no longer precollected. Stone starting permission remains unchanged.
+Wheel and Stone are also gated progression permissions and are no longer automatically precollected.
 
 Raw Mini ability stars recover Mini under the same unlock gate in every mode.
 Other stars preserve existing behavior, including the existing native0x80 versus
@@ -542,7 +561,7 @@ not automatically an executable route. Production source-aware gates currently c
 Carrier witnesses require an independently reachable source hub, actual Hub
 Connection items, and destination Area Key when that option is enabled. Static
 assignment validation accepts reviewed local or carrier witnesses rather than
-rewriting individual randomized outputs. For full accessibility, static policies,
+rewriting individual randomized outputs. For full and minimal accessibility, static policies,
 including shuffled weight100/statue configurations, get at most 8192 assignment
 attempts without forcing individual outputs. The larger bounded
 search accommodates the rare joint Wheelie/peg-source assignment when ordinary
@@ -552,11 +571,11 @@ stream. If that budget finds no Wheel-validated assignment, generation fails tha
 seed with a precise
 search-budget diagnostic, not a claim that the configuration is impossible.
 A Wheel-valid candidate without all reviewed peg witnesses also fails after the
-bounded search. Under minimal accessibility, the original assignment is retained
-without this all-target search; normal fill and goal-accessibility validation
-still apply. No target rule silently becomes permissive. Live-random rules
-retain positive-support renewable source requirements, with all-target preflight
-rejection limited to full accessibility. Unknown
+bounded search. Minimal keeps its selected AP option but uses this same source
+validation. Normal fill and goal-accessibility validation still apply, followed
+by the Kirby all-check audit of actual placed progression. No target rule
+silently becomes permissive. Live-random rules retain positive-support renewable
+source requirements; any checks left closed must still pass the final audit. Unknown
 alternatives are not declared impossible; the diagnostic describes this seed and
 reviewed witness set, not global configuration impossibility.
 The current repository has no entrance
@@ -601,8 +620,7 @@ in one controlled run; it is not an adversarial-AI or bounded-reset guarantee an
 does not assume unlimited phone battery. Native code rebuilds original collision
 for a fresh room slot. The final arrival matches the witnessed Wheel race start.
 See the Wheel evidence appendix below and the room-owned traversal metadata in
-`data/regions/rooms.json`. Wheel is removed from starting abilities in every mode,
-while Stone remains.
+`data/regions/rooms.json`. Wheel and Stone are removed from automatic starting abilities in every mode.
 
 ### Combined patched-ROM Wheel acceptance
 
@@ -719,8 +737,8 @@ Before treating this draft as gameplay accepted:
   patched ROM; other renewal claims still require evidence. AI occupancy can
   preserve an instance, so a doorway alone is not reset proof.
 - Complete target-specific Crash cannon timing and the remaining non-rope Cutter
-  dependency review before broadening those claims. Burning and Cutter remain
-  starting abilities.
+  dependency review before broadening those claims. That historical checkpoint
+  retained Burning and Cutter starts; the current source-backed release does not.
 - Verify checks against the final published commit, including hosting. The
   isolated hosting retry does not turn the preceding full run into a clean pass.
   The installed archive matrix above is complete for the earlier tested build,
@@ -1329,9 +1347,9 @@ Fixed ordinary-hub statues cannot supply the missing Wheel/Smash grants. The
 separate room 970 statues can supply them only with room access and, when gating is
 enabled, the relevant ability permission; their availability does not change
 these local enemy witnesses. If
-no reviewed source succeeds, full accessibility rejects the seed; minimal
-accessibility must instead pass normal fill and goal-accessibility validation
-with those routes closed. Static assignments and excluded categories must retain
+no reviewed source succeeds, full accessibility rejects the seed early. Minimal
+may defer that error, but cannot emit a seed with unreachable enabled checks: the
+final all-check audit rejects it before output. Static assignments and excluded categories must retain
 their actual grants.
 
 Pinned native evidence, commit `7d969fbce14fdc838d2c1ea01389717fb96c3189`:
@@ -1620,8 +1638,8 @@ cutting ability; ownership alone is not equipment.
 
 The complete native object inventory contains four fuse cannons and four fuse ends, in
 native rooms 126, 323, 502, and 827. The 57 rotating eight-direction cannons are a different
-object type and do not belong to this capability. Burning remains a starting ability; no
-starting ability or randomization option is changed by this audit.
+object type and do not belong to this capability. This historical mechanism audit did not
+change starting abilities; the current source-backed release precollects only Beam.
 
 ### Native attack capability
 
@@ -1755,8 +1773,8 @@ For the room graph, test both Mustard entrances, separation of its local sources
 destination statues, both ordinary progression bypasses, and the Olive cannon's upper
 arrival leading only to Room 6. Require the correct independent hub access, hub-connection
 items, and inter-area keys for remote carriers. Optional Mustard/Radish cannon failure must
-not invalidate their ordinary routes or shared checks. Burning starting behavior must remain
-unchanged.
+not invalidate their ordinary routes or shared checks. The original fuse audit did not change
+Burning starts; the current release separately validates its removal.
 
 Coverage is exhaustive for the four native fuse placements and their direct destinations.
 The carrier list is a reviewed sufficient set, not a claim to enumerate every possible
@@ -1936,3 +1954,126 @@ The base item definition remains useful for other configurations. Full and
 minimal accessibility use the same applicability predicate. The sanitized
 `frozen_goal2_upper_arena` record is separate from the four actual-entry underwater
 runs in `block-hit-acceptance.json` and contains no private paths or ROM bytes.
+
+### metal_216_chest
+
+Peppermint Palace Room19's exact1-Up chest `0x088C1380` now uses one unconditional
+source-backed target. Central and independently reached291 access are OR alternatives,
+reusing `ordinary_hub_statues` and the existing291->215->212 carrier from `rope_217_6_5`.
+Native291 statue `0x088C263C` supplies Burning under the actual source policy; the
+synthetic212 imported-equipment fixture is not a production source.
+
+The accepted low rightward Burning dash clears F5x28..30/y5..6, then actual chest
+interaction sets flag36 mask16. Fresh native100%/500% enemy-health traces have no
+HP loss; the existing Normal/Burning source argument supplies the positive-HP
+qualification, not a direct AP1HP replay. The terminal action exports neither
+opened-block persistence nor a reusable equipment postcondition. Both ordinary
+exits and RoomSanity remain unchanged; unsupported source assignments stay closed.
+See [the bounded source/carrier contract](../dev-docs/ordinary-216-source-carrier-contract.md).
+This bounded 216 proof is one part of the current starting-permission release review, not a whole-game proof.
+
+
+### metal_205_to_209_top and directed Peppermint chest approaches
+
+One fail-closed target ORs the finite Bonkers-Hammer route with three guarded
+hub-statue Stone starts. Native190 Stone is resolved through its actual policy;
+the imported290 fixture is not a replacement production source. Both floor moves
+and retained-equipment water continuations are reviewed at default and500%
+enemy health. Stone's carrier defeats the actual Box Boxer without damage or
+copy loss, so mixed-live miniboss assignments need no lucky Bonkers grant.
+
+Native209 TOP, UPPER_ENTRY, LOWER_MAP and BOTTOM_MINOR remain distinct. The Normal
+Bonkers-side Bomb doorway leads through the separate210 Snow hallway to the map;
+actual290→208→209 leads only to bottom minor24. TOP owns minor23 and returns
+through205 WATER_RETURN, whose reviewed egress leads specifically to203. No
+summary edge, RoomSanity sink or generic210/209 alias joins these compartments.
+
+See [the directed check contract](../dev-docs/ordinary-205-209-directed-checks.md)
+for exact source identities, independent access, finite versus renewable policy,
+full controller/scaler qualifications and unreviewed alternatives. Check IDs and
+physical RoomSanity IDs/bits are unchanged. The current release separately integrates
+the completed mandatory-metal coverage and option audit before removing Stone/Burning starts.
+
+### Native529 directed ordinary passages
+
+Cabbage Cavern Room3 needs no new source or metal-provider predicate for its
+reviewed routes. Fresh Normal default/500% controller runs join lower and
+upper-right approaches in both directions and reach the upper-left doorway
+from below through the Bomb chains, without destroying any of the eight F5
+tiles. Fresh upper-left arrival is kept separate: it can return to512SUB but
+does not borrow the opened lower approach. One terminal RoomSanity sink serves
+both compartments, preserving check3961090 and bit185.
+
+The [directed topology contract](../dev-docs/ordinary-529-directional-topology.md)
+identifies the actual door records, fresh-layout proofs and fixture limits.
+There is no symmetric upper-left-to-lower edge, metal ownership shortcut,
+equipment-preserving carry claim, or new room-reset assumption.
+
+### metal_228_chest
+
+One fail-closed chest target ORs the finite joint Bonkers-Hammer witness with
+real item-gated970 statues. Both paths collect native209 minor23 and then228
+minor30 with the same Hammer, without reacquisition or an assumed source reset.
+The renewable carrier uses actual290→210 lower→227→204→203→205 travel, avoiding
+Box Boxer and the intact rope/peg branches. It requires independent970 access,
+Copy Ability Room Access, Peppermint East connection, optional Area Key and
+Hammer permission. The imported290 fixture never becomes a production source.
+
+See [the joint source/carrier contract](../dev-docs/ordinary-228-source-carrier-contract.md)
+for exact identities, live-retouch assumptions, no-loss default/500% evidence and
+health qualification. Closing Bombs remain untouched; separate ropeflag31 and
+229 traversal are outside this gate. Full source outcomes are preserved;
+unsupported policies fail closed rather than falling back to ownership alone.
+
+### metal_229_left1up
+
+Only native229's left1Up check3960593/flag33 uses the joint retained-Hammer
+continuation from205 minor23 and228 minor30. Finite Bonkers and real970 statue
+alternatives reuse their existing source/access contracts. Both default/500%
+source-family continuations directly pass the transient228 switch/closing-door
+slide, actual left229 doorway and airborne exterior-F5 attack with the same
+Hammer and all three flags collected. The229 result is terminal; no permanent
+switch opening, reset or reacquisition is inferred.
+
+See [the exact joint contract](../dev-docs/ordinary-229-source-carrier-contract.md)
+for proof levels and source-policy conditions. Spray flag 32, interior food flag 34,
+Warp and RoomSanity remain outside this gate. Separate default and 500% health
+supplements now prove Normal routes from the actual native 205 doorway through
+pristine native 228 to Food, Spray and Warp. They do not prove Normal access
+through upstream native 205, certify arbitrary shared-top joins, or replace the
+accepted Hammer carrier to the left 1-Up. No unrelated check or topology rule
+changes with these evidence-only supplements.
+
+### metal_537_beginning_notes
+
+Beginning Notes3960514 alone requires the reviewed Stone floor passage. The
+actual190 statue acquisition and six directed doors through143/141/543/542/536
+are replayed at default and production500% enemy health without damage or copy
+loss. Both141 metal banks remain intact;542's ordinary Bomb/F0 path restores its
+actual exit. The537 dry Stone drop clears the four F5 cells and Up sets flag1.
+
+Central and independently reached190 alternatives reuse guarded hub sources,
+their actual policy and documented statue retouch. No inventory-only acquisition,
+right-shaft Normal bypass, room-wide gate or new provider is inferred. All537
+exits and RoomSanity remain unchanged. See the
+[source and carrier contract](../dev-docs/ordinary-537-source-carrier-contract.md)
+for exact door/source identities, native-versus-AP qualification and test scope.
+
+
+### Carried Burning alternatives for native 141 and 742
+
+The existing target rows now OR their finite local Flamer witnesses with real
+hub-statue acquisition and retained-Burning carriers. Native 141 forward banks
+use actual 190 → 143 lower arrival. Its reverse row also accepts an independently
+sourced ordinary lower-destination itinerary before either metal bank; that
+alternative is not a physical reverse crossing or room-reset claim. Native 742
+extends the exact accepted 707 result through actual 712 and 741 travel into its
+first clean lower arrival. Its chest and Warp compatibility is separately proved
+in one visit after deliberate Burning discard.
+
+See [the source and direction contract](../dev-docs/carried-burning-source-contract.md)
+for exact guards, fixture qualifications, terminal outcomes and remaining gaps.
+All five rows are fail-closed when neither the local nor remote witness works.
+No AP compartment, generic return alias, enemy renewal, starting inventory or
+source assignment changes. The new ordinary-block capability uses only the
+reviewed dry Burning action and grants no equipment or persistent opening.

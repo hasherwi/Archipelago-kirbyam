@@ -10,6 +10,7 @@ from Fill import distribute_items_restrictive
 from test.general import setup_multiworld
 from worlds.AutoWorld import call_all
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from ..traversal import Grant, Node, Position, Route, SourcePolicy, reachable_positions
@@ -42,7 +43,7 @@ def test_actual_world_policy_or_requires_only_the_available_permission(
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
     # Restricted policies isolate world wiring; real full-accessibility fill is
     # checked separately with unmodified broad production policies.
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *a, **kw: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *a, **kw: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=weight)
     assert rules.target_applies(target_row(), resolver) is applies

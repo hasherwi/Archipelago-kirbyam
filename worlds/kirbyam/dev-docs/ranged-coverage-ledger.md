@@ -5,14 +5,15 @@ implemented. The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
-  Carrot Yellow Paint, Beam/Smash/Fire/Missile/Parasol/Spark/Ice/Sword/Fighter for the Cabbage Chocolate
-  chest, and Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
+  Carrot Yellow Paint, ten separate Cabbage Chocolate alternatives (Beam, Smash,
+  Fire, Missile, Parasol, Spark, Ice, Sword, Fighter and UFO), and
+  Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
 - Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
-- The conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
+- The finite-source conditional 825 UFO alternative in `olive-sound-effects-ufo.md`.
 - An optional, fail-closed native538 Beam left exit from VERTICAL directly to
   Rainbow39/native537, documented in `rainbow-beam538-source-witness.md`. It
   adds no reverse crossover, direct539 route or mandatory Beam requirement. The
@@ -32,7 +33,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. At the current implementation baseline it covers 366 regions, including 343 mapped native definitions (322 parents and 21 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,059 location/exit surfaces. All 38 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions bind to exact normalized surfaces. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -527,3 +528,21 @@ opens at 4252. Full single-tap omissions remain sealed with maximum HP.
 The eight prior graphs, all other room data and existing Carrot progression
 reason remain unchanged. No item factory, reconciliation, exit, RoomSanity
 or starting-removal change is introduced.
+
+## Cabbage Chocolate chest: finite UFO maximum-charge shot
+
+`hub2_ufo_entry` is the tenth same-target alternative. It requires independent
+Hub2 access, a raw guaranteed original Waddle Doo to UFO assignment, finite
+acquisition and continuous UFO-specific carry. The separate dry room 517
+capability admits only the witnessed maximum-charge large shot, not generic
+UFO range or the low/medium shots. All nine prior graphs remain unchanged;
+permission does not equip UFO, and no exit, RoomSanity or item lifecycle rule
+changes. See `cabbage-ufo-source-witness.md` and `cabbage-ufo-acceptance.json`.
+
+Independent native review audited all 12 accepted traces and freshly replayed
+the HP1, enemy 500% positive/omission pair. Acceptance covers the documented
+HP1/6 and enemy 100%/500% endpoints, not arbitrary arrivals, RNG or intermediate
+health settings. The no-permission control is acquisition-only. Host validation
+passed 2,265 focused tests, including 24 complete seed 52 generations across
+gating, Area Keys, enemy 100%/500% and starting UFO counts 0/1/3 at HP1. These
+host tests are not new native replay evidence or a full aggregate test pass.

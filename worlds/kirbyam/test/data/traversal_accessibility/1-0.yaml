@@ -1,0 +1,99 @@
+description: Kirby & The Amazing Mirror Template, generated with https://github.com/Eijebong/Archipelago-fuzzer/tree/0.6.2
+game: Kirby & The Amazing Mirror
+requires:
+  version: 0.6.8
+Kirby & The Amazing Mirror:
+  progression_balancing: 67
+  accessibility: minimal
+  shards: completely_random
+  goal: defeat_area_boss
+  configured_area_boss: wiz
+  required_area_bosses: 7
+  start_with_all_maps: 'false'
+  area_keys: 'true'
+  minimum_health: 3
+  maximum_health: 8
+  room_sanity: 'true'
+  ability_gating: 'true'
+  enable_traps: 'false'
+  trap_fill_percentage: 96
+  no_extra_lives: 'false'
+  enemy_health_multiplier: 387
+  death_link: 'true'
+  ability_randomization_mode: shuffled
+  ability_randomization_statues: 'true'
+  ability_randomization_passive_enemies: 'true'
+  ability_randomization_no_ability_weight: 65
+  ability_randomization_boss_spawns: 'true'
+  ability_randomization_minibosses: 'false'
+  starting_kirby_color: red
+  local_items: []
+  non_local_items: []
+  start_inventory: {}
+  start_hints: []
+  start_location_hints: []
+  exclude_locations: []
+  priority_locations: []
+  item_links: []
+  plando_items: []
+triggers:
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 1
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-1-5
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 2
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-2-6
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 3
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-3-7
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 4
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-4-8
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 5
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-5-9
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 6
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-6-10
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 7
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-7-10
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 8
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-8-10
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 9
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-9-10
+- option_category: Kirby & The Amazing Mirror
+  option_name: minimum_health
+  option_result: 10
+  options:
+    Kirby & The Amazing Mirror:
+      maximum_health: random-range-10-10

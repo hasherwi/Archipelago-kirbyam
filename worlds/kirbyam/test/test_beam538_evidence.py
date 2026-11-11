@@ -50,12 +50,13 @@ def before_reviewed_fire719_addition(rooms):
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_517_chocolate']
     assert target['requires_guaranteed_source'] == {
         'source_key': 'WADDLE_DOO',
-        'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter']}
+        'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO']}
     for ability, sha256 in (
         ('Spark', '3a1c44ebb5f4aa00972240ce29ebed4d1dbf41de0c42695c015321ab16b94591'),
         ('Ice', '5e34628d8ec3d5e184a1c7b804ac3cef54f6e723a98d82f596d0db82e72a2f15'),
         ('Sword', '5ed43c0175b3f0c7eef920f50217a710b2d025e679c996c82e2dc6c808cf0b43'),
         ('Fighter', 'cfc3dead21e2dda844d11e4007f44e9f634f3115be4ca12a828117f6955aa01d'),
+        ('UFO', '509cfb10498966a0448551e79c09bb0289bcea6fe8494ccdfed1e7d0073c6bf5'),
     ):
         assert digest(target['graphs'].pop(f'hub2_{ability.lower()}_entry')) == sha256
         target['requires_guaranteed_source']['abilities'].remove(ability)
@@ -90,13 +91,21 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     assert ROOM_SCOPED_CAPABILITIES[CAPABILITY] == 538
     assert 'Beam' not in GATEABLE_ENEMY_COPY_ABILITIES
     assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': False}
+    union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for name, sha256 in e['preserved_region_sha256'].items():
-        assert digest(rooms[name]) == sha256
-    # Frozen historical identities still hold after accounting for the exact later OR addition.
+        expected = union['adopted_main_region_spaced_sha256'].get(name, sha256)
+        assert digest(rooms[name]) == expected
+    # The main merge deliberately changes its reviewed targets. Keep the old native
+    # record historical; compare those targets against the separate pinned union.
+    union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
+    current = {t['id']: t for t in raw_targets(rooms)}
     targets = {t['id']: t for t in raw_targets(before_reviewed_fire719_addition(rooms))}
     assert len(e['preserved_target_sha256']) == 37
     for name, sha256 in e['preserved_target_sha256'].items():
-        assert digest(targets[name]) == sha256
+        if name in union['main_changed_targets']:
+            assert digest(current[name]) == union['target_spaced_sha256'][name]
+        else:
+            assert digest(targets[name]) == sha256
     row, = [row for row in room_traversal_targets('block') if row['id'] == TARGET]
     assert row['new_connection'] and not row['required_for_generation']
     assert 'requires_guaranteed_source' not in row and 'requires_any_guaranteed_source' not in row
@@ -171,7 +180,9 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
     assert not any(e['setup'][k] for k in forbidden)
     assert 'zero-frame snapshot at1541' in e['hash_semantics']
     assert any('continuous upstream1HP' in limit for limit in e['limitations'])
+    union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for path, expected in e['tracked_source_sha256'].items():
+        expected = union['adopted_main_source_sha256'].get(path, expected)
         assert lf_text_sha256((ROOT / path).read_bytes()) == expected
     for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
         text = path.read_text(encoding='utf-8')
@@ -179,20 +190,19 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
     assert not any(k in e for k in ('inputs', 'frames', 'replay', 'savestate'))
 
 
-def test_current_ownership_snapshot_contains_one_extra_surface_and_target():
+def test_historical_ownership_snapshot_and_current_union_are_separate():
     snapshot = evidence()['structural_snapshot']
     current = build_coverage()
-    assert snapshot['counts'] == current['counts'] == {
+    # Preserve the native record's actual earlier catalog and starting permissions.
+    assert snapshot['counts'] == {
         'regions': 366, 'mapped_native_definitions': 343, 'locations': 384,
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
+    assert current['counts'] == {
+        'regions': 382, 'mapped_native_definitions': 352, 'locations': 384,
+        'surfaces': 1083, 'room_sanity_locations': 263, 'installed_target_definitions': 57}
     assert set(snapshot['input_sha256']) == set(current['input_sha256'])
-    for path, expected in snapshot['input_sha256'].items():
-        raw = (ROOT / path).read_bytes()
-        if path == 'data/regions/rooms.json':
-            # Keep the native Beam538 packet frozen; Fire719 adds no surface or target.
-            previous = before_reviewed_fire719_addition(json.loads(raw))
-            raw = (json.dumps(previous, indent=2) + '\n').encode()
-        assert lf_text_sha256(raw) == expected
+    # Exact current target/part/source bytes are pinned against both reviewed
+    # parents by test_main_ranged_union, not labeled as fresh native evidence.
     assert snapshot['new_surface'] == {
         'owner': OWNER, 'kind': 'exit', 'target': DESTINATION, 'requirement': None, 'room_sanity': False}
 
@@ -251,7 +261,7 @@ def test_all32_health_tuples_have_actual_native_representatives_not_interpolatio
         assert case['hashes']['inputs.json'] == packets['primary'][recipe]['hashes']['inputs.json']
 
 
-@pytest.mark.parametrize('ability', ['Spark', 'Ice', 'Sword', 'Fighter'])
+@pytest.mark.parametrize('ability', ['Spark', 'Ice', 'Sword', 'Fighter', 'UFO'])
 @pytest.mark.parametrize('mutation', ['access', 'placement', 'route', 'applicability', 'unrelated'])
 def test_historical_reconstruction_does_not_mask_cabbage_edits(ability, mutation):
     rooms = json.loads(json.dumps(load_json_data('regions/rooms.json')))

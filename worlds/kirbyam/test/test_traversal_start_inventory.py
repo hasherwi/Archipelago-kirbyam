@@ -7,6 +7,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 from test.general import setup_multiworld
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld
 from ..data import data
 from ..traversal import SourcePolicy
@@ -92,7 +93,7 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
     from .. import regions
 
     raw = source_policy(ability) if scenario != 'wrong_source' else policy(1, pool=['Beam']).policy
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=5, options={
         'ability_randomization_mode': raw['mode'], 'ability_gating': int(scenario != 'gating_off'),
         'accessibility': 'minimal',
@@ -112,18 +113,20 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
     ready.classification = ItemClassification.progression
     multiworld.push_precollected(ready)
     early = [world.create_item(f'{ability} Ability') for _ in range(2)]
-    assert all(item.classification == ItemClassification.useful for item in early)
+    early_ice = ability == 'Ice' and scenario != 'gating_off'
+    assert all(item.classification == (ItemClassification.progression if early_ice else ItemClassification.useful)
+               for item in early)
     for item in early:
         multiworld.push_precollected(item)
     unrelated = world.create_item('Magic Ability')
     assert unrelated.classification == ItemClassification.useful
     multiworld.push_precollected(unrelated)
-    assert multiworld.state.count(f'{ability} Ability', 1) == 1
+    assert multiworld.state.count(f'{ability} Ability', 1) == (3 if early_ice else 1)
     world.create_regions()
-    expected = 3 if scenario == 'enabled' else 1
+    expected = 3 if early_ice or scenario == 'enabled' else 1
     assert multiworld.state.count(f'{ability} Ability', 1) == expected
     assert CollectionState(multiworld).count(f'{ability} Ability', 1) == expected
-    assert all(item.advancement is (scenario == 'enabled') for item in early)
+    assert all(item.advancement is (early_ice or scenario == 'enabled') for item in early)
     assert ready.classification == ItemClassification.progression
     assert unrelated.classification == ItemClassification.useful
     assert not multiworld.state.has('Magic Ability', 1)
@@ -136,7 +139,7 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
 def test_disabled_minor_category_does_not_promote_starting_permission(monkeypatch, ability):
     raw = source_policy(ability)
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=5, options={
         'ability_randomization_mode': raw['mode'], 'ability_gating': 1, 'accessibility': 'minimal',
     })

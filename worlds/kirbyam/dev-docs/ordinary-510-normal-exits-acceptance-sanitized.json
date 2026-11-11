@@ -1,0 +1,2693 @@
+{
+  "schema_version": 1,
+  "status": "Both directions accepted independently at default and exact production 500%.",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "scaler_git_blob": "bbae3fc5368eddecc7183590ce7f4defaf7effa4",
+  "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+  "probe_sha256": "f14f34a6d63d93174bbe7fc19084c457b26c52f871ffa4b96d186b91cf7ad4d3",
+  "qualification": "Native retail gameplay suffixes only. The only non-health ROM changes are disclosed startup room/position arrays: player starts in509 configured672,64 for forward, or501 configured232,64 for reverse; AI start101 at48,80. Actual incoming doors are traversed by controller. No source/ability/object/terrain/attack changes, no runtime RAM writes, no state loads in accepted cold runs. 500% uses production scale_enemy_health_tables exactly once, not a full AP seed or direct1HP test. No prior access to starting boundary proved. All files remain local.",
+  "routes": {
+    "forward": {
+      "mechanism": "Actual509 door to510 stored4,6. Fly over upper-left wall, traverse upper corridor to x426,y153. Inhale left clears top star row; move to x390, crouch20 frames then holdDown+A40 frames to slide and descend one row. Release/settle30 frames and repeat to bottom. Up enters real501 door.",
+      "audits": {
+        "100": {
+          "audit_path": "acceptedForward100/audit.json",
+          "audit_sha256": "bf2aeb6defb9530a1817d3e0532714d6d721f703ac249e438a95faf35015ee5b",
+          "runtime_path": "acceptedForward100/runtime.json",
+          "runtime_sha256": "9ebad32b122f12bfbd346f1b5b5bbd9ba9f41895f8ede20590f21cbe7c2e7ccc",
+          "identity": {
+            "rom_sha256": "f83929b1026c503a4b9b8ddadd54b4ad8f8e2f35e532895cd30f8201ee2ef600",
+            "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+            "initial_save": "blank.sav (cold-start battery fixture)",
+            "initial_state": "None"
+          },
+          "frames_audited": 2681,
+          "frame_range": [
+            1068,
+            3748
+          ],
+          "min_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": 0,
+          "room_transitions": [
+            {
+              "frame": 1068,
+              "room": 509
+            },
+            {
+              "frame": 1097,
+              "room": 510
+            },
+            {
+              "frame": 3670,
+              "room": 501
+            }
+          ],
+          "actor_changes": [
+            [
+              1068,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ]
+              ]
+            ],
+            [
+              1074,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1097,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              2285,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              3670,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              3698,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  5
+                ]
+              ]
+            ]
+          ],
+          "global_helper_ids_checked": [
+            12,
+            21,
+            24
+          ],
+          "AI_co_residency": false,
+          "metal_intact": 10,
+          "peg_intact": true,
+          "chest_flag53": 0,
+          "last510_tile_frame": 3658,
+          "tile_mutations": [
+            {
+              "x": 24,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 25,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 26,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 11,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 12,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 13,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 14,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 15,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 16,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 17,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 18,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 19,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 20,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 21,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 22,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 23,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 24,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 25,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 26,
+              "before": 240,
+              "after": 0
+            }
+          ],
+          "startup_changes": [
+            {
+              "offset": "0x2d8cb8",
+              "before": "2303230323032303",
+              "after": "fd01650065006500"
+            },
+            {
+              "offset": "0x2d8cd0",
+              "before": "0060000000900000005000000090000000400000009000000030000000900000",
+              "after": "00a0020000400000003000000050000000300000005000000030000000500000"
+            }
+          ],
+          "inputs_frames_keys": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              175,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              75,
+              16
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              70,
+              16
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              120,
+              34
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "label": "68",
+            "frame": 3748,
+            "room": 501,
+            "x": 216.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "500": {
+          "audit_path": "acceptedForward500/audit.json",
+          "audit_sha256": "bf2aeb6defb9530a1817d3e0532714d6d721f703ac249e438a95faf35015ee5b",
+          "runtime_path": "acceptedForward500/runtime.json",
+          "runtime_sha256": "73ce293f72a5ea04061c04cef312477e529e4e948e905d40bbbff758175c8b3e",
+          "identity": {
+            "rom_sha256": "bb7c65ed540ea164002172e1ba0d96f56998606d98dc96af260d306699eb6d3f",
+            "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+            "initial_save": "blank.sav (cold-start battery fixture)",
+            "initial_state": "None"
+          },
+          "frames_audited": 2681,
+          "frame_range": [
+            1068,
+            3748
+          ],
+          "min_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": 0,
+          "room_transitions": [
+            {
+              "frame": 1068,
+              "room": 509
+            },
+            {
+              "frame": 1097,
+              "room": 510
+            },
+            {
+              "frame": 3670,
+              "room": 501
+            }
+          ],
+          "actor_changes": [
+            [
+              1068,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ]
+              ]
+            ],
+            [
+              1074,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1097,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              2285,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              3670,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              3698,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  3
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  5
+                ]
+              ]
+            ]
+          ],
+          "global_helper_ids_checked": [
+            12,
+            21,
+            24
+          ],
+          "AI_co_residency": false,
+          "metal_intact": 10,
+          "peg_intact": true,
+          "chest_flag53": 0,
+          "last510_tile_frame": 3658,
+          "tile_mutations": [
+            {
+              "x": 24,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 25,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 26,
+              "y": 10,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 11,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 12,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 13,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 14,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 15,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 16,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 17,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 18,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 19,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 20,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 21,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 22,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 23,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 24,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 25,
+              "before": 240,
+              "after": 0
+            },
+            {
+              "x": 24,
+              "y": 26,
+              "before": 240,
+              "after": 0
+            }
+          ],
+          "startup_changes": [
+            {
+              "offset": "0x2d8cb8",
+              "before": "2303230323032303",
+              "after": "fd01650065006500"
+            },
+            {
+              "offset": "0x2d8cd0",
+              "before": "0060000000900000005000000090000000400000009000000030000000900000",
+              "after": "00a0020000400000003000000050000000300000005000000030000000500000"
+            }
+          ],
+          "inputs_frames_keys": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              175,
+              17
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              25,
+              0
+            ],
+            [
+              75,
+              16
+            ],
+            [
+              35,
+              0
+            ],
+            [
+              70,
+              16
+            ],
+            [
+              40,
+              34
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              120,
+              34
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              90,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              40,
+              129
+            ],
+            [
+              60,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "label": "68",
+            "frame": 3748,
+            "room": 501,
+            "x": 216.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    },
+    "reverse": {
+      "mechanism": "Actual501 door to510 stored24,29. Move left to x358; crouch20 frames then Down+A20 frames slides left into native bottom bomb21,28. Its chain opens F2 shaft21..23. Fly to upper chamber, wait20 frames at shaft roof before crossing left to avoid native laser, descend to509 door and pressUp.",
+      "audits": {
+        "100": {
+          "audit_path": "acceptedReverse100/audit.json",
+          "audit_sha256": "15376fecb9b0f0f9bc5de9b7a93e260a812e1455dcdba789ce5c95ff75190fa9",
+          "runtime_path": "acceptedReverse100/runtime.json",
+          "runtime_sha256": "f58ec894473e22bedbd02d0b15221e8bad2e93527fd4a48244b1d96273a5233d",
+          "identity": {
+            "rom_sha256": "37cbc92d708e1b8892cf3d89683cd877e935a02e3a960a66c346a07159e42c62",
+            "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+            "initial_save": "blank.sav (cold-start battery fixture)",
+            "initial_state": "None"
+          },
+          "frames_audited": 1100,
+          "frame_range": [
+            1068,
+            2167
+          ],
+          "min_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": 0,
+          "room_transitions": [
+            {
+              "frame": 1068,
+              "room": 501
+            },
+            {
+              "frame": 1107,
+              "room": 510
+            },
+            {
+              "frame": 2089,
+              "room": 509
+            }
+          ],
+          "actor_changes": [
+            [
+              1068,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ]
+              ]
+            ],
+            [
+              1074,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1107,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1696,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  9
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              2089,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  9
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ]
+          ],
+          "global_helper_ids_checked": [
+            12,
+            21,
+            24
+          ],
+          "AI_co_residency": false,
+          "metal_intact": 10,
+          "peg_intact": true,
+          "chest_flag53": 0,
+          "last510_tile_frame": 2077,
+          "tile_mutations": [
+            {
+              "x": 21,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 11,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 11,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 11,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 14,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 14,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 14,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 17,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 17,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 17,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 20,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 20,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 23,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 23,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 26,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 26,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 26,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 27,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 19,
+              "y": 28,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 20,
+              "y": 28,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 28,
+              "before": 241,
+              "after": 0
+            }
+          ],
+          "startup_changes": [
+            {
+              "offset": "0x2d8cb8",
+              "before": "2303230323032303",
+              "after": "f501650065006500"
+            },
+            {
+              "offset": "0x2d8cd0",
+              "before": "0060000000900000005000000090000000400000009000000030000000900000",
+              "after": "00e8000000400000003000000050000000300000005000000030000000500000"
+            }
+          ],
+          "inputs_frames_keys": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              64
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              20,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              20,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              26,
+              16
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              330,
+              1
+            ],
+            [
+              300,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "label": "19",
+            "frame": 2167,
+            "room": 509,
+            "x": 648.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "500": {
+          "audit_path": "acceptedReverse500/audit.json",
+          "audit_sha256": "15376fecb9b0f0f9bc5de9b7a93e260a812e1455dcdba789ce5c95ff75190fa9",
+          "runtime_path": "acceptedReverse500/runtime.json",
+          "runtime_sha256": "52d1b973c7c29fbe7a5c143c6010df0df324bb37d837f19e2687d78d30ab7bf2",
+          "identity": {
+            "rom_sha256": "243990f790839e6d5363427a9d4d4486c93927102a1f3c3148321d4701614b1f",
+            "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+            "initial_save": "blank.sav (cold-start battery fixture)",
+            "initial_state": "None"
+          },
+          "frames_audited": 1100,
+          "frame_range": [
+            1068,
+            2167
+          ],
+          "min_hp": 6,
+          "abilities": [
+            0
+          ],
+          "grabs": 0,
+          "room_transitions": [
+            {
+              "frame": 1068,
+              "room": 501
+            },
+            {
+              "frame": 1107,
+              "room": 510
+            },
+            {
+              "frame": 2089,
+              "room": 509
+            }
+          ],
+          "actor_changes": [
+            [
+              1068,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ],
+                [
+                  65535,
+                  0
+                ]
+              ]
+            ],
+            [
+              1074,
+              [
+                [
+                  501,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1107,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              1696,
+              [
+                [
+                  510,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  9
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ],
+            [
+              2089,
+              [
+                [
+                  509,
+                  0
+                ],
+                [
+                  101,
+                  0
+                ],
+                [
+                  101,
+                  9
+                ],
+                [
+                  101,
+                  0
+                ]
+              ]
+            ]
+          ],
+          "global_helper_ids_checked": [
+            12,
+            21,
+            24
+          ],
+          "AI_co_residency": false,
+          "metal_intact": 10,
+          "peg_intact": true,
+          "chest_flag53": 0,
+          "last510_tile_frame": 2077,
+          "tile_mutations": [
+            {
+              "x": 21,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 10,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 11,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 11,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 11,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 12,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 13,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 14,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 14,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 14,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 15,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 16,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 17,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 17,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 17,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 18,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 19,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 20,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 20,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 20,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 21,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 22,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 23,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 23,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 23,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 21,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 24,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 22,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 23,
+              "y": 25,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 26,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 22,
+              "y": 26,
+              "before": 242,
+              "after": 15
+            },
+            {
+              "x": 23,
+              "y": 26,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 27,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 18,
+              "y": 28,
+              "before": 241,
+              "after": 0
+            },
+            {
+              "x": 19,
+              "y": 28,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 20,
+              "y": 28,
+              "before": 242,
+              "after": 0
+            },
+            {
+              "x": 21,
+              "y": 28,
+              "before": 241,
+              "after": 0
+            }
+          ],
+          "startup_changes": [
+            {
+              "offset": "0x2d8cb8",
+              "before": "2303230323032303",
+              "after": "f501650065006500"
+            },
+            {
+              "offset": "0x2d8cd0",
+              "before": "0060000000900000005000000090000000400000009000000030000000900000",
+              "after": "00e8000000400000003000000050000000300000005000000030000000500000"
+            }
+          ],
+          "inputs_frames_keys": [
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              120,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              180,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              240,
+              0
+            ],
+            [
+              10,
+              16
+            ],
+            [
+              20,
+              64
+            ],
+            [
+              80,
+              0
+            ],
+            [
+              20,
+              32
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              20,
+              128
+            ],
+            [
+              20,
+              129
+            ],
+            [
+              30,
+              0
+            ],
+            [
+              26,
+              16
+            ],
+            [
+              15,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              330,
+              1
+            ],
+            [
+              300,
+              33
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              30,
+              64
+            ],
+            [
+              60,
+              0
+            ]
+          ],
+          "final": {
+            "label": "19",
+            "frame": 2167,
+            "room": 509,
+            "x": 648.0,
+            "y": 56.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    }
+  },
+  "negative_evidence": "Earlier failed control timings and laser-hit traces retained alongside accepted replays. They do not prove route impossibility. negativeForward100/500 filenames denote initially incomplete probes which were subsequently extended successfully, not impossible-route evidence."
+}

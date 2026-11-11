@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 from BaseClasses import CollectionState, ItemClassification
 
+from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..client import KirbyAmClient
 from ..data import data
@@ -27,7 +28,7 @@ EVIDENCE = Path(__file__).parents[1] / 'dev-docs/cabbage-fire-acceptance.json'
 POLICIES = [
     (0, None, 0, 'Beam'), (1, ['Beam'], 0, 'Beam'), (1, ['Smash'], 0, 'Smash'),
     (1, ['Fire'], 0, 'Fire'), (1, ['Spark'], 0, 'Spark'), (1, ['Ice'], 0, 'Ice'), (1, ['Sword'], 0, 'Sword'),
-    (1, ['Fighter'], 0, 'Fighter'),
+    (1, ['Fighter'], 0, 'Fighter'), (1, ['UFO'], 0, 'UFO'),
     (2, ['Fire'], 0, 'Fire'), (2, ['Fire', 'Smash'], 0, None),
     (2, ['Fire', 'Ice'], 0, None), (2, ['Fire'], 50, None), (2, ['Fire'], 100, None),
     (2, None, 0, None),
@@ -48,7 +49,7 @@ def test_independent_beam_smash_fire_or_policy(mode, pool, weight, ability, stat
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
                    for g in rules.target_graphs(row, False)]
         assert results == [ability == name for name in
-                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter')]
+                           ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # Carrot now has its own reviewed Fire graph, not a reuse of the517 effect.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Fire':
@@ -128,7 +129,7 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
         monkeypatch, gating, area_keys, statues, room_sanity, minor_chests):
     raw = json.loads(EVIDENCE.read_text())['source_policy']
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: raw)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity,
                        ability_randomization_no_ability_weight=0)
@@ -173,13 +174,13 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
 @pytest.mark.parametrize('gating', [0, 1])
 def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool, weight, ability, gating):
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
-    monkeypatch.setattr('worlds.kirbyam.build_enemy_copy_ability_policy', lambda *args, **kwargs: resolver.policy)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert chest.access_rule(state) is (ability is None)
-    for name in ('Beam', 'Smash', 'Fire', 'Spark', 'Ice', 'Sword', 'Fighter'):
+    for name in ('Beam', 'Smash', 'Fire', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
     assert chest.access_rule(state) is (ability is None)
     state.can_reach_region = lambda name, player: name == UPSTREAM
