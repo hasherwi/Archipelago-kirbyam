@@ -113,6 +113,7 @@
         {
           "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
           "item_checks": [
+            "GOAL_GAME_1_GOAL_2",
             "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_2_OBJECT_01"
           ],
           "room_sanity": true,
@@ -1228,6 +1229,7 @@
         {
           "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
           "item_checks": [
+            "GOAL_GAME_1_GOAL_1",
             "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_1_OBJECT_01"
           ],
           "room_sanity": true,
@@ -2069,11 +2071,11 @@
   ],
   "cluster_identity": "Room ID plus minimum x/y identifies a four-neighbor F5 component in docs/metal-tile-inventory.json. Coordinates are not duplicated; bounds and tile_count are verified against that inventory.",
   "legacy_block_placeholder_audit": {
-    "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Each current occurrence is a rooms.json directed exit condition.",
+    "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Current occurrences include rooms.json directed-exit and location conditions. Goal Game checks reuse their goal-door conditions, adding six can_break_block and two can_break_floating_block occurrences without changing token semantics or native route acceptance.",
     "counts": {
       "CanBreakBlocks": 0,
-      "can_break_block": 133,
-      "can_break_floating_block": 18,
+      "can_break_block": 139,
+      "can_break_floating_block": 20,
       "can_break_metal": 6,
       "can_break_metal_throw": 0
     },
