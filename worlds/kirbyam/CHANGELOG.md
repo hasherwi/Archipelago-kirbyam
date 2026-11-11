@@ -14,6 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. This prepares for removing guaranteed starting Stone and Burning; both remain in the starting inventory (PR #1051).
 - Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest uses the new Ice logic only when Mr. Frosty is guaranteed to give Ice; other randomized setups keep their existing behavior (PR #1048).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
@@ -24,6 +25,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
 
 ### Bug Fixes
+- Require reviewed Burning routes through Rainbow Route Room 41 and Moonlight Mansion Rooms 4, 5 and 15, preserving directed entrances and independent checks. Remove the unvalidated Moonlight Room 15 upper-return shortcut to its Warp Star (PR #1051).
+- Add reviewed Stone access to Beginning Notes and retained-Hammer access to Peppermint Palace's left 1-Up chest. Keep separately demonstrated Normal routes free of unnecessary copied-ability requirements (PR #1051).
 - Require an actual Hammer source and reviewed carry route for the Peppermint Palace7-9 metal chest. Joint native traces preserve the same Hammer through its earlier Room7 chest; renewable Copy Ability Room statues support mixed-live source policies without assuming a lucky Bonkers grant. The separate rope chest and starting abilities are unchanged.
 - Keep Cabbage Cavern Room3's fresh upper-left entrance separate from its lower/right passages. Preserve the directed Normal Bomb and swimming routes without requiring a metal ability or duplicating its room check.
 - Keep Peppermint Palace's three chest-room approaches and Snow hallway separate. Require a reviewed Bonkers-Hammer or renewable statue-backed Stone route through the Room7 floor, preserving exact check IDs and one room check per physical room. Starting abilities remain unchanged.
@@ -33,6 +36,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Preserve the historical 22-ability fallback for legacy slots, add source-aware traversal and native-evidence regressions, and classify expected unsafe minimal-accessibility generation rejections separately from successful fuzz runs (PR #1051).
 - Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
 
 ## v0.5.0
