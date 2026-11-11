@@ -1,0 +1,7856 @@
+{
+  "schema_version": 1,
+  "status": "Qualified native Mini Phone restriction and disposal lifecycle evidence; no production activation or traversal binding",
+  "ai_assisted": true,
+  "date": "2026-11-11",
+  "production_commit": "c235d1d07f2de0574467ed42f054ab7c43bfbb1b",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "audit_head": "b5b1c3d8d8fcedfd84ab1af365fdb46bf8f59b95",
+  "docs_only_files_changed_since_build": [
+    "worlds/kirbyam/CHANGELOG.md",
+    "worlds/kirbyam/dev-docs/phone-implementation.md",
+    "worlds/kirbyam/dev-docs/phone-ufo-lifecycle-evidence.json"
+  ],
+  "production_source_and_patch_unchanged": true,
+  "result": "Four bounded native Mini R/L lifecycle cases pass, including exact cold repeat, unowned and disabled controls. Production Phone remains disabled.",
+  "total_audited_gameplay_frames": 16500,
+  "options": {
+    "ability_randomization_mode": 2,
+    "ability_gating": 1,
+    "ability_randomization_no_ability_weight": 100,
+    "ability_randomization_statues": 0,
+    "area_keys": 0,
+    "enemy_health_multiplier": 100,
+    "minimum_health": 6,
+    "maximum_health": 6
+  },
+  "source_policy": {
+    "mode": 2,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 100,
+    "seed": 16380276396577014032,
+    "mapping_style": "per_grant_event"
+  },
+  "source_witness": {
+    "original_template": "0x088CBD88",
+    "original_room": 134,
+    "original_position": [
+      128,
+      232
+    ],
+    "native_type": 39,
+    "observed_frame": 1344,
+    "observations": [
+      {
+        "frame": 1344,
+        "address": "0x2000180",
+        "template": "0x088CBD88",
+        "room": 134,
+        "type": 39,
+        "copy_field": 23,
+        "hp": 2,
+        "x": 120.12109375,
+        "y": 235.99609375,
+        "flags": "0x10000005"
+      }
+    ],
+    "genuine_Mini_acquisition_frame": 1429,
+    "source_permission_item": 3860123,
+    "gate_mask": 67108470,
+    "unlock_mask": 8388608,
+    "equipment_injection": false
+  },
+  "fixture": {
+    "startup_rooms": [
+      134,
+      803,
+      803,
+      803
+    ],
+    "startup_player_encoded_position": [
+      40,
+      120
+    ],
+    "startup_player_actual_position": [
+      24,
+      104
+    ],
+    "first_gameplay_observation_position": [
+      24,
+      104.99609375
+    ],
+    "other_startup_entries_unchanged": true,
+    "disabled_control_only_difference": "Phone enable word = 0, one changed byte at 0x100FFD0",
+    "isolated_client_slot_additions": {
+      "phone_protocol_version": 1,
+      "starting_phone_access": false
+    },
+    "sha256": {
+      "production.apkirbyam": "e78c664d1a78984e2a3dd891d90b17233a54f4c6d3405ac4a4c1cb3dc2030eb6",
+      "production.gba": "f0c563f99c6b98843e2b273112c9aa28efc783abf4bb1adc8cb135b6d989a2a5",
+      "fixture.gba": "aaf65aa86066374eff1cbee648742b57c02a0633befc62e9e0cac2d361e972af",
+      "disabled-fixture.gba": "4692a27540e2ea9a4d2f9317ba60d2e4b0164fe0f0b4ca5b5b4ab3b11e0c9348",
+      "slot.json": "af7e6625f34c33524cf1975c6f6a53c452497075708f7992dff2898d12aad043",
+      "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+    },
+    "changed_byte_count": 5,
+    "changed_offsets": [
+      "0x2d8cb8",
+      "0x2d8cb9",
+      "0x2d8cd1",
+      "0x2d8cd5",
+      "0x100ffd0"
+    ],
+    "changes_by_allowed_range": {
+      "player_initial_room": 2,
+      "player_initial_position": 2,
+      "experimental_phone_enable": 1
+    }
+  },
+  "key_masks": {
+    "A": 1,
+    "B": 2,
+    "Select": 4,
+    "Start": 8,
+    "Right": 16,
+    "Left": 32,
+    "Up": 64,
+    "Down": 128,
+    "R": 256,
+    "L": 512
+  },
+  "input_prefix": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1086,
+      "frames": 108,
+      "keys": 16
+    },
+    {
+      "start": 1194,
+      "frames": 70,
+      "keys": 0
+    },
+    {
+      "start": 1264,
+      "frames": 15,
+      "keys": 32
+    },
+    {
+      "start": 1279,
+      "frames": 65,
+      "keys": 0
+    },
+    {
+      "start": 1344,
+      "frames": 1,
+      "keys": 32
+    },
+    {
+      "start": 1345,
+      "frames": 60,
+      "keys": 2
+    },
+    {
+      "start": 1405,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1406,
+      "frames": 1,
+      "keys": 128
+    },
+    {
+      "start": 1407,
+      "frames": 90,
+      "keys": 0
+    },
+    {
+      "start": 1497,
+      "frames": 100,
+      "keys": 16
+    },
+    {
+      "start": 1597,
+      "frames": 8,
+      "keys": 32
+    },
+    {
+      "start": 1605,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1665,
+      "frames": 1,
+      "keys": 129
+    },
+    {
+      "start": 1666,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 1706,
+      "frames": 45,
+      "keys": 128
+    },
+    {
+      "start": 1751,
+      "frames": 290,
+      "keys": 16
+    },
+    {
+      "start": 2041,
+      "frames": 30,
+      "keys": 0
+    }
+  ],
+  "runtime_write_contract": {
+    "source_config_frame": 1085,
+    "source_config_writes_per_run": 8,
+    "source_config_guarded": false,
+    "source_complete_ReceivedItems": [
+      3860123
+    ],
+    "phone_complete_ReceivedItems": [
+      3860123,
+      3860501
+    ],
+    "phone_queue_frame": 2551,
+    "phone_writes_per_owned_run": 2,
+    "phone_writes_guarded": true,
+    "gameplay_state_injections": 0,
+    "state_loads": 0,
+    "live_server": false
+  },
+  "determinism": {
+    "granted_cold_repeat_trace_and_save_identical": true,
+    "unowned_vs_disabled_prefix_through2658_identical_excluding_Phone_context": true,
+    "unowned_vs_disabled_save_identical": true
+  },
+  "native_eligibility": {
+    "room134_priority_flags": "0x79",
+    "common_state_pointer": "0x0803FF65",
+    "session_blocker_room_table": [
+      999,
+      324,
+      710,
+      417,
+      822,
+      219,
+      516,
+      738,
+      129,
+      909,
+      910,
+      912,
+      914,
+      916
+    ],
+    "room134_in_session_table": false,
+    "caller": 255,
+    "battery": 3,
+    "humans": 1,
+    "num_kirbys": 4,
+    "global_flags10": 0,
+    "global_flags20": 0,
+    "base_unkC": "0x1010",
+    "base_unk58": "0x201",
+    "initial_cpu_rooms": [
+      134,
+      803,
+      803,
+      803
+    ],
+    "cpu_rooms_after_native_progression_at1271": [
+      134,
+      801,
+      801,
+      801
+    ],
+    "restricted_state_cpu_rooms": [
+      134,
+      801,
+      801,
+      801
+    ]
+  },
+  "native_byte_checks": [
+    {
+      "name": "common_movement_before_existing_button_hook",
+      "offset_start": "0x3ff64",
+      "offset_end_exclusive": "0x3ffd4",
+      "sha256": "9510604e570adb232a5300cd6b4670a42a43f96a4b2d2b7e7d643b052aef6f4a",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "common_movement_Mini_R_L_and_Select_exclusions",
+      "offset_start": "0x3ffd8",
+      "offset_end_exclusive": "0x40868",
+      "sha256": "59cbc6e5a15eabf15aa95250b2d166818dbc19d6eab0c68821f7ee2daf2d9e0c",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "L_entry_and_call_states",
+      "offset_start": "0x56e40",
+      "offset_end_exclusive": "0x578e4",
+      "sha256": "73d6ac232300355a3d69012d2fc2e06aff888ff878e5a2f933838583c18dc9e3",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "room_entry_Mini_clear",
+      "offset_start": "0x55d9c",
+      "offset_end_exclusive": "0x56128",
+      "sha256": "615410b6445792f2f6872aceca0b875a16e081f0b1db5da8518527f8b6686d2b",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "original_Minny_full_template",
+      "offset_start": "0x8cbd88",
+      "offset_end_exclusive": "0x8cbdac",
+      "sha256": "365b0b3f1735bcd8964d31e76795a6745c25587ddda16a49fe944f1a1b759455",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "room134_properties",
+      "offset_start": "0x93469c",
+      "offset_end_exclusive": "0x9346c4",
+      "sha256": "a5a699f233491535cd35870a28b232c11f0c1c5887bc811b5043fd0f498dde6e",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "session_room_table",
+      "offset_start": "0x35105c",
+      "offset_end_exclusive": "0x35107c",
+      "sha256": "ee5a14226cfe22538418534f6474e6a686d15a7a1e442e05107812a6a10ec8e4",
+      "unchanged_from_retail": true
+    }
+  ],
+  "existing_production_button_transition_hook": {
+    "offset": "0x3ffd4",
+    "retail_target": "0x0805bc78",
+    "production_target": "0x0815f368"
+  },
+  "native_source_references": [
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "6920-6962",
+      "symbol": "Macro_0803FF64_3",
+      "finding": "Select can dispose of Mini when base.unk58 bit 0x400 is clear. It creates the native ability star and restores Normal dimensions/state."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "6964-6991",
+      "symbol": "Macro_0803FF64_4",
+      "finding": "Common call/return eligibility excludes specified active session rooms. Room 134 is not in that table."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "6993-7005",
+      "symbol": "Macro_0803FF64_5",
+      "finding": "R initiation distinguishes whether all Kirbys already share the room."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "7020-7071",
+      "symbol": "Macro_0803FF64_7",
+      "finding": "Common R checks Mini before caller, battery, human-player and room-priority conditions. Phone ownership cannot bypass this native Mini restriction."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "7073-7119",
+      "symbol": "sub_0803FF64",
+      "finding": "The observed idle state calls the common R macro and separately checks L. The L branch requires session eligibility, global flag 4 clear, room priority 0x40 and ability other than Mini."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "13071-13318",
+      "symbol": "sub_08056C2C / sub_08056E40 / sub_0805701C / sub_080572A0 / sub_080573D0",
+      "finding": "The native R and L paths are separate. Normal R consumes one battery and starts helper calling; Normal L uses the return path."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "12700-12727",
+      "symbol": "sub_08055D9C",
+      "finding": "Room-entry processing independently clears Mini. In this witness Mini was already disposed of by Select before any return, so this is source corroboration, not a separately tested Mini transition."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "13363-13437",
+      "symbol": "sub_08057774 / sub_080578E4 / sub_080579F4",
+      "finding": "The ordinary L return reaches native room 801 and the subsequent control states."
+    },
+    {
+      "repository": "katam",
+      "path": "include/data.h",
+      "lines": "447-470",
+      "symbol": "RoomProps",
+      "finding": "The property record has 40-byte stride and priorityFlags at offset 18; the unchanged room 134 value is 0x79."
+    },
+    {
+      "repository": "katam",
+      "path": "data/object.s",
+      "lines": "6-7",
+      "symbol": "gUnk_0835105C",
+      "finding": "The session-room table starts at 0x0835105C and excludes 134."
+    },
+    {
+      "repository": "katam",
+      "path": "data/data_8.s",
+      "lines": "44013-44014",
+      "symbol": "gRoomProps",
+      "finding": "The native room-property table starts at 0x089331AC."
+    },
+    {
+      "repository": "katam",
+      "path": "include/data.h",
+      "lines": "711-725",
+      "symbol": "AIKirbyState",
+      "finding": "AI progression 300 is the native normal progression state, not human-player count."
+    },
+    {
+      "repository": "katam",
+      "path": "src/code_0814A828.c",
+      "lines": "460-473",
+      "symbol": "sub_0814AF04",
+      "finding": "The first Central Circle cutscene advances AI progression to 300 and saves WORLD state."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/enemy_ability_runtime_patch.py",
+      "lines": "145-152",
+      "symbol": "_is_source_enabled",
+      "finding": "MINNY is excluded from randomized source assignments. Original Minny remains the genuine Mini source."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/client.py",
+      "lines": "2449-2489",
+      "symbol": "_sync_enemy_copy_ability_runtime_config",
+      "finding": "The current production client derives gate and unlock masks from slot configuration and received ability items. The Mini item unlocks bit 23; it does not equip Mini."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/kirby_ap_payload/ap_hook.s",
+      "lines": "185-215",
+      "symbol": "ap_phone_call_entry",
+      "finding": "Phone guards only R entry 0x08056C2C. L entry 0x08056E40 is separate; common Mini rejection occurs before R entry."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/kirby_ap_payload/phone.c",
+      "lines": "1-39",
+      "symbol": "gApPhoneConfig / ap_phone_call_blocked",
+      "finding": "Production enable remains 0. Only the isolated fixture changes the enable word to 1 before boot."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/kirby_ap_payload/phone_runtime_logic.h",
+      "lines": "1-12",
+      "symbol": "ap_phone_blocks_initiation",
+      "finding": "The permission gate does not replace native call eligibility. Room 134 is outside the 803-805 tutorial exception."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/phone_protocol.py",
+      "lines": "47-103",
+      "symbol": "sync_phone_ownership",
+      "finding": "Phone ownership uses the production queue with complete history, ROM identity, capability and native-file fences."
+    }
+  ],
+  "runs": [
+    {
+      "name": "accepted-grant",
+      "mode": "grant",
+      "accepted": true,
+      "trace_frames": 4366,
+      "final_frame": 5450,
+      "first_mini_frame": 1429,
+      "first_phone_owned_frame": 2552,
+      "disposal_frame": 3034,
+      "first_battery2_frame": 3170,
+      "first_all_helpers_in134_frame": 3350,
+      "L_start_frame": 3800,
+      "first_801_frame": 4011,
+      "AI_normal_frame": 5127,
+      "final_battery": 2,
+      "final_phone_owned": 1,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "restricted_windows": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2553,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2643,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 2793,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2883,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        }
+      ],
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "1041b0a4",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "986e52e3",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "64000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00008000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 2551,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2551,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "sha256": {
+        "commands.json": "93a5b73b0aa43452d7865c0fc7f6a193a263e05a24c05824eab33228968774fa",
+        "runtime.json": "00820c67e55ba4c0cf3cbb6a27fb39ec1bd507dfb0110c0807d8739321af572d",
+        "trace.json": "b696730780429aa434ed4f706c4096c759cd9279b761393533582b6654e32f1b",
+        "transport.json": "7dc9c767913a9fb1bbf57804619d7761067aab4f4b481d7c6d94585a5c269500",
+        "end.sav": "c4133e88db0028c70f6e9cc9771e8ce2aabe88586c3f3d7774e1f04c31baf9ad",
+        "outcome.json": "541f0224a8410e4900d35c0552bfeabd0d816eb5e9d84b0abee0b3f9e1da3ff2"
+      },
+      "input_suffix": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2131,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2281,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2371,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2521,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2551,
+          "frames": 2,
+          "keys": 0,
+          "label": "apply-phone-queue"
+        },
+        {
+          "start": 2553,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2613,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2643,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 2763,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2793,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2853,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2883,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 3003,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 3033,
+          "frames": 1,
+          "keys": 4,
+          "label": "Select-disposal"
+        },
+        {
+          "start": 3034,
+          "frames": 60,
+          "keys": 0,
+          "label": "disposal-settle"
+        },
+        {
+          "start": 3094,
+          "frames": 8,
+          "keys": 16,
+          "label": "post-disposal-move-right"
+        },
+        {
+          "start": 3102,
+          "frames": 8,
+          "keys": 32,
+          "label": "post-disposal-move-left"
+        },
+        {
+          "start": 3110,
+          "frames": 30,
+          "keys": 0,
+          "label": "movement-settle"
+        },
+        {
+          "start": 3140,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal-R"
+        },
+        {
+          "start": 3200,
+          "frames": 600,
+          "keys": 0,
+          "label": "Normal-R-settle"
+        },
+        {
+          "start": 3800,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal-L"
+        },
+        {
+          "start": 3920,
+          "frames": 1500,
+          "keys": 0,
+          "label": "Normal-L-settle"
+        },
+        {
+          "start": 5420,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-movement"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 134,
+          "x": 24.0,
+          "y": 104.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 0,
+          "gate": 67108470,
+          "unlocks": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            803,
+            803,
+            803
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1271,
+          "keys": 32,
+          "room": 134,
+          "x": 199.546875,
+          "y": 168.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1344,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1429,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 95,
+          "state": "0x805cb89",
+          "base_flags": "0x2b01",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1497,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x3",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2071,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2131,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2161,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2281,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2311,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2371,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2401,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2521,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2551,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2552,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 1,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2553,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2613,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2643,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2763,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2793,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2853,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2883,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3003,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3033,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3034,
+          "keys": 4,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x0",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 4,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3094,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3102,
+          "keys": 16,
+          "room": 134,
+          "x": 662.24609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3110,
+          "keys": 32,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 12,
+          "state": "0x80425f1",
+          "base_flags": "0x4",
+          "base_unkC": "0x10",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3140,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3170,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 98,
+          "state": "0x8057ad1",
+          "base_flags": "0x0",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3200,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3350,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x1000000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3800,
+          "keys": 0,
+          "room": 134,
+          "x": 678.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1001010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3920,
+          "keys": 512,
+          "room": 134,
+          "x": 673.0,
+          "y": 273.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8057775",
+          "base_flags": "0x344",
+          "base_unkC": "0x1048000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4011,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "base_flags": "0x740",
+          "base_unkC": "0x240000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5127,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "base_flags": "0x342",
+          "base_unkC": "0x200000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5420,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5450,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "dropped_star_observations": [
+        {
+          "frame": 3034,
+          "address": "0x2000200",
+          "type": 163,
+          "raw_ability": 23,
+          "x": 656.0,
+          "y": 248.0
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file Phone mask 0x2 is present only for owned cases, Copy ownership remains clear."
+    },
+    {
+      "name": "accepted-grant-repeat",
+      "mode": "grant",
+      "accepted": true,
+      "trace_frames": 4366,
+      "final_frame": 5450,
+      "first_mini_frame": 1429,
+      "first_phone_owned_frame": 2552,
+      "disposal_frame": 3034,
+      "first_battery2_frame": 3170,
+      "first_all_helpers_in134_frame": 3350,
+      "L_start_frame": 3800,
+      "first_801_frame": 4011,
+      "AI_normal_frame": 5127,
+      "final_battery": 2,
+      "final_phone_owned": 1,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "restricted_windows": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2553,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2643,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 2793,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2883,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        }
+      ],
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "1041b0a4",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "986e52e3",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "64000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00008000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 2551,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2551,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "sha256": {
+        "commands.json": "93a5b73b0aa43452d7865c0fc7f6a193a263e05a24c05824eab33228968774fa",
+        "runtime.json": "00820c67e55ba4c0cf3cbb6a27fb39ec1bd507dfb0110c0807d8739321af572d",
+        "trace.json": "b696730780429aa434ed4f706c4096c759cd9279b761393533582b6654e32f1b",
+        "transport.json": "7dc9c767913a9fb1bbf57804619d7761067aab4f4b481d7c6d94585a5c269500",
+        "end.sav": "c4133e88db0028c70f6e9cc9771e8ce2aabe88586c3f3d7774e1f04c31baf9ad",
+        "outcome.json": "541f0224a8410e4900d35c0552bfeabd0d816eb5e9d84b0abee0b3f9e1da3ff2"
+      },
+      "input_suffix": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2131,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2281,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2371,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2521,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2551,
+          "frames": 2,
+          "keys": 0,
+          "label": "apply-phone-queue"
+        },
+        {
+          "start": 2553,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2613,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2643,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 2763,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2793,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-Mini-R"
+        },
+        {
+          "start": 2853,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2883,
+          "frames": 120,
+          "keys": 512,
+          "label": "owned-Mini-L"
+        },
+        {
+          "start": 3003,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 3033,
+          "frames": 1,
+          "keys": 4,
+          "label": "Select-disposal"
+        },
+        {
+          "start": 3034,
+          "frames": 60,
+          "keys": 0,
+          "label": "disposal-settle"
+        },
+        {
+          "start": 3094,
+          "frames": 8,
+          "keys": 16,
+          "label": "post-disposal-move-right"
+        },
+        {
+          "start": 3102,
+          "frames": 8,
+          "keys": 32,
+          "label": "post-disposal-move-left"
+        },
+        {
+          "start": 3110,
+          "frames": 30,
+          "keys": 0,
+          "label": "movement-settle"
+        },
+        {
+          "start": 3140,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal-R"
+        },
+        {
+          "start": 3200,
+          "frames": 600,
+          "keys": 0,
+          "label": "Normal-R-settle"
+        },
+        {
+          "start": 3800,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal-L"
+        },
+        {
+          "start": 3920,
+          "frames": 1500,
+          "keys": 0,
+          "label": "Normal-L-settle"
+        },
+        {
+          "start": 5420,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-movement"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 134,
+          "x": 24.0,
+          "y": 104.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 0,
+          "gate": 67108470,
+          "unlocks": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            803,
+            803,
+            803
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1271,
+          "keys": 32,
+          "room": 134,
+          "x": 199.546875,
+          "y": 168.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1344,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1429,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 95,
+          "state": "0x805cb89",
+          "base_flags": "0x2b01",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1497,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x3",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2071,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2131,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2161,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2281,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2311,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2371,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2401,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2521,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2551,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2552,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 1,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2553,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2613,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2643,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2763,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2793,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2853,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2883,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3003,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3033,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3034,
+          "keys": 4,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x0",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 4,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3094,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3102,
+          "keys": 16,
+          "room": 134,
+          "x": 662.24609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3110,
+          "keys": 32,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 12,
+          "state": "0x80425f1",
+          "base_flags": "0x4",
+          "base_unkC": "0x10",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3140,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3170,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 98,
+          "state": "0x8057ad1",
+          "base_flags": "0x0",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3200,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3350,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x1000000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3800,
+          "keys": 0,
+          "room": 134,
+          "x": 678.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1001010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3920,
+          "keys": 512,
+          "room": 134,
+          "x": 673.0,
+          "y": 273.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8057775",
+          "base_flags": "0x344",
+          "base_unkC": "0x1048000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4011,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "base_flags": "0x740",
+          "base_unkC": "0x240000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5127,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "base_flags": "0x342",
+          "base_unkC": "0x200000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5420,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5450,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "dropped_star_observations": [
+        {
+          "frame": 3034,
+          "address": "0x2000200",
+          "type": 163,
+          "raw_ability": 23,
+          "x": 656.0,
+          "y": 248.0
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file Phone mask 0x2 is present only for owned cases, Copy ownership remains clear."
+    },
+    {
+      "name": "accepted-unowned",
+      "mode": "unowned",
+      "accepted": true,
+      "trace_frames": 3884,
+      "final_frame": 4968,
+      "first_mini_frame": 1429,
+      "first_phone_owned_frame": null,
+      "disposal_frame": 2552,
+      "first_battery2_frame": null,
+      "first_all_helpers_in134_frame": null,
+      "L_start_frame": 3318,
+      "first_801_frame": 3521,
+      "AI_normal_frame": 4635,
+      "final_battery": 3,
+      "final_phone_owned": 0,
+      "control_x_before": 255.2421875,
+      "control_x_after": 289.2265625,
+      "restricted_windows": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        }
+      ],
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "1041b0a4",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "986e52e3",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "64000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00008000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "sha256": {
+        "commands.json": "218b0bc24c9529a92e385420fc71f0eb95ba74b6fc1664d242fc750debe114ec",
+        "runtime.json": "c533fc289466e3f32a19e60c30ceafb58da67a9e344e6d0226ac3a6af40c4b43",
+        "trace.json": "ae80b527cf7fd49eedc6f4187492aa05ea881aafd2a53677f8b38f9845e9232b",
+        "transport.json": "5130e3f237b7ecac0ad45743280590980ae2eb3edad66856cbe0707e9c86e5e3",
+        "end.sav": "ce9b1fd646bdb182648431c91423c47f14b1ab4ccc0706512185d372ee9b2342",
+        "outcome.json": "90dea5f6944c8907b25221d3263442c53bad1cfd1f6b33b1bdcfba5a1b8c31a5"
+      },
+      "input_suffix": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2131,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2281,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "unowned-Mini-R"
+        },
+        {
+          "start": 2371,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "unowned-Mini-L"
+        },
+        {
+          "start": 2521,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2551,
+          "frames": 1,
+          "keys": 4,
+          "label": "Select-disposal"
+        },
+        {
+          "start": 2552,
+          "frames": 60,
+          "keys": 0,
+          "label": "disposal-settle"
+        },
+        {
+          "start": 2612,
+          "frames": 8,
+          "keys": 16,
+          "label": "post-disposal-move-right"
+        },
+        {
+          "start": 2620,
+          "frames": 8,
+          "keys": 32,
+          "label": "post-disposal-move-left"
+        },
+        {
+          "start": 2628,
+          "frames": 30,
+          "keys": 0,
+          "label": "movement-settle"
+        },
+        {
+          "start": 2658,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal-R"
+        },
+        {
+          "start": 2718,
+          "frames": 600,
+          "keys": 0,
+          "label": "Normal-R-settle"
+        },
+        {
+          "start": 3318,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal-L"
+        },
+        {
+          "start": 3438,
+          "frames": 1500,
+          "keys": 0,
+          "label": "Normal-L-settle"
+        },
+        {
+          "start": 4938,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-movement"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 134,
+          "x": 24.0,
+          "y": 104.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 0,
+          "gate": 67108470,
+          "unlocks": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            803,
+            803,
+            803
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1271,
+          "keys": 32,
+          "room": 134,
+          "x": 199.546875,
+          "y": 168.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1344,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1429,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 95,
+          "state": "0x805cb89",
+          "base_flags": "0x2b01",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1497,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x3",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2071,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2131,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2161,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2281,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2311,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2371,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2401,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2521,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2551,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2552,
+          "keys": 4,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x0",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 4,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2612,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2620,
+          "keys": 16,
+          "room": 134,
+          "x": 662.24609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2628,
+          "keys": 32,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 12,
+          "state": "0x80425f1",
+          "base_flags": "0x4",
+          "base_unkC": "0x10",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2658,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2718,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3318,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3438,
+          "keys": 512,
+          "room": 134,
+          "x": 661.74609375,
+          "y": 257.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8057775",
+          "base_flags": "0x344",
+          "base_unkC": "0x48000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3521,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "base_flags": "0x740",
+          "base_unkC": "0x240000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4635,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "base_flags": "0x342",
+          "base_unkC": "0x200000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4938,
+          "keys": 0,
+          "room": 801,
+          "x": 255.2421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            101,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4968,
+          "keys": 16,
+          "room": 801,
+          "x": 289.2265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            101,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "dropped_star_observations": [
+        {
+          "frame": 2552,
+          "address": "0x2000200",
+          "type": 163,
+          "raw_ability": 23,
+          "x": 656.0,
+          "y": 248.0
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file Phone mask 0x2 is present only for owned cases, Copy ownership remains clear."
+    },
+    {
+      "name": "accepted-disabled",
+      "mode": "disabled",
+      "accepted": true,
+      "trace_frames": 3884,
+      "final_frame": 4968,
+      "first_mini_frame": 1429,
+      "first_phone_owned_frame": null,
+      "disposal_frame": 2552,
+      "first_battery2_frame": 2688,
+      "first_all_helpers_in134_frame": 2832,
+      "L_start_frame": 3318,
+      "first_801_frame": 3521,
+      "AI_normal_frame": 4635,
+      "final_battery": 2,
+      "final_phone_owned": 0,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "restricted_windows": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "disabled-Mini-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "disabled-Mini-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "disabled-Mini-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "disabled-Mini-L"
+        }
+      ],
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "1041b0a4",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "986e52e3",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "64000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00008000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "sha256": {
+        "commands.json": "1aaaa153df0406c8bfc8adafac7fc4ad9cd8b0b970806c4d0b70bafbaa6ec35d",
+        "runtime.json": "23f5d7c4909a703cf5e39d92e6137423ad2dfa210fddd564fac40d923b8ab677",
+        "trace.json": "9fafc1b4c08de946d4d095c84c334092c0c5bb56fe6607925f0d2c2a7d202048",
+        "transport.json": "29597b193a70e6b204ac036346b2c270b6dfc2be9ebf760dc6e69e451e592ec1",
+        "end.sav": "ce9b1fd646bdb182648431c91423c47f14b1ab4ccc0706512185d372ee9b2342",
+        "outcome.json": "f23fcfb6abbf4f1824ae0476f29a3ae745d30487cb98566773426520a4c60afe"
+      },
+      "input_suffix": [
+        {
+          "start": 2071,
+          "frames": 60,
+          "keys": 256,
+          "label": "disabled-Mini-R"
+        },
+        {
+          "start": 2131,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2161,
+          "frames": 120,
+          "keys": 512,
+          "label": "disabled-Mini-L"
+        },
+        {
+          "start": 2281,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2311,
+          "frames": 60,
+          "keys": 256,
+          "label": "disabled-Mini-R"
+        },
+        {
+          "start": 2371,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-R"
+        },
+        {
+          "start": 2401,
+          "frames": 120,
+          "keys": 512,
+          "label": "disabled-Mini-L"
+        },
+        {
+          "start": 2521,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-L"
+        },
+        {
+          "start": 2551,
+          "frames": 1,
+          "keys": 4,
+          "label": "Select-disposal"
+        },
+        {
+          "start": 2552,
+          "frames": 60,
+          "keys": 0,
+          "label": "disposal-settle"
+        },
+        {
+          "start": 2612,
+          "frames": 8,
+          "keys": 16,
+          "label": "post-disposal-move-right"
+        },
+        {
+          "start": 2620,
+          "frames": 8,
+          "keys": 32,
+          "label": "post-disposal-move-left"
+        },
+        {
+          "start": 2628,
+          "frames": 30,
+          "keys": 0,
+          "label": "movement-settle"
+        },
+        {
+          "start": 2658,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal-R"
+        },
+        {
+          "start": 2718,
+          "frames": 600,
+          "keys": 0,
+          "label": "Normal-R-settle"
+        },
+        {
+          "start": 3318,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal-L"
+        },
+        {
+          "start": 3438,
+          "frames": 1500,
+          "keys": 0,
+          "label": "Normal-L-settle"
+        },
+        {
+          "start": 4938,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-movement"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 134,
+          "x": 24.0,
+          "y": 104.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 0,
+          "gate": 67108470,
+          "unlocks": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            803,
+            803,
+            803
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1271,
+          "keys": 32,
+          "room": 134,
+          "x": 199.546875,
+          "y": 168.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1344,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x5",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1429,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 95,
+          "state": "0x805cb89",
+          "base_flags": "0x2b01",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1497,
+          "keys": 0,
+          "room": 134,
+          "x": 166.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x3",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2071,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2131,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2161,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2281,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2311,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2371,
+          "keys": 256,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2401,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2521,
+          "keys": 512,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2551,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 23,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x2",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            23,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2552,
+          "keys": 4,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x0",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 4,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2612,
+          "keys": 0,
+          "room": 134,
+          "x": 656.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2620,
+          "keys": 16,
+          "room": 134,
+          "x": 662.24609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2628,
+          "keys": 32,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 12,
+          "state": "0x80425f1",
+          "base_flags": "0x4",
+          "base_unkC": "0x10",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2658,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2688,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 98,
+          "state": "0x8057ad1",
+          "base_flags": "0x0",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2718,
+          "keys": 256,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x0",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            801,
+            801,
+            801
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2832,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 99,
+          "state": "0x8057ad1",
+          "base_flags": "0x4",
+          "base_unkC": "0x1000000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3318,
+          "keys": 0,
+          "room": 134,
+          "x": 666.74609375,
+          "y": 248.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1001010",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3438,
+          "keys": 512,
+          "room": 134,
+          "x": 661.74609375,
+          "y": 257.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8057775",
+          "base_flags": "0x344",
+          "base_unkC": "0x1048000",
+          "base_unk58": "0x201",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            134,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3521,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "base_flags": "0x740",
+          "base_unkC": "0x240000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4635,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "base_flags": "0x342",
+          "base_unkC": "0x200000",
+          "base_unk58": "0x0",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4938,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 4968,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "base_flags": "0x4",
+          "base_unkC": "0x1010",
+          "base_unk58": "0x5",
+          "native_buttons": 0,
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "num_kirbys": 4,
+          "global_flags10": "0x0",
+          "global_flags20": "0x0",
+          "mode": 2,
+          "gate": 67108470,
+          "unlocks": 8388608,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            134,
+            134,
+            134
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "dropped_star_observations": [
+        {
+          "frame": 2552,
+          "address": "0x2000200",
+          "type": 163,
+          "raw_ability": 23,
+          "x": 656.0,
+          "y": 248.0
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file Phone mask 0x2 is present only for owned cases, Copy ownership remains clear."
+    }
+  ],
+  "limits": [
+    "This is a controlled local room 134 entry matching the native 133-to-134 arrival, not a complete Central Circle-to-source journey or campaign. Encoded 40,120 gives initial 24,104; native ground settling yields 24,104.99609375 at the first recorded gameplay frame 1085.",
+    "The current production source policy uses mode 2 / per_grant_event, all 25 allowed abilities, no-ability weight 100, fixed Minny and fixed statues, ability gating ON, Area Keys OFF, enemy health 100%, HP 6/6. Only this policy and health configuration are tested.",
+    "Mini is acquired at 1429 from the original room 134 Minny after real controller inhalation and swallowing. Synthetic item 3860123 supplies only Mini permission; it does not equip Mini. Included randomized sources always resolve to Normal under the selected 100% weight.",
+    "Original startup CPU entries remain 803 with original positions. CPUs naturally reach 801 by 1271; no helper room, equipment or AI progression is injected. All source/room 134 work has AI progression 0. First return to 801 triggers the ordinary cutscene and advances to 300.",
+    "Restricted R and L are tested in common idle state 0x0803FF65 at x 656.74609375, y 248.99609375 with base.unk58=0x201, so Select disposal is eligible. This is not an all-state, underwater, cramped-space, multiplayer or arbitrary-room guarantee.",
+    "After Select, Normal movement and R/L behavior are restored. Unowned enabled R remains permission-blocked, owned and disabled R summon all helpers with one battery spent, and L returns in all cases. No helper attack, switch, collectible, route necessity or Phone-required obstacle is claimed.",
+    "Eight current production source-configuration writes occur at 1085. Those source writes are not individually guarded. Owned cases add two guarded Phone queue writes at 2551. There are no equipment, pose, HP, battery, direct ownership, helper or other gameplay-state writes, and no state loads.",
+    "The harness uses real libmGBA 0.10.5 and production client routines with a local transport adapter and complete synthetic ReceivedItems. No live AP server, full client watcher or BizHawk Lua transport is claimed.",
+    "Production Phone remains disabled and absent from generated slot capability. Only experimental client contexts add protocol 1 and starting ownership False. The disabled control retains the untouched production enable 0 and no experimental slot additions.",
+    "The common Mini/Select/R/L source range is byte-identical to retail except the already-existing four-byte button-transition hook at 0x0803FFD4. Native L/return and room-entry reset ranges are byte-identical to retail. The whole common handler is not claimed to be pristine retail.",
+    "The initial startup assertion stopped before configuration because y 104 was too strict; native ground settling is 104.99609375. A successful pilot is excluded. Only the four final accepted cold runs enter this packet.",
+    "ROMs, saves, screenshots, full traces, complete transport reads and generated archives remain private. This document contains only sanitized metadata and telemetry."
+  ],
+  "artifact_hashes": {
+    "build.py": "c63057731723884276374fc876e13de97db6fb824ae96772ad719a3e1d7fa8f7",
+    "replay.py": "05c0d6dea929b4f7d58b4a92e1ee6e853d7e590fc0e3f7522e0ffd31ec143a0c",
+    "verify_packet.py": "d85d6318a131d4c28ea61f0f6eddd8ed0f05ab90c9f7d9f69870132c21db09f1",
+    "source-inputs.json": "7aba866b7fd86cdf8ed069c142113122625dbadfc7b13fe087de2ae36df94eb8"
+  },
+  "generation_enabled": false,
+  "traversal_witness_added": false,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "emulator": {
+    "core": "native libmGBA 0.10.5 through existing ARM64 bridge",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+  }
+}

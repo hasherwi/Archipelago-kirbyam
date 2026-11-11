@@ -32,6 +32,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Extend the disabled Phone generation boundary to 48 option combinations and actual token serialization/application, including enabling/corrupting-token negative controls (PR #1086).
+- Verify native Mini R/L restrictions before and after Phone receipt, then ordinary Select disposal and Normal call/return recovery. Preserve native eligibility and keep Phone generation disabled (PR #1086).
 - Verify source-acquired UFO calls and native L return before and after Phone receipt, with exact cold-repeat and disabled-gate controls. Document natural CPU ability changes that still prevent a general helper-route guarantee; Phone generation remains disabled (PR #1086).
 - Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Keep activation disabled while helper ability reliability and the full approach remain open (PR #1086).
 - Record independent Normal/no-Phone Mustard 11 chest and ordinary-exit witnesses, including native HP-1 checks and explicit failed replay limits. Prepare a read-only native BizHawk bus-probe harness without claiming completed emulator acceptance (PR #1086).
