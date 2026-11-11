@@ -4,6 +4,7 @@ The world emits AP procedure patches that apply:
 - the shipped KirbyAM base bsdiff patch artifact
 - per-seed enemy-health table scaling
 - per-seed token writes (auth token and selected runtime feature writes)
+- strict disabled Phone configuration checks before seed writes and after all mutations
 
 Issue #338 adds deterministic enemy copy-ability remap token writes for
 non-off enemy randomization modes.
@@ -32,6 +33,7 @@ from .enemy_health_scaling import (
     scale_enemy_health_tables,
 )
 from .options import AbilityRandomizationMode
+from .phone_protocol import PHONE_CONFIG_OFFSET, PHONE_MARKER
 from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
 if TYPE_CHECKING:
@@ -72,6 +74,17 @@ class KirbyAmPatchExtension(APPatchExtension):
     """KirbyAM-specific AP procedure steps used while applying `.apkirbyam`."""
 
     game = "Kirby & The Amazing Mirror"
+
+    @staticmethod
+    def validate_production_phone_disabled(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Reject noncanonical Phone artifacts without repairing or enabling them."""
+        expected = PHONE_MARKER + bytes(4)
+        if rom[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + len(expected)] != expected:
+            raise ValueError(
+                "KirbyAM production Phone must remain disabled with the exact APPHN01 marker and zero enable word; "
+                "rebuild the base patch and regenerate the seed"
+            )
+        return rom
 
     @staticmethod
     def validate_area_keys_base(caller: APProcedurePatch, rom: bytes) -> bytes:
@@ -128,11 +141,15 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 
     procedure = [
         ("apply_bsdiff4", ["base_patch.bsdiff4"]),
+        # Reject the base before later tokens can conceal a bad Phone config.
+        ("validate_production_phone_disabled", []),
         ("validate_area_keys_base", []),
         ("validate_enemy_source_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
+        # Keep this last: no later mutation may bypass artifact rejection.
+        ("validate_production_phone_disabled", []),
     ]
 
     @classmethod

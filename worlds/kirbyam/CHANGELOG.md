@@ -25,6 +25,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Stone, Burning, and Beam remain abilities required in the starting inventory due to unfinished logic.
 
 ### Bug Fixes
+- Reject newly generated patch artifacts unless Phone has its exact disabled configuration, both immediately after the base patch and after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).
 - Reject Copy Room grants when capability or starting-ownership values or types change during pending emulator reads, and preserve the absent/null distinction in both ownership synchronizers. Verify native grant orders, three-file persistence, menu/R/L controls and the Area Key requirement for helper arrival without enabling Phone generation (PR #1086).
 - Reject stale Phone grants when slot capabilities or starting ownership change during pending emulator reads, including boolean/integer type changes. Add reconnect, generation-boundary and native zero-battery/offline-reload coverage without activating Phone in generated seeds (PR #1086).
 - Place Moonlight Mansion Goal 2's Chalk chest in its verified upper-left compartment and its return in Room 18's bottom-right compartment. Preserve the existing flight requirement and keep the native source manifest and extractor consistent (PR #1086).

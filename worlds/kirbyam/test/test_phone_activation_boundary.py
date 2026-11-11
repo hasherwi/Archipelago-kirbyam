@@ -1,8 +1,9 @@
 """ROM-free generation/token boundary checks for the unaccepted Phone gate.
 
 The synthetic buffer models the shipping disabled Phone configuration only.
-These checks do not apply the base BSDIFF, validate a real ROM, or prove native
-helper routes in an emulator.
+These checks invoke the production Phone validator around serialized tokens.
+They do not apply the base BSDIFF, validate a real ROM, or prove native helper
+routes in an emulator.
 """
 from pathlib import Path
 from typing import Any
@@ -16,7 +17,7 @@ from ..data import data
 from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_ROM_OFFSET
 from ..options import AbilityRandomizationMode
 from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ITEM_ID, PHONE_MARKER, validate_phone_pairing
-from ..rom import KirbyAmProcedurePatch, write_tokens
+from ..rom import KirbyAmPatchExtension, KirbyAmProcedurePatch, write_tokens
 
 
 DISABLED_PHONE_CONFIG = PHONE_MARKER + bytes(4)
@@ -34,7 +35,9 @@ def synthetic_post_base() -> bytes:
 
 def _assert_phone_disabled(
         patch: KirbyAmProcedurePatch, slot_data: dict[str, Any], synthetic_post_base: bytes) -> None:
+    KirbyAmPatchExtension.validate_production_phone_disabled(patch, synthetic_post_base)
     patched = APPatchExtension.apply_tokens(patch, synthetic_post_base, "token_data.bin")
+    assert KirbyAmPatchExtension.validate_production_phone_disabled(patch, patched) is patched
     assert len(patched) == len(synthetic_post_base)
     config = patched[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12]
     # Pairing alone accepts absent markers for legacy ROMs, so require exact
@@ -96,5 +99,5 @@ def test_phone_guard_rejects_enabling_or_corrupting_tokens(
     patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + relative_offset, payload)
     patch.write_file("token_data.bin", patch.get_token_binary())
 
-    with pytest.raises(AssertionError, match="seed tokens changed disabled Phone configuration"):
+    with pytest.raises(ValueError, match="production Phone must remain disabled"):
         _assert_phone_disabled(patch, world.fill_slot_data(), synthetic_post_base)
