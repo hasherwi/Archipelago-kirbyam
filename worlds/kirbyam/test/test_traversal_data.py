@@ -181,6 +181,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
         "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
         "bomb_719_fire_breath": frozenset({"Fire"}),
+        "bomb_719_master_charged_wave": frozenset({"Master"}),
         "switch_533_bomb_placement": frozenset({"Bomb"}),
         "switch_533_ufo_top_charge": frozenset({"UFO"}),
         "switch_533_crash_viewport": frozenset({"Crash"}),

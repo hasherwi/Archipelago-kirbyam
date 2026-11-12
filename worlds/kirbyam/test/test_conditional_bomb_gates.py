@@ -13,6 +13,8 @@ from ..traversal_data import room_traversal_graph, room_traversal_targets
 from .test_mini_traversal import make_world
 from .test_traversal import policy
 from .support.normal110_history import before_normal110
+from .support.master719_history import before_master719
+from ..master_source import CENTRAL_REGION
 
 OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_08'
 UPSTREAM = 'REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID'
@@ -195,7 +197,8 @@ def test_carrot_conditional_policy_entry_matrix(
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(before_master719(row), resolver) is applies
+    assert rules.target_applies(row, resolver)
     assert rules.static_extra_witness(resolver)
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
     looked_up = []
@@ -218,15 +221,15 @@ def test_carrot_conditional_policy_entry_matrix(
     state = SimpleNamespace(base_rule=True, upstream=False, has=lambda item, player: False)
     state.can_reach_region = lambda name, player: name == 'REGION_CARROT_CASTLE/ROOM_5_07' or (
         name == 'REGION_CARROT_CASTLE/ROOM_5_05' and state.upstream)
-    assert target.access_rule(state) is (not applies)
+    assert not target.access_rule(state)
     state.upstream = True
-    assert target.access_rule(state)
+    assert target.access_rule(state) is applies
     state.base_rule = False
     assert not target.access_rule(state)
     assert looked_up == ([
         'REGION_CARROT_CASTLE/ROOM_5_07 -> REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07'
-    ] if applies else [])
-    assert dependencies == (['REGION_CARROT_CASTLE/ROOM_5_05'] if applies else [])
+    ])
+    assert set(dependencies) == {'REGION_CARROT_CASTLE/ROOM_5_05', CENTRAL_REGION}
 
 
 @pytest.mark.parametrize('room_sanity', [0, 1])

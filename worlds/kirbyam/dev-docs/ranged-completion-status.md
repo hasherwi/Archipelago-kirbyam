@@ -1,7 +1,7 @@
 # Ranged completion status
 
 PR #1052 remains **partial**. The bounded routes have real source-aware logic,
-but six targets skip their extra rule outside reviewed guaranteed source
+but five targets skip their extra rule outside reviewed guaranteed source
 assignments. Relevant physical outcomes also remain unadjudicated. Neither a
 large test count nor a machine inventory certifies every move against every
 surface, current-generator acceptance, or native gameplay completion.
@@ -24,13 +24,14 @@ completion**: a successful check still reports partial coverage.
 
 The two test commands run the same runner-agnostic `unittest.TestCase` tests,
 using `test.param.classvar_matrix`: 120 public-profile installer probes,
-270 synthetic installer probes and seven contract checks (397 tests total).
-These are case counts, not 397 distinct physical targets or native replays.
+270 synthetic installer probes and eight contract checks (398 tests total).
+These are case counts, not 398 distinct physical targets or native replays.
 
 The report derives exact owners, target source conditions, witness names and
 policy applicability from production-normalized data and the production policy
 resolver. It fingerprints the data, normalizer, policy builder/runtime patch,
-traversal compiler/installer, legacy rules, inventory and declaration inputs.
+traversal compiler/installer, fixed-source constants, legacy rules, inventory
+and declaration inputs.
 The companion tests exercise the actual installer with its real compiled graphs
 on isolated enabled targets. With gating enabled, no items and no independent
 access, an applied rule constrains an initially true base rule. A skipped rule
@@ -50,14 +51,14 @@ There is **no public custom-whitelist option**.
 | --- | --- | --- |
 | `bomb_138_green` | Rainbow Green Paint | Outside guaranteed Sparky→Spark |
 | `bomb_517_chocolate` | Cabbage Chocolate Paint | Outside its ten reviewed Doo assignments |
-| `bomb_719_room13` | Carrot Room7→Room13 lower entry | Outside Doo→Beam/Fighter/Sword/Fire |
 | `bomb_733_yellow` | Carrot Yellow Paint | Outside guaranteed Sparky→UFO |
 | `switch_533_room16` | Mustard Room15→16 | Outside Foley→Bomb/UFO/Crash/Magic |
 | `switch_310_mustard_map` | Mustard map only | Outside Twister→UFO/Crash/Cupid/Cutter |
 
 Native Twister→Tornado and Sparky→Spark already leave the 310 and 733 rules
-unapplied. The three full live-pool weight profiles skip all six. The older
-base rule remaining permissive is a coverage gap, not evidence that every such
+unapplied. The three full live-pool weight profiles and the passive-excluded
+live profile skip all five. The older base rule remaining permissive is a
+coverage gap, not evidence that every such
 room is physically impossible. Do not replace this gap with blanket fail-closed
 restrictions or assume helper abilities provide a solution.
 
@@ -74,8 +75,24 @@ LOWER_MID access remains mandatory; native503 is not an alternate entry.
 See `rainbow-normal110-source-witness.md` for the accepted native evidence and
 its native/policy/health qualifications.
 
-825 is **one unconditional target with four OR witnesses**, not an eighth
-conditional target. Its finite Frosty Ice/UFO graphs retain source predicates;
+719 is an always-installed target with five OR witnesses: finite Doo Beam,
+Fighter, Sword and Fire, plus the exact post-clear Central Master stand carrier.
+Finite applicability is graph-local. The late branch still requires the modeled
+return event, independent Central access, both carrier hubs and the enabled
+Carrot Area Key. The [accepted native source/carrier](carrot-room7-master-source-witness.md)
+now includes five key-on HP1 profiles at enemy 50/100/300/450/500, each with a
+positive and cold repeat (ten successful traces total), a final-action omission
+at 100 and source-derived finite-health qualification across 50–500. Mode1 qualifies acquisition only. Imported genuine historical
+clear and already-open Hub doors do not establish current earned victory or
+missing-Hub enforcement. The addressless event requires all 8 unique shards,
+actual Dimension access, the DMK sequence and reachable Central independently
+of the selected goal. Prior exact-source validation passed 46 real-generation
+regressions plus eight goal audits (six archives, two correct minimal refusals);
+these 54 checks are not a final-head aggregate or universal-seed proof.
+No helper ability, other exit or reward is supplied by this branch.
+
+825 is **one unconditional target with four OR witnesses**, not a conditional
+target. Its finite Frosty Ice/UFO graphs retain source predicates;
 its independent permanent Ice graphs do not depend on Frosty assignment.
 Chocolate retains ten OR alternatives. The optional 538 Beam edge remains
 always installed and fail-closed, without becoming a mandatory route.
@@ -119,6 +136,6 @@ Before making a broader completion claim:
   is supplied by this contract.
 
 The normalized inventory has 382 regions, 384 locations and 1,083 AP surfaces.
-Its 57 targets/144 witnesses include `mini_321_right_lower` and `fuse_323`, which
+Its 57 targets/145 witnesses include `mini_321_right_lower` and `fuse_323`, which
 normalization adds to the 55 top-level union catalog rows. Those counts describe
 structure, not 57 universally complete routes or all move×surface pairings.

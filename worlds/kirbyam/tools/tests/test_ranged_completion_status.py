@@ -19,7 +19,8 @@ from worlds.kirbyam import traversal_rules
 from worlds.kirbyam.tools import build_ranged_completion_status as status_tool
 from worlds.kirbyam.tools.build_ranged_target_coverage import ROOT
 from worlds.kirbyam.traversal import SourcePolicy
-from worlds.kirbyam.traversal_data import _room_catalog
+from worlds.kirbyam.traversal_data import _room_catalog, graph_items
+from worlds.kirbyam.master_source import CENTRAL_REGION, CENTRAL_RETURN_EVENT
 
 CONTRACT = status_tool.load_contract()
 TARGETS = {row["id"]: row for row in _room_catalog()[0]}
@@ -29,8 +30,9 @@ REPORT = status_tool.build_status()
 
 
 def installer_probe(row: dict[str, Any], policy: SourcePolicy, *,
-                    gating: bool = True, area_keys: bool = False) -> tuple[bool, bool]:
-    """Actual graph installation; base false/true, no items or independent access."""
+                    gating: bool = True, area_keys: bool = False, owned: frozenset[str] = frozenset(),
+                    reachable: frozenset[str] = frozenset()) -> tuple[bool, bool]:
+    """Actual installation; defaults have no items or independent source access."""
     target = SimpleNamespace(access_rule=lambda state: state.base)
     original_rule = target.access_rule
     world = SimpleNamespace(
@@ -43,8 +45,8 @@ def installer_probe(row: dict[str, Any], policy: SourcePolicy, *,
                                    get_region=lambda name, player: name,
                                    register_indirect_condition=lambda region, entrance: None),
     )
-    state = SimpleNamespace(base=False, has=lambda name, player: False,
-                            can_reach_region=lambda name, player: False)
+    state = SimpleNamespace(base=False, has=lambda name, player: name in owned,
+                            can_reach_region=lambda name, player: name in reachable)
     with patch.object(traversal_rules, "extra_traversal_targets", return_value=(row,)):
         traversal_rules.install_extra_traversal_rules(world)
     assert target.access_rule(state) is False, "Installer relaxed an existing closed base rule"
@@ -70,8 +72,8 @@ class TestRangedCompletionContract(unittest.TestCase):
 
     def test_fingerprints_include_runtime_policy_and_declaration_sources(self) -> None:
         for name in ("traversal_rules.py", "traversal.py", "traversal_data.py", "ability_randomization.py",
-                     "enemy_ability_runtime_patch.py", "rules.py", "data.py", "data/regions/rooms.json",
-                     "dev-docs/ranged-completion-scope.json"):
+                     "enemy_ability_runtime_patch.py", "rules.py", "master_source.py", "data.py",
+                     "data/regions/rooms.json", "dev-docs/ranged-completion-scope.json"):
             self.assertEqual(REPORT["input_sha256"][name], hashlib.sha256((ROOT / name).read_bytes()).hexdigest())
         self.assertTrue(all(not name.startswith("/") and "\\" not in name for name in REPORT["input_sha256"]))
         self.assertEqual(len(REPORT["input_fingerprint_sha256"]), 64)
@@ -102,6 +104,34 @@ class TestRangedCompletionContract(unittest.TestCase):
         self.assertEqual(sound["target_source_conditions"], [])
         self.assertEqual(sound["public_fallback_profiles"], [])
         self.assertEqual(rows["bomb_538_beam_left_exit"]["public_fallback_profiles"], [])
+
+    def test_carrot_current_union_is_installed_but_late_source_is_not_automatic(self) -> None:
+        target = TARGETS["bomb_719_room13"]
+        row = next(row for row in REPORT["targets"] if row["id"] == target["id"])
+        self.assertEqual(status_tool.source_conditions(target), [])
+        self.assertEqual(row["coverage"], "bounded_installed")
+        self.assertEqual(row["public_fallback_profiles"], [])
+        self.assertNotIn(target["id"], CONTRACT["policy_fallback_targets"])
+        self.assertEqual(set(target["graphs"]), {
+            "room5_entry", "room5_fighter_entry", "room5_sword_entry", "room5_fire_entry", "central_master"})
+        for keys in (False, True):
+            graphs = traversal_rules.target_graphs(target, keys)
+            self.assertEqual([graph.required_guaranteed_source for graph in graphs], [
+                ("WADDLE_DOO", ability) for ability in ("Beam", "Fighter", "Sword", "Fire")] + [None])
+            master = graphs[-1]
+            owned = graph_items(master)
+            self.assertIn(CENTRAL_RETURN_EVENT, owned)
+            for policy in PUBLIC.values():
+                self.assertTrue(traversal_rules.target_applies(target, policy))
+                self.assertEqual(installer_probe(target, policy, area_keys=keys), (True, False))
+            policy = PUBLIC["full_live_normal100"]
+            access = frozenset({CENTRAL_REGION})
+            self.assertEqual(installer_probe(target, policy, area_keys=keys, owned=owned,
+                                             reachable=access), (True, True))
+            self.assertEqual(installer_probe(target, policy, area_keys=keys, owned=owned), (True, False))
+            for missing in owned:
+                self.assertEqual(installer_probe(target, policy, area_keys=keys, owned=owned - {missing},
+                                                 reachable=access), (True, False))
 
     def test_summary_is_bounded_and_deterministic(self) -> None:
         summary = status_tool.format_summary(REPORT)

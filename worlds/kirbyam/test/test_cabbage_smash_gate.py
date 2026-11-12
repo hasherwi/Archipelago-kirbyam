@@ -14,7 +14,8 @@ from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import Grant, SourcePolicy
-from ..traversal_data import load_room_traversal, room_traversal_graph, room_traversal_targets
+from ..master_source import CENTRAL_RETURN_EVENT
+from ..traversal_data import load_room_traversal, room_traversal_graph, room_traversal_targets, graph_items
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 from .test_traversal import policy
 from .test_mini_traversal import make_world
@@ -50,10 +51,13 @@ def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, app
                                         retries=False) for graph in rules.target_graphs(row, False)]
         assert results == [ability == name for name in
                            ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
-    # Same source key does not extend Carrot's independently proved Beam carry.
+    # Carrot's late OR is installed, but this matrix still has only the finite Beam alternative.
     carrot = next(row for row in room_traversal_targets('block') if row['id'] == 'bomb_719_room13')
-    assert rules.target_applies(carrot, resolver) is (
-        resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Beam'}))
+    assert rules.target_applies(carrot, resolver)
+    results = [rules.graph_succeeds(graph, resolver, graph_items(graph) - {CENTRAL_RETURN_EVENT},
+                                    True, retries=False) for graph in rules.target_graphs(carrot, False)]
+    beam = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Beam'})
+    assert results == [beam, False, False, False, False]
 
 
 @pytest.mark.parametrize('grant', [

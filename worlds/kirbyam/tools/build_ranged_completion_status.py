@@ -102,7 +102,7 @@ def build_status() -> dict[str, Any]:
     inputs = dict(coverage["input_sha256"])
     for name in (
         "ability_randomization.py", "enemy_ability_data.py", "enemy_ability_runtime_patch.py", "options.py",
-        "traversal.py", "traversal_data.py", "traversal_rules.py", "rules.py",
+        "traversal.py", "traversal_data.py", "traversal_rules.py", "rules.py", "master_source.py",
         "tools/build_ranged_completion_status.py", "tools/build_ranged_target_coverage.py",
         "dev-docs/ranged-completion-scope.json", "dev-docs/ranged-static-target-census.json",
         "dev-docs/small-switch-inventory.json", "dev-docs/main-ranged-union-catalog.json",

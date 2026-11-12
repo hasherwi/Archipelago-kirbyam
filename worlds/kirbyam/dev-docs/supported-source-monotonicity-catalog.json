@@ -7,12 +7,13 @@
     "worlds/kirbyam/enemy_ability_data.py": "8ecd2e11b456f4c7ab8c45403c82bbf02e29aac09cb17611990c962e229872bb",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "db508c41fa75b9f702adbee1bb6c57f73d161119a7d2ba5da97daea0ad5bb98d",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "dacedf561314a1fdeca48b5f3670f0061578d12ba834fdb9cc4eac80a3df897e",
-    "worlds/kirbyam/traversal.py": "3675c55e4f663916e80c3ffd4930add186ae2bbed22c6f184a225e0c15e799f1",
-    "worlds/kirbyam/traversal_data.py": "2c783db52aba1190096c16f3b63bd2d825b97d77fc994ba11a98a502dab9561e"
+    "worlds/kirbyam/data/regions/rooms.json": "222293c2f0af6e62059ff405cf18bf5f7489edf4514e10e219455ab32395f560",
+    "worlds/kirbyam/traversal.py": "1b133e4cac990d8dececd42e338cae3290e1d980187b0fc8944f49cbe0e9aa0a",
+    "worlds/kirbyam/traversal_data.py": "5455ab08271ddf377bc528f8197316e934a9d4cd608c93f5860c64b9b1eda6d7",
+    "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e"
   },
-  "witnesses": 144,
-  "variants": 288,
+  "witnesses": 145,
+  "variants": 290,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -154,6 +155,9 @@
     ],
     "bomb_719_fire_breath": [
       "Fire"
+    ],
+    "bomb_719_master_charged_wave": [
+      "Master"
     ],
     "switch_533_bomb_placement": [
       "Bomb"
@@ -789,6 +793,14 @@
       {
         "source_key": "WADDLE_DOO",
         "identity": "0x088D3BF4",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "CENTRAL_MASTER_STAND:088B4C88@0x088B4C88": [
+      {
+        "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+        "identity": "0x088B4C88",
         "renewable": false,
         "documented_retry": false
       }
@@ -8667,17 +8679,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Beam"
+      ],
       "equipment_routes": []
     },
     {
@@ -8702,17 +8709,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Beam"
+      ],
       "equipment_routes": []
     },
     {
@@ -8737,17 +8739,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Fighter"
+      ],
       "equipment_routes": []
     },
     {
@@ -8772,17 +8769,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Fighter"
+      ],
       "equipment_routes": []
     },
     {
@@ -8807,15 +8799,7 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": [
         "WADDLE_DOO",
@@ -8860,15 +8844,7 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": [
         "WADDLE_DOO",
@@ -8913,15 +8889,7 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": [
         "WADDLE_DOO",
@@ -8966,15 +8934,7 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Fighter",
-          "Sword",
-          "Fire"
-        ]
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": [
         "WADDLE_DOO",
@@ -13533,6 +13493,160 @@
           "to": "bomb_110_room9:normal:right_door",
           "required_equipment": [
             "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_719_room13",
+      "witness": "central_master",
+      "area_keys": false,
+      "source_ids": [
+        "CENTRAL_MASTER_STAND:088B4C88@0x088B4C88"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_719_master:left_pose",
+          "to": "bomb_719_master:left_door",
+          "capability": "bomb_719_master_charged_wave",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Master"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_719_master:central_entry",
+          "to": "bomb_719_master:stand",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_719_master:stand",
+          "to": "bomb_719_master:west_hub",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:west_hub",
+          "to": "bomb_719_master:carrot_hub",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:carrot_hub",
+          "to": "bomb_719_master:room5",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:room5",
+          "to": "bomb_719_master:arrival",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:arrival",
+          "to": "bomb_719_master:left_pose",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:left_pose",
+          "to": "bomb_719_master:left_door",
+          "required_equipment": [
+            "Master"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_719_room13",
+      "witness": "central_master",
+      "area_keys": true,
+      "source_ids": [
+        "CENTRAL_MASTER_STAND:088B4C88@0x088B4C88"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_719_master:left_pose",
+          "to": "bomb_719_master:left_door",
+          "capability": "bomb_719_master_charged_wave",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Master"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_719_master:central_entry",
+          "to": "bomb_719_master:stand",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "bomb_719_master:stand",
+          "to": "bomb_719_master:west_hub",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:west_hub",
+          "to": "bomb_719_master:carrot_hub",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:carrot_hub",
+          "to": "bomb_719_master:room5",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:room5",
+          "to": "bomb_719_master:arrival",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:arrival",
+          "to": "bomb_719_master:left_pose",
+          "required_equipment": [
+            "Master"
+          ]
+        },
+        {
+          "from": "bomb_719_master:left_pose",
+          "to": "bomb_719_master:left_door",
+          "required_equipment": [
+            "Master"
           ]
         }
       ]

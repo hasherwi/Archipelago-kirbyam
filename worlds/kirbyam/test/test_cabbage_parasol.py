@@ -14,7 +14,8 @@ from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from ..traversal import Position, SourcePolicy
-from ..traversal_data import load_room_traversal, room_traversal_graph, room_traversal_targets
+from ..master_source import CENTRAL_RETURN_EVENT
+from ..traversal_data import load_room_traversal, room_traversal_graph, room_traversal_targets, graph_items
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 from .test_mini_traversal import make_world
 from .test_traversal import policy
@@ -54,7 +55,11 @@ def test_independent_ten_way_or_policy(mode, pool, weight, ability, statues):
     # The same enemy key does not widen Carrot's independently reviewed alternatives.
     carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
     if ability == 'Parasol':
-        assert not rules.target_applies(carrot, resolver)
+        assert rules.target_applies(carrot, resolver)
+        # No finite Carrot provider leaks from this assignment; late Master still needs its event.
+        for graph in rules.target_graphs(carrot, False):
+            available = (graph_items(graph) | frozenset({f'{ability} Ability'})) - {CENTRAL_RETURN_EVENT}
+            assert not rules.graph_succeeds(graph, resolver, available, True, retries=False)
 
 
 @pytest.mark.parametrize('gating', [False, True])

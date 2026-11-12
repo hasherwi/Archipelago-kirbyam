@@ -14,6 +14,7 @@ from ..traversal_data import room_traversal_targets
 from .test_beam538_crossover import CAPABILITY, DESTINATION, OWNER, TARGET, UPSTREAM
 from .test_yellow_ufo_upstream_evidence import lf_text_sha256
 from .support.normal110_history import before_normal110
+from .support.master719_history import before_master719
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
@@ -46,6 +47,9 @@ def before_reviewed_fire719_addition(rooms):
             row.clear()
             row.update(projected)
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_719_room13']
+    projected = before_master719(target)
+    target.clear()
+    target.update(projected)
     assert target['requires_guaranteed_source'] == {
         'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Fighter', 'Sword', 'Fire']}
     graph = target['graphs'].pop('room5_fire_entry')

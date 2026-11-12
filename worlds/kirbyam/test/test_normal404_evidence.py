@@ -203,19 +203,26 @@ def test_host_local_predicates_and_existing_candy_admissions(
         assert rule(both)
 
 
-def test_all_normalized_surfaces_targets_and_fallbacks_remain_unchanged() -> None:
+def test_current_host_structure_preserves_404_and_tracks_separate_master719_addition() -> None:
     coverage = build_coverage()
     status = build_status()
     contract = evidence()['host_contract']
-    assert status['counts'] == contract['counts']
+    # Frozen404 native provenance remains 144; the separate current Master addition is exactly one graph.
+    assert contract['counts']['witnesses'] == 144
+    assert status['counts'] == {**contract['counts'], 'witnesses': 145}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (382, 384, 1083, 57, 144)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (382, 384, 1083, 57, 145)
     assert digest(coverage['surfaces']) == contract['normalized_surface_sha256']
-    assert digest(coverage['installed_targets']) == contract['normalized_target_sha256']
+    # Pin the complete CURRENT catalog, including Master, without refreshing frozen404 evidence.
+    assert digest(coverage['installed_targets']) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
+    carrot = next(row['target'] for row in coverage['installed_targets']
+                  if row['target']['id'] == 'bomb_719_room13')
+    assert len(carrot['graphs']) == 5 and 'central_master' in carrot['graphs']
+    assert 'requires_guaranteed_source' not in carrot and 'requires_any_guaranteed_source' not in carrot
     assert status['completion'] == 'partial' and not status['declaration_errors']
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
     assert set(scope['policy_fallback_targets']) == {
-        'bomb_138_green', 'bomb_517_chocolate', 'bomb_719_room13', 'bomb_733_yellow',
+        'bomb_138_green', 'bomb_517_chocolate', 'bomb_733_yellow',
         'switch_533_room16', 'switch_310_mustard_map',
     }
     for key in (ROOM, PREFIX + 'ROOM_9_02', PREFIX + 'ROOM_9_07', OWNER):
@@ -250,6 +257,7 @@ def test_public_evidence_integrity_provenance_and_privacy() -> None:
     for text in (json.dumps(e), witness):
         assert all(private not in text for private in ('/home/', '/Users/', 'C:\\', 'D:\\'))
     assert not any(key in e for key in ('inputs', 'frames', 'replay', 'savestate', 'memory'))
+    # Historical native limitations stay frozen; current fallback counts are checked above.
     limits = ' '.join(e['limitations'])
     for boundary in ('407', '230', 'No 6 HP / 500%', 'not server acknowledgement',
                      'not native replay evidence', 'Six conditional-source fallbacks', 'not a fresh emulator replay'):

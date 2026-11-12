@@ -2,14 +2,17 @@
 
 This is the broad scope of PR #1052, not a claim that all ranged logic is
 implemented. [Reproducible completion status](ranged-completion-status.md) tracks
-the six known source-policy fallbacks and the remaining evidence boundaries.
+the five current target-wide source-policy fallbacks and the remaining evidence boundaries.
 The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
   dry Spark and underwater Sword for Rainbow110, selective Rainbow Green Paint,
   Carrot Yellow Paint, ten separate Cabbage Chocolate alternatives (Beam, Smash,
   Fire, Missile, Parasol, Spark, Ice, Sword, Fighter and UFO), and
-  Beam/Fighter/Sword/Fire for the Carrot lower Room13 entry.
+  Beam/Fighter/Sword/Fire plus the exact late Central Master branch for the
+  Carrot lower Room13 entry. The [accepted Master source/carrier](carrot-room7-master-source-witness.md)
+  retains its imported-clear, independent-source and finite-health qualifications;
+  always-installed logic does not itself establish native access.
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
@@ -38,7 +41,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (144 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (145 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -588,5 +591,37 @@ Audit group 404:27,4 is now `qualified_normal427_to_paint6_route`: one shared
 switch/gate outcome, not two independent F1 recipes. Its two cells were already
 narrowed in v4. Keep 43 narrowed-role cells and 352 unresolved-role cells in
 249 groups unchanged; 395 remains the historical prior-unadjudicated baseline.
-All 382/384/1,083 structural counts, 57 targets/144 witnesses, six conditional
-source fallbacks and partial completion remain unchanged.
+The 404 evidence-only integration preserved its historical 382/384/1,083
+structure, 57 targets/144 witnesses and six target-wide source fallbacks. The
+separate Master719 implementation now makes the current count 145 witnesses and
+five target-wide fallbacks; it adds no 404 graph or second role-accounting credit.
+Partial completion and 404's original native provenance remain unchanged.
+
+
+## Carrot lower Room13: post-clear Central Master alternative
+
+The original Central stand has a single forward-only Normal-to-Master acquisition
+and carrier 801->192->193->170->719, with independent West/Carrot Hub and enabled
+Carrot Key prerequisites. The goal-independent addressless return event requires
+all 8 unique shards, actual Dimension reachability, the DMK sequence and Central
+parent access. It models the inherited reached-boss opportunity, not a native
+clear receipt. No Master permission or ordinary pool entry is added.
+
+The [source witness](carrot-room7-master-source-witness.md) and
+[acceptance scalars](carrot-room7-master-acceptance.json) admit only the human
+charged-wave 719->734 lower ENTRY_FROM_5_07 route. Five current key-on HP1
+profiles cover 50/100/300/450/500, each with a positive and cold repeat (ten
+successful traces total), with a surviving final B30 omission at 100. Four source-derived sign-history classes support the 50–500
+health range without claiming every percentage was executed. The 500 BigDee
+survives; changed wave allocation is resolved through actual parent/chain
+ownership, not complete observer equality. Helpers remain Normal in801.
+
+Historical clear and already-open Hub doors are disclosed prerequisites, not
+current earned-clear/missing-Hub proof. Source-only mode1 and the actual
+missing-Carrot-key decision retain their narrow scopes. Normal RNG mailbox
+initialization is part of the real production client's 33 writes/nine guards;
+five native ACKs and actual SQLite receipts are local, not an external-server
+or full watcher/reconnect proof. Earlier failures and keys-off packets remain
+distinct. Current 145/five counts do not overwrite Normal404's historical 144/six.
+Prior 54 real-generation checks do not replace final-head aggregate/package
+review, and PR1052 remains partial.

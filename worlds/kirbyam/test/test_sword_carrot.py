@@ -19,6 +19,8 @@ from ..traversal import CAPABILITY_CONSUMED_ABILITIES, Position, SourcePolicy, c
 from ..traversal_data import _validate_target, room_traversal_graph, room_traversal_targets
 from .support.source_policy import set_rule_test_policy
 from .test_mini_traversal import make_world
+from .support.master719_history import before_master719
+from ..master_source import CENTRAL_REGION
 from .test_traversal import policy
 
 TARGET = "bomb_719_room13"
@@ -51,7 +53,8 @@ def test_conditional_raw_policy_preserves_original_rule_and_independent_access(
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
     row = target_row()
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(before_master719(row), resolver) is applies
+    assert rules.target_applies(row, resolver)
     assert rules.static_extra_witness(resolver)
 
     def original_rule(state):
@@ -73,20 +76,19 @@ def test_conditional_raw_policy_preserves_original_rule_and_independent_access(
                                    register_indirect_condition=lambda region, edge: dependencies.append(region)),
     )
     rules.install_extra_traversal_rules(world)
-    assert looked_up == ([(f"{OWNER} -> {EXIT}", 1)] if applies else [])
-    assert dependencies == ([UPSTREAM] if applies else [])
-    if not applies:
-        assert target.access_rule is original_rule
+    assert looked_up == [(f"{OWNER} -> {EXIT}", 1)]
+    assert set(dependencies) == {UPSTREAM, CENTRAL_REGION}
+    assert target.access_rule is not original_rule
     owned = set()
     state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned,
                             can_reach_region=lambda name, player: name in {OWNER, EXIT})
-    assert target.access_rule(state) is (not applies)
+    assert not target.access_rule(state)
     owned.add("Sword Ability")
-    assert target.access_rule(state) is (not applies)
+    assert not target.access_rule(state)
     state.can_reach_region = lambda name, player: name == UPSTREAM
-    assert target.access_rule(state)
+    assert target.access_rule(state) is applies
     owned.clear()
-    assert target.access_rule(state) is (not applies or not gating)
+    assert target.access_rule(state) is (applies and not gating)
     state.base_rule = False
     assert not target.access_rule(state)
 
@@ -108,19 +110,20 @@ def test_actual_world_only_normalized_lower_entry_and_unchanged_sword_classifica
     assert target.connected_region.name == EXIT
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
-    assert target.access_rule(state) is (not applies or not gating)
+    assert target.access_rule(state) is (applies and not gating)
     item = world.create_item("Sword Ability")
     assert item.classification == ItemClassification.progression
     assert "Sword" in GATEABLE_ENEMY_COPY_ABILITIES
     state.collect(item, prevent_sweep=True)
-    assert state.has("Sword Ability", 1) and target.access_rule(state)
+    assert state.has("Sword Ability", 1)
+    assert target.access_rule(state) is applies
     state.remove(item)
     assert not state.has("Sword Ability", 1)
-    assert target.access_rule(state) is (not applies or not gating)
+    assert target.access_rule(state) is (applies and not gating)
     state.collect(item, prevent_sweep=True)
     for accessible in (OWNER, EXIT):
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
-        assert target.access_rule(state) is (not applies)
+        assert not target.access_rule(state)
     owner = world.multiworld.get_region(OWNER, 1)
     assert all(edge.access_rule(state) for edge in owner.exits if edge is not target)
     assert all(location.access_rule(state) for location in owner.locations)
@@ -209,17 +212,18 @@ def test_kernel_and_compiler_reject_widened_attack(mutation):
 def test_three_or_alternatives_exact_target_and_preserved_prior_graphs():
     row = target_row()
     assert set(row["graphs"]) == {
-        "room5_entry", "room5_fighter_entry", "room5_sword_entry", "room5_fire_entry"}
+        "room5_entry", "room5_fighter_entry", "room5_sword_entry", "room5_fire_entry", "central_master"}
     expected = json.loads(EVIDENCE.read_text())["preserved_graph_sha256"]
     assert set(expected) == {"room5_entry", "room5_fighter_entry"}
     for key, digest in expected.items():
-        assert hashlib.sha256(json.dumps(row["graphs"][key], sort_keys=True).encode()).hexdigest() == digest
+        historical_graph = before_master719(row)["graphs"][key]
+        assert hashlib.sha256(json.dumps(historical_graph, sort_keys=True).encode()).hexdigest() == digest
     for ability in ("Beam", "Fighter", "Sword"):
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
         outcomes = [rules.graph_succeeds(g, resolver, frozenset({f"{ability} Ability"}), True, retries=True)
                     for g in rules.target_graphs(row, False)]
-        assert outcomes == [ability == "Beam", ability == "Fighter", ability == "Sword", False]
+        assert outcomes == [ability == "Beam", ability == "Fighter", ability == "Sword", False, False]
     assert rules.target_applies(row, policy())  # Native Beam assignment is unchanged.
     for key, wrong in [("id", "bomb_other"), ("native_room", 517), ("kind", "switch"),
                        ("region", UPSTREAM), ("exit", "REGION_CARROT_CASTLE/ROOM_5_14")]:

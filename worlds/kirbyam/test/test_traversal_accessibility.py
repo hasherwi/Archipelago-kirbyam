@@ -372,12 +372,19 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     from .support.check_accessibility import audit_local_checks
 
     expected = json.loads((FIXTURES / "1-expected.json").read_text())
+    assert expected["master719_stranded_checks"] == sorted([
+        *expected["beam_only_stranded_checks"], "Carrot Castle 5-13 - Small Chest #2",
+    ])
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 1)
     assert multiworld.worlds[1].options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert list(audit.progression_unreachable) == expected["beam_only_stranded_checks"]
+    assert list(audit.progression_unreachable) == expected["master719_stranded_checks"]
+    world = cast(KirbyAmWorld, multiworld.worlds[1])
+    policy_json = json.dumps(world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":"))
+    assert sha256(policy_json.encode()).hexdigest() == expected["master719_source_policy_sha256"]
+    assert_fuzz1_master719_cause(multiworld, monkeypatch, expected["beam_only_stranded_checks"])
 
     # Keep the six recorded historical assignments as a counterfactual, not an
     # exact old-fill replay. Current fill has changed beyond those six slots, so
@@ -402,7 +409,68 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert list(historical.progression_unreachable) == expected["beam_only_stranded_checks"]
+    assert list(historical.progression_unreachable) == expected["master719_stranded_checks"]
+    assert_fuzz1_master719_cause(multiworld, monkeypatch, expected["beam_only_stranded_checks"])
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
         validate_all_checks(multiworld, (1,))
+
+
+def assert_fuzz1_master719_cause(
+    multiworld: MultiWorld, monkeypatch: pytest.MonkeyPatch, before_master_strands: list[str],
+) -> None:
+    """Prove the one new strand using fresh placed closures, never all inventory."""
+    from BaseClasses import CollectionState
+    from ..master_source import CARROT_HUB, CARROT_KEY, CENTRAL_REGION, CENTRAL_RETURN_EVENT, RAINBOW_WEST_HUB
+    from ..rules import _DMK_DIMENSION_MIRROR_EVENT, _SHARD_ITEM_LABELS
+    from .support.master719_history import before_master719
+
+    world = cast(KirbyAmWorld, multiworld.worlds[1])
+    assert world.options.ability_randomization_mode.value == 1
+    assert world.options.ability_randomization_statues.value
+    assert world._ability_gating_enabled() and world._area_keys_enabled()
+    resolver = SourcePolicy(world._enemy_copy_ability_policy, True)
+    assert resolver.grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Parasol"})
+    row = next(r for r in traversal_rules.extra_traversal_targets() if r["id"] == "bomb_719_room13")
+    assert traversal_rules.target_applies(row, resolver)
+    assert not traversal_rules.target_applies(before_master719(row), resolver)
+    target = multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1)
+    state = CollectionState(multiworld)
+    state.sweep_for_advancements()
+    before = state.prog_items[1].copy()
+    state.sweep_for_advancements()
+    assert state.prog_items[1] == before
+    assert multiworld.completion_condition[1](state)
+    assert [shard for shard in _SHARD_ITEM_LABELS if not state.has(shard, 1)] == ["Olive Ocean - Mirror Shard"]
+    shard_location = multiworld.get_location("Room 6-01", 1)
+    assert shard_location.item is not None and shard_location.item.name == "Olive Ocean - Mirror Shard"
+    assert not shard_location.can_reach(state)
+    assert not state.can_reach_region("REGION_DIMENSION_MIRROR/MAIN", 1)
+    assert not state.has(_DMK_DIMENSION_MIRROR_EVENT, 1) and not state.has(CENTRAL_RETURN_EVENT, 1)
+    assert state.can_reach_region(CENTRAL_REGION, 1) and state.can_reach_region(row["region"], 1)
+    assert all(state.has(item, 1) for item in (RAINBOW_WEST_HUB, CARROT_HUB, CARROT_KEY))
+    owned = frozenset(item for item, count in before.items() if count)
+    for graph in traversal_rules.target_graphs(row, True):
+        assert has_graph_access(world, state, graph)
+        assert not traversal_rules.graph_succeeds(graph, resolver, owned, True, retries=True)
+    check = multiworld.get_location("Carrot Castle 5-13 - Small Chest #2", 1)
+    assert check.parent_region is multiworld.get_region(row["exit"], 1)
+    assert check.item is not None and check.item.name == "Moonlight Mansion 2-11 - Lever Wall"
+    assert not target.can_reach(state) and not check.can_reach(state)
+
+    # The exact pre-Master parent skipped this target for Parasol. Isolate only
+    # that historical bypass on this same fill, then restore the current rule.
+    with monkeypatch.context() as historical:
+        historical.setattr(target, "access_rule", lambda state: True)
+        bypass = CollectionState(multiworld)
+        bypass.sweep_for_advancements()
+        assert target.can_reach(bypass) and check.can_reach(bypass)
+        assert sorted(loc.name for loc in multiworld.get_locations(1)
+                      if loc.address is not None and not loc.can_reach(bypass)) == before_master_strands
+        expected_items = before.copy()
+        expected_items[check.item.name] += 1
+        assert bypass.prog_items[1] == expected_items
+        assert not bypass.has(CENTRAL_RETURN_EVENT, 1)
+    restored = CollectionState(multiworld)
+    restored.sweep_for_advancements()
+    assert restored.prog_items[1] == before and not check.can_reach(restored)

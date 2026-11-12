@@ -11,6 +11,10 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
 
+from .master_source import (
+    CARROT_HUB, CARROT_KEY, CENTRAL_MASTER_IDENTITY, CENTRAL_MASTER_SOURCE, CENTRAL_REGION,
+    CENTRAL_RETURN_EVENT, MASTER719_CAPABILITY, MASTER719_NODES, MASTER719_PREFIX, RAINBOW_WEST_HUB,
+)
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
     _STATUE_TABLES,
@@ -65,6 +69,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
     "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
     "bomb_719_fire_breath": frozenset({"Fire"}),
+    MASTER719_CAPABILITY: frozenset({"Master"}),
     "switch_533_bomb_placement": frozenset({"Bomb"}),
     "switch_533_ufo_top_charge": frozenset({"UFO"}),
     # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
@@ -101,6 +106,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_719_fighter_first_combo": 719,
     "bomb_719_sword_repeated_slash": 719,
     "bomb_719_fire_breath": 719,
+    MASTER719_CAPABILITY: 719,
     "switch_533_bomb_placement": 533,
     "switch_533_ufo_top_charge": 533,
     "switch_533_crash_viewport": 533,
@@ -186,6 +192,10 @@ class SourcePolicy:
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
 
     def grant(self, key: str, permitted: Callable[[str], bool]) -> Grant:
+        if key == CENTRAL_MASTER_SOURCE:
+            # Conditional output only. Physical Normal contact and availability
+            # are enforced by the bounded witness, not ordinary permission RNG.
+            return Grant(frozenset({"Master"}))
         if key in _STATUE_DEFAULTS:
             address, native_name = _STATUE_DEFAULTS[key]
             randomized = self.mode == 2 and bool(self.statue_mask)
@@ -315,6 +325,50 @@ class TraversalResult:
         return any(position.node == node for position in self.positions)
 
 
+def _has_central_master(placements: Iterable[Placement], routes: Iterable[Route]) -> bool:
+    return (any(source.source_key == CENTRAL_MASTER_SOURCE for source in placements)
+            or any(route.capability == MASTER719_CAPABILITY for route in routes))
+
+
+def _validate_central_master_witness(nodes: list[Node], routes: list[Route],
+                                     placements: list[Placement], starts: list[Position]) -> None:
+    """Allow only the first finite, single-acquisition719 witness.
+
+    Exact forward topology prevents return/retouch and equipment-cache aliasing.
+    This is a restriction on admitted evidence, not a native impossibility claim.
+    Ordinary sources, reset bookkeeping and equipment expansion stay unchanged.
+    """
+    if not _has_central_master(placements, routes):
+        return
+    expected_nodes = {MASTER719_PREFIX + key: room for key, room in MASTER719_NODES}
+    keys = tuple(expected_nodes)
+    if len(nodes) != len(keys) or {node.key: node.room for node in nodes} != expected_nodes:
+        raise ValueError("Central Master witness requires the exact801-to719 compartments")
+    if starts != [Position(keys[0])]:
+        raise ValueError("Central Master witness requires one fresh Normal Central entry")
+    expected_source = Placement(keys[1], CENTRAL_MASTER_SOURCE,
+                                frozenset({CENTRAL_RETURN_EVENT}), identity=CENTRAL_MASTER_IDENTITY)
+    if placements != [expected_source]:
+        raise ValueError("Central Master requires the sole original nonrenewable stand and return event")
+    pairs = tuple(zip(keys, keys[1:]))
+    if len(routes) != len(pairs) or {(route.source, route.target) for route in routes} != set(pairs):
+        raise ValueError("Central Master witness must be forward-only without loops or reacquisition")
+    for route in routes:
+        index = pairs.index((route.source, route.target))
+        items = {RAINBOW_WEST_HUB} if index == 1 else {CARROT_HUB} if index == 2 else set()
+        if index == 2 and CARROT_KEY in route.items:
+            items.add(CARROT_KEY)
+        expected = Route(
+            route.source, route.target,
+            capability=MASTER719_CAPABILITY if index == len(pairs) - 1 else None,
+            items=frozenset(items),
+            room_transition=expected_nodes[route.source] != expected_nodes[route.target],
+            required_equipment=frozenset({"Normal" if index == 0 else "Master"}),
+        )
+        if route != expected:
+            raise ValueError("Central Master requires exact carrier items, equipment and charged-wave action")
+
+
 def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     nodes: Iterable[Node],
     routes: Iterable[Route],
@@ -337,6 +391,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     """
     node_list = list(nodes)
     placement_list = list(placements)
+    route_list = list(routes)
+    start_list = list(starts)
+    _validate_central_master_witness(node_list, route_list, placement_list, start_list)
     objects: dict[str, list[Placement]] = defaultdict(list)
     for source in placement_list:
         identity = source.identity or f"{source.node}:{source.source_key}"
@@ -346,7 +403,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         raise ValueError("Duplicate traversal compartment")
     outgoing: dict[str, list[Route]] = defaultdict(list)
     sources: dict[str, list[Placement]] = defaultdict(list)
-    for route in routes:
+    for route in route_list:
         if route.source not in node_by_key or route.target not in node_by_key:
             raise ValueError(f"Unknown traversal endpoint: {route}")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
@@ -442,7 +499,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if source.node not in node_by_key:
             raise ValueError(f"Unknown source compartment: {source.node}")
         sources[source.node].append(source)
-    queue = deque(starts)
+    queue = deque(start_list)
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[str, Grant] = {}
@@ -476,6 +533,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if source_phase not in expanded_sources:
             expanded_sources.add(source_phase)
             for source in sources[position.node]:
+                if source.source_key == CENTRAL_MASTER_SOURCE and position.equipped != "Normal":
+                    continue  # The admitted Normal prefix makes phase deduplication safe.
                 if not source.requirements <= owned:
                     continue
                 identity = source.identity or f"{source.node}:{source.source_key}"
@@ -571,6 +630,13 @@ class TraversalGraph:
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
                  allow_documented_retries: bool = False) -> TraversalResult:
+        if _has_central_master(self.placements, self.routes):
+            if (self.access_region != CENTRAL_REGION or self.requires_all_hub_switches
+                    or self.unavailable_reason is not None or self.required_guaranteed_source is not None
+                    or self.required_targets != frozenset({MASTER719_PREFIX + "left_door"})):
+                raise ValueError("Central Master requires its independent Central access and exact lower719 target")
+            _validate_central_master_witness(list(self.nodes), list(self.routes),
+                                             list(self.placements), list(self.starts))
         if self.unavailable_reason is not None:
             return TraversalResult(frozenset(), frozenset())
         if self.required_guaranteed_source is not None:
@@ -691,7 +757,10 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
 def _compile_placement(row: Mapping[str, Any]) -> Placement:
     if not row.get("acquisition_evidence"):
         raise ValueError("Source is missing acquisition evidence")
-    if row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
+    if row["source_key"] == CENTRAL_MASTER_SOURCE:
+        if set(row) - {"node", "source_key", "items", "id", "renewable", "acquisition_evidence"}:
+            raise ValueError("Unknown Central Master placement field or effect")
+    elif row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
         raise ValueError(f"Unknown ability source: {row['source_key']}")
     if not isinstance(row.get("renewable", False), bool):
         raise ValueError("renewable must be a boolean")
@@ -704,6 +773,21 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
     )
+
+
+def _validate_central_master_metadata(payload: Mapping[str, Any], graph: TraversalGraph) -> None:
+    if _has_central_master(graph.placements, graph.routes):
+        if set(payload) - {"version", "status", "nodes", "routes", "sources", "starts",
+                           "required_targets", "access"}:
+            raise ValueError("Unknown Central Master graph field or effect")
+        if any(set(node) != {"id", "native_room"} for node in payload["nodes"]):
+            raise ValueError("Unknown Central Master compartment field or effect")
+        # Compilation and direct evaluation have the same exact access contract.
+        graph.evaluate(SourcePolicy({"mode": 0}), frozenset(), True)
+        for row in payload["routes"]:
+            expected_key = [CARROT_KEY] if row["from"] == MASTER719_PREFIX + "west_hub" else []
+            if row.get("area_key_items", []) != expected_key:
+                raise ValueError("Central Master requires the exact optional192-to193 Carrot Area Key")
 
 
 def compile_traversal_graph(payload: Mapping[str, Any], *, area_keys: bool = False) -> TraversalGraph:
@@ -750,6 +834,7 @@ def compile_traversal_graph(payload: Mapping[str, Any], *, area_keys: bool = Fal
         access.get("region"), access.get("all_hub_switches", False), access.get("unavailable"),
         required_source,
     )
+    _validate_central_master_metadata(payload, graph)
     # Validate all endpoints even when this reviewed geometry is currently
     # unavailable on the patched ROM. Availability must not hide malformed data.
     reachable_positions(graph.nodes, graph.routes, graph.placements, graph.starts, SourcePolicy({"mode": 0}))

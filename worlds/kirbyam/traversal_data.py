@@ -168,6 +168,14 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
     for payload in row["graphs"].values():
         graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
+        from .master_source import CENTRAL_MASTER_SOURCE
+        if any(source.source_key == CENTRAL_MASTER_SOURCE for source in graph.placements) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
+        ) != (
+            "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+            "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        ):
+            raise ValueError("Central Master witness belongs only to the lower719 entry")
         if not graph.starts or not graph.required_targets:
             raise ValueError(f"Traversal target has no start or required target: {row['id']}")
         target_rooms = {node.room for node in graph.nodes if node.key in graph.required_targets}
@@ -210,6 +218,15 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    from .master_source import MASTER719_CAPABILITY
+    if any(route.get("capability") == MASTER719_CAPABILITY
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+        row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
+    ) != (
+        "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+    ):
+        raise ValueError("Central Master belongs only to the reviewed Carrot entry")
     _validate_new_connection(row)
     condition = row.get("requires_guaranteed_source")
     alternatives = row.get("requires_any_guaranteed_source")

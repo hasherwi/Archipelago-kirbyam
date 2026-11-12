@@ -15,7 +15,8 @@ from ..data import data
 from ..traversal import (
     CAPABILITY_ABILITIES, CAPABILITY_CONSUMED_ABILITIES, Position, SourcePolicy, compile_traversal_graph,
 )
-from ..traversal_data import _validate_target, room_traversal_graph, room_traversal_targets
+from ..master_source import CENTRAL_RETURN_EVENT
+from ..traversal_data import _validate_target, room_traversal_graph, room_traversal_targets, graph_items
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 from .test_cabbage_parasol import CHEST, OWNER, TARGET, UPSTREAM, cabbage_row
 from .test_mini_traversal import make_world
@@ -220,7 +221,11 @@ def test_raw_singleton_only_and_ten_separate_or_graphs(mode, pool, weight, accep
                    for g in rules.target_graphs(row, False)]
         assert results == [False] * 9 + [True]
         carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
-        assert not rules.target_applies(carrot, resolver)
+        assert rules.target_applies(carrot, resolver)
+        # No finite Carrot provider leaks from this assignment; late Master still needs its event.
+        for graph in rules.target_graphs(carrot, False):
+            available = (graph_items(graph) | owned) - {CENTRAL_RETURN_EVENT}
+            assert not rules.graph_succeeds(graph, resolver, available, gating, retries=False)
 
 
 @pytest.mark.parametrize('mutation', ['swimming', 'source_room', 'target_room'])

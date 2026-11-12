@@ -11,6 +11,7 @@ from ..traversal import compile_traversal_graph
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
 from .test_traversal import policy
 from .support.normal110_history import before_normal110
+from .support.master719_history import before_master719
 
 TARGET = 'frozen_825_sound_effects'
 
@@ -126,7 +127,9 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
             assert row['id'] not in catalogs['targets']
-            catalogs['targets'][row['id']] = before_normal110({'region': region, **row})
+            # These pins describe the reviewed parents, before the two later
+            # additions. Both strict projections retain current graph checks.
+            catalogs['targets'][row['id']] = before_normal110(before_master719({'region': region, **row}))
         for kind in ('graph_parts', 'source_sets'):
             for key, value in traversal.get(kind, {}).items():
                 assert key not in catalogs[kind]
@@ -135,3 +138,28 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
         actual = {key: hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
                   for key, value in entries.items()}
         assert actual == pins[kind]
+
+
+def test_master719_projection_is_reversible_and_current_union_remains_complete() -> None:
+    row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
+    original = deepcopy(row)
+    conditions = {
+        'room5_entry': 'Beam', 'room5_fighter_entry': 'Fighter',
+        'room5_sword_entry': 'Sword', 'room5_fire_entry': 'Fire',
+    }
+    assert set(row['graphs']) == {*conditions, 'central_master'}
+    assert 'requires_guaranteed_source' not in row and 'requires_any_guaranteed_source' not in row
+    for witness, ability in conditions.items():
+        assert row['graphs'][witness]['requires_guaranteed_source'] == {
+            'source_key': 'WADDLE_DOO', 'ability': ability}
+    restored = before_master719(row)  # Includes the exact full Master graph hash assertion.
+    assert restored.pop('requires_guaranteed_source') == {
+        'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Fighter', 'Sword', 'Fire']}
+    for witness in ('room5_entry', 'room5_fighter_entry'):
+        assert 'requires_guaranteed_source' not in restored['graphs'][witness]
+        restored['graphs'][witness]['requires_guaranteed_source'] = {
+            'source_key': 'WADDLE_DOO', 'ability': conditions[witness]}
+    restored['graphs']['central_master'] = deepcopy(row['graphs']['central_master'])
+    assert restored == row == original
+    # The independent current full-catalog pin in test_normal404_evidence and
+    # Master source/closure tests still cover all five installed alternatives.

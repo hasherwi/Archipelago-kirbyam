@@ -24,9 +24,10 @@ not, by themselves, repair that problem.
    because only one such permission is owned.
 3. The combined catalog has three dry Beam-accepting witnesses: the optional
    538 crossover, the Chocolate chest's Beam entry and the Carrot Room13 Beam
-   entry. The first requires a raw Waddle Doo-to-Beam singleton on its graph.
-   The latter two have narrowly scoped target conditions that require a raw
-   singleton Waddle Doo assignment before any rule is installed. These tests
+   entry. The 538 and Carrot Beam graphs each require a raw Waddle Doo-to-Beam
+   singleton. Carrot's other finite branches likewise have graph-local conditions;
+   its independent late Master branch keeps the target installed. Chocolate still
+   has a target-wide raw singleton Doo condition. These tests
    evaluate raw source policy with every permission available, never the
    transient permission-filtered live grant. A supported mixed live pool cannot
    activate those conditional witnesses merely by starting with Beam alone.
@@ -69,8 +70,12 @@ silently treated as fixed by this release's public-option invariant.
 
 ## Complete enumerated catalog
 
-`supported-source-monotonicity-catalog.json` records all 144 installed witnesses,
-288 compiled Area Key variants and 108 distinct physical source/key identities.
+`supported-source-monotonicity-catalog.json` records all 145 installed witnesses,
+290 compiled Area Key variants and 109 distinct physical source/key identities.
+The fifth719 witness is the exact fixed post-clear Central stand, whose
+conditional output does not depend on the ordinary pool or permissions. Its
+modeled event and carrier items remain mandatory. This catalog records code
+structure, not native acceptance or placement closure.
 It includes logical subregions, per-witness finite/renewable variants, capability providers,
 water dispatch, raw target/graph source conditions, carried-equipment guards,
 and every capability/recovery edge. Source hashes identify the

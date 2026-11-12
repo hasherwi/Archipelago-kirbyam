@@ -152,6 +152,9 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
+    "events": [
+      "Post-clear Central return available"
+    ],
     "locations": {
       "room_sanity": {
         "included": true,
@@ -9885,15 +9888,6 @@
           "kind": "block",
           "native_room": 719,
           "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
-          "requires_guaranteed_source": {
-            "source_key": "WADDLE_DOO",
-            "abilities": [
-              "Beam",
-              "Fighter",
-              "Sword",
-              "Fire"
-            ]
-          },
           "graphs": {
             "room5_entry": {
               "version": 1,
@@ -9953,7 +9947,11 @@
                   "capability": "bomb_719_room13",
                   "evidence": "dev-docs/carrot-room7-source-witness.md; complete Beam carry through ladders and central Gordo lane to left gate pose(86,232.996), then attack/door sequence reaching734 lower compartment. No Secret Notes or unrelated exit gate."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              }
             },
             "room5_fighter_entry": {
               "version": 1,
@@ -10013,7 +10011,11 @@
                   "capability": "bomb_719_fighter_first_combo",
                   "evidence": "dev-docs/carrot-room7-fighter-witness.md; dry left-facing ordinary first combo at(86,232.996) opens F1(1,14) and fifteen F2 cells, then actual734 lower entry. No other surface credit."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fighter"
+              }
             },
             "room5_sword_entry": {
               "version": 1,
@@ -10170,6 +10172,136 @@
                     "Fire"
                   ],
                   "evidence": "dev-docs/carrot-room7-fire-witness.md; Final ordinary B-only breath3132..3176 sends player-parented traveling packet0x080737D9 to F1(1,14), clears15F2, and physically enters734 lower at3309. Matched omission controls remain sealed in719."
+                }
+              ]
+            },
+            "central_master": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_master:central_entry",
+                  "native_room": 801
+                },
+                {
+                  "id": "bomb_719_master:stand",
+                  "native_room": 801
+                },
+                {
+                  "id": "bomb_719_master:west_hub",
+                  "native_room": 192
+                },
+                {
+                  "id": "bomb_719_master:carrot_hub",
+                  "native_room": 193
+                },
+                {
+                  "id": "bomb_719_master:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_master:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_master:left_pose",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_master:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_master:central_entry"
+              ],
+              "required_targets": [
+                "bomb_719_master:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B4C88",
+                  "node": "bomb_719_master:stand",
+                  "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+                  "items": [
+                    "Post-clear Central return available"
+                  ],
+                  "acquisition_evidence": "Original Central801 stand type152/template0x088B4C88/callback0x080AA619 at(248,224): living Normal human contact after genuine native clear and ordinary Continue requests fixed Master26. No ordinary statue/permission/randomization grant and no in-route retouch."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_master:central_entry",
+                  "to": "bomb_719_master:stand",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Ordinary post-clear Continue in801, Normal approach to original stand0x088B4C88 at(248,224). Native clear9999 and fresh occupancy0; model availability is not a native receipt."
+                },
+                {
+                  "from": "bomb_719_master:stand",
+                  "to": "bomb_719_master:west_hub",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Original stand Normal contact, pending26 then human Master26, continuous801 to192 through Rainbow West Hub door. Historical native doors require the separate AP ownership contract.",
+                  "room_transition": true,
+                  "items": [
+                    "Rainbow Route West - Hub Connection"
+                  ]
+                },
+                {
+                  "from": "bomb_719_master:west_hub",
+                  "to": "bomb_719_master:carrot_hub",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained192 to193. Carrot Hub3860406; sole enabled Area Key crossing native area0 to4 requires bit5/Carrot Key3860044.",
+                  "room_transition": true,
+                  "items": [
+                    "Carrot Castle - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Carrot Castle - Area Key"
+                  ]
+                },
+                {
+                  "from": "bomb_719_master:carrot_hub",
+                  "to": "bomb_719_master:room5",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained193 to170 through the ordinary Carrot hub room exit.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_719_master:room5",
+                  "to": "bomb_719_master:arrival",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained actual170 to719 lower arrival, no helper body or ability.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_719_master:arrival",
+                  "to": "bomb_719_master:left_pose",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Human Master carry from lower arrival, Chip avoidance, ladder route and downward attack plus immediate left escape from surviving Big Waddle Dee, to dry left-facing(86,232.996). HP1/enemy100 and500 have bounded independent native acceptance; no forced damage or required kill."
+                },
+                {
+                  "from": "bomb_719_master:left_pose",
+                  "to": "bomb_719_master:left_door",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Human B30/release charged wave0x08082CCD opens exact lowerF1(1,14), all15 linkedF2, then ordinary movement enters actual734 LOWER/ENTRY_FROM_5_07. Atomic exit-surface witness ends here: no chest, Secret Notes, upper734 or other exit credit.",
+                  "capability": "bomb_719_master_charged_wave"
                 }
               ]
             }

@@ -13,6 +13,7 @@ from .. import KirbyAmWorld, traversal_rules as rules
 from ..traversal import ROOM_SCOPED_CAPABILITIES, SourcePolicy
 from ..traversal_data import room_traversal_graph, room_traversal_targets, load_room_traversal
 from .test_mini_traversal import make_world
+from .support.master719_history import before_master719
 from .test_traversal import policy
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
@@ -58,7 +59,8 @@ def test_finite_source_and_equipment():
 def test_source_scope_and_progression(mode, pool, weight, applies, promotes, statues, gating):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(before_master719(row), resolver) is applies
+    assert rules.target_applies(row, resolver)
     world = SimpleNamespace(_enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: gating)
     assert rules.carrot_fighter_is_progression(world) is (promotes and gating)
     cabbage = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_517_chocolate')
