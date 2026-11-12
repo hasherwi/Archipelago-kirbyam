@@ -19,7 +19,9 @@ CATALOG = ROOT / 'worlds/kirbyam/dev-docs/supported-source-monotonicity-catalog.
 
 def build_catalog(previous: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = deepcopy(previous)
-    result['source_sha256'] = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+    # Canonical LF hashes tolerate Git's Windows checkout conversion only.
+    # Do not strip whitespace or normalize bare CR: every other byte is evidence.
+    result['source_sha256'] = {name: hashlib.sha256((ROOT / name).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
                                for name in previous['source_sha256']}
     result['valid_pool'] = sorted(VALID_ENEMY_COPY_ABILITIES)
     result['ungated_pool_abilities'] = sorted(set(VALID_ENEMY_COPY_ABILITIES) - set(GATEABLE_ENEMY_COPY_ABILITIES))

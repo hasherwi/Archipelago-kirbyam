@@ -3,6 +3,7 @@ import ast
 import inspect
 import random
 import textwrap
+from pathlib import Path
 from typing import cast
 from itertools import product
 
@@ -257,3 +258,37 @@ def test_saved_catalog_is_reproducible_and_hashes_current_sources() -> None:
     from ..tools.build_supported_source_monotonicity_catalog import CATALOG, build_catalog
     record = json.loads(CATALOG.read_text())
     assert build_catalog(record) == record
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+def test_catalog_hashes_accept_checkout_line_endings(line_ending: bytes, tmp_path: Path,
+                                                     monkeypatch: pytest.MonkeyPatch) -> None:
+    import json
+    from ..tools import build_supported_source_monotonicity_catalog as builder
+    record = json.loads(builder.CATALOG.read_text())
+    for name in record['source_sha256']:
+        source = (builder.ROOT / name).read_bytes().replace(b'\r\n', b'\n')
+        destination = tmp_path / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(source.replace(b'\n', line_ending))
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    assert builder.build_catalog(record) == record
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+@pytest.mark.parametrize('before,after', [
+    (b'from copy import deepcopy', b'from copy import copy'),
+    (b'from copy import deepcopy', b'from  copy import deepcopy'),
+    (b'from copy import deepcopy\n', b'from copy import deepcopy \n'),
+    (b'from copy import deepcopy\n', b'from copy import deepcopy\r'),
+], ids=['content', 'internal-space', 'trailing-space', 'bare-CR'])
+def test_catalog_hashes_reject_non_checkout_changes(line_ending: bytes, before: bytes, after: bytes,
+                                                    tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import hashlib
+    from ..tools import build_supported_source_monotonicity_catalog as builder
+    source = b'from copy import deepcopy\n'
+    # A minimal previous catalog isolates the hashing contract from graph inputs.
+    record = {'source_sha256': {'source.py': hashlib.sha256(source).hexdigest()}, 'graphs': []}
+    (tmp_path / 'source.py').write_bytes(source.replace(before, after).replace(b'\n', line_ending))
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    assert builder.build_catalog(record)['source_sha256'] != record['source_sha256']
