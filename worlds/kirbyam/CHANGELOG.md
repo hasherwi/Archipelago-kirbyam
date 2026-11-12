@@ -46,6 +46,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
+- Record bounded Normal 221-left-bay → 218 → 200 evidence: natural500/HP1 positive, exact repeat and puff omission, plus shuffled50/HP1 positive and exact repeat. Retain the failed live/default-health qualification without claiming success. Preserve existing null exit rules, separate peg/check ownership and upstream limitations; no new ability gate or broader completion claim (PR #1052).
 - Record reviewed Master719 source/carrier scalars, finite-health classes and local receipt boundaries, preserving historical Normal404 evidence. Ten key-on positive traces (five profiles, each repeated) and prior 54 real-generation checks do not establish full PR completion or replace final-head aggregate/package validation (PR #1052).
 - Add a source-fingerprinted bounded ranged status report and real-installer coverage checks, separating public policy samples from synthetic narrowed pools. Correct stale 209/310/533/825 scope wording without changing traversal or upgrading historical native evidence (PR #1052).
 - Add a normalized traversal-target ownership ledger, move-specific native evidence and regressions. Correct the native-object scanner to follow size-terminated streams and the actual spawn-list field (PR #1052).

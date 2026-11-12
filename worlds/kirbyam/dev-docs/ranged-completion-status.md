@@ -150,3 +150,19 @@ The normalized inventory has 382 regions, 384 locations and 1,083 AP surfaces.
 Its 57 targets/146 witnesses include `mini_321_right_lower` and `fuse_323`, which
 normalization adds to the 55 top-level union catalog rows. Those counts describe
 structure, not 57 universally complete routes or all move×surface pairings.
+
+## Bounded ordinary Peppermint 218 evidence
+
+[Normal 218 witness](peppermint-normal218-source-witness.md) and its
+[scalar acceptance](peppermint-normal218-acceptance.json) qualify only the original
+221 left door bay → 218 → actual 200 suffix: natural500/HP1 acquisition, exact
+repeat and live omission, plus shuffled50/HP1 positive12 and exact repeat13. Puff contact is 2114,
+13 mutations finish 2168 with seven ceiling hazards, the lower peg stays 246,
+and actual 200 arrives 2188. The omission has an exact common input window
+through 2188 followed by a separately labeled 8+1+40 suffix and qualified Up2197.
+Live/default-health attempt14 failed at1119 and receives no route credit;
+proposed fresh15/repeat16 are unrun.
+Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
+unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
+new target, source-policy binding or generic Normal ability gate is added.
+Current counts remain 57 targets/146 witnesses/four target-wide fallbacks.
