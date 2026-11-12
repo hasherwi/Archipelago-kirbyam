@@ -154,7 +154,12 @@
       "0x0800EF61",
       "0x0803EE19"
     ],
-    "within_frame_omniscience": false
+    "within_frame_omniscience": false,
+    "audit_status": "historical; not the corrected contact-box audit",
+    "contact_box_interpretation": "legacy direct edge offsets, not decoded half extents",
+    "disappeared_previous_endpoints_included": false,
+    "body_enemy_pairs_included": false,
+    "corrected_supplement": "corrected_contact_box_audit"
   },
   "cases": [
     {
@@ -589,5 +594,170 @@
     "states_sha256": "889afe43e246538b6f7f2cd807bfc9aaefa3cff6747651dd151fcb7dda37944c",
     "inputs_sha256": "b8fb5cc426d5bd6ab3f847a2bb29a9a11fd99c3f8766ed547db1bc30a7c0b7ae",
     "retry_occurred": false
+  },
+  "corrected_contact_box_audit": {
+    "schema_version": 1,
+    "historical_attribution_values_reinterpreted": false,
+    "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "provenance": {
+      "supplement_manifest_sha256": "cf510aa35558af44c7595fb19f6bc3073d92032d939317a406c4cf6a46b90ea0",
+      "report_sha256": "6cba857536b915940febcc2c5634259629fdb488830e7cefeda7bf17b126a19c",
+      "audit_result_sha256": "3216b79a5523e45ea1c96c9090e764840df8050b611fffa00abb488f15085ebb",
+      "audit_code_sha256": "9a12cfa6944092f3e4738e123a01cc6782500563616ad3dcc4a8fecb5875e7b6",
+      "source_sha256": {
+        "katam/include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+        "katam/include/object.h": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "katam/include/kirby.h": "9874d9fae39c5af9c0c94b2abca2b7937b2af6f2e61232ebd662ccff6bc49f62",
+        "katam/src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+        "katam/asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a"
+      }
+    },
+    "layout": {
+      "source_type": "ObjectBase",
+      "contact_offsets": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "contact_encoding": [
+        "left",
+        "top",
+        "half_width",
+        "half_height"
+      ],
+      "contact_right": "left + 2 * half_width",
+      "contact_bottom": "top + 2 * half_height",
+      "source_extent_storage": "abs(edge_difference) >> 1; odd extents truncate",
+      "terrain_offsets": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "terrain_encoding": [
+        "left",
+        "top",
+        "right",
+        "bottom"
+      ]
+    },
+    "method": {
+      "contact_positions": "floor fixed-point coordinates to integer pixels",
+      "terrain_positions": "retain fractional pixel coordinates",
+      "horizontal_orientations": "union original and mirrored intervals",
+      "mirrored_contact_left": "-left - 2 * half_width",
+      "vertical_orientation": "source top/bottom; not mirrored",
+      "body_enemy_boxes": "decoded contact boxes only",
+      "attack_comparison_boxes": "union terrain bounds and decoded contact boxes",
+      "endpoint_policy": "current and previous same-identity hulls; retain destroyed and disappeared endpoints",
+      "identity_fields": [
+        "task",
+        "address",
+        "template",
+        "parent"
+      ],
+      "regular_enemy_type_range": [
+        0,
+        55
+      ],
+      "room_matching_required": true,
+      "chain_propagation_excluded": "0x0800E27D",
+      "effect_objects_and_untyped_tasks_boxed": false,
+      "boundary_touch_counts_as_overlap": true,
+      "count_unit": "eligible frame-by-frame pair observations, not unique actors or native trials"
+    },
+    "cases": [
+      {
+        "name": "natural500-positive",
+        "cumulative_attempt": 7,
+        "raw_states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+        "raw_states_bytes": 11388527,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "natural500-repeat",
+        "cumulative_attempt": 8,
+        "raw_states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+        "raw_states_bytes": 11388527,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "natural500-omission",
+        "cumulative_attempt": 9,
+        "raw_states_sha256": "659d130f4ebcb5d9aadabffd0779fb4c088fa770d581837cfd11c2153a60a947",
+        "raw_states_bytes": 11757417,
+        "sample_count": 1153,
+        "first_frame": 1085,
+        "last_frame": 2237,
+        "pair_observations": {
+          "body_enemy": 3104,
+          "human_attack_enemy": 182,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3824,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "shuffled50-positive",
+        "cumulative_attempt": 12,
+        "raw_states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+        "raw_states_bytes": 11422472,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "shuffled50-repeat",
+        "cumulative_attempt": 13,
+        "raw_states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+        "raw_states_bytes": 11422472,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      }
+    ],
+    "limits": {
+      "new_native_trials": 0,
+      "raw_fields_modified": false,
+      "profile_projection": false,
+      "within_frame_omniscience": false,
+      "helper_inactivity_proved": false,
+      "live6_route_success": false,
+      "host_rules_changed": false,
+      "broader_seed_rng_ingress_or_boss_claim": false
+    }
   }
 }

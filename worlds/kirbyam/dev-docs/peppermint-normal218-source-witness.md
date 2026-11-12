@@ -30,7 +30,7 @@ A separately frozen suffix uses **8 neutral + 1 fresh Up + 40 neutral** frames. 
 
 ## Attribution, source fields and audit correction
 
-Full regular enemy types **0..55**, destroyed endpoints and symmetric observed bounds were included in independent attribution: 202 human attack/enemy pairs for positives and 166 for omission; 517 remote attack/human pairs; zero overlaps. The original acquisition author's narrower decimal-37 audit remains historical and is superseded by this explicit supplement, not silently rewritten. Culling-shaped HP endpoints alone do not prove absence of a within-frame hit. `object.c:180–220` culls before ordinary hit processing; identities, callbacks, motion, contact, death/RNG paths and spatial separation were reviewed together. Bounds cannot establish omniscience over arbitrary hidden within-frame allocations.
+The prior full-regular-family **0..55** audit is retained as historical: 202 positive human-attack/enemy pairs, 166 omission human-attack/enemy pairs and 517 remote-attack/human pairs, with zero overlaps under that older calculation. It included observed destroyed endpoints, but not disappeared previous endpoints, and interpreted contact-box half extents as direct edges. Its counts and `symmetric_observed_bounds` label do not describe the corrected calculation below. The still earlier acquisition author's narrower decimal-37 audit also remains historical; neither record is silently rewritten. Culling-shaped HP endpoints alone do not prove absence of a within-frame hit. `object.c:180–220` culls before ordinary hit processing; identities, callbacks, motion, contact, death/RNG paths and spatial separation remain separate evidence.
 
 Helpers remain in room 101 after initialization; sentinel allowance ends at 1085. Their AI state 0 is not absence: observed remote effects remain in attribution, with no route contribution. Observers use source-typed ObjectBase `0x78` callbacks only. Unknown/index tasks remain metadata-only; `0x0800EF61` and `0x0803EE19` are not object payloads.
 
@@ -39,6 +39,16 @@ For shuffled50, the original subtype-0 Doo (`0x088C1708`) has generated **Magic 
 ### Template layout provenance addendum
 
 The historical observer field labelled `subtype2` reads ObjectTemplate offset `+0xF`, which source `data.h` names `unkF`; true `subtype2` is at `+0x10`. The scalar Doo subtypes `[0, 0]` mean source `subtype1` at `+0xE` and true `subtype2` at `+0x10`, independently verified directly from immutable ROM bytes, not inferred from that legacy label. All 14 observed templates have zero at `+0xE`, `+0xF` and `+0x10` across the six pinned production/fixture ROMs. Thus the exact subtype-0 Doo result survives this layout correction. Historical traces are not relabelled, and no claim is generalized to other templates. The independent layout review hash is pinned in the scalar record. A future observer must expose true subtype2 and unkF separately.
+
+### Corrected contact-box audit
+
+Source `sub_0803E2B0` stores contact-box left/top plus half-width/half-height at ObjectBase offsets **+0x38..+0x3B**, unlike direct terrain edges at **+0x3C..+0x3F**. The corrected decoder reconstructs right = left + 2 × half-width and bottom = top + 2 × half-height. Odd extents retain the source's truncation. Contact positions are floored to pixels as the collision code does; terrain positions retain their recorded fractions. Both horizontal orientations are conservatively included, without mirroring the vertical interval. Body/enemy comparisons use decoded contact boxes; attack comparisons additionally union terrain bounds. Current/previous same-identity hulls retain destroyed and disappeared endpoints.
+
+A separately versioned raw-trace recomputation found **zero observed overlaps in all five accepted cases**. Each positive and repeat has **3,004 body/enemy, 220 human-attack/enemy and 538 remote-attack/human** pair observations (**3,762 total**). Omission9 (private boot5) has **3,104, 182 and 538** respectively (**3,824 total**). These are eligible frame-by-frame pair observations, not unique actors, collisions or additional native trials. The [scalar record](peppermint-normal218-acceptance.json) separately pins the corrected method, each unchanged raw-case hash and the independent supplement. No trace was relabeled, normalized or projected between profiles.
+
+Only room-matched regular enemy types 0..55 enter these comparisons. Typed chain propagation `0x0800E27D` is excluded from damaging attack-box pairs; its actual puff parent/contact/terrain chronology is proven separately. EffectObject visuals and untyped tasks are not fabricated into ObjectBase boxes. The decoded half extents are nonnegative in these observed cases; this is not a universal geometry emulator.
+
+The bounded sampled-separation conclusion remains supported alongside source, HP/contact, lifecycle and target-parent chronology. Endpoint hulls do not establish absence of every transient allocation, curved excursion, collision or helper effect inside an unobserved interval. No helper inactivity, live6 success, broader seed/RNG/ingress, upstream or boss claim is added.
 
 ## Host scope and accounting
 

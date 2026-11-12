@@ -1,6 +1,8 @@
 """Bounded scalar/source contracts for Normal 218, not emulator replays."""
 
 import json
+import math
+import struct
 from pathlib import Path
 from typing import Any, cast
 
@@ -128,6 +130,9 @@ def test_contact_chain_exit_and_untouched_peg() -> None:
     assert not m['f3_is_solid'] and m['f3_attributes'] == 65
     assert e['attribution']['regular_enemy_types'] == [0, 55]
     assert e['attribution']['destroyed_endpoints_included'] and e['attribution']['symmetric_observed_bounds']
+    assert e['attribution']['audit_status'] == 'historical; not the corrected contact-box audit'
+    assert not e['attribution']['disappeared_previous_endpoints_included']
+    assert not e['attribution']['body_enemy_pairs_included']
     assert e['attribution']['positive_attack_enemy_pairs'] == 202
     assert e['attribution']['remote_attack_human_pairs'] == 517
     assert not e['attribution']['helper_ai_zero_is_absence']
@@ -199,3 +204,177 @@ def test_sanitized_provenance_and_limits() -> None:
         assert all(private not in text for private in ('/home/', '/Users/', 'C:\\', 'D:\\'))
     assert not any(key in e for key in ('inputs', 'frames', 'replay', 'savestate'))
     assert '217/225' in ' '.join(e['limitations'])
+
+
+# Source-decoder regression helpers only. These do not replay the private native traces.
+_Box = tuple[float, float, float, float]
+
+
+def _source_box(record: dict[str, Any], contact: bool) -> _Box:
+    left, top, right, bottom = record['damage_box' if contact else 'bounds']
+    if contact:
+        assert right >= 0 and bottom >= 0, 'Only nonnegative observed half extents are qualified'
+        right, bottom = left + 2 * right, top + 2 * bottom
+    x, y = record['x'], record['y']
+    if contact:
+        x, y = math.floor(x), math.floor(y)
+    return x + min(left, -right), y + min(top, bottom), x + max(right, -left), y + max(top, bottom)
+
+
+def _box_hull(a: _Box, b: _Box) -> _Box:
+    return min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3])
+
+
+def _attack_box(record: dict[str, Any]) -> _Box:
+    return _box_hull(_source_box(record, False), _source_box(record, True))
+
+
+def _box_identity(record: dict[str, Any]) -> tuple[object, ...]:
+    return record['task'], record['address'], record.get('template'), record.get('parent')
+
+
+def _retained_endpoints(current: list[dict[str, Any]], previous: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    current_ids = {_box_identity(record) for record in current}
+    return current + [record for record in previous if _box_identity(record) not in current_ids]
+
+
+def _swept_attack_box(record: dict[str, Any], previous: list[dict[str, Any]]) -> _Box:
+    current = _attack_box(record)
+    prior = next((old for old in previous if _box_identity(old) == _box_identity(record)), None)
+    return _box_hull(current, _attack_box(prior)) if prior is not None else current
+
+
+def _observed_overlap(a: _Box, b: _Box) -> bool:
+    return a[0] <= b[2] and b[0] <= a[2] and a[1] <= b[3] and b[1] <= a[3]
+
+
+def test_corrected_audit_is_separate_from_historical_attribution() -> None:
+    e = evidence()
+    old, corrected = e['attribution'], e['corrected_contact_box_audit']
+    assert (old['positive_attack_enemy_pairs'], old['omission_attack_enemy_pairs'],
+            old['remote_attack_human_pairs']) == (202, 166, 517)
+    assert old['audit_status'] == 'historical; not the corrected contact-box audit'
+    assert old['contact_box_interpretation'] == 'legacy direct edge offsets, not decoded half extents'
+    assert old['corrected_supplement'] == 'corrected_contact_box_audit'
+    assert corrected['schema_version'] == 1 and not corrected['historical_attribution_values_reinterpreted']
+    assert corrected['source_commit'] == e['native_source_commit']
+    provenance = corrected['provenance']
+    assert provenance['supplement_manifest_sha256'] == (
+        'cf510aa35558af44c7595fb19f6bc3073d92032d939317a406c4cf6a46b90ea0')
+    assert provenance['report_sha256'] == '6cba857536b915940febcc2c5634259629fdb488830e7cefeda7bf17b126a19c'
+    assert provenance['audit_result_sha256'] == '3216b79a5523e45ea1c96c9090e764840df8050b611fffa00abb488f15085ebb'
+    assert provenance['audit_code_sha256'] == '9a12cfa6944092f3e4738e123a01cc6782500563616ad3dcc4a8fecb5875e7b6'
+    assert provenance['source_sha256'] == {
+        'katam/include/data.h': '02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1',
+        'katam/include/object.h': '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38',
+        'katam/include/kirby.h': '9874d9fae39c5af9c0c94b2abca2b7937b2af6f2e61232ebd662ccff6bc49f62',
+        'katam/src/kirby.c': '041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722',
+        'katam/asm/code_08032E98.s': 'e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a',
+    }
+    for source in ('katam/src/kirby.c', 'katam/asm/code_08032E98.s'):
+        assert provenance['source_sha256'][source] == e['source_sha256'][source]
+    assert corrected['limits'] == {
+        'new_native_trials': 0, 'raw_fields_modified': False, 'profile_projection': False,
+        'within_frame_omniscience': False, 'helper_inactivity_proved': False, 'live6_route_success': False,
+        'host_rules_changed': False, 'broader_seed_rng_ingress_or_boss_claim': False,
+    }
+
+
+def test_corrected_audit_keeps_each_raw_case_and_pair_category() -> None:
+    e = evidence()
+    cases = e['corrected_contact_box_audit']['cases']
+    assert len(cases) == len(e['cases']) == 5
+    assert [case['cumulative_attempt'] for case in cases] == [7, 8, 9, 12, 13]
+    for case, accepted in zip(cases, e['cases']):
+        assert case['name'] == accepted['name'] and case['cumulative_attempt'] == accepted['cumulative_attempt']
+        assert case['raw_states_sha256'] == accepted['states_sha256']
+        omission = case['cumulative_attempt'] == 9
+        expected = {'body_enemy': 3104 if omission else 3004,
+                    'human_attack_enemy': 182 if omission else 220, 'remote_attack_human': 538}
+        assert case['pair_observations'] == expected
+        assert case['total_pair_observations'] == sum(expected.values()) == (3824 if omission else 3762)
+        assert case['sample_count'] == (1153 if omission else 1104)
+        assert (case['first_frame'], case['last_frame']) == (1085, 2237 if omission else 2188)
+        assert case['observed_overlaps'] == 0
+    assert [case['raw_states_bytes'] for case in cases] == [11388527, 11388527, 11757417, 11422472, 11422472]
+
+
+def test_corrected_layout_and_scope_contract() -> None:
+    corrected = evidence()['corrected_contact_box_audit']
+    assert corrected['layout'] == {
+        'source_type': 'ObjectBase', 'contact_offsets': [56, 57, 58, 59],
+        'contact_encoding': ['left', 'top', 'half_width', 'half_height'],
+        'contact_right': 'left + 2 * half_width', 'contact_bottom': 'top + 2 * half_height',
+        'source_extent_storage': 'abs(edge_difference) >> 1; odd extents truncate',
+        'terrain_offsets': [60, 61, 62, 63], 'terrain_encoding': ['left', 'top', 'right', 'bottom'],
+    }
+    assert corrected['method'] == {
+        'contact_positions': 'floor fixed-point coordinates to integer pixels',
+        'terrain_positions': 'retain fractional pixel coordinates',
+        'horizontal_orientations': 'union original and mirrored intervals',
+        'mirrored_contact_left': '-left - 2 * half_width', 'vertical_orientation': 'source top/bottom; not mirrored',
+        'body_enemy_boxes': 'decoded contact boxes only',
+        'attack_comparison_boxes': 'union terrain bounds and decoded contact boxes',
+        'endpoint_policy': 'current and previous same-identity hulls; retain destroyed and disappeared endpoints',
+        'identity_fields': ['task', 'address', 'template', 'parent'], 'regular_enemy_type_range': [0, 55],
+        'room_matching_required': True, 'chain_propagation_excluded': '0x0800E27D',
+        'effect_objects_and_untyped_tasks_boxed': False, 'boundary_touch_counts_as_overlap': True,
+        'count_unit': 'eligible frame-by-frame pair observations, not unique actors or native trials',
+    }
+
+
+def test_contact_half_extent_bytes_are_not_terrain_edges() -> None:
+    raw = bytearray(0x40)
+    struct.pack_into('4b', raw, 0x38, -10, 6, 11, 3)
+    struct.pack_into('4b', raw, 0x3C, -4, -3, 5, 7)
+    layout = evidence()['corrected_contact_box_audit']['layout']
+    record = {'x': 10.75, 'y': 20.75,
+              'damage_box': struct.unpack_from('4b', raw, layout['contact_offsets'][0]),
+              'bounds': struct.unpack_from('4b', raw, layout['terrain_offsets'][0])}
+    assert _source_box(record, True) == (-2, 26, 22, 32)
+    assert _source_box(record, False) == (5.75, 17.75, 15.75, 27.75)
+    assert _attack_box(record) == (-2, 17.75, 22, 32)
+
+
+@pytest.mark.parametrize(('xy', 'stored', 'expected'), [
+    ((10.75, 20.75), (-4, -2, 4, 4), (6, 18, 14, 26)),
+    ((10.75, 20.75), (-10, 6, 11, 3), (-2, 26, 22, 32)),
+    ((-0.25, -0.25), (-4, -2, 4, 4), (-5, -3, 3, 5)),
+    ((0.0, 0.0), (2, 3, 3, 2), (-8, 3, 8, 7)),
+    ((0.0, 0.0), (0, 0, 0, 0), (0, 0, 0, 0)),
+])
+def test_contact_floor_half_extents_and_horizontal_mirror(
+    xy: tuple[float, float], stored: tuple[int, int, int, int], expected: _Box,
+) -> None:
+    assert _source_box({'x': xy[0], 'y': xy[1], 'damage_box': stored}, True) == expected
+
+
+def test_odd_source_extents_truncate_before_decoding() -> None:
+    left, top, right, bottom = -3, -5, 4, 6
+    stored = (left, top, abs(right - left) >> 1, abs(bottom - top) >> 1)
+    assert stored == (-3, -5, 3, 5)
+    assert _source_box({'x': 0, 'y': 0, 'damage_box': stored}, True) == (-3, -5, 3, 5)
+    with pytest.raises(AssertionError, match='nonnegative'):
+        _source_box({'x': 0, 'y': 0, 'damage_box': (-3, -5, -1, 5)}, True)
+
+
+def test_body_contact_is_distinct_from_attack_terrain_union() -> None:
+    human = {'x': 0, 'y': 0, 'damage_box': (-1, -1, 1, 1), 'bounds': (-10, -10, 10, 10)}
+    enemy = {'x': 5, 'y': 0, 'damage_box': (-1, -1, 1, 1), 'bounds': (-1, -1, 1, 1)}
+    assert not _observed_overlap(_source_box(human, True), _source_box(enemy, True))
+    assert _observed_overlap(_attack_box(human), _attack_box(enemy))
+    assert _observed_overlap((-1, -1, 1, 1), (1, -1, 3, 1)), 'Boundary contact is not separation'
+
+
+def test_destroyed_disappeared_and_reused_identity_endpoints_are_retained() -> None:
+    old = {'task': 't', 'address': 'a', 'template': 'source', 'parent': 'human', 'flags': 0,
+           'x': 0, 'y': 0, 'damage_box': (-1, -1, 1, 1), 'bounds': (-1, -1, 1, 1)}
+    destroyed = dict(old, x=10, flags=0x1000)
+    assert _retained_endpoints([destroyed], [old]) == [destroyed]
+    assert _swept_attack_box(destroyed, [old]) == (-1, -1, 11, 1)
+    assert _retained_endpoints([], [destroyed]) == [destroyed]
+    assert _swept_attack_box(destroyed, [destroyed]) == (9, -1, 11, 1)
+    for field in ('task', 'address', 'template', 'parent'):
+        replacement = dict(destroyed, **{field: 'new-identity'})
+        assert _retained_endpoints([replacement], [old]) == [replacement, old]
+        assert _swept_attack_box(replacement, [old]) == (9, -1, 11, 1)
