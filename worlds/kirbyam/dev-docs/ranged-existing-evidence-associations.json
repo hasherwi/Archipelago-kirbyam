@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "status": "documentary_existing_evidence_association_only",
+  "native_room": 228,
+  "outcome": {
+    "location_id": 3960593,
+    "target": "metal_229_left1up",
+    "scope": "Only the existing left1Up; not generic229, other doors/checks, Normal or HP1."
+  },
+  "accounting_change": false,
+  "new_native_evidence": false,
+  "new_target_or_witness": false,
+  "policy_fallback_change": false,
+  "initial_collision_sha256": "56532c5fe675ab903093ff23ed5fb89ef98a6b815cd13339fa57fe4f4f4a1603",
+  "health_percent": [
+    100,
+    500
+  ],
+  "actual_hp": 6,
+  "ability": 17,
+  "grab": 0,
+  "sources": {
+    "ranged-static-target-census.json": {
+      "canonical_text_sha256": "625f1f1571b1a0e49c6485806e24386c661dbd4277bbc0f22c604ce3b13defa3"
+    },
+    "ordinary-229-finite-hammer-left1up-acceptance.json": {
+      "canonical_text_sha256": "5af430d92a13744075f925b678480c1fd35aa98f4711211839d446a89667d1f4"
+    }
+  },
+  "associations": [
+    {
+      "group": "228:27,7",
+      "segment": "bomb27",
+      "mutations": [
+        {
+          "x": 27,
+          "y": 7,
+          "before": 241,
+          "after": 0
+        },
+        {
+          "x": 27,
+          "y": 8,
+          "before": 242,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "group": "228:12,11",
+      "segment": "bomb12",
+      "mutations": [
+        {
+          "x": 12,
+          "y": 11,
+          "before": 241,
+          "after": 0
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "before": 242,
+          "after": 0
+        }
+      ]
+    }
+  ],
+  "qualification": "Inherits the finite acceptance layered Bonkers-source and disclosed Hammer-statue/post-defeat-release fixture, separate source/combat evidence, matching100/500 checkpoint branches and no reacquisition. Not a new combined fight/capture replay, full generated AP seed, direct1HP route, renewable-source proof or general role resolution. Historical census accounting stays unchanged."
+}
