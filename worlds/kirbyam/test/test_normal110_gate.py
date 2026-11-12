@@ -194,7 +194,7 @@ def test_actual_target_preserves_other_exits_checks_and_keys(gating, keys, room_
 @pytest.mark.parametrize('count', [0, 1, 3])
 @pytest.mark.parametrize('minor', [False, True])
 @pytest.mark.parametrize('gating', [False, True])
-def test_spark_precollection_follows_enabled_green_and_is_collected_once(monkeypatch, count, minor, gating):
+def test_spark_precollection_stays_useful_with_native_chocolate_and_green(monkeypatch, count, minor, gating):
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor)
     mw = MultiWorld(1)
     mw.game[1] = KirbyAmWorld.game
@@ -216,10 +216,10 @@ def test_spark_precollection_follows_enabled_green_and_is_collected_once(monkeyp
     assert mw.state.count('Spark Ability', 1) == 0
     world.create_regions()
     world.set_rules()
-    assert mw.state.count('Spark Ability', 1) == (count if minor and gating else 0)
+    assert mw.state.count('Spark Ability', 1) == 0
     assert len([i for i in mw.precollected_items[1] if i.name == 'Spark Ability']) == count
     assert world.create_item('Spark Ability').classification == (
-        ItemClassification.progression if minor and gating else ItemClassification.useful)
+        ItemClassification.useful)
 
 
 def test_green_and_chocolate_spark_reasons_stay_independent():
@@ -232,17 +232,13 @@ def test_green_and_chocolate_spark_reasons_stay_independent():
     world = SimpleNamespace(player=1, _enemy_copy_ability_policy=policy(1, pool=['Spark']).policy,
                             _ability_gating_enabled=lambda: True,
                             multiworld=SimpleNamespace(get_location=get_location))
-    assert not rules.rainbow_spark_is_progression(world)
     assert not rules.cabbage_element_is_progression(world, 'Spark')
     enabled.add(data.locations['MINOR_CHEST_SPRAY_PAINT_12'].label)
     assert rules.cabbage_element_is_progression(world, 'Spark')
-    assert not rules.rainbow_spark_is_progression(world)
     enabled.clear()
     enabled.add(data.locations['MINOR_CHEST_SPRAY_PAINT_04'].label)
-    assert rules.rainbow_spark_is_progression(world)
     assert not rules.cabbage_element_is_progression(world, 'Spark')
     world._enemy_copy_ability_policy = policy(1, pool=['Beam']).policy
-    assert not rules.rainbow_spark_is_progression(world)
 
 
 @pytest.mark.parametrize('witness,field', [

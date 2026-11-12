@@ -1,6 +1,6 @@
 """Cutter permission is progression, not automatic equipment or starting inventory."""
 
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Iterable
 from typing import cast
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
@@ -11,6 +11,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any
 import zipfile
+import hashlib
+import json
 
 import pytest
 from BaseClasses import CollectionState, ItemClassification, MultiWorld, PlandoOptions
@@ -159,10 +161,44 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
-    # Main a58d792 refused all three modes for this sample. The reviewed union
-    # now accepts mode0 with all124 checks reachable from placed progression:
-    # Cutter is earned in sphere4 and Radish Big Switch is reached in sphere6.
-    # Preserve the exact mode1/2 refusals; do not permit either outcome generically.
+    # The earlier union accepted this exact native sample. Removing the now-optional
+    # Green Spark progression flag changes fill ordering, placing the Radish key
+    # behind its own area gate. Keep this strict refusal and the earlier history.
+    if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
+        from .. import check_accessibility
+        expected = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())[
+            "current_native8675309"]
+        original = check_accessibility.validate_all_checks
+        inspected: list[bool] = []
+
+        def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
+            state = CollectionState(multiworld)
+            state.sweep_for_advancements()
+            location = multiworld.get_location("Radish Ruins 8-12 - Lever", 1)
+            assert location.item and location.item.name == "Radish Ruins - Area Key"
+            assert not state.has("Radish Ruins - Area Key", 1)
+            assert not location.can_reach(state)
+            assert multiworld.completion_condition[1](state)
+            checks = [loc for loc in multiworld.get_locations(1) if loc.address is not None]
+            assert len(checks) == 124 and all(loc.item is not None for loc in checks)
+            assert sum(not loc.can_reach(state) for loc in checks) == expected["unreachable_count"] == 12
+            inventory = multiworld.get_all_state()  # Diagnostic only, never used for the progression verdict.
+            assert all(loc.can_reach(inventory) for loc in checks)
+            inspected.append(True)
+            original(multiworld, players)
+
+        monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, seed, [options])
+        message = str(caught.value)
+        assert inspected == [True]
+        assert message == expected["error"]
+        assert hashlib.sha256(message.encode()).hexdigest() == expected["error_sha256"] == (
+            "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5")
+        assert "unfilled=[]; unavailable even with all inventory=[]" in message
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
+    # Source-mode 1/2 refusals retain their existing exact sample boundaries.
     if seed == 8675309 and mode in (1, 2) and gating == 1 and accessibility == "minimal":
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
@@ -174,18 +210,6 @@ def test_generated_seed_matrix(
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
-    if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
-        from ..check_accessibility import validate_all_checks
-        validate_all_checks(multiworld, [1])
-        progression = CollectionState(multiworld)
-        progression.sweep_for_advancements()
-        checks = [location for location in multiworld.get_locations(1) if location.address is not None]
-        assert len(checks) == 124
-        assert all(location.item is not None and location.can_reach(progression) for location in checks)
-        spheres = {location.name: index for index, sphere in enumerate(multiworld.get_spheres()) for location in sphere}
-        cutter, = [location for location in checks if location.item and location.item.name == "Cutter Ability"]
-        assert cutter.name == "Cabbage Cavern 3-14 - Spray Paint #8 Chest" and spheres[cutter.name] == 4
-        assert spheres["Radish Ruins - Big Switch"] == 6
 
 
 @pytest.mark.parametrize("seed", SEEDS)

@@ -8,6 +8,7 @@ intentionally read from the supported policy: this does not enable removal.
 from collections import Counter
 import hashlib
 import inspect
+import json
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Callable, cast
@@ -22,7 +23,7 @@ from ..check_accessibility import KirbyAmCheckAccessibilityError
 from ..peg_traversal import validate_peg_assignment
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, starting_copy_abilities
 from .support.check_accessibility import LocalCheckAudit, audit_local_checks
-from .test_cutter_progression import _generate, _gate_words
+from .test_cutter_progression import CUTTER, _generate, _gate_words
 
 
 PROFILES = (
@@ -40,10 +41,11 @@ PROFILES = (
 # These tables describe merged main a58d792, before the ranged catalog union.
 HISTORICAL_MAIN_REQUIRED = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
 HISTORICAL_MAIN_REFUSED = frozenset({(0, 1, 1), (1, 2, 0)})
-# Exact new core09 outcome: profile0 / mode0 / gating1 / minimal / seed105100.
+# Historical core09 refused this exact sample with 32 stranded checks.
+# Current Green classification/fill ordering accepts it; retain the old error as history.
 COMBINED_CORE09 = (0, 0, 1)
-REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED - {COMBINED_CORE09}
-EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED | {COMBINED_CORE09}
+REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED
+EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED
 
 
 def assert_generation_contract(
@@ -133,14 +135,6 @@ def test_generated_all_check_smoke_matrix(
         assert "unreachable from placed progression=" in str(error)
         assert "unavailable even with all inventory=[]" in str(error)
         assert not tuple((tmp_path / "output").glob("*.zip"))
-        if (profile, mode, gating) == COMBINED_CORE09:
-            assert 105100 + profile == 105100
-            assert str(error).startswith("KirbyAM all-check validation failed.")
-            assert "unfilled=[]; unavailable even with all inventory=[]" in str(error)
-            # Pin the exact32 stranded checks and pre-output stage, not arbitrary failure.
-            assert hashlib.sha256(str(error).encode()).hexdigest() == (
-                "a732a9779e2293207d7701f1cb950da1131d3daf3fef1f5a08d46314fc75bb1c"
-            )
         record_property("generation_outcome", "rejected_unsafe_fill")
         record_property("generation_error", str(error))
         return
@@ -151,6 +145,19 @@ def test_generated_all_check_smoke_matrix(
     record_property("inventory_unreachable", audit.inventory_unreachable)
     record_property("progression_unreachable", audit.progression_unreachable)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
+    if (profile, mode, gating, accessibility) == (*COMBINED_CORE09, "minimal"):
+        check_accessibility.validate_all_checks(multiworld, [1])
+        state = CollectionState(multiworld)
+        assert not state.has("Cutter Ability", 1)
+        assert CUTTER not in decoded["precollected_items"][1]
+        state.sweep_for_advancements()
+        checks = [loc for loc in multiworld.get_locations(1) if loc.address is not None]
+        assert len(checks) == 124
+        assert all(loc.item is not None and loc.can_reach(state) for loc in checks)
+        assert multiworld.completion_condition[1](state)
+        cutter, = [loc for loc in checks if loc.item and loc.item.name == "Cutter Ability"]
+        assert cutter.name == "Mustard Mountain Map - Big Chest" and cutter.can_reach(state)
+        assert state.has("Cutter Ability", 1)
 
 
 def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
@@ -186,9 +193,9 @@ def test_seed105103_supplies_accepted_shuffled_gated_minimal_archive(
     audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
     # Every mode/gating pair still has a mandatory accepted minimal archive.
-    # This seed supplies (1,1); test_cutter_progression's exact seed8675309
-    # mode0/gating1/minimal assertion supplies (0,1), including all124 checks.
-    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} | {(1, 1), (0, 1)} == {
+    # This seed supplies (1, 1); required native seed 105100 supplies (0, 1)
+    # with all 124 checks reachable and Cutter earned from the Mustard Map.
+    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} | {(1, 1)} == {
         (mode, gating) for mode in range(3) for gating in range(2)}
 
 
@@ -227,3 +234,16 @@ def test_seed105100_refuses_smash_permission_behind_its_own_peg(
         _generate(monkeypatch, tmp_path, 105100, [options])
     assert inspected == [True]
     assert not tuple((tmp_path / "output").glob("*.zip"))
+
+
+def test_historical_native105100_refusal_remains_distinct_from_current_requirement() -> None:
+    historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())[
+        "historical_native105100"]
+    assert historical["unreachable_count"] == 32
+    assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
+        "a732a9779e2293207d7701f1cb950da1131d3daf3fef1f5a08d46314fc75bb1c")
+    assert "unfilled=[]; unavailable even with all inventory=[]" in historical["error"]
+    assert COMBINED_CORE09 in REQUIRED_MINIMAL_ARCHIVES
+    assert COMBINED_CORE09 not in EXPECTED_REFUSED_MINIMAL_ARCHIVES
+    assert HISTORICAL_MAIN_REQUIRED == frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
+    assert HISTORICAL_MAIN_REFUSED == EXPECTED_REFUSED_MINIMAL_ARCHIVES == frozenset({(0, 1, 1), (1, 2, 0)})

@@ -41,6 +41,11 @@ class TestRangedTargetCoverage(unittest.TestCase):
         self.assertEqual(green_target['owner'], 'REGION_RAINBOW_ROUTE/ROOM_1_28')
         self.assertEqual(green_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_04')
         self.assertNotIn('exit', green_target['target'])
+        self.assertNotIn('requires_guaranteed_source', green_target['target'])
+        self.assertEqual(set(green_target['target']['graphs']),
+                         {'upper_left_entry', 'upper_left_normal_slide'})
+        self.assertEqual(green_target['target']['graphs']['upper_left_entry']['requires_guaranteed_source'],
+                         {'source_key': 'SPARKY', 'ability': 'Spark'})
         yellow_target = targets['bomb_733_yellow']
         self.assertEqual(yellow_target['owner'], 'REGION_CARROT_CASTLE/ROOM_5_16')
         self.assertEqual(yellow_target['target']['location'], 'MINOR_CHEST_SPRAY_PAINT_02')

@@ -1,4 +1,4 @@
-"""Finite Sparky carry and exact upper-left access for the optional Green Paint."""
+"""Normal OR finite Sparky carry with exact upper-left Green Paint access."""
 
 import json
 from dataclasses import replace
@@ -45,21 +45,22 @@ def test_actual_world_guaranteed_source_policy_and_classification(
     set_rule_test_policy(monkeypatch, lambda *a, **kw: resolver.policy)
     world = make_world(mode, gating, accessibility="minimal", ability_randomization_statues=statues,
                        ability_randomization_no_ability_weight=weight)
-    assert rules.target_applies(target_row(), SourcePolicy(world._enemy_copy_ability_policy, bool(statues))) is applies
+    assert rules.target_applies(target_row(), SourcePolicy(world._enemy_copy_ability_policy, bool(statues))) is True
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     state = CollectionState(world.multiworld)
     # Owner, generic room 532 and upper-right are not the proved entry.
     state.can_reach_region = lambda name, player: name in {
         OWNER, "REGION_RAINBOW_ROUTE/ROOM_1_27", "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT"}
-    assert chest.access_rule(state) is (not applies)
+    assert chest.access_rule(state) is False
     state.collect(world.create_item("Spark Ability"), prevent_sweep=True)
-    assert chest.access_rule(state) is (not applies)
+    assert chest.access_rule(state) is False
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert chest.access_rule(state)
     state.remove(world.create_item("Spark Ability"))
-    assert chest.access_rule(state) is (not applies or not gating)
+    assert chest.access_rule(state) is True
     assert world.create_item("Spark Ability").classification == (
-        ItemClassification.progression if applies and gating else ItemClassification.useful)
+        ItemClassification.progression if rules.cabbage_element_is_progression(world, "Spark")
+        else ItemClassification.useful)
 
 
 @pytest.mark.parametrize("grant", [
@@ -67,8 +68,8 @@ def test_actual_world_guaranteed_source_policy_and_classification(
     Grant(frozenset({"Spark", "Beam"}), randomized=True),
     Grant(frozenset({"Spark"}), randomized=True, can_fail=True),
 ])
-def test_uncertain_source_grants_retain_prior_partial_behavior(grant):
-    assert not rules.target_applies(target_row(), SimpleNamespace(grant=lambda *args: grant))
+def test_uncertain_source_grants_cannot_skip_normal_target(grant):
+    assert rules.target_applies(target_row(), SimpleNamespace(grant=lambda *args: grant))
 
 
 @pytest.mark.parametrize("gating", [False, True])
@@ -130,18 +131,17 @@ def test_optional_chest_preserves_exits_room_sanity_and_area_keys(
         assert not chest.access_rule(state)
         state.remove(world.create_item("Spark Ability"))
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state)
         state.collect(world.create_item("Spark Ability"), prevent_sweep=True)
         assert chest.access_rule(state)
         state.remove(world.create_item("Spark Ability"))
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state)
     else:
         with pytest.raises(KeyError):
             multiworld.get_location(data.locations[CHEST].label, 1)
-    # Room8 no longer mandates Spark; only enabled Green Paint promotes this
-    # native assignment (native Chocolate still uses Beam).
+    # Neither Room8 nor Green Paint mandates Spark. Native Chocolate uses Beam.
     assert world.create_item("Spark Ability").classification == (
-        ItemClassification.progression if gating and minor_chests else ItemClassification.useful)
+        ItemClassification.useful)
     state.can_reach_region = lambda name, player: name == OWNER
     owner = multiworld.get_region(OWNER, 1)
     assert all(entrance.access_rule(state) for entrance in owner.exits)
@@ -191,6 +191,6 @@ def test_actual_full_generation_at_one_hp(tmp_path, monkeypatch, gating, area_ke
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating)
+    assert chest.access_rule(state)
     state.collect(world.create_item("Spark Ability"), prevent_sweep=True)
     assert chest.access_rule(state)

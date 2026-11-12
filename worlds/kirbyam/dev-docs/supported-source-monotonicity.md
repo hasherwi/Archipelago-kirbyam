@@ -32,7 +32,7 @@ not, by themselves, repair that problem.
    transient permission-filtered live grant. A supported mixed live pool cannot
    activate those conditional witnesses merely by starting with Beam alone.
    Swimming Water Gun at `underwater_819_exit/local` succeeds without sources.
-   The separate110 swimming spray also uses Normal, after an exact finite Knight
+   The separate 110 swimming spray also uses Normal, after an exact finite Knight
    mouth-payload route. Its capture/spit does not depend on the randomized pending
    ability. It cannot create a live copy guarantee or ordinary projectile stock.
    Ranged movement edges additionally retain their explicit carried-equipment
@@ -70,12 +70,13 @@ silently treated as fixed by this release's public-option invariant.
 
 ## Complete enumerated catalog
 
-`supported-source-monotonicity-catalog.json` records all 145 installed witnesses,
-290 compiled Area Key variants and 109 distinct physical source/key identities.
-The fifth719 witness is the exact fixed post-clear Central stand, whose
+`supported-source-monotonicity-catalog.json` records all 146 installed witnesses,
+292 compiled Area Key variants and 109 distinct physical source/key identities.
+The fifth 719 witness is the exact fixed post-clear Central stand, whose
 conditional output does not depend on the ordinary pool or permissions. Its
 modeled event and carrier items remain mandatory. This catalog records code
 structure, not native acceptance or placement closure.
+Green138 adds a source-free, target-scoped Normal lower-slide alternative; its finite Spark condition is graph-local.
 It includes logical subregions, per-witness finite/renewable variants, capability providers,
 water dispatch, raw target/graph source conditions, carried-equipment guards,
 and every capability/recovery edge. Source hashes identify the

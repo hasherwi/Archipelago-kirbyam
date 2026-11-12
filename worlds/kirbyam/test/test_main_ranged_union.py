@@ -12,6 +12,7 @@ from ..traversal_data import graph_items, room_traversal_graph, room_traversal_t
 from .test_traversal import policy
 from .support.normal110_history import before_normal110
 from .support.master719_history import before_master719
+from .support.green138_history import before_green138
 
 TARGET = 'frozen_825_sound_effects'
 
@@ -127,9 +128,10 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
             assert row['id'] not in catalogs['targets']
-            # These pins describe the reviewed parents, before the two later
-            # additions. Both strict projections retain current graph checks.
-            catalogs['targets'][row['id']] = before_normal110(before_master719({'region': region, **row}))
+            # These unchanged pins describe the reviewed parents before the later
+            # additions. Strict projections pin each complete added graph.
+            catalogs['targets'][row['id']] = before_normal110(
+                before_master719(before_green138({'region': region, **row})))
         for kind in ('graph_parts', 'source_sets'):
             for key, value in traversal.get(kind, {}).items():
                 assert key not in catalogs[kind]
@@ -163,3 +165,30 @@ def test_master719_projection_is_reversible_and_current_union_remains_complete()
     assert restored == row == original
     # The independent current full-catalog pin in test_normal404_evidence and
     # Master source/closure tests still cover all five installed alternatives.
+
+
+def test_green138_projection_is_reversible_and_preserves_current_union() -> None:
+    row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_138_green')
+    original = deepcopy(row)
+    restored = before_green138(row)
+    condition = restored.pop('requires_guaranteed_source')
+    assert condition == {'source_key': 'SPARKY', 'ability': 'Spark'}
+    assert set(restored['graphs']) == {'upper_left_entry'}
+    assert 'requires_guaranteed_source' not in restored['graphs']['upper_left_entry']
+    restored['graphs']['upper_left_entry']['requires_guaranteed_source'] = condition
+    restored['graphs']['upper_left_normal_slide'] = deepcopy(row['graphs']['upper_left_normal_slide'])
+    assert restored == row == original
+
+
+def test_all_three_historical_projections_commute_and_keep_inputs() -> None:
+    from itertools import permutations
+    projections = (before_normal110, before_master719, before_green138)
+    for row in room_traversal_targets('block'):
+        original = deepcopy(row)
+        expected = before_normal110(before_master719(before_green138(row)))
+        for order in permutations(projections):
+            projected = row
+            for project in order:
+                projected = project(projected)
+            assert projected == expected
+            assert row == original

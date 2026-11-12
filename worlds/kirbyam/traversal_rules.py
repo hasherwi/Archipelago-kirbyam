@@ -90,22 +90,6 @@ def cabbage_element_is_progression(world: Any, ability: str) -> bool:
     return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({ability})
 
 
-def rainbow_spark_is_progression(world: Any) -> bool:
-    """Only enabled Green Paint needs the guaranteed Sparky permission now.
-
-    Room8 has a source-policy-independent Normal route. Chocolate's separate
-    Spark classification is combined by create_item_by_code, not inferred here.
-    """
-    raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if not isinstance(raw, dict) or not world._ability_gating_enabled():
-        return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_04"].label, world.player)
-    except KeyError:
-        return False
-    return SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Spark"})
-
-
 def mustard_crash_is_progression(world: Any) -> bool:
     """Promote only enforced guaranteed Crash routes; inventory is permission."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)

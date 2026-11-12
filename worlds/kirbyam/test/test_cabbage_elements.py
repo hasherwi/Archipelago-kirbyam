@@ -285,11 +285,13 @@ def test_uncertain_policy_keeps_fallback_and_does_not_promote(monkeypatch, abili
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
-def test_prior_independent_promotion_reason_is_preserved(monkeypatch, ability):
-    # Singleton policies retain the earlier guaranteed Sparky/Frosty reason even without Chocolate.
+def test_chocolate_and_remaining_independent_promotion_reasons(monkeypatch, ability):
+    # Chocolate promotes both elements. Only Ice retains an independent Goal 2 reason.
     raw = policy(1, pool=[ability]).policy
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, 1, accessibility='minimal')
+    assert rules.cabbage_element_is_progression(world, ability)
+    assert world.create_item(f'{ability} Ability').classification == ItemClassification.progression
     get_location = world.multiworld.get_location
 
     def without_chocolate(name, player):
@@ -299,7 +301,9 @@ def test_prior_independent_promotion_reason_is_preserved(monkeypatch, ability):
 
     monkeypatch.setattr(world.multiworld, 'get_location', without_chocolate)
     assert not rules.cabbage_element_is_progression(world, ability)
-    assert world.create_item(f'{ability} Ability').classification == ItemClassification.progression
+    assert rules.goal2_ice_is_progression(world)
+    expected = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
+    assert world.create_item(f'{ability} Ability').classification == expected
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])

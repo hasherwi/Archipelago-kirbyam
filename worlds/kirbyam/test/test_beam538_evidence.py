@@ -15,6 +15,7 @@ from .test_beam538_crossover import CAPABILITY, DESTINATION, OWNER, TARGET, UPST
 from .test_yellow_ufo_upstream_evidence import lf_text_sha256
 from .support.normal110_history import before_normal110
 from .support.master719_history import before_master719
+from .support.green138_history import before_green138
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
@@ -46,6 +47,11 @@ def before_reviewed_fire719_addition(rooms):
             projected = before_normal110(row)
             row.clear()
             row.update(projected)
+    green, = [row for row in raw_targets(previous) if row['id'] == 'bomb_138_green']
+    assert green in previous['REGION_RAINBOW_ROUTE/ROOM_1_28']['traversal']['targets']
+    projected = before_green138(green)
+    green.clear()
+    green.update(projected)
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_719_room13']
     projected = before_master719(target)
     target.clear()
@@ -293,3 +299,25 @@ def test_historical_reconstruction_does_not_mask_cabbage_edits(ability, mutation
         return
     with pytest.raises(AssertionError):
         before_reviewed_fire719_addition(rooms)
+
+
+@pytest.mark.parametrize('mutation', ['normal_access', 'normal_action', 'condition', 'spark_source', 'owner'])
+def test_historical_reconstruction_rejects_green_contract_mutations(mutation):
+    rooms = json.loads(json.dumps(load_json_data('regions/rooms.json')))
+    target, = [row for row in raw_targets(rooms) if row['id'] == 'bomb_138_green']
+    normal = target['graphs']['upper_left_normal_slide']
+    if mutation == 'normal_access':
+        normal['access']['region'] = 'REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT'
+    elif mutation == 'normal_action':
+        normal['routes'][-1]['capability'] = 'bomb_138_green'
+    elif mutation == 'condition':
+        target['requires_guaranteed_source'] = target['graphs']['upper_left_entry'].pop('requires_guaranteed_source')
+    elif mutation == 'spark_source':
+        target['graphs']['upper_left_entry']['sources'][0]['source_key'] = 'WADDLE_DOO'
+    else:
+        rooms['REGION_RAINBOW_ROUTE/ROOM_1_28']['traversal']['targets'].remove(target)
+        rooms['REGION_RAINBOW_ROUTE/ROOM_1_29']['traversal'] = {'targets': [target]}
+    with pytest.raises(AssertionError):
+        previous = before_reviewed_fire719_addition(rooms)
+        restored, = [row for row in raw_targets(previous) if row['id'] == 'bomb_138_green']
+        assert digest(restored) == evidence()['preserved_target_sha256']['bomb_138_green']

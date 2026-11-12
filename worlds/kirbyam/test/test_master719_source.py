@@ -245,6 +245,8 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     # Compare a strict reverse projection to the complete baseline structure.
     # Source hashes are separately derived from current files; native evidence
     # bytes are never refreshed by this structural projection.
+    from .support.green138_history import catalog_before_green138
+    catalog = catalog_before_green138(catalog)
     catalog.pop('source_sha256')
     assert catalog['witnesses'] == 145 and catalog['variants'] == 290
     catalog['witnesses'], catalog['variants'] = 144, 288

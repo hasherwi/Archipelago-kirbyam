@@ -13,6 +13,7 @@ from ..traversal_data import room_traversal_graph, room_traversal_targets
 from .test_mini_traversal import make_world
 from .test_traversal import policy
 from .support.normal110_history import before_normal110
+from .support.source_policy import set_rule_test_policy
 from .support.master719_history import before_master719
 from ..master_source import CENTRAL_REGION
 
@@ -94,15 +95,29 @@ def test_rainbow_graph_has_real_finite_source_and_no_equipped_start():
 @pytest.mark.parametrize('gating', [0, 1])
 @pytest.mark.parametrize('area_keys', [0, 1])
 @pytest.mark.parametrize('room_sanity', [0, 1])
-def test_actual_world_wires_only_room9_edge_and_collects_spark(gating, area_keys, room_sanity):
-    world = make_world(0, gating, area_keys=area_keys, room_sanity=room_sanity)
+@pytest.mark.parametrize('chocolate_spark', [False, True])
+def test_actual_world_wires_only_room9_edge_and_collects_spark(
+        monkeypatch, gating, area_keys, room_sanity, chocolate_spark):
+    mode = 1 if chocolate_spark else 0
+    resolver = policy(mode, pool=['Spark'] if chocolate_spark else None)
+    set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
+    world = make_world(mode, gating, area_keys=area_keys, room_sanity=room_sanity)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     target = world.multiworld.get_entrance(f'{OWNER} -> {EXIT}', 1)
     assert target.access_rule(state)  # Source-policy-independent Normal route.
     item = world.create_item('Spark Ability')
     state.collect(item, prevent_sweep=True)
-    assert state.has('Spark Ability', 1) is bool(gating)
+    progression = bool(gating and chocolate_spark)
+    assert rules.cabbage_element_is_progression(world, 'Spark') is progression
+    assert item.classification == (ItemClassification.progression if progression else ItemClassification.useful)
+    # Logical CollectionState does not count useful rewards. Physical Copy permission
+    # can still be supplied to the optional finite Spark witness; neither item equips it.
+    assert state.has('Spark Ability', 1) is progression
+    graph = room_traversal_graph('bomb_110_room9', 'upper_entry')
+    endpoint, = graph.required_targets
+    assert graph.evaluate(resolver, frozenset(), bool(gating)).reaches(endpoint) is (not gating)
+    assert graph.evaluate(resolver, frozenset({'Spark Ability'}), bool(gating)).reaches(endpoint)
     assert target.access_rule(state)
     state.can_reach_region = lambda name, player: name == OWNER
     assert not target.access_rule(state)

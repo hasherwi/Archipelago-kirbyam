@@ -1,7 +1,7 @@
 # Ranged completion status
 
 PR #1052 remains **partial**. The bounded routes have real source-aware logic,
-but five targets skip their extra rule outside reviewed guaranteed source
+but four targets skip their extra rule outside reviewed guaranteed source
 assignments. Relevant physical outcomes also remain unadjudicated. Neither a
 large test count nor a machine inventory certifies every move against every
 surface, current-generator acceptance, or native gameplay completion.
@@ -24,8 +24,8 @@ completion**: a successful check still reports partial coverage.
 
 The two test commands run the same runner-agnostic `unittest.TestCase` tests,
 using `test.param.classvar_matrix`: 120 public-profile installer probes,
-270 synthetic installer probes and eight contract checks (398 tests total).
-These are case counts, not 398 distinct physical targets or native replays.
+270 synthetic installer probes and nine contract checks (399 tests total).
+These are case counts, not 399 distinct physical targets or native replays.
 
 The report derives exact owners, target source conditions, witness names and
 policy applicability from production-normalized data and the production policy
@@ -49,7 +49,6 @@ There is **no public custom-whitelist option**.
 
 | Target | Exact bounded surface | Fallback scope |
 | --- | --- | --- |
-| `bomb_138_green` | Rainbow Green Paint | Outside guaranteed Sparky→Spark |
 | `bomb_517_chocolate` | Cabbage Chocolate Paint | Outside its ten reviewed Doo assignments |
 | `bomb_733_yellow` | Carrot Yellow Paint | Outside guaranteed Sparky→UFO |
 | `switch_533_room16` | Mustard Room15→16 | Outside Foley→Bomb/UFO/Crash/Magic |
@@ -57,7 +56,7 @@ There is **no public custom-whitelist option**.
 
 Native Twister→Tornado and Sparky→Spark already leave the 310 and 733 rules
 unapplied. The three full live-pool weight profiles and the passive-excluded
-live profile skip all five. The older base rule remaining permissive is a
+live profile skip all four. The older base rule remaining permissive is a
 coverage gap, not evidence that every such
 room is physically impossible. Do not replace this gap with blanket fail-closed
 restrictions or assume helper abilities provide a solution.
@@ -74,6 +73,18 @@ Finite Spark/Sword branches keep their own raw source conditions. Exact108
 LOWER_MID access remains mandatory; native503 is not an alternate entry.
 See `rainbow-normal110-source-witness.md` for the accepted native evidence and
 its native/policy/health qualifications.
+
+138 is one unconditional Green Paint target with two OR witnesses: the exact
+human Normal lower-slide suffix and the preserved finite Sparky branch. Only
+the Spark graph retains its guaranteed-source predicate. Both require independent
+room 532 UPPER_LEFT access and a fresh room 138 door entry; base room 532, UPPER_RIGHT or owner-only
+access is insufficient. No Copy item or local Area Key is needed for Normal.
+The accepted natural 50% / 1 HP, shuffled 500% / 1 HP and live 100% / actual 6 HP profiles each
+have a cold repeat. Intermediate health/source-policy equivalence is source-backed,
+not execution at every setting. Helpers settle in room 101 after initialization, with
+actual AI state 0, not ordinary 300. See `green138-normal-witness.md` for boundaries
+and the corrected generated Cutter assignment. Green no longer promotes Spark;
+Chocolate's independent progression reason remains.
 
 719 is an always-installed target with five OR witnesses: finite Doo Beam,
 Fighter, Sword and Fire, plus the exact post-clear Central Master stand carrier.
@@ -136,6 +147,6 @@ Before making a broader completion claim:
   is supplied by this contract.
 
 The normalized inventory has 382 regions, 384 locations and 1,083 AP surfaces.
-Its 57 targets/145 witnesses include `mini_321_right_lower` and `fuse_323`, which
+Its 57 targets/146 witnesses include `mini_321_right_lower` and `fuse_323`, which
 normalization adds to the 55 top-level union catalog rows. Those counts describe
 structure, not 57 universally complete routes or all move×surface pairings.

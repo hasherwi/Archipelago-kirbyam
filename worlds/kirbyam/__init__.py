@@ -1345,8 +1345,7 @@ class KirbyAmWorld(World):
             if goal2_ice_is_progression(self) or cabbage_element_is_progression(self, "Ice"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Spark Ability":
-            from .traversal_rules import rainbow_spark_is_progression
-            if rainbow_spark_is_progression(self) or cabbage_element_is_progression(self, "Spark"):
+            if cabbage_element_is_progression(self, "Spark"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Crash Ability":
             from .traversal_rules import mustard_crash_is_progression

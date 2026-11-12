@@ -14,7 +14,6 @@
     "fuse_126"
   ],
   "policy_fallback_targets": [
-    "bomb_138_green",
     "bomb_517_chocolate",
     "bomb_733_yellow",
     "switch_533_room16",
@@ -26,33 +25,28 @@
       "switch_310_mustard_map"
     ],
     "shuffled_seed427": [
-      "bomb_138_green",
       "bomb_733_yellow",
       "switch_533_room16"
     ],
     "full_live_normal0": [
-      "bomb_138_green",
       "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map",
       "switch_533_room16"
     ],
     "full_live_normal99": [
-      "bomb_138_green",
       "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map",
       "switch_533_room16"
     ],
     "full_live_normal100": [
-      "bomb_138_green",
       "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map",
       "switch_533_room16"
     ],
     "full_live_passive_excluded": [
-      "bomb_138_green",
       "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map",

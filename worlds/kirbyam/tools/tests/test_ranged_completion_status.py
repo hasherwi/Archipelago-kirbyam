@@ -133,6 +133,21 @@ class TestRangedCompletionContract(unittest.TestCase):
                 self.assertEqual(installer_probe(target, policy, area_keys=keys, owned=owned - {missing},
                                                  reachable=access), (True, False))
 
+    def test_green_normal_is_unconditional_but_requires_exact_independent_access(self) -> None:
+        target = TARGETS["bomb_138_green"]
+        self.assertEqual(status_tool.source_conditions(target), [])
+        self.assertNotIn(target["id"], CONTRACT["policy_fallback_targets"])
+        self.assertEqual(REPORT["counts"]["witnesses"], 146)
+        self.assertEqual(len(CONTRACT["policy_fallback_targets"]), 4)
+        access = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"})
+        wrong = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27",
+                           "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
+                           "REGION_RAINBOW_ROUTE/ROOM_1_28"})
+        for keys in (False, True):
+            for policy in (*PUBLIC.values(), *SYNTHETIC.values()):
+                self.assertEqual(installer_probe(target, policy, area_keys=keys, reachable=access), (True, True))
+                self.assertEqual(installer_probe(target, policy, area_keys=keys, reachable=wrong), (True, False))
+
     def test_summary_is_bounded_and_deterministic(self) -> None:
         summary = status_tool.format_summary(REPORT)
         self.assertEqual(summary, status_tool.format_summary(status_tool.build_status()))

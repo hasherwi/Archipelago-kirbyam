@@ -2,18 +2,18 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "87d48d8dcea72ee06baa567a0243f49fc87535de36a672e8033c0ec3f9a57a6b",
+    "worlds/kirbyam/__init__.py": "0c5938413277b98e22f91c8079afc579f1010b9279992c6ba50c804cf82ad139",
     "worlds/kirbyam/ability_randomization.py": "2550ef827a51d406ef412a46e9184bb98da61014f21ac6aef1347eff215e778b",
     "worlds/kirbyam/enemy_ability_data.py": "8ecd2e11b456f4c7ab8c45403c82bbf02e29aac09cb17611990c962e229872bb",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "db508c41fa75b9f702adbee1bb6c57f73d161119a7d2ba5da97daea0ad5bb98d",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "222293c2f0af6e62059ff405cf18bf5f7489edf4514e10e219455ab32395f560",
-    "worlds/kirbyam/traversal.py": "1b133e4cac990d8dececd42e338cae3290e1d980187b0fc8944f49cbe0e9aa0a",
+    "worlds/kirbyam/data/regions/rooms.json": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+    "worlds/kirbyam/traversal.py": "88316aafca98d2791cf7fc874aafc4d1b95cf30a9f9d64c5038fb7a6f9564b1b",
     "worlds/kirbyam/traversal_data.py": "5455ab08271ddf377bc528f8197316e934a9d4cd608c93f5860c64b9b1eda6d7",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e"
   },
-  "witnesses": 145,
-  "variants": 290,
+  "witnesses": 146,
+  "variants": 292,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -113,6 +113,9 @@
     ],
     "bomb_138_green": [
       "Spark"
+    ],
+    "bomb_138_green_normal_lower_slide": [
+      "Normal"
     ],
     "bomb_538_beam_left_crossover": [
       "Beam"
@@ -2025,12 +2028,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "SPARKY",
-        "ability": "Spark"
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "SPARKY",
+        "Spark"
+      ],
       "equipment_routes": []
     },
     {
@@ -2055,12 +2058,12 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "SPARKY",
-        "ability": "Spark"
-      },
+      "target_source_condition": null,
       "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "graph_source_condition": [
+        "SPARKY",
+        "Spark"
+      ],
       "equipment_routes": []
     },
     {
@@ -13647,6 +13650,72 @@
           "to": "bomb_719_master:left_door",
           "required_equipment": [
             "Master"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_138_green",
+      "witness": "upper_left_normal_slide",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "bomb_138_green:normal_lower_slide",
+          "to": "bomb_138_green:normal_chest",
+          "capability": "bomb_138_green_normal_lower_slide",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_138_green:normal_lower_slide",
+          "to": "bomb_138_green:normal_chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_138_green",
+      "witness": "upper_left_normal_slide",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "bomb_138_green:normal_lower_slide",
+          "to": "bomb_138_green:normal_chest",
+          "capability": "bomb_138_green_normal_lower_slide",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_138_green:normal_lower_slide",
+          "to": "bomb_138_green:normal_chest",
+          "required_equipment": [
+            "Normal"
           ]
         }
       ]

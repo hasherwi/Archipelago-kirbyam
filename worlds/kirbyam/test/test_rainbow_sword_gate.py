@@ -64,7 +64,8 @@ def test_actual_world_policy_or_requires_only_the_available_permission(
         state.collect(world.create_item(f'{ability} Ability'), prevent_sweep=True)
     state.can_reach_region = lambda name, player: name in {OWNER, 'REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER'}
     assert not entrance.access_rule(state)
-    spark_progression = gating and resolver.grant('SPARKY', lambda _: True).guaranteed == frozenset({'Spark'})
+    # Room 110 and Green have Normal alternatives; Chocolate's actual Doo grant still promotes Spark.
+    spark_progression = gating and resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Spark'})
     assert world.create_item('Spark Ability').classification == (
         ItemClassification.progression if spark_progression else ItemClassification.useful)
     assert world.create_item('Sword Ability').classification == ItemClassification.progression
