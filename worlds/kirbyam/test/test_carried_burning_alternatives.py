@@ -9,6 +9,7 @@ import pytest
 from .. import traversal_rules as rules
 from ..traversal import METAL_BREAKING_ABILITIES, Position, SourcePolicy
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
+from .support.historical_graphs import historical_main_compiled
 from .test_metal_goal2 import simulate_burning_gating
 from .test_traversal import policy
 
@@ -269,8 +270,7 @@ def test_actual_ap_destination_cannot_bootstrap_its_own_source_path(
 
 
 @pytest.mark.parametrize("area_keys", [False, True])
-def test_all_preexisting_compiled_witnesses_remain_identical(area_keys: bool) -> None:
-    from dataclasses import asdict
+def test_historical_compiled_fingerprints_after_reviewed_extensions(area_keys: bool) -> None:
     import hashlib
     import json
     from pathlib import Path
@@ -283,7 +283,8 @@ def test_all_preexisting_compiled_witnesses_remain_identical(area_keys: bool) ->
     for target, witnesses in baseline["witnesses"].items():
         for witness in witnesses:
             graph = room_traversal_graph(target, witness, area_keys)
-            normalized = json.loads(json.dumps(asdict(graph), default=sorted, sort_keys=True))
+            historical = historical_main_compiled(graph, target, witness)
+            normalized = json.loads(json.dumps(historical, default=sorted, sort_keys=True))
             records.append([target, witness, normalized])
     assert len(records) == baseline["unchanged_witnesses"] == 92
     encoded = json.dumps(sorted(records), sort_keys=True, separators=(",", ":")).encode()

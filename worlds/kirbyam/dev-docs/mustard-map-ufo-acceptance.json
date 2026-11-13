@@ -1,0 +1,2320 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "Production mode1 single-UFO assignment-table writes before boot, not natural Twister grant. Startup590 at248,104; AI101. Actual590\u2192534\u2192310, finite original Twister acquisition, intact UFO carry, top-charge small-switch activation, timed crossing and chest39/Mustard map collection. No source-object or terrain replacement; no AP gate patch or direct1HP replay. Per-frame HP checked1085..3664.",
+  "policy": {
+    "policy": {
+      "mode": 1,
+      "allowed_abilities": [
+        "UFO"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 0,
+      "seed": 11313160015481018921,
+      "mapping_style": "per_enemy_type"
+    },
+    "writes": {
+      "3480246": 14,
+      "3480198": 14,
+      "3479526": 14,
+      "3479166": 14,
+      "3480078": 14,
+      "3480006": 14,
+      "3479142": 14,
+      "3479310": 14,
+      "3480030": 14,
+      "3479406": 14,
+      "3480318": 14,
+      "3483606": 14,
+      "3479574": 14,
+      "3479934": 14,
+      "3480126": 14,
+      "3479862": 14,
+      "3479886": 14,
+      "3479910": 14,
+      "3479358": 14,
+      "3480102": 14,
+      "3479598": 14,
+      "3479622": 14,
+      "3479478": 14,
+      "3480150": 14,
+      "3479838": 14,
+      "3479646": 14,
+      "3480342": 14,
+      "3479670": 14,
+      "3479382": 14,
+      "3479958": 14,
+      "3479694": 14,
+      "3482934": 14,
+      "3479286": 14,
+      "3479334": 14,
+      "3479718": 14,
+      "3479742": 14,
+      "3479790": 14,
+      "3479766": 14,
+      "3479118": 14,
+      "3479550": 14,
+      "3479814": 14,
+      "3480534": 14,
+      "3480630": 14,
+      "3480486": 14,
+      "3480558": 14,
+      "3480582": 14,
+      "3480606": 14,
+      "3480462": 14,
+      "3480510": 14,
+      "3480438": 14,
+      "3483390": 14,
+      "3483414": 14,
+      "3484014": 14,
+      "3480270": 14,
+      "3484038": 14,
+      "3483990": 14,
+      "3483918": 14,
+      "3483822": 14,
+      "3483846": 14,
+      "3483870": 14,
+      "3483894": 14,
+      "3483798": 14,
+      "3483102": 14,
+      "3483126": 14,
+      "3483006": 14,
+      "3483342": 14,
+      "3483270": 14,
+      "3483222": 14,
+      "3483246": 14,
+      "3483534": 14,
+      "3483486": 14,
+      "3483558": 14,
+      "3483582": 14
+    }
+  },
+  "replay_script_sha256": "9e2ebdc77155f65b7c6c0d5bf2e8d6c3831b206e17d38cc8f64537d9c5d29b99",
+  "object_decoder_sha256": "dcb4f5f8b2b8d3a8bc6979aaf50261fc688bdd982671ccfd5ee8ffe6126c3b8b",
+  "source": {
+    "template": "0x088B59B4",
+    "source_key": "TWISTER",
+    "native_room": 534,
+    "position": [
+      144,
+      280
+    ],
+    "guaranteed_assignment": "UFO"
+  },
+  "target": {
+    "template": "0x088C3F14",
+    "position": [
+      312,
+      144
+    ],
+    "native_room": 310,
+    "gate_template": "0x088C3F38",
+    "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+    "chest_template": "0x088C3FA4",
+    "chest_id": 39,
+    "map_bit": 4
+  },
+  "control_difference": "Only the120frame final left-facing charge at3203 is replaced by120neutral. Both release at3323 from421.5,136.99609375. Earlier source acquisition, combat shots, movement and final collection attempts are identical.",
+  "health_scope": "Samples50,100,450,451,462,463,500.462/463 straddle native4HP SwordKnight rounding18\u219219; top damage18 needs two hits above that boundary. Samples are not an exhaustive451-value sweep. No damage in accepted positives/controls.",
+  "limits": [
+    "No UFO low/medium or other ability equivalence claimed for this target.",
+    "One finite Twister source, no mixed/failable source-roll guarantee or renewable source inferred.",
+    "Do not infer all310 arrivals; independentHub4 access supplies this complete approach.",
+    "Enemy defeat and viewport continuity are part of carry; attacks alone are not proof of source or check access.",
+    "No Phone/helper, arbitrary dynamic target census, global distance maximum or AP-ROM playback claimed."
+  ],
+  "runs": {
+    "50-shot120": {
+      "health_percent": 50,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "573f5adb23a408f74275b58a7f8376c7fcbfa225e1445692f7d2606a3ebdcedc",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "dba1e9f5afb56cae7952f69ff523b4f9ee49726c125e19bfd503b2fe90567b6a",
+      "objects_sha256": "39610c780146a1d57aeee9e4f0e0fd17d4f1ad9c138b154b042332a8d8ca4fc0",
+      "rom_sha256": "41d59adcabb447f1eb71a796fcfb5a6739a727700944f7dd7e2f0b66f2702558",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "100-shot120": {
+      "health_percent": 100,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "c5598a884234380915936a600d5cd5a2457186ebb8efeb7b44bea6e3395f8cf5",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "cdbc1e41ef09f12f6ba51851ae4673dc9b509fc61c82d4e4d1c8541266e64ff9",
+      "objects_sha256": "92eef3f3ce47e638c677f3082e44b94ce1c2934154cb79629163de5e3300087f",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "100-shot0": {
+      "health_percent": 100,
+      "shot_charge_frames": 0,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "096669a1a6e811dc04749c4ccd33a8c7feef94b8714eadd46c53e038985687e8",
+      "canonical_inputs_sha256": "4d53d0927b6da629d31fe4867ea1f24fd5fd1579d72b8b66e2461f9c51b6af22",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "a81126b8257ee3bd0598db29964b428fb51e121fccdf867a14e17cb19c1100de",
+      "objects_sha256": "027c14d64033cc5618b348020dff9ce01d197b4440fb5478729fe98ece0d012a",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 426.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 426.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 426.0,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 426.0,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        }
+      ]
+    },
+    "450-shot120": {
+      "health_percent": 450,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "2ab5dd3017546297d01c78764f52b33ecde0aa71960ba37e071be3ecab77e7f4",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "b6d5be3b3079712a83808f6e318e2f3da2118ebed73ff84f7c0df0ee6188d409",
+      "objects_sha256": "5825a1cc3d2034d608edcf460cbb93094d71778b5d1ab8aaf4cc1894de728f48",
+      "rom_sha256": "f3ef6f00d9a814b19aedefcdba68de6d231c10d0dc82907ce2d290831a6bd806",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "451-shot120": {
+      "health_percent": 451,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "89c31e3a4c48e7982117eb64b4c997311b699a1d1c7288e6bcf74b1a7057e7ba",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "bd4506482a321083c8c684822d846d68bb47ca19287f2069e16ed6e9bf7c29d1",
+      "objects_sha256": "5825a1cc3d2034d608edcf460cbb93094d71778b5d1ab8aaf4cc1894de728f48",
+      "rom_sha256": "640760b5653b0faae4694bdc0b220b50854abbc5226b1ebe2c29ebfe871b6d00",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "462-shot120": {
+      "health_percent": 462,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "9bb949eddb1003892deb16a3e409d603e97fa430e0284eda0256091d7091938e",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "36cc7333346a16d8c6d51d403a63ffafefc9142e2c45b21cc6f12916156db33d",
+      "objects_sha256": "5825a1cc3d2034d608edcf460cbb93094d71778b5d1ab8aaf4cc1894de728f48",
+      "rom_sha256": "4d42d146898caed0c3da35df3c59d99918c2429f72c27e8352b965a8ba1e234e",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "463-shot120": {
+      "health_percent": 463,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "2c694527dd65e30651759d7f67ce42a8d135798f0702b355e20e523d011c4dcd",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "b1a916083a1e374da335a3440832f2f0a8994c612d9694a45ee58701b2b9f139",
+      "objects_sha256": "b663a7df580d9ea13263e74486f9aa45295f923b40422a1ef607afce0cf90a6c",
+      "rom_sha256": "9868d0780e3200faca87e5781563a89168be9b4983c3fb6e2402b2f0a7ce51c1",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "500-shot120": {
+      "health_percent": 500,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3204,
+          "0x806d0f5",
+          20
+        ],
+        [
+          3324,
+          "0x806dbcd",
+          31
+        ],
+        [
+          3341,
+          "0x806a85d",
+          0
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "c4b0f1a6cf5d28f94e411a39cc4d68049dce7f17295d1fad0e60b157bf423f65",
+      "canonical_inputs_sha256": "b8fcf91faab7a2b88a17d20e4793c325c2d6d91a0d6d29dc18e3cea93af1930a",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "42c06ae412505a17c311fbd672d7fd9ce9978f8c39948083400ef04f8962d437",
+      "objects_sha256": "8ee33377417d082b468f99ce1f706aea145f1d09040b51697fdacebf1b1f7103",
+      "rom_sha256": "2085c9202ab1fb4603bd975290e2736e5f5290e2e516865e9117fffdb44fef15",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 609.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 672.0,
+          "y": 135.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 672.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": true,
+          "mustard_map": true
+        }
+      ]
+    },
+    "500-shot0": {
+      "health_percent": 500,
+      "shot_charge_frames": 0,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2094,
+          310
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          1320,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          3203,
+          "0x806a85d",
+          1
+        ],
+        [
+          3345,
+          "0x806c5ad",
+          37
+        ]
+      ],
+      "runtime_sha256": "34eb7809ba9a3ac5f9b098992fd9d9e93c88cab77662c6c07713eca769c43b49",
+      "canonical_inputs_sha256": "4d53d0927b6da629d31fe4867ea1f24fd5fd1579d72b8b66e2461f9c51b6af22",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "c239de70541e934912f48db113d48e5e144d7a0366a5540bd1f69109a76009a3",
+      "objects_sha256": "94675e2d31c75b97abd441f8332bebaa1c95423ca96aff8c683d8211e25e46b7",
+      "rom_sha256": "2085c9202ab1fb4603bd975290e2736e5f5290e2e516865e9117fffdb44fef15",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1335,
+          "room": 534,
+          "x": 138.9609375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 1801,
+          "room": 534,
+          "x": 639.5859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2112,
+          "room": 310,
+          "x": 56.0,
+          "y": 136.49609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 2478,
+          "room": 310,
+          "x": 313.99609375,
+          "y": 77.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3012,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3162,
+          "room": 310,
+          "x": 393.49609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3203,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3323,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3343,
+          "room": 310,
+          "x": 421.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3468,
+          "room": 310,
+          "x": 426.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3589,
+          "room": 310,
+          "x": 426.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3604,
+          "room": 310,
+          "x": 426.0,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        },
+        {
+          "frame": 3664,
+          "room": 310,
+          "x": 426.0,
+          "y": 117.00390625,
+          "hp": 6,
+          "ability": 14,
+          "chest39": false,
+          "mustard_map": false
+        }
+      ]
+    }
+  },
+  "positive_inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1145,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 1165,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1225,
+      "frames": 50,
+      "keys": 17
+    },
+    {
+      "start": 1275,
+      "frames": 10,
+      "keys": 18
+    },
+    {
+      "start": 1285,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 1305,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 1335,
+      "frames": 55,
+      "keys": 80
+    },
+    {
+      "start": 1390,
+      "frames": 6,
+      "keys": 128
+    },
+    {
+      "start": 1396,
+      "frames": 20,
+      "keys": 2
+    },
+    {
+      "start": 1416,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 1446,
+      "frames": 70,
+      "keys": 16
+    },
+    {
+      "start": 1516,
+      "frames": 130,
+      "keys": 66
+    },
+    {
+      "start": 1646,
+      "frames": 15,
+      "keys": 0
+    },
+    {
+      "start": 1661,
+      "frames": 140,
+      "keys": 16
+    },
+    {
+      "start": 1801,
+      "frames": 45,
+      "keys": 128
+    },
+    {
+      "start": 1846,
+      "frames": 85,
+      "keys": 16
+    },
+    {
+      "start": 1931,
+      "frames": 20,
+      "keys": 16
+    },
+    {
+      "start": 1951,
+      "frames": 16,
+      "keys": 128
+    },
+    {
+      "start": 1967,
+      "frames": 20,
+      "keys": 2
+    },
+    {
+      "start": 1987,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 2007,
+      "frames": 75,
+      "keys": 16
+    },
+    {
+      "start": 2082,
+      "frames": 30,
+      "keys": 64
+    },
+    {
+      "start": 2112,
+      "frames": 52,
+      "keys": 64
+    },
+    {
+      "start": 2164,
+      "frames": 175,
+      "keys": 16
+    },
+    {
+      "start": 2339,
+      "frames": 48,
+      "keys": 130
+    },
+    {
+      "start": 2387,
+      "frames": 50,
+      "keys": 18
+    },
+    {
+      "start": 2437,
+      "frames": 26,
+      "keys": 66
+    },
+    {
+      "start": 2463,
+      "frames": 15,
+      "keys": 0
+    },
+    {
+      "start": 2478,
+      "frames": 14,
+      "keys": 64
+    },
+    {
+      "start": 2492,
+      "frames": 54,
+      "keys": 16
+    },
+    {
+      "start": 2546,
+      "frames": 89,
+      "keys": 2
+    },
+    {
+      "start": 2635,
+      "frames": 32,
+      "keys": 130
+    },
+    {
+      "start": 2667,
+      "frames": 15,
+      "keys": 0
+    },
+    {
+      "start": 2682,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 2802,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 2822,
+      "frames": 20,
+      "keys": 32
+    },
+    {
+      "start": 2842,
+      "frames": 8,
+      "keys": 16
+    },
+    {
+      "start": 2850,
+      "frames": 12,
+      "keys": 128
+    },
+    {
+      "start": 2862,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 2982,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 3012,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 3132,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 3162,
+      "frames": 17,
+      "keys": 16
+    },
+    {
+      "start": 3179,
+      "frames": 10,
+      "keys": 0
+    },
+    {
+      "start": 3189,
+      "frames": 4,
+      "keys": 32
+    },
+    {
+      "start": 3193,
+      "frames": 10,
+      "keys": 0
+    },
+    {
+      "start": 3203,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 3323,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 3343,
+      "frames": 125,
+      "keys": 16
+    },
+    {
+      "start": 3468,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 3483,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 3543,
+      "frames": 30,
+      "keys": 16
+    },
+    {
+      "start": 3573,
+      "frames": 16,
+      "keys": 128
+    },
+    {
+      "start": 3589,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 3604,
+      "frames": 60,
+      "keys": 0
+    }
+  ]
+}

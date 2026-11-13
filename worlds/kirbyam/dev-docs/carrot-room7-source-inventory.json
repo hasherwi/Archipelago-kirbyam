@@ -1,0 +1,219 @@
+{
+  "method": "Follow the record size stored at byte offset +1 until that size is zero. Header +0x0C counts types, not instances.",
+  "room": 719,
+  "list_index": 258,
+  "objects": [
+    {
+      "offset": "0x8d3924",
+      "size": 36,
+      "type": "0x8",
+      "xy": [
+        48,
+        136
+      ]
+    },
+    {
+      "offset": "0x8d3948",
+      "size": 36,
+      "type": "0xd",
+      "xy": [
+        104,
+        360
+      ]
+    },
+    {
+      "offset": "0x8d396c",
+      "size": 36,
+      "type": "0x34",
+      "xy": [
+        40,
+        368
+      ]
+    },
+    {
+      "offset": "0x8d3990",
+      "size": 36,
+      "type": "0x8",
+      "xy": [
+        472,
+        328
+      ]
+    },
+    {
+      "offset": "0x8d39b4",
+      "size": 36,
+      "type": "0x62",
+      "xy": [
+        672,
+        296
+      ]
+    },
+    {
+      "offset": "0x8d39d8",
+      "size": 36,
+      "type": "0x6f",
+      "xy": [
+        24,
+        232
+      ]
+    },
+    {
+      "offset": "0x8d39fc",
+      "size": 36,
+      "type": "0x80",
+      "xy": [
+        688,
+        216
+      ]
+    },
+    {
+      "offset": "0x8d3a20",
+      "size": 36,
+      "type": "0x11",
+      "xy": [
+        648,
+        288
+      ]
+    },
+    {
+      "offset": "0x8d3a44",
+      "size": 36,
+      "type": "0xd",
+      "xy": [
+        680,
+        40
+      ]
+    },
+    {
+      "offset": "0x8d3a68",
+      "size": 36,
+      "type": "0xd",
+      "xy": [
+        456,
+        424
+      ]
+    },
+    {
+      "offset": "0x8d3a8c",
+      "size": 36,
+      "type": "0x11",
+      "xy": [
+        512,
+        128
+      ]
+    },
+    {
+      "offset": "0x8d3ab0",
+      "size": 36,
+      "type": "0x11",
+      "xy": [
+        200,
+        304
+      ]
+    },
+    {
+      "offset": "0x8d3ad4",
+      "size": 36,
+      "type": "0xd",
+      "xy": [
+        408,
+        216
+      ]
+    },
+    {
+      "offset": "0x8d3af8",
+      "size": 36,
+      "type": "0xd",
+      "xy": [
+        312,
+        216
+      ]
+    },
+    {
+      "offset": "0x8d3b1c",
+      "size": 36,
+      "type": "0x11",
+      "xy": [
+        464,
+        128
+      ]
+    },
+    {
+      "offset": "0x8d3b40",
+      "size": 36,
+      "type": "0x6f",
+      "xy": [
+        392,
+        136
+      ]
+    },
+    {
+      "offset": "0x8d3b64",
+      "size": 36,
+      "type": "0x6f",
+      "xy": [
+        312,
+        136
+      ]
+    },
+    {
+      "offset": "0x8d3b88",
+      "size": 36,
+      "type": "0x6f",
+      "xy": [
+        232,
+        56
+      ]
+    },
+    {
+      "offset": "0x8d3bac",
+      "size": 36,
+      "type": "0x6f",
+      "xy": [
+        40,
+        376
+      ]
+    },
+    {
+      "offset": "0x8d3bd0",
+      "size": 36,
+      "type": "0x12",
+      "xy": [
+        616,
+        232
+      ]
+    },
+    {
+      "offset": "0x8d3bf4",
+      "size": 36,
+      "type": "0x12",
+      "xy": [
+        568,
+        456
+      ]
+    }
+  ],
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "object_list_field": "RoomProps +0x20",
+  "waddle_doo_templates": [
+    {
+      "offset": "0x8d3bd0",
+      "size": 36,
+      "type": "0x12",
+      "xy": [
+        616,
+        232
+      ]
+    },
+    {
+      "offset": "0x8d3bf4",
+      "size": 36,
+      "type": "0x12",
+      "xy": [
+        568,
+        456
+      ]
+    }
+  ],
+  "limitations": "Static original USA source placements, not acquisition or carry witnesses. Supersedes an unpublished truncated audit; no absence claim follows from a header type count."
+}

@@ -1,0 +1,874 @@
+{
+  "positive": {
+    "identity": {
+      "rom_sha256": "356a397e8746eaf4dcff5b07b5808b0fcb5e6c9f6f8ec3e9b5c220897bc3291b",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 1085,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 1086,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1176,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 1206,
+        "frames": 20,
+        "keys": 1
+      },
+      {
+        "start": 1226,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1227,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1228,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1229,
+        "frames": 60,
+        "keys": 2
+      },
+      {
+        "start": 1289,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 1349,
+        "frames": 40,
+        "keys": 80
+      },
+      {
+        "start": 1389,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1390,
+        "frames": 50,
+        "keys": 17
+      },
+      {
+        "start": 1440,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1441,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 1442,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 1562,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 1682,
+        "frames": 30,
+        "keys": 32
+      },
+      {
+        "start": 1712,
+        "frames": 30,
+        "keys": 64
+      },
+      {
+        "start": 1742,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1832,
+        "frames": 60,
+        "keys": 2
+      },
+      {
+        "start": 1892,
+        "frames": 15,
+        "keys": 16
+      },
+      {
+        "start": 1907,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1997,
+        "frames": 20,
+        "keys": 32
+      },
+      {
+        "start": 2017,
+        "frames": 20,
+        "keys": 64
+      },
+      {
+        "start": 2037,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 20,
+        "keys": 32
+      },
+      {
+        "start": 2147,
+        "frames": 30,
+        "keys": 0
+      },
+      {
+        "start": 2177,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 2178,
+        "frames": 90,
+        "keys": 0
+      }
+    ],
+    "writes": [],
+    "checkpoints": [
+      {
+        "label": "acquired",
+        "frame": 1176,
+        "room": 110,
+        "x": 168.0,
+        "y": 918.67578125,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "target",
+        "frame": 1349,
+        "room": 110,
+        "x": 185.99609375,
+        "y": 936.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cross",
+        "frame": 1832,
+        "room": 110,
+        "x": 214.0,
+        "y": 984.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "lower",
+        "frame": 2127,
+        "room": 110,
+        "x": 215.85546875,
+        "y": 1095.83984375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "exit",
+        "frame": 2268,
+        "room": 554,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "control": {
+    "identity": {
+      "rom_sha256": "356a397e8746eaf4dcff5b07b5808b0fcb5e6c9f6f8ec3e9b5c220897bc3291b",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 1085,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 1086,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1176,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 1206,
+        "frames": 20,
+        "keys": 1
+      },
+      {
+        "start": 1226,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1227,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1228,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1229,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 1289,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 1349,
+        "frames": 40,
+        "keys": 80
+      },
+      {
+        "start": 1389,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1390,
+        "frames": 50,
+        "keys": 17
+      },
+      {
+        "start": 1440,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1441,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 1442,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 1562,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 1682,
+        "frames": 30,
+        "keys": 32
+      },
+      {
+        "start": 1712,
+        "frames": 30,
+        "keys": 64
+      },
+      {
+        "start": 1742,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1832,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 1892,
+        "frames": 15,
+        "keys": 16
+      },
+      {
+        "start": 1907,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 1997,
+        "frames": 20,
+        "keys": 32
+      },
+      {
+        "start": 2017,
+        "frames": 20,
+        "keys": 64
+      },
+      {
+        "start": 2037,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 20,
+        "keys": 32
+      },
+      {
+        "start": 2147,
+        "frames": 30,
+        "keys": 0
+      },
+      {
+        "start": 2177,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 2178,
+        "frames": 90,
+        "keys": 0
+      }
+    ],
+    "writes": [],
+    "checkpoints": [
+      {
+        "label": "acquired",
+        "frame": 1176,
+        "room": 110,
+        "x": 168.0,
+        "y": 918.67578125,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "target",
+        "frame": 1349,
+        "room": 110,
+        "x": 185.99609375,
+        "y": 936.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "cross",
+        "frame": 1832,
+        "room": 110,
+        "x": 192.66796875,
+        "y": 888.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "lower",
+        "frame": 2127,
+        "room": 110,
+        "x": 187.3828125,
+        "y": 888.99609375,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "exit",
+        "frame": 2268,
+        "room": 110,
+        "x": 162.171875,
+        "y": 908.83203125,
+        "hp": 6,
+        "ability": 15,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  }
+}

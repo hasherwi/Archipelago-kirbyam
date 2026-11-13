@@ -123,6 +123,25 @@ def _has_all_shards(state: CollectionState, player: int) -> bool:
     return state.has_from_list_unique(_SHARD_ITEM_LABELS, player, len(_SHARD_ITEM_LABELS))
 
 
+def can_complete_dark_mind_sequence(state: CollectionState, player: int) -> bool:
+    """Existing reached-boss model, never selected/unselected-goal shortcuts.
+
+    Actual native victory and ordinary Continue are still needed in game. This
+    predicate models the opportunity, not a client receipt or equipped Master.
+    """
+    return (_has_all_shards(state, player)
+            and state.can_reach_region("REGION_DIMENSION_MIRROR/MAIN", player)
+            and state.has(_DMK_DIMENSION_MIRROR_EVENT, player))
+
+
+def install_central_return_rule(world: KirbyAmWorld) -> None:
+    from .master_source import CENTRAL_RETURN_EVENT
+
+    # Missing declared event is a schema defect, not an optional goal.
+    event = world.multiworld.get_location(CENTRAL_RETURN_EVENT, world.player)
+    set_rule(event, lambda state: can_complete_dark_mind_sequence(state, world.player))
+
+
 def _allow_pending_ability_gate(_state: CollectionState, _player: int, _gate_name: str) -> bool:
     return True
 
@@ -440,6 +459,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         applied_stake_gates,
         ", ".join(get_stake_breaking_abilities()),
     )
+
+    install_central_return_rule(world)
 
     from .mini_traversal import install_mini_rules
     install_mini_rules(world)

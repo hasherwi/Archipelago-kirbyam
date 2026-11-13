@@ -1,0 +1,485 @@
+{
+  "schema_version": 1,
+  "status": "Native endpoint reviewed; qualified831 ingress established separately by composition evidence",
+  "scope": "Same Sound Effects target; exact dry native825 UFO top-charge alternative only.",
+  "qualified_entry": {
+    "room": 831,
+    "startup_xy": [
+      1192,
+      120
+    ],
+    "actual_control_start_xy": [
+      1176,
+      105.14453125
+    ],
+    "ap_region": "REGION_OLIVE_OCEAN/ROOM_6_14",
+    "logical_compartments_declared_in_current_room_data": false,
+    "door_template": "0x088CDDC0",
+    "door_xy": [
+      1192,
+      120
+    ],
+    "door_transition_record": "0x8a63e0",
+    "transition_source_tiles": [
+      74,
+      7
+    ],
+    "destination_room": 825,
+    "destination_spawn_tiles": [
+      18,
+      19
+    ],
+    "live_arrival_xy": [
+      280,
+      296.99609375
+    ],
+    "source_start_bound": "Far-right door alcove; no assertion that arbitrary ROOM_6_14 arrival reaches it. Current can_swim edge is not a compartment proof.",
+    "helpers": "Other three Kirbys start and remain room101; no helper interaction. Not a multiplayer acceptance."
+  },
+  "source": {
+    "generation_seed": 5,
+    "policy_seed": 2089474284528698192,
+    "mode": "full-pool shuffled per enemy type",
+    "allowed_ability_count": 25,
+    "no_ability_weight": 0,
+    "source": "MR_FROSTY",
+    "template": "0x088CD3F0",
+    "table_offset": "0x351B8E",
+    "source_bitmap_index": 56,
+    "grant": "UFO",
+    "runtime_id": 14,
+    "ability_gating": false,
+    "area_keys": false
+  },
+  "target": {
+    "native_room": 825,
+    "button_template": "0x088CD360",
+    "button_xy": [
+      656,
+      145.99609375
+    ],
+    "button_mask": "0x80",
+    "button_damage_box": [
+      -7,
+      -10,
+      7,
+      4
+    ],
+    "gate_template": "0x088CD33C",
+    "chest_template": "0x088CD2F4",
+    "chest66": true,
+    "client_location": 3960523,
+    "attack": "UFO top-charge Piercing Heat Beam",
+    "attack_mask": "0x20001103",
+    "terrain_skip_flag": "0x100",
+    "attack_damage": 18,
+    "attack_parent": "0x02020EE0",
+    "behavior": "Continuous top-charge shot through the separated wall activates timed switch; physical gate crossing and native minor chest event poll follow. No permanent switch event or metal destruction claim."
+  },
+  "native_runs": [
+    {
+      "name": "final100-1hp-positive",
+      "enemy_health_percent": 100,
+      "kirby_hp": 1,
+      "passed": true,
+      "samples": 3335,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 30,
+      "frosty_first_zero_frame": 3333,
+      "ufo_acquired_frame": 3612,
+      "top_shot_first_frame": 4118,
+      "activation_frame": 4141,
+      "chest66_frame": 4341,
+      "final_x": 657.59765625,
+      "final_y": 100.9921875,
+      "native_music": 0,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "36054dbe5df443ae8a5a25229638db134613547c2f454e5cddb823df4e57dde8",
+      "trace_sha256": "a3377b22ce4b46382301eea206b995fecdce48a2a612c408edd70b39a29da56b",
+      "input_sha256": "0670c458e1615d715fa05e44b0a9b51cb5115b95be687bf4451d311aea3b5c2f"
+    },
+    {
+      "name": "final100-1hp-no-target-attack",
+      "enemy_health_percent": 100,
+      "kirby_hp": 1,
+      "passed": true,
+      "samples": 3335,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 30,
+      "frosty_first_zero_frame": 3333,
+      "ufo_acquired_frame": 3612,
+      "top_shot_first_frame": null,
+      "activation_frame": null,
+      "chest66_frame": null,
+      "final_x": 568.0,
+      "final_y": 102.4921875,
+      "native_music": 0,
+      "client_messages": [],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "610237ee4a75e05bdb0bce089346c36d4939a8a7affeaeaecd5829c75089157e",
+      "trace_sha256": "d86d9055e97d72c484d2d53553c0fd0b4c906a8459086339e8627d847556154e",
+      "input_sha256": "a40bee4687c9cd9703d5d999e74667ffb4c9b40e9fdd84529e5504ece5779abc"
+    },
+    {
+      "name": "final100-6hp-positive",
+      "enemy_health_percent": 100,
+      "kirby_hp": 6,
+      "passed": true,
+      "samples": 3335,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 30,
+      "frosty_first_zero_frame": 3333,
+      "ufo_acquired_frame": 3612,
+      "top_shot_first_frame": 4118,
+      "activation_frame": 4141,
+      "chest66_frame": 4341,
+      "final_x": 657.59765625,
+      "final_y": 100.9921875,
+      "native_music": 0,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "4602fa1f6045ee51414bcfe2fab1f6a1184b622d7217943da45833b5c4f9dfe2",
+      "trace_sha256": "0b0f68716040b0483e6036061e81e6c04ec7944bce353678304078135cd4247f",
+      "input_sha256": "0670c458e1615d715fa05e44b0a9b51cb5115b95be687bf4451d311aea3b5c2f"
+    },
+    {
+      "name": "final100-6hp-no-target-attack",
+      "enemy_health_percent": 100,
+      "kirby_hp": 6,
+      "passed": true,
+      "samples": 3335,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 30,
+      "frosty_first_zero_frame": 3333,
+      "ufo_acquired_frame": 3612,
+      "top_shot_first_frame": null,
+      "activation_frame": null,
+      "chest66_frame": null,
+      "final_x": 568.0,
+      "final_y": 102.4921875,
+      "native_music": 0,
+      "client_messages": [],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "a73016dcbfbc63037d31944829c9b977b003536296f6082da8ce9fb3f4630ab2",
+      "trace_sha256": "3c3967d72cccb173a85dbcffde7aeaa98c8ece94a8d3f409a538260ce74065f9",
+      "input_sha256": "a40bee4687c9cd9703d5d999e74667ffb4c9b40e9fdd84529e5504ece5779abc"
+    },
+    {
+      "name": "safe500-1hp-positive",
+      "enemy_health_percent": 500,
+      "kirby_hp": 1,
+      "passed": true,
+      "samples": 9428,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 150,
+      "frosty_first_zero_frame": 9445,
+      "ufo_acquired_frame": 9703,
+      "top_shot_first_frame": 10211,
+      "activation_frame": 10234,
+      "chest66_frame": 10434,
+      "final_x": 657.98046875,
+      "final_y": 100.9921875,
+      "native_music": 0,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "9f8ac2a7d024dd05eaa76e359b60b2ac387772b0d779afeef94fd52011f88df4",
+      "trace_sha256": "2e9561d5048e9e224209ff3cd92e33fbf040ba4639ecc558149edccb88e8786e",
+      "input_sha256": "79756005636c4af37826bc27a38d87971595c872cffcd2c1b89f5caaf0aba55f"
+    },
+    {
+      "name": "safe500-1hp-no-target-attack",
+      "enemy_health_percent": 500,
+      "kirby_hp": 1,
+      "passed": true,
+      "samples": 9428,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 150,
+      "frosty_first_zero_frame": 9445,
+      "ufo_acquired_frame": 9703,
+      "top_shot_first_frame": null,
+      "activation_frame": null,
+      "chest66_frame": null,
+      "final_x": 568.0,
+      "final_y": 102.4921875,
+      "native_music": 0,
+      "client_messages": [],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "8c0137d809a61d6aaaa96d86ec1fddebd50100f67e4e7b83b17f1fceeb0ed811",
+      "trace_sha256": "d690a7e269faa53c43538f61b47ffc5102f7cc90eb665a6841e28eda3d609362",
+      "input_sha256": "0f0fd8912ddb01479a7915fcdded10a73251c63245422d81750a00ce6bffb861"
+    },
+    {
+      "name": "safe500-6hp-positive",
+      "enemy_health_percent": 500,
+      "kirby_hp": 6,
+      "passed": true,
+      "samples": 9428,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 150,
+      "frosty_first_zero_frame": 9445,
+      "ufo_acquired_frame": 9703,
+      "top_shot_first_frame": 10211,
+      "activation_frame": 10234,
+      "chest66_frame": 10434,
+      "final_x": 657.98046875,
+      "final_y": 100.9921875,
+      "native_music": 0,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "cd43221a5e186c153593213f4be83f8b924f772e8de07aad9cf185abc9a351c1",
+      "trace_sha256": "fdbd5478445e818367ff0fbb91ce87bd6d2cf8d1918d25253753adbbe9adffbb",
+      "input_sha256": "79756005636c4af37826bc27a38d87971595c872cffcd2c1b89f5caaf0aba55f"
+    },
+    {
+      "name": "safe500-6hp-no-target-attack",
+      "enemy_health_percent": 500,
+      "kirby_hp": 6,
+      "passed": true,
+      "samples": 9428,
+      "arrival": {
+        "frame": 1306,
+        "x": 280.0,
+        "y": 296.99609375
+      },
+      "frosty_initial_hp": 150,
+      "frosty_first_zero_frame": 9445,
+      "ufo_acquired_frame": 9703,
+      "top_shot_first_frame": null,
+      "activation_frame": null,
+      "chest66_frame": null,
+      "final_x": 568.0,
+      "final_y": 102.4921875,
+      "native_music": 0,
+      "client_messages": [],
+      "configuration_writes": 8,
+      "gameplay_writes": 0,
+      "restores": 0,
+      "result_sha256": "dd0b64b7ac05a7d78b101e8d9e380db5bf3bf993d8c148e6879ba7d297edb312",
+      "trace_sha256": "4f5a03a7c3c22c7dcff479d7d58a091e3d0d107fa15f17e9aae8cb934a5f0c5c",
+      "input_sha256": "0f0fd8912ddb01479a7915fcdded10a73251c63245422d81750a00ce6bffb861"
+    }
+  ],
+  "interception_runs": [
+    {
+      "name": "audit100-positive",
+      "waddle_hp_before": 2,
+      "waddle_hp_after": -16,
+      "hit_frame": 4058,
+      "shot": {
+        "task": "0x3001c70",
+        "object": "0x3003cc0",
+        "task_fn": "0x8070581",
+        "name": "projectile",
+        "template": "0x4046400",
+        "parent": "0x2020ee0",
+        "type": 0,
+        "copy": 221,
+        "hp": 0,
+        "x": 510.09765625,
+        "y": 129.4921875,
+        "flags": "0xa0044100",
+        "mask": "0x20001103",
+        "callback": "0x0",
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "b4": 735
+      },
+      "switch_frame": 4081,
+      "same_live_projectile_at_switch": {
+        "task": "0x3001c70",
+        "object": "0x3003cc0",
+        "task_fn": "0x8070581",
+        "name": "projectile",
+        "template": "0x4046400",
+        "parent": "0x2020ee0",
+        "type": 0,
+        "copy": 221,
+        "hp": 0,
+        "x": 648.09765625,
+        "y": 129.4921875,
+        "flags": "0xa0044102",
+        "mask": "0x20001103",
+        "callback": "0x0",
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "b4": 735
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "result_sha256": "11ecd322a662244369cadd036eda0d9a6f60c3ecd43811fe39c0c545f0354a01",
+      "trace_sha256": "a53127075b8366aa3900fe5e807340c9353f4466cf349716f0149c42f0f1026a"
+    },
+    {
+      "name": "audit500-interception",
+      "waddle_hp_before": 10,
+      "waddle_hp_after": -8,
+      "hit_frame": 10151,
+      "shot": {
+        "task": "0x3001b94",
+        "object": "0x3003f50",
+        "task_fn": "0x8070581",
+        "name": "projectile",
+        "template": "0x300",
+        "parent": "0x2020ee0",
+        "type": 0,
+        "copy": 221,
+        "hp": 0,
+        "x": 510.48046875,
+        "y": 129.4921875,
+        "flags": "0xa0044100",
+        "mask": "0x20001103",
+        "callback": "0x0",
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "b4": 687
+      },
+      "switch_frame": 10174,
+      "same_live_projectile_at_switch": {
+        "task": "0x3001b94",
+        "object": "0x3003f50",
+        "task_fn": "0x8070581",
+        "name": "projectile",
+        "template": "0x300",
+        "parent": "0x2020ee0",
+        "type": 0,
+        "copy": 221,
+        "hp": 0,
+        "x": 648.48046875,
+        "y": 129.4921875,
+        "flags": "0xa0044102",
+        "mask": "0x20001103",
+        "callback": "0x0",
+        "damage_box": [
+          -16,
+          -14,
+          13,
+          14
+        ],
+        "b4": 687
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "result_sha256": "345f7b22b16b9580bab0a792c29e3ffb7d32feac743a014cfae77e6a0fb61d08",
+      "trace_sha256": "bb2cffdc8655c7e9bbb1c98c60c795039ab2e4ce9636763677d9431934ba7111"
+    }
+  ],
+  "limitations": [
+    "No all-health-continuum assertion between tested enemy100/500 and KirbyHP1/6 endpoints.",
+    "No arbitrary upstream831 ingress, global UFO carry, other ranged abilities, or other small-switch equivalence.",
+    "No server submission: actual production client poll captured locally.",
+    "Retain existing frozen_825_sound_effects Ice rule unchanged. UFO does not require a Waddle-derived frozen finite projectile; its fresh source and carry must have their own reviewed traversal.",
+    "Exploration failures are excluded; accepted runs cold-boot complete controller manifests without savestates.",
+    "Ability gating and area keys were disabled in native fixtures. Host tests separately cover permission gating, keys and statues; they do not constitute new native acceptance."
+  ],
+  "provenance": {
+    "reviewed_packet_sha256": "b78460bf4cdca6c470612c30fa98c5c7d3436e2c0b34122c8f3f10d4aa4f6577",
+    "baseline_commits": [
+      "b94ab98259fe1b48987459e1b8a1a1e6dd8504ea",
+      "c74f0c219751feea9eebc29951f2a4a081cbf991"
+    ],
+    "controller_sha256": {
+      "build.py": "157a294b8ffaee5a671fc60e512f1332cde0de2abb93e6ee1559ba4491b96277",
+      "audit.py": "81f195532b3083717a33084777657c5c581bc9ee70c3beed6fa13dba06bc1eee",
+      "safe-manifest.json": "b97f6211ffc0045707b7e05b9bfe69b0067e4bab5c5c43662df9271409074360",
+      "500-safe-manifest.json": "be066582d7ee7190a534ad3bed1bc4a4e9e822a541aff1221dca59d321a291b6",
+      "500-interception-manifest.json": "f58bda1dd3db881719721cac265546cbf61f3b05a890b9038a74d753080947e0",
+      "geometry.py": "054979f96dfbde0c2eca67a3651971debbfeec76aa223e70af35d3cdee74bd84"
+    },
+    "audit_dependency_sha256": "35cac89bd4f0857d7d028af771bc00dc023c419026a618e0619efdc6b9f30fdc"
+  }
+}

@@ -1,0 +1,2798 @@
+{
+  "status": "PASS_BOUNDED",
+  "new_no_hit_1hp_runs": 26,
+  "known_tuple_classes": 32,
+  "primary_representatives": 6,
+  "tuple_coverage": [
+    {
+      "tuple": [
+        1,
+        1,
+        2
+      ],
+      "lo": 50,
+      "hi": 62,
+      "representative": {
+        "run": "run50",
+        "percent": 50,
+        "packet": "supplement",
+        "input_sha256": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "state_sha256": "ba4021bd9d4c39e470208dc275a729ec780e06aa7cc8219ca52c27a663ca8aba"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        1,
+        3
+      ],
+      "lo": 63,
+      "hi": 74,
+      "representative": {
+        "run": "run63",
+        "percent": 63,
+        "packet": "supplement",
+        "input_sha256": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "state_sha256": "651dd1bd32865e6434564b982d9818526a4c4f44ee38e7ced9dcc2560498a539"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        2,
+        3
+      ],
+      "lo": 75,
+      "hi": 87,
+      "representative": {
+        "run": "run75",
+        "percent": 75,
+        "packet": "supplement",
+        "input_sha256": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "state_sha256": "051cd638e5d790a52cec5c9e8ef646b8ed4b7962385ad6aefa777b561170c496"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        2,
+        4
+      ],
+      "lo": 88,
+      "hi": 112,
+      "representative": {
+        "run": "full05",
+        "percent": 100,
+        "packet": "primary",
+        "input_sha256": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "state_sha256": "33eac67a828f21c59722cc0fa57f72a2b865bb29d942ca8a501aa4bd5ea2b1b7"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        2,
+        5
+      ],
+      "lo": 113,
+      "hi": 124,
+      "representative": {
+        "run": "boundary124",
+        "percent": 124,
+        "packet": "primary",
+        "input_sha256": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "state_sha256": "8f8cdc1824614c0395c0288b835050bb88e283b8eb57200409b2ac1d8ff11007"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        3,
+        5
+      ],
+      "lo": 125,
+      "hi": 137,
+      "representative": {
+        "run": "boundary125",
+        "percent": 125,
+        "packet": "primary",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "6c4c836ccba0cf1873ffbb93218c4f1d24cea5d4238be993bf7adfe28027c78b"
+      }
+    },
+    {
+      "tuple": [
+        1,
+        3,
+        6
+      ],
+      "lo": 138,
+      "hi": 149,
+      "representative": {
+        "run": "run138",
+        "percent": 138,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "b259d970c0da2b3aa3c917d14bde9c51fb69cebf3a0d48665067dd9333a42f65"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        3,
+        6
+      ],
+      "lo": 150,
+      "hi": 162,
+      "representative": {
+        "run": "run150",
+        "percent": 150,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "8515c388f0d8a63e48cb76bd400c095cc8c50b21567a992490976ebeef30cd09"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        3,
+        7
+      ],
+      "lo": 163,
+      "hi": 174,
+      "representative": {
+        "run": "run163",
+        "percent": 163,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "92092b41021a7fe1733c906e9ca265e553814918e746b94b4131d2b8521e27bc"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        4,
+        7
+      ],
+      "lo": 175,
+      "hi": 187,
+      "representative": {
+        "run": "run175",
+        "percent": 175,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "5465ba49f73993df804e6a8c97dd70b584f3cdc5cb19b300610699c4dde1b020"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        4,
+        8
+      ],
+      "lo": 188,
+      "hi": 212,
+      "representative": {
+        "run": "run188",
+        "percent": 188,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "9d87cf87875cdbb4ed20464ac6aa64485a9437eeba64c984038a8621b219927a"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        4,
+        9
+      ],
+      "lo": 213,
+      "hi": 224,
+      "representative": {
+        "run": "run213",
+        "percent": 213,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "7fe407a6cb480089a12598d6bd12b71243d80326c264605ad2297a1ab6213501"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        5,
+        9
+      ],
+      "lo": 225,
+      "hi": 237,
+      "representative": {
+        "run": "run225",
+        "percent": 225,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "6532ab76d18bb2182db22251daf3da25488f46b0f07fdafb5efd403c9b0825a5"
+      }
+    },
+    {
+      "tuple": [
+        2,
+        5,
+        10
+      ],
+      "lo": 238,
+      "hi": 249,
+      "representative": {
+        "run": "run238",
+        "percent": 238,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "abf3eb6418e154287d3c89c6800388bfdbd495d3327ca2a393f0808bf860000f"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        5,
+        10
+      ],
+      "lo": 250,
+      "hi": 262,
+      "representative": {
+        "run": "run250",
+        "percent": 250,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "2284d5606a2565681257229aef373deb77501cdb4a9e75ea3a7b60eea413e63e"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        5,
+        11
+      ],
+      "lo": 263,
+      "hi": 274,
+      "representative": {
+        "run": "run263",
+        "percent": 263,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "982c9693abfa6b819e9f6884e8ce963c86a089503f65544caa197742ebf06acf"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        6,
+        11
+      ],
+      "lo": 275,
+      "hi": 287,
+      "representative": {
+        "run": "run275",
+        "percent": 275,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "c0ff5c1895fef6cfecd6004a2c4fec2f01e01ea5310ec7f4e3b162219fec3723"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        6,
+        12
+      ],
+      "lo": 288,
+      "hi": 312,
+      "representative": {
+        "run": "run288",
+        "percent": 288,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "99aa502c0cb822935f6597706d7ae99e4e7a0c6f96f8c7c1148d84578fe2f5b0"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        6,
+        13
+      ],
+      "lo": 313,
+      "hi": 324,
+      "representative": {
+        "run": "run313",
+        "percent": 313,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "f1ccde0dbbc3475c3f1b5815b9608e89a19a2158d32f98b8289b4c0be9205f01"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        7,
+        13
+      ],
+      "lo": 325,
+      "hi": 337,
+      "representative": {
+        "run": "run325",
+        "percent": 325,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "70aa7fe2c8a60d99057dcd389c877987b6ab52952b43653a5116ece89418b517"
+      }
+    },
+    {
+      "tuple": [
+        3,
+        7,
+        14
+      ],
+      "lo": 338,
+      "hi": 349,
+      "representative": {
+        "run": "boundary349",
+        "percent": 349,
+        "packet": "primary",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "c9f64914db384cdacab8a57d5892a145b224cc331f01885f0f1562a7f9430cbc"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        7,
+        14
+      ],
+      "lo": 350,
+      "hi": 362,
+      "representative": {
+        "run": "boundary350",
+        "percent": 350,
+        "packet": "primary",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "4c7dbc6d63db3cbee2c7195db045c59fb06f3f6505f023cd4a33fe2fd7f4deeb"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        7,
+        15
+      ],
+      "lo": 363,
+      "hi": 374,
+      "representative": {
+        "run": "run363",
+        "percent": 363,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "778a746af41f48b28cbf654077baa1b8ae216f6e9f86b54cce88e71739535cd8"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        8,
+        15
+      ],
+      "lo": 375,
+      "hi": 387,
+      "representative": {
+        "run": "run375",
+        "percent": 375,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "f1efe3e586959f427f05f9de6883100ea394a407197e68fb9d1c0b57dc26c99a"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        8,
+        16
+      ],
+      "lo": 388,
+      "hi": 412,
+      "representative": {
+        "run": "run388",
+        "percent": 388,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "a9900f1acf946c3aeda5f5d5db26cd0e691179237459c53675d41e6ce775f86f"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        8,
+        17
+      ],
+      "lo": 413,
+      "hi": 424,
+      "representative": {
+        "run": "run413",
+        "percent": 413,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "284b13e5b3d2a58de1cddb7c223f32968041e8ed261971354ada948e8b4c4a44"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        9,
+        17
+      ],
+      "lo": 425,
+      "hi": 437,
+      "representative": {
+        "run": "run425",
+        "percent": 425,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "70bee5e5ef93d9c90298deb3bd49baf0e768e86e882bed74b7eec2a9336e0580"
+      }
+    },
+    {
+      "tuple": [
+        4,
+        9,
+        18
+      ],
+      "lo": 438,
+      "hi": 449,
+      "representative": {
+        "run": "run438",
+        "percent": 438,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "d331223a75e54019ee4fca6b398f5073a7f28f3b03874be5c6721b8fb636f518"
+      }
+    },
+    {
+      "tuple": [
+        5,
+        9,
+        18
+      ],
+      "lo": 450,
+      "hi": 462,
+      "representative": {
+        "run": "run450",
+        "percent": 450,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "7bdf6be3bb360883560f6172f607bf84a1435f3d614a4511ff2788ac65639dcb"
+      }
+    },
+    {
+      "tuple": [
+        5,
+        9,
+        19
+      ],
+      "lo": 463,
+      "hi": 474,
+      "representative": {
+        "run": "run463",
+        "percent": 463,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "f1fc42a8ba5e939c3b9db91052c00777512ad43928810cb07dfc418a78877e42"
+      }
+    },
+    {
+      "tuple": [
+        5,
+        10,
+        19
+      ],
+      "lo": 475,
+      "hi": 487,
+      "representative": {
+        "run": "run475",
+        "percent": 475,
+        "packet": "supplement",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "1a71ec9f814631286348e34beff34c4e8713be27b8e991fcbd25566ff8de658b"
+      }
+    },
+    {
+      "tuple": [
+        5,
+        10,
+        20
+      ],
+      "lo": 488,
+      "hi": 500,
+      "representative": {
+        "run": "full500-04",
+        "percent": 500,
+        "packet": "primary",
+        "input_sha256": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "state_sha256": "ec13ff29f443839ad39ace92534f46399db56573a5eea82cd387f330f20e543b"
+      }
+    }
+  ],
+  "positive_runs": [
+    {
+      "run": "run50",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 50,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner_frame": 6798,
+      "rounded_hp_tuple": [
+        1,
+        1,
+        2
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 1
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 2
+        },
+        "0x88b6138": {
+          "frame": 5501,
+          "hp": 2
+        },
+        "0x88b6060": {
+          "frame": 6311,
+          "hp": 1
+        }
+      },
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "ba4021bd9d4c39e470208dc275a729ec780e06aa7cc8219ca52c27a663ca8aba",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "5ac94db217447ea6d6611f443b92a3fc2e37cf032b33f525946b93758a7d8f0b"
+      },
+      "fixture_sha256": "adfebb3aa72193058f8e46d77cff5d9cc0bfd0ef38de913954ad7ae3df108d41"
+    },
+    {
+      "run": "run63",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 63,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner_frame": 6798,
+      "rounded_hp_tuple": [
+        1,
+        1,
+        3
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 1
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 3
+        },
+        "0x88b6138": {
+          "frame": 5501,
+          "hp": 3
+        },
+        "0x88b6060": {
+          "frame": 6311,
+          "hp": 1
+        }
+      },
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "651dd1bd32865e6434564b982d9818526a4c4f44ee38e7ced9dcc2560498a539",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "ee9eca97cdcd76c54351536c507a85e46a4ea7e361fed9e25ebc50bffd1c37a8"
+      },
+      "fixture_sha256": "47eb0ab94352a0dce1ff14f0353c623f12ccac6d5babec9afb6453b4620bcc61"
+    },
+    {
+      "run": "run75",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 75,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner_frame": 6798,
+      "rounded_hp_tuple": [
+        1,
+        2,
+        3
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 2
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 3
+        },
+        "0x88b6138": {
+          "frame": 5501,
+          "hp": 3
+        },
+        "0x88b6060": {
+          "frame": 6311,
+          "hp": 1
+        }
+      },
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "051cd638e5d790a52cec5c9e8ef646b8ed4b7962385ad6aefa777b561170c496",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "9a6dc845336631c3fb9d00cc5047d7fa948adba43e042703402b6105c3f5cd47"
+      },
+      "fixture_sha256": "3fadeaea6a1b0a9e17dd64720d74762f22e29d941284267db2d1af4a0783a3c8"
+    },
+    {
+      "run": "run138",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 138,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        1,
+        3,
+        6
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 3
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 6
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 6
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 1
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "b259d970c0da2b3aa3c917d14bde9c51fb69cebf3a0d48665067dd9333a42f65",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "8e1b3a9729d8770e9684845d2b8038d2552912d2334a8ab597fb506ee510630f"
+      },
+      "fixture_sha256": "6c10509f679e47b05616c95e28bd1632caf8ccdddd2f84a58d8f5004cbaa8b4c"
+    },
+    {
+      "run": "run150",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 150,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        3,
+        6
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 3
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 6
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 6
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "8515c388f0d8a63e48cb76bd400c095cc8c50b21567a992490976ebeef30cd09",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "0fc0bb131c1771e6ee4d47ed7c35e23cd786c86bc51652cbd7ceaeb90cf4b26c"
+      },
+      "fixture_sha256": "226f95a3ddeefab9e792bac74b86082a9de94a84ab4eae2e2cc50e84ec23421f"
+    },
+    {
+      "run": "run163",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 163,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        3,
+        7
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 3
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 7
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 7
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "92092b41021a7fe1733c906e9ca265e553814918e746b94b4131d2b8521e27bc",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "c9376fa4f2b0322ade54a2699907c8a4cc4568baed73d5f2e803a92301166fb7"
+      },
+      "fixture_sha256": "30faf374fe4c47dcf456a666d77827a95ab5a5dffa770f54b22a6cf886c550de"
+    },
+    {
+      "run": "run175",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 175,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        4,
+        7
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 4
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 7
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 7
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "5465ba49f73993df804e6a8c97dd70b584f3cdc5cb19b300610699c4dde1b020",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "3a8d009b675c37094ee257047571d543627477690e92d08903f60c94a6fe3373"
+      },
+      "fixture_sha256": "146e994302053ab85e7dfe045c4395454297f374645879ed44fa8dcbea007a50"
+    },
+    {
+      "run": "run188",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 188,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        4,
+        8
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 4
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 8
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 8
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "9d87cf87875cdbb4ed20464ac6aa64485a9437eeba64c984038a8621b219927a",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "3245e6c0c20dfbbeb720a029680ef8e76cdf465b75482aad33435dd351135f47"
+      },
+      "fixture_sha256": "37510135c9fcf688338185c147d8e359af7ecef6482ddd1362e76488afd17ecc"
+    },
+    {
+      "run": "run213",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 213,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        4,
+        9
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 4
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 9
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 9
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "7fe407a6cb480089a12598d6bd12b71243d80326c264605ad2297a1ab6213501",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "10316bec3c76474ea22307899cb38dc9922a4acd1877670cffd047efa5c77b57"
+      },
+      "fixture_sha256": "29ea74ec33af0ab75c1e772a834bac5251aa85359dac41bb9e18214ac4ce1667"
+    },
+    {
+      "run": "run225",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 225,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        5,
+        9
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 5
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 9
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 9
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "6532ab76d18bb2182db22251daf3da25488f46b0f07fdafb5efd403c9b0825a5",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "0beb39aad151688e67f93f858e974cd60cf84b1404dc940e902882800b717860"
+      },
+      "fixture_sha256": "ac6b73751f68c54554b20a25910a5d56042931351806a1bc38053017ca483298"
+    },
+    {
+      "run": "run238",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 238,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        2,
+        5,
+        10
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 5
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 10
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 10
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 2
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "abf3eb6418e154287d3c89c6800388bfdbd495d3327ca2a393f0808bf860000f",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "cf590f1fb3e96a37a04d220182cd5475bc294907d464ae0b0141e6ea4b1385f9"
+      },
+      "fixture_sha256": "58153819903dc4d731afd4ae89bfead96276b6bae3b2ecec892fb3c84c009c41"
+    },
+    {
+      "run": "run250",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 250,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        5,
+        10
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 5
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 10
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 10
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "2284d5606a2565681257229aef373deb77501cdb4a9e75ea3a7b60eea413e63e",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "fd87379417f18eb14024a1f759543e214baaf2d0167348142b31e6dcf8cfad20"
+      },
+      "fixture_sha256": "2927e5b6afb1db4538d68bdd4d926532cb899b2f6d507181eda47d442d3d1752"
+    },
+    {
+      "run": "run263",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 263,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        5,
+        11
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 5
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 11
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 11
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "982c9693abfa6b819e9f6884e8ce963c86a089503f65544caa197742ebf06acf",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "2e98b5fab63c34ecc492d4fb38f52d14d9c81c6b159cdbb35a0ecdea05396139"
+      },
+      "fixture_sha256": "096babffecc439ffb1bd54b83cb1e3777136ad3397801101e7d1c08168672f70"
+    },
+    {
+      "run": "run275",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 275,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        6,
+        11
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 6
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 11
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 11
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "c0ff5c1895fef6cfecd6004a2c4fec2f01e01ea5310ec7f4e3b162219fec3723",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "e1280a5ec96f9521826fb328a735022f710636e240646ec6de9abc29c056faf8"
+      },
+      "fixture_sha256": "56c3e9f6569a3e4c79bdce33000c6b06fdb0f2868c9dee526a2fd00565bbf9be"
+    },
+    {
+      "run": "run288",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 288,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        6,
+        12
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 6
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 12
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 12
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "99aa502c0cb822935f6597706d7ae99e4e7a0c6f96f8c7c1148d84578fe2f5b0",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "c8a44dba39ced6ebb34bfc30708254ea80000bb6d84acd10258919f42d1d2fd5"
+      },
+      "fixture_sha256": "d3ee3313d56ecfbffa8c7e7761bb335b8ea5ed84388aada0369b677d5d5907f2"
+    },
+    {
+      "run": "run313",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 313,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        6,
+        13
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 6
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 13
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 13
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "f1ccde0dbbc3475c3f1b5815b9608e89a19a2158d32f98b8289b4c0be9205f01",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "311e188dff087bd1d809e76d33b86d80475d0b7ecafb1443686c3f57eb8fc4b2"
+      },
+      "fixture_sha256": "e434dcba91d5742e9a9d4014226bba943262f5ebe40be4ebfae785151653458d"
+    },
+    {
+      "run": "run325",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 325,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        3,
+        7,
+        13
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 7
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 13
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 13
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 3
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "70aa7fe2c8a60d99057dcd389c877987b6ab52952b43653a5116ece89418b517",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "ff50d7fdd07962200a9833926e76638eccf7e86dc7f076b54dc02a3283eb1b7e"
+      },
+      "fixture_sha256": "68ebdfed0db1da648c78024ab5f19ca5a175df4cb3b53c4693709deaa6303211"
+    },
+    {
+      "run": "run363",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 363,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        7,
+        15
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 7
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 15
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 15
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "778a746af41f48b28cbf654077baa1b8ae216f6e9f86b54cce88e71739535cd8",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "0c9776cc3c12b411157dc1f77e6a083d18e5f75eaeaef1b277d895abbabf1088"
+      },
+      "fixture_sha256": "e20b72f6538e8fa49c932b803c97bc642f20071e0a83d79e1bae6a2920800d36"
+    },
+    {
+      "run": "run375",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 375,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        8,
+        15
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 8
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 15
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 15
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "f1efe3e586959f427f05f9de6883100ea394a407197e68fb9d1c0b57dc26c99a",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "ee4582043dd81d3b27a3207129421a4248db8224312dfc42127581ee027b5851"
+      },
+      "fixture_sha256": "aa2b37c22633c27e98df1a324fd653b1b3f4d6076de6c5222b8a63de1423eacd"
+    },
+    {
+      "run": "run388",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 388,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        8,
+        16
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 8
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 16
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 16
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "a9900f1acf946c3aeda5f5d5db26cd0e691179237459c53675d41e6ce775f86f",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "014f72af3deeb20fd574e9554a197a183e62229f5d93c3ae970a247d371a0452"
+      },
+      "fixture_sha256": "888251717775cafc9f854c59747c7cfebe231a20b6708f2322b12d49ceaa29d8"
+    },
+    {
+      "run": "run413",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 413,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        8,
+        17
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 8
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 17
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 17
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "284b13e5b3d2a58de1cddb7c223f32968041e8ed261971354ada948e8b4c4a44",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "e1bc3cfe64151e55ce6998e889f2010331351bcd6a15076b3774f4e06aca331c"
+      },
+      "fixture_sha256": "bd60a27e636bcd6c8073673dbe9365318816766e24fe91657260e6448891266f"
+    },
+    {
+      "run": "run425",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 425,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        9,
+        17
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 9
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 17
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 17
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "70bee5e5ef93d9c90298deb3bd49baf0e768e86e882bed74b7eec2a9336e0580",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "fdec5f00975cf74ae984dc6ec4ee9a0dd034792a268cae274b3d46bb5c7e4794"
+      },
+      "fixture_sha256": "76d304144e4c3ea3607769c1b71ece4da517de5998998472c7048f4f3ee885f8"
+    },
+    {
+      "run": "run438",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 438,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        4,
+        9,
+        18
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 9
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 18
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 18
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 4
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "d331223a75e54019ee4fca6b398f5073a7f28f3b03874be5c6721b8fb636f518",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "a77ef804607d1f57cfd98e2feb8169b4e1eb16d2123be486e160e2c0d4156c92"
+      },
+      "fixture_sha256": "aff45ee9894d87a4c52e2a8dfc87fe6314777e4e8bb9fe02d4081d55ca530b75"
+    },
+    {
+      "run": "run450",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 450,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        5,
+        9,
+        18
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 9
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 18
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 18
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 5
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "7bdf6be3bb360883560f6172f607bf84a1435f3d614a4511ff2788ac65639dcb",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "f68598f914a9fb1f2a403d3c466c6c4c2ce9b4cd6407229733a05be075064bff"
+      },
+      "fixture_sha256": "235fe4b5de095842f0bcd3f4453ad35c1400d08260b76d49f3a617e19c0ac98d"
+    },
+    {
+      "run": "run463",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 463,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        5,
+        9,
+        19
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 9
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 19
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 19
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 5
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "f1fc42a8ba5e939c3b9db91052c00777512ad43928810cb07dfc418a78877e42",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "5d954924df42c2fdfefb2b7eeecf59ce8cfda554e6e9c85378c20ea0dd86fc49"
+      },
+      "fixture_sha256": "ea27e6fd6d5456b8f696911d428c94b72942d2ccbb03679c84f22d0bf5631e4f"
+    },
+    {
+      "run": "run475",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 475,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "hp": 1,
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner_frame": 6822,
+      "rounded_hp_tuple": [
+        5,
+        10,
+        19
+      ],
+      "runtime_initial_health": {
+        "0x88c30c0": {
+          "frame": 1889,
+          "hp": 10
+        },
+        "0x88c3054": {
+          "frame": 1985,
+          "hp": 19
+        },
+        "0x88b6138": {
+          "frame": 5525,
+          "hp": 19
+        },
+        "0x88b6060": {
+          "frame": 6336,
+          "hp": 5
+        }
+      },
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "1a71ec9f814631286348e34beff34c4e8713be27b8e991fcbd25566ff8de658b",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "e543e85fda6e23f4505a5d9759da98d634404964666eabb3d5c4192d9f7a9963"
+      },
+      "fixture_sha256": "f0d8fe324056db6b6ee87a6a41cd81a72878f3287a8a360145d36ff7d7f1a091"
+    }
+  ],
+  "limits": [
+    "One representative per known nativeHP1/2/4 tuple, not all percentages or all RNG states.",
+    "Same decoded544 upper arrival; upstream321 Mini and304/546 ingress not replayed. No full upstream1HP composition.",
+    "Native mode0 Doo source only; no new source-policy equivalence.",
+    "No production logic changes."
+  ],
+  "artifact_hashes": {
+    "report.md": "ff40203aef26aa77c6145dfcc6f7b6990b0f4e0f9f1cb0f7820a846c70466f5e",
+    "validate.py": "cae98b90cdee02585e7a849c424e32953ab7fe447246e118a804604640682409",
+    "validation.json": "d23d83c6bf3cb909eacdf6b0ac00dfc09c9d91945e4fa23e2dcb16c6fafb1a60",
+    "provenance.json": "d2381e4213498e430c5a538b816b507950ee52f8ec3aed61667a2d5e96d4fa20",
+    "partition.json": "72b26ec55705182dde7f5441b2e353b0ab71f464ece65cdef7a41e96eba6ce95",
+    "relevant-native-hp.json": "fc1d86c22064395305f10a8e22107f56151a17f147a761cb969a7a0eb4bd8640"
+  }
+}

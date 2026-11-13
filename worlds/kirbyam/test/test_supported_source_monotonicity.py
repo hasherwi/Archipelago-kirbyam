@@ -3,6 +3,7 @@ import ast
 import inspect
 import random
 import textwrap
+from pathlib import Path
 from typing import cast
 from itertools import product
 
@@ -54,7 +55,7 @@ def test_live_supported_source_and_statue_pools_always_retain_beam() -> None:
                     assert not (grant.guaranteed - {'Beam'}), (key, grant)
 
 
-def test_entire_installed_catalog_has_no_beam_dependent_gate_or_recovery() -> None:
+def test_installed_beam_routes_require_raw_source_scope_or_source_free_water_gun() -> None:
     targets, _, _ = _room_catalog()
     seen = set()
     beam_capabilities = set()
@@ -78,13 +79,43 @@ def test_entire_installed_catalog_has_no_beam_dependent_gate_or_recovery() -> No
                                if route.allowed_abilities is None else route.allowed_abilities)
                     if attack_provider('Beam', route.water_state) in allowed:
                         beam_capabilities.add((target['id'], witness, route.capability))
+                        if route.water_state == 'dry':
+                            condition = target.get('requires_guaranteed_source')
+                            assert (graph.required_guaranteed_source == ('WADDLE_DOO', 'Beam')
+                                    or condition is not None and condition['source_key'] == 'WADDLE_DOO')
+                            # Applicability uses the unfiltered physical policy, not
+                            # a transient Beam-only permission-filtered live draw.
+                            if condition is not None:
+                                from ..traversal_rules import target_applies
+                                live = SourcePolicy(build_enemy_copy_ability_policy(random.Random(17), 2, True, True))
+                                assert not target_applies(target, live)
+                            else:
+                                live = SourcePolicy(build_enemy_copy_ability_policy(random.Random(17), 2, True, True))
+                                assert not graph.evaluate(live, graph_items(graph), True).positions
+                            continue
                         assert route.water_state == 'swimming'
                         assert attack_provider('Normal', route.water_state) in allowed
-                        assert not graph.placements and not route.uses_object and not route.opens
+                        assert not route.uses_object and not route.opens
+                        if route.capability == 'bomb_110_room9_underwater_normal_spray':
+                            assert (target['id'], witness) == ('bomb_110_room9', 'upper_entry_normal_water')
+                            payload, = graph.placements
+                            assert (payload.source_key, payload.identity, payload.renewable) == (
+                                'SWORD_KNIGHT', '0x088B74CC', False)
+                            spit, = [edge for edge in graph.routes if edge.uses_object]
+                            assert spit.uses_object == payload.identity
+                            assert spit.capability == 'bomb_110_upper_normal_spit'
+                        else:
+                            assert not graph.placements
                         assert graph.evaluate(SourcePolicy({'mode': 0}), frozenset(), True).reaches(route.target)
-    assert beam_capabilities == {('underwater_819_exit', 'local', 'underwater_block_hit')}
+    assert beam_capabilities == {
+        ('underwater_819_exit', 'local', 'underwater_block_hit'),
+        ('bomb_110_room9', 'upper_entry_normal_water', 'bomb_110_room9_underwater_normal_spray'),
+        ('bomb_538_beam_left_exit', 'normal544_beam_entry', 'bomb_538_beam_left_crossover'),
+        ('bomb_517_chocolate', 'hub2_entry', 'bomb_517_chocolate'),
+        ('bomb_719_room13', 'room5_entry', 'bomb_719_room13'),
+    }
     assert recovery == {'mini_321_cross_to_right', 'mini_134_ocean_spray'}
-    assert len(seen) == 228  # All114 witnesses, both key modes, including logical subregions.
+    assert len(seen) == 292  # All146 witnesses, both key modes, including logical subregions.
 
 
 @pytest.mark.parametrize('target,witness', [('metal_176_goal2_drink', 'local'),
@@ -179,21 +210,32 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
     actual = {(target['id'], witness, keys): room_traversal_graph(target['id'], witness, keys)
               for target in _room_catalog()[0] for witness in target['graphs'] for keys in (False, True)}
     saved = {(row['target'], row['witness'], row['area_keys']): row for row in record['graphs']}
-    assert len(saved) == len(record['graphs']) == record['variants'] == 228
-    assert record['witnesses'] == 114 and set(saved) == set(actual)
+    assert len(saved) == len(record['graphs']) == record['variants'] == 292
+    assert record['witnesses'] == 146 and set(saved) == set(actual)
     assert record['ungated_pool_abilities'] == ['Beam']
     assert record['capability_providers'] == {key: sorted(values) for key, values in CAPABILITY_ABILITIES.items()}
     source_ids = set()
+    targets = {target['id']: target for target in _room_catalog()[0]}
     for identity, graph in actual.items():
+        target, witness, _ = identity
+        raw = targets[target]
+        assert saved[identity]['target_source_condition'] == raw.get('requires_guaranteed_source')
+        assert saved[identity]['target_source_alternatives'] == raw.get('requires_any_guaranteed_source')
+        assert saved[identity]['graph_source_condition'] == (
+            list(graph.required_guaranteed_source) if graph.required_guaranteed_source else None)
+        assert saved[identity]['equipment_routes'] == [
+            {'from': route.source, 'to': route.target, 'required_equipment': sorted(route.required_equipment)}
+            for route in graph.routes if route.required_equipment is not None]
         assert all(source.identity is not None for source in graph.placements)
         expected = sorted({source.source_key + '@' + cast(str, source.identity) for source in graph.placements})
         assert saved[identity]['source_ids'] == expected
         source_ids.update(expected)
         for source in graph.placements:
             assert source.identity is not None
-            assert record['sources'][source.source_key + '@' + source.identity] == {
+            assert {
                 'source_key': source.source_key, 'identity': source.identity,
-                'renewable': source.renewable, 'documented_retry': bool(source.retry_evidence)}
+                'renewable': source.renewable, 'documented_retry': bool(source.retry_evidence)
+            } in record['sources'][source.source_key + '@' + source.identity]
         expected_routes = []
         for route in graph.routes:
             if not route.capability:
@@ -208,4 +250,45 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
                 'normal_accepted': attack_provider('Normal', route.water_state) in allowed,
                 'recover_dropped_ability': route.recover_dropped_ability})
         assert saved[identity]['capability_routes'] == expected_routes
-    assert source_ids == set(record['sources']) and len(source_ids) == 98
+    assert source_ids == set(record['sources']) and len(source_ids) == 109
+
+
+def test_saved_catalog_is_reproducible_and_hashes_current_sources() -> None:
+    import json
+    from ..tools.build_supported_source_monotonicity_catalog import CATALOG, build_catalog
+    record = json.loads(CATALOG.read_text())
+    assert build_catalog(record) == record
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+def test_catalog_hashes_accept_checkout_line_endings(line_ending: bytes, tmp_path: Path,
+                                                     monkeypatch: pytest.MonkeyPatch) -> None:
+    import json
+    from ..tools import build_supported_source_monotonicity_catalog as builder
+    record = json.loads(builder.CATALOG.read_text())
+    for name in record['source_sha256']:
+        source = (builder.ROOT / name).read_bytes().replace(b'\r\n', b'\n')
+        destination = tmp_path / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(source.replace(b'\n', line_ending))
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    assert builder.build_catalog(record) == record
+
+
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
+@pytest.mark.parametrize('before,after', [
+    (b'from copy import deepcopy', b'from copy import copy'),
+    (b'from copy import deepcopy', b'from  copy import deepcopy'),
+    (b'from copy import deepcopy\n', b'from copy import deepcopy \n'),
+    (b'from copy import deepcopy\n', b'from copy import deepcopy\r'),
+], ids=['content', 'internal-space', 'trailing-space', 'bare-CR'])
+def test_catalog_hashes_reject_non_checkout_changes(line_ending: bytes, before: bytes, after: bytes,
+                                                    tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import hashlib
+    from ..tools import build_supported_source_monotonicity_catalog as builder
+    source = b'from copy import deepcopy\n'
+    # A minimal previous catalog isolates the hashing contract from graph inputs.
+    record = {'source_sha256': {'source.py': hashlib.sha256(source).hexdigest()}, 'graphs': []}
+    (tmp_path / 'source.py').write_bytes(source.replace(before, after).replace(b'\n', line_ending))
+    monkeypatch.setattr(builder, 'ROOT', tmp_path)
+    assert builder.build_catalog(record)['source_sha256'] != record['source_sha256']

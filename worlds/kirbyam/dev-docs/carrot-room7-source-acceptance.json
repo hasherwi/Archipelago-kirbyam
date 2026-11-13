@@ -1,0 +1,945 @@
+{
+  "positive": {
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "fixture_sha256": "553028ffb107e608bb19f5711a79e6d42e0e11858e8b5359c041cc8fe0a0be76",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "fixture_byte_diff": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 170
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 216
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 88
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "input_sha256": "d54057a072322dc26d15e2991a9bcf91757d554d90a9f6c784a344de6a5ac957",
+    "control": false,
+    "source": {
+      "id": "WADDLE_DOO",
+      "type": "0x12",
+      "template_rom_offset": "0x8d3bf4",
+      "original_position": [
+        568,
+        456
+      ],
+      "obtained_raw_ability": 7,
+      "ability": "Beam"
+    },
+    "arrival": {
+      "predecessor_native": 170,
+      "predecessor_ap": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "destination_native": 719,
+      "destination_ap": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "decoded_spawn_tiles": [
+        43,
+        29
+      ],
+      "observed_position": [
+        680,
+        456.99609375
+      ]
+    },
+    "target": {
+      "native_room": 719,
+      "bomb_tile": [
+        1,
+        14
+      ],
+      "door_position": [
+        24,
+        232
+      ],
+      "destination_native": 734,
+      "destination_compartment": "Room13 lower1Up compartment; not upper SecretNotes",
+      "observed_arrival": [
+        200,
+        216.99609375
+      ]
+    },
+    "checkpoints": [
+      {
+        "label": "1085",
+        "frame": 1085,
+        "room": 170,
+        "x": 200.0,
+        "y": 73.44140625,
+        "hp": 6,
+        "ability": 0,
+        "target_f1": null,
+        "linked_f2": null
+      },
+      {
+        "label": "1267",
+        "frame": 1267,
+        "room": 719,
+        "x": 680.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 0,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "1488",
+        "frame": 1488,
+        "room": 719,
+        "x": 618.421875,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "1788",
+        "frame": 1788,
+        "room": 719,
+        "x": 415.984375,
+        "y": 277.00390625,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2060",
+        "frame": 2060,
+        "room": 719,
+        "x": 553.15234375,
+        "y": 214.60546875,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2173",
+        "frame": 2173,
+        "room": 719,
+        "x": 466.37109375,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2293",
+        "frame": 2293,
+        "room": 719,
+        "x": 259.4140625,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2638",
+        "frame": 2638,
+        "room": 719,
+        "x": 264.0,
+        "y": 312.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2700",
+        "frame": 2700,
+        "room": 719,
+        "x": 239.8125,
+        "y": 312.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2900",
+        "frame": 2900,
+        "room": 719,
+        "x": 166.609375,
+        "y": 181.00390625,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2971",
+        "frame": 2971,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "3061",
+        "frame": 3061,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 255,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "label": "3242",
+        "frame": 3242,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": null,
+        "linked_f2": null
+      }
+    ],
+    "runtime_writes": [],
+    "state_restores": 0,
+    "per_frame_health_check": {
+      "start_frame": 1085,
+      "end_frame": 3242,
+      "minimum_hp": 6,
+      "hp_below_initial_six": []
+    },
+    "limits": [
+      "Fresh boot starts in native170 at startup override; not proof of reaching170 from game start. Actual controller-triggered170\u2192719 transition retained.",
+      "Native lower WaddleDoo supplies Beam. Randomized source must resolve WADDLE_DOO\u2192Beam; carry attacks use Beam. No general proof for other assignments.",
+      "No reward is collected. Native734 arrival is its lower1Up compartment, not the upper SecretNotes compartment.",
+      "No AP delivery or global reachability proof; no damage during all frame checks from1085 through3242.",
+      "Objects, terrain, rewards and code unchanged. Only startup fields differ."
+    ],
+    "first_target_ff_frame": 2996,
+    "attack_trace_sha256": "4d8b57ba121e342be2f7078c0a1e96ea404ed678d7ddf475542453068bac62a1",
+    "full_manifest_sha256": "29f4ff5a21f09be60b0ca8da711fb17f0dcf75cc82b828594d796db1031ba617"
+  },
+  "control": {
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "fixture_sha256": "553028ffb107e608bb19f5711a79e6d42e0e11858e8b5359c041cc8fe0a0be76",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "fixture_byte_diff": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 170
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 216
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 88
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "input_sha256": "84e08775ecc750c15badae40098716aedd39f44cb2d1f02249ace6d1b9073c28",
+    "control": true,
+    "source": {
+      "id": "WADDLE_DOO",
+      "type": "0x12",
+      "template_rom_offset": "0x8d3bf4",
+      "original_position": [
+        568,
+        456
+      ],
+      "obtained_raw_ability": 7,
+      "ability": "Beam"
+    },
+    "arrival": {
+      "predecessor_native": 170,
+      "predecessor_ap": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "destination_native": 719,
+      "destination_ap": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "decoded_spawn_tiles": [
+        43,
+        29
+      ],
+      "observed_position": [
+        680,
+        456.99609375
+      ]
+    },
+    "target": {
+      "native_room": 719,
+      "bomb_tile": [
+        1,
+        14
+      ],
+      "door_position": [
+        24,
+        232
+      ],
+      "destination_native": 734,
+      "destination_compartment": "Room13 lower1Up compartment; not upper SecretNotes",
+      "observed_arrival": null
+    },
+    "checkpoints": [
+      {
+        "label": "1085",
+        "frame": 1085,
+        "room": 170,
+        "x": 200.0,
+        "y": 73.44140625,
+        "hp": 6,
+        "ability": 0,
+        "target_f1": null,
+        "linked_f2": null
+      },
+      {
+        "label": "1267",
+        "frame": 1267,
+        "room": 719,
+        "x": 680.0,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 0,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "1488",
+        "frame": 1488,
+        "room": 719,
+        "x": 618.421875,
+        "y": 456.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "1788",
+        "frame": 1788,
+        "room": 719,
+        "x": 415.984375,
+        "y": 277.00390625,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2060",
+        "frame": 2060,
+        "room": 719,
+        "x": 553.15234375,
+        "y": 214.60546875,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2173",
+        "frame": 2173,
+        "room": 719,
+        "x": 466.37109375,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2293",
+        "frame": 2293,
+        "room": 719,
+        "x": 259.4140625,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2638",
+        "frame": 2638,
+        "room": 719,
+        "x": 264.0,
+        "y": 312.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2700",
+        "frame": 2700,
+        "room": 719,
+        "x": 239.8125,
+        "y": 312.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2900",
+        "frame": 2900,
+        "room": 719,
+        "x": 166.609375,
+        "y": 181.00390625,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "2971",
+        "frame": 2971,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "3061",
+        "frame": 3061,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      {
+        "label": "3242",
+        "frame": 3242,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 7,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      }
+    ],
+    "runtime_writes": [],
+    "state_restores": 0,
+    "per_frame_health_check": {
+      "start_frame": 1085,
+      "end_frame": 3242,
+      "minimum_hp": 6,
+      "hp_below_initial_six": []
+    },
+    "limits": [
+      "Fresh boot starts in native170 at startup override; not proof of reaching170 from game start. Actual controller-triggered170\u2192719 transition retained.",
+      "Native lower WaddleDoo supplies Beam. Randomized source must resolve WADDLE_DOO\u2192Beam; carry attacks use Beam. No general proof for other assignments.",
+      "No reward is collected. Native734 arrival is its lower1Up compartment, not the upper SecretNotes compartment.",
+      "No AP delivery or global reachability proof; no damage during all frame checks from1085 through3242.",
+      "Objects, terrain, rewards and code unchanged. Only startup fields differ."
+    ],
+    "first_target_ff_frame": null,
+    "attack_trace_sha256": "2180eb5a71fb41d1d9b4ab4b5cef9dfd668190067178d90154ed7019f931cd21",
+    "full_manifest_sha256": "6f9f8fde94f78ceee7d6ee13f02d40e57eaa4aa96fded74277fe6d7bed46ac7b"
+  }
+}

@@ -1,0 +1,326 @@
+{
+  "target": "bomb_719_room13",
+  "capability": "bomb_719_fighter_first_combo",
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 6282654274669279257,
+    "mapping_style": "per_enemy_type"
+  },
+  "source_identity": "0x088D3BF4",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "seed": 39,
+  "runs": [
+    {
+      "hp": 1,
+      "enemy_health_percent": 100,
+      "positive": true,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 1,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 1,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "ca8908892c12b22221fa891d6c5f3e65f54037f4a2dad8e9a90bb631d26f588d",
+        "states.json": "c3eb10baaafd014694d51682de7d8b01f209584f6b53dd3ee765735f8c3463ee",
+        "runtime.json": "a09477eede50cb4ea958b58b25c0078d8cfd0523c89f5fc623b199050c5090b1",
+        "health.json": "9e341b4ca68d99863acdb8667c420cb2fac3ed5f8a2f0350c6f50d7ba2b89cbb"
+      }
+    },
+    {
+      "hp": 1,
+      "enemy_health_percent": 100,
+      "positive": false,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 1,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 1,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "6aeeb1a33bb1f9e3ebc347965d87d17f595756a6ffe29edfb27836e8dc3d4504",
+        "states.json": "75bddad2584061063e50f7da34972809e632b4652fb6e179ebdea0e9c2c828b5",
+        "runtime.json": "6338d9ae298dea1ca7e9d26ffc20d6cb73c096d84534b1336e0f44c421188f80",
+        "health.json": "9e341b4ca68d99863acdb8667c420cb2fac3ed5f8a2f0350c6f50d7ba2b89cbb"
+      }
+    },
+    {
+      "hp": 6,
+      "enemy_health_percent": 100,
+      "positive": true,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 6,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 6,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "ca8908892c12b22221fa891d6c5f3e65f54037f4a2dad8e9a90bb631d26f588d",
+        "states.json": "63a9458c4401b2058e3dd438a36b4c37c027c49560c4e6c84fbd23226948eb40",
+        "runtime.json": "d65ee9ab0bd2db05946ebc3b5eb62c66af04a0187b9a8ba65a8a878e580c470d",
+        "health.json": "1e71c320b53a716b3645f4047a5205d48bc08674cd514d2394293823be12abca"
+      }
+    },
+    {
+      "hp": 6,
+      "enemy_health_percent": 100,
+      "positive": false,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 6,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "6aeeb1a33bb1f9e3ebc347965d87d17f595756a6ffe29edfb27836e8dc3d4504",
+        "states.json": "1cac04616591a5e7925cf14c5afd79c97c7b7ac7f2b780b2f5e2dbaddca935ba",
+        "runtime.json": "81022d9a1c1f9d420502782c69deb8a182bb7814ad0a972a6ceee4b0bc36399b",
+        "health.json": "1e71c320b53a716b3645f4047a5205d48bc08674cd514d2394293823be12abca"
+      }
+    },
+    {
+      "hp": 1,
+      "enemy_health_percent": 500,
+      "positive": true,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 1,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 1,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "ca8908892c12b22221fa891d6c5f3e65f54037f4a2dad8e9a90bb631d26f588d",
+        "states.json": "7ab7947dc618a5b83d093eefa39d73d326b77aca1578168b52a69bd12509b989",
+        "runtime.json": "5aa89fb3be4a77521872db6157d308b13642f29e69e47154a6c2fcae32cef275",
+        "health.json": "9e341b4ca68d99863acdb8667c420cb2fac3ed5f8a2f0350c6f50d7ba2b89cbb"
+      }
+    },
+    {
+      "hp": 1,
+      "enemy_health_percent": 500,
+      "positive": false,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 1,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 1,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "6aeeb1a33bb1f9e3ebc347965d87d17f595756a6ffe29edfb27836e8dc3d4504",
+        "states.json": "a19d234ac893cbc14304081e5efc9b7874a62895312154732908a4f68c9f2635",
+        "runtime.json": "697bd9faa513a0922e5c545036eba00086fcb6eea837b029ac529e943c665067",
+        "health.json": "9e341b4ca68d99863acdb8667c420cb2fac3ed5f8a2f0350c6f50d7ba2b89cbb"
+      }
+    },
+    {
+      "hp": 6,
+      "enemy_health_percent": 500,
+      "positive": true,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 734,
+        "x": 200.0,
+        "y": 216.99609375,
+        "hp": 6,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 6,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "ca8908892c12b22221fa891d6c5f3e65f54037f4a2dad8e9a90bb631d26f588d",
+        "states.json": "fd65ef5b733f68cba46429d10149a04444b55ccf7cbd741896d8f6f54bbebc8a",
+        "runtime.json": "bd79b52ef1a636862c5b2830c3cfff3a5fd8c15a9d60092fbd2f48f7dc131b84",
+        "health.json": "1e71c320b53a716b3645f4047a5205d48bc08674cd514d2394293823be12abca"
+      }
+    },
+    {
+      "hp": 6,
+      "enemy_health_percent": 500,
+      "positive": false,
+      "real_entry_frame": 1188,
+      "acquisition_frame": 1420,
+      "final": {
+        "frame": 3242,
+        "room": 719,
+        "x": 86.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 20
+      },
+      "per_frame": {
+        "start": 1085,
+        "end": 3242,
+        "count": 2158,
+        "hp_min": 6,
+        "ability_retained_after": 1420,
+        "helpers_actual_rooms": [
+          101
+        ],
+        "ai": 0,
+        "humans": 1
+      },
+      "state_restores": 0,
+      "phone_inputs": 0,
+      "hashes": {
+        "commands.json": "6aeeb1a33bb1f9e3ebc347965d87d17f595756a6ffe29edfb27836e8dc3d4504",
+        "states.json": "7f922555a30a4acbdaeda22e2cfdd768ce2fe21afef4b3bef0f653209c12f033",
+        "runtime.json": "88572fcfb55003cb2c9e1675ebee5b7bd4f0bab062b491af4147f5291f4750bc",
+        "health.json": "1e71c320b53a716b3645f4047a5205d48bc08674cd514d2394293823be12abca"
+      }
+    }
+  ]
+}

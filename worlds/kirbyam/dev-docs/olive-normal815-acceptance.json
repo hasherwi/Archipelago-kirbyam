@@ -1,0 +1,267 @@
+{
+  "production_source_commit": "a1c2cffee0fdb0ae49872cd6b86dbab99b53b5d9",
+  "integration_base": "7a417dc96ef8902401aa32533f6ea6b85ce28a9f",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "target": {
+    "owner": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+    "location_key": "VITALITY_CHEST_OLIVE_OCEAN",
+    "location_id": 3960301,
+    "native_room": 815,
+    "chest_template": "0x088CCC90",
+    "requirement": "can_break_block"
+  },
+  "private_artifact_sha256": {
+    "summary.json": "6cb783bfa46da133ab1eb69cb70e1f87fd373c73102f2baddb8f6f2cb799481b",
+    "review-report.md": "7bd2fc8fd24a21a23c4a5694cb89bc7c1bfa904408d651b70eff9ba6daa55bc2",
+    "build.py": "463a36c2c131997a3df4848658704335a5a69f322724bf111eec658cbc29911b",
+    "replay.py": "47190905016a5171cf407c455179a6b108be46ab4a5502de3e43e3bf43a4bca7",
+    "explore.py": "e666021325e0c8bc61b84d7ca5201d19580734beebe5be7afc893cd2107103c6",
+    "verify.py": "6a268196144c3fcc21a0f4ca9686575b3b327a6716b30597d2dde6c40cf801f6",
+    "summarize.py": "09420ec5414fe9004217013cdf70afb51a736740a5c4bfc3dc7d245060cd6573",
+    "combined-inputs.json": "c092b8af7748ba6dbdd3b93bdc3eb4882bf08d01bc940bdb2f8876bfbc202a43",
+    "no-puff-inputs.json": "dc7879c73d498349084072d0b3441b49d06bf4cfcae3b2d67d8171288ea613cc",
+    "client.py": "b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9",
+    "rom.py": "c4db4985e6b721eef20aa0df8cfc709b0f37bda8097aee73a2f93cc7a94a5946",
+    "enemy_ability_runtime_patch.py": "db508c41fa75b9f702adbee1bb6c57f73d161119a7d2ba5da97daea0ad5bb98d",
+    "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea",
+    "addresses.json": "b54549bfb72012b510fd7adc92a8da0145e85fd3d6e9197db525cae8975bf545",
+    "rooms.json": "f0989a0ab6f315bfa459b09980d0dc452ac287343af4a5044a779c6b041669f1",
+    "star_stone_block.s": "e8f55861c8f33c98a2f941326e7b0bebc658d617587d57046bd2778c8ee86dee",
+    "big_small_switch.s": "8017f14608f03708266eb114c4d9ade903c9d18ac233a27acc70a989bdd2a463",
+    "vert_sliding_door.c": "602dedc5b5780fd445c67f2a6f08dca345e52b28798d642f36b01a9fa2592715",
+    "kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+    "code_080023A4.c": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56"
+  },
+  "boundary": {
+    "room": 551,
+    "stored_xy": [
+      1168,
+      288
+    ],
+    "next_room": 815,
+    "transition_frame": 1288,
+    "next_xy": [
+      72,
+      136.99609375
+    ]
+  },
+  "setup": {
+    "startup_only_fixture_byte_differences": 17,
+    "client_configuration_writes": 8,
+    "configuration_frame": 1085,
+    "blank_battery_boot": true,
+    "gameplay_writes": false,
+    "runtime_rom_writes": false,
+    "state_restores": false,
+    "server_transmission": false,
+    "ability_gating": 0,
+    "area_keys": 0,
+    "enemy_copy_mode": 1,
+    "allowed_ability_count": 25,
+    "seed": 2,
+    "no_ability_weight": 0
+  },
+  "mechanism": {
+    "equipment": "Normal",
+    "silver_block_template": "0x088CCCFC",
+    "block_consumed_or_spat": false,
+    "block_x_before": 184,
+    "block_x_2336": 183.75,
+    "block_x_2388": 182.75,
+    "maintained_lower_switch_from": 2388,
+    "block_contact_rect": [
+      175,
+      127,
+      189,
+      143
+    ],
+    "switch_contact_rect": [
+      161,
+      135,
+      175,
+      143
+    ],
+    "inclusive_integer_contact_x": 175,
+    "upper_gate_crossing_frame": 2562,
+    "final_puff_input_frame": 3525,
+    "puff_spawn_frame": 3526,
+    "puff_damage_bounds": [
+      -5,
+      -5,
+      5,
+      5
+    ],
+    "upper_switch_active_interval": [
+      3535,
+      3546
+    ],
+    "upper_switch_release_frame": 3547,
+    "lower_gate_crossing_frame": 3600,
+    "lower_gate_crossing_bounds": [
+      -8,
+      -32,
+      8,
+      -16
+    ],
+    "beyond_lower_gate_frame": 3610,
+    "slide_frame": 3666,
+    "physical_chest_frame": 3807,
+    "gate_latch": false,
+    "underwater_553_exit_used": false
+  },
+  "matrix": [
+    {
+      "name": "verified-6hp100-v2",
+      "actual_hp": 6,
+      "enemy_health_multiplier": 100,
+      "sample_start": 1085,
+      "sample_end": 3945,
+      "sample_count": 2861,
+      "normal_every_sample": true,
+      "helpers_remain_101": true,
+      "damage_taken": 0,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "vitality_register": 2,
+      "event_counter": 1,
+      "blipper_hp_observed": [
+        1,
+        2
+      ],
+      "input_sha256": "c092b8af7748ba6dbdd3b93bdc3eb4882bf08d01bc940bdb2f8876bfbc202a43",
+      "states_sha256": "5c7b624b11969a34350e6a34600890b58971d1ce1ae62e774ad352e10df975df",
+      "result_sha256": "38b0411cc96368dbd6bf8f3b6ab1cc77b900d5730b6ce42459905b5a0429dd2a"
+    },
+    {
+      "name": "verified-1hp100",
+      "actual_hp": 1,
+      "enemy_health_multiplier": 100,
+      "sample_start": 1085,
+      "sample_end": 3945,
+      "sample_count": 2861,
+      "normal_every_sample": true,
+      "helpers_remain_101": true,
+      "damage_taken": 0,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "vitality_register": 2,
+      "event_counter": 1,
+      "blipper_hp_observed": [
+        1,
+        2
+      ],
+      "input_sha256": "c092b8af7748ba6dbdd3b93bdc3eb4882bf08d01bc940bdb2f8876bfbc202a43",
+      "states_sha256": "3a41d1df96f5f18fa31ee3a26d02b439abeaa39ecf27b84c7d9238a6ef034434",
+      "result_sha256": "dfdfcae77775a03c4e85945646519e42ae8c9fe68133583be41291c19f952c79"
+    },
+    {
+      "name": "verified-1hp500",
+      "actual_hp": 1,
+      "enemy_health_multiplier": 500,
+      "sample_start": 1085,
+      "sample_end": 3945,
+      "sample_count": 2861,
+      "normal_every_sample": true,
+      "helpers_remain_101": true,
+      "damage_taken": 0,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "vitality_register": 2,
+      "event_counter": 1,
+      "blipper_hp_observed": [
+        1,
+        10
+      ],
+      "input_sha256": "c092b8af7748ba6dbdd3b93bdc3eb4882bf08d01bc940bdb2f8876bfbc202a43",
+      "states_sha256": "412e7486f4d2ba90ac601ae3fb439e95660a0eb8e2c3430b23510fa87b7cd01f",
+      "result_sha256": "7908095e0e25c888585ce55664d426c2f24b829064aab0a95706ef432e416cb8"
+    },
+    {
+      "name": "verified-6hp500",
+      "actual_hp": 6,
+      "enemy_health_multiplier": 500,
+      "sample_start": 1085,
+      "sample_end": 3945,
+      "sample_count": 2861,
+      "normal_every_sample": true,
+      "helpers_remain_101": true,
+      "damage_taken": 0,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "vitality_register": 2,
+      "event_counter": 1,
+      "blipper_hp_observed": [
+        1,
+        10
+      ],
+      "input_sha256": "c092b8af7748ba6dbdd3b93bdc3eb4882bf08d01bc940bdb2f8876bfbc202a43",
+      "states_sha256": "89ac123aa4a83c8e7d75e6ca390fc571fa1aaca27ad5610053659093d523fb96",
+      "result_sha256": "c27eff17f766d7b93f98cc91df1fafba592771c33f62c40775f89f5bdb11eb40"
+    }
+  ],
+  "limitations": [
+    "Qualified late 551 approach only, not arbitrary 551 arrivals or new-game access.",
+    "No all-seed, all-RNG, all-health or arbitrary door-shuffle claim.",
+    "No generic Normal, silver-block, puff or copied-ability equivalence.",
+    "No change to RoomSanity, the separate underwater 553 route or other exits.",
+    "Independent review did not perform a fresh emulator replay or independently reconstruct every collision-map tile.",
+    "Consecutive samples cover gameplay frames 1085 through 3945, not boot frame 0.",
+    "This sufficient exploration sequence includes matched earlier attempts, not a shortest route.",
+    "No health restriction follows from the tested matrix."
+  ],
+  "control": {
+    "name": "control-no-puff6",
+    "actual_hp": 6,
+    "enemy_health_multiplier": 100,
+    "sample_start": 1085,
+    "sample_end": 3945,
+    "sample_count": 2861,
+    "normal_every_sample": true,
+    "helpers_remain_101": true,
+    "damage_taken": 0,
+    "local_client_messages": [],
+    "vitality_register": 0,
+    "event_counter": 0,
+    "blipper_hp_observed": [
+      1,
+      2
+    ],
+    "input_sha256": "dc7879c73d498349084072d0b3441b49d06bf4cfcae3b2d67d8171288ea613cc",
+    "states_sha256": "02e22552674b3e3b08c00017ae49655ae96c6c993d8a8070b99ee95d79e99438",
+    "result_sha256": "f99909a986752dafe182b932bbc2f473fe9880521f476966a4b7e8cc8fd3b679",
+    "difference_frame": 3525,
+    "identical_state_prefix_through": 3525,
+    "success_keys": 18,
+    "control_keys": 16,
+    "omitted_key_bit": 2,
+    "lower_gate_crossing": false,
+    "final_xy": [
+      242.734375,
+      136.99609375
+    ]
+  }
+}

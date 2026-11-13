@@ -1,6 +1,6 @@
 """Cutter permission is progression, not automatic equipment or starting inventory."""
 
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Iterable
 from typing import cast
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
@@ -11,6 +11,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any
 import zipfile
+import hashlib
+import json
 
 import pytest
 from BaseClasses import CollectionState, ItemClassification, MultiWorld, PlandoOptions
@@ -33,7 +35,7 @@ SEEDS = (1042, 20261107, 8675309)
 @pytest.mark.parametrize("gating", [False, True])
 def test_new_starting_set_and_cutter_collection(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
-    assert starting_copy_abilities(mode) == ("Beam",)
+    assert starting_copy_abilities(mode) == ("Beam", "Ice")
     state = CollectionState(world.multiworld)
     assert not state.has("Cutter Ability", 1)
     item = world.create_item("Cutter Ability")
@@ -159,9 +161,45 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
-    # Removing forced permissions changes fill order. Preserve these exact unsafe
-    # minimal samples as explicit refusals, rather than replacing their seeds.
-    if seed == 8675309 and gating == 1 and accessibility == "minimal":
+    # Preserve the old twelve-check refusal as history; Beam+Ice now strands
+    # exactly one check behind its own Radish hub connection for this sample.
+    if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
+        from .. import check_accessibility
+        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["current_native8675309"]
+        assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
+            "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5")
+        original = check_accessibility.validate_all_checks
+        inspected: list[bool] = []
+        def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
+            state = CollectionState(multiworld)
+            state.sweep_for_advancements()
+            checks = [loc for loc in multiworld.get_locations(1) if loc.address is not None]
+            assert len(checks) == 124 and all(loc.item is not None for loc in checks)
+            assert [loc.name for loc in checks if not loc.can_reach(state)] == ["Radish Ruins Vitality - Big Chest"]
+            location = multiworld.get_location("Radish Ruins Vitality - Big Chest", 1)
+            assert location.item and location.item.name == "Radish Ruins - Hub Connection"
+            assert all(loc.can_reach(multiworld.get_all_state()) for loc in checks)
+            inspected.append(True)
+            original(multiworld, players)
+        monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, seed, [options])
+        assert inspected == [True]
+        assert str(caught.value).splitlines()[-1] == "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Radish Ruins Vitality - Big Chest']"
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
+    # New Beam+Ice fill has a precise unsafe minimal sample; keep refusing it.
+    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
+        from ..check_accessibility import KirbyAmCheckAccessibilityError
+        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, seed, [options])
+        line = str(caught.value).splitlines()[-1]
+        assert "unfilled=[]; unavailable even with all inventory=[]" in line
+        assert hashlib.sha256(line.encode()).hexdigest() == "c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879"
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
+    # Source-mode 1/2 refusals retain their existing exact sample boundaries.
+    if seed == 8675309 and mode in (1, 2) and gating == 1 and accessibility == "minimal":
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
             _generate(monkeypatch, tmp_path, seed, [options])

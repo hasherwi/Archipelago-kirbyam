@@ -1,0 +1,1046 @@
+{
+  "status": "Four continuous positive runs and four attack-window controls accepted.",
+  "private_acceptance_sha256": "bdedb0129195e13436670fe4ec14c12f1d5ffd607163e9010ef9f1102bc1f22e",
+  "private_review_hashes_sha256": "c811ff2c5c64ce45092dffda5045fde737cb1e62cc45cef1c658cc66797f3238",
+  "source_commit": "3304eb7cd4d83f8e09f18cfb737fc67e798a7b1e",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "generation_seed": 5,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 2089474284528698192,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088CA04C",
+    "native_xy": [
+      528,
+      264
+    ],
+    "source_key": "WADDLE_DOO",
+    "runtime_ability": 25,
+    "table_offset": "0x3517FE",
+    "table_value": 25,
+    "source_bitmap_index": 18
+  },
+  "target": {
+    "id": "bomb_517_chocolate",
+    "location": "MINOR_CHEST_SPRAY_PAINT_12",
+    "location_id": 3960511,
+    "room": 517,
+    "f1": [
+      14,
+      7
+    ],
+    "f2": [
+      [
+        15,
+        7
+      ],
+      [
+        15,
+        8
+      ],
+      [
+        16,
+        8
+      ],
+      [
+        17,
+        8
+      ],
+      [
+        15,
+        9
+      ],
+      [
+        16,
+        9
+      ],
+      [
+        17,
+        9
+      ]
+    ],
+    "chest": 57,
+    "chest_template": "0x088CA0B8"
+  },
+  "setup": {
+    "native_gating": 0,
+    "native_area_keys": 0,
+    "fixture_byte_diff": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 79
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 2
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 40
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 136
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "startup_qualification": "Room and coordinate predecessor fixture in native 591, not game-start reachability. Player (40,136); helpers native 101 at (48,80). Fresh battery save before frame 0 only.",
+    "client_config_writes": [
+      {
+        "frame": 1085,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "5083a590",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "ca4dff1c",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "feffff03",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      }
+    ],
+    "config_write_scope": "Eight four-byte production-client writes at frame 1085, harness-fenced by frame, address and size; not compare-and-write GUARD requests.",
+    "later_harness_writes": 0,
+    "state_restores": 0
+  },
+  "attack": {
+    "start_frame": 3742,
+    "standing_position": [
+      201.99609375,
+      88.99609375
+    ],
+    "inputs": [
+      {
+        "start": 3742,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3743,
+        "frames": 70,
+        "keys": 144
+      }
+    ],
+    "blast_callback": "0x08074745",
+    "tile_scan_box": [
+      -24,
+      -24,
+      24,
+      24
+    ],
+    "later_damage_box": [
+      -30,
+      -30,
+      30,
+      30
+    ],
+    "blast_position": [
+      201.99609375,
+      88.99609375
+    ],
+    "integer_scan_extreme": [
+      225,
+      112
+    ],
+    "chain_callback": "0x0800E27D",
+    "f1_frame": 3771,
+    "f2_frame": 3801,
+    "chest_frame": 4885,
+    "ability_retained": 25,
+    "attribution": "F1 chain parent points to the observed blast object, whose parent is player Kirby. Local corner detonation, not piercing flight."
+  },
+  "runs": {
+    "final100-1hp-positive": {
+      "positive": true,
+      "hp": 1,
+      "enemy_health": 100,
+      "frames": 5123,
+      "health_samples": 4039,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bb1714a35e24d5f0f34c382bf9c84b3e18ea623b02c9dcb398ddb409c700c0e9",
+      "input_sha256": "8377f17f86c4c90b01a9d241408cb771387742422557b3586bcfd0059879cc2c",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 4,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": 3771,
+      "f2_frame": 3801,
+      "chest_frame": 4885,
+      "target_blast": {
+        "frame": 3771,
+        "task": "0x3001b58",
+        "object": "0x3004050",
+        "task_fn": "0x8074745",
+        "kind": 2,
+        "room": 517,
+        "template": null,
+        "parent": "0x2020ee0",
+        "type": null,
+        "hp": null,
+        "copy": null,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "flags": "0xa0084900",
+        "mask": "0x20001003",
+        "scan_box": [
+          -24,
+          -24,
+          24,
+          24
+        ],
+        "sprite_box": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "anim_id": 667,
+        "variant": 0,
+        "state": null
+      },
+      "chain": {
+        "task_fn": "0x800e27d",
+        "parent": "0x3004050",
+        "x": 232.0,
+        "y": 120.0
+      },
+      "final": {
+        "room": 517,
+        "x": 325.03515625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 25,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "event_counter": 1
+      },
+      "client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      }
+    },
+    "final100-6hp-positive": {
+      "positive": true,
+      "hp": 6,
+      "enemy_health": 100,
+      "frames": 5123,
+      "health_samples": 4039,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "543abc4d1d3b997799fbcc30fe73a74b74717dc9f422da6b1dfeff4cde28e096",
+      "input_sha256": "8377f17f86c4c90b01a9d241408cb771387742422557b3586bcfd0059879cc2c",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 4,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": 3771,
+      "f2_frame": 3801,
+      "chest_frame": 4885,
+      "target_blast": {
+        "frame": 3771,
+        "task": "0x3001bd0",
+        "object": "0x3003f88",
+        "task_fn": "0x8074745",
+        "kind": 2,
+        "room": 517,
+        "template": null,
+        "parent": "0x2020ee0",
+        "type": null,
+        "hp": null,
+        "copy": null,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "flags": "0xa0084900",
+        "mask": "0x20001003",
+        "scan_box": [
+          -24,
+          -24,
+          24,
+          24
+        ],
+        "sprite_box": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "anim_id": 667,
+        "variant": 0,
+        "state": null
+      },
+      "chain": {
+        "task_fn": "0x800e27d",
+        "parent": "0x3003f88",
+        "x": 232.0,
+        "y": 120.0
+      },
+      "final": {
+        "room": 517,
+        "x": 325.03515625,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 25,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "event_counter": 1
+      },
+      "client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      }
+    },
+    "final500-1hp-positive": {
+      "positive": true,
+      "hp": 1,
+      "enemy_health": 500,
+      "frames": 5123,
+      "health_samples": 4039,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "115a68b252b8962bf71a80baef02f50c94a35c752e82bf1f99c515c31c5602fc",
+      "input_sha256": "8377f17f86c4c90b01a9d241408cb771387742422557b3586bcfd0059879cc2c",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 20,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": 3771,
+      "f2_frame": 3801,
+      "chest_frame": 4885,
+      "target_blast": {
+        "frame": 3771,
+        "task": "0x3001b58",
+        "object": "0x3004050",
+        "task_fn": "0x8074745",
+        "kind": 2,
+        "room": 517,
+        "template": null,
+        "parent": "0x2020ee0",
+        "type": null,
+        "hp": null,
+        "copy": null,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "flags": "0xa0084900",
+        "mask": "0x20001003",
+        "scan_box": [
+          -24,
+          -24,
+          24,
+          24
+        ],
+        "sprite_box": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "anim_id": 667,
+        "variant": 0,
+        "state": null
+      },
+      "chain": {
+        "task_fn": "0x800e27d",
+        "parent": "0x3004050",
+        "x": 232.0,
+        "y": 120.0
+      },
+      "final": {
+        "room": 517,
+        "x": 325.03515625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 25,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "event_counter": 1
+      },
+      "client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      }
+    },
+    "final500-6hp-positive": {
+      "positive": true,
+      "hp": 6,
+      "enemy_health": 500,
+      "frames": 5123,
+      "health_samples": 4039,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "361a2e4910fefc10cea16b1eb1e30b70129536a07e5ba15828d44784195c3562",
+      "input_sha256": "8377f17f86c4c90b01a9d241408cb771387742422557b3586bcfd0059879cc2c",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 20,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": 3771,
+      "f2_frame": 3801,
+      "chest_frame": 4885,
+      "target_blast": {
+        "frame": 3771,
+        "task": "0x3001bd0",
+        "object": "0x3003f88",
+        "task_fn": "0x8074745",
+        "kind": 2,
+        "room": 517,
+        "template": null,
+        "parent": "0x2020ee0",
+        "type": null,
+        "hp": null,
+        "copy": null,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "flags": "0xa0084900",
+        "mask": "0x20001003",
+        "scan_box": [
+          -24,
+          -24,
+          24,
+          24
+        ],
+        "sprite_box": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "anim_id": 667,
+        "variant": 0,
+        "state": null
+      },
+      "chain": {
+        "task_fn": "0x800e27d",
+        "parent": "0x3003f88",
+        "x": 232.0,
+        "y": 120.0
+      },
+      "final": {
+        "room": 517,
+        "x": 325.03515625,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 25,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "event_counter": 1
+      },
+      "client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      }
+    },
+    "window100-1hp-control": {
+      "positive": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "frames": 3813,
+      "health_samples": 2729,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bb1714a35e24d5f0f34c382bf9c84b3e18ea623b02c9dcb398ddb409c700c0e9",
+      "input_sha256": "4cf8d4dc0ba88b0db2825c382cd29e25484f935d757c6a284d5f4f256db26765",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 4,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": null,
+      "f2_frame": null,
+      "chest_frame": null,
+      "target_blast": null,
+      "chain": null,
+      "final": {
+        "room": 517,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "hp": 1,
+        "ability": 25,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "event_counter": 0
+      },
+      "client": {
+        "messages": [],
+        "server_submission": false
+      }
+    },
+    "window100-6hp-control": {
+      "positive": false,
+      "hp": 6,
+      "enemy_health": 100,
+      "frames": 3813,
+      "health_samples": 2729,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "543abc4d1d3b997799fbcc30fe73a74b74717dc9f422da6b1dfeff4cde28e096",
+      "input_sha256": "4cf8d4dc0ba88b0db2825c382cd29e25484f935d757c6a284d5f4f256db26765",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 4,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": null,
+      "f2_frame": null,
+      "chest_frame": null,
+      "target_blast": null,
+      "chain": null,
+      "final": {
+        "room": 517,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "hp": 6,
+        "ability": 25,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "event_counter": 0
+      },
+      "client": {
+        "messages": [],
+        "server_submission": false
+      }
+    },
+    "window500-1hp-control": {
+      "positive": false,
+      "hp": 1,
+      "enemy_health": 500,
+      "frames": 3813,
+      "health_samples": 2729,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "115a68b252b8962bf71a80baef02f50c94a35c752e82bf1f99c515c31c5602fc",
+      "input_sha256": "4cf8d4dc0ba88b0db2825c382cd29e25484f935d757c6a284d5f4f256db26765",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 20,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": null,
+      "f2_frame": null,
+      "chest_frame": null,
+      "target_blast": null,
+      "chain": null,
+      "final": {
+        "room": 517,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "hp": 1,
+        "ability": 25,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "event_counter": 0
+      },
+      "client": {
+        "messages": [],
+        "server_submission": false
+      }
+    },
+    "window500-6hp-control": {
+      "positive": false,
+      "hp": 6,
+      "enemy_health": 500,
+      "frames": 3813,
+      "health_samples": 2729,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "361a2e4910fefc10cea16b1eb1e30b70129536a07e5ba15828d44784195c3562",
+      "input_sha256": "4cf8d4dc0ba88b0db2825c382cd29e25484f935d757c6a284d5f4f256db26765",
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "source": {
+        "template": "0x88ca04c",
+        "type": 18,
+        "copy": 7,
+        "hp": 20,
+        "x": 528.0,
+        "y": 261.99609375
+      },
+      "acquisition_frame": 1939,
+      "abilities_after_acquisition": [
+        25
+      ],
+      "f1_frame": null,
+      "f2_frame": null,
+      "chest_frame": null,
+      "target_blast": null,
+      "chain": null,
+      "final": {
+        "room": 517,
+        "x": 201.99609375,
+        "y": 88.99609375,
+        "hp": 6,
+        "ability": 25,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "event_counter": 0
+      },
+      "client": {
+        "messages": [],
+        "server_submission": false
+      }
+    }
+  },
+  "control": {
+    "common_state_through": 3742,
+    "cutoff_frame": 3813,
+    "positive_frames": 5123,
+    "only_input_change": {
+      "positive": {
+        "start": 3742,
+        "frames": 1,
+        "keys": 2
+      },
+      "control": {
+        "start": 3742,
+        "frames": 1,
+        "keys": 0
+      }
+    },
+    "scope": "Attack-window dependency only. Controls stop before the later chest approach; no full-length no-damage closed-wall route is claimed."
+  },
+  "neutral_control": {
+    "status": "passed bounded negative",
+    "run": "explore6",
+    "scope": "100% enemy,1HP same-pose neutral/default right-up detonation control; not the B-omission control",
+    "common_state_through": 3742,
+    "cutoff": 3813,
+    "first_blast": {
+      "frame": 3771,
+      "task": "0x3001b58",
+      "object": "0x3004050",
+      "task_fn": "0x8074745",
+      "kind": 2,
+      "room": 517,
+      "template": null,
+      "parent": "0x2020ee0",
+      "type": null,
+      "hp": null,
+      "copy": null,
+      "x": 201.99609375,
+      "y": 77.60546875,
+      "flags": "0xa0004900",
+      "mask": "0x20001003",
+      "scan_box": [
+        -24,
+        -24,
+        24,
+        24
+      ],
+      "sprite_box": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "anim_id": 667,
+      "variant": 0,
+      "state": null
+    },
+    "hp_min": 1,
+    "hp_max": 1,
+    "ability_retained": 25,
+    "target_f1": 241,
+    "linked_f2": [
+      242,
+      242,
+      242,
+      242,
+      242,
+      242,
+      242
+    ],
+    "chest57": false,
+    "client": {
+      "messages": [],
+      "server_submission": false
+    }
+  },
+  "excluded_later_controls": {
+    "final100-1hp-control": {
+      "frames": 5123,
+      "hp_min": 0,
+      "final_f1": 241,
+      "client_messages": [],
+      "scope": "Later closed-wall continuation dies; excluded from accepted no-damage controls."
+    },
+    "final100-6hp-control": {
+      "frames": 5123,
+      "hp_min": 0,
+      "final_f1": 241,
+      "client_messages": [],
+      "scope": "Later closed-wall continuation dies; excluded from accepted no-damage controls."
+    },
+    "final500-1hp-control": {
+      "frames": 5123,
+      "hp_min": 0,
+      "final_f1": 241,
+      "client_messages": [],
+      "scope": "Later closed-wall continuation dies; excluded from accepted no-damage controls."
+    },
+    "final500-6hp-control": {
+      "frames": 5123,
+      "hp_min": 0,
+      "final_f1": 241,
+      "client_messages": [],
+      "scope": "Later closed-wall continuation dies; excluded from accepted no-damage controls."
+    }
+  },
+  "exclusions": [
+    "No source renewal, respawn, arbitrary arrival or game-start Hub2 access proof.",
+    "Native mode 1 with gating and Area Keys off; host tests separately cover other guaranteed policies, permissions and options.",
+    "No intermediate health interpolation beyond HP 1/6 and enemy health 100/500%.",
+    "No global Missile range, piercing flight, other target, other exit, RoomSanity or helper/Phone equivalence.",
+    "No server transmission or acknowledgment; client messages are captured locally."
+  ]
+}

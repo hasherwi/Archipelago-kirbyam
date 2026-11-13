@@ -1,0 +1,909 @@
+{
+  "qualification": "Cold startup in native814 right-door alcove, not arbitrary ROOM_6_12 arrival. Physical door enters native831 at left spawn, complete Normal maze traversal, physical lower native825 entry, Normal Frosty defeat and natural UFO acquisition, carry, top-charge switch, timed gate, physical chest and actual production client poll.",
+  "helpers": "Other three Kirbys are offscreen autonomous actors in native101 and (long500 runs)106. Every-frame trace excludes all three from814/831/825; no Phone/shoulder input, no multiplayer input, no helper route-state interaction observed. Not claimed inert or permanently101.",
+  "source_and_target": {
+    "generation_seed": 5,
+    "policy_seed": 2089474284528698192,
+    "mode": "full-pool shuffled per enemy type",
+    "allowed_ability_count": 25,
+    "no_ability_weight": 0,
+    "source": "MR_FROSTY",
+    "template": "0x088CD3F0",
+    "table_offset": "0x351B8E",
+    "source_bitmap_index": 56,
+    "grant": "UFO",
+    "runtime_id": 14,
+    "ability_gating": false,
+    "area_keys": false
+  },
+  "runs": [
+    {
+      "name": "composed100-1hp-positive",
+      "enemy_health_percent": 100,
+      "kirby_hp": 1,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        }
+      ],
+      "frosty_initial_hp": 30,
+      "frosty_zero_frame": 6316,
+      "ufo_frame": 6765,
+      "beam_frame": 7213,
+      "switch_frame": 7236,
+      "chest_frame": 7436,
+      "end_frame": 7514,
+      "final_x": 659.04296875,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "hashes": {
+        "result.json": "67d84025f07390ba83a10ae5160fd09d1feab4e1f21be8db969fe3f81e6f3813",
+        "inputs.json": "7b85b81da2feca0f59335fb827c7d64373efe7c20b81d28de5780b79e58202bb",
+        "per-frame.json": "f4ea3736e9cb6e04a60865d1cee4028a30573a5cc6f62b6840653422e0ae5fce"
+      }
+    },
+    {
+      "name": "composed100-1hp-no-target-attack",
+      "enemy_health_percent": 100,
+      "kirby_hp": 1,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        }
+      ],
+      "frosty_initial_hp": 30,
+      "frosty_zero_frame": 6316,
+      "ufo_frame": 6765,
+      "beam_frame": null,
+      "switch_frame": null,
+      "chest_frame": null,
+      "end_frame": 7514,
+      "final_x": 568.0,
+      "client_messages": [],
+      "hashes": {
+        "result.json": "1f2dc52165014eeece653470ccc51ab3b720dc62dc2647d67053137d979d39eb",
+        "inputs.json": "33f99ade79635f85da4f2978f5f1df33843b3c87e7c39c41a2262804798690fd",
+        "per-frame.json": "8448820759d8af223f86d2a9662cdc75ea19688718a3e80c7aef98a19f9d7213"
+      }
+    },
+    {
+      "name": "composed100-6hp-positive",
+      "enemy_health_percent": 100,
+      "kirby_hp": 6,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        }
+      ],
+      "frosty_initial_hp": 30,
+      "frosty_zero_frame": 6316,
+      "ufo_frame": 6765,
+      "beam_frame": 7213,
+      "switch_frame": 7236,
+      "chest_frame": 7436,
+      "end_frame": 7514,
+      "final_x": 659.04296875,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "hashes": {
+        "result.json": "8d9455156d7194a6f6eda10696f2dc40bed1fcbba3a8099ea689f49a0b4599c2",
+        "inputs.json": "7b85b81da2feca0f59335fb827c7d64373efe7c20b81d28de5780b79e58202bb",
+        "per-frame.json": "7f9392d74c7490e2841c8991f90625f4ef5a774c7fafda1cd779503c6e16d25d"
+      }
+    },
+    {
+      "name": "composed100-6hp-no-target-attack",
+      "enemy_health_percent": 100,
+      "kirby_hp": 6,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        }
+      ],
+      "frosty_initial_hp": 30,
+      "frosty_zero_frame": 6316,
+      "ufo_frame": 6765,
+      "beam_frame": null,
+      "switch_frame": null,
+      "chest_frame": null,
+      "end_frame": 7514,
+      "final_x": 568.0,
+      "client_messages": [],
+      "hashes": {
+        "result.json": "3b6e52f6b6ea8bc77da42546b8599160d1caed00e0cc19050df46448590deb17",
+        "inputs.json": "33f99ade79635f85da4f2978f5f1df33843b3c87e7c39c41a2262804798690fd",
+        "per-frame.json": "8b3cf9276d78ee269b32838dbe2e5df57690e7bf1e40f0c9087d61a8844ea4a6"
+      }
+    },
+    {
+      "name": "composed500-1hp-positive",
+      "enemy_health_percent": 500,
+      "kirby_hp": 1,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        },
+        {
+          "frame": 14833,
+          "rooms": [
+            101,
+            101,
+            106
+          ]
+        },
+        {
+          "frame": 16381,
+          "rooms": [
+            101,
+            106,
+            106
+          ]
+        },
+        {
+          "frame": 17743,
+          "rooms": [
+            106,
+            106,
+            106
+          ]
+        }
+      ],
+      "frosty_initial_hp": 150,
+      "frosty_zero_frame": 17347,
+      "ufo_frame": 17563,
+      "beam_frame": 18065,
+      "switch_frame": 18088,
+      "chest_frame": 18288,
+      "end_frame": 18366,
+      "final_x": 658.1015625,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "hashes": {
+        "result.json": "5621a29e062752b084a6ced6896f91f128e12f906141de27b24f9ee29cc6f1f1",
+        "inputs.json": "fbe683ccafd56128e125b71d4d4564320bfce843b97440e8bf1e11a7d32aaa52",
+        "per-frame.json": "375458dc268d6f4a19f9ebb817604b5ba6a56e642f7a5683b8030cbfcfa5ef0d"
+      }
+    },
+    {
+      "name": "composed500-1hp-no-target-attack",
+      "enemy_health_percent": 500,
+      "kirby_hp": 1,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        },
+        {
+          "frame": 14833,
+          "rooms": [
+            101,
+            101,
+            106
+          ]
+        },
+        {
+          "frame": 16381,
+          "rooms": [
+            101,
+            106,
+            106
+          ]
+        },
+        {
+          "frame": 17743,
+          "rooms": [
+            106,
+            106,
+            106
+          ]
+        }
+      ],
+      "frosty_initial_hp": 150,
+      "frosty_zero_frame": 17347,
+      "ufo_frame": 17563,
+      "beam_frame": null,
+      "switch_frame": null,
+      "chest_frame": null,
+      "end_frame": 18366,
+      "final_x": 568.0,
+      "client_messages": [],
+      "hashes": {
+        "result.json": "3c57a91006ea1f522cdd100d62ca89f02f5a7c848c4d09b69b073e99b0ac037b",
+        "inputs.json": "039b6fc9738c87df4b3f2618bae527b71bac04abded6ffc5d9c88e52350d252e",
+        "per-frame.json": "f0950e0396f4852fe7cb5c99e4e77ef6a1e4fb8cf6b77d8ca961603428592e7a"
+      }
+    },
+    {
+      "name": "composed500-6hp-positive",
+      "enemy_health_percent": 500,
+      "kirby_hp": 6,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        },
+        {
+          "frame": 14833,
+          "rooms": [
+            101,
+            101,
+            106
+          ]
+        },
+        {
+          "frame": 16381,
+          "rooms": [
+            101,
+            106,
+            106
+          ]
+        },
+        {
+          "frame": 17743,
+          "rooms": [
+            106,
+            106,
+            106
+          ]
+        }
+      ],
+      "frosty_initial_hp": 150,
+      "frosty_zero_frame": 17347,
+      "ufo_frame": 17563,
+      "beam_frame": 18065,
+      "switch_frame": 18088,
+      "chest_frame": 18288,
+      "end_frame": 18366,
+      "final_x": 658.1015625,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960523
+          ]
+        }
+      ],
+      "hashes": {
+        "result.json": "c972b11f0fa06f9b142598f7242c2153ed5f10fa90089fa08e962b9c55aa7453",
+        "inputs.json": "fbe683ccafd56128e125b71d4d4564320bfce843b97440e8bf1e11a7d32aaa52",
+        "per-frame.json": "b209f5c14e19b41f23c479dde2489613de6a8576b34afe7031b61bbb70892756"
+      }
+    },
+    {
+      "name": "composed500-6hp-no-target-attack",
+      "enemy_health_percent": 500,
+      "kirby_hp": 6,
+      "passed": true,
+      "room_history": [
+        {
+          "frame": 1085,
+          "room": 814,
+          "x": 680.0,
+          "y": 41.14453125
+        },
+        {
+          "frame": 1137,
+          "room": 831,
+          "x": 40.0,
+          "y": 280.99609375
+        },
+        {
+          "frame": 3613,
+          "room": 825,
+          "x": 280.0,
+          "y": 296.99609375
+        }
+      ],
+      "helper_room_history": [
+        {
+          "frame": 1085,
+          "rooms": [
+            101,
+            101,
+            101
+          ]
+        },
+        {
+          "frame": 14833,
+          "rooms": [
+            101,
+            101,
+            106
+          ]
+        },
+        {
+          "frame": 16381,
+          "rooms": [
+            101,
+            106,
+            106
+          ]
+        },
+        {
+          "frame": 17743,
+          "rooms": [
+            106,
+            106,
+            106
+          ]
+        }
+      ],
+      "frosty_initial_hp": 150,
+      "frosty_zero_frame": 17347,
+      "ufo_frame": 17563,
+      "beam_frame": null,
+      "switch_frame": null,
+      "chest_frame": null,
+      "end_frame": 18366,
+      "final_x": 568.0,
+      "client_messages": [],
+      "hashes": {
+        "result.json": "6aabb9353858493c6e9a6f03d01f5eb17af3a9ad54e3104593dad299814fa773",
+        "inputs.json": "039b6fc9738c87df4b3f2618bae527b71bac04abded6ffc5d9c88e52350d252e",
+        "per-frame.json": "872188d695431344aed7e7a551e321c429c163fedc27c5171f16504d7ee2b0aa"
+      }
+    }
+  ],
+  "limitations": [
+    "Startup814 right door alcove only, not upstream814 traversal.",
+    "Enemy100/500 \u00d7 KirbyHP1/6 endpoints only, not full health continuum.",
+    "No server submission, production changes, publication, global UFO carry, or other-ability equivalence.",
+    "Earlier ten accepted831-alcove endpoint runs immutable and separate."
+  ],
+  "schema_version": 1,
+  "status": "Independently reviewed continuous endpoint matrix and qualified831 ingress",
+  "access_region": "REGION_OLIVE_OCEAN/ROOM_6_14",
+  "incoming_region": "REGION_OLIVE_OCEAN/ROOM_6_12",
+  "attribution_runs": [
+    {
+      "name": "composed-attribution-100",
+      "baseline_exact_route_state_match": true,
+      "frosty_damage_events": [
+        {
+          "frame": 5633,
+          "hp_before": 30,
+          "hp_after": 20,
+          "previous_frame_live_shot": {
+            "task": "0x3001c98",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 5913,
+          "hp_before": 20,
+          "hp_after": 10,
+          "previous_frame_live_shot": {
+            "task": "0x3001c34",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 6316,
+          "hp_before": 10,
+          "hp_after": 0,
+          "previous_frame_live_shot": {
+            "task": "0x3001ce8",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        }
+      ],
+      "route_attack_parents": [
+        "0x2020ee0"
+      ],
+      "helper_parent_projectiles_seen": false,
+      "switch_activation_frame": 7236,
+      "live_player_beam_at_activation": {
+        "task": "0x3001c84",
+        "object": "0x300414c",
+        "task_fn": "0x8070581",
+        "native_room": 825,
+        "parent": "0x2020ee0",
+        "damage": 18,
+        "mask": "0x20001103"
+      },
+      "hashes": {
+        "result.json": "6d66f5ddd0649f7a9c0e1ceac35a1ec0b75f3f40434e9ed7cce37ce4c87adb54",
+        "per-frame.json": "f9214040f46d6039263422f6146c4bfb2b7f589d4c7642be08ad56de06c8c35b",
+        "inputs.json": "7b85b81da2feca0f59335fb827c7d64373efe7c20b81d28de5780b79e58202bb"
+      }
+    },
+    {
+      "name": "composed-attribution-500",
+      "baseline_exact_route_state_match": true,
+      "frosty_damage_events": [
+        {
+          "frame": 4800,
+          "hp_before": 150,
+          "hp_after": 140,
+          "previous_frame_live_shot": {
+            "task": "0x3001bd0",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 5071,
+          "hp_before": 140,
+          "hp_after": 130,
+          "previous_frame_live_shot": {
+            "task": "0x3001ce8",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 5891,
+          "hp_before": 130,
+          "hp_after": 120,
+          "previous_frame_live_shot": {
+            "task": "0x3001c70",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 6368,
+          "hp_before": 120,
+          "hp_after": 110,
+          "previous_frame_live_shot": {
+            "task": "0x3001cd4",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 6811,
+          "hp_before": 110,
+          "hp_after": 100,
+          "previous_frame_live_shot": {
+            "task": "0x3001b30",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 7344,
+          "hp_before": 100,
+          "hp_after": 90,
+          "previous_frame_live_shot": {
+            "task": "0x3001cfc",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 8493,
+          "hp_before": 90,
+          "hp_after": 80,
+          "previous_frame_live_shot": {
+            "task": "0x3001b58",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 9626,
+          "hp_before": 80,
+          "hp_after": 70,
+          "previous_frame_live_shot": {
+            "task": "0x3001d10",
+            "object": "0x30040d0",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 10057,
+          "hp_before": 70,
+          "hp_after": 60,
+          "previous_frame_live_shot": {
+            "task": "0x3001cd4",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 10790,
+          "hp_before": 60,
+          "hp_after": 50,
+          "previous_frame_live_shot": {
+            "task": "0x3001d10",
+            "object": "0x3004060",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 13843,
+          "hp_before": 50,
+          "hp_after": 40,
+          "previous_frame_live_shot": {
+            "task": "0x3001cfc",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 16636,
+          "hp_before": 40,
+          "hp_after": 30,
+          "previous_frame_live_shot": {
+            "task": "0x3001b6c",
+            "object": "0x3004060",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 16916,
+          "hp_before": 30,
+          "hp_after": 20,
+          "previous_frame_live_shot": {
+            "task": "0x3001cac",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 17173,
+          "hp_before": 20,
+          "hp_after": 10,
+          "previous_frame_live_shot": {
+            "task": "0x3001ba8",
+            "object": "0x3004060",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        },
+        {
+          "frame": 17347,
+          "hp_before": 10,
+          "hp_after": 0,
+          "previous_frame_live_shot": {
+            "task": "0x3001cfc",
+            "object": "0x3003fe4",
+            "task_fn": "0x80728b1",
+            "native_room": 825,
+            "parent": "0x2020ee0",
+            "damage": 10,
+            "mask": "0x20000043"
+          }
+        }
+      ],
+      "route_attack_parents": [
+        "0x2020ee0"
+      ],
+      "helper_parent_projectiles_seen": false,
+      "switch_activation_frame": 18088,
+      "live_player_beam_at_activation": {
+        "task": "0x3001bf8",
+        "object": "0x3003ed4",
+        "task_fn": "0x8070581",
+        "native_room": 825,
+        "parent": "0x2020ee0",
+        "damage": 18,
+        "mask": "0x20001103"
+      },
+      "hashes": {
+        "result.json": "9a05331d01bdd275613c8435bd78569d13b0ad882a1845eebbc3e7d05f77936d",
+        "per-frame.json": "00434e109744fb58b2a8926896f6a69d23d00b342bad1b5b7bb079e56b8980bf",
+        "inputs.json": "fbe683ccafd56128e125b71d4d4564320bfce843b97440e8bf1e11a7d32aaa52"
+      }
+    }
+  ],
+  "provenance": {
+    "packet_sha256": "326ae0b1b9cca45f95587184a9c8cdaf654dc858de5aa7429fb1875405071275",
+    "attribution_sha256": "0db66a3b5a7c8b9efcd2b6944b62500269b4512794b6b3f6f86a2f1c483e3473",
+    "tools": {
+      "composition_audit.py": "2940d21bed2b1bd0b5c8ccc2261e40f88ecb3f8e67a1c10ebd818bb404a50e36",
+      "composition_attribution.py": "6a32144dfd3c834353eb4485f4ab5f027a72f26e1ecdf79140e085ae4b57a3a3",
+      "entry814-manifest.json": "e0fe330c1a615790d96785bc7275e2712368f162d331b0487e634a80dd3b2f23",
+      "entry814-500-manifest.json": "3fdf161a94fcc151859ad1906857f95b314155bc976e994ac89effb689766936",
+      "geometry814.py": "19d86c666f56a524b08d5e4bd420f7c9843e0ef3ea61fdbceaa7c66c3c950615",
+      "summarize_composition.py": "17a75e8ac329c03cfb7ceb6c933cc5a02494c70acf0360dc8b0bb543bba0c318",
+      "summarize_attribution.py": "b1daaf003da9cfdae034e0b32bc93a54272ea5c655df07da4d74f5838c2173f5"
+    }
+  },
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 2089474284528698192,
+    "mapping_style": "per_enemy_type"
+  }
+}
