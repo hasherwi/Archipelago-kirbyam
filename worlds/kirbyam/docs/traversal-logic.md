@@ -1424,8 +1424,9 @@ five reusable providers set that flag:
   kirby.c21200.
 - Master: sub_08075DB0 assigns 0x30007103; kirby.c23710.
 
-Magic's random MetaKnight outcome also sets0x2000 in sub_080838DC/sub_08083B04, but is not a
-reliable reusable provider. Ordinary Stone does not cut ropes. An ability permission item is
+Magic's Meta Knight outcome also sets 0x2000 in sub_080838DC/sub_08083B04, but is not a
+reusable rope provider. A separate visible-selection witness supports only the exact
+[Mustard Room15 switch route](../dev-docs/mustard-room15-magic-source-witness.md), not rope credit. Ordinary Stone does not cut ropes. An ability permission item is
 never equipment. Room transitions do not prove an instance reset: AI occupancy may preserve
 the instance. The one-way carrier records claim no source replenishment or retained rope
 opening across transitions.
@@ -2076,3 +2077,28 @@ All five rows are fail-closed when neither the local nor remote witness works.
 No AP compartment, generic return alias, enemy renewal, starting inventory or
 source assignment changes. The new ordinary-block capability uses only the
 reviewed dry Burning action and grants no equipment or persistent opening.
+
+
+## Late Central Master to Carrot lower Room13
+
+The exact original post-clear Central stand is a special single-acquisition
+source, not an ordinary randomized ability or a permission item. Its addressless
+return event requires all eight unique shards, actual Dimension Mirror access,
+the existing DMK sequence and reachable Central. This uses the goal-independent
+reached-boss completion model; it is not a literal native clear receipt.
+
+The forward-only 801->192->193->170->719 carrier requires independently reachable
+West Hub, Carrot Hub and the enabled Carrot Key. Retained human Master and the
+exact charged wave open only 734 lower ENTRY_FROM_5_07. The 719 target always
+installs five OR graphs; the four finite Doo branches retain their graph-local
+source conditions. No return/retouch/recovery, generic Master provider, helper
+ability, upper734, chest or other-exit credit follows.
+
+The [accepted source witness](../dev-docs/carrot-room7-master-source-witness.md)
+distinguishes five key-on HP1 profiles, each with a positive and repeat (ten traces total),
+the key100 final-action omission, source-derived finite classes over50–500,
+and source-only mode1. Historical clear/Hub doors are imported prerequisites.
+Real local client initialization includes RNG mailbox initialization and actual
+acknowledged receipt rows; it is not a full watcher, external-server, reconnect
+or native BizHawk portability proof. Current coverage is 145 witnesses/five
+conditional-policy fallback targets and PR1052 remains partial.

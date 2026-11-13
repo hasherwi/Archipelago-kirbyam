@@ -1,0 +1,236 @@
+{
+  "version": 1,
+  "status": "PASS_BOUNDED",
+  "production_source_commit": "6948ac7295d3b3e8e1eaf08506338592d707254e",
+  "integration_base": "d04d4d0bec97f116a95d318e9a0d21518b615b72",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "target": {
+    "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+    "location_key": "MINOR_CHEST_RAINBOW_ROUTE_1_GOAL_3",
+    "location_id": 3960568,
+    "native_room": 177,
+    "chest_template": "0x088BB0BC",
+    "requirement": null
+  },
+  "boundary": {
+    "room": 178,
+    "frame": 1085,
+    "xy": [
+      1432,
+      136.99609375
+    ],
+    "next_room": 177,
+    "transition_frame": 2635,
+    "next_xy": [
+      712,
+      56.99609375
+    ]
+  },
+  "mechanism": {
+    "equipment": "Normal",
+    "same_pass_original_flamers": 2,
+    "star_damage": 25,
+    "switch_slot": 2,
+    "dynamic_object_contact_bypass": true,
+    "terrain_piercing": false,
+    "copy_ability_required": false
+  },
+  "setup": {
+    "startup_only_fixture_byte_differences": 15,
+    "client_configuration_writes": 8,
+    "blank_battery_boot": true,
+    "gameplay_writes": false,
+    "runtime_rom_writes": false,
+    "state_restores": false,
+    "helpers_in_route": false,
+    "server_transmission": false
+  },
+  "private_artifact_sha256": {
+    "acceptance-index-v1.json": "87cb83bf16e5a274725637693856e5e54eadd3b9c16dc635de58496c0db8dba0",
+    "independent-review.md": "c9249a1735bdf05d265a9035eaa395524bfaf6185f3066e71501935322621009",
+    "summary-full100-v1.json": "7dff0fc0ae50e3acbc3a98ab9529e37507dcd5ee0abd23b9e847509eb6ba82f2",
+    "report-full100-v1.md": "b8f3bdb5876434a6867b7cfd8b7ca58e1ed7043fe039044206106fd1b08b7df1",
+    "SHA256SUMS-full100-v1": "38337d1f65a615e20daaa5506188c2d694503886a7a91bdfcacd19b2e6bdbd3c",
+    "index.json": "3b4f9aae7a1589cdbfefb85ef995403fa99da9118260c762e541dd404d9438ae",
+    "full500-report.md": "3225ecb508549c2163a63e2d01fc171ffb53186625f7ce6272f4339846802492",
+    "full500-summary.json": "d3ef6f10a6191c626f1f43cae033bd7b5a22a49183542a4257cb3d990be29a9a",
+    "full500-controls.json": "c1d3b893a743abc8151e307255c7925b01536cb01dea614395adae7f11d64b37"
+  },
+  "matrix": [
+    {
+      "actual_hp": 6,
+      "enemy_health_multiplier": 100,
+      "ability_gating": 0,
+      "normal_every_frame": true,
+      "damage_taken": 0,
+      "sample_count": 10990,
+      "capture_frame": 10935,
+      "source_templates": [
+        "0x88baf78",
+        "0x88bafc0"
+      ],
+      "shot_frame": 11452,
+      "physical_chest_frame": 11935,
+      "final_frame": 12074,
+      "local_client_locations": [
+        3960568
+      ],
+      "input_sha256": "c786f5f33727b088fce885d3ca007c2260773999d1e0b74c327637f5b28e0c82",
+      "control": {
+        "omitted_key_bit": 2,
+        "difference_frame": 11452,
+        "stop_frame": 11533,
+        "final_x": 182,
+        "retained_mouth": 109,
+        "switch_slot2": 0,
+        "chest_event_counter": 0,
+        "local_client_locations": []
+      }
+    },
+    {
+      "actual_hp": 1,
+      "enemy_health_multiplier": 100,
+      "ability_gating": 0,
+      "normal_every_frame": true,
+      "damage_taken": 0,
+      "sample_count": 14299,
+      "capture_frame": 14243,
+      "source_templates": [
+        "0x88baf78",
+        "0x88bafc0"
+      ],
+      "shot_frame": 14761,
+      "physical_chest_frame": 15244,
+      "final_frame": 15383,
+      "local_client_locations": [
+        3960568
+      ],
+      "input_sha256": "ff095dc70d7b83221c829f35da367464a4b84b449a085a180fe6da6cf77a0a44",
+      "control": {
+        "omitted_key_bit": 2,
+        "difference_frame": 14761,
+        "stop_frame": 14842,
+        "final_x": 182,
+        "retained_mouth": 109,
+        "switch_slot2": 0,
+        "chest_event_counter": 0,
+        "local_client_locations": []
+      }
+    },
+    {
+      "actual_hp": 6,
+      "enemy_health_multiplier": 500,
+      "ability_gating": 0,
+      "normal_every_frame": true,
+      "damage_taken": 0,
+      "sample_count": 32511,
+      "capture_frame": 32509,
+      "source_templates": [
+        "0x88baf78",
+        "0x88bafc0"
+      ],
+      "shot_frame": 32973,
+      "physical_chest_frame": 33456,
+      "final_frame": 33595,
+      "local_client_locations": [
+        3960568
+      ],
+      "input_sha256": "00584aa740cc1961497569a133a95c2231380cd6a2d70494f8fdc8f5799cbe7d",
+      "control": {
+        "omitted_key_bit": 2,
+        "difference_frame": 32973,
+        "stop_frame": 33054,
+        "final_x": 182,
+        "retained_mouth": 109,
+        "switch_slot2": 0,
+        "chest_event_counter": 0,
+        "local_client_locations": []
+      }
+    },
+    {
+      "actual_hp": 1,
+      "enemy_health_multiplier": 500,
+      "ability_gating": 0,
+      "normal_every_frame": true,
+      "damage_taken": 0,
+      "sample_count": 31883,
+      "capture_frame": 31876,
+      "source_templates": [
+        "0x88baf78",
+        "0x88baf9c"
+      ],
+      "shot_frame": 32345,
+      "physical_chest_frame": 32828,
+      "final_frame": 32967,
+      "local_client_locations": [
+        3960568
+      ],
+      "input_sha256": "7a487a68d61004679f3678d15e1fd432a70551f9658ae1221b3de16efe672b2e",
+      "control": {
+        "omitted_key_bit": 2,
+        "difference_frame": 32345,
+        "stop_frame": 32426,
+        "final_x": 182,
+        "retained_mouth": 109,
+        "switch_slot2": 0,
+        "chest_event_counter": 0,
+        "local_client_locations": []
+      }
+    }
+  ],
+  "limitations": [
+    "Four separately played recipes, not one HP-independent input script or exhaustive RNG coverage.",
+    "Only enemy health 100% and 500%, actual HP 1 and 6; no health restriction is inferred from untested settings.",
+    "The original matrix is ungated; one separate gated/no-items 1 HP/500% representative is accepted, not all random policies or a gated health matrix.",
+    "No upstream 138 or new-game route, central-circle return, RoomSanity or server receipt proof.",
+    "Matched omissions establish the final trigger in these runs, not global impossibility.",
+    "Offscreen source unload/reactivation is not continuous object identity."
+  ],
+  "gated_supplement": {
+    "status": "PASS_BOUNDED",
+    "actual_hp": 1,
+    "enemy_health_multiplier": 500,
+    "ability_gating": 1,
+    "items_received": [],
+    "unlock_mask": 0,
+    "gateable_mask": "0x03FFFE76",
+    "normal_every_frame": true,
+    "damage_taken": 0,
+    "sample_count": 32924,
+    "capture_frame": 32917,
+    "source_templates": [
+      "0x88baf78",
+      "0x88baf9c"
+    ],
+    "retained_mouth": 64,
+    "shot_frame": 33386,
+    "gate_contact_frame": 33389,
+    "switch_contact_frame": 33399,
+    "switch_set_frame": 33400,
+    "physical_chest_frame": 33869,
+    "final_frame": 34008,
+    "local_client_locations": [
+      3960568
+    ],
+    "input_sha256": "2051bffbcabd51a3c373e813febfef2f8a0dac38672adc06c736ae1cd02e7ddb",
+    "control": {
+      "omitted_key_bit": 2,
+      "difference_frame": 33386,
+      "stop_frame": 33467,
+      "sample_count": 32383,
+      "final_x": 182,
+      "retained_mouth": 64,
+      "switch_slot2": 0,
+      "chest_event_counter": 0,
+      "local_client_locations": []
+    },
+    "private_artifact_sha256": {
+      "freeze-index.json": "8bd96d572139d047dbecde83157de2497091e4edc14c6f28ce5fdc404888e5c7",
+      "independent-review.md": "5b73d493f8c4b740bcf9cadcfbbf32f0ea43fb75a08640617cdff68f60c0021e",
+      "acceptance-index-v2.json": "61accc0642281f01c44ed92c5db6c18ece4261658ef13c1a2a47d0a04f6b25da",
+      "summary.json": "94b2babbc435cdbfe87c9dc1bf4a8f2bc1de4b738181f84e1d258ee570bff1fc",
+      "controls.json": "a9f01c93d5cca310cdc07ffd2946fd3ca7752c6f70751d5c861cee95870107ef"
+    }
+  }
+}

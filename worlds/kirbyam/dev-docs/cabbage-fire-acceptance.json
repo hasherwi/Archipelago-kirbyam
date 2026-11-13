@@ -1,0 +1,947 @@
+{
+  "status": "eight verified continuous runs",
+  "private_manifest_sha256": "00de8748d04e3f678f5282cbde26bc8b15370efe549cae80b67f6e6c4c5f9bde",
+  "source_commit": "3304eb7cd4d83f8e09f18cfb737fc67e798a7b1e",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "generation_seed": 18,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 2395008880317811979,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088CA04C",
+    "native_xy": [
+      528,
+      264
+    ],
+    "source": "WADDLE_DOO",
+    "runtime_ability": 1,
+    "ability": "Fire",
+    "seed": 18,
+    "policy_seed": 2395008880317811979,
+    "pool_size": 25,
+    "table_offset": "0x3517FE",
+    "table_value": 1,
+    "source_bitmap_index": 18
+  },
+  "target": {
+    "id": "bomb_517_chocolate",
+    "location": "MINOR_CHEST_SPRAY_PAINT_12",
+    "location_id": 3960511,
+    "room": 517,
+    "f1": [
+      14,
+      7
+    ],
+    "f2": [
+      [
+        15,
+        7
+      ],
+      [
+        15,
+        8
+      ],
+      [
+        16,
+        8
+      ],
+      [
+        17,
+        8
+      ],
+      [
+        15,
+        9
+      ],
+      [
+        16,
+        9
+      ],
+      [
+        17,
+        9
+      ]
+    ],
+    "chest": 57,
+    "chest_template": "0x088CA0B8"
+  },
+  "setup": {
+    "startup_qualification": "Room and coordinate predecessor fixture in native 591, not game-start reachability. Continuous 591 to 517 entry, finite source acquisition, Fire carry, attack and collection. Helpers remain in native 101.",
+    "native_gating": 0,
+    "native_area_keys": 0,
+    "fixture_byte_diff": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 79
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 2
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 40
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 136
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "client_config_frame": 1085,
+    "client_config_writes": [
+      {
+        "frame": 1085,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "0bcd3f29",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "e3c73c21",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "feffff03",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      }
+    ],
+    "config_write_scope": "Exactly eight four-byte writes from the real production client, harness-fenced by frame, address and size. No compare-and-write GUARD request is claimed.",
+    "later_harness_writes": 0,
+    "state_restores": 0
+  },
+  "attack": {
+    "start_frame": 3326,
+    "frames": 30,
+    "keys": 2,
+    "position": [
+      185.99609375,
+      120.99609375
+    ],
+    "packet_callback": "0x080737D9",
+    "packet_bounds": [
+      -3,
+      -3,
+      3,
+      3
+    ],
+    "pre_contact_flags": "0xA0004100",
+    "hit_flags": "0xA0084100",
+    "attack_word": "0xA0000103",
+    "first_hit_movement": 7,
+    "f1_open_frame": 3341,
+    "f2_clear_frame": 3371,
+    "mouth_callback": "0x08073B65",
+    "mouth_bounds": [
+      0,
+      -4,
+      16,
+      4
+    ],
+    "mouth_right_edge": 201.99609375,
+    "scanner_attribution": "Derived from observed per-frame packet coordinates and bounds plus native scanner source; not a CPU breakpoint observation."
+  },
+  "runs": {
+    "accepted-positive100-1hp": {
+      "hp": 1,
+      "enemy_health": 100,
+      "positive": true,
+      "rom_sha256": "29042bc79b1e3e49e66d33e8fbdde5f827811c5532952c9a335bf4b14c768cd3",
+      "input_sha256": "e004dbc207dc8dd22b0d920d0fb730ed34ac5e438a93f60c2494ccdb416c1f07",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": {
+        "frame": 3341,
+        "task": "0x3001b6c",
+        "fn": "0x80737d9",
+        "object": "0x30040c4",
+        "parent": "0x2020ee0",
+        "x": 223.01171875,
+        "y": 117.82421875,
+        "vx": 635,
+        "vy": 203,
+        "ax": 53,
+        "ay": 29,
+        "bounds": [
+          -3,
+          -3,
+          3,
+          3
+        ],
+        "flags": "0xa0084100",
+        "attack": "0xa0000103",
+        "f1": 0
+      },
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 1,
+        "ability": 1,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "spray11": false,
+        "minor_event_counter": 1
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "chest_open_frame": 4252
+    },
+    "accepted-control100-1hp": {
+      "hp": 1,
+      "enemy_health": 100,
+      "positive": false,
+      "rom_sha256": "29042bc79b1e3e49e66d33e8fbdde5f827811c5532952c9a335bf4b14c768cd3",
+      "input_sha256": "44e9fe1a6e540224cb6578f279422008e82d0bcba8a7ee874f20a29fe188ee65",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": null,
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 1,
+        "ability": 1,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "spray11": false,
+        "minor_event_counter": 0
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "chest_open_frame": null
+    },
+    "accepted-positive100-6hp": {
+      "hp": 6,
+      "enemy_health": 100,
+      "positive": true,
+      "rom_sha256": "388a15b4baedcce0c88fa2d48fdf893db4e5d8cf6177362f16134226d5ea9809",
+      "input_sha256": "e004dbc207dc8dd22b0d920d0fb730ed34ac5e438a93f60c2494ccdb416c1f07",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": {
+        "frame": 3341,
+        "task": "0x3001c0c",
+        "fn": "0x80737d9",
+        "object": "0x3004018",
+        "parent": "0x2020ee0",
+        "x": 221.37109375,
+        "y": 118.69921875,
+        "vx": 530,
+        "vy": 147,
+        "ax": 38,
+        "ay": 21,
+        "bounds": [
+          -3,
+          -3,
+          3,
+          3
+        ],
+        "flags": "0xa0084100",
+        "attack": "0xa0000103",
+        "f1": 0
+      },
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 6,
+        "ability": 1,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "spray11": false,
+        "minor_event_counter": 1
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "chest_open_frame": 4252
+    },
+    "accepted-control100-6hp": {
+      "hp": 6,
+      "enemy_health": 100,
+      "positive": false,
+      "rom_sha256": "388a15b4baedcce0c88fa2d48fdf893db4e5d8cf6177362f16134226d5ea9809",
+      "input_sha256": "44e9fe1a6e540224cb6578f279422008e82d0bcba8a7ee874f20a29fe188ee65",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": null,
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 6,
+        "ability": 1,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "spray11": false,
+        "minor_event_counter": 0
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "chest_open_frame": null
+    },
+    "accepted-positive500-1hp": {
+      "hp": 1,
+      "enemy_health": 500,
+      "positive": true,
+      "rom_sha256": "f02959219e372366c6f43f9fe257fd2b4ebafae6a2878d7d7abe2dd10b083805",
+      "input_sha256": "e004dbc207dc8dd22b0d920d0fb730ed34ac5e438a93f60c2494ccdb416c1f07",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": {
+        "frame": 3341,
+        "task": "0x3001b6c",
+        "fn": "0x80737d9",
+        "object": "0x30040c4",
+        "parent": "0x2020ee0",
+        "x": 223.01171875,
+        "y": 117.82421875,
+        "vx": 635,
+        "vy": 203,
+        "ax": 53,
+        "ay": 29,
+        "bounds": [
+          -3,
+          -3,
+          3,
+          3
+        ],
+        "flags": "0xa0084100",
+        "attack": "0xa0000103",
+        "f1": 0
+      },
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 1,
+        "ability": 1,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "spray11": false,
+        "minor_event_counter": 1
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "chest_open_frame": 4252
+    },
+    "accepted-control500-1hp": {
+      "hp": 1,
+      "enemy_health": 500,
+      "positive": false,
+      "rom_sha256": "f02959219e372366c6f43f9fe257fd2b4ebafae6a2878d7d7abe2dd10b083805",
+      "input_sha256": "44e9fe1a6e540224cb6578f279422008e82d0bcba8a7ee874f20a29fe188ee65",
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": null,
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 1,
+        "ability": 1,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "spray11": false,
+        "minor_event_counter": 0
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "chest_open_frame": null
+    },
+    "accepted-positive500-6hp": {
+      "hp": 6,
+      "enemy_health": 500,
+      "positive": true,
+      "rom_sha256": "7e362ee0bc602187845acc8af04618484e39bdc9544e63cf9224b3cb3a05ea00",
+      "input_sha256": "e004dbc207dc8dd22b0d920d0fb730ed34ac5e438a93f60c2494ccdb416c1f07",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": {
+        "frame": 3341,
+        "task": "0x3001c0c",
+        "fn": "0x80737d9",
+        "object": "0x3004018",
+        "parent": "0x2020ee0",
+        "x": 221.37109375,
+        "y": 118.69921875,
+        "vx": 530,
+        "vy": 147,
+        "ax": 38,
+        "ay": 21,
+        "bounds": [
+          -3,
+          -3,
+          3,
+          3
+        ],
+        "flags": "0xa0084100",
+        "attack": "0xa0000103",
+        "f1": 0
+      },
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 6,
+        "ability": 1,
+        "target_f1": 0,
+        "linked_f2": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chest57": true,
+        "spray11": false,
+        "minor_event_counter": 1
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "chest_open_frame": 4252
+    },
+    "accepted-control500-6hp": {
+      "hp": 6,
+      "enemy_health": 500,
+      "positive": false,
+      "rom_sha256": "7e362ee0bc602187845acc8af04618484e39bdc9544e63cf9224b3cb3a05ea00",
+      "input_sha256": "44e9fe1a6e540224cb6578f279422008e82d0bcba8a7ee874f20a29fe188ee65",
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_samples": 3406,
+      "acquisition": {
+        "frame": 1939,
+        "ability": 1,
+        "target_f1": 241,
+        "chest57": false,
+        "minor_event_counter": 0,
+        "x": 566.0,
+        "y": 296.99609375,
+        "animation": 53,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "first_packet_hit": null,
+      "final": {
+        "frame": 4490,
+        "room": 517,
+        "hp": 6,
+        "ability": 1,
+        "target_f1": 241,
+        "linked_f2": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ],
+        "chest57": false,
+        "spray11": false,
+        "minor_event_counter": 0
+      },
+      "helper_rooms": [
+        101,
+        101,
+        101
+      ],
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "chest_open_frame": null
+    }
+  },
+  "exclusions": [
+    "No game-start Hub2 reachability, arbitrary entry, source renewal, respawn or retry promise.",
+    "No global Fire range, other target, other exit, RoomSanity, helper or Phone equivalence.",
+    "Native executions use fixed mode 1, gating off and area keys off; host tests cover other guaranteed-source policy modes and gated permissions.",
+    "Only discrete HP 1/6 and enemy health 100/500% are native-tested, not intermediate interpolation.",
+    "Client LocationChecks are captured locally; no server transmission or acknowledgment is claimed."
+  ],
+  "control_input_difference": {
+    "positive": {
+      "start": 3326,
+      "frames": 30,
+      "keys": 2
+    },
+    "control": {
+      "start": 3326,
+      "frames": 30,
+      "keys": 0
+    },
+    "otherwise_identical": true
+  }
+}

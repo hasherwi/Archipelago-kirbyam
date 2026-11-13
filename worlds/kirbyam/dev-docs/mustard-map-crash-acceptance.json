@@ -1,0 +1,565 @@
+{
+  "generation_seed": 15,
+  "policy_seed": 816280806725934461,
+  "target": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+  "source_template": "0x088B59B4",
+  "source_key": "TWISTER",
+  "switch_template": "0x088C3F14",
+  "gate_template": "0x088C3F38",
+  "chest_template": "0x088C3FA4",
+  "source_abi": {
+    "table_offset": "0x3518EE",
+    "source_bit": 28
+  },
+  "scope": "Bounded finite Twister-to-Crash OR alternative for switch_310_mustard_map; dry exact camera/timed crossing only.",
+  "private_manifest_sha256": "4f620650a0a67621b70365eac6bbc8155565beb30fed223445feeb5f693675d4",
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 816280806725934461,
+    "mapping_style": "per_enemy_type"
+  },
+  "runs": {
+    "control100-offscreen": {
+      "control": "offscreen",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2568,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 2593,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "4b75c3cd2f7cf90969a0b7f4346be773809ae899418d75c027f6c60204c2a689",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "5490096682a81b350e13d164bba03deafe6b75ba9d75701afe7d8699040699db",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "fcc92cf7b540ea52cbb620a33ea110f33c7cbf51ed0a0739343db779e9356a1e"
+      },
+      "file_sha256": {
+        "result.json": "a6930d6bf5c94840af4322b6eabd2a1efe33946bccf48fc20a69261eca0c735d",
+        "states.json": "05acd7071c28c89597ef4c854f6f9a1d12677b797721b72ded1a5e54fedfd915",
+        "hp.json": "28092ae31520eee3e6877aaf63cd15152521b98a9c4a425e48794b34286b082e"
+      }
+    },
+    "control100-short": {
+      "control": "no-trigger",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": null,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 2846,
+        "room": 310,
+        "x": 425.99609375,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 24,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "4b75c3cd2f7cf90969a0b7f4346be773809ae899418d75c027f6c60204c2a689",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "5490096682a81b350e13d164bba03deafe6b75ba9d75701afe7d8699040699db",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "f7c652a48917f0da776af1ddd2d0cbf073579acaf6da542c351aa282dbc37007"
+      },
+      "file_sha256": {
+        "result.json": "a93b05585695dd0acdcac9b2907fe269a0aed7be74eb7def11890a77e7176a55",
+        "states.json": "39e527d2513e42100159549900d112fb5a9df5314a45bfcf9fd91af0e4907115",
+        "hp.json": "c4d68f9a5134f03dc11775b830d064c276b20c09f8975e1ac96541f7dadeb1c6"
+      }
+    },
+    "control500-offscreen": {
+      "control": "offscreen",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2568,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 2593,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "626ea0d4459a75a3cf74a4644e7339b774618887cc04b9b3c8969871d9fe5c25",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "b8778dd1acf694c0aee107116f755f34a6e83b7c4e0ca7818c7b669020f20c63",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "fcc92cf7b540ea52cbb620a33ea110f33c7cbf51ed0a0739343db779e9356a1e"
+      },
+      "file_sha256": {
+        "result.json": "1dc6d1720a9e8ae5fe00300e5259e29fcf662596cf1b504833d39fb02d3b2ef8",
+        "states.json": "b72495fb5f4aeb7207e8fefffc0bd075261f8163351f349537d915cf41c709ee",
+        "hp.json": "28092ae31520eee3e6877aaf63cd15152521b98a9c4a425e48794b34286b082e"
+      }
+    },
+    "control500-short": {
+      "control": "no-trigger",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": null,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 2846,
+        "room": 310,
+        "x": 425.99609375,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 24,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "626ea0d4459a75a3cf74a4644e7339b774618887cc04b9b3c8969871d9fe5c25",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "b8778dd1acf694c0aee107116f755f34a6e83b7c4e0ca7818c7b669020f20c63",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "f7c652a48917f0da776af1ddd2d0cbf073579acaf6da542c351aa282dbc37007"
+      },
+      "file_sha256": {
+        "result.json": "00178943e41029ab15b796aab8b740f7c26f3477382cdb2835dfbb126d143a7c",
+        "states.json": "c4b6e1fb123a11891bc6b8b804b6039398a76f5c7ff03f3cf03a9e981225bcc9",
+        "hp.json": "c4d68f9a5134f03dc11775b830d064c276b20c09f8975e1ac96541f7dadeb1c6"
+      }
+    },
+    "final100-1hp-no-trigger": {
+      "control": "no-trigger",
+      "hp_min": 0,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2848,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": 2847
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 118.4921875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "4b75c3cd2f7cf90969a0b7f4346be773809ae899418d75c027f6c60204c2a689",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "5490096682a81b350e13d164bba03deafe6b75ba9d75701afe7d8699040699db",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "2bbf920d248ceb78da639c08c3b071ffdee515c25ca103b27bd8397fdaab7625",
+        "states.json": "4a8e1ec677eb91d48840d50f5961002c640fb148270e447e7427025cee64f0a1",
+        "hp.json": "5d8d413b0172df7ffeb30c6c2ca49df693cf2073c3123b352fa0225249c28c25"
+      }
+    },
+    "final100-1hp-positive": {
+      "control": "positive",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": 2881,
+        "gate_open": 2961,
+        "consumed_to_normal": 2960,
+        "gate_crossed": 3016,
+        "chest_check": 3297,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 666.5625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "4b75c3cd2f7cf90969a0b7f4346be773809ae899418d75c027f6c60204c2a689",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "5490096682a81b350e13d164bba03deafe6b75ba9d75701afe7d8699040699db",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "1db2b0e58f37105f0aea2a9c7f434e739a1fe0078a377ddefb368cf3aeac7015",
+        "states.json": "567efead68e66767fff9e49c2c3f3a29f9ec0a1eec6e07888420d16386ee609c",
+        "hp.json": "daf851e94377c7ecfcac482160a5e218b59bad0a5cd255e2b0b00d937d2666b8"
+      }
+    },
+    "final100-6hp-no-trigger": {
+      "control": "no-trigger",
+      "hp_min": 3,
+      "hp_max": 6,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2847,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": 2847
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 396.8515625,
+        "y": 136.99609375,
+        "hp": 3,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "c0e0ca4ff1d679e84ccbaa35ad5632eed4b2a5fff2c11764b7423196a9da2d4e",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "681b046c2dc7ad8baac8456979433fe516fdaa59fd66fd010b9208d9afcb0333",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "5705cb292542278b6378d5d3ccc42e11765ebc85f5dd722b3ab1b5439f2d3d0e",
+        "states.json": "4622792651a44fca4d4c666a86b73b4f487df05e05a0d40ada8b93b52bfa08a2",
+        "hp.json": "177406b362db027161d2d3408086134fe2bc62ef420f905542313d21982492a0"
+      }
+    },
+    "final100-6hp-positive": {
+      "control": "positive",
+      "hp_min": 6,
+      "hp_max": 6,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": 2881,
+        "gate_open": 2961,
+        "consumed_to_normal": 2960,
+        "gate_crossed": 3016,
+        "chest_check": 3297,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 666.5625,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0,
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "c0e0ca4ff1d679e84ccbaa35ad5632eed4b2a5fff2c11764b7423196a9da2d4e",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "681b046c2dc7ad8baac8456979433fe516fdaa59fd66fd010b9208d9afcb0333",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "eacf47f6154f5e090827f51104329b8b992f2c8f4bc72527cae52ce852abe629",
+        "states.json": "f79aacc1d04c076d9a48832b3de7fc3d75e91335021fe51e2795d7223f2507aa",
+        "hp.json": "620d7e40e0301692159b481c9db3d19ce0f184288c235c834547da68686c49de"
+      }
+    },
+    "final500-1hp-no-trigger": {
+      "control": "no-trigger",
+      "hp_min": 0,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2848,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": 2847
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 118.4921875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "626ea0d4459a75a3cf74a4644e7339b774618887cc04b9b3c8969871d9fe5c25",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "b8778dd1acf694c0aee107116f755f34a6e83b7c4e0ca7818c7b669020f20c63",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "93522c36f235aea785e4a246eac7ae210ac758061228eb262fcb99c28125a85f",
+        "states.json": "1fabafebd71cd5a992999f434ca4cb16696ff32aeb9f81bdecfe9471817827e5",
+        "hp.json": "5d8d413b0172df7ffeb30c6c2ca49df693cf2073c3123b352fa0225249c28c25"
+      }
+    },
+    "final500-1hp-positive": {
+      "control": "positive",
+      "hp_min": 1,
+      "hp_max": 1,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": 2881,
+        "gate_open": 2961,
+        "consumed_to_normal": 2960,
+        "gate_crossed": 3016,
+        "chest_check": 3297,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 666.5625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "626ea0d4459a75a3cf74a4644e7339b774618887cc04b9b3c8969871d9fe5c25",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "b8778dd1acf694c0aee107116f755f34a6e83b7c4e0ca7818c7b669020f20c63",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "faf9274d637af38841021a4b564b987f6127e10c0d87a988cf32d843cc7303b0",
+        "states.json": "58f83f58459b0368eb21d1543fc2c4ae534f9af200c6eee9791d890c8f07f171",
+        "hp.json": "daf851e94377c7ecfcac482160a5e218b59bad0a5cd255e2b0b00d937d2666b8"
+      }
+    },
+    "final500-6hp-no-trigger": {
+      "control": "no-trigger",
+      "hp_min": 3,
+      "hp_max": 6,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": null,
+        "gate_open": null,
+        "consumed_to_normal": 2847,
+        "gate_crossed": null,
+        "chest_check": null,
+        "first_damage": 2847
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 396.8515625,
+        "y": 136.99609375,
+        "hp": 3,
+        "ability": 0,
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "cc0e912fb38eb44861249d2033352d79f28f851fe34fe3f9cb9ccd17565950f0",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "1660d89efa6864168c22a7f38251938aae4c7ffd1bfdef9fe8a43f6be6ae27e6",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "d8b615fb871314e4b8fe0f85d1960de979da8782def0231582b28b1b094c24a6",
+        "states.json": "de19bc14079d5289aef43726d36d93da9147a6b737ccfe7ea74e55662da120f3",
+        "hp.json": "177406b362db027161d2d3408086134fe2bc62ef420f905542313d21982492a0"
+      }
+    },
+    "final500-6hp-positive": {
+      "control": "positive",
+      "hp_min": 6,
+      "hp_max": 6,
+      "events": {
+        "acquisition": 1320,
+        "entry310": 2344,
+        "switch_hit": 2881,
+        "gate_open": 2961,
+        "consumed_to_normal": 2960,
+        "gate_crossed": 3016,
+        "chest_check": 3297,
+        "first_damage": null
+      },
+      "final": {
+        "frame": 3414,
+        "room": 310,
+        "x": 666.5625,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0,
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "identity": {
+        "rom_sha256": "cc0e912fb38eb44861249d2033352d79f28f851fe34fe3f9cb9ccd17565950f0",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "slot_sha256": "1660d89efa6864168c22a7f38251938aae4c7ffd1bfdef9fe8a43f6be6ae27e6",
+        "replay_sha256": "b65fc93b00bf6e21c9244de573b8228e450c452cc09f79751153bb298da30b6f",
+        "input_file_sha256": "a1ca9244ba6adb7953c8b4141b21c96dc1c758f38996488619faacf2cdd31e72"
+      },
+      "file_sha256": {
+        "result.json": "d4f1ef2a33c506b47e1b5111cf6cbadb2e3228124370d394cb938394d01ba324",
+        "states.json": "17c8baccf5b438f92368942d06c20c82e151e5db2b362ddcbd6f259f4395233b",
+        "hp.json": "620d7e40e0301692159b481c9db3d19ce0f184288c235c834547da68686c49de"
+      }
+    }
+  },
+  "client_poll": {
+    "client_sha256": "b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9",
+    "locations_json_sha256": "5c9a22df144ac219d8086f448e56db73cd553698cad5975b6dd90e4fe2e02632",
+    "no_server_transmission": true,
+    "runs": {
+      "positive": {
+        "result_sha256": "e3ff1c313c3321200be5d9c34d1ee1457be7ebe445b2de880e8d2932f43e9a8c",
+        "runtime_result_sha256": "faf9274d637af38841021a4b564b987f6127e10c0d87a988cf32d843cc7303b0",
+        "states_sha256": "58f83f58459b0368eb21d1543fc2c4ae534f9af200c6eee9791d890c8f07f171",
+        "hp_sha256": "daf851e94377c7ecfcac482160a5e218b59bad0a5cd255e2b0b00d937d2666b8",
+        "physical_chest39": true,
+        "transport_major_chest_flags": 16,
+        "native_mustard_ownership": false,
+        "captured_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960205
+            ]
+          }
+        ],
+        "reads": [
+          {
+            "address": "0x203b028",
+            "size": 4,
+            "raw_hex": "10000000"
+          }
+        ],
+        "hp_min": 1,
+        "hp_max": 1
+      },
+      "no-trigger": {
+        "result_sha256": "51e5ca9c82e9b457340761a76a7a83b26dea0cb12d167786d310a581eba68f6c",
+        "runtime_result_sha256": "93522c36f235aea785e4a246eac7ae210ac758061228eb262fcb99c28125a85f",
+        "states_sha256": "1fabafebd71cd5a992999f434ca4cb16696ff32aeb9f81bdecfe9471817827e5",
+        "hp_sha256": "5d8d413b0172df7ffeb30c6c2ca49df693cf2073c3123b352fa0225249c28c25",
+        "physical_chest39": false,
+        "transport_major_chest_flags": 0,
+        "native_mustard_ownership": false,
+        "captured_client_messages": [],
+        "reads": [
+          {
+            "address": "0x203b028",
+            "size": 4,
+            "raw_hex": "00000000"
+          }
+        ],
+        "hp_min": 0,
+        "hp_max": 1
+      }
+    },
+    "private_manifest_sha256": "6a3abe9137dee807921648495f97532ad7143bcc813588118ccd9b27789b39eb"
+  },
+  "qualification": "Full omission controls take Knight damage2847 before positive contact2875; clean prefix ends2846; clean offscreen controls test another pose. None proves global impossibility. See witness for retained old/new build provenance."
+}

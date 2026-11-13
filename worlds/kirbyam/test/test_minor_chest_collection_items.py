@@ -48,7 +48,8 @@ def test_candy_collection_compartments_remain_isolated(
     prefix = "REGION_CANDY_CONSTELLATION/"
     parent = prefix + "ROOM_9_CHEST_2"
     names = [prefix + "ROOM_9_01", prefix + "ROOM_9_09", parent,
-             parent + "__LOGIC__ENTRY_FROM_9_01", parent + "__LOGIC__ENTRY_FROM_9_09"]
+             parent + "__LOGIC__ENTRY_FROM_9_01", parent + "__LOGIC__ENTRY_FROM_9_09",
+             parent + "__ROOM_CHECK"]
     multiworld = MultiWorld(1)
     multiworld.worlds[1] = KirbyAmWorld(multiworld, 1)
     regions = {name: Region(name, 1, multiworld) for name in ["Menu", *names]}
@@ -66,6 +67,8 @@ def test_candy_collection_compartments_remain_isolated(
     assert multiworld.get_location("MINOR_CHEST_SPRAY_PAINT_06", 1).can_reach(state) is spray_reachable
     assert multiworld.get_location("VITALITY_CHEST_CANDY_CONSTELLATION", 1).can_reach(state) is vitality_reachable
     assert not regions[parent].can_reach(state)
+    sink = regions[parent + "__ROOM_CHECK"]
+    assert sink.can_reach(state) and not sink.exits
 
 
 def test_candy_source_preserves_historical_identity_and_split_parent() -> None:

@@ -204,7 +204,7 @@ def audit_archive(multiworld: MultiWorld, decoded: Record, archive: Path) -> lis
             code = world.item_name_to_id[name + ' Ability']
             owner = linked.get(code, player)
             count = placed[owner, code]
-            assert count == int(gating), (player, name, owner, count)
+            assert count == int(gating and name not in starting_copy_abilities(0)), (player, name, owner, count)
             if owner != player:
                 assert placed[player, code] == 0
             pool[name] = {'owner': owner, 'placed': count}

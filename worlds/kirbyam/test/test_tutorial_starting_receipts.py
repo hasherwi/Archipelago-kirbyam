@@ -24,16 +24,17 @@ async def test_live_tutorial_readiness(mock_bizhawk_context, room, demo, hp, rea
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize('starting_ids', [STARTING, [3860107, 3860102]])
 @pytest.mark.parametrize('blocked', [
     NetworkItem(3860026, -2, 0),  # Even precollected food stays deferred.
     NetworkItem(3860018, -2, 0),  # No health changes in the tutorial exception.
     NetworkItem(3860118, -2, 0),  # Sword isn't a guaranteed permission.
     NetworkItem(3860107, 3960566, 1),  # Physical ability checks aren't precollects.
 ])
-async def test_stock_history_tutorial_ack_order_and_stop(mock_bizhawk_context, blocked):
+async def test_stock_history_tutorial_ack_order_and_stop(mock_bizhawk_context, blocked, starting_ids):
     ctx = mock_bizhawk_context
     client = await validated_client(ctx)
-    starting = [NetworkItem(code, -2, 0) for code in STARTING]
+    starting = [NetworkItem(code, -2, 0) for code in starting_ids]
     # Stock server, not an invented ReceivedItems packet.
     server, _ = await server_history(ctx, starting, [blocked, starting[0]])
     packet = server.send_msgs.call_args.args[1][0]
@@ -64,20 +65,20 @@ async def test_stock_history_tutorial_ack_order_and_stop(mock_bizhawk_context, b
          patch('worlds.kirbyam.client.bizhawk.write', side_effect=write), \
          patch('worlds.kirbyam.client.bizhawk.guarded_write', side_effect=guarded), \
          patch.object(client, '_display_client_message', new_callable=AsyncMock):
-        for i, code in enumerate(STARTING):
+        for i, code in enumerate(starting_ids):
             await client._deliver_items(ctx, allow_new_writes=False, allow_starting_abilities=True)
-            assert offers == STARTING[:i+1]
+            assert offers == starting_ids[:i+1]
             # Idle pending polls must not reoffer or advance history.
             await client._deliver_items(ctx, allow_new_writes=False, allow_starting_abilities=True)
-            assert offers == STARTING[:i+1]
+            assert offers == starting_ids[:i+1]
             memory[flag] = bytes(4)
             memory[counter] = (i+1).to_bytes(4, 'little')  # Actual payload +1 ACK.
             await client._deliver_items(ctx, allow_new_writes=False)  # ACK only.
             assert client._delivered_item_index == i+1
         for _ in range(3):
             await client._deliver_items(ctx, allow_new_writes=False, allow_starting_abilities=True)
-        assert offers == STARTING
-        assert client._delivered_item_index == 6
+        assert offers == starting_ids
+        assert client._delivered_item_index == len(starting_ids)
 
 
 @pytest.mark.parametrize('value', [None, [], {}, 'bad'])
@@ -85,3 +86,8 @@ def test_malformed_starting_receipt_stays_deferred(value):
     from types import SimpleNamespace
     item = SimpleNamespace(item=value, location=-2, player=0)
     assert not KirbyAmClient._is_guaranteed_starting_ability_receipt(item)
+
+
+@pytest.mark.parametrize('location,player,accepted', [(-2, 0, True), (-2, 1, False), (3960566, 0, False)])
+def test_ice_tutorial_receipt_identity(location, player, accepted):
+    assert KirbyAmClient._is_guaranteed_starting_ability_receipt(NetworkItem(3860102, location, player)) is accepted

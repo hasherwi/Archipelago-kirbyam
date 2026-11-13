@@ -15,8 +15,8 @@ from .traversal_data import (
 
 def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
     return (room_traversal_targets("fuse") + room_traversal_targets("rope")
-            + room_traversal_targets("block") + room_traversal_targets("reinforced")
-            + room_traversal_targets("metal"))
+            + room_traversal_targets("block") + room_traversal_targets("switch")
+            + room_traversal_targets("reinforced") + room_traversal_targets("metal"))
 
 
 def target_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
@@ -32,9 +32,19 @@ def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset
 def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
     """Scope partial witnesses without rejecting unsupported source policies."""
     condition = row.get("requires_guaranteed_source")
-    return condition is None or policy.grant(
-        condition["source_key"], lambda _: True,
-    ).guaranteed == frozenset({condition["ability"]})
+    alternatives = row.get("requires_any_guaranteed_source")
+    if condition is None and alternatives is None:
+        return True
+    if alternatives is not None:
+        conditions = alternatives
+    else:
+        assert condition is not None
+        conditions = (condition,)
+    return any(
+        len(grant := policy.grant(entry["source_key"], lambda _: True).guaranteed) == 1
+        and grant <= frozenset(entry.get("abilities", (entry.get("ability"),)))
+        for entry in conditions
+    )
 
 
 def goal2_ice_is_progression(world: Any) -> bool:
@@ -42,6 +52,80 @@ def goal2_ice_is_progression(world: Any) -> bool:
     return (world._ability_gating_enabled()
             and bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
             and data.locations["MINOR_CHEST_MUSIC_NOTE_10"].source_rom_offset is not None)
+
+
+def cabbage_missile_is_progression(world: Any) -> bool:
+    """Only the enabled, guaranteed-Doo chest rule needs a Missile permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Missile"})
+
+
+def cabbage_parasol_is_progression(world: Any) -> bool:
+    """Only the enabled, guaranteed-Doo chest rule needs a Parasol permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Parasol"})
+
+
+def cabbage_element_is_progression(world: Any, ability: str) -> bool:
+    """Only the enabled Chocolate chest's raw guaranteed Spark/Ice carry needs permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if ability not in {"Spark", "Ice"} or not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({ability})
+
+
+def mustard_crash_is_progression(world: Any) -> bool:
+    """Promote only enforced guaranteed Crash routes; inventory is permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    policy = SourcePolicy(raw)
+    if any(policy.grant(source, lambda _: True).guaranteed == frozenset({"Crash"})
+           for source in ("FOLEY", "HOT_HEAD")):
+        return True
+    if policy.grant("TWISTER", lambda _: True).guaranteed != frozenset({"Crash"}):
+        return False
+    try:
+        world.multiworld.get_location(data.locations["MAJOR_CHEST_MUSTARD_MOUNTAIN"].label, world.player)
+    except KeyError:
+        return False
+    return True
+
+
+def carrot_fighter_is_progression(world: Any) -> bool:
+    """Only the enforced lower Room13 Fighter source needs this permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    return (isinstance(raw, dict) and world._ability_gating_enabled()
+            and SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Fighter"}))
+
+
+def mustard_magic_is_progression(world: Any) -> bool:
+    """Only the enabled Room16 exit and guaranteed Foley need Magic permission."""
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_entrance(
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_15 -> REGION_MUSTARD_MOUNTAIN/ROOM_4_16", world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Magic"})
 
 
 def static_extra_witness(policy: SourcePolicy) -> bool:
@@ -64,6 +148,12 @@ def install_extra_traversal_rules(world: Any) -> None:
 
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
+        # Existing surfaces keep their prior fallback, but a newly introduced
+        # optional connection must never become free when source data is absent.
+        for row in extra_traversal_targets():
+            if row.get("new_connection"):
+                target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
+                add_rule(target, lambda state: False)
         return
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()

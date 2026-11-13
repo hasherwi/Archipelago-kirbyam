@@ -72,7 +72,7 @@ def test_production_generation_does_not_enable_phone_without_route_acceptance(
     slot_data = world.fill_slot_data()
     # Main's source-aware starts and the inactive Phone boundary must coexist.
     assert [item.name for item in multiworld.precollected_items[1]
-            if item.name.endswith(" Ability")] == ["Beam Ability"]
+            if item.name.endswith(" Ability")] == ["Beam Ability", "Ice Ability"]
     assert tuple(slot_data["ability_gateable_abilities"]) == (
         GATEABLE_ENEMY_COPY_ABILITIES if ability_gating else ())
     assert "Phone a Friend" not in world.item_name_to_id

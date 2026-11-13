@@ -142,7 +142,7 @@ def load_room_traversal(
             if row["id"] in seen:
                 raise ValueError(f"Duplicate traversal target: {row['id']}")
             seen.add(row["id"])
-            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "reinforced", "metal"}:
+            if row["kind"] not in {"mini", "peg", "wheel", "fuse", "rope", "block", "switch", "reinforced", "metal"}:
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
@@ -168,6 +168,14 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
     for payload in row["graphs"].values():
         graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
+        from .master_source import CENTRAL_MASTER_SOURCE
+        if any(source.source_key == CENTRAL_MASTER_SOURCE for source in graph.placements) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
+        ) != (
+            "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+            "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        ):
+            raise ValueError("Central Master witness belongs only to the lower719 entry")
         if not graph.starts or not graph.required_targets:
             raise ValueError(f"Traversal target has no start or required target: {row['id']}")
         target_rooms = {node.room for node in graph.nodes if node.key in graph.required_targets}
@@ -175,6 +183,28 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             raise ValueError(f"Traversal graph targets the wrong native room: {row['id']}")
         if any(node.room != row["native_room"] for node in graph.nodes) and graph.access_region is None:
             raise ValueError(f"Remote traversal witness needs independent access: {row['id']}")
+
+
+def _validate_carrot_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
+    if condition == {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Fighter", "Sword", "Fire"]}:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
+            "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+            "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+        ):
+            raise ValueError("Carrot source applicability belongs only to the reviewed Carrot entry")
+        return None  # Validated here; never extend the chest source conditions.
+    return condition
+
+
+def _validate_new_connection(row: Mapping[str, Any]) -> None:
+    if not isinstance(row.get("new_connection", False), bool):
+        raise ValueError("new_connection must be a boolean")
+    if row.get("new_connection") and (
+        not row.get("exit") or row.get("requires_guaranteed_source") is not None
+        or row.get("requires_any_guaranteed_source") is not None
+        or row.get("required_for_generation", True)
+    ):
+        raise ValueError("New optional connections need unconditional rule installation, not target applicability")
 
 
 def _validate_source_condition(condition: Any) -> None:
@@ -188,8 +218,56 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    from .master_source import MASTER719_CAPABILITY
+    if any(route.get("capability") == MASTER719_CAPABILITY
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+        row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
+    ) != (
+        "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+    ):
+        raise ValueError("Central Master belongs only to the reviewed Carrot entry")
+    _validate_new_connection(row)
     condition = row.get("requires_guaranteed_source")
-    if condition is not None:
+    alternatives = row.get("requires_any_guaranteed_source")
+    if "requires_any_guaranteed_source" in row:
+        if "requires_guaranteed_source" in row:
+            raise ValueError("Guaranteed-source conditions are mutually exclusive")
+        # This is a disjunction of two independently witnessed physical sources,
+        # not a general permission to combine source policies on other targets.
+        if alternatives != [
+            {"source_key": "SPARKY", "ability": "Spark"},
+            {"source_key": "SWORD_KNIGHT", "ability": "Sword"},
+        ] or (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit"),
+        ) != (
+            "bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
+            "REGION_RAINBOW_ROUTE/ROOM_1_09",
+        ):
+            raise ValueError("Unsupported target-specific guaranteed-source alternatives")
+    # These selective carry proofs may not spread to another source or surface.
+    scoped_conditions = (
+        ({"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]}, (
+            "switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+            "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+        )),
+        ({"source_key": "WADDLE_DOO",
+          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}, (
+            "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
+            "MINOR_CHEST_SPRAY_PAINT_12",
+        )),
+        ({"source_key": "SPARKY", "ability": "UFO"}, (
+            "bomb_733_yellow", "block", 733, "REGION_CARROT_CASTLE/ROOM_5_16",
+            "MINOR_CHEST_SPRAY_PAINT_02",
+        )),
+    )
+    condition = _validate_carrot_source_condition(row, condition)
+    condition = _validate_mustard_source_condition(row, condition)
+    scoped_target = next((target for supported, target in scoped_conditions if condition == supported), None)
+    if scoped_target is not None:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
+            raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")
+    elif condition is not None:
         _validate_source_condition(condition)
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")
@@ -205,6 +283,17 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         raise ValueError(f"Traversal target is not an exit of its owner: {exit_name}")
     if location and location not in region.locations:
         raise ValueError(f"Traversal target is not a location of its owner: {location}")
+
+
+def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
+    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic"]}:
+        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
+            "switch_533_room16", "switch", 533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+        ):
+            raise ValueError("Foley source applicability belongs only to the reviewed Room16 exit")
+        return None
+    return condition
 
 
 @lru_cache(maxsize=1)

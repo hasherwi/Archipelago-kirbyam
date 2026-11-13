@@ -1,0 +1,332 @@
+{
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "fixture_sha256": "053f81eeb289f351da58684b384e3d5b3a1b7578e7d32232bcda0a69fe66bc7e",
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "fixture_byte_diff": [
+    {
+      "offset": "0x2d8cb8",
+      "before": 35,
+      "after": 79
+    },
+    {
+      "offset": "0x2d8cb9",
+      "before": 3,
+      "after": 2
+    },
+    {
+      "offset": "0x2d8cba",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbb",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cbc",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbd",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cbe",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbf",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cd1",
+      "before": 96,
+      "after": 40
+    },
+    {
+      "offset": "0x2d8cd5",
+      "before": 144,
+      "after": 136
+    },
+    {
+      "offset": "0x2d8cd9",
+      "before": 80,
+      "after": 48
+    },
+    {
+      "offset": "0x2d8cdd",
+      "before": 144,
+      "after": 80
+    },
+    {
+      "offset": "0x2d8ce1",
+      "before": 64,
+      "after": 48
+    },
+    {
+      "offset": "0x2d8ce5",
+      "before": 144,
+      "after": 80
+    },
+    {
+      "offset": "0x2d8ced",
+      "before": 144,
+      "after": 80
+    }
+  ],
+  "input_sha256": "e499e6e247b0fec6019a5a7975a848a7fe80916c7d1b177d5a6e3c778f2ec20d",
+  "source": {
+    "id": "WADDLE_DOO",
+    "type": "0x12",
+    "template_rom_offset": "0x8ca04c",
+    "original_position": [
+      528,
+      264
+    ],
+    "obtained_raw_ability": 7,
+    "ability": "Beam"
+  },
+  "arrival": {
+    "predecessor_native": 591,
+    "predecessor_ap": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+    "destination_native": 517,
+    "destination_ap": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+    "decoded_spawn_tiles": [
+      44,
+      19
+    ],
+    "observed_position": [
+      696,
+      296.99609375
+    ]
+  },
+  "checkpoints": [
+    {
+      "label": "1158",
+      "frame": 1158,
+      "room": 517,
+      "x": 696.0,
+      "y": 296.99609375,
+      "hp": 6,
+      "ability": 0,
+      "target_f1": 241,
+      "linked_f2": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "2007",
+      "frame": 2007,
+      "room": 517,
+      "x": 566.0,
+      "y": 296.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 241,
+      "linked_f2": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3085",
+      "frame": 3085,
+      "room": 517,
+      "x": 185.99609375,
+      "y": 120.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 241,
+      "linked_f2": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3148",
+      "frame": 3148,
+      "room": 517,
+      "x": 185.99609375,
+      "y": 120.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3528",
+      "frame": 3528,
+      "room": 517,
+      "x": 105.99609375,
+      "y": 200.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3588",
+      "frame": 3588,
+      "room": 517,
+      "x": 196.80859375,
+      "y": 248.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3610",
+      "frame": 3610,
+      "room": 517,
+      "x": 201.99609375,
+      "y": 248.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3750",
+      "frame": 3750,
+      "room": 517,
+      "x": 284.32421875,
+      "y": 126.34765625,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "3831",
+      "frame": 3831,
+      "room": 517,
+      "x": 299.69921875,
+      "y": 136.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": false,
+      "spray11": false
+    },
+    {
+      "label": "4325",
+      "frame": 4325,
+      "room": 517,
+      "x": 325.07421875,
+      "y": 136.99609375,
+      "hp": 6,
+      "ability": 7,
+      "target_f1": 0,
+      "linked_f2": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chest57": true,
+      "spray11": true
+    }
+  ],
+  "runtime_writes": [],
+  "state_restores": 0,
+  "limits": [
+    "Fresh boot in native591 at startup override, not proof of reaching591 from game start. Actual controller-triggered591\u2192517 transition retained.",
+    "Native vanilla WaddleDoo supplies Beam; randomized source must resolve WADDLE_DOO\u2192Beam. Carry route uses Beam, not generalized to other assignments or abilities.",
+    "No AP delivery or global reachability proof. No damage: Beam retained, chest57 and spray11 collected at4325; minimumHP6 throughout actual-arrival\u2192collection.",
+    "All other native objects, terrain, reward fields and code unchanged."
+  ],
+  "minimum_hp_after_arrival": 6,
+  "health_sampling": "Every frame from1158 through4325",
+  "full_manifest_sha256": "ec4d3d2a8ba67d1a06d1049389e6c8189e4e8be414ac39bc844c18479e52a089",
+  "full_trace": "Complete controller inputs and private screenshots retained locally; not needed for runtime logic."
+}
