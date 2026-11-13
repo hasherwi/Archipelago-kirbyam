@@ -2102,3 +2102,19 @@ Real local client initialization includes RNG mailbox initialization and actual
 acknowledged receipt rows; it is not a full watcher, external-server, reconnect
 or native BizHawk portability proof. Current coverage is 145 witnesses/five
 conditional-policy fallback targets and PR1052 remains partial.
+
+## Standard and advanced traversal
+
+`traversal_logic` defaults to `standard`. `advanced` additionally allows the
+reviewed Crash witnesses for Rainbow Route room 126's fuse, Mustard Mountain
+room 533's switch, and room 310's map chest. These routes still require their
+actual physical source, independent entry, carry, one-use consumption, and
+reviewed timing. Owning Crash alone is not a route or a source. No helper combat
+or unreviewed Crash routes are assumed.
+
+Standard excludes those three witnesses, not Crash from the game's random
+ability pool. Source selection, resampling, installed access rules, and Crash
+progression classification all use the selected logic level. Unsupported
+assignments must fail validation or be resampled rather than exposing a legacy
+fallback. Historical physical-evidence graphs remain available for inspection;
+the target-level `advanced_graphs` list controls their inclusion in world logic.

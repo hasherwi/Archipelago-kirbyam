@@ -13,8 +13,13 @@ from .support.source_policy import set_rule_test_policy
 from .. import traversal_rules as rules
 from ..data import data
 from ..traversal_data import room_traversal_graph, room_traversal_targets
-from .test_mini_traversal import make_world
+from .test_mini_traversal import make_world as _make_world
 from .test_traversal import policy
+
+
+def make_world(*args, **kwargs):
+    """Historical Crash route fixtures explicitly select advanced traversal."""
+    return _make_world(*args, traversal_logic=1, **kwargs)
 
 TARGET = 'switch_310_mustard_map'
 OWNER = 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST'
@@ -43,7 +48,7 @@ def test_map_conditional_policy_and_independent_entry_matrix(
     row = target_row()
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     assert rules.target_applies(row, resolver) is applies
-    assert rules.static_extra_witness(resolver)
+    assert rules.static_extra_witness(resolver, advanced=True)
 
     def original_rule(state):
         return state.base_rule
@@ -58,7 +63,7 @@ def test_map_conditional_policy_and_independent_entry_matrix(
     world = SimpleNamespace(
         player=1, _enemy_copy_ability_policy=resolver.policy,
         _ability_gating_enabled=lambda: gating, _area_keys_enabled=lambda: area_keys,
-        options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=statues),
+        options=SimpleNamespace(traversal_logic=SimpleNamespace(value=1), ability_randomization_statues=SimpleNamespace(value=statues),
                                 accessibility=Accessibility(Accessibility.option_full)),
         multiworld=SimpleNamespace(get_location=get_location),
     )
@@ -234,7 +239,7 @@ def test_twister_promotion_requires_actual_location():
     assert resolver.grant('TWISTER', lambda _: True).guaranteed == frozenset({'Crash'})
     assert all(resolver.grant(s, lambda _: True).guaranteed != frozenset({'Crash'})
                for s in ('FOLEY', 'HOT_HEAD'))
-    world = SimpleNamespace(player=1, _enemy_copy_ability_policy=raw, _ability_gating_enabled=lambda: True,
+    world = SimpleNamespace(options=SimpleNamespace(traversal_logic=SimpleNamespace(value=1)), player=1, _enemy_copy_ability_policy=raw, _ability_gating_enabled=lambda: True,
                             multiworld=SimpleNamespace(get_location=lambda *args: object()))
     assert rules.mustard_crash_is_progression(world)
 
@@ -251,7 +256,7 @@ def test_normal_full_pool_seed15_one_hp_fill(tmp_path, gating, area_keys, health
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
     player = tmp_path / 'player.yaml'
     player.write_text('name: Crash310\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
-                      '  ability_randomization_mode: 1\n  minimum_health: 1\n  maximum_health: 1\n'
+                      '  traversal_logic: advanced\n  ability_randomization_mode: 1\n  minimum_health: 1\n  maximum_health: 1\n'
                       f'  ability_gating: {gating}\n  area_keys: {area_keys}\n'
                       f'  enemy_health_multiplier: {health}\n  start_with_all_maps: {maps}\n', encoding='utf-8')
     archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=15)

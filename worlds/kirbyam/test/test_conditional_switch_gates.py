@@ -34,19 +34,21 @@ EXIT = 'REGION_MUSTARD_MOUNTAIN/ROOM_4_16'
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('area_keys', [False, True])
 @pytest.mark.parametrize('statues', [False, True])
+@pytest.mark.parametrize('advanced', [False, True])
 def test_mustard_conditional_policy_entry_and_permission_matrix(
-        monkeypatch, mode, pool, weight, applies, gating, area_keys, statues):
+        monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, advanced):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = next(r for r in room_traversal_targets('switch') if r['id'] == 'switch_533_room16')
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     assert rules.target_applies(row, resolver) is applies
-    assert rules.static_extra_witness(resolver)
+    blocked_crash = applies and pool == ["Crash"] and not advanced
+    assert rules.static_extra_witness(resolver, advanced=advanced) is (not blocked_crash)
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
     dependencies = []
     world = SimpleNamespace(
         player=1, _enemy_copy_ability_policy=resolver.policy,
         _ability_gating_enabled=lambda: gating, _area_keys_enabled=lambda: area_keys,
-        options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=statues),
+        options=SimpleNamespace(traversal_logic=SimpleNamespace(value=int(advanced)), ability_randomization_statues=SimpleNamespace(value=statues),
                                 accessibility=Accessibility(Accessibility.option_full)),
         multiworld=SimpleNamespace(
             get_entrance=lambda name, player: target,
@@ -55,6 +57,10 @@ def test_mustard_conditional_policy_entry_and_permission_matrix(
         ),
         item_id_to_name=KirbyAmWorld.item_id_to_name,
     )
+    if blocked_crash:
+        with pytest.raises(ValueError, match="No reviewed source witness"):
+            rules.install_extra_traversal_rules(world)
+        return
     rules.install_extra_traversal_rules(world)
     ability = next(iter(resolver.grant('FOLEY', lambda _: True).guaranteed)) if applies else 'Bomb'
     owned = set()

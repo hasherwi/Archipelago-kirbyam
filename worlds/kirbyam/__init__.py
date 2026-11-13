@@ -506,6 +506,7 @@ class KirbyAmWorld(World):
                     include_minny=False, include_passive_enemies=randomize_non_ability,
                     no_ability_weight=no_ability_weight,
                 ), randomize_statues, require_all_witnesses=True,
+                advanced=self.options.traversal_logic.value == 1,
             )
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):
@@ -1197,6 +1198,7 @@ class KirbyAmWorld(World):
             "starting_kirby_color",
             "no_extra_lives",
             "ability_gating",
+            "traversal_logic",
             "enable_traps",
             "trap_fill_percentage",
             "enemy_health_multiplier",

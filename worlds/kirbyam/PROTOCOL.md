@@ -297,6 +297,7 @@ Server → Client: ConnectionRefused | Connected
 - `area_keys` (bool): default-on Area Key destination gates. Off removes all eight keys from the generated pool and rebalances filler while retaining Hub, lever, ability and Dimension Mirror rules. Missing means enabled for older Area Key seeds.
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`; this value is zero when `area_keys` is false.
 - `core_landmark_location_ids` (list[int]): the eight always-active keyed-area hub landmark checks. The client polls only these room-visit bits when full Room Sanity is off; absence of this field preserves old-seed behavior.
+- `traversal_logic` (int): `0` standard (default), `1` advanced. Advanced enables only reviewed Crash-dependent traversal witnesses; it does not change physical ability sources or client permissions.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.

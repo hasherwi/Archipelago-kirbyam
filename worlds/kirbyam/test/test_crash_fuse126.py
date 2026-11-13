@@ -13,9 +13,14 @@ from BaseClasses import CollectionState, ItemClassification
 from .. import traversal_rules as rules
 from ..traversal import Position, Route, SourcePolicy
 from ..traversal_data import has_graph_access, room_traversal_graph, room_traversal_targets
-from .test_mini_traversal import make_world
+from .test_mini_traversal import make_world as _make_world
 from .test_traversal import policy
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+
+
+def make_world(*args, **kwargs):
+    """Historical Crash route fixtures explicitly select advanced traversal."""
+    return _make_world(*args, traversal_logic=1, **kwargs)
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_32'
@@ -65,7 +70,7 @@ def test_source_policy_and_conditional_progression(mode, pool, weight, success, 
     g = graph()
     assert g.evaluate(resolver, frozenset({'Crash Ability', 'Fire Ability'}), True,
                       allow_documented_retries=True).reaches(next(iter(g.required_targets))) is success
-    world = SimpleNamespace(_enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
+    world = SimpleNamespace(options=SimpleNamespace(traversal_logic=SimpleNamespace(value=1)), _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
     assert rules.mustard_crash_is_progression(world) is success
     world._ability_gating_enabled = lambda: False
     assert not rules.mustard_crash_is_progression(world)

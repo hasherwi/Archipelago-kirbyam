@@ -19,8 +19,16 @@ def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
             + room_traversal_targets("reinforced") + room_traversal_targets("metal"))
 
 
-def target_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
-    return tuple(room_traversal_graph(row["id"], witness, area_keys) for witness in row["graphs"])
+def advanced_traversal_enabled(world: Any) -> bool:
+    """Missing settings in old fixtures/slots retain the safe standard baseline."""
+    option = getattr(getattr(world, "options", None), "traversal_logic", None)
+    return getattr(option, "value", 0) == 1
+
+
+def target_graphs(row: dict[str, Any], area_keys: bool, *, advanced: bool = False) -> tuple[TraversalGraph, ...]:
+    return tuple(room_traversal_graph(row["id"], witness, area_keys)
+                 for witness in row["graphs"]
+                 if advanced or witness not in row.get("advanced_graphs", ()))
 
 
 def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset[str], gating: bool,
@@ -92,6 +100,8 @@ def cabbage_element_is_progression(world: Any, ability: str) -> bool:
 
 def mustard_crash_is_progression(world: Any) -> bool:
     """Promote only enforced guaranteed Crash routes; inventory is permission."""
+    if not advanced_traversal_enabled(world):
+        return False
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict) or not world._ability_gating_enabled():
         return False
@@ -128,7 +138,7 @@ def mustard_magic_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Magic"})
 
 
-def static_extra_witness(policy: SourcePolicy) -> bool:
+def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 
     This is a source-feasibility filter, not a fill/reachability proof. Optional
@@ -138,7 +148,7 @@ def static_extra_witness(policy: SourcePolicy) -> bool:
     return all(
         not target_applies(row, policy) or not row.get("required_for_generation", True)
         or any(graph_succeeds(graph, policy, graph_items(graph), False, retries=False)
-               for graph in target_graphs(row, False))
+               for graph in target_graphs(row, False, advanced=advanced))
         for row in extra_traversal_targets()
     )
 
@@ -167,7 +177,7 @@ def install_extra_traversal_rules(world: Any) -> None:
                 target = world.multiworld.get_location(data.locations[row["location"]].label, world.player)
             except KeyError:
                 continue  # This optional location category is disabled.
-        graphs = target_graphs(row, world._area_keys_enabled())
+        graphs = target_graphs(row, world._area_keys_enabled(), advanced=advanced_traversal_enabled(world))
         required_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
         required_items |= frozenset(item for graph in graphs for item in graph_items(graph))
         if requires_all_traversal_witnesses(world) and row.get("required_for_generation", True) and not any(
