@@ -2,9 +2,9 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "0c5938413277b98e22f91c8079afc579f1010b9279992c6ba50c804cf82ad139",
+    "worlds/kirbyam/__init__.py": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
-    "worlds/kirbyam/enemy_ability_data.py": "8ecd2e11b456f4c7ab8c45403c82bbf02e29aac09cb17611990c962e229872bb",
+    "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
     "worlds/kirbyam/data/regions/rooms.json": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",

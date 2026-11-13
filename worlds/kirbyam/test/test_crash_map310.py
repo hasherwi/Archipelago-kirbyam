@@ -3,6 +3,8 @@
 from dataclasses import replace
 from types import SimpleNamespace
 
+from .test_beam538_evidence import historical_client_before_ice_start
+
 import pytest
 from BaseClasses import CollectionState, ItemClassification
 from Options import Accessibility
@@ -304,7 +306,11 @@ def test_public_evidence_and_single_capability_owner():
     # The native record keeps its historical client; the union adopts main's client.
     assert client['client_sha256'] == 'b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9'
     union = json.loads((root / 'dev-docs/main-ranged-union-catalog.json').read_text())
-    assert union['adopted_main_source_sha256']['client.py'] == lf_text_sha256((root / 'client.py').read_bytes())
+    expected = union['adopted_main_source_sha256']['client.py']
+    raw = (root / 'client.py').read_bytes()
+    assert lf_text_sha256(historical_client_before_ice_start(raw, expected)) == expected
+    with pytest.raises(AssertionError):
+        historical_client_before_ice_start(raw + b' ', expected)
     assert client['runs']['positive']['captured_client_messages'] == [{'cmd': 'LocationChecks', 'locations': [3960205]}]
     owners = [(row['id'], key) for row in room_traversal_targets('switch') for key, g in row['graphs'].items()
               if any(r.get('capability') == 'switch_310_crash_viewport' for r in g['routes'])]

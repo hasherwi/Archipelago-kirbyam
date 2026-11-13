@@ -107,8 +107,9 @@ def test_real_world_item_pool_and_installed_chest(
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=100,
                        room_sanity=not enabled)
     world.create_items()
-    ice_items = [item for item in world.multiworld.itempool if item.name == 'Ice Ability']
-    assert len(ice_items) == int(gating)
+    assert not any(item.name == 'Ice Ability' for item in world.multiworld.itempool)
+    ice_items = [item for item in world.multiworld.precollected_items[1] if item.name == 'Ice Ability']
+    assert len(ice_items) == 1
     assert any(item.classification & ItemClassification.progression for item in ice_items) is expected_progression
     label = data.locations['MINOR_CHEST_MUSIC_NOTE_10'].label
     if not enabled:
@@ -117,6 +118,7 @@ def test_real_world_item_pool_and_installed_chest(
         return
     target = world.multiworld.get_location(label, 1)
     state = CollectionState(world.multiworld)
+    state.remove(ice_items[0])  # Test the route without the guaranteed permission.
     assert target.access_rule(state) is (not expected_progression)
     if expected_progression:
         state.collect(ice_items[0], prevent_sweep=True)

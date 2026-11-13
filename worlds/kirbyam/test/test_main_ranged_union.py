@@ -106,11 +106,11 @@ def test_main_order_ice_precollection_does_not_double_collect(count: int) -> Non
         item = world.create_item('Ice Ability')
         assert item.classification == ItemClassification.progression
         multiworld.push_precollected(item)
-    assert multiworld.state.count('Ice Ability', 1) == count
+    assert multiworld.state.count('Ice Ability', 1) == max(1, count)
     world.create_regions()
     world.set_rules()
-    assert multiworld.state.count('Ice Ability', 1) == count
-    assert len([item for item in multiworld.precollected_items[1] if item.name == 'Ice Ability']) == count
+    assert multiworld.state.count('Ice Ability', 1) == max(1, count)
+    assert len([item for item in multiworld.precollected_items[1] if item.name == 'Ice Ability']) == max(1, count)
 
 
 def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:

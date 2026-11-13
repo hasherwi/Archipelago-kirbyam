@@ -1,8 +1,10 @@
 """Sanitized immutable Cupid packet contracts; these tests do not replay a ROM."""
 
+import pytest
 import hashlib
 import json
 from pathlib import Path
+from .test_beam538_evidence import historical_client_before_ice_start
 
 from ..enemy_ability_data import ABILITY_NAME_TO_ID
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes, build_enemy_source_runtime_config
@@ -162,10 +164,13 @@ def test_tracked_source_hash_uses_lf_but_private_hashes_remain_raw():
     assert e['tracked_client_sha256'] == 'b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9'
     # Preserve e's historical client identity; current client comes from main.
     union = json.loads((Path(__file__).parents[1] / 'dev-docs/main-ranged-union-catalog.json').read_text())
-    assert union['adopted_main_source_sha256']['client.py'] == lf_text_sha256(raw)
+    expected = union['adopted_main_source_sha256']['client.py']
+    assert lf_text_sha256(historical_client_before_ice_start(raw, expected)) == expected
     lf = raw.replace(b'\r\n', b'\n').replace(b'\r', b'\n')
     assert lf_text_sha256(lf.replace(b'\n', b'\r\n')) == hashlib.sha256(lf).hexdigest()
-    assert lf_text_sha256(raw + b' ') != union['adopted_main_source_sha256']['client.py']
+    with pytest.raises(AssertionError):
+        historical_client_before_ice_start(raw + b' ', expected)
+    assert lf_text_sha256(historical_client_before_ice_start(lf.replace(b'\n', b'\r\n'), expected)) == expected
     assert e['private_artifact_sha256']['acceptance.json'] == (
         'c4d1218cf61a7a58dde5a93eb147b51f5963b0bddc4fc559bd5b20358e2fce55')
     assert e['private_artifact_sha256']['gating-acceptance.json'] == (
