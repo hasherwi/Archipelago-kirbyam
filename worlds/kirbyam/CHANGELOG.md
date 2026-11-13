@@ -8,41 +8,41 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## v0.5.1
+## Unreleased
 
 ### New Features
 - All sixteen Goal Games award a check when completed, including runs with no prizes. Checks persist per native save file and report on reconnect, independently of Room Sanity and chests.
-- Access to the Copy Ability Room is now an AP Item (Issue #1002).
-
-### Improvements
-- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. Stone and Burning are now progression unlocks when ability gating is enabled; only Beam is automatically precollected. Explicit starting inventory and historical seed gate lists remain supported (PR #1051).
-- Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest accepts its finite Frosty witness or a guarded permanent Ice source and carry route (PRs #1048, #1051).
-- Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
 - Goal Game checks require matching protocol-2 seeds, client and ROM patch. Fresh emulator acceptance of the integrated three-file persistence remains pending; older single-save prototype evidence does not validate this payload. Preserve original saves and do not downgrade a payload after saving Goal Game flags (PR #1026).
+
+### Internal Changes
+- Store sixteen Goal Game flags beside Copy Room ownership in the existing authenticated, isolated three-file WORLD record. Fence reconnect reporting by current save, ROM and session identity (PR #1026).
+
+## v0.5.1
+
+### New Features
+- Access to the Copy Ability Room is now an AP Item (Issue #1002).
+
+### Improvements
+- Improved Logic for Item Placement and Accessible Locations (PR #1041, #1042, #1045, #1048, #1051, #1052).
+- Starting inventory: Ice added; Beam kept; Wheel, Mini, Cutter, Stone and Burning removed (PR #1041, #1042, #1051, #1052).
+
+### Known Limitations
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Beam remains automatically precollected. Native evidence consists of bounded source, carrier and action proofs, not uninterrupted full-game, direct AP one-HP or universal multiplayer replays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
-- Add guarded permanent Burning alternatives for the Batafire and Master Hand chests, and classify required Ice before region creation for explicit Main-order starting inventory (PR #1051).
-- Require reviewed Burning routes through Rainbow Route Room 41 and Moonlight Mansion Rooms 4, 5 and 15, preserving directed entrances and independent checks. Remove the unvalidated Moonlight Room 15 upper-return shortcut to its Warp Star (PR #1051).
-- Add reviewed Stone access to Beginning Notes and retained-Hammer access to Peppermint Palace's left 1-Up chest. Keep separately demonstrated Normal routes free of unnecessary copied-ability requirements (PR #1051).
-- Require an actual Hammer source and reviewed carry route for the Peppermint Palace7-9 metal chest. Joint native traces preserve the same Hammer through its earlier Room7 chest; renewable Copy Ability Room statues support mixed-live source policies without assuming a lucky Bonkers grant. The separate rope chest is unchanged.
-- Keep Cabbage Cavern Room3's fresh upper-left entrance separate from its lower/right passages. Preserve the directed Normal Bomb and swimming routes without requiring a metal ability or duplicating its room check.
-- Keep Peppermint Palace's three chest-room approaches and Snow hallway separate. Require a reviewed Bonkers-Hammer or renewable statue-backed Stone route through the Room7 floor, preserving exact check IDs and one room check per physical room.
-- Require a reviewed physical Burning source and carry route for the Peppermint Palace7-19 metal chest, while preserving both ordinary exits and its room check.
-- Reject seeds that leave enabled Kirby checks unreachable, including under minimal accessibility. Reuse bounded source-assignment validation for minimal and audit actual placed progression after finalization; the safety guard is separate from the source-backed starting-inventory change.
+- Preserve explicit starting-inventory multiplicity and conditional permission counts across region creation (PR #1052).
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
-- Correct Rainbow Route East’s Big Switch location and map grouping to Moonlight Mansion Room 2-09, so reaching the Rainbow Route hub no longer makes the switch reachable without a valid route through Moonlight Mansion (PR #1045, BlameMateo).
 
 ### Internal Changes
-- Preserve the historical 22-ability fallback for legacy slots, add source-aware traversal and native-evidence regressions, and classify expected unsafe minimal-accessibility generation rejections separately from successful fuzz runs (PR #1051).
-- Store sixteen Goal Game flags beside Copy Room ownership in the existing authenticated, isolated three-file WORLD record. Fence reconnect reporting by current save, ROM and session identity (PR #1026).
-- Add source-aware peg and cannon-fuse traversal using reachable enemies and Copy Ability statues, and keep Minny fixed to Mini (PR #1041).
+- Keep Minny fixed to Mini (PR #1041).
+- Detailed logic, source, ownership and historical validation records remain in the [traversal documentation](dev-docs/ranged-coverage-ledger.md).
 
 ## v0.5.0
 

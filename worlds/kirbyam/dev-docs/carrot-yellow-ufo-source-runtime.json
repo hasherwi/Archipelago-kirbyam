@@ -1,0 +1,2600 @@
+{
+  "schema_version": 1,
+  "scope": "Recorded finite native outcomes; contract tests are not a fresh emulator replay.",
+  "model": {
+    "target": "bomb_733_yellow",
+    "access_region": "REGION_CARROT_CASTLE/ROOM_5_14",
+    "access_native_room": 720,
+    "owner_region": "REGION_CARROT_CASTLE/ROOM_5_16"
+  },
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 5662892934360856578,
+    "mapping_style": "per_enemy_type"
+  },
+  "production_seed": 8,
+  "source_instances": [
+    {
+      "native_room": 730,
+      "template": "0x088D4FC0",
+      "type": "SPARKY",
+      "coordinate": [
+        344,
+        296
+      ],
+      "purpose": "Acquire upper UFO for right-side maze route; deliberately discard before ladder."
+    },
+    {
+      "native_room": 730,
+      "template": "0x088D4F9C",
+      "type": "SPARKY",
+      "coordinate": [
+        344,
+        664
+      ],
+      "purpose": "Reacquire UFO after ladder; retain intact to target and collection."
+    }
+  ],
+  "configuration": {
+    "ability_gating": false,
+    "area_keys": false,
+    "configuration_frame": 1085,
+    "configuration_writer": "KirbyAmClient._sync_enemy_copy_ability_runtime_config",
+    "configuration_write_count": 8,
+    "gameplay_ram_writes": 0,
+    "state_restores": 0,
+    "server_submission": false,
+    "helpers": false
+  },
+  "access": {
+    "fixture_room": 719,
+    "fixture_position": [
+      232,
+      56
+    ],
+    "qualification": "Starts inside719 at its real720-bound door; does not independently prove all upstream719 compartments. The direct719\u2192720 far-right arrival is now physically joined to730 without assuming734 access in advance.",
+    "native_ingress": [
+      {
+        "source": 719,
+        "source_tile": [
+          14,
+          3
+        ],
+        "destination": 720,
+        "spawn_tile": [
+          119,
+          8
+        ],
+        "observed_xy": [
+          1896,
+          120.99609375
+        ]
+      },
+      {
+        "source": 720,
+        "source_tile": [
+          26,
+          11
+        ],
+        "destination": 734,
+        "spawn_tile": [
+          14,
+          5
+        ],
+        "observed_xy": [
+          216,
+          72.99609375
+        ]
+      },
+      {
+        "source": 734,
+        "source_tile": [
+          2,
+          4
+        ],
+        "destination": 720,
+        "spawn_tile": [
+          11,
+          8
+        ],
+        "observed_xy": [
+          168,
+          120.99609375
+        ]
+      },
+      {
+        "source": 720,
+        "source_tile": [
+          2,
+          7
+        ],
+        "destination": 730,
+        "spawn_tile": [
+          29,
+          4
+        ],
+        "observed_xy": [
+          456,
+          56.99609375
+        ]
+      }
+    ],
+    "transition_frames": [
+      1172,
+      3844,
+      4136,
+      4313
+    ],
+    "left720_chain_activated": false,
+    "left720_trigger_activated": false
+  },
+  "full_route_ability_phases": [
+    {
+      "frame": 1085,
+      "ability": "Normal"
+    },
+    {
+      "frame": 5450,
+      "ability": "UFO from upper original Sparky0x088D4FC0"
+    },
+    {
+      "frame": 6830,
+      "ability": "Normal after intentional Select discard"
+    },
+    {
+      "frame": 6994,
+      "ability": "UFO from lower original Sparky0x088D4F9C; intact until final"
+    }
+  ],
+  "source_observations": {
+    "type": 25,
+    "native_copy_field": 14,
+    "hp_by_enemy_health_percent": {
+      "100": 4,
+      "500": 20
+    }
+  },
+  "target": {
+    "native_room": 733,
+    "location": "MINOR_CHEST_SPRAY_PAINT_02",
+    "location_id": 3960501,
+    "chest_template": "0x088D3DD0",
+    "native_chest_bit": 80,
+    "suppressed_native_spray_bit": 1,
+    "chest": "0x088D3DD0",
+    "lower_trigger_cleared_frame": 8257,
+    "physical_chest_event_frame": 8613,
+    "final_frame": 8671,
+    "upper_trigger": "untouched0xF1 on every733 frame",
+    "attack_pose": [
+      217.99609375,
+      102.99609375
+    ],
+    "target_input_start": 8071,
+    "target_top_charge_frames": 160,
+    "lower_f1": [
+      21,
+      6
+    ],
+    "upper_f1": [
+      18,
+      2
+    ]
+  },
+  "controller_inputs": {
+    "columns": [
+      "start",
+      "frames",
+      "keys"
+    ],
+    "full_positive": [
+      [
+        0,
+        180,
+        0
+      ],
+      [
+        180,
+        1,
+        8
+      ],
+      [
+        181,
+        120,
+        0
+      ],
+      [
+        301,
+        1,
+        8
+      ],
+      [
+        302,
+        120,
+        0
+      ],
+      [
+        422,
+        1,
+        1
+      ],
+      [
+        423,
+        240,
+        0
+      ],
+      [
+        663,
+        1,
+        1
+      ],
+      [
+        664,
+        180,
+        0
+      ],
+      [
+        844,
+        1,
+        1
+      ],
+      [
+        845,
+        240,
+        0
+      ],
+      [
+        1085,
+        40,
+        0
+      ],
+      [
+        1125,
+        10,
+        16
+      ],
+      [
+        1135,
+        25,
+        0
+      ],
+      [
+        1160,
+        1,
+        64
+      ],
+      [
+        1161,
+        60,
+        0
+      ],
+      [
+        1221,
+        100,
+        64
+      ],
+      [
+        1321,
+        235,
+        96
+      ],
+      [
+        1556,
+        25,
+        32
+      ],
+      [
+        1581,
+        50,
+        32
+      ],
+      [
+        1631,
+        5,
+        96
+      ],
+      [
+        1636,
+        20,
+        80
+      ],
+      [
+        1656,
+        50,
+        64
+      ],
+      [
+        1706,
+        87,
+        96
+      ],
+      [
+        1793,
+        20,
+        80
+      ],
+      [
+        1813,
+        50,
+        64
+      ],
+      [
+        1863,
+        80,
+        96
+      ],
+      [
+        1943,
+        20,
+        80
+      ],
+      [
+        1963,
+        50,
+        64
+      ],
+      [
+        2013,
+        61,
+        96
+      ],
+      [
+        2074,
+        20,
+        80
+      ],
+      [
+        2094,
+        50,
+        64
+      ],
+      [
+        2144,
+        61,
+        96
+      ],
+      [
+        2205,
+        20,
+        80
+      ],
+      [
+        2225,
+        50,
+        64
+      ],
+      [
+        2275,
+        1,
+        2
+      ],
+      [
+        2276,
+        70,
+        0
+      ],
+      [
+        2346,
+        90,
+        32
+      ],
+      [
+        2436,
+        100,
+        0
+      ],
+      [
+        2536,
+        40,
+        64
+      ],
+      [
+        2576,
+        50,
+        32
+      ],
+      [
+        2626,
+        45,
+        64
+      ],
+      [
+        2671,
+        100,
+        96
+      ],
+      [
+        2771,
+        180,
+        96
+      ],
+      [
+        2951,
+        20,
+        32
+      ],
+      [
+        2971,
+        1,
+        2
+      ],
+      [
+        2972,
+        25,
+        0
+      ],
+      [
+        2997,
+        80,
+        2
+      ],
+      [
+        3077,
+        1,
+        0
+      ],
+      [
+        3078,
+        1,
+        2
+      ],
+      [
+        3079,
+        20,
+        0
+      ],
+      [
+        3099,
+        80,
+        2
+      ],
+      [
+        3179,
+        10,
+        0
+      ],
+      [
+        3189,
+        50,
+        64
+      ],
+      [
+        3239,
+        180,
+        96
+      ],
+      [
+        3419,
+        14,
+        32
+      ],
+      [
+        3433,
+        1,
+        2
+      ],
+      [
+        3434,
+        80,
+        0
+      ],
+      [
+        3514,
+        30,
+        128
+      ],
+      [
+        3544,
+        60,
+        0
+      ],
+      [
+        3604,
+        90,
+        32
+      ],
+      [
+        3694,
+        40,
+        64
+      ],
+      [
+        3734,
+        42,
+        96
+      ],
+      [
+        3776,
+        12,
+        80
+      ],
+      [
+        3788,
+        1,
+        2
+      ],
+      [
+        3789,
+        90,
+        0
+      ],
+      [
+        3879,
+        140,
+        96
+      ],
+      [
+        4019,
+        22,
+        96
+      ],
+      [
+        4041,
+        12,
+        80
+      ],
+      [
+        4053,
+        1,
+        2
+      ],
+      [
+        4054,
+        70,
+        0
+      ],
+      [
+        4124,
+        1,
+        64
+      ],
+      [
+        4125,
+        60,
+        0
+      ],
+      [
+        4185,
+        86,
+        32
+      ],
+      [
+        4271,
+        30,
+        0
+      ],
+      [
+        4301,
+        1,
+        64
+      ],
+      [
+        4302,
+        55,
+        0
+      ],
+      [
+        4357,
+        200,
+        32
+      ],
+      [
+        4557,
+        30,
+        0
+      ],
+      [
+        4587,
+        120,
+        2
+      ],
+      [
+        4707,
+        40,
+        0
+      ],
+      [
+        4747,
+        3,
+        16
+      ],
+      [
+        4750,
+        120,
+        2
+      ],
+      [
+        4870,
+        40,
+        0
+      ],
+      [
+        4910,
+        8,
+        16
+      ],
+      [
+        4918,
+        30,
+        0
+      ],
+      [
+        4948,
+        100,
+        2
+      ],
+      [
+        5048,
+        50,
+        0
+      ],
+      [
+        5098,
+        20,
+        128
+      ],
+      [
+        5118,
+        1,
+        32
+      ],
+      [
+        5119,
+        80,
+        2
+      ],
+      [
+        5199,
+        3,
+        16
+      ],
+      [
+        5202,
+        120,
+        0
+      ],
+      [
+        5322,
+        25,
+        16
+      ],
+      [
+        5347,
+        80,
+        2
+      ],
+      [
+        5427,
+        30,
+        128
+      ],
+      [
+        5457,
+        30,
+        64
+      ],
+      [
+        5487,
+        82,
+        16
+      ],
+      [
+        5569,
+        30,
+        0
+      ],
+      [
+        5599,
+        120,
+        128
+      ],
+      [
+        5719,
+        1,
+        0
+      ],
+      [
+        5720,
+        80,
+        128
+      ],
+      [
+        5800,
+        1,
+        0
+      ],
+      [
+        5801,
+        80,
+        128
+      ],
+      [
+        5881,
+        8,
+        32
+      ],
+      [
+        5889,
+        30,
+        128
+      ],
+      [
+        5919,
+        8,
+        16
+      ],
+      [
+        5927,
+        30,
+        128
+      ],
+      [
+        5957,
+        8,
+        32
+      ],
+      [
+        5965,
+        30,
+        128
+      ],
+      [
+        5995,
+        8,
+        32
+      ],
+      [
+        6003,
+        30,
+        128
+      ],
+      [
+        6033,
+        16,
+        16
+      ],
+      [
+        6049,
+        30,
+        128
+      ],
+      [
+        6079,
+        16,
+        32
+      ],
+      [
+        6095,
+        30,
+        128
+      ],
+      [
+        6125,
+        20,
+        64
+      ],
+      [
+        6145,
+        31,
+        32
+      ],
+      [
+        6176,
+        1,
+        2
+      ],
+      [
+        6177,
+        40,
+        0
+      ],
+      [
+        6217,
+        6,
+        128
+      ],
+      [
+        6223,
+        31,
+        32
+      ],
+      [
+        6254,
+        1,
+        2
+      ],
+      [
+        6255,
+        45,
+        0
+      ],
+      [
+        6300,
+        130,
+        0
+      ],
+      [
+        6430,
+        9,
+        32
+      ],
+      [
+        6439,
+        20,
+        128
+      ],
+      [
+        6459,
+        1,
+        64
+      ],
+      [
+        6460,
+        60,
+        0
+      ],
+      [
+        6520,
+        180,
+        0
+      ],
+      [
+        6700,
+        20,
+        64
+      ],
+      [
+        6720,
+        64,
+        32
+      ],
+      [
+        6784,
+        25,
+        128
+      ],
+      [
+        6809,
+        20,
+        0
+      ],
+      [
+        6829,
+        1,
+        4
+      ],
+      [
+        6830,
+        60,
+        128
+      ],
+      [
+        6890,
+        1,
+        16
+      ],
+      [
+        6891,
+        80,
+        2
+      ],
+      [
+        6971,
+        30,
+        128
+      ],
+      [
+        7001,
+        75,
+        16
+      ],
+      [
+        7076,
+        1,
+        64
+      ],
+      [
+        7077,
+        55,
+        0
+      ],
+      [
+        7132,
+        24,
+        128
+      ],
+      [
+        7156,
+        60,
+        16
+      ],
+      [
+        7216,
+        10,
+        16
+      ],
+      [
+        7226,
+        5,
+        128
+      ],
+      [
+        7231,
+        1,
+        64
+      ],
+      [
+        7232,
+        55,
+        0
+      ],
+      [
+        7287,
+        1,
+        2
+      ],
+      [
+        7288,
+        50,
+        0
+      ],
+      [
+        7338,
+        8,
+        16
+      ],
+      [
+        7346,
+        1,
+        64
+      ],
+      [
+        7347,
+        55,
+        0
+      ],
+      [
+        7402,
+        24,
+        128
+      ],
+      [
+        7426,
+        64,
+        16
+      ],
+      [
+        7490,
+        5,
+        128
+      ],
+      [
+        7495,
+        1,
+        64
+      ],
+      [
+        7496,
+        55,
+        0
+      ],
+      [
+        7551,
+        85,
+        16
+      ],
+      [
+        7636,
+        9,
+        64
+      ],
+      [
+        7645,
+        9,
+        16
+      ],
+      [
+        7654,
+        160,
+        2
+      ],
+      [
+        7814,
+        70,
+        0
+      ],
+      [
+        7884,
+        13,
+        32
+      ],
+      [
+        7897,
+        15,
+        128
+      ],
+      [
+        7912,
+        1,
+        64
+      ],
+      [
+        7913,
+        55,
+        0
+      ],
+      [
+        7968,
+        85,
+        16
+      ],
+      [
+        8053,
+        9,
+        64
+      ],
+      [
+        8062,
+        9,
+        16
+      ],
+      [
+        8071,
+        160,
+        2
+      ],
+      [
+        8231,
+        70,
+        0
+      ],
+      [
+        8301,
+        20,
+        32
+      ],
+      [
+        8321,
+        51,
+        64
+      ],
+      [
+        8372,
+        80,
+        16
+      ],
+      [
+        8452,
+        26,
+        128
+      ],
+      [
+        8478,
+        80,
+        0
+      ],
+      [
+        8558,
+        7,
+        16
+      ],
+      [
+        8565,
+        15,
+        128
+      ],
+      [
+        8580,
+        30,
+        0
+      ],
+      [
+        8610,
+        1,
+        64
+      ],
+      [
+        8611,
+        60,
+        0
+      ]
+    ],
+    "target_window_controls": {
+      "no-target-attack": [
+        [
+          8071,
+          160,
+          0
+        ]
+      ],
+      "medium-charge": [
+        [
+          8071,
+          90,
+          2
+        ],
+        [
+          8161,
+          70,
+          0
+        ]
+      ]
+    }
+  },
+  "accepted_cases": [
+    {
+      "family": "ingress",
+      "hp": 1,
+      "enemy_health_multiplier": 100,
+      "scenario": "ingress",
+      "passed": true,
+      "final": {
+        "frame": 4357,
+        "room": 730,
+        "x": 456.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 0,
+        "animation": 0,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 0,
+        "lower": 13,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "blocking_cells": [
+          13,
+          82,
+          82,
+          13,
+          13,
+          13
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 3273,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bc56976f43af46a50189d457affe610df7e357f8f465129a015ad504902dfcd0",
+      "per_frame_sha256": "799caa487ca744f2934743a48a7a6ff885a8a1e398d444232f08eaefd46eaef1",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "ingress",
+      "hp": 1,
+      "enemy_health_multiplier": 500,
+      "scenario": "ingress",
+      "passed": true,
+      "final": {
+        "frame": 4357,
+        "room": 730,
+        "x": 456.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 0,
+        "animation": 0,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 0,
+        "lower": 13,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "blocking_cells": [
+          13,
+          82,
+          82,
+          13,
+          13,
+          13
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 3273,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "c931ecb4371fc853397c941cf4007b8ab831dca99fc3bab0a0d758ba73400fcf",
+      "per_frame_sha256": "799caa487ca744f2934743a48a7a6ff885a8a1e398d444232f08eaefd46eaef1",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "ingress",
+      "hp": 6,
+      "enemy_health_multiplier": 100,
+      "scenario": "ingress",
+      "passed": true,
+      "final": {
+        "frame": 4357,
+        "room": 730,
+        "x": 456.0,
+        "y": 56.99609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 0,
+        "animation": 0,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 0,
+        "lower": 13,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "blocking_cells": [
+          13,
+          82,
+          82,
+          13,
+          13,
+          13
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 3273,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "6671280f7005608e7d193997cda420c80c0b54ebaa6e3af9a37c6e50631fc0c2",
+      "per_frame_sha256": "d80ac8f8b40434195b7aa0b367d60cbfa76710806f8565b79a1f0c57b2341573",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "ingress",
+      "hp": 6,
+      "enemy_health_multiplier": 500,
+      "scenario": "ingress",
+      "passed": true,
+      "final": {
+        "frame": 4357,
+        "room": 730,
+        "x": 456.0,
+        "y": 56.99609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 0,
+        "animation": 0,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 0,
+        "lower": 13,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "blocking_cells": [
+          13,
+          82,
+          82,
+          13,
+          13,
+          13
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 3273,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "e5279849177bc5c85248b4ea5af82d10a67f397a29a4c3103c5d304fab2ed5e6",
+      "per_frame_sha256": "d80ac8f8b40434195b7aa0b367d60cbfa76710806f8565b79a1f0c57b2341573",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 100,
+      "scenario": "positive",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 56.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 55,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 0,
+        "chest80": true,
+        "native_spray1": false,
+        "event_counter": 1,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bc56976f43af46a50189d457affe610df7e357f8f465129a015ad504902dfcd0",
+      "per_frame_sha256": "0894601a8bc8effe2173784e54c62c4415406ce7c8f22543463a6eb65d15aad1",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 100,
+      "scenario": "no-target-attack",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bc56976f43af46a50189d457affe610df7e357f8f465129a015ad504902dfcd0",
+      "per_frame_sha256": "907ff2344bc138c11406da6b216404d3868a19b624328eebc654b27116c8ca31",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 100,
+      "scenario": "medium-charge",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "bc56976f43af46a50189d457affe610df7e357f8f465129a015ad504902dfcd0",
+      "per_frame_sha256": "66f2b4b064440b7982005d65a5e12d7136e5167cbcac7e30666e36980559eb23",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 500,
+      "scenario": "positive",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 56.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 55,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 0,
+        "chest80": true,
+        "native_spray1": false,
+        "event_counter": 1,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "c931ecb4371fc853397c941cf4007b8ab831dca99fc3bab0a0d758ba73400fcf",
+      "per_frame_sha256": "0894601a8bc8effe2173784e54c62c4415406ce7c8f22543463a6eb65d15aad1",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 500,
+      "scenario": "no-target-attack",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "c931ecb4371fc853397c941cf4007b8ab831dca99fc3bab0a0d758ba73400fcf",
+      "per_frame_sha256": "907ff2344bc138c11406da6b216404d3868a19b624328eebc654b27116c8ca31",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 1,
+      "enemy_health_multiplier": 500,
+      "scenario": "medium-charge",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 1,
+      "hp_max": 1,
+      "rom_sha256": "c931ecb4371fc853397c941cf4007b8ab831dca99fc3bab0a0d758ba73400fcf",
+      "per_frame_sha256": "66f2b4b064440b7982005d65a5e12d7136e5167cbcac7e30666e36980559eb23",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 100,
+      "scenario": "positive",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 56.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 55,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 0,
+        "chest80": true,
+        "native_spray1": false,
+        "event_counter": 1,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "6671280f7005608e7d193997cda420c80c0b54ebaa6e3af9a37c6e50631fc0c2",
+      "per_frame_sha256": "35ec225931b3f5723d935d42de97ad166d45d362ea8b5c217487841a2e8440ea",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 100,
+      "scenario": "no-target-attack",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "6671280f7005608e7d193997cda420c80c0b54ebaa6e3af9a37c6e50631fc0c2",
+      "per_frame_sha256": "5b54f45a8b41a061e54ffd07c9647b0b93d2b04888da5bee776fdebd376a481a",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 100,
+      "scenario": "medium-charge",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "6671280f7005608e7d193997cda420c80c0b54ebaa6e3af9a37c6e50631fc0c2",
+      "per_frame_sha256": "0ad98a4602f55091926e435dae7612ab5f7efc07a0b9dc13bdff2c5be812dc70",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 500,
+      "scenario": "positive",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 56.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 55,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 0,
+        "chest80": true,
+        "native_spray1": false,
+        "event_counter": 1,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "e5279849177bc5c85248b4ea5af82d10a67f397a29a4c3103c5d304fab2ed5e6",
+      "per_frame_sha256": "35ec225931b3f5723d935d42de97ad166d45d362ea8b5c217487841a2e8440ea",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 500,
+      "scenario": "no-target-attack",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "e5279849177bc5c85248b4ea5af82d10a67f397a29a4c3103c5d304fab2ed5e6",
+      "per_frame_sha256": "5b54f45a8b41a061e54ffd07c9647b0b93d2b04888da5bee776fdebd376a481a",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    },
+    {
+      "family": "full",
+      "hp": 6,
+      "enemy_health_multiplier": 500,
+      "scenario": "medium-charge",
+      "passed": true,
+      "final": {
+        "frame": 8671,
+        "room": 733,
+        "x": 345.99609375,
+        "y": 24.49609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 14,
+        "animation": 3,
+        "ai": 0,
+        "humans": 1,
+        "mode": 1,
+        "gate_mask": 0,
+        "upper": 241,
+        "lower": 241,
+        "chest80": false,
+        "native_spray1": false,
+        "event_counter": 0,
+        "left720_chain": 13,
+        "left720_trigger": 13,
+        "blocking_cells": [
+          242,
+          242,
+          242,
+          242,
+          242,
+          242
+        ]
+      },
+      "client_messages": [],
+      "hp_sample_count": 7587,
+      "hp_min": 6,
+      "hp_max": 6,
+      "rom_sha256": "e5279849177bc5c85248b4ea5af82d10a67f397a29a4c3103c5d304fab2ed5e6",
+      "per_frame_sha256": "0ad98a4602f55091926e435dae7612ab5f7efc07a0b9dc13bdff2c5be812dc70",
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "state_restores": 0
+    }
+  ],
+  "earlier_left_arrival_packet": {
+    "qualification": "Startup at decoded734\u2192720 left-arrival coordinates168,120. Boot settles152,105.44; controller enters actual720door2,7\u2192730spawn29,4. No accepted719 far-right approach.",
+    "ability_phases": [
+      [
+        1085,
+        0
+      ],
+      [
+        2337,
+        14
+      ],
+      [
+        3734,
+        0
+      ],
+      [
+        3938,
+        14
+      ]
+    ],
+    "target_input_start": 5014,
+    "lower_trigger_cleared_frame": 5200,
+    "physical_chest_event_frame": 5556,
+    "accepted_cases": [
+      {
+        "scenario": "medium-charge",
+        "rom_sha256": "85170547b94273646aa1a5c1ff7309273bc7440fcbc2539b883d657b56f9dcdc",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "b9f3127a7a812bc7342f57f9ebe021f4b822450ab4a15b6428cd70cc79affa7e",
+        "hp": 1,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "no-target-attack",
+        "rom_sha256": "85170547b94273646aa1a5c1ff7309273bc7440fcbc2539b883d657b56f9dcdc",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "ad65da078b4b419780148dff4a79892107a43b950bad5dae974735738953c8bf",
+        "hp": 1,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "positive",
+        "rom_sha256": "85170547b94273646aa1a5c1ff7309273bc7440fcbc2539b883d657b56f9dcdc",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 56.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 55,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 0,
+          "chest80": true,
+          "native_spray1": false,
+          "event_counter": 1,
+          "blocking_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960501
+            ]
+          }
+        ],
+        "event_ring": [
+          "0x88d3dd0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "34f9494f32ec8b6ee8c48dfee3e319c889de42fa945da5d640b5a178c051523d",
+        "hp": 1,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "positive",
+        "rom_sha256": "f4d19e4289468c5f7cfeb234adf08fe78feece17c4fd610c2232556303c6d386",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 56.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 55,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 0,
+          "chest80": true,
+          "native_spray1": false,
+          "event_counter": 1,
+          "blocking_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960501
+            ]
+          }
+        ],
+        "event_ring": [
+          "0x88d3dd0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "2894a16f8ae766d0df6fc3eea4f58122318a6f384093b46db49f4d5d85a40479",
+        "hp": 6,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "medium-charge",
+        "rom_sha256": "f4d19e4289468c5f7cfeb234adf08fe78feece17c4fd610c2232556303c6d386",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "74a7bd11379123ad8749eaffa344008438c289c1714a91a2bf936077bde507bb",
+        "hp": 6,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "no-target-attack",
+        "rom_sha256": "f4d19e4289468c5f7cfeb234adf08fe78feece17c4fd610c2232556303c6d386",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "9e4af1c48a1b446a971b43de43512b028c320441906454971babc74ae4c30caf",
+        "hp": 6,
+        "enemy_health_multiplier": 100,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "medium-charge",
+        "rom_sha256": "b10bd940a1e79bbaaf327d46852b7d9460e570098968b12fd22c9d242c8480ef",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "b9f3127a7a812bc7342f57f9ebe021f4b822450ab4a15b6428cd70cc79affa7e",
+        "hp": 1,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "no-target-attack",
+        "rom_sha256": "b10bd940a1e79bbaaf327d46852b7d9460e570098968b12fd22c9d242c8480ef",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "ad65da078b4b419780148dff4a79892107a43b950bad5dae974735738953c8bf",
+        "hp": 1,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "positive",
+        "rom_sha256": "b10bd940a1e79bbaaf327d46852b7d9460e570098968b12fd22c9d242c8480ef",
+        "hp_min": 1,
+        "hp_max": 1,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 56.49609375,
+          "hp": 1,
+          "max_hp": 1,
+          "ability": 14,
+          "animation": 55,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 0,
+          "chest80": true,
+          "native_spray1": false,
+          "event_counter": 1,
+          "blocking_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960501
+            ]
+          }
+        ],
+        "event_ring": [
+          "0x88d3dd0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "34f9494f32ec8b6ee8c48dfee3e319c889de42fa945da5d640b5a178c051523d",
+        "hp": 1,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "medium-charge",
+        "rom_sha256": "fe7a325bf7d6717a417f8470ba02140fbfba2d9ea3dd6baca93ca6363fa6f0fe",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "74a7bd11379123ad8749eaffa344008438c289c1714a91a2bf936077bde507bb",
+        "hp": 6,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "no-target-attack",
+        "rom_sha256": "fe7a325bf7d6717a417f8470ba02140fbfba2d9ea3dd6baca93ca6363fa6f0fe",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 24.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 241,
+          "chest80": false,
+          "native_spray1": false,
+          "event_counter": 0,
+          "blocking_cells": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ]
+        },
+        "client_messages": [],
+        "event_ring": [
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "9e4af1c48a1b446a971b43de43512b028c320441906454971babc74ae4c30caf",
+        "hp": 6,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      },
+      {
+        "scenario": "positive",
+        "rom_sha256": "fe7a325bf7d6717a417f8470ba02140fbfba2d9ea3dd6baca93ca6363fa6f0fe",
+        "hp_min": 6,
+        "hp_max": 6,
+        "final": {
+          "frame": 5614,
+          "room": 733,
+          "x": 345.99609375,
+          "y": 56.49609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 55,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate_mask": 0,
+          "upper": 241,
+          "lower": 0,
+          "chest80": true,
+          "native_spray1": false,
+          "event_counter": 1,
+          "blocking_cells": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960501
+            ]
+          }
+        ],
+        "event_ring": [
+          "0x88d3dd0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0",
+          "0x0"
+        ],
+        "configuration_write_count": 8,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "per_frame_sha256": "2894a16f8ae766d0df6fc3eea4f58122318a6f384093b46db49f4d5d85a40479",
+        "hp": 6,
+        "enemy_health_multiplier": 500,
+        "family": "earlier-left-arrival",
+        "hp_sample_count": 4530
+      }
+    ]
+  },
+  "provenance": {
+    "earlier_packet_sha256": {
+      "REPORT.md": "f13351bc53a723215e18c9d2493da52251b74d5b53ea2d891b176d3c27402abd",
+      "compact-result.json": "e3e636497337efc0ec1b5f9302f1bb5362142b46a90d3d7307e3124ea31f18b3",
+      "yellow-paint-runtime.json": "20d960dd319e083584a9e6a90d46f2b7450cde910ac53ff661b771b9019d5cf1"
+    },
+    "ingress_packet_sha256": {
+      "REPORT.md": "623e26de4b9f77fa19114edd5f99ac602d4dc7b287dbad0b82fa49a53ad2737b",
+      "compact-result.json": "c8fcac63c9adb83ae258f749b73841b0a931fea804849f82f4c5327c110849fe",
+      "full-yellow-paint-runtime.json": "4313638db228b3919f03e26042fffc716c73342ba0091e385d603b22de9342c0",
+      "ingress-runtime.json": "ab8c0ac550cc3fbe4b095e2192b5449f0775c15b64a645a32c3528f7c25f4435"
+    }
+  },
+  "limits": [
+    "AP access is ROOM_5_14/native720, not719. Existing719-to720 can_climb AND can_break_block labels remain assumptions; upstream719 access was not independently established.",
+    "Only discrete100% and500% enemy health were replayed at1HP and6HP; 50-99% and101-499% are not interpolation evidence.",
+    "Mode1 full25-ability pool, production seed8, guaranteed SPARKY-to-UFO policy seed5662892934360856578; not arbitrary mixed or failure-weighted pools or repeated draws.",
+    "Finite failed ordinary probes are not exhaustive impossibility evidence. No Phone/helper alternative is qualified; a future Phone route must OR into the same target.",
+    "The earlier12-case packet starts at decoded734-to720 left arrival, not at719; the later16-case packet resolves ingress.",
+    "Original source templates are observations, not evidence that stale template references remain live."
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "scope": "Finite HotHead Crash alternative for fuse_126 only",
+  "private_acceptance_sha256": "728676ec76fe787072ea073cdf6c2d6b39567173c7123a39f21017ec9ebc72fd",
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 12018258668874937858,
+    "mapping_style": "per_enemy_type"
+  },
+  "runs": [
+    {
+      "directory": "final100-1hp-positive",
+      "source_seen_frame": 1824,
+      "source_hp": 4,
+      "acquired_frame": 2445,
+      "health": 1,
+      "samples": 1953,
+      "final_room": 570,
+      "final_ability": 0,
+      "hashes": {
+        "result.json": "92e77eb3a14700a72c3460904129769e1ccc68a0774461718ce0b160b9ce4d13",
+        "states.json": "ed15d989cac4b94e970b8aac2545ceb959df73cf07ac6c3bf03b0cbff9ac87a1",
+        "hp.json": "7a4c37a9ec81d04a2ae3bc9c900aed1bf99828a04f1e4432afb5b38712ff5dbd"
+      },
+      "effect_frame": 2667,
+      "consumed_frame": 2752,
+      "ignition_frame": 2753,
+      "cannon_entry_frame": 2763,
+      "arrival_frame": 2970
+    },
+    {
+      "directory": "final100-1hp-no-trigger",
+      "source_seen_frame": 1824,
+      "source_hp": 4,
+      "acquired_frame": 2445,
+      "health": 1,
+      "samples": 1953,
+      "final_room": 126,
+      "final_ability": 24,
+      "hashes": {
+        "result.json": "455eb3bf7b0936e7dce1e8e994c8c1b913a76c862685727ff5c036a525bb8950",
+        "states.json": "0ab587d2e0a6ea3ef69676f31dd93516d6c4de46e22577bd4a19658b2d846727",
+        "hp.json": "7a4c37a9ec81d04a2ae3bc9c900aed1bf99828a04f1e4432afb5b38712ff5dbd"
+      }
+    },
+    {
+      "directory": "final100-6hp-positive",
+      "source_seen_frame": 1824,
+      "source_hp": 4,
+      "acquired_frame": 2445,
+      "health": 6,
+      "samples": 1953,
+      "final_room": 570,
+      "final_ability": 0,
+      "hashes": {
+        "result.json": "740327674336c1f1ca7c2891d19c5ac97c9c16b549d05d3977b25718e1713b4e",
+        "states.json": "4db6bc475e1a215e46c0d9680960b310c7e3b59feb011e31c20daf6bfe7e31d4",
+        "hp.json": "6e9b8e4e5ee9d3d4510d858506f0f7008acefcb3400c4fdfc82d5091f81bb29c"
+      },
+      "effect_frame": 2667,
+      "consumed_frame": 2752,
+      "ignition_frame": 2753,
+      "cannon_entry_frame": 2763,
+      "arrival_frame": 2970
+    },
+    {
+      "directory": "final100-6hp-no-trigger",
+      "source_seen_frame": 1824,
+      "source_hp": 4,
+      "acquired_frame": 2445,
+      "health": 6,
+      "samples": 1953,
+      "final_room": 126,
+      "final_ability": 24,
+      "hashes": {
+        "result.json": "bd54808cd20a31e50c1a5b1e4896bd031120254187210615c57b6e1674bbdc8a",
+        "states.json": "3fbfd60cf8b0174166a4b5fa3514c2c2f52d6b5c5ddf2bf630e6271a8a9dd8cc",
+        "hp.json": "6e9b8e4e5ee9d3d4510d858506f0f7008acefcb3400c4fdfc82d5091f81bb29c"
+      }
+    },
+    {
+      "directory": "final500-1hp-positive",
+      "source_seen_frame": 1824,
+      "source_hp": 20,
+      "acquired_frame": 2445,
+      "health": 1,
+      "samples": 1953,
+      "final_room": 570,
+      "final_ability": 0,
+      "hashes": {
+        "result.json": "dd3b2f17dba710f2078ded360d040428ac8f1081c604098c2096c00b05a22d4b",
+        "states.json": "dfcc4d9703553f347c59be42e63788bd80a229e7ac0a580b1f5ac155c7e41e6e",
+        "hp.json": "7a4c37a9ec81d04a2ae3bc9c900aed1bf99828a04f1e4432afb5b38712ff5dbd"
+      },
+      "effect_frame": 2667,
+      "consumed_frame": 2752,
+      "ignition_frame": 2753,
+      "cannon_entry_frame": 2763,
+      "arrival_frame": 2970
+    },
+    {
+      "directory": "final500-1hp-no-trigger",
+      "source_seen_frame": 1824,
+      "source_hp": 20,
+      "acquired_frame": 2445,
+      "health": 1,
+      "samples": 1953,
+      "final_room": 126,
+      "final_ability": 24,
+      "hashes": {
+        "result.json": "95a12a0207412894fcf09c953dec97810688da5d53ed9694801956f8dee968e5",
+        "states.json": "f62eff6825628099e08640a7e69fcc5abcfcfa3d740218657f50769a1573e292",
+        "hp.json": "7a4c37a9ec81d04a2ae3bc9c900aed1bf99828a04f1e4432afb5b38712ff5dbd"
+      }
+    },
+    {
+      "directory": "final500-6hp-positive",
+      "source_seen_frame": 1824,
+      "source_hp": 20,
+      "acquired_frame": 2445,
+      "health": 6,
+      "samples": 1953,
+      "final_room": 570,
+      "final_ability": 0,
+      "hashes": {
+        "result.json": "d94ac322b70811d1a7fbaab767970daf0914bce9c7c156bfc5c47cec511edb53",
+        "states.json": "6f067959c67182fa85e672a2486b6d8cdfa00b9e230204e3f4d804d06012bec4",
+        "hp.json": "6e9b8e4e5ee9d3d4510d858506f0f7008acefcb3400c4fdfc82d5091f81bb29c"
+      },
+      "effect_frame": 2667,
+      "consumed_frame": 2752,
+      "ignition_frame": 2753,
+      "cannon_entry_frame": 2763,
+      "arrival_frame": 2970
+    },
+    {
+      "directory": "final500-6hp-no-trigger",
+      "source_seen_frame": 1824,
+      "source_hp": 20,
+      "acquired_frame": 2445,
+      "health": 6,
+      "samples": 1953,
+      "final_room": 126,
+      "final_ability": 24,
+      "hashes": {
+        "result.json": "f34f26688dc4a714dde71744f9e2644cce8a1a3cd7db04f14ea2f85fab1b179c",
+        "states.json": "56bf4e33bdd78a1027c153bb23fea8b0c63bcc6c45c79e57012438f3f661d59f",
+        "hp.json": "6e9b8e4e5ee9d3d4510d858506f0f7008acefcb3400c4fdfc82d5091f81bb29c"
+      }
+    }
+  ],
+  "attribution": [
+    {
+      "directory": "attribution100-positive",
+      "states_sha256": "9f56b93e780a61e9e04b94f19807c5093d561dfd95744505a3950add164c6816",
+      "owner": 0,
+      "parent": "0x2020ee0",
+      "helpers": "all in101",
+      "ai": 0,
+      "humans": 1
+    },
+    {
+      "directory": "attribution500-positive",
+      "states_sha256": "8befddba32c5bcd760c4b38a09711de38e5cea76126fc9f73168a5d3204e621f",
+      "owner": 0,
+      "parent": "0x2020ee0",
+      "helpers": "all in101",
+      "ai": 0,
+      "humans": 1
+    }
+  ],
+  "artifacts": {
+    "build.py": "a4d74ee7477fb3434060da2b686da437e68805c39cb27debf287c547b73776a2",
+    "replay.py": "644121beeef75845c73c11da49b5bb924fc0e8c45f86d5c5c89058e84f5df574",
+    "attribution.py": "1707340cd46b9b3ff5c62bf629f72d0823b1f48c1a70f106f7f9dd36aab54e09",
+    "positive-inputs.json": "5157e3e4d627ead97445f6018bdcad2a9df38038ecd9fd817ab5d1b7246056bf",
+    "geometry.py": "331df9b69ac4e2a0b5451f2cf26e9cf7108ca6e0951e1ca0df7436fb34014cd3",
+    "geometry.json": "8707eae92af49fa68834e4ce492556c6a291e71b6e7cdee1874b02ec710beae8",
+    "validate.py": "d77b0e06edd8a9856da77194cb3a7e1d7af53037307fec4e605dae370b73d8cb"
+  }
+}

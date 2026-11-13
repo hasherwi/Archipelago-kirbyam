@@ -22,13 +22,22 @@ not, by themselves, repair that problem.
    exclude Mini, but retain Beam. A finite live source cannot become a
    guaranteed metal, peg, fuse, rope, Wheel, Mini or frozen-enemy provider just
    because only one such permission is owned.
-3. The complete installed compiled catalog, including logical subregions, has
-   no dry capability that accepts Beam. Its only Beam-compatible capability
-   is the swimming Water Gun route `underwater_819_exit/local`: that graph has
-   no sources and its Normal start already succeeds. No copy acquisition is
-   needed. All other ordinary carrier edges can be traversed as Normal without
-   spending a finite source; dropping equipment is always available. No
-   capability-free edge consumes an object or requires dropped-star recovery.
+3. The combined catalog has three dry Beam-accepting witnesses: the optional
+   538 crossover, the Chocolate chest's Beam entry and the Carrot Room13 Beam
+   entry. The 538 and Carrot Beam graphs each require a raw Waddle Doo-to-Beam
+   singleton. Carrot's other finite branches likewise have graph-local conditions;
+   its independent late Master branch keeps the target installed. Chocolate still
+   has a target-wide raw singleton Doo condition. These tests
+   evaluate raw source policy with every permission available, never the
+   transient permission-filtered live grant. A supported mixed live pool cannot
+   activate those conditional witnesses merely by starting with Beam alone.
+   Swimming Water Gun at `underwater_819_exit/local` succeeds without sources.
+   The separate 110 swimming spray also uses Normal, after an exact finite Knight
+   mouth-payload route. Its capture/spit does not depend on the randomized pending
+   ability. It cannot create a live copy guarantee or ordinary projectile stock.
+   Ranged movement edges additionally retain their explicit carried-equipment
+   guards. Their raw source conditions and fixed assignments do not disappear
+   when source expansion is deduplicated.
 4. Both recovery-required edges are Mini corridors. Original Minny remains
    invariant under all public source switches; raw Mini recovery is the special
    native Mini contract, not the growing general live pool.
@@ -37,7 +46,7 @@ not, by themselves, repair that problem.
    other outcomes. Documented renewable retries expose eligible outcomes as
    alternatives; adding permission retains the previously eligible choices.
 
-These facts give the current catalog a monotone target-reachability argument,
+These facts give the combined installed catalog a monotone target-reachability argument,
 not a claim that every intermediate equipment-state set is monotone. A finite
 Beam-containing uncertain grant cannot supply a previously missing reviewed
 ability gate. Its ordinary traversal can instead be performed without taking
@@ -54,17 +63,23 @@ connection behind its own target. Neither state may bootstrap that connection;
 independently obtaining it must enable the real permanent Stone alternative.
 These are structural/logical tests, not new native gameplay or full-seed proofs.
 
-A future custom-pool option, Beam gate, Beam-capable dependent route, new recovery
-edge or different finite-source semantics requires a new soundness review and
+A future custom-pool option, Beam gate, unguarded Beam-dependent route, new
+recovery edge or different finite-source semantics requires a new soundness review and
 may require evaluator redesign. The narrowed custom-policy issue must not be
 silently treated as fixed by this release's public-option invariant.
 
 ## Complete enumerated catalog
 
-`supported-source-monotonicity-catalog.json` records all 114 installed witnesses,
-228 compiled Area Key variants and 98 distinct physical source/key identities.
-It includes logical subregions, finite/renewable flags, capability providers,
-water dispatch, and every capability/recovery edge. Source hashes identify the
+`supported-source-monotonicity-catalog.json` records all 146 installed witnesses,
+292 compiled Area Key variants and 109 distinct physical source/key identities.
+The fifth 719 witness is the exact fixed post-clear Central stand, whose
+conditional output does not depend on the ordinary pool or permissions. Its
+modeled event and carrier items remain mandatory. This catalog records code
+structure, not native acceptance or placement closure.
+Green138 adds a source-free, target-scoped Normal lower-slide alternative; its finite Spark condition is graph-local.
+It includes logical subregions, per-witness finite/renewable variants, capability providers,
+water dispatch, raw target/graph source conditions, carried-equipment guards,
+and every capability/recovery edge. Source hashes identify the
 reviewed code/data. Tests compare the saved enumeration against the authoritative
 compiled catalog rather than counting only raw top-level room definitions.
 

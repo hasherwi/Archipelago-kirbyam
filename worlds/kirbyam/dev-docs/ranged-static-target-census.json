@@ -1,0 +1,10013 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "scope": "Static census only. AP room aliases are structural joins, not check dependencies or proof that any ranged attack is necessary. Arbitrary runtime-created targets and dynamic reachability remain unclassified.",
+  "input_sha256": {
+    "census.py": "054fbe7d225a74802fd4cdc654abd7091ec1d0b1afab301eb875db232a07d4ff",
+    "census.json": "5e16dab59bfab9a524486033c80115ce80976912220ded66021ba68f07438a6f",
+    "test_census.py": "b0763c5c0c3ab48462be6d10c6b92be3570461ef57bf5f9c2e86632bc12f3b8e",
+    "validation.json": "425abd67601a5169905a6308f8f70f85aa09bc1ed4645e5819fe746bd7f88323",
+    "object_census.py": "d5304a33aa09dcc3fa10aba04f96536f6a7f0fd21c1769475938cd3b0834e90f",
+    "object-census.json": "26170a3b788d4abbe816a7a9ecead5c58aad29652acc91170529f811f6cd0de2"
+  },
+  "tile_counts": {
+    "room_slots": 983,
+    "populated_rooms": 286,
+    "unused_sentinel_slots": 697,
+    "unique_solidity_indices": 286,
+    "collision_cells": 293674,
+    "F1_cells": 403,
+    "F6_cells": 14,
+    "rooms_with_F1": 125,
+    "rooms_with_F6": 13,
+    "replacement_records_creating_F1": 0,
+    "replacement_records_creating_F6": 0
+  },
+  "object_counts": {
+    "object_lists": 287,
+    "templates": 3482,
+    "templates_by_spawn_table": {
+      "1": 3482
+    },
+    "focused_rows": 496,
+    "object_spawners": 37,
+    "small_switch_positions_crosschecked": 35
+  },
+  "validation": {
+    "census_sha256": "5e16dab59bfab9a524486033c80115ce80976912220ded66021ba68f07438a6f",
+    "synthetic_decoder_tests_passed": 7,
+    "published_13_room_manifest_sha256": "8100a7e35532948c66a0e6a9a58eec8d8c36793c15c1a9c939275805128e991b",
+    "published_room_dimensions_counts_and_F1_positions_matched": 13,
+    "separate_533_decoder_all_cells_matched": 943,
+    "separate_533_decoder_sha256": "eb2661979e9b60cfe2a3bb1922ad59ddb822652ee0e699a204aae069afff5a17",
+    "not_proven": [
+      "arbitrary runtime-created targets",
+      "full object-target census",
+      "attack compatibility",
+      "AP check dependencies",
+      "complete traversal"
+    ],
+    "initial_F1_F6_targets_have_exact_matching_replacement_record": true,
+    "targets_matched": 417
+  },
+  "tile_targets": [
+    {
+      "native_room": 102,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AF25C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AF2DA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ]
+    },
+    {
+      "native_room": 108,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 41,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 44,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87836C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878432",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 41,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878468",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 44,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87849A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+        "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST"
+      ]
+    },
+    {
+      "native_room": 110,
+      "dimensions_cells": [
+        16,
+        73
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 1,
+          "y": 21
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 21
+        },
+        {
+          "tile": "0xF1",
+          "x": 1,
+          "y": 26
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 26
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 32
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 32
+        },
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 37
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 43
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 50
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 55
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 57
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 63
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 63
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87878A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 1,
+          "y": 21,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87879C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 21,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8788F2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 1,
+          "y": 26,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878904",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 26,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878916",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 32,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878928",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 32,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878AD8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 37,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878B0E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 43,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878C88",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 50,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878C9A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 55,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878CF4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 57,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878EA4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 63,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x878EDA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 63,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_08"
+      ]
+    },
+    {
+      "native_room": 113,
+      "dimensions_cells": [
+        91,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AF4CE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_21"
+      ]
+    },
+    {
+      "native_room": 115,
+      "dimensions_cells": [
+        76,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 42,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87D760",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87D772",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 42,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_25"
+      ]
+    },
+    {
+      "native_room": 117,
+      "dimensions_cells": [
+        46,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87D966",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87D98A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"
+      ]
+    },
+    {
+      "native_room": 119,
+      "dimensions_cells": [
+        16,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 19
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87EBB2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 11,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87ED08",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 19,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_22"
+      ]
+    },
+    {
+      "native_room": 121,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AF926",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AF980",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 5,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_03"
+      ]
+    },
+    {
+      "native_room": 122,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AFC64",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 5,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_01"
+      ]
+    },
+    {
+      "native_room": 126,
+      "dimensions_cells": [
+        16,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 11
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87CBB4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 6,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87CF92",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 11,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_32"
+      ]
+    },
+    {
+      "native_room": 127,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 9
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x879F50",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x879F86",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x879FBC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x879FF2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 9,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_15",
+        "REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER"
+      ]
+    },
+    {
+      "native_room": 134,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 44,
+          "y": 9
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A1A74",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 44,
+          "y": 9,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_06"
+      ]
+    },
+    {
+      "native_room": 137,
+      "dimensions_cells": [
+        67,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 41,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 31,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 42,
+          "y": 10
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87A502",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 41,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87A6B2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 31,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87A850",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 42,
+          "y": 10,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_14"
+      ]
+    },
+    {
+      "native_room": 138,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 37,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87F10C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 37,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F1AE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_28"
+      ]
+    },
+    {
+      "native_room": 141,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87915C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8792D2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_41",
+        "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER"
+      ]
+    },
+    {
+      "native_room": 143,
+      "dimensions_cells": [
+        31,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x879866",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x879C72",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 18,
+          "replacement": "0x21"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_42",
+        "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT"
+      ]
+    },
+    {
+      "native_room": 147,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 14
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x882800",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 14,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ]
+    },
+    {
+      "native_room": 148,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x882C76",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 12,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT"
+      ]
+    },
+    {
+      "native_room": 149,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 35,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x882E32",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 35,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_20"
+      ]
+    },
+    {
+      "native_room": 171,
+      "dimensions_cells": [
+        16,
+        63
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 10,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 1,
+          "y": 46
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 46
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87F8B4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F8C6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F8D8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F920",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F932",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 10,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87F944",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 41,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87FD6A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 1,
+          "y": 46,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x87FD7C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 46,
+          "replacement": "0x0D"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_21"
+      ]
+    },
+    {
+      "native_room": 173,
+      "dimensions_cells": [
+        31,
+        43
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x880092",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 8,
+          "replacement": "0x0D"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER"
+      ]
+    },
+    {
+      "native_room": 175,
+      "dimensions_cells": [
+        91,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 32,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 33,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 44,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 54,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 55,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 65,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 66,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 76,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 77,
+          "y": 1
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8806AC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 1,
+          "replacement": "0x03"
+        },
+        {
+          "record_offset": "0x8806BE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 1,
+          "replacement": "0x04"
+        },
+        {
+          "record_offset": "0x880760",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 32,
+          "y": 1,
+          "replacement": "0x01"
+        },
+        {
+          "record_offset": "0x880772",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 33,
+          "y": 1,
+          "replacement": "0x02"
+        },
+        {
+          "record_offset": "0x880784",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 1,
+          "replacement": "0x03"
+        },
+        {
+          "record_offset": "0x880796",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 44,
+          "y": 1,
+          "replacement": "0x04"
+        },
+        {
+          "record_offset": "0x880838",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 54,
+          "y": 1,
+          "replacement": "0x01"
+        },
+        {
+          "record_offset": "0x88084A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 55,
+          "y": 1,
+          "replacement": "0x02"
+        },
+        {
+          "record_offset": "0x88085C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 65,
+          "y": 1,
+          "replacement": "0x03"
+        },
+        {
+          "record_offset": "0x88086E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 66,
+          "y": 1,
+          "replacement": "0x04"
+        },
+        {
+          "record_offset": "0x880910",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 76,
+          "y": 1,
+          "replacement": "0x01"
+        },
+        {
+          "record_offset": "0x880922",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 77,
+          "y": 1,
+          "replacement": "0x02"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_19"
+      ]
+    },
+    {
+      "native_room": 177,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 33,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 37,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 41,
+          "y": 3
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88177C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 33,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88178E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 37,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8817A0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 41,
+          "y": 3,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ]
+    },
+    {
+      "native_room": 178,
+      "dimensions_cells": [
+        91,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 42,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 50,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 66,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 71,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 77,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 83,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 28,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 45,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 66,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 72,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 33,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 79,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 84,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 6
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x881AF8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881B1C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 42,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881B88",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 50,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881BAC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 66,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881BBE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 71,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881C2A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 77,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881C3C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 83,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881C72",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881C84",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881D26",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881D80",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881E46",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881E7C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 28,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881EA0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881EB2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 45,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881EC4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 66,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881ED6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 72,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x881F9C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x882008",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88203E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 33,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x882050",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 79,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8820CE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 84,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x882128",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 6,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_29"
+      ]
+    },
+    {
+      "native_room": 202,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 10,
+          "y": 14
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x886D82",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 10,
+          "y": 14,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02"
+      ]
+    },
+    {
+      "native_room": 204,
+      "dimensions_cells": [
+        76,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 62,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8870E2",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 62,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_12"
+      ]
+    },
+    {
+      "native_room": 205,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8873FE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 12,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+      ]
+    },
+    {
+      "native_room": 206,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x887720",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8878D0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 3,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x8879CC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x887D98",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 8,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x887E16",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x887E3A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ]
+    },
+    {
+      "native_room": 209,
+      "dimensions_cells": [
+        31,
+        43
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 23
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8884A4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x888798",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 23,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ]
+    },
+    {
+      "native_room": 210,
+      "dimensions_cells": [
+        31,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 1,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x888C86",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 1,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x888C98",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 12,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_05"
+      ]
+    },
+    {
+      "native_room": 211,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 15
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x888FC6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 5,
+          "replacement": "0x64"
+        },
+        {
+          "record_offset": "0x8891F4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x889206",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 15,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_01"
+      ]
+    },
+    {
+      "native_room": 214,
+      "dimensions_cells": [
+        121,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 76,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 78,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8899D8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 76,
+          "y": 6,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x889BF4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 78,
+          "y": 8,
+          "replacement": "0x0D"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1"
+      ]
+    },
+    {
+      "native_room": 218,
+      "dimensions_cells": [
+        16,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 4
+        },
+        {
+          "tile": "0xF6",
+          "x": 9,
+          "y": 33
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88C3AA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88C3DC",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 9,
+          "y": 33,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ]
+    },
+    {
+      "native_room": 221,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 49,
+          "y": 10
+        },
+        {
+          "tile": "0xF6",
+          "x": 41,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 14
+        },
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 18
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 18
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88C90A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 49,
+          "y": 10,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88C976",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 41,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88C9F4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 14,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88CBA4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88CCC4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 18,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88CCD6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 18,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88CDAE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+      ]
+    },
+    {
+      "native_room": 227,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88A4DC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY"
+      ]
+    },
+    {
+      "native_room": 228,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 32,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 23
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88A842",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88A8D2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 11,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88A998",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88A9AA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 32,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88AB7E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 23,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ]
+    },
+    {
+      "native_room": 229,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 26
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88AFF2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88B1C6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 26,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+      ]
+    },
+    {
+      "native_room": 232,
+      "dimensions_cells": [
+        136,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 74,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 78,
+          "y": 3
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88B78E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 74,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88B7E4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 78,
+          "y": 3,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_14"
+      ]
+    },
+    {
+      "native_room": 308,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 28,
+          "y": 20
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 26
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 28
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88FF02",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 28,
+          "y": 20,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88FF5C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 26,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88FF80",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 28,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+      ]
+    },
+    {
+      "native_room": 310,
+      "dimensions_cells": [
+        46,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89020C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ]
+    },
+    {
+      "native_room": 312,
+      "dimensions_cells": [
+        76,
+        22
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x890498",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 5,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+      ]
+    },
+    {
+      "native_room": 313,
+      "dimensions_cells": [
+        85,
+        15
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 73,
+          "y": 10
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89094E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 73,
+          "y": 10,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_19"
+      ]
+    },
+    {
+      "native_room": 315,
+      "dimensions_cells": [
+        46,
+        22
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x890C3A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ]
+    },
+    {
+      "native_room": 317,
+      "dimensions_cells": [
+        31,
+        43
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 38
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x891338",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 38,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT"
+      ]
+    },
+    {
+      "native_room": 321,
+      "dimensions_cells": [
+        31,
+        44
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 15
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x891722",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 15,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY"
+      ]
+    },
+    {
+      "native_room": 322,
+      "dimensions_cells": [
+        68,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x891918",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      ]
+    },
+    {
+      "native_room": 326,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 100,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 69,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 95,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8929D0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 100,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x892A18",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x892A2A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 4,
+          "replacement": "0x2B"
+        },
+        {
+          "record_offset": "0x892B02",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 69,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x892B4A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 95,
+          "y": 8,
+          "replacement": "0x2B"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2"
+      ]
+    },
+    {
+      "native_room": 401,
+      "dimensions_cells": [
+        31,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 23
+        },
+        {
+          "tile": "0xF6",
+          "x": 28,
+          "y": 30
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 40
+        },
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 40
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x893078",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 23,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8930D2",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 28,
+          "y": 30,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x893228",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 40,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89323A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 40,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_06"
+      ]
+    },
+    {
+      "native_room": 402,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 18
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 25
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 25
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x893AFC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 18,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x893C9A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 25,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x893CBE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 25,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+      ]
+    },
+    {
+      "native_room": 404,
+      "dimensions_cells": [
+        91,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 6
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x894136",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x894256",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 6,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+      ]
+    },
+    {
+      "native_room": 405,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 60,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8946BE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 60,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x894ACA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_09"
+      ]
+    },
+    {
+      "native_room": 407,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 24
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 26
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x894DDE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x894E26",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x894F34",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x894F58",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x895236",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 24,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8952F8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 26,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_07"
+      ]
+    },
+    {
+      "native_room": 411,
+      "dimensions_cells": [
+        31,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 4,
+          "y": 3
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x895A18",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 4,
+          "y": 3,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ]
+    },
+    {
+      "native_room": 414,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 16,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 40,
+          "y": 17
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x897402",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 16,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x897510",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89757C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x897990",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x897A68",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x897B2E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 40,
+          "y": 17,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_11"
+      ]
+    },
+    {
+      "native_room": 418,
+      "dimensions_cells": [
+        136,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 91,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 91,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 109,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x898FAC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 91,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8993A2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 91,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x899468",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 109,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_10"
+      ]
+    },
+    {
+      "native_room": 419,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 7
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x899894",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8999A2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 7,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+      ]
+    },
+    {
+      "native_room": 422,
+      "dimensions_cells": [
+        61,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 49,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89A880",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 49,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_15"
+      ]
+    },
+    {
+      "native_room": 423,
+      "dimensions_cells": [
+        136,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 134,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 134,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 134,
+          "y": 7
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89ABFE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 134,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89AC22",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 134,
+          "y": 6,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89AC46",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 134,
+          "y": 7,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_17"
+      ]
+    },
+    {
+      "native_room": 424,
+      "dimensions_cells": [
+        16,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 1
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89ADC4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 1,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_16"
+      ]
+    },
+    {
+      "native_room": 426,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 3
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89B09C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 3,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ]
+    },
+    {
+      "native_room": 502,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 28,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 56,
+          "y": 16
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AE9C2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 28,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AE9E2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 56,
+          "y": 16,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_16"
+      ]
+    },
+    {
+      "native_room": 503,
+      "dimensions_cells": [
+        16,
+        52
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 44
+        },
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 46
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87C11E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 44,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87C166",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 46,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_12"
+      ]
+    },
+    {
+      "native_room": 504,
+      "dimensions_cells": [
+        16,
+        62
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 25
+        },
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 25
+        },
+        {
+          "tile": "0xF1",
+          "x": 10,
+          "y": 42
+        },
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 48
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87AD4E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 25,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87AD60",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 25,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87AD84",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 10,
+          "y": 42,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87ADA8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 48,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_16",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+        "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER"
+      ]
+    },
+    {
+      "native_room": 508,
+      "dimensions_cells": [
+        46,
+        32
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 38,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89B6B8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89B736",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 38,
+          "y": 5,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_11"
+      ]
+    },
+    {
+      "native_room": 509,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 32,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 9
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89B940",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 32,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89BB30",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 9,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT"
+      ]
+    },
+    {
+      "native_room": 510,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 7,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 28
+        },
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 28
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89BD16",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 7,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89C64C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 28,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89C682",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 28,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_09"
+      ]
+    },
+    {
+      "native_room": 511,
+      "dimensions_cells": [
+        47,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 2
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89D070",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 2,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ]
+    },
+    {
+      "native_room": 512,
+      "dimensions_cells": [
+        31,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89D1F6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89D23E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89D352",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_04",
+        "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB"
+      ]
+    },
+    {
+      "native_room": 513,
+      "dimensions_cells": [
+        31,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 4,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89D482",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 4,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89D7D0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_13",
+        "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER"
+      ]
+    },
+    {
+      "native_room": 515,
+      "dimensions_cells": [
+        31,
+        43
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 19
+        },
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 23
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89DB26",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89DBDA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 19,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89DC46",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 23,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_15",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
+        "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13"
+      ]
+    },
+    {
+      "native_room": 517,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 40,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89DF5A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89DF90",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 6,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89DFC6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E020",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E0E6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 40,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E206",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E2BA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_06"
+      ]
+    },
+    {
+      "native_room": 524,
+      "dimensions_cells": [
+        91,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 69,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AEC9C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 69,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_15"
+      ]
+    },
+    {
+      "native_room": 527,
+      "dimensions_cells": [
+        71,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 38,
+          "y": 8
+        },
+        {
+          "tile": "0xF6",
+          "x": 18,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 14
+        },
+        {
+          "tile": "0xF6",
+          "x": 56,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89E65E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 38,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E736",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 18,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E7A2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 14,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E89A",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 56,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89E926",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ]
+    },
+    {
+      "native_room": 529,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 21
+        },
+        {
+          "tile": "0xF1",
+          "x": 16,
+          "y": 21
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 23
+        },
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 25
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89EBF4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 6,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89ED4A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 11,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89EDC8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 12,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89EF30",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 16,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89EFF6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 21,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89F086",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 16,
+          "y": 21,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89F14C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 23,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x89F1DC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 25,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_03"
+      ]
+    },
+    {
+      "native_room": 530,
+      "dimensions_cells": [
+        46,
+        24
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 18
+        },
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 18
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x89F428",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F494",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F4A6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F4B8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F740",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F8A4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 11,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F946",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89F9B2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89FAD2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89FB2C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89FBB8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 18,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89FBDC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 18,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x89FC00",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_02"
+      ]
+    },
+    {
+      "native_room": 531,
+      "dimensions_cells": [
+        40,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 28
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A038E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A04D2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A0598",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A0604",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A100A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 28,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_GOAL"
+      ]
+    },
+    {
+      "native_room": 532,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 10,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8753BC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 10,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_27",
+        "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+        "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT"
+      ]
+    },
+    {
+      "native_room": 533,
+      "dimensions_cells": [
+        41,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 16
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88DFC4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88E1CE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 16,
+          "replacement": "0x0D"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ]
+    },
+    {
+      "native_room": 534,
+      "dimensions_cells": [
+        64,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 8,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 55,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 58,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 49,
+          "y": 17
+        },
+        {
+          "tile": "0xF1",
+          "x": 52,
+          "y": 17
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x875898",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 8,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8758CE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x875904",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 55,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87593A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 58,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8759A2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8759D8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8759EA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 49,
+          "y": 17,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x875A20",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 52,
+          "y": 17,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_34"
+      ]
+    },
+    {
+      "native_room": 538,
+      "dimensions_cells": [
+        31,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 11
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87603A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 11,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8760DC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 11,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+        "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL"
+      ]
+    },
+    {
+      "native_room": 541,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 10
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 11
+        },
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88E9AE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88EB28",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 10,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88EB3A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 11,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88EBB8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88ED7A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_03"
+      ]
+    },
+    {
+      "native_room": 542,
+      "dimensions_cells": [
+        40,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 17
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87659C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x876650",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 17,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_37"
+      ]
+    },
+    {
+      "native_room": 546,
+      "dimensions_cells": [
+        16,
+        83
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 64
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 64
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88F726",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 64,
+          "replacement": "0x58"
+        },
+        {
+          "record_offset": "0x88F738",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 64,
+          "replacement": "0x57"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_08"
+      ]
+    },
+    {
+      "native_room": 551,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 50,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 6
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A1F10",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 50,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A1F8E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 6,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_15"
+      ]
+    },
+    {
+      "native_room": 553,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 50,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A270C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 50,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_16"
+      ]
+    },
+    {
+      "native_room": 554,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 24
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 24
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 27
+        },
+        {
+          "tile": "0xF1",
+          "x": 42,
+          "y": 27
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87B2E8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 24,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87B2FA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 24,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87B31A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 27,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87B3AA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 42,
+          "y": 27,
+          "replacement": "0x0B"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      ]
+    },
+    {
+      "native_room": 555,
+      "dimensions_cells": [
+        16,
+        63
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 34
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 41
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 41
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x87B752",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 34,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87B7D0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 41,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x87B7E2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 41,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x87B7F4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 41,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x87B806",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 41,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_10"
+      ]
+    },
+    {
+      "native_room": 570,
+      "dimensions_cells": [
+        78,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 54,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 31,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 71,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 46,
+          "y": 6
+        },
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 55,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 58,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 61,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 64,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x876AA8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 54,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x876B5C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x876B80",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 31,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x876CC4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 71,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x876DF2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 46,
+          "y": 6,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8770AC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8770D0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8770E2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x877106",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87712A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x87713C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 55,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x877172",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 58,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8771A8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 61,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8771CC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 64,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_33",
+        "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT"
+      ]
+    },
+    {
+      "native_room": 601,
+      "dimensions_cells": [
+        116,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 109,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A8DD0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A8ECC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 109,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_04"
+      ]
+    },
+    {
+      "native_room": 604,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 37,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 41,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 45,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 47,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 49,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 49,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A956A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A958E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 37,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A95A0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A95C4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 41,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A95D6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A95FA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 45,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A960C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 47,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A9630",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 49,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A96EE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 49,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_09",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06",
+        "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
+      ]
+    },
+    {
+      "native_room": 605,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 35,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 32,
+          "y": 10
+        },
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 15
+        },
+        {
+          "tile": "0xF6",
+          "x": 12,
+          "y": 24
+        },
+        {
+          "tile": "0xF1",
+          "x": 28,
+          "y": 27
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A9A30",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A9A42",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 35,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A9A9C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 32,
+          "y": 10,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x8A9B08",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A9D40",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 12,
+          "y": 24,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AA07C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 28,
+          "y": 27,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_03"
+      ]
+    },
+    {
+      "native_room": 608,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 73,
+          "y": 3
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8ABB1C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 73,
+          "y": 3,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ]
+    },
+    {
+      "native_room": 609,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 92,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 55,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 73,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 86,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 42,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 86,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 97,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AC1BC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 92,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AC464",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 55,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AC626",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 73,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AC638",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 86,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8ACA16",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 42,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8ACB90",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 86,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8ACBB4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 97,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_18"
+      ]
+    },
+    {
+      "native_room": 613,
+      "dimensions_cells": [
+        16,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 48
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AD170",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 48,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_13"
+      ]
+    },
+    {
+      "native_room": 617,
+      "dimensions_cells": [
+        31,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 10,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AD5CC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 10,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AD82C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+      ]
+    },
+    {
+      "native_room": 620,
+      "dimensions_cells": [
+        46,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AB0E2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_01"
+      ]
+    },
+    {
+      "native_room": 621,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 39,
+          "y": 16
+        },
+        {
+          "tile": "0xF1",
+          "x": 40,
+          "y": 16
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8AB66A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 12,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x8AB67C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 39,
+          "y": 16,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8AB68E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 40,
+          "y": 16,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ]
+    },
+    {
+      "native_room": 702,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 1
+        },
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 31,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 37,
+          "y": 4
+        },
+        {
+          "tile": "0xF1",
+          "x": 40,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8857D4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88582E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885840",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 1,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885984",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8859BA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8859F0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885A4A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 31,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885A80",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885A92",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 37,
+          "y": 4,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x885AC8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 40,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER"
+      ]
+    },
+    {
+      "native_room": 704,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 43,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 16,
+          "y": 14
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x883180",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8831B6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 43,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883266",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 16,
+          "y": 14,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM"
+      ]
+    },
+    {
+      "native_room": 706,
+      "dimensions_cells": [
+        75,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 20,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x883526",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88355C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 20,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER"
+      ]
+    },
+    {
+      "native_room": 707,
+      "dimensions_cells": [
+        75,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 13,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 65,
+          "y": 18
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88376E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883780",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 13,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883792",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8839F2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 65,
+          "y": 18,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07"
+      ]
+    },
+    {
+      "native_room": 708,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 15
+        },
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 23
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 23
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 28
+        },
+        {
+          "tile": "0xF1",
+          "x": 36,
+          "y": 28
+        },
+        {
+          "tile": "0xF1",
+          "x": 38,
+          "y": 28
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x883CA4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883CDA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 15,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883D10",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 23,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883D46",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 23,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883F00",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 28,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883F24",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 36,
+          "y": 28,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x883F48",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 38,
+          "y": 28,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT"
+      ]
+    },
+    {
+      "native_room": 711,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 27
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88424C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8844D4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 27,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_09"
+      ]
+    },
+    {
+      "native_room": 712,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 17
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8846DE",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 17,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ]
+    },
+    {
+      "native_room": 717,
+      "dimensions_cells": [
+        76,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 5,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 7,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 23,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B11BA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 2,
+          "replacement": "0x0D"
+        },
+        {
+          "record_offset": "0x8B11F0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1202",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1214",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1226",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 5,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1238",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B124A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 7,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B126E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 23,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1280",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1292",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B12A4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B12B6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_17"
+      ]
+    },
+    {
+      "native_room": 719,
+      "dimensions_cells": [
+        45,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 1,
+          "y": 14
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B16FC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 1,
+          "y": 14,
+          "replacement": "0xFF"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_07"
+      ]
+    },
+    {
+      "native_room": 720,
+      "dimensions_cells": [
+        121,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 16,
+          "y": 7
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B3986",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 16,
+          "y": 7,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ]
+    },
+    {
+      "native_room": 730,
+      "dimensions_cells": [
+        31,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 34
+        },
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 47
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B3F24",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 34,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B4038",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 47,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_15"
+      ]
+    },
+    {
+      "native_room": 733,
+      "dimensions_cells": [
+        76,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 18,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 6
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B1954",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 18,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B1AAA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 6,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ]
+    },
+    {
+      "native_room": 735,
+      "dimensions_cells": [
+        81,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 7
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B1CA4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 7,
+          "replacement": "0x0D"
+        }
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_09"
+      ]
+    },
+    {
+      "native_room": 740,
+      "dimensions_cells": [
+        46,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 2
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x884810",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x884834",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 2,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT"
+      ]
+    },
+    {
+      "native_room": 741,
+      "dimensions_cells": [
+        31,
+        43
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 27,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 26
+        },
+        {
+          "tile": "0xF1",
+          "x": 24,
+          "y": 38
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x884A9E",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 27,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x884ED2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 26,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8850DC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 24,
+          "y": 38,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
+      ]
+    },
+    {
+      "native_room": 742,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 9
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 12
+        },
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 20
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8853C2",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 9,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8854F4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88555C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 12,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8855C8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 20,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+      ]
+    },
+    {
+      "native_room": 743,
+      "dimensions_cells": [
+        31,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 14,
+          "y": 7
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 20
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x885D50",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 14,
+          "y": 7,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88646A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 20,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"
+      ]
+    },
+    {
+      "native_room": 744,
+      "dimensions_cells": [
+        16,
+        63
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 26
+        },
+        {
+          "tile": "0xF1",
+          "x": 4,
+          "y": 36
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x88680A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 26,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x88692A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 4,
+          "y": 36,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_06"
+      ]
+    },
+    {
+      "native_room": 802,
+      "dimensions_cells": [
+        31,
+        53
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 2,
+          "y": 14
+        },
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 14
+        },
+        {
+          "tile": "0xF1",
+          "x": 15,
+          "y": 14
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 31
+        },
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 41
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A6CF6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 2,
+          "y": 14,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A6D08",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 14,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A6D2C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 15,
+          "y": 14,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A70B0",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 31,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A7272",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 41,
+          "replacement": "0x64"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_20"
+      ]
+    },
+    {
+      "native_room": 804,
+      "dimensions_cells": [
+        61,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 4
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8737FA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 4,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ]
+    },
+    {
+      "native_room": 811,
+      "dimensions_cells": [
+        61,
+        24
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 25,
+          "y": 10
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A2D4A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 25,
+          "y": 10,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A2DDA",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 12,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_10"
+      ]
+    },
+    {
+      "native_room": 814,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 3,
+          "y": 13
+        },
+        {
+          "tile": "0xF1",
+          "x": 40,
+          "y": 28
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A310A",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 3,
+          "y": 13,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A3586",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 40,
+          "y": 28,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_12",
+        "REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT"
+      ]
+    },
+    {
+      "native_room": 815,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 21,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 22,
+          "y": 8
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 8
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A372E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 21,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A3818",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 22,
+          "y": 8,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A384E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 8,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ]
+    },
+    {
+      "native_room": 816,
+      "dimensions_cells": [
+        61,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF6",
+          "x": 26,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 44,
+          "y": 13
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A751C",
+          "kind": 1,
+          "attribute": "0xF6",
+          "x": 26,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A763C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 44,
+          "y": 13,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2"
+      ]
+    },
+    {
+      "native_room": 819,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A7DAC",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 12,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_21"
+      ]
+    },
+    {
+      "native_room": 823,
+      "dimensions_cells": [
+        46,
+        33
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 44,
+          "y": 2
+        },
+        {
+          "tile": "0xF1",
+          "x": 17,
+          "y": 10
+        },
+        {
+          "tile": "0xF1",
+          "x": 30,
+          "y": 12
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A3AC8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 44,
+          "y": 2,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A42A8",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 17,
+          "y": 10,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A44C4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 30,
+          "y": 12,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_09"
+      ]
+    },
+    {
+      "native_room": 827,
+      "dimensions_cells": [
+        46,
+        34
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 27,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 29,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 34,
+          "y": 14
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A4A42",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 27,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A4A66",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 29,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A5258",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 34,
+          "y": 14,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_07"
+      ]
+    },
+    {
+      "native_room": 829,
+      "dimensions_cells": [
+        106,
+        13
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 76,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 81,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A5F02",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 76,
+          "y": 5,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A5F5C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 81,
+          "y": 5,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_11"
+      ]
+    },
+    {
+      "native_room": 830,
+      "dimensions_cells": [
+        16,
+        83
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 9,
+          "y": 21
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A61E4",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 9,
+          "y": 21,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_18"
+      ]
+    },
+    {
+      "native_room": 832,
+      "dimensions_cells": [
+        31,
+        52
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 6,
+          "y": 3
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 31
+        },
+        {
+          "tile": "0xF1",
+          "x": 11,
+          "y": 32
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8A675C",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 6,
+          "y": 3,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8A68F6",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 31,
+          "replacement": "0x48"
+        },
+        {
+          "record_offset": "0x8A693E",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 11,
+          "y": 32,
+          "replacement": "0x48"
+        }
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_17"
+      ]
+    },
+    {
+      "native_room": 915,
+      "dimensions_cells": [
+        46,
+        23
+      ],
+      "targets": [
+        {
+          "tile": "0xF1",
+          "x": 12,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 19,
+          "y": 5
+        },
+        {
+          "tile": "0xF1",
+          "x": 26,
+          "y": 5
+        }
+      ],
+      "related_mutation_records": [
+        {
+          "record_offset": "0x8B4714",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 12,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B4726",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 19,
+          "y": 5,
+          "replacement": "0x00"
+        },
+        {
+          "record_offset": "0x8B4738",
+          "kind": 1,
+          "attribute": "0xF1",
+          "x": 26,
+          "y": 5,
+          "replacement": "0x00"
+        }
+      ],
+      "ap_keys": []
+    }
+  ],
+  "object_type_histogram": [
+    {
+      "namespace_type": "1:0x00",
+      "count": 156,
+      "native_rooms": [
+        101,
+        106,
+        107,
+        108,
+        110,
+        117,
+        122,
+        127,
+        132,
+        141,
+        142,
+        143,
+        144,
+        145,
+        176,
+        178,
+        202,
+        208,
+        214,
+        215,
+        224,
+        225,
+        227,
+        231,
+        304,
+        316,
+        317,
+        405,
+        414,
+        502,
+        507,
+        508,
+        515,
+        525,
+        534,
+        536,
+        540,
+        544,
+        551,
+        570,
+        601,
+        604,
+        606,
+        609,
+        612,
+        614,
+        616,
+        622,
+        704,
+        706,
+        707,
+        717,
+        720,
+        740,
+        803,
+        825,
+        828
+      ],
+      "name": "OBJ_WADDLE_DEE_1"
+    },
+    {
+      "namespace_type": "1:0x01",
+      "count": 118,
+      "native_rooms": [
+        101,
+        102,
+        104,
+        106,
+        108,
+        113,
+        121,
+        126,
+        127,
+        131,
+        132,
+        135,
+        140,
+        144,
+        145,
+        172,
+        173,
+        204,
+        205,
+        212,
+        215,
+        223,
+        224,
+        322,
+        326,
+        427,
+        501,
+        502,
+        503,
+        517,
+        525,
+        527,
+        531,
+        534,
+        536,
+        537,
+        543,
+        547,
+        570,
+        571,
+        603,
+        616,
+        618,
+        702,
+        704,
+        720,
+        743,
+        915
+      ],
+      "name": "OBJ_BRONTO_BURT"
+    },
+    {
+      "namespace_type": "1:0x02",
+      "count": 86,
+      "native_rooms": [
+        110,
+        131,
+        135,
+        137,
+        145,
+        149,
+        202,
+        205,
+        211,
+        220,
+        231,
+        408,
+        508,
+        509,
+        523,
+        528,
+        529,
+        555,
+        802,
+        810,
+        811,
+        815,
+        819,
+        821,
+        823,
+        827,
+        829,
+        832
+      ],
+      "name": "OBJ_BLIPPER"
+    },
+    {
+      "namespace_type": "1:0x03",
+      "count": 62,
+      "native_rooms": [
+        130,
+        135,
+        202,
+        205,
+        408,
+        508,
+        511,
+        523,
+        529,
+        802,
+        810,
+        811,
+        815,
+        819,
+        821,
+        823,
+        829,
+        830,
+        831,
+        832,
+        913
+      ],
+      "name": "OBJ_GLUNK"
+    },
+    {
+      "namespace_type": "1:0x04",
+      "count": 1,
+      "native_rooms": [
+        145
+      ],
+      "name": "OBJ_SQUISHY"
+    },
+    {
+      "namespace_type": "1:0x05",
+      "count": 110,
+      "native_rooms": [
+        103,
+        108,
+        122,
+        130,
+        134,
+        136,
+        137,
+        218,
+        222,
+        223,
+        308,
+        316,
+        401,
+        402,
+        415,
+        423,
+        515,
+        524,
+        530,
+        532,
+        534,
+        538,
+        540,
+        553,
+        571,
+        601,
+        603,
+        606,
+        618,
+        622,
+        706,
+        708,
+        712,
+        744,
+        805,
+        915
+      ],
+      "name": "OBJ_SCARFY"
+    },
+    {
+      "namespace_type": "1:0x06",
+      "count": 112,
+      "native_rooms": [
+        119,
+        147,
+        171,
+        172,
+        174,
+        176,
+        206,
+        211,
+        214,
+        312,
+        402,
+        405,
+        412,
+        415,
+        418,
+        504,
+        510,
+        511,
+        514,
+        528,
+        531,
+        533,
+        541,
+        556,
+        601,
+        616,
+        618,
+        621,
+        707,
+        712,
+        730,
+        731,
+        735,
+        736,
+        742,
+        802,
+        810,
+        811,
+        819,
+        829,
+        830,
+        913,
+        915
+      ],
+      "name": "OBJ_GORDO"
+    },
+    {
+      "namespace_type": "1:0x07",
+      "count": 58,
+      "native_rooms": [
+        117,
+        118,
+        122,
+        132,
+        133,
+        140,
+        141,
+        208,
+        215,
+        222,
+        223,
+        401,
+        402,
+        405,
+        409,
+        418,
+        501,
+        524,
+        553,
+        557,
+        571,
+        606,
+        622,
+        705,
+        706,
+        707,
+        708,
+        711,
+        814
+      ],
+      "name": "OBJ_SNOOTER_1"
+    },
+    {
+      "namespace_type": "1:0x08",
+      "count": 66,
+      "native_rooms": [
+        104,
+        107,
+        115,
+        136,
+        137,
+        138,
+        204,
+        222,
+        226,
+        310,
+        312,
+        315,
+        322,
+        508,
+        513,
+        527,
+        536,
+        546,
+        551,
+        557,
+        571,
+        606,
+        702,
+        711,
+        719,
+        730,
+        731,
+        741
+      ],
+      "name": "OBJ_CHIP"
+    },
+    {
+      "namespace_type": "1:0x09",
+      "count": 28,
+      "native_rooms": [
+        113,
+        136,
+        321,
+        423,
+        525,
+        532,
+        540,
+        546,
+        741
+      ],
+      "name": "OBJ_SOARAR"
+    },
+    {
+      "namespace_type": "1:0x0A",
+      "count": 37,
+      "native_rooms": [
+        133,
+        135,
+        173,
+        174,
+        203,
+        312,
+        418,
+        421,
+        423,
+        513,
+        525
+      ],
+      "name": "OBJ_HALEY"
+    },
+    {
+      "namespace_type": "1:0x0B",
+      "count": 78,
+      "native_rooms": [
+        106,
+        108,
+        139,
+        140,
+        149,
+        174,
+        176,
+        210,
+        221,
+        222,
+        304,
+        308,
+        315,
+        401,
+        404,
+        416,
+        423,
+        507,
+        524,
+        528,
+        540,
+        545,
+        553,
+        554,
+        555,
+        604,
+        612,
+        622,
+        702,
+        717
+      ],
+      "name": "OBJ_ROLYPOLY"
+    },
+    {
+      "namespace_type": "1:0x0C",
+      "count": 13,
+      "native_rooms": [
+        136,
+        142,
+        206,
+        308,
+        313,
+        401,
+        542,
+        546,
+        734,
+        805
+      ],
+      "name": "OBJ_CUPIE"
+    },
+    {
+      "namespace_type": "1:0x0D",
+      "count": 25,
+      "native_rooms": [
+        176,
+        211,
+        511,
+        525,
+        545,
+        706,
+        716,
+        719,
+        736
+      ],
+      "name": "OBJ_BLOCKIN"
+    },
+    {
+      "namespace_type": "1:0x0F",
+      "count": 29,
+      "native_rooms": [
+        118,
+        121,
+        130,
+        209,
+        317,
+        326,
+        416,
+        427,
+        524,
+        542,
+        543,
+        603,
+        743,
+        803,
+        828
+      ],
+      "name": "OBJ_LEAP"
+    },
+    {
+      "namespace_type": "1:0x10",
+      "count": 3,
+      "native_rooms": [
+        323,
+        502,
+        827
+      ],
+      "name": "OBJ_JACK"
+    },
+    {
+      "namespace_type": "1:0x11",
+      "count": 24,
+      "native_rooms": [
+        107,
+        118,
+        175,
+        317,
+        414,
+        415,
+        705,
+        707,
+        719,
+        730,
+        731,
+        742,
+        805
+      ],
+      "name": "OBJ_BIG_WADDLE_DEE"
+    },
+    {
+      "namespace_type": "1:0x12",
+      "count": 98,
+      "native_rooms": [
+        101,
+        102,
+        106,
+        117,
+        120,
+        126,
+        131,
+        138,
+        147,
+        171,
+        176,
+        178,
+        205,
+        212,
+        214,
+        218,
+        402,
+        404,
+        405,
+        412,
+        418,
+        422,
+        504,
+        507,
+        512,
+        517,
+        526,
+        537,
+        540,
+        541,
+        542,
+        544,
+        557,
+        601,
+        605,
+        618,
+        706,
+        707,
+        708,
+        716,
+        719,
+        731,
+        742,
+        823,
+        831
+      ],
+      "name": "OBJ_WADDLE_DOO"
+    },
+    {
+      "namespace_type": "1:0x13",
+      "count": 79,
+      "native_rooms": [
+        103,
+        118,
+        137,
+        141,
+        174,
+        177,
+        205,
+        217,
+        228,
+        308,
+        315,
+        321,
+        402,
+        408,
+        414,
+        419,
+        421,
+        501,
+        502,
+        512,
+        530,
+        531,
+        534,
+        539,
+        541,
+        543,
+        547,
+        556,
+        609,
+        616,
+        702,
+        712,
+        741,
+        744,
+        805,
+        814,
+        911
+      ],
+      "name": "OBJ_FLAMER"
+    },
+    {
+      "namespace_type": "1:0x14",
+      "count": 27,
+      "native_rooms": [
+        101,
+        104,
+        108,
+        126,
+        131,
+        148,
+        173,
+        211,
+        321,
+        323,
+        409,
+        420,
+        502,
+        524,
+        554,
+        570,
+        825
+      ],
+      "name": "OBJ_HOT_HEAD"
+    },
+    {
+      "namespace_type": "1:0x15",
+      "count": 15,
+      "native_rooms": [
+        127,
+        208,
+        220,
+        225,
+        313,
+        422,
+        717,
+        743
+      ],
+      "name": "OBJ_LASER_BALL"
+    },
+    {
+      "namespace_type": "1:0x16",
+      "count": 25,
+      "native_rooms": [
+        113,
+        202,
+        204,
+        212,
+        216,
+        218,
+        224,
+        225,
+        227,
+        230,
+        322,
+        526,
+        825
+      ],
+      "name": "OBJ_PENGY"
+    },
+    {
+      "namespace_type": "1:0x17",
+      "count": 19,
+      "native_rooms": [
+        103,
+        203,
+        223,
+        308,
+        322,
+        401,
+        427,
+        515,
+        528,
+        532,
+        554,
+        744,
+        832
+      ],
+      "name": "OBJ_ROCKY"
+    },
+    {
+      "namespace_type": "1:0x18",
+      "count": 55,
+      "native_rooms": [
+        120,
+        121,
+        130,
+        143,
+        147,
+        172,
+        215,
+        216,
+        228,
+        310,
+        313,
+        316,
+        318,
+        323,
+        326,
+        408,
+        416,
+        420,
+        427,
+        511,
+        512,
+        514,
+        517,
+        533,
+        546,
+        553,
+        601,
+        608,
+        616,
+        704,
+        708,
+        732,
+        821,
+        831,
+        915
+      ],
+      "name": "OBJ_SIR_KIBBLE"
+    },
+    {
+      "namespace_type": "1:0x19",
+      "count": 54,
+      "native_rooms": [
+        101,
+        102,
+        110,
+        126,
+        131,
+        138,
+        145,
+        209,
+        218,
+        304,
+        405,
+        409,
+        414,
+        419,
+        501,
+        510,
+        530,
+        535,
+        537,
+        540,
+        544,
+        554,
+        556,
+        609,
+        704,
+        730,
+        732,
+        736,
+        743,
+        802,
+        816,
+        913
+      ],
+      "name": "OBJ_SPARKY"
+    },
+    {
+      "namespace_type": "1:0x1A",
+      "count": 57,
+      "native_rooms": [
+        104,
+        110,
+        119,
+        127,
+        132,
+        134,
+        178,
+        206,
+        208,
+        210,
+        218,
+        225,
+        310,
+        326,
+        408,
+        413,
+        416,
+        419,
+        422,
+        511,
+        527,
+        528,
+        532,
+        533,
+        541,
+        555,
+        731,
+        741,
+        744,
+        805,
+        811,
+        816,
+        821,
+        828,
+        913,
+        915
+      ],
+      "name": "OBJ_SWORD_KNIGHT"
+    },
+    {
+      "namespace_type": "1:0x1B",
+      "count": 7,
+      "native_rooms": [
+        220,
+        232,
+        421,
+        510,
+        533,
+        832
+      ],
+      "name": "OBJ_UFO"
+    },
+    {
+      "namespace_type": "1:0x1C",
+      "count": 13,
+      "native_rooms": [
+        136,
+        140,
+        178,
+        221,
+        304,
+        534,
+        547,
+        742,
+        911
+      ],
+      "name": "OBJ_TWISTER"
+    },
+    {
+      "namespace_type": "1:0x1D",
+      "count": 24,
+      "native_rooms": [
+        115,
+        135,
+        140,
+        171,
+        206,
+        316,
+        423,
+        503,
+        604,
+        717
+      ],
+      "name": "OBJ_WHEELIE"
+    },
+    {
+      "namespace_type": "1:0x1E",
+      "count": 26,
+      "native_rooms": [
+        115,
+        220,
+        232,
+        407,
+        418,
+        422,
+        539,
+        554,
+        610,
+        730
+      ],
+      "name": "OBJ_NODDY"
+    },
+    {
+      "namespace_type": "1:0x1F",
+      "count": 5,
+      "native_rooms": [
+        195,
+        229,
+        614,
+        711
+      ],
+      "name": "OBJ_GOLEM_1"
+    },
+    {
+      "namespace_type": "1:0x20",
+      "count": 4,
+      "native_rooms": [
+        175,
+        229,
+        556,
+        614
+      ],
+      "name": "OBJ_GOLEM_2"
+    },
+    {
+      "namespace_type": "1:0x21",
+      "count": 10,
+      "native_rooms": [
+        229,
+        312,
+        323,
+        553,
+        556,
+        614,
+        711,
+        814
+      ],
+      "name": "OBJ_GOLEM_3"
+    },
+    {
+      "namespace_type": "1:0x22",
+      "count": 69,
+      "native_rooms": [
+        137,
+        144,
+        174,
+        215,
+        216,
+        224,
+        404,
+        503,
+        513,
+        517,
+        533,
+        542,
+        545,
+        551,
+        556,
+        571,
+        606,
+        612,
+        720,
+        827,
+        828,
+        831
+      ],
+      "name": "OBJ_FOLEY_1"
+    },
+    {
+      "namespace_type": "1:0x23",
+      "count": 24,
+      "native_rooms": [
+        220,
+        232,
+        313,
+        421,
+        513,
+        539,
+        555,
+        810,
+        821
+      ],
+      "name": "OBJ_SHOOTY"
+    },
+    {
+      "namespace_type": "1:0x25",
+      "count": 27,
+      "native_rooms": [
+        107,
+        120,
+        122,
+        126,
+        144,
+        203,
+        212,
+        409,
+        413,
+        531,
+        543,
+        545,
+        603,
+        614,
+        704
+      ],
+      "name": "OBJ_BOXIN"
+    },
+    {
+      "namespace_type": "1:0x26",
+      "count": 7,
+      "native_rooms": [
+        133,
+        139,
+        148,
+        204,
+        317,
+        404,
+        537
+      ],
+      "name": "OBJ_COOKIN"
+    },
+    {
+      "namespace_type": "1:0x27",
+      "count": 5,
+      "native_rooms": [
+        134,
+        312,
+        321,
+        736
+      ],
+      "name": "OBJ_MINNY"
+    },
+    {
+      "namespace_type": "1:0x28",
+      "count": 10,
+      "native_rooms": [
+        119,
+        134,
+        325,
+        407,
+        517,
+        618
+      ],
+      "name": "OBJ_BOMBER"
+    },
+    {
+      "namespace_type": "1:0x29",
+      "count": 18,
+      "native_rooms": [
+        121,
+        133,
+        143,
+        211,
+        214,
+        229,
+        318,
+        322,
+        419,
+        504,
+        510,
+        531,
+        604,
+        707
+      ],
+      "name": "OBJ_HEAVY_KNIGHT"
+    },
+    {
+      "namespace_type": "1:0x2A",
+      "count": 15,
+      "native_rooms": [
+        122,
+        149,
+        175,
+        221,
+        415,
+        527,
+        541,
+        547,
+        705,
+        744,
+        832
+      ],
+      "name": "OBJ_GIANT_ROCKY"
+    },
+    {
+      "namespace_type": "1:0x2B",
+      "count": 6,
+      "native_rooms": [
+        175,
+        223,
+        229,
+        504,
+        705,
+        823
+      ],
+      "name": "OBJ_METAL_GUARDIAN"
+    },
+    {
+      "namespace_type": "1:0x2D",
+      "count": 40,
+      "native_rooms": [
+        110,
+        117,
+        120,
+        121,
+        147,
+        149,
+        221,
+        227,
+        535,
+        536,
+        545,
+        551,
+        555,
+        706,
+        717,
+        740
+      ],
+      "name": "OBJ_BATTY"
+    },
+    {
+      "namespace_type": "1:0x2F",
+      "count": 14,
+      "native_rooms": [
+        103,
+        118,
+        325,
+        421,
+        503,
+        546,
+        603,
+        716
+      ],
+      "name": "OBJ_BANG_BANG"
+    },
+    {
+      "namespace_type": "1:0x32",
+      "count": 15,
+      "native_rooms": [
+        113,
+        119,
+        134,
+        139,
+        141,
+        143,
+        144,
+        147,
+        211,
+        212,
+        528,
+        535,
+        557,
+        803,
+        823
+      ],
+      "name": "OBJ_DROPPY"
+    },
+    {
+      "namespace_type": "1:0x33",
+      "count": 5,
+      "native_rooms": [
+        133,
+        139,
+        202,
+        216,
+        222
+      ],
+      "name": "OBJ_PRANK"
+    },
+    {
+      "namespace_type": "1:0x34",
+      "count": 9,
+      "native_rooms": [
+        117,
+        141,
+        175,
+        209,
+        228,
+        611,
+        719,
+        811
+      ],
+      "name": "OBJ_MIRRA"
+    },
+    {
+      "namespace_type": "1:0x35",
+      "count": 47,
+      "native_rooms": [
+        113,
+        115,
+        132,
+        203,
+        225,
+        231,
+        313,
+        419,
+        422,
+        543,
+        544,
+        551,
+        720,
+        828
+      ],
+      "name": "OBJ_SHOTZO_1"
+    },
+    {
+      "namespace_type": "1:0x36",
+      "count": 6,
+      "native_rooms": [
+        102,
+        142,
+        214,
+        315,
+        416,
+        733
+      ],
+      "name": "OBJ_SHADOW_KIRBY"
+    },
+    {
+      "namespace_type": "1:0x37",
+      "count": 1,
+      "native_rooms": [
+        957
+      ],
+      "name": "OBJ_WADDLE_DEE_2"
+    },
+    {
+      "namespace_type": "1:0x38",
+      "count": 4,
+      "native_rooms": [
+        230,
+        740,
+        825,
+        955
+      ],
+      "name": "OBJ_MR_FROSTY"
+    },
+    {
+      "namespace_type": "1:0x39",
+      "count": 7,
+      "native_rooms": [
+        210,
+        420,
+        508,
+        515,
+        623,
+        741,
+        816
+      ],
+      "name": "OBJ_BONKERS"
+    },
+    {
+      "namespace_type": "1:0x3A",
+      "count": 4,
+      "native_rooms": [
+        224,
+        317,
+        403,
+        736
+      ],
+      "name": "OBJ_PHAN_PHAN"
+    },
+    {
+      "namespace_type": "1:0x3B",
+      "count": 5,
+      "native_rooms": [
+        176,
+        323,
+        514,
+        745,
+        956
+      ],
+      "name": "OBJ_BATAFIRE"
+    },
+    {
+      "namespace_type": "1:0x3C",
+      "count": 5,
+      "native_rooms": [
+        177,
+        210,
+        318,
+        413,
+        530
+      ],
+      "name": "OBJ_BOX_BOXER"
+    },
+    {
+      "namespace_type": "1:0x3D",
+      "count": 5,
+      "native_rooms": [
+        148,
+        526,
+        547,
+        712,
+        827
+      ],
+      "name": "OBJ_BOXY"
+    },
+    {
+      "namespace_type": "1:0x3E",
+      "count": 3,
+      "native_rooms": [
+        415,
+        557,
+        609
+      ],
+      "name": "OBJ_MASTER_HAND"
+    },
+    {
+      "namespace_type": "1:0x3F",
+      "count": 3,
+      "native_rooms": [
+        232,
+        326,
+        539
+      ],
+      "name": "OBJ_BOMBAR"
+    },
+    {
+      "namespace_type": "1:0x45",
+      "count": 1,
+      "native_rooms": [
+        324
+      ],
+      "name": "OBJ_KRACKO"
+    },
+    {
+      "namespace_type": "1:0x46",
+      "count": 1,
+      "native_rooms": [
+        710
+      ],
+      "name": "OBJ_KING_GOLEM"
+    },
+    {
+      "namespace_type": "1:0x47",
+      "count": 1,
+      "native_rooms": [
+        417
+      ],
+      "name": "OBJ_CRAZY_HAND_1"
+    },
+    {
+      "namespace_type": "1:0x48",
+      "count": 1,
+      "native_rooms": [
+        822
+      ],
+      "name": "OBJ_GOBBLER"
+    },
+    {
+      "namespace_type": "1:0x49",
+      "count": 1,
+      "native_rooms": [
+        219
+      ],
+      "name": "OBJ_WIZ"
+    },
+    {
+      "namespace_type": "1:0x4A",
+      "count": 1,
+      "native_rooms": [
+        516
+      ],
+      "name": "OBJ_MOLEY"
+    },
+    {
+      "namespace_type": "1:0x4B",
+      "count": 1,
+      "native_rooms": [
+        738
+      ],
+      "name": "OBJ_MEGA_TITAN"
+    },
+    {
+      "namespace_type": "1:0x4E",
+      "count": 1,
+      "native_rooms": [
+        909
+      ],
+      "name": "OBJ_DARK_META_KNIGHT"
+    },
+    {
+      "namespace_type": "1:0x4F",
+      "count": 4,
+      "native_rooms": [
+        910,
+        912,
+        914,
+        916
+      ],
+      "name": "OBJ_DARK_MIND_FORM_1"
+    },
+    {
+      "namespace_type": "1:0x50",
+      "count": 1,
+      "native_rooms": [
+        918
+      ],
+      "name": "OBJ_DARK_MIND_FORM_2"
+    },
+    {
+      "namespace_type": "1:0x51",
+      "count": 1,
+      "native_rooms": [
+        919
+      ],
+      "name": "OBJ_DARK_MIND_FORM_3_TRIGGER"
+    },
+    {
+      "namespace_type": "1:0x52",
+      "count": 1,
+      "native_rooms": [
+        129
+      ],
+      "name": "OBJ_DARK_META_KNIGHT_W8"
+    },
+    {
+      "namespace_type": "1:0x5E",
+      "count": 77,
+      "native_rooms": [
+        101,
+        103,
+        106,
+        115,
+        118,
+        131,
+        132,
+        133,
+        137,
+        138,
+        147,
+        148,
+        149,
+        171,
+        172,
+        178,
+        203,
+        208,
+        209,
+        214,
+        216,
+        220,
+        225,
+        227,
+        229,
+        231,
+        304,
+        321,
+        401,
+        414,
+        416,
+        418,
+        419,
+        425,
+        502,
+        504,
+        508,
+        513,
+        517,
+        523,
+        540,
+        546,
+        555,
+        603,
+        605,
+        609,
+        614,
+        616,
+        618,
+        621,
+        707,
+        717,
+        730,
+        736,
+        737,
+        802,
+        810,
+        819,
+        823,
+        825,
+        827,
+        830,
+        832,
+        913
+      ],
+      "name": "OBJ_SMALL_FOOD"
+    },
+    {
+      "namespace_type": "1:0x5F",
+      "count": 59,
+      "native_rooms": [
+        117,
+        118,
+        127,
+        137,
+        139,
+        140,
+        143,
+        144,
+        171,
+        172,
+        175,
+        178,
+        203,
+        204,
+        206,
+        209,
+        211,
+        214,
+        217,
+        218,
+        220,
+        225,
+        226,
+        227,
+        228,
+        230,
+        231,
+        232,
+        308,
+        408,
+        421,
+        512,
+        524,
+        529,
+        531,
+        532,
+        553,
+        613,
+        618,
+        709,
+        735,
+        811,
+        814,
+        816,
+        829,
+        831,
+        832
+      ],
+      "name": "OBJ_POP_SODA"
+    },
+    {
+      "namespace_type": "1:0x60",
+      "count": 39,
+      "native_rooms": [
+        136,
+        141,
+        144,
+        148,
+        174,
+        176,
+        177,
+        178,
+        195,
+        202,
+        203,
+        206,
+        208,
+        210,
+        218,
+        221,
+        222,
+        225,
+        227,
+        229,
+        231,
+        317,
+        321,
+        402,
+        509,
+        543,
+        554,
+        609,
+        616,
+        711,
+        712,
+        744,
+        802,
+        804,
+        825,
+        827,
+        915
+      ],
+      "name": "OBJ_MEAT"
+    },
+    {
+      "namespace_type": "1:0x61",
+      "count": 56,
+      "native_rooms": [
+        104,
+        108,
+        113,
+        114,
+        119,
+        120,
+        121,
+        133,
+        134,
+        141,
+        143,
+        175,
+        177,
+        206,
+        209,
+        211,
+        221,
+        223,
+        326,
+        402,
+        415,
+        416,
+        419,
+        421,
+        504,
+        531,
+        542,
+        546,
+        551,
+        570,
+        606,
+        613,
+        709,
+        711,
+        714,
+        732,
+        737,
+        740,
+        741,
+        819,
+        821,
+        828,
+        832,
+        911,
+        913,
+        915,
+        951
+      ],
+      "name": "OBJ_TOMATO"
+    },
+    {
+      "namespace_type": "1:0x62",
+      "count": 99,
+      "native_rooms": [
+        102,
+        113,
+        115,
+        117,
+        118,
+        119,
+        127,
+        133,
+        134,
+        135,
+        136,
+        137,
+        140,
+        145,
+        149,
+        172,
+        173,
+        174,
+        176,
+        178,
+        206,
+        209,
+        210,
+        211,
+        218,
+        220,
+        221,
+        225,
+        227,
+        229,
+        231,
+        232,
+        304,
+        308,
+        317,
+        326,
+        400,
+        404,
+        409,
+        425,
+        502,
+        508,
+        509,
+        510,
+        512,
+        513,
+        514,
+        517,
+        523,
+        529,
+        531,
+        532,
+        533,
+        540,
+        541,
+        542,
+        543,
+        546,
+        547,
+        554,
+        555,
+        609,
+        613,
+        707,
+        708,
+        711,
+        716,
+        719,
+        730,
+        731,
+        737,
+        742,
+        744,
+        800,
+        802,
+        804,
+        810,
+        814,
+        819,
+        823
+      ],
+      "name": "OBJ_BATTERY"
+    },
+    {
+      "namespace_type": "1:0x63",
+      "count": 57,
+      "native_rooms": [
+        127,
+        133,
+        147,
+        148,
+        175,
+        202,
+        218,
+        229,
+        308,
+        317,
+        322,
+        326,
+        402,
+        405,
+        414,
+        415,
+        418,
+        502,
+        515,
+        527,
+        528,
+        531,
+        541,
+        542,
+        543,
+        553,
+        555,
+        601,
+        605,
+        613,
+        616,
+        709,
+        711,
+        714,
+        716,
+        736,
+        737,
+        741,
+        742,
+        819,
+        821,
+        830,
+        831,
+        832,
+        911,
+        913,
+        915
+      ],
+      "name": "OBJ_1UP"
+    },
+    {
+      "namespace_type": "1:0x64",
+      "count": 4,
+      "native_rooms": [
+        115,
+        546,
+        601,
+        704
+      ],
+      "name": "OBJ_INVINCIBLE_CANDY"
+    },
+    {
+      "namespace_type": "1:0x65",
+      "count": 5,
+      "native_rooms": [
+        801,
+        911,
+        913,
+        915,
+        951
+      ],
+      "name": "OBJ_MIRROR_SHARD"
+    },
+    {
+      "namespace_type": "1:0x6D",
+      "count": 35,
+      "native_rooms": [
+        147,
+        177,
+        209,
+        228,
+        310,
+        404,
+        426,
+        427,
+        511,
+        527,
+        533,
+        608,
+        610,
+        707,
+        708,
+        712,
+        720,
+        742,
+        804,
+        815,
+        825,
+        831,
+        911,
+        915
+      ],
+      "name": "OBJ_SMALL_BUTTON"
+    },
+    {
+      "namespace_type": "1:0x6F",
+      "count": 471,
+      "native_rooms": [
+        101,
+        102,
+        103,
+        104,
+        106,
+        107,
+        108,
+        110,
+        113,
+        114,
+        115,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        127,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        200,
+        202,
+        203,
+        204,
+        205,
+        206,
+        208,
+        209,
+        210,
+        211,
+        212,
+        214,
+        215,
+        216,
+        217,
+        218,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        231,
+        232,
+        290,
+        291,
+        300,
+        304,
+        308,
+        312,
+        315,
+        316,
+        317,
+        321,
+        322,
+        323,
+        325,
+        326,
+        390,
+        400,
+        401,
+        402,
+        403,
+        404,
+        405,
+        406,
+        407,
+        408,
+        409,
+        411,
+        413,
+        414,
+        415,
+        416,
+        418,
+        419,
+        420,
+        421,
+        422,
+        423,
+        424,
+        425,
+        426,
+        427,
+        490,
+        500,
+        501,
+        502,
+        503,
+        504,
+        507,
+        508,
+        509,
+        510,
+        511,
+        512,
+        513,
+        514,
+        515,
+        517,
+        523,
+        524,
+        525,
+        526,
+        527,
+        528,
+        529,
+        530,
+        531,
+        532,
+        533,
+        534,
+        535,
+        536,
+        537,
+        538,
+        539,
+        540,
+        541,
+        542,
+        543,
+        545,
+        546,
+        547,
+        551,
+        553,
+        554,
+        555,
+        556,
+        557,
+        570,
+        571,
+        590,
+        591,
+        592,
+        600,
+        601,
+        603,
+        604,
+        605,
+        606,
+        608,
+        609,
+        610,
+        611,
+        612,
+        613,
+        614,
+        616,
+        617,
+        618,
+        619,
+        621,
+        622,
+        623,
+        690,
+        700,
+        702,
+        704,
+        706,
+        707,
+        708,
+        709,
+        711,
+        712,
+        714,
+        716,
+        717,
+        719,
+        720,
+        730,
+        731,
+        732,
+        733,
+        734,
+        735,
+        736,
+        739,
+        740,
+        741,
+        742,
+        743,
+        744,
+        745,
+        790,
+        800,
+        803,
+        804,
+        805,
+        810,
+        811,
+        814,
+        815,
+        816,
+        819,
+        821,
+        823,
+        824,
+        825,
+        826,
+        827,
+        828,
+        829,
+        830,
+        831,
+        832,
+        890,
+        970
+      ],
+      "name": "OBJ_DOOR"
+    },
+    {
+      "namespace_type": "1:0x71",
+      "count": 35,
+      "native_rooms": [
+        147,
+        177,
+        209,
+        228,
+        310,
+        404,
+        426,
+        427,
+        511,
+        527,
+        533,
+        608,
+        610,
+        707,
+        708,
+        712,
+        720,
+        742,
+        804,
+        815,
+        825,
+        831,
+        911,
+        915
+      ],
+      "name": "OBJ_VERTICAL_SLIDING_DOOR"
+    },
+    {
+      "namespace_type": "1:0x72",
+      "count": 2,
+      "native_rooms": [
+        950,
+        951
+      ],
+      "name": "OBJ_BOSS_CHALLENGE_DOOR"
+    },
+    {
+      "namespace_type": "1:0x73",
+      "count": 37,
+      "native_rooms": [
+        121,
+        139,
+        148,
+        149,
+        202,
+        414,
+        526,
+        712,
+        823,
+        955,
+        956,
+        957
+      ],
+      "name": "OBJ_OBJECT_SPAWNER"
+    },
+    {
+      "namespace_type": "1:0x74",
+      "count": 137,
+      "native_rooms": [
+        117,
+        121,
+        132,
+        145,
+        149,
+        212,
+        224,
+        227,
+        308,
+        312,
+        322,
+        402,
+        414,
+        502,
+        503,
+        527,
+        531,
+        532,
+        533,
+        535,
+        541,
+        555,
+        601,
+        605,
+        606,
+        616,
+        621,
+        720,
+        736,
+        743,
+        810,
+        811,
+        814,
+        815
+      ],
+      "name": "OBJ_DESTROYABLE_ROCK_BLOCK"
+    },
+    {
+      "namespace_type": "1:0x76",
+      "count": 2,
+      "native_rooms": [
+        315,
+        322
+      ],
+      "name": "OBJ_LAVA_WALL"
+    },
+    {
+      "namespace_type": "1:0x77",
+      "count": 52,
+      "native_rooms": [
+        102,
+        120,
+        142,
+        148,
+        176,
+        177,
+        210,
+        214,
+        224,
+        230,
+        232,
+        315,
+        317,
+        318,
+        323,
+        324,
+        326,
+        403,
+        413,
+        415,
+        416,
+        420,
+        508,
+        514,
+        515,
+        516,
+        526,
+        530,
+        539,
+        547,
+        557,
+        609,
+        611,
+        623,
+        710,
+        712,
+        733,
+        734,
+        736,
+        740,
+        741,
+        745,
+        816,
+        822,
+        825,
+        827,
+        980,
+        981,
+        982
+      ],
+      "name": "OBJ_SCROLL_LOCK"
+    },
+    {
+      "namespace_type": "1:0x78",
+      "count": 4,
+      "native_rooms": [
+        126,
+        323,
+        502,
+        827
+      ],
+      "name": "OBJ_CANNON_FUSE"
+    },
+    {
+      "namespace_type": "1:0x79",
+      "count": 7,
+      "native_rooms": [
+        102,
+        134,
+        173,
+        702,
+        804,
+        815
+      ],
+      "name": "OBJ_STAR_STONE_BLOCK"
+    },
+    {
+      "namespace_type": "1:0x7B",
+      "count": 13,
+      "native_rooms": [
+        143,
+        147,
+        211,
+        217,
+        227,
+        228,
+        316,
+        553
+      ],
+      "name": "OBJ_STAR_PLATFORM"
+    },
+    {
+      "namespace_type": "1:0x7C",
+      "count": 5,
+      "native_rooms": [
+        304,
+        315,
+        321
+      ],
+      "name": "OBJ_FLAME_COLUMN"
+    },
+    {
+      "namespace_type": "1:0x7D",
+      "count": 1,
+      "native_rooms": [
+        146
+      ],
+      "name": "OBJ_LARGE_STAR_STONE_BLOCK_7D"
+    },
+    {
+      "namespace_type": "1:0x7E",
+      "count": 1,
+      "native_rooms": [
+        322
+      ],
+      "name": "OBJ_LARGE_STAR_STONE_BLOCK_7E"
+    },
+    {
+      "namespace_type": "1:0x7F",
+      "count": 22,
+      "native_rooms": [
+        146,
+        206,
+        310,
+        426,
+        617,
+        733,
+        803,
+        804,
+        805,
+        815
+      ],
+      "name": "OBJ_CPU_KIRBY_TRIGGER"
+    },
+    {
+      "namespace_type": "1:0x80",
+      "count": 65,
+      "native_rooms": [
+        102,
+        106,
+        108,
+        134,
+        138,
+        145,
+        148,
+        149,
+        173,
+        176,
+        177,
+        202,
+        206,
+        209,
+        210,
+        216,
+        220,
+        221,
+        224,
+        227,
+        228,
+        229,
+        232,
+        316,
+        321,
+        322,
+        326,
+        402,
+        403,
+        418,
+        424,
+        425,
+        427,
+        510,
+        511,
+        515,
+        517,
+        527,
+        528,
+        531,
+        537,
+        553,
+        557,
+        570,
+        608,
+        622,
+        623,
+        709,
+        719,
+        733,
+        734,
+        742,
+        823,
+        825,
+        826
+      ],
+      "name": "OBJ_SMALL_CHEST"
+    },
+    {
+      "namespace_type": "1:0x81",
+      "count": 19,
+      "native_rooms": [
+        170,
+        190,
+        195,
+        209,
+        310,
+        403,
+        406,
+        426,
+        531,
+        610,
+        617,
+        619,
+        732,
+        739,
+        743,
+        805,
+        815,
+        816,
+        824
+      ],
+      "name": "OBJ_BIG_CHEST"
+    },
+    {
+      "namespace_type": "1:0x84",
+      "count": 6,
+      "native_rooms": [
+        142,
+        230,
+        318,
+        412,
+        705,
+        731
+      ],
+      "name": "OBJ_WARP_STAR"
+    },
+    {
+      "namespace_type": "1:0x85",
+      "count": 3,
+      "native_rooms": [
+        980,
+        981,
+        982
+      ],
+      "name": "OBJ_GOAL_STAR"
+    },
+    {
+      "namespace_type": "1:0x86",
+      "count": 15,
+      "native_rooms": [
+        191,
+        192,
+        193,
+        194,
+        290,
+        291,
+        390,
+        490,
+        590,
+        591,
+        592,
+        690,
+        711,
+        790,
+        890
+      ],
+      "name": "OBJ_BIG_BUTTON"
+    },
+    {
+      "namespace_type": "1:0x88",
+      "count": 1,
+      "native_rooms": [
+        315
+      ],
+      "name": "OBJ_LARGE_STAR_STONE_BLOCK_88"
+    },
+    {
+      "namespace_type": "1:0x8A",
+      "count": 4,
+      "native_rooms": [
+        126,
+        323,
+        502,
+        827
+      ],
+      "name": "OBJ_CANNON"
+    },
+    {
+      "namespace_type": "1:0x8B",
+      "count": 57,
+      "native_rooms": [
+        503,
+        525,
+        532,
+        609,
+        613,
+        622,
+        714,
+        736,
+        737,
+        802,
+        814,
+        832
+      ],
+      "name": "OBJ_8_DIR_CANNON"
+    },
+    {
+      "namespace_type": "1:0x8C",
+      "count": 10,
+      "native_rooms": [
+        801
+      ],
+      "name": "OBJ_HUB_MIRROR"
+    },
+    {
+      "namespace_type": "1:0x8D",
+      "count": 14,
+      "native_rooms": [
+        149,
+        204,
+        218,
+        221,
+        401,
+        411,
+        509,
+        510,
+        513,
+        527,
+        605,
+        741,
+        816
+      ],
+      "name": "OBJ_HAMMER_PEG"
+    },
+    {
+      "namespace_type": "1:0x8E",
+      "count": 2,
+      "native_rooms": [
+        801,
+        803
+      ],
+      "name": "OBJ_CUTSCENE_TRIGGER"
+    },
+    {
+      "namespace_type": "1:0x90",
+      "count": 16,
+      "native_rooms": [
+        180,
+        181,
+        229,
+        232,
+        313,
+        326,
+        515,
+        539,
+        546,
+        617,
+        730
+      ],
+      "name": "OBJ_WIND_EFFECT"
+    },
+    {
+      "namespace_type": "1:0x91",
+      "count": 5,
+      "native_rooms": [
+        170,
+        619,
+        743,
+        805,
+        824
+      ],
+      "name": "OBJ_TRIGGERABLE_WALL"
+    },
+    {
+      "namespace_type": "1:0x92",
+      "count": 44,
+      "native_rooms": [
+        190,
+        193,
+        194,
+        200,
+        291,
+        300,
+        390,
+        400,
+        490,
+        500,
+        590,
+        591,
+        592,
+        600,
+        690,
+        700,
+        790,
+        800,
+        890,
+        950,
+        970
+      ],
+      "name": "OBJ_ABILITY_STATUE_1"
+    },
+    {
+      "namespace_type": "1:0x93",
+      "count": 23,
+      "native_rooms": [
+        191,
+        192,
+        200,
+        290,
+        300,
+        390,
+        500,
+        591,
+        950,
+        970
+      ],
+      "name": "OBJ_ABILITY_STATUE_2"
+    },
+    {
+      "namespace_type": "1:0x94",
+      "count": 8,
+      "native_rooms": [
+        192,
+        200,
+        300,
+        800,
+        890,
+        950,
+        970
+      ],
+      "name": "OBJ_ABILITY_STATUE_3"
+    },
+    {
+      "namespace_type": "1:0x95",
+      "count": 20,
+      "native_rooms": [
+        114,
+        191,
+        193,
+        194,
+        290,
+        400,
+        490,
+        600,
+        690,
+        700,
+        800,
+        950,
+        970
+      ],
+      "name": "OBJ_ABILITY_STATUE_4"
+    },
+    {
+      "namespace_type": "1:0x96",
+      "count": 1,
+      "native_rooms": [
+        951
+      ],
+      "name": "OBJ_ABILITY_STATUE_RANDOM"
+    },
+    {
+      "namespace_type": "1:0x97",
+      "count": 22,
+      "native_rooms": [
+        190,
+        191,
+        192,
+        193,
+        194,
+        290,
+        291,
+        390,
+        490,
+        590,
+        591,
+        592,
+        690,
+        790,
+        805,
+        890
+      ],
+      "name": "OBJ_DOOR_TO_HUB"
+    },
+    {
+      "namespace_type": "1:0x98",
+      "count": 1,
+      "native_rooms": [
+        801
+      ],
+      "name": "OBJ_MASTER_SWORD_STAND"
+    },
+    {
+      "namespace_type": "1:0x99",
+      "count": 33,
+      "native_rooms": [
+        117,
+        120,
+        122,
+        127,
+        130,
+        141,
+        143,
+        144,
+        145,
+        170,
+        171,
+        173,
+        191,
+        211,
+        222,
+        226,
+        310,
+        507,
+        509,
+        512,
+        533,
+        534,
+        538,
+        539,
+        544,
+        545,
+        592,
+        619,
+        620,
+        743,
+        824
+      ],
+      "name": "OBJ_AREA_DOOR"
+    }
+  ]
+}

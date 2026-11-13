@@ -9,6 +9,7 @@ import pytest
 
 from ..traversal import Position, SourcePolicy
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
+from .support.historical_graphs import historical_main_compiled, historical_main_raw
 from .test_metal_goal2 import simulate_burning_gating
 from .test_traversal import policy
 
@@ -77,7 +78,7 @@ def test_no_self_lock_recovery_export_or_wrong_attack(target: str, witness: str)
     assert not any(r.target.startswith('hub_') and r.source.startswith(prefix) for r in graph.routes)
 
 
-def test_original_graph_definitions_are_unchanged() -> None:
+def test_historical_raw_fingerprints_after_reviewed_extensions() -> None:
     from ..traversal_data import _room_catalog
     targets, _, _ = _room_catalog()
     current = {}
@@ -85,7 +86,8 @@ def test_original_graph_definitions_are_unchanged() -> None:
         for name, graph in target['graphs'].items():
             key = target['id'] + '/' + name
             assert key not in current
-            current[key] = hashlib.sha256(json.dumps(graph, sort_keys=True).encode()).hexdigest()
+            historical = historical_main_raw(graph, target['id'], name)
+            current[key] = hashlib.sha256(json.dumps(historical, sort_keys=True).encode()).hexdigest()
     baseline = json.loads((ROOT / 'dev-docs/goal-burning-original-graph-fingerprints.json').read_text())
     assert len(baseline) == 108
     assert {'mini_321_right_lower/local', 'fuse_323/local'} <= set(baseline)
@@ -153,7 +155,7 @@ def test_native_evidence_hashes_are_pinned() -> None:
     }
 
 
-def test_original_compiled_graphs_unchanged_in_both_key_modes() -> None:
+def test_historical_compiled_fingerprints_in_both_key_modes() -> None:
     import dataclasses
 
     def normalize(value: Any) -> Any:
@@ -174,7 +176,8 @@ def test_original_compiled_graphs_unchanged_in_both_key_modes() -> None:
     for key, expected in baseline.items():
         target, witness, keys = key.split('/')
         graph = room_traversal_graph(target, witness, keys == 'True')
-        assert hashlib.sha256(json.dumps(normalize(graph), sort_keys=True).encode()).hexdigest() == expected, key
+        historical = normalize(historical_main_compiled(graph, target, witness))
+        assert hashlib.sha256(json.dumps(historical, sort_keys=True).encode()).hexdigest() == expected, key
 
 
 @pytest.mark.parametrize('target,rooms', [(TARGETS[0], (127, 504, 174, 173, 175, 176)),

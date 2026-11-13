@@ -291,22 +291,17 @@ def replay_rejected_fuzz_case(
     return multiworld
 
 
-def test_exact_fuzz_69_minimal_refuses_placed_strands_and_preserves_source_policy(
+def test_exact_fuzz_69_minimal_accepts_beam_ice_goal_game_fill_and_preserves_source_policy(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    # Goal Game slots change this exact fill. All inventory remains feasible,
-    # but actual placed progression now strands Candy and four other checks.
-    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
+    # Beam+Ice plus Goal Game slots makes this exact sample safe. Keep its
+    # source-policy assertions and require an accepted all-check-complete fill.
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
-    assert audit.unfilled == audit.inventory_unreachable == ()
-    assert len(audit.progression_unreachable) == 18
-    assert "Candy Constellation - Big Switch" in audit.progression_unreachable
-    assert "Candy Constellation - Goal Game 2" in audit.progression_unreachable
-    assert "Mustard Mountain 4-10 - Small Chest #1" in audit.progression_unreachable
-    assert "Peppermint Palace 7-10 - Small Chest #2" in audit.progression_unreachable
+    assert audit.unfilled == audit.inventory_unreachable == audit.progression_unreachable == ()
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
@@ -357,8 +352,18 @@ def test_mixed_accessibility_enforces_checks_and_keeps_copy_room_per_player(
         audit = audit_local_checks(multiworld, player)
         assert audit.unfilled == audit.inventory_unreachable == ()
         expected_strands = (
-            "Moonlight Mansion - Goal Game 1", "Moonlight Mansion 2-15 - Small Chest #1",
-            "Peppermint Palace 7-19 - Small Chest", "Rainbow Route Goal 2 - Small Chest #1",
+            'Area 4 - Hub Room',
+            'Carrot Castle 5-13 - Small Chest #2',
+            'Mustard Mountain - Big Switch',
+            'Mustard Mountain - Boss Defeat',
+            'Mustard Mountain - First Visit',
+            'Mustard Mountain - Goal Game 1',
+            'Mustard Mountain - Goal Game 2',
+            'Mustard Mountain 4-05 - Small Chest',
+            'Mustard Mountain 4-10 - Small Chest #1',
+            'Mustard Mountain 4-11 - Small Chest',
+            'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest',
+            'Mustard Mountain Map - Big Chest',
         ) if companion == "default" and player == 1 else ()
         assert audit.progression_unreachable == expected_strands
     minimal, full = multiworld.worlds[1], multiworld.worlds[2]
@@ -383,12 +388,15 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     from .support.check_accessibility import audit_local_checks
 
     expected = json.loads((FIXTURES / "1-expected.json").read_text())
+    assert expected["master719_stranded_checks"] == sorted([
+        *expected["beam_only_stranded_checks"], "Carrot Castle 5-13 - Small Chest #2",
+    ])
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 1)
     assert multiworld.worlds[1].options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert list(audit.progression_unreachable) == expected["goal_game_stranded_checks"]
+    assert list(audit.progression_unreachable) == expected["beam_ice_goal_game_stranded_checks"]
 
     # Keep the six recorded historical assignments as a counterfactual, not an
     # exact old-fill replay. Current fill has changed beyond those six slots, so
@@ -415,14 +423,14 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert list(historical.progression_unreachable) == expected["goal_game_counterfactual_stranded_checks"]
+    assert list(historical.progression_unreachable) == expected["beam_ice_goal_game_counterfactual_stranded_checks"]
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
         validate_all_checks(multiworld, (1,))
 
     # The historical South Hub placement now takes its permission from Central
     # Circle and strands the starting route. Undo just that balanced swap: the
-    # other five historical assignments remain, and 384 strands shrink to 42.
+    # other five historical assignments remain, and 384 strands shrink to 91.
     hub = multiworld.get_location("Room 1-09", 1)
     donor = historical_donors["Room 1-09"]
     assert donor.name == "Room 1-CENTRAL_CIRCLE"
@@ -434,7 +442,7 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     restored = audit_local_checks(multiworld, 1)
     assert restored.unfilled == restored.inventory_unreachable == ()
-    assert list(restored.progression_unreachable) == expected["goal_game_hub_restored_stranded_checks"]
+    assert list(restored.progression_unreachable) == expected["beam_ice_goal_game_hub_restored_stranded_checks"]
     assert set(restored.progression_unreachable) < set(historical.progression_unreachable)
     assert "Room 1-09" not in restored.progression_unreachable
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):

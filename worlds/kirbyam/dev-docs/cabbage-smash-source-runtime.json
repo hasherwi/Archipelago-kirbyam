@@ -1,0 +1,3428 @@
+{
+  "schema": 1,
+  "scope": "Finite source-aware Cabbage native517 Smash route to MINOR_CHEST_SPRAY_PAINT_12 only. Complete production AP ROM and client configuration. No global reachability, RoomSanity, other exits, or live-random/reset guarantee.",
+  "checkout_commit": "a110c96260b52205fb1b7013c7ac95b1d41fc6b9",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "base_patch_sha256": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea",
+  "normal_generation_seed": 173,
+  "options": {
+    "ability_randomization_mode": 1,
+    "ability_gating": 0,
+    "ability_randomization_no_ability_weight": 0,
+    "area_keys": 0,
+    "enemy_health_multiplier": 100,
+    "minimum_health": 6,
+    "maximum_health": 6
+  },
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 2904965844187189627,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088CA04C",
+    "type": 18,
+    "name": "WADDLE_DOO",
+    "original_xy": [
+      528,
+      264
+    ],
+    "runtime_table_rom_offset": "0x3517FE",
+    "table_value": 22,
+    "source_bitmap_index": 18,
+    "actual_observation": "Native walking copy field remains 7; complete production swallow restoration grants shuffled Smash22. Acquired at frame1939 without equipment injection."
+  },
+  "target": {
+    "key": "MINOR_CHEST_SPRAY_PAINT_12",
+    "location_id": 3960511,
+    "chest_template": "0x088CA0B8",
+    "chest_index": 57,
+    "native_spray_index": 11,
+    "f1_tile": [
+      14,
+      7
+    ],
+    "f2_tiles": [
+      [
+        15,
+        7
+      ],
+      [
+        15,
+        8
+      ],
+      [
+        16,
+        8
+      ],
+      [
+        17,
+        8
+      ],
+      [
+        15,
+        9
+      ],
+      [
+        16,
+        9
+      ],
+      [
+        17,
+        9
+      ]
+    ],
+    "activation": "Rising Up+B Final Cutter at frame3129, animation107, player185.99609375/111.37109375. Not landing-wave attribution.",
+    "ap_reward_policy": "Physical opening records exact source event and suppresses native spray11. The real client maps the event to LocationChecks3960511; captured locally, not sent to an AP server."
+  },
+  "arrival": {
+    "startup_room": 591,
+    "destination_room": 517,
+    "controller_transition_frame": 1109,
+    "settled_arrival_frame": 1158,
+    "settled_position": [
+      696,
+      296.99609375
+    ]
+  },
+  "fixture_byte_diff_from_production_rom": [
+    {
+      "offset": "0x2d8cb8",
+      "before": 35,
+      "after": 79
+    },
+    {
+      "offset": "0x2d8cb9",
+      "before": 3,
+      "after": 2
+    },
+    {
+      "offset": "0x2d8cba",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbb",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cbc",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbd",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cbe",
+      "before": 35,
+      "after": 101
+    },
+    {
+      "offset": "0x2d8cbf",
+      "before": 3,
+      "after": 0
+    },
+    {
+      "offset": "0x2d8cd1",
+      "before": 96,
+      "after": 40
+    },
+    {
+      "offset": "0x2d8cd5",
+      "before": 144,
+      "after": 136
+    },
+    {
+      "offset": "0x2d8cd9",
+      "before": 80,
+      "after": 48
+    },
+    {
+      "offset": "0x2d8cdd",
+      "before": 144,
+      "after": 80
+    },
+    {
+      "offset": "0x2d8ce1",
+      "before": 64,
+      "after": 48
+    },
+    {
+      "offset": "0x2d8ce5",
+      "before": 144,
+      "after": 80
+    },
+    {
+      "offset": "0x2d8ced",
+      "before": 144,
+      "after": 80
+    }
+  ],
+  "controller_bits": {
+    "A": 1,
+    "B": 2,
+    "Start": 8,
+    "Right": 16,
+    "Left": 32,
+    "Up": 64,
+    "Down": 128
+  },
+  "positive_inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 1097,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 1098,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1158,
+      "frames": 90,
+      "keys": 32
+    },
+    {
+      "start": 1248,
+      "frames": 40,
+      "keys": 1
+    },
+    {
+      "start": 1288,
+      "frames": 90,
+      "keys": 96
+    },
+    {
+      "start": 1378,
+      "frames": 35,
+      "keys": 16
+    },
+    {
+      "start": 1413,
+      "frames": 70,
+      "keys": 64
+    },
+    {
+      "start": 1483,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 1484,
+      "frames": 50,
+      "keys": 0
+    },
+    {
+      "start": 1534,
+      "frames": 65,
+      "keys": 32
+    },
+    {
+      "start": 1599,
+      "frames": 10,
+      "keys": 64
+    },
+    {
+      "start": 1609,
+      "frames": 30,
+      "keys": 2
+    },
+    {
+      "start": 1639,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1640,
+      "frames": 90,
+      "keys": 2
+    },
+    {
+      "start": 1730,
+      "frames": 1,
+      "keys": 128
+    },
+    {
+      "start": 1731,
+      "frames": 90,
+      "keys": 0
+    },
+    {
+      "start": 1821,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1822,
+      "frames": 4,
+      "keys": 1
+    },
+    {
+      "start": 1826,
+      "frames": 90,
+      "keys": 2
+    },
+    {
+      "start": 1916,
+      "frames": 1,
+      "keys": 128
+    },
+    {
+      "start": 1917,
+      "frames": 90,
+      "keys": 0
+    },
+    {
+      "start": 2007,
+      "frames": 60,
+      "keys": 2
+    },
+    {
+      "start": 2067,
+      "frames": 90,
+      "keys": 32
+    },
+    {
+      "start": 2157,
+      "frames": 5,
+      "keys": 128
+    },
+    {
+      "start": 2162,
+      "frames": 25,
+      "keys": 129
+    },
+    {
+      "start": 2187,
+      "frames": 60,
+      "keys": 64
+    },
+    {
+      "start": 2247,
+      "frames": 40,
+      "keys": 96
+    },
+    {
+      "start": 2287,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 2288,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2308,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 2309,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2310,
+      "frames": 25,
+      "keys": 34
+    },
+    {
+      "start": 2335,
+      "frames": 1,
+      "keys": 16
+    },
+    {
+      "start": 2336,
+      "frames": 45,
+      "keys": 2
+    },
+    {
+      "start": 2381,
+      "frames": 50,
+      "keys": 64
+    },
+    {
+      "start": 2431,
+      "frames": 45,
+      "keys": 96
+    },
+    {
+      "start": 2476,
+      "frames": 100,
+      "keys": 96
+    },
+    {
+      "start": 2576,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2616,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 2617,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2618,
+      "frames": 25,
+      "keys": 34
+    },
+    {
+      "start": 2643,
+      "frames": 35,
+      "keys": 64
+    },
+    {
+      "start": 2678,
+      "frames": 40,
+      "keys": 96
+    },
+    {
+      "start": 2718,
+      "frames": 25,
+      "keys": 80
+    },
+    {
+      "start": 2743,
+      "frames": 100,
+      "keys": 64
+    },
+    {
+      "start": 2843,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 2863,
+      "frames": 60,
+      "keys": 64
+    },
+    {
+      "start": 2923,
+      "frames": 100,
+      "keys": 80
+    },
+    {
+      "start": 3023,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3024,
+      "frames": 25,
+      "keys": 0
+    },
+    {
+      "start": 3049,
+      "frames": 70,
+      "keys": 16
+    },
+    {
+      "start": 3119,
+      "frames": 60,
+      "keys": 66
+    },
+    {
+      "start": 3179,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3180,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 3220,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3221,
+      "frames": 25,
+      "keys": 0
+    },
+    {
+      "start": 3246,
+      "frames": 25,
+      "keys": 33
+    },
+    {
+      "start": 3271,
+      "frames": 65,
+      "keys": 96
+    },
+    {
+      "start": 3336,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3337,
+      "frames": 45,
+      "keys": 0
+    },
+    {
+      "start": 3382,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 3402,
+      "frames": 180,
+      "keys": 80
+    },
+    {
+      "start": 3582,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3583,
+      "frames": 32,
+      "keys": 0
+    },
+    {
+      "start": 3615,
+      "frames": 10,
+      "keys": 64
+    },
+    {
+      "start": 3625,
+      "frames": 60,
+      "keys": 16
+    },
+    {
+      "start": 3685,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3686,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 3687,
+      "frames": 20,
+      "keys": 18
+    },
+    {
+      "start": 3707,
+      "frames": 140,
+      "keys": 80
+    },
+    {
+      "start": 3847,
+      "frames": 1,
+      "keys": 2
+    },
+    {
+      "start": 3848,
+      "frames": 80,
+      "keys": 0
+    },
+    {
+      "start": 3928,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 3929,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 4169,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 4170,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 4410,
+      "frames": 8,
+      "keys": 16
+    },
+    {
+      "start": 4418,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 4419,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 4659,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 4660,
+      "frames": 240,
+      "keys": 0
+    }
+  ],
+  "runs": {
+    "accepted-source100-6hp": {
+      "enemy_health_percent": 100,
+      "player_hp": 6,
+      "frames": 4900,
+      "minimum_hp": 6,
+      "sample_count": 3816,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 518.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 531.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 107.77734375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 31,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3246",
+          "frame": 3246,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "4900",
+          "frame": 4900,
+          "room": 517,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": true,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 1
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        },
+        {
+          "frame": 3129,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 185.99609375,
+          "y": 111.37109375,
+          "animation": 107
+        },
+        {
+          "frame": 4421,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": true,
+          "minor_event_counter": 1,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "animation": 96
+        }
+      ],
+      "event_counter": 1,
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "rom_sha256": "21503c25709344ee6f1d365b31936ca33211d056a2e08b512211d52cbcbddb03",
+      "production_rom_sha256": "f75c1cd441faf1fb6bdc3382627072ccb4ccc2988ada98d1be87ae40d6d8a14f",
+      "production_patch_sha256": "176f46be3899661b106e116531c2c66922078b53571028e176335e9bb3c126d7",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "e95307bb92a3eb536a0b8c4138b062926849a6cfcc5bfd4b100664d736f54223",
+      "local_record_sha256": {
+        "runtime.json": "f00102fcb05f4a2ec5bd3c32e340cd5fc4f21469c8041412de1d725f066e6f39",
+        "health.json": "e49c94feea7846d68d8a972532543ed5da426c2ac6a4484a81ce15377df60c15",
+        "events.json": "b421e9377081d19d6b5ecf441a2945083ff0c16cd04e852bdb37dec863a7daef",
+        "commands.json": "4bae29394cd0650bbf14247d3743f64e0a08ac632b8db3cddb1b8ed9728eac38"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0
+    },
+    "final100-1hp": {
+      "enemy_health_percent": 100,
+      "player_hp": 1,
+      "frames": 4900,
+      "minimum_hp": 1,
+      "sample_count": 3816,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 107.77734375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 31,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3246",
+          "frame": 3246,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "4900",
+          "frame": 4900,
+          "room": 517,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": true,
+          "spray11": false,
+          "minhp": 1
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        },
+        {
+          "frame": 3129,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 185.99609375,
+          "y": 111.37109375,
+          "animation": 107
+        },
+        {
+          "frame": 4421,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": true,
+          "minor_event_counter": 1,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "animation": 96
+        }
+      ],
+      "event_counter": 1,
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "rom_sha256": "324a0e6d10e1683045156cc0a11188e010fa302f21c520d4f9d792a32939aebd",
+      "production_rom_sha256": "d18fb512a18ec2ca8f6fabe8293a08714eb6669009c4591326fd65cc4f9a6650",
+      "production_patch_sha256": "8cdccd9c1cf1676590fee0319120ff16939f27770681fbd2cdb2d859e0f12073",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "e95307bb92a3eb536a0b8c4138b062926849a6cfcc5bfd4b100664d736f54223",
+      "local_record_sha256": {
+        "runtime.json": "ce80593cd0fa2fea6065769ab90bb9356c60dfa5c4c078b4a6f5b4d84c7a69b1",
+        "health.json": "be290d4bbb093bb4d75d2525de06852680d0592177f1bdabe961adcea4310c81",
+        "events.json": "b421e9377081d19d6b5ecf441a2945083ff0c16cd04e852bdb37dec863a7daef",
+        "commands.json": "4bae29394cd0650bbf14247d3743f64e0a08ac632b8db3cddb1b8ed9728eac38"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0
+    },
+    "final500-6hp": {
+      "enemy_health_percent": 500,
+      "player_hp": 6,
+      "frames": 4900,
+      "minimum_hp": 6,
+      "sample_count": 3816,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 107.77734375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 31,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "3246",
+          "frame": 3246,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6
+        },
+        {
+          "label": "4900",
+          "frame": 4900,
+          "room": 517,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": true,
+          "spray11": false,
+          "minhp": 6
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        },
+        {
+          "frame": 3129,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 185.99609375,
+          "y": 111.37109375,
+          "animation": 107
+        },
+        {
+          "frame": 4421,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": true,
+          "minor_event_counter": 1,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "animation": 96
+        }
+      ],
+      "event_counter": 1,
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "rom_sha256": "0fd62cb92ae3348e6149582f988e980e075a75897cf2857482cad3c4b86daabc",
+      "production_rom_sha256": "3ae2a93aab3596b77ad09b2dd32c275cb3e24a6ad371dcf36d090abd6c2b844c",
+      "production_patch_sha256": "e1e531f6de85703259623ab4891b938bc3bd6ecd52b331e2b9288abdf047fb0c",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "e95307bb92a3eb536a0b8c4138b062926849a6cfcc5bfd4b100664d736f54223",
+      "local_record_sha256": {
+        "runtime.json": "f9f677dfc3a0d7af9be7003a7636b8db0318cb83eab7d8bf2f3bfab4306b65e7",
+        "health.json": "e49c94feea7846d68d8a972532543ed5da426c2ac6a4484a81ce15377df60c15",
+        "events.json": "b421e9377081d19d6b5ecf441a2945083ff0c16cd04e852bdb37dec863a7daef",
+        "commands.json": "4bae29394cd0650bbf14247d3743f64e0a08ac632b8db3cddb1b8ed9728eac38"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0
+    },
+    "final500-1hp": {
+      "enemy_health_percent": 500,
+      "player_hp": 1,
+      "frames": 4900,
+      "minimum_hp": 1,
+      "sample_count": 3816,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 1,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 107.77734375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 31,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "3246",
+          "frame": 3246,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 1
+        },
+        {
+          "label": "4900",
+          "frame": 4900,
+          "room": 517,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "hp": 1,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": true,
+          "spray11": false,
+          "minhp": 1
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        },
+        {
+          "frame": 3129,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 185.99609375,
+          "y": 111.37109375,
+          "animation": 107
+        },
+        {
+          "frame": 4421,
+          "ability": 22,
+          "target_f1": 0,
+          "chest57": true,
+          "minor_event_counter": 1,
+          "x": 316.26171875,
+          "y": 136.99609375,
+          "animation": 96
+        }
+      ],
+      "event_counter": 1,
+      "event_ring": [
+        "0x88ca0b8",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960511
+          ]
+        }
+      ],
+      "rom_sha256": "abe1c3166565a2a917ecb7eae29797b3806a60b6e94cf92aae46f2e106fb8db3",
+      "production_rom_sha256": "8a73f5b89f168ae22e79ee5ad8d7e315fd5baac8154608dd56da3d394cf79d27",
+      "production_patch_sha256": "58171b5bf3f433939071227c88b307830df6c904b29dd4c6930b2824d85ce860",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "e95307bb92a3eb536a0b8c4138b062926849a6cfcc5bfd4b100664d736f54223",
+      "local_record_sha256": {
+        "runtime.json": "b2b01268198d50b69c3d70a4b85152dc09c911f8df631529af8d6d46022e2a0b",
+        "health.json": "be290d4bbb093bb4d75d2525de06852680d0592177f1bdabe961adcea4310c81",
+        "events.json": "b421e9377081d19d6b5ecf441a2945083ff0c16cd04e852bdb37dec863a7daef",
+        "commands.json": "4bae29394cd0650bbf14247d3743f64e0a08ac632b8db3cddb1b8ed9728eac38"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0
+    },
+    "control-attack-window": {
+      "enemy_health_percent": 100,
+      "player_hp": 6,
+      "frames": 3179,
+      "minimum_hp": 6,
+      "sample_count": 2095,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 518.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 531.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 69.00390625,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 32,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        }
+      ],
+      "event_counter": 0,
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "rom_sha256": "21503c25709344ee6f1d365b31936ca33211d056a2e08b512211d52cbcbddb03",
+      "production_rom_sha256": "f75c1cd441faf1fb6bdc3382627072ccb4ccc2988ada98d1be87ae40d6d8a14f",
+      "production_patch_sha256": "176f46be3899661b106e116531c2c66922078b53571028e176335e9bb3c126d7",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "09644f0ca3307aedbe6d6b7cb57545f883d166ef7f2e5cc522f96557abb34144",
+      "local_record_sha256": {
+        "runtime.json": "e89d598288a6ad01d6df490e5e1efcfeb2c0e05821fe6dca55af21e248d92072",
+        "health.json": "62bca7db2d64e24465a8b03ed98baee06333cf0e4a9ac3d26fbfc137823d159b",
+        "events.json": "eefdedcf5c4e24d549cb410a7e84431b6f4091d2f5e1b2dfdb861aaa9c39c82e",
+        "commands.json": "53b2fc50637d93e39f3c3000b6d27aabf3b2c43e60cabc206d1652f5483ee636"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0,
+      "input_differences": [
+        {
+          "positive": {
+            "start": 3119,
+            "frames": 60,
+            "keys": 66
+          },
+          "control": {
+            "start": 3119,
+            "frames": 60,
+            "keys": 64
+          }
+        }
+      ]
+    },
+    "control-no-approach-attacks": {
+      "enemy_health_percent": 100,
+      "player_hp": 6,
+      "frames": 4900,
+      "minimum_hp": 6,
+      "sample_count": 3816,
+      "health_sampling": "Every frame from 1085 through final frame, inclusive. No HP writes.",
+      "checkpoints": [
+        {
+          "label": "before-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 0,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "after-config",
+          "frame": 1085,
+          "room": 591,
+          "x": 24.0,
+          "y": 121.44140625,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 17,
+          "mode": 1,
+          "target_f1": 0,
+          "linked_f2": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1158",
+          "frame": 1158,
+          "room": 517,
+          "x": 696.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1599",
+          "frame": 1599,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 22,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 518.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "1826",
+          "frame": 1826,
+          "room": 517,
+          "x": 566.0,
+          "y": 281.88671875,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 15,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "source_objects": [
+            {
+              "address": "0x2000008",
+              "template": "0x088ca04c",
+              "type": 18,
+              "native_current_copy_field": 7,
+              "x": 531.99609375,
+              "y": 261.99609375
+            }
+          ],
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2007",
+          "frame": 2007,
+          "room": 517,
+          "x": 566.0,
+          "y": 296.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "2335",
+          "frame": 2335,
+          "room": 517,
+          "x": 304.625,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 11,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3119",
+          "frame": 3119,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3179",
+          "frame": 3179,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 69.00390625,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 32,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "3246",
+          "frame": 3246,
+          "room": 517,
+          "x": 185.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 33,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        },
+        {
+          "label": "4900",
+          "frame": 4900,
+          "room": 517,
+          "x": 329.65234375,
+          "y": 72.99609375,
+          "hp": 6,
+          "ability": 22,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "animation": 0,
+          "mode": 1,
+          "target_f1": 241,
+          "linked_f2": [
+            242,
+            242,
+            242,
+            242,
+            242,
+            242,
+            242
+          ],
+          "chest57": false,
+          "spray11": false,
+          "minhp": 6,
+          "max_hp": 6,
+          "minor_event_counter": 0
+        }
+      ],
+      "changes": [
+        {
+          "frame": 1085,
+          "ability": 0,
+          "target_f1": 0,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 24.0,
+          "y": 121.44140625,
+          "animation": 17
+        },
+        {
+          "frame": 1109,
+          "ability": 0,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 696.0,
+          "y": 296.99609375,
+          "animation": 0
+        },
+        {
+          "frame": 1939,
+          "ability": 22,
+          "target_f1": 241,
+          "chest57": false,
+          "minor_event_counter": 0,
+          "x": 566.0,
+          "y": 296.99609375,
+          "animation": 95
+        }
+      ],
+      "event_counter": 0,
+      "event_ring": [
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0"
+      ],
+      "client_messages": [],
+      "rom_sha256": "21503c25709344ee6f1d365b31936ca33211d056a2e08b512211d52cbcbddb03",
+      "production_rom_sha256": "f75c1cd441faf1fb6bdc3382627072ccb4ccc2988ada98d1be87ae40d6d8a14f",
+      "production_patch_sha256": "176f46be3899661b106e116531c2c66922078b53571028e176335e9bb3c126d7",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "input_sha256": "6919d562424259d10fc462ee4657907b583e0a808464910c95219d397d7e124e",
+      "local_record_sha256": {
+        "runtime.json": "9197c5a72d1415f2903ff0d1b31f6cb171c5dc605426d9389b1d90387318b87d",
+        "health.json": "e49c94feea7846d68d8a972532543ed5da426c2ac6a4484a81ce15377df60c15",
+        "events.json": "eefdedcf5c4e24d549cb410a7e84431b6f4091d2f5e1b2dfdb861aaa9c39c82e",
+        "commands.json": "ba152a3171fc7bf3f01c030d68c33f278f6f35d98d93ee4b0e258c830bf83354"
+      },
+      "runtime_config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "7b916b4b",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "0b835028",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "state_restores": 0,
+      "gameplay_ram_writes": 0,
+      "input_differences": [
+        {
+          "positive": {
+            "start": 3119,
+            "frames": 60,
+            "keys": 66
+          },
+          "control": {
+            "start": 3119,
+            "frames": 60,
+            "keys": 64
+          }
+        },
+        {
+          "positive": {
+            "start": 3179,
+            "frames": 1,
+            "keys": 2
+          },
+          "control": {
+            "start": 3179,
+            "frames": 1,
+            "keys": 0
+          }
+        },
+        {
+          "positive": {
+            "start": 3220,
+            "frames": 1,
+            "keys": 2
+          },
+          "control": {
+            "start": 3220,
+            "frames": 1,
+            "keys": 0
+          }
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Startup room and positions are explicit ROM fixture changes, applied after complete AP patching. No proof of reaching Cabbage Hub2 from game start.",
+    "One finite, actual native Doo is consumed. No respawn, reset, repeatability, or eventual live-random draw guarantee follows.",
+    "Only HP1 and HP6 with 100% and 500% enemy health were executed; no unsupported numeric interpolation claimed.",
+    "Gating is off in executed ROMs. Rule-layer gated ownership behavior requires separate tests.",
+    "The exact one-change control stops at the end of the final attack interval. The full-route control removes B from the target approach/settling window at starts3119,3179,3220, then repeats all later inputs.",
+    "A discarded full replay that omitted only the first Up+B later opened the gate with the settling grounded B. It is not a negative and is not part of accepted controls.",
+    "ROMs, AP patches, generated archives, battery files, auth-bearing raw runtime logs and screenshots remain private. This manifest contains no ROM bytes or authentication data."
+  ]
+}

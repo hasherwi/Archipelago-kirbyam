@@ -1,0 +1,1971 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "qualification": "Native source-policy fixture: production mode1 single-UFO assignment-table writes before boot, not natural Foley grant. Startup590 at248,104; AI101. Actual590\u2192534\u2192533 approach, original finite Foley acquisition, UFO top-charge shot and timed crossing to325. No source-object or terrain replacement.100/500% production enemy-health scaling; no AP gate patch/direct1HP replay. All gameplay frames1085..4996 checked for HP.",
+  "policy": {
+    "policy": {
+      "mode": 1,
+      "allowed_abilities": [
+        "UFO"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 0,
+      "seed": 11313160015481018921,
+      "mapping_style": "per_enemy_type"
+    },
+    "writes": {
+      "3480246": 14,
+      "3480198": 14,
+      "3479526": 14,
+      "3479166": 14,
+      "3480078": 14,
+      "3480006": 14,
+      "3479142": 14,
+      "3479310": 14,
+      "3480030": 14,
+      "3479406": 14,
+      "3480318": 14,
+      "3483606": 14,
+      "3479574": 14,
+      "3479934": 14,
+      "3480126": 14,
+      "3479862": 14,
+      "3479886": 14,
+      "3479910": 14,
+      "3479358": 14,
+      "3480102": 14,
+      "3479598": 14,
+      "3479622": 14,
+      "3479478": 14,
+      "3480150": 14,
+      "3479838": 14,
+      "3479646": 14,
+      "3480342": 14,
+      "3479670": 14,
+      "3479382": 14,
+      "3479958": 14,
+      "3479694": 14,
+      "3482934": 14,
+      "3479286": 14,
+      "3479334": 14,
+      "3479718": 14,
+      "3479742": 14,
+      "3479790": 14,
+      "3479766": 14,
+      "3479118": 14,
+      "3479550": 14,
+      "3479814": 14,
+      "3480534": 14,
+      "3480630": 14,
+      "3480486": 14,
+      "3480558": 14,
+      "3480582": 14,
+      "3480606": 14,
+      "3480462": 14,
+      "3480510": 14,
+      "3480438": 14,
+      "3483390": 14,
+      "3483414": 14,
+      "3484014": 14,
+      "3480270": 14,
+      "3484038": 14,
+      "3483990": 14,
+      "3483918": 14,
+      "3483822": 14,
+      "3483846": 14,
+      "3483870": 14,
+      "3483894": 14,
+      "3483798": 14,
+      "3483102": 14,
+      "3483126": 14,
+      "3483006": 14,
+      "3483342": 14,
+      "3483270": 14,
+      "3483222": 14,
+      "3483246": 14,
+      "3483534": 14,
+      "3483486": 14,
+      "3483558": 14,
+      "3483582": 14
+    }
+  },
+  "replay_script_sha256": "74c5db48d711c120819684c6732e413a3321040122d86b7826ccd6b34b391566",
+  "source": {
+    "template": "0x088C2714",
+    "source_key": "FOLEY",
+    "native_room": 533,
+    "position": [
+      224,
+      64
+    ],
+    "guaranteed_assignment": "UFO"
+  },
+  "target": {
+    "template": "0x088C26F0",
+    "position": [
+      312,
+      144
+    ],
+    "native_room": 533,
+    "gate_template": "0x088C26CC",
+    "destination": 325
+  },
+  "control_difference": "The120frame segment starting4578 is replaced by120neutral(no shot), or neutral100+B20(low laser), or neutral60+B60(medium). Every variant releases at4698; all other inputs identical. Lower-charge comparisons are pose/timing-specific, not universal negatives.",
+  "runs": {
+    "100-shot120": {
+      "health_percent": 100,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ],
+        [
+          4948,
+          325
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4579,
+          "0x806d0f5",
+          20
+        ],
+        [
+          4699,
+          "0x806dbcd",
+          31
+        ],
+        [
+          4716,
+          "0x806a85d",
+          11
+        ],
+        [
+          4717,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "14b4c92e87576981b0f8bbe0584dfe29deefe5192222f251f9aa04a0854b4e4f",
+      "canonical_inputs_sha256": "9088a45ea8c05dd033045be5c16d2e874f074f4f4113337ee32c7b8e360b6831",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "6adaed3b804ed076323596426c266a28b039d6a7aa70516ae86712ce3c9a0326",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 161.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 141.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 86.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 112.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 325,
+          "x": 56.0,
+          "y": 312.99609375,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 325,
+          "x": 56.0,
+          "y": 312.99609375,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    },
+    "100-shot0": {
+      "health_percent": 100,
+      "shot_charge_frames": 0,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4715,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "7ed3b44f160f0bba345ae0bd7a157eb0effe6d980b092b478d57f3de479b4057",
+      "canonical_inputs_sha256": "4b24f60ec8cb2c4722be9bf14bd2431613b0ecbd241ac6c2c4bcc44d6c020ce2",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "6646573c35be77fe90b79ca5e4a5cd936cd706fc4f2fb2e5f6843101ab065a9e",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 143.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 115.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 112.50390625,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    },
+    "500-shot120": {
+      "health_percent": 500,
+      "shot_charge_frames": 120,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ],
+        [
+          4948,
+          325
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4579,
+          "0x806d0f5",
+          20
+        ],
+        [
+          4699,
+          "0x806dbcd",
+          31
+        ],
+        [
+          4716,
+          "0x806a85d",
+          11
+        ],
+        [
+          4717,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "d00476f2aac0be8e309ca2c18336e880db88545420fa33fb6cf27a793b2d9315",
+      "canonical_inputs_sha256": "9088a45ea8c05dd033045be5c16d2e874f074f4f4113337ee32c7b8e360b6831",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "4c149705f2bbeb98a8ca56ce08db90cbcd12b1a02b7ff7c921abef897a562cc0",
+      "rom_sha256": "2085c9202ab1fb4603bd975290e2736e5f5290e2e516865e9117fffdb44fef15",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 161.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 141.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 86.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 112.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 325,
+          "x": 56.0,
+          "y": 312.99609375,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 325,
+          "x": 56.0,
+          "y": 312.99609375,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    },
+    "500-shot0": {
+      "health_percent": 500,
+      "shot_charge_frames": 0,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4715,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "cc77b5e7ab27dd46aa71096516b3a138f1798838ffc6fb00d6db65b43ee08066",
+      "canonical_inputs_sha256": "4b24f60ec8cb2c4722be9bf14bd2431613b0ecbd241ac6c2c4bcc44d6c020ce2",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "e377dd83f942bc0c037de00fc4fee5ab4899cb2457f2815db451f6825c83ffb0",
+      "rom_sha256": "2085c9202ab1fb4603bd975290e2736e5f5290e2e516865e9117fffdb44fef15",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 143.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 115.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 112.50390625,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    },
+    "100-shot20": {
+      "health_percent": 100,
+      "shot_charge_frames": 20,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4679,
+          "0x806d0f5",
+          20
+        ],
+        [
+          4699,
+          "0x806d729",
+          27
+        ],
+        [
+          4705,
+          "0x806a85d",
+          0
+        ],
+        [
+          4715,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "b1bc884a3bd53463114e22f9f6d516793298a26bff61ca5d7dd4912db8f4b264",
+      "canonical_inputs_sha256": "69f75166369af18783876d98c8140648ca40ef0fcdabb0361789d714ddde6b24",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "1d0d5f2c16fe7a5770e1d68edff358c724be7f73619519aace713b47a753de8e",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 143.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 115.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 112.50390625,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    },
+    "100-shot60": {
+      "health_percent": 100,
+      "shot_charge_frames": 60,
+      "policy_sha256": "2f460894962808946eaa778a12bd46565cf89c1cee32baf03fbae245cc8d3d5b",
+      "scaler_sha256": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+      "minimum_hp_from_frame1085": 6,
+      "hp_decreases": [],
+      "room_changes": [
+        [
+          1085,
+          590
+        ],
+        [
+          1157,
+          534
+        ],
+        [
+          2697,
+          533
+        ]
+      ],
+      "ability_changes": [
+        [
+          1085,
+          0
+        ],
+        [
+          4377,
+          14
+        ]
+      ],
+      "ufo_state_changes": [
+        [
+          4578,
+          "0x806a85d",
+          3
+        ],
+        [
+          4639,
+          "0x806d0f5",
+          20
+        ],
+        [
+          4699,
+          "0x806d979",
+          29
+        ],
+        [
+          4708,
+          "0x806a85d",
+          0
+        ],
+        [
+          4715,
+          "0x806c5ad",
+          37
+        ],
+        [
+          4726,
+          "0x806b235",
+          44
+        ],
+        [
+          4738,
+          "0x806c5ad",
+          39
+        ],
+        [
+          4783,
+          "0x806d0f5",
+          20
+        ]
+      ],
+      "runtime_sha256": "3637b05bee3ddf5597fc388d59ba3f130151b953d449212f28a34d1d6231d2fb",
+      "canonical_inputs_sha256": "7ce85e3aa2c8e8093f0a69e29c54d012e26faabf5c194ab67e28f06a09eac047",
+      "runtime_writes": [],
+      "runtime_restores": 0,
+      "acceptance_sha256": "de91051045192943b8395f9a500439105b8df944d7fa0f7f8c67d0b3c3b47bb9",
+      "rom_sha256": "502c94055cb4618f523a89423327c9b7d6788dbc24bd5fe39ed0538be4a97541",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "checkpoints": [
+        {
+          "frame": 1085,
+          "room": 590,
+          "x": 232.0,
+          "y": 89.44140625,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 2745,
+          "room": 533,
+          "x": 616.0,
+          "y": 264.99609375,
+          "hp": 6,
+          "ability": 0
+        },
+        {
+          "frame": 4404,
+          "room": 533,
+          "x": 245.51953125,
+          "y": 72.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4509,
+          "room": 533,
+          "x": 166.0,
+          "y": 144.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4558,
+          "room": 533,
+          "x": 175.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4578,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4698,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4713,
+          "room": 533,
+          "x": 178.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4725,
+          "room": 533,
+          "x": 166.0,
+          "y": 134.9921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4737,
+          "room": 533,
+          "x": 166.0,
+          "y": 112.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4772,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4782,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4847,
+          "room": 533,
+          "x": 166.0,
+          "y": 109.4921875,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4936,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 143.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4956,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 115.50390625,
+          "hp": 6,
+          "ability": 14
+        },
+        {
+          "frame": 4996,
+          "room": 533,
+          "x": 169.99609375,
+          "y": 112.50390625,
+          "hp": 6,
+          "ability": 14
+        }
+      ]
+    }
+  },
+  "positive_inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1145,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 1165,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1225,
+      "frames": 50,
+      "keys": 17
+    },
+    {
+      "start": 1275,
+      "frames": 10,
+      "keys": 18
+    },
+    {
+      "start": 1285,
+      "frames": 60,
+      "keys": 16
+    },
+    {
+      "start": 1345,
+      "frames": 3,
+      "keys": 32
+    },
+    {
+      "start": 1348,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 1358,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 1378,
+      "frames": 5,
+      "keys": 16
+    },
+    {
+      "start": 1383,
+      "frames": 100,
+      "keys": 18
+    },
+    {
+      "start": 1483,
+      "frames": 20,
+      "keys": 17
+    },
+    {
+      "start": 1503,
+      "frames": 10,
+      "keys": 0
+    },
+    {
+      "start": 1513,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 1523,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1583,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1584,
+      "frames": 40,
+      "keys": 80
+    },
+    {
+      "start": 1624,
+      "frames": 120,
+      "keys": 64
+    },
+    {
+      "start": 1744,
+      "frames": 20,
+      "keys": 80
+    },
+    {
+      "start": 1764,
+      "frames": 160,
+      "keys": 64
+    },
+    {
+      "start": 1924,
+      "frames": 30,
+      "keys": 64
+    },
+    {
+      "start": 1954,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 1974,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 1994,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 2014,
+      "frames": 40,
+      "keys": 34
+    },
+    {
+      "start": 2054,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2094,
+      "frames": 5,
+      "keys": 64
+    },
+    {
+      "start": 2099,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2109,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2149,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2169,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2170,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2180,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2220,
+      "frames": 15,
+      "keys": 16
+    },
+    {
+      "start": 2235,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2265,
+      "frames": 10,
+      "keys": 32
+    },
+    {
+      "start": 2275,
+      "frames": 10,
+      "keys": 64
+    },
+    {
+      "start": 2285,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2286,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2296,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2356,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 2371,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2381,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2441,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 2456,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2486,
+      "frames": 5,
+      "keys": 0
+    },
+    {
+      "start": 2491,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2501,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2561,
+      "frames": 34,
+      "keys": 32
+    },
+    {
+      "start": 2595,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2615,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 2655,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2665,
+      "frames": 20,
+      "keys": 32
+    },
+    {
+      "start": 2685,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2705,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 2745,
+      "frames": 70,
+      "keys": 32
+    },
+    {
+      "start": 2815,
+      "frames": 80,
+      "keys": 64
+    },
+    {
+      "start": 2895,
+      "frames": 120,
+      "keys": 96
+    },
+    {
+      "start": 3015,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 3025,
+      "frames": 20,
+      "keys": 34
+    },
+    {
+      "start": 3045,
+      "frames": 65,
+      "keys": 32
+    },
+    {
+      "start": 3110,
+      "frames": 90,
+      "keys": 64
+    },
+    {
+      "start": 3200,
+      "frames": 110,
+      "keys": 80
+    },
+    {
+      "start": 3310,
+      "frames": 120,
+      "keys": 64
+    },
+    {
+      "start": 3430,
+      "frames": 65,
+      "keys": 96
+    },
+    {
+      "start": 3495,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 3505,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 3525,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 3555,
+      "frames": 55,
+      "keys": 64
+    },
+    {
+      "start": 3610,
+      "frames": 10,
+      "keys": 34
+    },
+    {
+      "start": 3620,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 3632,
+      "frames": 75,
+      "keys": 2
+    },
+    {
+      "start": 3707,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 3727,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 3767,
+      "frames": 30,
+      "keys": 17
+    },
+    {
+      "start": 3797,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 3817,
+      "frames": 120,
+      "keys": 80
+    },
+    {
+      "start": 3937,
+      "frames": 10,
+      "keys": 18
+    },
+    {
+      "start": 3947,
+      "frames": 35,
+      "keys": 16
+    },
+    {
+      "start": 3982,
+      "frames": 45,
+      "keys": 64
+    },
+    {
+      "start": 4027,
+      "frames": 135,
+      "keys": 96
+    },
+    {
+      "start": 4162,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 4172,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 4202,
+      "frames": 55,
+      "keys": 64
+    },
+    {
+      "start": 4257,
+      "frames": 10,
+      "keys": 34
+    },
+    {
+      "start": 4267,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 4279,
+      "frames": 75,
+      "keys": 2
+    },
+    {
+      "start": 4354,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 4374,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 4404,
+      "frames": 35,
+      "keys": 32
+    },
+    {
+      "start": 4439,
+      "frames": 35,
+      "keys": 128
+    },
+    {
+      "start": 4474,
+      "frames": 35,
+      "keys": 32
+    },
+    {
+      "start": 4509,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 4529,
+      "frames": 19,
+      "keys": 128
+    },
+    {
+      "start": 4548,
+      "frames": 10,
+      "keys": 16
+    },
+    {
+      "start": 4558,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 4578,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 4698,
+      "frames": 15,
+      "keys": 0
+    },
+    {
+      "start": 4713,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 4725,
+      "frames": 12,
+      "keys": 64
+    },
+    {
+      "start": 4737,
+      "frames": 35,
+      "keys": 32
+    },
+    {
+      "start": 4772,
+      "frames": 10,
+      "keys": 32
+    },
+    {
+      "start": 4782,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 4792,
+      "frames": 25,
+      "keys": 0
+    },
+    {
+      "start": 4817,
+      "frames": 30,
+      "keys": 32
+    },
+    {
+      "start": 4847,
+      "frames": 50,
+      "keys": 64
+    },
+    {
+      "start": 4897,
+      "frames": 17,
+      "keys": 16
+    },
+    {
+      "start": 4914,
+      "frames": 22,
+      "keys": 128
+    },
+    {
+      "start": 4936,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 4956,
+      "frames": 40,
+      "keys": 0
+    }
+  ]
+}

@@ -6,6 +6,9 @@ intentionally read from the supported policy: this does not enable removal.
 """
 
 from collections import Counter
+import hashlib
+import inspect
+import json
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Callable, cast
@@ -31,10 +34,10 @@ PROFILES = (
 )
 
 
-# Goal Game slots change deterministic fill. Classify every retained minimal
+# Beam+Ice starts and Goal Game slots change deterministic fill. Classify every retained minimal
 # sample explicitly: neither outcome is optional, and no seed is replaced.
 EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({
-    (0, 0, 1), (0, 1, 0), (0, 1, 1), (0, 2, 0), (0, 2, 1), (2, 2, 1),
+    (0, 1, 0), (0, 2, 0), (2, 2, 1),
 })
 REQUIRED_MINIMAL_ARCHIVES = frozenset(
     (profile, mode, gating)
@@ -55,12 +58,12 @@ def assert_generation_contract(
     gateable = {world.item_name_to_id[f"{name} Ability"] for name in GATEABLE_ENEMY_COPY_ABILITIES}
     inventory = Counter(decoded["precollected_items"][player])
     assert automatic <= inventory.keys()
-    assert not gateable.intersection(inventory)
+    assert gateable.intersection(inventory) == gateable.intersection(automatic)
     assert all(inventory[code] == 1 for code in automatic)
     placed = Counter(item[0] for locations in decoded["locations"].values()
                      for item in locations.values() if item[1] == player)
     assert not automatic.intersection(placed)
-    assert {code: placed[code] for code in gateable} == {code: int(gating) for code in gateable}
+    assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
     assert _gate_words(archive)[player] == expected_gate
     assert set(decoded["slot_data"][player]["ability_gateable_abilities"]) == (
@@ -81,6 +84,7 @@ def test_generated_all_check_smoke_matrix(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, record_property: Callable[[str, object], None],
     mode: int, gating: int, accessibility: str, profile: int,
 ) -> None:
+    assert inspect.signature(validate_peg_assignment).parameters["max_attempts"].default == 8192
     validate = check_accessibility.validate_all_checks
 
     def timed_validation(multiworld: MultiWorld, players: Iterable[int]) -> None:
@@ -95,6 +99,7 @@ def test_generated_all_check_smoke_matrix(
 
     def timed_source_selection(initial: dict[str, Any], factory: Callable[[], dict[str, Any]],
                                include_statues: bool, **kwargs: Any) -> dict[str, Any]:
+        assert "max_attempts" not in kwargs and kwargs.get("require_all_witnesses") is True
         attempts = 1
         start = perf_counter()
 
@@ -180,7 +185,7 @@ def test_seed105103_refuses_new_goal_game_fill_lock(
 
 
 @pytest.mark.parametrize("controlled_smash_lock", [False, True], ids=["original-fill", "controlled-smash-lock"])
-def test_seed105100_refuses_smash_permission_behind_its_own_peg(
+def test_seed105100_accepts_original_and_refuses_controlled_smash_lock(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, controlled_smash_lock: bool,
 ) -> None:
     original = check_accessibility.validate_all_checks
@@ -188,9 +193,9 @@ def test_seed105100_refuses_smash_permission_behind_its_own_peg(
 
     def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
         location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
-        assert location.item and location.item.name == "Magic Ability"
+        assert location.item and location.item.name == "Moonlight Mansion - Map"
         if not controlled_smash_lock:
-            # Preserve the unmodified seed's exact unsafe outcome separately.
+            # Beam+Ice plus the added slots now accepts this exact unmodified seed.
             inspected.append(True)
             original(multiworld, players)
             return
@@ -235,11 +240,25 @@ def test_seed105100_refuses_smash_permission_behind_its_own_peg(
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
+    if not controlled_smash_lock:
+        multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105100, [options])
+        audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+        assert audit.inventory_unreachable == audit.progression_unreachable == ()
+        assert inspected == [True]
+        return
     with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
         _generate(monkeypatch, tmp_path, 105100, [options])
     message = str(caught.value)
     assert "unfilled=[]; unavailable even with all inventory=[]" in message
-    expected = "Moonlight Mansion 2-20 - Small Chest" if controlled_smash_lock else "Olive Ocean - Goal Game 1"
+    expected = "Moonlight Mansion 2-20 - Small Chest"
     assert "Player 1" in message and expected in message
     assert inspected == [True]
     assert not tuple((tmp_path / "output").glob("*.zip"))
+
+
+def test_historical_native105100_refusal_remains_distinct_from_goal_game_fill() -> None:
+    historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["historical_native105100"]
+    assert historical["unreachable_count"] == 32
+    assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
+        "a732a9779e2293207d7701f1cb950da1131d3daf3fef1f5a08d46314fc75bb1c")
+    assert "unfilled=[]; unavailable even with all inventory=[]" in historical["error"]

@@ -1,0 +1,664 @@
+{
+  "schema_version": 1,
+  "scope": "Reviewed qualified near-door 427 to 404 to Paint6 suffix; evidence only, no production logic changes.",
+  "production_source_commit": "94c4e638c9de9793e589f3253379a1f5e4009118",
+  "production_source_tree": "ef9cec4cd62afb06f14e23cce89ac0941eab19e0",
+  "public_equivalent_commit": "1cb8b12ff37bcf4e1dfa31b38aa3cfce7b22cefb",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "target": {
+    "owner": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
+    "location_key": "MINOR_CHEST_SPRAY_PAINT_06",
+    "location_id": 3960505,
+    "native_room": 403,
+    "chest_template": "0x088C5EA0",
+    "requirement": null
+  },
+  "boundary": {
+    "accepted_ingress": 427,
+    "stored_xy": [
+      696,
+      80
+    ],
+    "observed_xy": [
+      680,
+      72.99609375
+    ],
+    "frame": 1085,
+    "next_room": 404,
+    "transition_frame": 1097,
+    "next_xy": [
+      40,
+      136.99609375
+    ],
+    "unaccepted_ingresses": [
+      407,
+      230
+    ]
+  },
+  "setup": {
+    "startup_only_fixture_byte_differences": 16,
+    "client_configuration_writes": 8,
+    "configuration_frame": 1085,
+    "startup_write_mode": "harness-fenced",
+    "protocol_guard_requests": 0,
+    "blank_battery_boot": true,
+    "gameplay_writes": false,
+    "runtime_rom_writes": false,
+    "state_restores": false,
+    "server_transmission": false,
+    "ability_randomization_mode": 0,
+    "ability_gating": 0,
+    "area_keys": 0,
+    "seed": 404,
+    "global_ai": 0,
+    "num_humans": 1
+  },
+  "mechanism": {
+    "equipment": "Normal",
+    "copy_ability_required": false,
+    "helper_participation": false,
+    "source_acquisition": false,
+    "lower_f1": [
+      27,
+      6
+    ],
+    "support": [
+      27,
+      5
+    ],
+    "upper_f1": [
+      27,
+      4
+    ],
+    "door_tile": [
+      20,
+      4
+    ],
+    "door_record": "0x088940BC",
+    "door_destination_room": 403,
+    "door_spawn_tiles": [
+      7,
+      9
+    ],
+    "switch_template": "0x088C600C",
+    "switch_xy": [
+      440,
+      64
+    ],
+    "gate_template": "0x088C6030",
+    "gate_xy": [
+      360,
+      80
+    ],
+    "switch_flags": 0,
+    "room_state_slot": 0,
+    "release_counter_parameter": 0,
+    "release_countdown_frames": [
+      1911,
+      1912
+    ],
+    "gate_fully_closed_frame": 1991,
+    "puff_parent": "0x02020EE0",
+    "puff_category": "0x20000042",
+    "puff_damage": 2,
+    "stored_pointer_is_not_continuous_contact": true,
+    "active_doo_only": "Exclude destruction-flag 0x1000 records: later HP1 is non-combat despawn, not damage."
+  },
+  "matrix": [
+    {
+      "positive": {
+        "case": "explore04",
+        "actual_hp": 6,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "0e52f076b9029d36c7c840a7c4a44d92c5464c36ff9120bdec501fe31f18ef14",
+        "states_sha256": "a033fcf757fd3046c13a469d65ce3dde6ed73905a1e37cda0d44646856866560",
+        "result_sha256": "773ace6d6b3b3acfc1ec6d08263a488eaa86457fecf1d4beb427d5231e55420a",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1982,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "repeat": {
+        "case": "repeat100-6hp",
+        "actual_hp": 6,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "0e52f076b9029d36c7c840a7c4a44d92c5464c36ff9120bdec501fe31f18ef14",
+        "states_sha256": "a033fcf757fd3046c13a469d65ce3dde6ed73905a1e37cda0d44646856866560",
+        "result_sha256": "773ace6d6b3b3acfc1ec6d08263a488eaa86457fecf1d4beb427d5231e55420a",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1982,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "control": {
+        "case": "control100-6hp",
+        "actual_hp": 6,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [],
+        "event_counter": 0,
+        "event_source": "0x00000000",
+        "input_sha256": "dc90dee623f1fb5b03805d34576d8d583b191f58102b9f57abe2e1282eea661e",
+        "states_sha256": "efcf1d77187ceee15183f91ab7f2e4ea0228ba35c579e7d3d9fc7dfebf55052e",
+        "result_sha256": "69026e5827e4f766a24871be4d7c69faffe98a13d667a802a58319eebd9f4518",
+        "final_room": 404,
+        "causal_cells_intact": true,
+        "gate_remains_closed": true
+      },
+      "cold_repeat_all_sampled_states_identical": true,
+      "identical_prefix_through": 1869,
+      "omission_input": {
+        "frame": 1869,
+        "positive_keys": 2,
+        "control_keys": 0
+      },
+      "production_sha256": "43112304717293ffa088cc209403655ff01340225e1615189f5f1cf066c1846e",
+      "fixture_sha256": "097c1ccdc1461db7a61692b54d59e242cf3d2399d96a6e33a094dbcac80f0329",
+      "generated_slot_sha256": "17796ca672e7296e8288bbceb9d11264159fb6e2a6a4f8a69b951a592c2a67ec"
+    },
+    {
+      "positive": {
+        "case": "candidate100-1hp-left",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "ef8ebc0139ea42281a4d6c392de8d78425fcd2eb12b8ffff3737b6e30d241fce",
+        "states_sha256": "3dae735d4d79386d8bf457788fd2ee8df7130b2b8a28651fd91bf5e3925f9539",
+        "result_sha256": "bf7cc4fc96f326cacf005143ceb174533c128aba0e6262a717b318ce98697026",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1978,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "repeat": {
+        "case": "repeat100-1hp",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "ef8ebc0139ea42281a4d6c392de8d78425fcd2eb12b8ffff3737b6e30d241fce",
+        "states_sha256": "3dae735d4d79386d8bf457788fd2ee8df7130b2b8a28651fd91bf5e3925f9539",
+        "result_sha256": "bf7cc4fc96f326cacf005143ceb174533c128aba0e6262a717b318ce98697026",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1978,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "control": {
+        "case": "control100-1hp",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 100,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 4,
+        "local_client_messages": [],
+        "event_counter": 0,
+        "event_source": "0x00000000",
+        "input_sha256": "3921f8260068bc9bf4e0a60c927f05ca01ca40216ac690d7111e66d85eb57553",
+        "states_sha256": "5dbe4a0c04b4ec2f61724d184d595b72cf3f57a881237bded007a0c304b932b6",
+        "result_sha256": "62e747b68c9cab4ad21d1c344d21035b30c09ec684bd3b73dafda9f8c898e09c",
+        "final_room": 404,
+        "causal_cells_intact": true,
+        "gate_remains_closed": true
+      },
+      "cold_repeat_all_sampled_states_identical": true,
+      "identical_prefix_through": 1869,
+      "omission_input": {
+        "frame": 1869,
+        "positive_keys": 2,
+        "control_keys": 0
+      },
+      "production_sha256": "9f923a011472c01b37e9909c31e601c5a69553de7c4a52deb9c9f62200e0fdfa",
+      "fixture_sha256": "20795ae9d48f25bcd429866e97534186c605c96c46897fef0c407fff83e526ec",
+      "generated_slot_sha256": "241f0098b1876e73092c81383bef1b8687c9f5d43afc0548383f3a4139566825"
+    },
+    {
+      "positive": {
+        "case": "positive500-1hp",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 500,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 20,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "ef8ebc0139ea42281a4d6c392de8d78425fcd2eb12b8ffff3737b6e30d241fce",
+        "states_sha256": "d31476b9ebb465f24ec5af39ff1ab6d85a21f079d0c5cfd3b385ac058b68f319",
+        "result_sha256": "2c88d8296c396d060e29fa02a7d9d0f30f58f5576a2e246b25452ccad097c836",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1978,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "repeat": {
+        "case": "repeat500-1hp",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 500,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 20,
+        "local_client_messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960505
+            ]
+          }
+        ],
+        "event_counter": 1,
+        "event_source": "0x088C5EA0",
+        "input_sha256": "ef8ebc0139ea42281a4d6c392de8d78425fcd2eb12b8ffff3737b6e30d241fce",
+        "states_sha256": "d31476b9ebb465f24ec5af39ff1ab6d85a21f079d0c5cfd3b385ac058b68f319",
+        "result_sha256": "2c88d8296c396d060e29fa02a7d9d0f30f58f5576a2e246b25452ccad097c836",
+        "milestones": {
+          "entry404": 1097,
+          "lower_f1": 1872,
+          "support": 1878,
+          "upper_f1": 1884,
+          "switch_press": 1903,
+          "revealed_door": 1926,
+          "fully_past_gate": 1978,
+          "entry403": 2008,
+          "chest_animation": 2189
+        },
+        "contact_windows": {
+          "integer_rectangle_overlap": [
+            1902,
+            1909
+          ],
+          "current_contact_bit_0x100": [
+            1903,
+            1910
+          ],
+          "slot0_high": [
+            1903,
+            1912
+          ],
+          "opening_callback": [
+            1904,
+            1946
+          ],
+          "closing_callback": [
+            1948,
+            1990
+          ]
+        }
+      },
+      "control": {
+        "case": "control500-1hp",
+        "actual_hp": 1,
+        "enemy_health_multiplier": 500,
+        "sample_start": 1085,
+        "sample_end": 2277,
+        "sample_count": 1193,
+        "normal_every_sample": true,
+        "damage_taken": 0,
+        "helpers_only_room": 101,
+        "helper_participation": false,
+        "copy_events": 0,
+        "active_doo_hp": 20,
+        "local_client_messages": [],
+        "event_counter": 0,
+        "event_source": "0x00000000",
+        "input_sha256": "3921f8260068bc9bf4e0a60c927f05ca01ca40216ac690d7111e66d85eb57553",
+        "states_sha256": "b7cdc83497eb32e3dff18da58716fae1ce754fa50c05aa91462035a9d5f37c02",
+        "result_sha256": "3e21a7262a2692e343adfbaf62e7644d81b5458c202005444431b6029aff6d5b",
+        "final_room": 404,
+        "causal_cells_intact": true,
+        "gate_remains_closed": true
+      },
+      "cold_repeat_all_sampled_states_identical": true,
+      "identical_prefix_through": 1869,
+      "omission_input": {
+        "frame": 1869,
+        "positive_keys": 2,
+        "control_keys": 0
+      },
+      "production_sha256": "92aea453cf9dc884b4b0353625517dd689680bba634f2f2c5841e7aa87784c47",
+      "fixture_sha256": "61b4899186aa48f263abcb1686721af7b3bfba54c4b1fad11fefa2c1e41b260c",
+      "generated_slot_sha256": "3fef8693eaa5ce1f750f8ddc278bd048424300695aa2bed64ee595428de788e8"
+    }
+  ],
+  "controller_correction": {
+    "changed_input_frames": [
+      1882,
+      1883,
+      1884,
+      1885,
+      1886,
+      1887,
+      1888,
+      1889
+    ],
+    "before_keys": 80,
+    "after_keys": 64,
+    "same_100_500_human_trajectory": true
+  },
+  "excluded_literal_6hp_controller_at_1hp": {
+    "case": "positive100-1hp",
+    "first_death_frame": 1905,
+    "states_sha256": "260b2b485c6fb3692cfcbaa98d05b38e9edf954a25da27af2e7353907c59cae8",
+    "accepted": false
+  },
+  "host_contract": {
+    "counts": {
+      "regions": 382,
+      "mapped_native_definitions": 352,
+      "locations": 384,
+      "surfaces": 1083,
+      "room_sanity_locations": 263,
+      "installed_target_definitions": 57,
+      "normalized_targets": 57,
+      "top_level_union_targets": 55,
+      "witnesses": 144,
+      "static_F1_F6_cells": 417,
+      "static_small_switches": 35
+    },
+    "normalized_surface_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
+    "normalized_target_sha256": "bd27e46111a2922ee7e16ac5ddc7c2078b4559c3eb1c379b985339b67c5e8886"
+  },
+  "physical_outcome": {
+    "group": "404:27,4",
+    "trigger_cells": [
+      [
+        27,
+        4
+      ],
+      [
+        27,
+        6
+      ]
+    ],
+    "observed_initial_trigger": [
+      27,
+      6
+    ],
+    "previous_classification": "unbound_timed_check_route",
+    "classification": "qualified_normal427_to_paint6_route",
+    "newly_evidenced_outcomes": 1,
+    "independent_trigger_recipes": 1,
+    "groups": 304,
+    "historical_prior_unadjudicated_cells": 395,
+    "role_reconciled_or_narrowed_cells": 43,
+    "unresolved_role_cells": 352,
+    "unresolved_role_groups": 249,
+    "previously_narrowed_cells_in_this_group": 2,
+    "v4_classified_groups_sha256": "3102fbc010a61c76398c76b3bd8d9efb2e691705518f068327a989f9934e0c8f"
+  },
+  "private_artifact_sha256": {
+    "baseline-report.md": "db3e7e0e0ad0357ef8088632606d5deb292f9c07e8ff7924789a7032a49d8517",
+    "baseline-review-report.md": "ecda9bc107fb51a4ef8b7f23814b6206108d21df669bb6c1f90ca9b91cdc32e1",
+    "health-report.md": "d135386a1c4d491c0ea4392a3b7ac83e446c039c89c1dda0a6e1dc4d1fc2e746",
+    "health-acceptance.json": "b0bf1c18099c326c7b8735280cd1af642dc2093d740938abb1c35391e0dbbae2",
+    "HEALTH-SHA256SUMS": "ae980f17834a51fcaa2ccbcc8f205820ab419034dd11c845ccb9c8e25d353947",
+    "health-review-report.md": "48a44fe986ed1c5903545682e0278c104ea62b019a4ae93429051854f5a5c2ac",
+    "health-review-SHA256SUMS": "7d15049ea567aa33ca6a9517885eb6894a5db5409599daf385ae370a850ea49f",
+    "baseline-acceptance.json": "c06ae0658c5a8a4d486bc1be52efa4c96a388d34f1f5c9c3467d9b48f4f724d6",
+    "baseline-SHA256SUMS": "55216ef0c6377f1a5ed6d7a41a986030380a73e7336a8a59741aecb4b8a4becd",
+    "baseline-provenance.json": "f30342ab4d0b42186f72bdbfacbca1708abec98159fb5dee92591547abb530fa",
+    "health-provenance.json": "d55e8deb9633dc97372cd4292acfba30a2ccb120355d947547340cd0e31ac460"
+  },
+  "limitations": [
+    "Qualified near-door 427 suffix, not independent upstream availability or arbitrary arrivals. 407 and Peppermint 230 ingresses are not accepted by this evidence.",
+    "All-frame records cover 1085 through 2277, not boot frame 0. No full global-AI-300 whole-game replay.",
+    "Native evidence is mode 0, gating off, keys off only. Assignment-independent local host rules across modes/gating are not native replay evidence for all settings, RNG, source policies or DeathLink.",
+    "No 6 HP / 500% run, health continuum or universal timing claim. The failed literal 6 HP controller at 1 HP is excluded, not erased.",
+    "One-frame puff omission isolates this chain/route dependency, not a separate body-contact intervention or globally mandatory action. Lower F1 activates the shared group, not two independent trigger recipes.",
+    "Local production-client emission is not server acknowledgement. No RoomSanity credit, room-reset persistence or helper-assisted acceptance is claimed.",
+    "Candy Area Key admissions and the hub-only Hub Connection item remain host prerequisites. No new target, copied-ability gate, health item or room split is justified.",
+    "427 Red Paint and Room 3 switches remain separate unresolved objectives. Six conditional-source fallbacks and overall partial completion remain unchanged.",
+    "This integration recomputes scalar summaries from frozen records, not a fresh emulator replay. Public files contain no ROM, save, raw memory or controller payloads."
+  ]
+}

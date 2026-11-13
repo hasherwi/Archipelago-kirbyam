@@ -1,0 +1,522 @@
+{
+  "schema_version": 1,
+  "status": "accepted_bounded_source_carrier",
+  "pr_completion": "partial",
+  "scope": "Single human acquisition at the original post-clear Central stand, forward carriage and charged wave for only native719 to734 lower ENTRY_FROM_5_07.",
+  "provenance": {
+    "native_execution_ap_commit": "94c4e638c9de9793e589f3253379a1f5e4009118",
+    "native_execution_ap_tree": "ef9cec4cd62afb06f14e23cce89ac0941eab19e0",
+    "native_execution_public_equivalent": "1cb8b12ff37bcf4e1dfa31b38aa3cfce7b22cefb",
+    "host_contract_commit": "46a92b051394ef482ef3aff1f0222da992f7ff05",
+    "host_contract_tree": "77fbff308520f5b27b6451c2cda61b103f32ab1e",
+    "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "native_source_tree": "a01524ceb44b6d315410deb6dfc597b4af4ed2c3",
+    "historical_clear_battery_sha256": "e10361c40c487d4be7e5d4936efdf76155984c639fda80a1464acc8de5246bc1",
+    "native_source_sha256": {
+      "src/ability_objects.c": "9d4083a4db5d2a1eb13e7c3427575592a82d228445562e2e55901f29cfe040a7",
+      "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645",
+      "src/big_waddle_dee.c": "4c01cc50168ea1a652f0679c6018bf29877c36ae5ebd138a4de9f6797297c674",
+      "src/chip.c": "ecf54a4db5006fb4f5d7e6e33683543db23fbf84c1b2d2d31e609f05c0e69135",
+      "src/code_0806F780.c": "c1379a8c878d5863485a31d276b24336ac147764bc282f70854447b6e4f38963",
+      "src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+      "include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+      "asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a",
+      "src/blockin.c": "b0e9768b0d44e6243e9822a6294d2cc7efd60241cdb715335b2cc207c54ed0e2",
+      "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+      "src/mirra.c": "ccd192fb871176790ac13a53aabb3bc30c5e9d1b136134cc0390eaccc4e9bf70",
+      "src/cupie.c": "ac135a3d86ba15e73de5ccb5327778aafe1504303f8dbbee22e7a57d5980303a"
+    },
+    "private_review_sha256": {
+      "host_consumers": "dcd60e17867c52558998183469e69614d3c00a220375702c99cbdbee02ab9906",
+      "key_and_mode1": "5c4378fbd6ba66095b71e83af8a1fab81e8fccce2a754c907e287eca3adf771a",
+      "key100_carrier": "b0bfb3041e21f96c58f568fbe852acaeadfc15093b069363f024f8fc730d5028",
+      "key300_450": "84b15737d22e82a5244e3768fb60480a65fea70fa33cd5c17469906f32930b60",
+      "key50_500_and_finite_classes": "122ea27750ae8c938829490c58a7f67ed2cc63ffb955899f242da2c561d5abc2",
+      "key50_500_review_manifest": "9d849e3e4e5bbad1978bb48aa2d001806f1546946eca9b8748a706f6ed994dc4",
+      "generation_audit": "5c31e826d3fdab6d38531eb173f1156f27b881059f841442258a5a9129f84aef"
+    },
+    "private_packet_sha256": {
+      "key_and_mode1_report": "41a4eaf9910d357318cd58da22533c972ad3ec5d002dc23644e061b75a773c0e",
+      "key_and_mode1_manifest": "48bec722eaad28c28636b0316b84d386ed44e37f2a66d4f90f73b40b8191584c",
+      "key100_report": "cb7762ce58f8473e413668cc890d205f1bc03018b6ffc46c09769f35fc84f40f",
+      "key100_manifest": "ee8385f73a2005bea398457aaa1959bc7e48a3571c0bf15d1950cb4190945c01",
+      "key300_450_report": "fd256df55ab0aa4c6d614b5979d0e7f444e01663009442108914cb38699e82f2",
+      "key300_450_manifest": "0a4702058ef2e2041719caa011cbf99e7b20a3965d6f8035a416762cdc8cae64",
+      "key50_500_report": "d6d721a09e2d54a8aa1a4ba35d4458d0a7f09ff86f7b8a5a07258aa9252d047d",
+      "key50_500_manifest": "6da19f0fa70b3792b7343fec418c143e96b6b2b97351681b06492c2e119a239d"
+    }
+  },
+  "host_contract": {
+    "event": "Post-clear Central return available",
+    "event_address": null,
+    "event_item_code": null,
+    "event_model": "goal-independent reached-boss-is-defeatable abstraction, not a native clear receipt",
+    "unique_shards_required": 8,
+    "dimension_reachability_required": true,
+    "dmk_sequence_required": true,
+    "central_access_required": true,
+    "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+    "source_identity": "0x088B4C88",
+    "input_equipment": "Normal",
+    "output_equipment": "Master",
+    "native_ability": 26,
+    "master_permission_item": false,
+    "graph": "central_master",
+    "target": "bomb_719_room13",
+    "owner": "REGION_CARROT_CASTLE/ROOM_5_07",
+    "destination": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+    "carrier_rooms": [
+      801,
+      192,
+      193,
+      170,
+      719
+    ],
+    "forward_only": true,
+    "single_acquisition": true,
+    "carrier_item_ids": [
+      3860405,
+      3860406,
+      3860044
+    ],
+    "carrot_key_required_when_enabled": true,
+    "capability": "bomb_719_master_charged_wave",
+    "target_always_installed": true,
+    "graphs": [
+      "room5_entry",
+      "room5_fighter_entry",
+      "room5_sword_entry",
+      "room5_fire_entry",
+      "central_master"
+    ],
+    "finite_doo_conditions_graph_local": true,
+    "targets": 57,
+    "witnesses": 145,
+    "conditional_policy_fallback_targets": 5,
+    "policy_budget": 8192,
+    "candidate_budget": 128,
+    "placed_progression_guard_retained": true
+  },
+  "setup": {
+    "ability_randomization_mode": 2,
+    "included_statues": true,
+    "ordinary_ability_pool_size": 25,
+    "normal_weight": 100,
+    "ability_gating": true,
+    "area_keys": true,
+    "minimum_health": 1,
+    "maximum_health": 1,
+    "allowed_mask": "0x03FFFFFE",
+    "gate_mask": "0x03FFFF7E",
+    "unlock_mask": "0x80",
+    "generated_precollect_ids": [
+      3860107,
+      3860041,
+      3860405,
+      3860406,
+      3860044
+    ],
+    "generated_production_patch": true,
+    "post_patch_rom_edits": false,
+    "state_restores": false,
+    "imported_genuine_historical_clear": true,
+    "native_clear_value": 9999,
+    "preexisting_hub_doors": true,
+    "current_seed_earned_clear_proved": false,
+    "missing_hub_denial_proved": false,
+    "local_client_writes": 33,
+    "successful_guards": 9,
+    "ack_frames": [
+      1351,
+      1352,
+      1353,
+      1354,
+      1355
+    ],
+    "actual_acknowledged_sqlite_receipts": 5,
+    "key_sync_frame": 1350,
+    "key_mask": "0x24",
+    "hub_mask": "0x60",
+    "configuration_frame": 1517,
+    "rng_mailbox_initialization": {
+      "address": "0x0203B078",
+      "value": 0
+    },
+    "additional_gameplay_state_injection": false,
+    "complete_watcher_run": false,
+    "external_server_session": false,
+    "helpers_normal_in_room": 801,
+    "helper_source_carry_combat_credit": false,
+    "phone_input": false
+  },
+  "continuous_milestones": {
+    "normal_stand_contact_pending26": 1532,
+    "master_equipped_occupancy1": 1554,
+    "actual192": 1873,
+    "key_attempt192_to193": 2268,
+    "actual193": 2294,
+    "actual170": 2488,
+    "actual719": 3087,
+    "big_dee_hit_frames": [
+      4155,
+      4161,
+      4167
+    ],
+    "collision_bit4": 4173,
+    "bounce": 4174,
+    "left_escape": 4184,
+    "safe_left_pose": 4209,
+    "charge_begin": 4409,
+    "f1_mutation": 4449,
+    "all15_f2_clear": 4485,
+    "actual734_lower": 4657,
+    "alive_hp1_master_endpoint": 4736
+  },
+  "final_action": {
+    "hold_b_frames": 30,
+    "launch_xy": [
+      86,
+      232.99609375
+    ],
+    "f1_cell": [
+      1,
+      14
+    ],
+    "f1_before": 241,
+    "f1_after": 255,
+    "f2_count": 15,
+    "f2_before": 242,
+    "f2_after": 0,
+    "wave_xy_at_f1": [
+      37.5,
+      224.99609375
+    ],
+    "wave_bounds": [
+      -8,
+      -12,
+      8,
+      12
+    ],
+    "wave_counter": 5,
+    "wave_human_owned": true,
+    "chain_parent_is_actual_wave": true,
+    "wave_objectbase_size": 120,
+    "stable_object_addresses_required": false,
+    "extended_observer_bytes_are_wave_ai": false,
+    "lower734_xy": [
+      200,
+      216.99609375
+    ]
+  },
+  "health_profiles": [
+    {
+      "enemy_health_percent": 50,
+      "big_dee_hp": [
+        1,
+        -2,
+        -5,
+        -8
+      ],
+      "positive_trace_sha256": "71cca73fc4d86a054cd0c0bf7a7882046e95772936e55ac8946c775467cd4859",
+      "repeat_trace_sha256": "71cca73fc4d86a054cd0c0bf7a7882046e95772936e55ac8946c775467cd4859",
+      "production_rom_sha256": "eff574a28f94c39a59fc748ffc9484641452905c652f418c503d64504a229035",
+      "trace_frames": 4736,
+      "actual_player_hp": 1,
+      "master_retained_from": 1554,
+      "lower734_arrival": 4657,
+      "cold_repeat": true
+    },
+    {
+      "enemy_health_percent": 100,
+      "big_dee_hp": [
+        2,
+        -1,
+        -4,
+        -7
+      ],
+      "positive_trace_sha256": "a0c8031fc5d909e4fbec24bf62700397a06c62732ce35e88228253e58ff7f7ce",
+      "repeat_trace_sha256": "a0c8031fc5d909e4fbec24bf62700397a06c62732ce35e88228253e58ff7f7ce",
+      "production_rom_sha256": "b38538fd41a1fc431d05f7d1383ca9cd1d2ecb58211ac13767a737f9d5d00f57",
+      "trace_frames": 4736,
+      "actual_player_hp": 1,
+      "master_retained_from": 1554,
+      "lower734_arrival": 4657,
+      "cold_repeat": true
+    },
+    {
+      "enemy_health_percent": 300,
+      "big_dee_hp": [
+        6,
+        3,
+        0,
+        -3
+      ],
+      "positive_trace_sha256": "432509bd0b763614631e8179e8cfdf261e1076e40bb247c8259379edda4d980e",
+      "repeat_trace_sha256": "432509bd0b763614631e8179e8cfdf261e1076e40bb247c8259379edda4d980e",
+      "production_rom_sha256": "fb7bcde3814f2c21b44f689bf1d6da662d9c57b8e452e85142b389905519d86f",
+      "trace_frames": 4736,
+      "actual_player_hp": 1,
+      "master_retained_from": 1554,
+      "lower734_arrival": 4657,
+      "cold_repeat": true
+    },
+    {
+      "enemy_health_percent": 450,
+      "big_dee_hp": [
+        9,
+        6,
+        3,
+        0
+      ],
+      "positive_trace_sha256": "eb06eb495d062f5e550e9bb7faf2f17a809e600c054d07449f1559909e99e73a",
+      "repeat_trace_sha256": "eb06eb495d062f5e550e9bb7faf2f17a809e600c054d07449f1559909e99e73a",
+      "production_rom_sha256": "e956304697ece646033c7a8cf7ad01a79c9486bd177358ec73ede7c3ebea2e3c",
+      "trace_frames": 4736,
+      "actual_player_hp": 1,
+      "master_retained_from": 1554,
+      "lower734_arrival": 4657,
+      "cold_repeat": true
+    },
+    {
+      "enemy_health_percent": 500,
+      "big_dee_hp": [
+        10,
+        7,
+        4,
+        1
+      ],
+      "positive_trace_sha256": "40c176d7d2c57ead229ca914f124f1c65b82bd84d58b48b5dfb2b832b72a2557",
+      "repeat_trace_sha256": "40c176d7d2c57ead229ca914f124f1c65b82bd84d58b48b5dfb2b832b72a2557",
+      "production_rom_sha256": "135e35d93b4b366193066df083c003dea0d0d775198ffa06be7bd17dd207f09c",
+      "trace_frames": 4736,
+      "actual_player_hp": 1,
+      "master_retained_from": 1554,
+      "lower734_arrival": 4657,
+      "cold_repeat": true
+    }
+  ],
+  "health_equivalence": {
+    "kind": "source-derived finite sign-history classes; not native execution of every percentage",
+    "public_percent_range": [
+      50,
+      500
+    ],
+    "vanilla_big_dee_hp": 2,
+    "damage_per_contact": 3,
+    "contacts": 3,
+    "rounding": "max(1, (2 * percent + 50) // 100)",
+    "classes": [
+      {
+        "percent_range": [
+          50,
+          174
+        ],
+        "initial_hp_range": [
+          1,
+          3
+        ],
+        "first_nonpositive_hit": 1,
+        "executed_percentages": [
+          50,
+          100
+        ]
+      },
+      {
+        "percent_range": [
+          175,
+          324
+        ],
+        "initial_hp_range": [
+          4,
+          6
+        ],
+        "first_nonpositive_hit": 2,
+        "executed_percentages": [
+          300
+        ]
+      },
+      {
+        "percent_range": [
+          325,
+          474
+        ],
+        "initial_hp_range": [
+          7,
+          9
+        ],
+        "first_nonpositive_hit": 3,
+        "executed_percentages": [
+          450
+        ]
+      },
+      {
+        "percent_range": [
+          475,
+          500
+        ],
+        "initial_hp_range": [
+          10,
+          10
+        ],
+        "first_nonpositive_hit": null,
+        "executed_percentages": [
+          500
+        ]
+      }
+    ],
+    "unexecuted_initial_hp": [
+      3,
+      4,
+      5,
+      7,
+      8
+    ],
+    "first_hit_exact_zero_natively_executed": false,
+    "other_encountered_enemy_types": [
+      8,
+      13,
+      18,
+      52,
+      12
+    ],
+    "other_combat_hp_changes_observed": false,
+    "all_percentages_natively_executed": false,
+    "arbitrary_rng_phase_safety_proved": false,
+    "full_observer_equality_required": false,
+    "human_contact_pointer_is_timestamp": false,
+    "revalidation_triggers": [
+      "damage amount or mask",
+      "new HP consumer",
+      "enemy or template change",
+      "new mandatory combat",
+      "controller phase change"
+    ]
+  },
+  "omission": {
+    "enemy_health_percent": 100,
+    "trace_sha256": "da9774bfb74e0bead4a794324e77a0a145afeb87a728e7dd8e1918c2175353a4",
+    "changed_input_times": [
+      4409,
+      4438
+    ],
+    "replacement": "neutral instead of final B30",
+    "identical_recorded_prefix_through": 4409,
+    "endpoint_frame": 4736,
+    "final_room": 719,
+    "alive_hp1_master": true,
+    "f1_and_all15_f2_sealed": true,
+    "reuse_scope": "unchanged final charged-wave mechanism only",
+    "new_50_300_450_500_counterfactuals": false
+  },
+  "preserved_nonpasses": [
+    {
+      "case": "earlier key-positive carrier",
+      "stop_frame": 3698,
+      "outcome": "Chip death, no target or lower734 credit",
+      "trace_sha256": "9a018ad11ced12eab0073694a56007671da090ce1c0d4069e18809b77277a902"
+    },
+    {
+      "case": "retiming exploration",
+      "stop_frame": 3789,
+      "outcome": "Chip death, no target or lower734 credit",
+      "trace_sha256": "f172aa0ce737917826731796f32a947d1bd1626e977374906f5d83940cba00a9"
+    },
+    {
+      "case": "source observer deadline",
+      "stop_frame": 1553,
+      "outcome": "pending26, not an accepted acquisition or cold repeat",
+      "trace_sha256": "85756af386dd766f50e37de6089cca60163e68f006c79dbab62f4a31de2cd91c"
+    }
+  ],
+  "controller_correction": {
+    "departure_frames_earlier": 80,
+    "landing_pause_before": 70,
+    "landing_pause_after": 40,
+    "common_escape": "Left25 then Left19",
+    "new_retiming_in_health_profiles": false
+  },
+  "supplemental_qualification": {
+    "missing_carrot_key": {
+      "same_controller_not_identical_state": true,
+      "attempt_frame": 2268,
+      "positive_method_allowed_reason": [
+        5,
+        1,
+        3
+      ],
+      "negative_method_allowed_reason": [
+        5,
+        0,
+        2
+      ],
+      "negative_key_mask": "0x04",
+      "negative_endpoint": 2362,
+      "negative_room": 192,
+      "first_recorded_physical_divergence": 1897,
+      "negative_trace_sha256": "644306456965a7f17dbbd1b91023fc94549e2b32ea9fd87479636289d37bd0eb"
+    },
+    "mode1": {
+      "scope": "source only",
+      "included_statues": true,
+      "ordinary_statue_assignments_checked": 19,
+      "beam_statue_original": 7,
+      "beam_statue_shuffled": 10,
+      "master_stand_bytes_unchanged": 36,
+      "contact_frame": 1532,
+      "equip_frame": 1554,
+      "endpoint_frame": 1585,
+      "carrier_proved": false,
+      "all_ordinary_fallbacks_absent": false,
+      "trace_sha256": "ad61d885750c8cbf2a7ac1cb895dc35c21c7d765bb5b2cca6cbf949f27473e9a"
+    }
+  },
+  "prior_real_generation": {
+    "source_commit": "46a92b051394ef482ef3aff1f0222da992f7ff05",
+    "excluded_regressions_passed": 46,
+    "goal_audit_cases": 8,
+    "accepted_archives": 6,
+    "correct_minimal_refusals": 2,
+    "accepted_goal_values": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "refusal_unique_shards": [
+      2,
+      7
+    ],
+    "total_checks": 54,
+    "full_aggregate": false,
+    "rerun_by_evidence_integration": false
+  },
+  "excluded_credit": [
+    "return or retouch",
+    "drop or recovery",
+    "generic Master ability provider",
+    "720",
+    "upper734",
+    "other exits",
+    "chests or Secret Notes",
+    "reward or location reporting",
+    "helper ability or combat",
+    "Phone",
+    "external server or full watcher",
+    "reset or reconnect persistence",
+    "native BizHawk portability",
+    "every seed or RNG phase"
+  ],
+  "limitations": [
+    "Imported genuine historical clear and already-open Hub doors are prerequisites, not newly earned current-seed proof.",
+    "No additional gameplay-state injection beyond normal production client initialization and inventory processing; normal RNG mailbox initialization is included.",
+    "Local native ACKs and real SQLite receipts are not external-server authentication or acknowledgement.",
+    "Five current key-on profiles each have one positive and one cold repeat, totaling ten successful traces; other percentages use source-derived finite-class reasoning.",
+    "The 500-percent BigDee survives all three hits; later offscreen HP1/destruction bookkeeping is not a fourth hit or kill.",
+    "500-percent allocation differences persist; actual human/wave/chain ownership matters, not stable addresses or full observer equality.",
+    "The wave is ObjectBase size0x78; extended observer fields do not establish wave AI behavior. The stale human contact pointer is not a timestamp or precise flag-setter proof.",
+    "Key100 omission supports only the unchanged final mechanism, not newly executed counterfactuals at other percentages.",
+    "Mode1 qualifies source acquisition only; historical keys-off runs remain distinct.",
+    "Final-head aggregate, independent integration review and package inspection remain separate. PR1052 stays partial with five conditional-policy fallback targets."
+  ],
+  "accepted_continuous_trace_count": 10
+}

@@ -152,6 +152,9 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
+    "events": [
+      "Post-clear Central return available"
+    ],
     "locations": {
       "room_sanity": {
         "included": true,
@@ -1704,6 +1707,317 @@
           "can_fly"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_110_room9",
+          "kind": "block",
+          "native_room": 110,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_09",
+          "graphs": {
+            "upper_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:upper_arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:source",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:upper_arrival"
+              ],
+              "required_targets": [
+                "bomb_110_room9:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B743C",
+                  "node": "bomb_110_room9:source",
+                  "source_key": "SPARKY",
+                  "acquisition_evidence": "dev-docs/rainbow-route-8-source-witness.md; native Sparky at (72,520), inhaled with Normal after descent from decoded108 upper arrival. Finite native instance; no retries or substituted essence."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:upper_arrival",
+                  "to": "bomb_110_room9:source",
+                  "evidence": "dev-docs/rainbow-route-8-source-witness.md; Normal movement from decoded upper arrival (104,120.996) to left-side source pose. Independent Room6 lower-mid access supplies this entry only."
+                },
+                {
+                  "from": "bomb_110_room9:source",
+                  "to": "bomb_110_room9:right_door",
+                  "capability": "bomb_110_room9",
+                  "evidence": "dev-docs/rainbow-route-8-source-witness.md; continuous intact Spark carry via ordinary bomb chain, close dry attack above waterline, cleared right shaft and lower bomb to door. Replay reaches554 with6HP and Spark; no persistent event or alternate arrival inferred."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SPARKY",
+                "ability": "Spark"
+              }
+            },
+            "upper_entry_sword": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:sword:upper_arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:source",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:first_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:middle_dry",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:lower_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:attack_pose",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:opened_right_shaft",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:exit_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:sword:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:sword:upper_arrival"
+              ],
+              "required_targets": [
+                "bomb_110_room9:sword:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B74CC",
+                  "node": "bomb_110_room9:sword:source",
+                  "source_key": "SWORD_KNIGHT",
+                  "acquisition_evidence": "dev-docs/rainbow-route-8-sword-witness.md; Original finite spawn-table1 Sword Knight, native (120,216), Normal inhale and Down acquires Sword at1359. No source refresh, substituted essence or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:sword:upper_arrival",
+                  "to": "bomb_110_room9:sword:source",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Normal from startup-reproduced decoded108 lower-mid arrival (104,120.996) to original Sword Knight (120,216); incoming108 door itself not replayed."
+                },
+                {
+                  "from": "bomb_110_room9:sword:source",
+                  "to": "bomb_110_room9:sword:first_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Finite native Sword acquisition at1359, then intact carry through upper right chains to first water entry2036."
+                },
+                {
+                  "from": "bomb_110_room9:sword:first_pool",
+                  "to": "bomb_110_room9:sword:middle_dry",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Sword retained through first pool2036-2162; no substituted attack provider."
+                },
+                {
+                  "from": "bomb_110_room9:sword:middle_dry",
+                  "to": "bomb_110_room9:sword:lower_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Intact Sword carry past left F1(2,43), down left shaft to lower water entry2634."
+                },
+                {
+                  "from": "bomb_110_room9:sword:lower_pool",
+                  "to": "bomb_110_room9:sword:attack_pose",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Native lower fish combat and brief water exit2840/reentry2857 lead to underwater pose (185.996,926.715), Sword retained."
+                },
+                {
+                  "from": "bomb_110_room9:sword:attack_pose",
+                  "to": "bomb_110_room9:sword:opened_right_shaft",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Attached Sword spin Kirby0x69/weapon0x6F variant1 flips exact F1(13,57) at2886 or2889 through solid column12. Not landing wave; upper F1(12,50) stays sealed. Leave lower pool2932.",
+                  "capability": "bomb_110_room9_underwater_sword"
+                },
+                {
+                  "from": "bomb_110_room9:sword:opened_right_shaft",
+                  "to": "bomb_110_room9:sword:exit_pool",
+                  "water_state": "dry",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Descend opened right shaft with Sword intact to exit water entry3085."
+                },
+                {
+                  "from": "bomb_110_room9:sword:exit_pool",
+                  "to": "bomb_110_room9:sword:right_door",
+                  "water_state": "swimming",
+                  "evidence": "dev-docs/rainbow-route-8-sword-witness.md; Carry Sword through lower exit pool, briefly dry3297/reenter3314, and physically cross110 to554 at3388. Transient water flag clears3398; no underwater554 landing claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SWORD_KNIGHT",
+                "ability": "Sword"
+              }
+            },
+            "upper_entry_normal_water": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_110_room9:normal:lower_mid",
+                  "native_room": 108
+                },
+                {
+                  "id": "bomb_110_room9:normal:arrival",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:payload",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:upper_chain",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:lower_approach",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:spray_pose",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:opened_shaft",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:exit_pool",
+                  "native_room": 110
+                },
+                {
+                  "id": "bomb_110_room9:normal:right_door",
+                  "native_room": 110
+                }
+              ],
+              "starts": [
+                "bomb_110_room9:normal:lower_mid"
+              ],
+              "required_targets": [
+                "bomb_110_room9:normal:right_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B74CC",
+                  "node": "bomb_110_room9:normal:payload",
+                  "source_key": "SWORD_KNIGHT",
+                  "acquisition_evidence": "dev-docs/rainbow-normal110-source-witness.md; Original finite Sword Knight at (120,216). Normal captures it as ordinary mouth payload, carries and spits right without Down/swallowing. Copy-policy hook runs at capture; pending ability is cleared by generic spit, never equipped. Same physical identity is consumed, not renewed."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_110_room9:normal:lower_mid",
+                  "to": "bomb_110_room9:normal:arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Actual108 lower-mid door0x87847A at tile(34,18) enters110 at (104,120.996) at1218. Start requires exact independent compartment, not arbitrary108/110 access.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_110_room9:normal:arrival",
+                  "to": "bomb_110_room9:normal:payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal approach reaches original Sword Knight capture compartment; no permission equips an ability."
+                },
+                {
+                  "from": "bomb_110_room9:normal:payload",
+                  "to": "bomb_110_room9:normal:upper_chain",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Atomic original Sword Knight capture/carry/spit: pending mouth ability appears at1443, B-only spit clears it at1580; F1(14,21) opens1586 and linked F1(11,26)1634. Entire carry starts and ends Normal; no abstract ammunition or persistent mouth state.",
+                  "capability": "bomb_110_upper_normal_spit",
+                  "uses_object": "0x088B74CC"
+                },
+                {
+                  "from": "bomb_110_room9:normal:upper_chain",
+                  "to": "bomb_110_room9:normal:lower_approach",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Original Waddle Dee0x088B7484 dies to2damage at50-124% or survives at125-500%; the revised recipe inhales1796 and spits LEFT1814, with no Down or copied equipment. This clears an optional obstacle, not target ammunition or an independent copy source. Normal slides F1(13,32), floats over the first pool and slides F1(2,43) then F1(2,55)/chain to2,63."
+                },
+                {
+                  "from": "bomb_110_room9:normal:lower_approach",
+                  "to": "bomb_110_room9:normal:spray_pose",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Enter lower water at2759 and reach the exact right-facing spray approach. No carried copied ability or generic underwater clearance.",
+                  "water_state": "swimming"
+                },
+                {
+                  "from": "bomb_110_room9:normal:spray_pose",
+                  "to": "bomb_110_room9:normal:opened_shaft",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal swimming spray category0x30000043, bounds(-8,-12,12,10), flips exact lower F1(13,57) at2788 through column12; upper F1(12,50) stays sealed. Action is not dry puff, Sword spin or global Normal range.",
+                  "water_state": "swimming",
+                  "capability": "bomb_110_room9_underwater_normal_spray"
+                },
+                {
+                  "from": "bomb_110_room9:normal:opened_shaft",
+                  "to": "bomb_110_room9:normal:exit_pool",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Exit lower water and descend the opened right shaft; later enter exit pool at3245. Atomic continuation preserves Normal, finite payload consumption and no persistent room-open event."
+                },
+                {
+                  "from": "bomb_110_room9:normal:exit_pool",
+                  "to": "bomb_110_room9:normal:right_door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-normal110-source-witness.md; Normal swim continues to actual110-to554 transition at3493; final3572 remains Normal and alive. Transient water flag is not an underwater554 landing claim.",
+                  "water_state": "swimming"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_09": {
@@ -2126,6 +2440,137 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_27": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_29": "can_break_block"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_138_green",
+          "kind": "block",
+          "native_room": 138,
+          "location": "MINOR_CHEST_SPRAY_PAINT_04",
+          "graphs": {
+            "upper_left_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_138_green:upper_left",
+                  "native_room": 532
+                },
+                {
+                  "id": "bomb_138_green:arrival",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:source",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:chest",
+                  "native_room": 138
+                }
+              ],
+              "starts": [
+                "bomb_138_green:upper_left"
+              ],
+              "required_targets": [
+                "bomb_138_green:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9F90",
+                  "node": "bomb_138_green:source",
+                  "source_key": "SPARKY",
+                  "acquisition_evidence": "dev-docs/rainbow-green-source-witness.md; original finite Sparky at (496,88), inhaled with Normal after the original 532 upper-left door enters 138. Natural mode 0 acceptance; guaranteed same-Spark assignments are logic extrapolation, not randomized runtime proof."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_138_green:upper_left",
+                  "to": "bomb_138_green:arrival",
+                  "room_instance": "reset",
+                  "reset_evidence": "Original 532 door enters a fresh native 138 instance; dev-docs/rainbow-green-source-witness.md.",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; Normal starts inside 532 upper-left at (72,56.996), takes original door tile (2,3) to 138 spawn (44,7), actual arrival (696,104.996). Base 532 or upper-right access is insufficient."
+                },
+                {
+                  "from": "bomb_138_green:arrival",
+                  "to": "bomb_138_green:source",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; Normal approach to original Sparky, finite swallow at 1544. No substituted source, helper, restore or gameplay write."
+                },
+                {
+                  "from": "bomb_138_green:source",
+                  "to": "bomb_138_green:chest",
+                  "capability": "bomb_138_green",
+                  "evidence": "dev-docs/rainbow-green-source-witness.md; intact dry Spark carry includes the 300-frame clearing hold at 3287. Selective lower F1 (36,13) opens at 3755 while upper F1 (37,12) stays intact; physical chest 0x088B9FD8 yields check 3960503 at 3989. Actual HP 1/6 and enemy health 100%/500% tested; 50-99% and 101-499% not replayed. No general F1, exit or persistent event claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SPARKY",
+                "ability": "Spark"
+              }
+            },
+            "upper_left_normal_slide": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_138_green:normal_upper_left",
+                  "native_room": 532
+                },
+                {
+                  "id": "bomb_138_green:normal_arrival",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:normal_lower_slide",
+                  "native_room": 138
+                },
+                {
+                  "id": "bomb_138_green:normal_chest",
+                  "native_room": 138
+                }
+              ],
+              "starts": [
+                "bomb_138_green:normal_upper_left"
+              ],
+              "required_targets": [
+                "bomb_138_green:normal_chest"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "bomb_138_green:normal_upper_left",
+                  "to": "bomb_138_green:normal_arrival",
+                  "room_instance": "reset",
+                  "reset_evidence": "Original 532 upper-left door enters fresh native 138; dev-docs/green138-normal-witness.md; accepted bounded human Normal suffix; retained natural50/1HP, shuffled500/1HP and live100/6HP profiles plus repeats; source-backed intermediate equivalence, not universal native execution.",
+                  "evidence": "dev-docs/green138-normal-witness.md; accepted bounded human Normal suffix; retained natural50/1HP, shuffled500/1HP and live100/6HP profiles plus repeats; source-backed intermediate equivalence, not universal native execution."
+                },
+                {
+                  "from": "bomb_138_green:normal_arrival",
+                  "to": "bomb_138_green:normal_lower_slide",
+                  "evidence": "Intact Normal approach; no acquisition, helpers or cleared prefix. dev-docs/green138-normal-witness.md; accepted bounded human Normal suffix; retained natural50/1HP, shuffled500/1HP and live100/6HP profiles plus repeats; source-backed intermediate equivalence, not universal native execution."
+                },
+                {
+                  "from": "bomb_138_green:normal_lower_slide",
+                  "to": "bomb_138_green:normal_chest",
+                  "capability": "bomb_138_green_normal_lower_slide",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Selective lower F1 (36,13), upper F1 (37,12) intact; original chest 0x088B9FD8/check3960503 only. dev-docs/green138-normal-witness.md; accepted bounded human Normal suffix; retained natural50/1HP, shuffled500/1HP and live100/6HP profiles plus repeats; source-backed intermediate equivalence, not universal native execution."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_29": {
@@ -2210,7 +2655,7 @@
                   "from": "approach",
                   "to": "target",
                   "capability": "fuse",
-                  "evidence": "Ignite 0x88b950c at 72,88, then enter paired cannon 0x88b94e8 to native570 spawn6,1. This is one timed use, not a permanent opened event. Crash can ignite the fuse, but its cannon-entry timing is not yet a reviewed traversal witness.",
+                  "evidence": "Ignite 0x88b950c at 72,88, then enter paired cannon 0x88b94e8 to native570 spawn6,1. This is one timed use, not a permanent opened event. The separately bounded lower_entry_crash graph models finite Crash ignition and cannon entry.",
                   "allowed_abilities": [
                     "Fire",
                     "Burning",
@@ -2497,6 +2942,102 @@
               "graph_parts": [
                 "ordinary_hub_statues"
               ]
+            },
+            "lower_entry_crash": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_32"
+              },
+              "nodes": [
+                {
+                  "id": "fuse_126:arrival",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:source",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:pose",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:normal_ignition",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:cannon_entry",
+                  "native_room": 126
+                },
+                {
+                  "id": "fuse_126:destination",
+                  "native_room": 570
+                }
+              ],
+              "starts": [
+                "fuse_126:arrival"
+              ],
+              "required_targets": [
+                "fuse_126:cannon_entry"
+              ],
+              "sources": [
+                {
+                  "id": "126:0x88b9554",
+                  "node": "fuse_126:source",
+                  "source_key": "HOT_HEAD",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/rainbow-room32-crash-source-witness.md; original finite HotHead at192,104. No retry or inventory-as-equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "fuse_126:arrival",
+                  "to": "fuse_126:source",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "fuse_126:source",
+                  "to": "fuse_126:pose",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "fuse_126:pose",
+                  "to": "fuse_126:normal_ignition",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "capability": "fuse",
+                  "allowed_abilities": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "fuse_126:normal_ignition",
+                  "to": "fuse_126:cannon_entry",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "fuse_126:cannon_entry",
+                  "to": "fuse_126:destination",
+                  "evidence": "dev-docs/rainbow-room32-crash-source-witness.md",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_transition": true
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "HOT_HEAD",
+                "ability": "Crash"
+              }
             }
           }
         }
@@ -2566,7 +3107,176 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_35": null,
-      "REGION_RAINBOW_ROUTE/ROOM_1_37": null
+      "REGION_RAINBOW_ROUTE/ROOM_1_37": null,
+      "REGION_RAINBOW_ROUTE/ROOM_1_39": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_538_beam_left_exit",
+          "kind": "block",
+          "native_room": 538,
+          "exit": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+          "new_connection": true,
+          "required_for_generation": false,
+          "optional_route_evidence": "dev-docs/rainbow-beam538-source-witness.md; Additional directed route only. Existing vertical535/542 and horizontal537/539 corridors, all checks and ordinary approaches remain. Native537 is also reached through existing536/Rainbow38 and horizontal538 routes; this connection owns no exclusive check and need not exist under every source assignment.",
+          "graphs": {
+            "normal544_beam_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_538_beam_left_exit:upper544",
+                  "native_room": 544
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door544",
+                  "native_room": 544
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:upper543",
+                  "native_room": 543
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door543",
+                  "native_room": 543
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:lower542",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:source",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:door542",
+                  "native_room": 542
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:lower538",
+                  "native_room": 538
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:left_ledge",
+                  "native_room": 538
+                },
+                {
+                  "id": "bomb_538_beam_left_exit:left_door537",
+                  "native_room": 538
+                }
+              ],
+              "starts": [
+                "bomb_538_beam_left_exit:upper544"
+              ],
+              "required_targets": [
+                "bomb_538_beam_left_exit:left_door537"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B6138",
+                  "node": "bomb_538_beam_left_exit:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/rainbow-beam538-source-witness.md; Original finite type18 Doo, native Beam7, reached Normal through the played lower542 ring and upper F0 source opening. Inhale/swallow consumes this source; no inventory-as-equipment or eventual random retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_538_beam_left_exit:upper544",
+                  "to": "bomb_538_beam_left_exit:door544",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Full descent from decoded321 upper arrival, including surviving Waddle inhale/spit at higher health, Sparky expulsion and F0 floor removal. This Normal boundary is not a continuous upstream1HP proof."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door544",
+                  "to": "bomb_538_beam_left_exit:upper543",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual544-to543 door at (7,59), not a near-door fixture or generic543 access.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:upper543",
+                  "to": "bomb_538_beam_left_exit:door543",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Complete543 traversal from actual544 arrival, retaining Normal through the outgoing door approach."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door543",
+                  "to": "bomb_538_beam_left_exit:lower542",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual543-to542 arrival (504,280.996) inside lower ring, not generic542 reachability.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:lower542",
+                  "to": "bomb_538_beam_left_exit:source",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Inhale and spit original Leap to open lower F1(30,17), ascend around the central wall, clear F0(6,3) and inhale original Doo. Preserve the safe source timing variant at high health."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:source",
+                  "to": "bomb_538_beam_left_exit:door542",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Carry acquired Beam over upper wall and open separate upper542 ring F1(21,8); this is not the538 crossover trigger."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:door542",
+                  "to": "bomb_538_beam_left_exit:lower538",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual542 door record0x0887658E at (19,8) enters lower VERTICAL at (232,296.996), retaining Beam.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/rainbow-beam538-source-witness.md; Actual single-player door transition; no source retry loop."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:lower538",
+                  "to": "bomb_538_beam_left_exit:left_ledge",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Rise near central right passage, deflate and remove Scarfy with left Beam while both F1s stay intact; reinflate and settle on original left F2 ledge at (140.91796875,168.99609375). Scarfy is a hazard, never a source."
+                },
+                {
+                  "from": "bomb_538_beam_left_exit:left_ledge",
+                  "to": "bomb_538_beam_left_exit:left_door537",
+                  "required_equipment": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/rainbow-beam538-source-witness.md; Grounded left-facing B sweep: segment5 movement5 activates left F1(5,11); all34 replacements finish, including9 new solids. New floor catches Kirby; move left and use actual538-to537 door0x0887602C at (1,11), retaining Beam. No right539 or reverse crossover grant.",
+                  "capability": "bomb_538_beam_left_crossover",
+                  "water_state": "dry"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": {
@@ -5760,6 +6470,705 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_517_chocolate",
+          "kind": "block",
+          "native_room": 517,
+          "location": "MINOR_CHEST_SPRAY_PAINT_12",
+          "requires_guaranteed_source": {
+            "source_key": "WADDLE_DOO",
+            "abilities": [
+              "Beam",
+              "Smash",
+              "Fire",
+              "Missile",
+              "Parasol",
+              "Spark",
+              "Ice",
+              "Sword",
+              "Fighter",
+              "UFO"
+            ]
+          },
+          "graphs": {
+            "hub2_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-room6-source-witness.md; inhale native Doo(528,264) from right side above sealed ordinary chain, then swallow. Finite instance, no essence substitution or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; actual native591\u2192517 door, observed arrival(696,296.996), Normal.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; ordinary approach from right arrival to x566, jump and inhale native source above chain."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
+                }
+              ]
+            },
+            "hub2_smash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-smash-source-witness.md; finite native Doo0x088CA04C(528,264) acquired from Normal after actual Hub2 entry. Production swallow hook grants guaranteed shuffled Smash22 at1939; no equipment injection, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; actual native591\u2192517 door at1109, settled arrival(696,296.996) at1158, Normal. Complete production AP-ROM replay.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; ordinary approach from right arrival, jump and inhale actual native Doo above the sealed ordinary chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; complete Smash-specific carry, rising Up+B opens intended F1 at3129, linked F2 then clear by3179. Physical chest57 opens at4421, event0x088CA0B8 maps through actual client to LocationChecks3960511. HP1/6 \u00d7 enemy100/500%, no damage or ability loss. Other providers do not inherit this route."
+                }
+              ]
+            },
+            "hub2_fire_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-fire-source-witness.md; finite native Doo 0x088CA04C at (528,264), acquired from Normal after actual Hub2 entry. Production swallow grants guaranteed shuffled Fire 1 at frame 1939. No injected equipment, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; continuous native 591 to 517 door at frame 1109, then Normal approach from right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; ordinary approach from right arrival, jump and inhale the original finite Doo above the sealed chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_fire_breath",
+                  "allowed_abilities": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; complete Fire-specific carry to (185.9961,120.9961), neutral B for 30 frames. Traveling packet opens F1 at frame 3341, seven linked F2 clear by 3371. Physical chest 57 opens at 4252 and the production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage or ability loss. No other provider inherits this route."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fire"
+              }
+            },
+            "hub2_missile_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-missile-source-witness.md; finite original Doo 0x088CA04C at (528,264), acquired from Normal after actual Hub2 entry. Production swallow grants guaranteed shuffled Missile 25 at frame 1939. No injected equipment, substitute source or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; continuous native 591 to 517 door at frame 1109, then Normal approach from right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; ordinary approach from right arrival, jump and inhale the original finite Doo above the sealed chain, then swallow. No assumed room-wide source access."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_missile_blast",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; complete Missile-specific carry to dry pose (201.9961,88.9961), B for one frame then down-right for 70 frames. Local detonation opens F1 at frame 3771 and linked F2 by 3801. Physical chest 57 opens at 4885; production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage, Missile retained. Tile scan uses +/-24, not damage bounds or piercing flight. No other provider inherits this route."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Missile"
+              }
+            },
+            "hub2_parasol_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-parasol-source-witness.md; Finite native Doo 0x088CA04C at (528,264), approached as Normal after actual Hub2 entry. Production swallow grants guaranteed shuffled Parasol 5 at frame 1939. No equipment injection, substitute source or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-parasol-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-parasol-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_parasol_swing",
+                  "allowed_abilities": [
+                    "Parasol"
+                  ],
+                  "evidence": "dev-docs/cabbage-parasol-source-witness.md; Complete Parasol-specific corridor swing and carry to the dry right-facing pose (185.9961,120.9961). Active animation 0x35 uses scan bounds (16,-11,48,11), opening F1 (14,7) at frame 3078 and all seven F2 by 3108. Physical chest 57 opens at 3979; the production client captures check 3960511. Four HP 1/6 and enemy health 100/500% positives and matched full-length no-target-swing controls preserve HP and Parasol. No other move or provider inherits this route."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Parasol"
+              }
+            },
+            "hub2_spark_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-spark-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting Spark 15. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-spark-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-spark-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Spark"
+                  ],
+                  "evidence": "dev-docs/cabbage-spark-source-witness.md; Complete Spark-specific source corridor clearing and retained carry to dry pose (201.9961,88.9961), using ordinary attached Spark field to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Spark"
+              }
+            },
+            "hub2_ice_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-ice-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting Ice 2. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-ice-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-ice-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/cabbage-ice-source-witness.md; Complete Ice-specific source corridor clearing and retained carry to dry pose (185.9961,120.9961), using ordinary right-facing traveling Ice breath to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Ice"
+              }
+            },
+            "hub2_sword_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-sword-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting Sword 18. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_sword_first_slash",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Complete Sword-specific corridor clearing and no-damage carry to dry pose (185.9961,120.9961), then one ordinary first slash (animation52/header5), not repeated slash or landing wave. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Sword"
+              }
+            },
+            "hub2_fighter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-fighter-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting Fighter 20. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-fighter-source-witness.md; Continuous native 591 to 517 entry at frame 1109, then Normal approach from the right arrival. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-fighter-source-witness.md; Ordinary approach from the right arrival, jump and inhale the original Doo above the sealed corridor chain, then swallow. No room-wide source access is assumed."
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_fighter_first_combo",
+                  "allowed_abilities": [
+                    "Fighter"
+                  ],
+                  "evidence": "dev-docs/cabbage-fighter-source-witness.md; Complete Fighter-specific corridor clearing, short punches and continuous flight to dry pose (185.9961,120.9961), then one ordinary first combo (Kirby animation53/header1, attached animation0x1FA/0). No charged or HP1 wave appears. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fighter"
+              }
+            },
+            "hub2_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_chocolate:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_chocolate:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_chocolate:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_chocolate:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_chocolate:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088CA04C",
+                  "node": "bomb_517_chocolate:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/cabbage-ufo-source-witness.md; Finite original Doo 0x088CA04C at (528,264), Normal approach after actual Hub2 entry and production swallow granting UFO 14 at frame 1939. No substituted source, injected equipment or renewal."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_chocolate:hub2",
+                  "to": "bomb_517_chocolate:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous native 591 to 517 entry at frame 1109 with Normal. Startup predecessor fixture is not proof of game-start Hub2 access.",
+                  "reset_evidence": "Fresh unoccupied 517 from 591 in single-player acceptance. No source respawn, state restoration or retry loop is modeled.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_517_chocolate:arrival",
+                  "to": "bomb_517_chocolate:source",
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Normal approaches from the right arrival, jumps and inhales the original Doo above the sealed corridor chain, then swallows. No room-wide source access is assumed.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_517_chocolate:source",
+                  "to": "bomb_517_chocolate:chest",
+                  "capability": "bomb_517_ufo_top_charge",
+                  "allowed_abilities": [
+                    "UFO"
+                  ],
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous UFO-specific corridor whip (2016), obstacle clearing (2201/2272) and carried flight reach dry right-facing pose (185.9961,120.9961). Maximum counter3/animation23 charge releases the player-owned large shot 0x198; its tile scanner, not damage box, reaches F1 (14,7) at 2873 through the wall. Seven F2 cells finish 2903, physical chest57 opens 3345 and the unchanged client emits local check3960511. Four HP1/6 by enemy100/500 positives and full target omissions; separate low/medium wall-stop and bounded no-permission controls. No source refresh, helper, non-source combat, generic range or intermediate-health claim.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "UFO"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_07": {
@@ -6551,6 +7960,373 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_34": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "switch_310_mustard_map",
+          "kind": "switch",
+          "native_room": 310,
+          "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+          "requires_guaranteed_source": {
+            "source_key": "TWISTER",
+            "abilities": [
+              "UFO",
+              "Crash",
+              "Cupid",
+              "Cutter"
+            ]
+          },
+          "graphs": {
+            "hub4_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-ufo-source-witness.md; original finite Twister at (144,280), inhaled and swallowed at frame1320 after actual Normal590-to-534 entry. Guaranteed UFO uses production source assignments, not native Tornado or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:hub4",
+                  "to": "switch_310_mustard_map:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual590-to-534 Normal door approach, not generic source-room reach."
+                },
+                {
+                  "from": "switch_310_mustard_map:rainbow34",
+                  "to": "switch_310_mustard_map:source",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; witnessed Normal approach to the finite Twister and native inhale/swallow acquisition."
+                },
+                {
+                  "from": "switch_310_mustard_map:source",
+                  "to": "switch_310_mustard_map:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-ufo-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; carry the acquired UFO through534 upper-right door into310 at frame2094, retaining equipment through the native transition."
+                },
+                {
+                  "from": "switch_310_mustard_map:arrival",
+                  "to": "switch_310_mustard_map:chest",
+                  "capability": "switch_310_ufo_top_charge",
+                  "evidence": "dev-docs/mustard-map-ufo-source-witness.md; top-charge combat clears Chip and SwordKnight while preserving the viewport, then left-facing120-frame top charge from (421.5,136.996) hits the switch across terrain, crosses the timed gate and collects chest39/map4. No persistent switch credit or low/medium-shot equivalence."
+                }
+              ]
+            },
+            "hub4_crash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:crash_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:crash_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:crash_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:crash_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:crash_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual finite534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Crash, not inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:crash_hub4",
+                  "to": "switch_310_mustard_map:crash_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual single-player door, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; independently played Normal590-to-534 entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_rainbow34",
+                  "to": "switch_310_mustard_map:crash_source",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; actual Normal approach to finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_source",
+                  "to": "switch_310_mustard_map:crash_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-crash-source-witness.md; actual single-player door, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; conserve Crash through534 air-puff/slide barriers and aerial carry; actual310 entry2344. No UFO combat assumptions.",
+                  "required_equipment": [
+                    "Crash"
+                  ]
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_arrival",
+                  "to": "switch_310_mustard_map:crash_crossed",
+                  "capability": "switch_310_crash_viewport",
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; dry pose425.996,136.996/camera305.996,8; B2804, player-owned Crash direct switch contact2879, activation2881, consumed to Normal2960; gate opens2961, fully crossed3016 before closure3048. Exact camera/timed crossing only, no persistent credit."
+                },
+                {
+                  "from": "switch_310_mustard_map:crash_crossed",
+                  "to": "switch_310_mustard_map:crash_chest",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-map-crash-source-witness.md; Normal slides through later bomb blocks and opens native chest39 at3297, AP location3960205, not vanilla map reward."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Crash"
+              }
+            },
+            "hub4_cupid_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:cupid_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cupid_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:cupid_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:cupid_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:cupid_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual finite original534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Cupid, never inventory equipment. Gating-on supplement verifies acquisition only."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:cupid_hub4",
+                  "to": "switch_310_mustard_map:cupid_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Independently played Normal590-to-534 door entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_rainbow34",
+                  "to": "switch_310_mustard_map:cupid_source",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual Normal approach to original finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_source",
+                  "to": "switch_310_mustard_map:cupid_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cupid-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "required_equipment": [
+                    "Cupid"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Real Cupid flight, slide and neutral arrow clear534 obstacles; lower flight avoids Bronto and carries Cupid through upper-right door into310 at2368."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_arrival",
+                  "to": "switch_310_mustard_map:cupid_crossed",
+                  "capability": "switch_310_cupid_up_left_q0",
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Dry enemy-aware flight and first weak UP/left arrow clear Chip from the lane (not necessarily kill). Second UP/left q0 release2896 at425.996,85.168 contacts switch2968. Slot1 high2969-2980 only; hover until3000, down/right32 and right16 clear x454 at3045 during gate closing. Exact native trajectory/timed crossing, no persistent switch credit, triple/max-charge or generic ranged grant."
+                },
+                {
+                  "from": "switch_310_mustard_map:cupid_crossed",
+                  "to": "switch_310_mustard_map:cupid_chest",
+                  "required_equipment": [
+                    "Cupid"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cupid-source-witness.md; Eight weak arrows before proceeding handle Knight timing/health thresholds (500% Knight remains behind the closed gate), then destroy later bomb obstruction and open native chest39 at3452, local AP check3960205. Cupid retained; no item-delivery claim."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Cupid"
+              }
+            },
+            "hub4_cutter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:cutter_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_source",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:cutter_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:cutter_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:cutter_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "node": "switch_310_mustard_map:cutter_source",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual finite original534 Twister (144,280), Normal590 entry and inhale/swallow at1320. Guaranteed Cutter, never inventory equipment. Separate gating pair proves acquisition only."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:cutter_hub4",
+                  "to": "switch_310_mustard_map:cutter_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Independently played Normal590-to-534 door entry from Rainbow Hub4."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_rainbow34",
+                  "to": "switch_310_mustard_map:cutter_source",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual Normal approach to original finite Twister and native inhale/swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_source",
+                  "to": "switch_310_mustard_map:cutter_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-cutter-source-witness.md; Actual single-player door transition, not a retry loop.",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Normal floating, air-puffs and slides conserve acquired Cutter through534; actual upper-right door entry into310 at2344, unchanged HP and equipment."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_arrival",
+                  "to": "switch_310_mustard_map:cutter_crossed",
+                  "capability": "switch_310_cutter_five_roof_returns",
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Exact dry five left-facing roof throws with DOWN steering clear Chip and cycle the gate to position live Knight. Final release3471 at369.293,72.996; player-parent return contact3519 is inclusive Y-edge overlap, before terrain. Timed full clearance3578-3580 with Knight alive on the left. No persistent open event, rebound equivalence, generic shot or wall-piercing claim."
+                },
+                {
+                  "from": "switch_310_mustard_map:cutter_crossed",
+                  "to": "switch_310_mustard_map:cutter_chest",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-cutter-source-witness.md; Retained Cutter breaks final obstruction; actual chest39 opens3783, unchanged production client locally reports AP3960205. Cutter retained and native map ownership remains false without item delivery."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "TWISTER",
+                "ability": "Cutter"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1": {
@@ -7421,6 +9197,391 @@
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "switch_533_room16",
+          "kind": "switch",
+          "native_room": 533,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+          "requires_guaranteed_source": {
+            "source_key": "FOLEY",
+            "abilities": [
+              "Bomb",
+              "UFO",
+              "Crash",
+              "Magic"
+            ]
+          },
+          "graphs": {
+            "hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-source-witness.md; finite Foley(224,64) acquired after actual Hub4 approach and observed viewport reset. No random reroll guarantee."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; witnessed Normal flight and Foley acquisition with viewport reset; source is not reachable merely because533 is reachable."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:door",
+                  "capability": "switch_533_bomb_placement",
+                  "evidence": "dev-docs/mustard-room15-source-witness.md; place Bomb, retreat, cross timed gate and enter actual325 door. No persistent switch credit."
+                }
+              ]
+            },
+            "hub4_ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-ufo-source-witness.md; same finite Foley(224,64), guaranteed UFO under production assignment-table policy. Complete Normal Hub4 approach; no equipment from inventory."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; complete actual590\u2192534\u2192533 Normal approach and native Foley acquisition; no source/terrain replacement."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:door",
+                  "capability": "switch_533_ufo_top_charge",
+                  "evidence": "dev-docs/mustard-room15-ufo-source-witness.md; carry UFO to launch(178,134.992), hold B120frames, release, cross timed gate at its lower opening, clear left star and enter325. Low/medium shots do not inherit this route."
+                }
+              ]
+            },
+            "hub4_crash_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:normal_crossing",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:door",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:destination",
+                  "native_room": 325
+                }
+              ],
+              "starts": [
+                "switch_533_room16:hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual finite Foley(224,64), guaranteed Crash. Normal approaches from Hub4; no retry or inventory equipment."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:hub4",
+                  "to": "switch_533_room16:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:rainbow34",
+                  "to": "switch_533_room16:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual door transition, not a retry loop.",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:arrival",
+                  "to": "switch_533_room16:source",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual Normal590\u2192534\u2192533 approach and finite Foley acquisition."
+                },
+                {
+                  "from": "switch_533_room16:source",
+                  "to": "switch_533_room16:normal_crossing",
+                  "capability": "switch_533_crash_viewport",
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; carry to(208.75,145.6836), viewport(88.75,65.6836), use Crash and consume to Normal at4610. Timed crossing x138 at4681; no persistent switch credit."
+                },
+                {
+                  "from": "switch_533_room16:normal_crossing",
+                  "to": "switch_533_room16:door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; observed Normal air-puff and flight clears left star obstruction and reaches325 door."
+                },
+                {
+                  "from": "switch_533_room16:door",
+                  "to": "switch_533_room16:destination",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_transition": true,
+                  "evidence": "dev-docs/mustard-room15-crash-source-witness.md; actual325 arrival at4906 as Normal."
+                }
+              ]
+            },
+            "hub4_magic_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "FOLEY",
+                "ability": "Magic"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:magic_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:magic_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:magic_arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_pose",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_normal_crossing",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_door",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:magic_destination",
+                  "native_room": 325
+                }
+              ],
+              "starts": [
+                "switch_533_room16:magic_hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:magic_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:magic_source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Original finite Foley at (224, 64); Normal inhales and swallows the native payload, acquiring guaranteed Magic at frame 4377. No inventory equipment or random retries."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:magic_hub4",
+                  "to": "switch_533_room16:magic_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual single-player door transition, not a source retry loop.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Independent Normal 590 to 534 entry at frame 1157."
+                },
+                {
+                  "from": "switch_533_room16:magic_rainbow34",
+                  "to": "switch_533_room16:magic_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual single-player door transition, not a source retry loop.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal payload/spit-star and air-puff obstacle clearance; actual 534 to 533 entry at frame 2697."
+                },
+                {
+                  "from": "switch_533_room16:magic_arrival",
+                  "to": "switch_533_room16:magic_source",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal flight and observed source viewport reset reach the original live Foley; generic room 533 access is insufficient."
+                },
+                {
+                  "from": "switch_533_room16:magic_source",
+                  "to": "switch_533_room16:magic_pose",
+                  "required_equipment": [
+                    "Magic"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Carry Magic from (245.51953125, 72.99609375) for 70 Left frames to the independently reached dry pose (170.21875, 135.80859375)."
+                },
+                {
+                  "from": "switch_533_room16:magic_pose",
+                  "to": "switch_533_room16:magic_normal_crossing",
+                  "capability": "switch_533_magic_meta_knight",
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Ordinary-mode visible sword-icon selection with A creates player0-parent Meta Knight; exact remote switch contact, Magic consumed to Normal, fixed recovery inputs cross the closing gate. No hidden-state selection, lucky outcome, helper, persistent open event or alternate-mode proof."
+                },
+                {
+                  "from": "switch_533_room16:magic_normal_crossing",
+                  "to": "switch_533_room16:magic_door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Normal flies directly up the clear x 80 to 95 column, then right and down to the actual 325 door ledge. The superseded air-puff tail is not used."
+                },
+                {
+                  "from": "switch_533_room16:magic_door",
+                  "to": "switch_533_room16:magic_destination",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual 325 arrival at baseline frame 5221 as Normal, settling through frame 5269."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
@@ -7791,6 +9952,435 @@
     },
     "logical_exit_overrides": {
       "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_07"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_719_room13",
+          "kind": "block",
+          "native_room": 719,
+          "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+          "graphs": {
+            "room5_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-source-witness.md; native lower Doo(568,456), acquired with Normal from actual170\u2192719 lower arrival. Finite native instance; no retries or essence substitution."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; actual native170\u2192719 transition from Room5 to lower arrival."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; Normal leftward approach from lower arrival to native lower Waddle Doo and swallow."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_room13",
+                  "evidence": "dev-docs/carrot-room7-source-witness.md; complete Beam carry through ladders and central Gordo lane to left gate pose(86,232.996), then attack/door sequence reaching734 lower compartment. No Secret Notes or unrelated exit gate."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              }
+            },
+            "room5_fighter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-fighter-witness.md; actual170 ingress as Normal, finite original lower Doo0x088D3BF4 naturally yields Fighter; no retries."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; continuous actual170 ingress, acquisition and carry; HP1 special carry wave and HP6 ordinary charged carry wave are separate from the final ordinary combo."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; continuous actual170 ingress, acquisition and carry; HP1 special carry wave and HP6 ordinary charged carry wave are separate from the final ordinary combo."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_fighter_first_combo",
+                  "evidence": "dev-docs/carrot-room7-fighter-witness.md; dry left-facing ordinary first combo at(86,232.996) opens F1(1,14) and fifteen F2 cells, then actual734 lower entry. No other surface credit."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fighter"
+              }
+            },
+            "room5_sword_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Sword"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:sword_pose",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-sword-witness.md; Normal actual170 ingress1188, original finite lower Doo(568,456), natural Sword18 acquisition1420; full-pool seed4. No source refresh or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Actual170 doorway to719 lower arrival as Normal. Independent AP Room5 access remains required; startup fixture is not game-start reachability proof."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Normal approach and finite lower Doo swallow naturally equips Sword18 at1420."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:sword_pose",
+                  "required_equipment": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Sword-specific attacks, ladder flight and crouch slides retain Sword and initial HP through legal dry left-facing pose(86,232.996) at3093. Big Waddle survives at500%; carry does not require its defeat."
+                },
+                {
+                  "from": "bomb_719_room13:sword_pose",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_sword_repeated_slash",
+                  "required_equipment": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-sword-witness.md; Three B taps3093/3102/3106 enter111, attached Sword clearsF1(1,14) at3114 and15F2 by3150; ordinary movement enters734 lower at3284. No landing wave, finisher, reward, Secret Notes or other exit credit."
+                }
+              ]
+            },
+            "room5_fire_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_05"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Fire"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_room13:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_room13:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:source",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:fire_pose",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_room13:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_room13:room5"
+              ],
+              "required_targets": [
+                "bomb_719_room13:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D3BF4",
+                  "node": "bomb_719_room13:source",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/carrot-room7-fire-witness.md; Normal actual170 ingress1188; original finite lower Doo(568,456) naturally grants Fire1 at1420, full-pool seed18. No refresh or retry."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_room13:room5",
+                  "to": "bomb_719_room13:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Fresh unoccupied719 from170 in single-player acceptance; no source refresh loop.",
+                  "evidence": "dev-docs/carrot-room7-fire-witness.md; Actual170 doorway to719 lower arrival as Normal. Independent AP Room5 access required; startup fixture does not prove game-start access."
+                },
+                {
+                  "from": "bomb_719_room13:arrival",
+                  "to": "bomb_719_room13:source",
+                  "evidence": "dev-docs/carrot-room7-fire-witness.md; Normal approach and finite lower Doo swallow naturally equips Fire1 at1420."
+                },
+                {
+                  "from": "bomb_719_room13:source",
+                  "to": "bomb_719_room13:fire_pose",
+                  "required_equipment": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-fire-witness.md; Qualified directional Fire carry clears surviving Blockin and Big Waddle, retaining Fire and starting HP through legal dry left-facing pose(86,232.996) at3132."
+                },
+                {
+                  "from": "bomb_719_room13:fire_pose",
+                  "to": "bomb_719_room13:left_door",
+                  "capability": "bomb_719_fire_breath",
+                  "required_equipment": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/carrot-room7-fire-witness.md; Final ordinary B-only breath3132..3176 sends player-parented traveling packet0x080737D9 to F1(1,14), clears15F2, and physically enters734 lower at3309. Matched omission controls remain sealed in719."
+                }
+              ]
+            },
+            "central_master": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_719_master:central_entry",
+                  "native_room": 801
+                },
+                {
+                  "id": "bomb_719_master:stand",
+                  "native_room": 801
+                },
+                {
+                  "id": "bomb_719_master:west_hub",
+                  "native_room": 192
+                },
+                {
+                  "id": "bomb_719_master:carrot_hub",
+                  "native_room": 193
+                },
+                {
+                  "id": "bomb_719_master:room5",
+                  "native_room": 170
+                },
+                {
+                  "id": "bomb_719_master:arrival",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_master:left_pose",
+                  "native_room": 719
+                },
+                {
+                  "id": "bomb_719_master:left_door",
+                  "native_room": 719
+                }
+              ],
+              "starts": [
+                "bomb_719_master:central_entry"
+              ],
+              "required_targets": [
+                "bomb_719_master:left_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B4C88",
+                  "node": "bomb_719_master:stand",
+                  "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+                  "items": [
+                    "Post-clear Central return available"
+                  ],
+                  "acquisition_evidence": "Original Central801 stand type152/template0x088B4C88/callback0x080AA619 at(248,224): living Normal human contact after genuine native clear and ordinary Continue requests fixed Master26. No ordinary statue/permission/randomization grant and no in-route retouch."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_719_master:central_entry",
+                  "to": "bomb_719_master:stand",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Ordinary post-clear Continue in801, Normal approach to original stand0x088B4C88 at(248,224). Native clear9999 and fresh occupancy0; model availability is not a native receipt."
+                },
+                {
+                  "from": "bomb_719_master:stand",
+                  "to": "bomb_719_master:west_hub",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Original stand Normal contact, pending26 then human Master26, continuous801 to192 through Rainbow West Hub door. Historical native doors require the separate AP ownership contract.",
+                  "room_transition": true,
+                  "items": [
+                    "Rainbow Route West - Hub Connection"
+                  ]
+                },
+                {
+                  "from": "bomb_719_master:west_hub",
+                  "to": "bomb_719_master:carrot_hub",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained192 to193. Carrot Hub3860406; sole enabled Area Key crossing native area0 to4 requires bit5/Carrot Key3860044.",
+                  "room_transition": true,
+                  "items": [
+                    "Carrot Castle - Hub Connection"
+                  ],
+                  "area_key_items": [
+                    "Carrot Castle - Area Key"
+                  ]
+                },
+                {
+                  "from": "bomb_719_master:carrot_hub",
+                  "to": "bomb_719_master:room5",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained193 to170 through the ordinary Carrot hub room exit.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_719_master:room5",
+                  "to": "bomb_719_master:arrival",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Master retained actual170 to719 lower arrival, no helper body or ability.",
+                  "room_transition": true
+                },
+                {
+                  "from": "bomb_719_master:arrival",
+                  "to": "bomb_719_master:left_pose",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Human Master carry from lower arrival, Chip avoidance, ladder route and downward attack plus immediate left escape from surviving Big Waddle Dee, to dry left-facing(86,232.996). HP1/enemy100 and500 have bounded independent native acceptance; no forced damage or required kill."
+                },
+                {
+                  "from": "bomb_719_master:left_pose",
+                  "to": "bomb_719_master:left_door",
+                  "required_equipment": [
+                    "Master"
+                  ],
+                  "evidence": "Human B30/release charged wave0x08082CCD opens exact lowerF1(1,14), all15 linkedF2, then ordinary movement enters actual734 LOWER/ENTRY_FROM_5_07. Atomic exit-surface witness ends here: no chest, Secret Notes, upper734 or other exit credit.",
+                  "capability": "bomb_719_master_charged_wave"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_08": {
@@ -8021,6 +10611,177 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_09": "can_fly"
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_733_yellow",
+          "kind": "block",
+          "native_room": 733,
+          "location": "MINOR_CHEST_SPRAY_PAINT_02",
+          "requires_guaranteed_source": {
+            "source_key": "SPARKY",
+            "ability": "UFO"
+          },
+          "graphs": {
+            "room14_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CARROT_CASTLE/ROOM_5_14"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_733_yellow:far_right",
+                  "native_room": 720
+                },
+                {
+                  "id": "bomb_733_yellow:upper734",
+                  "native_room": 734
+                },
+                {
+                  "id": "bomb_733_yellow:left720",
+                  "native_room": 720
+                },
+                {
+                  "id": "bomb_733_yellow:top730",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:upper_source",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:ladder_top",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:lower_source",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:lower_carry",
+                  "native_room": 730
+                },
+                {
+                  "id": "bomb_733_yellow:arrival733",
+                  "native_room": 733
+                },
+                {
+                  "id": "bomb_733_yellow:chest",
+                  "native_room": 733
+                }
+              ],
+              "starts": [
+                "bomb_733_yellow:far_right"
+              ],
+              "required_targets": [
+                "bomb_733_yellow:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088D4FC0",
+                  "node": "bomb_733_yellow:upper_source",
+                  "source_key": "SPARKY",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Original upper Sparky at(344,296), acquired5450 after Normal approach. Guaranteed singleton SPARKY\u2192UFO only; finite, no retries."
+                },
+                {
+                  "id": "0x088D4F9C",
+                  "node": "bomb_733_yellow:lower_source",
+                  "source_key": "SPARKY",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Distinct original lower Sparky at(344,664), acquired6994 after upper UFO discard6830 and Normal ladder descent. Native lure timing, no reset or respawn."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_733_yellow:far_right",
+                  "to": "bomb_733_yellow:upper734",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Existing qualified719\u2192720 arrival; Normal no-hit path avoids Foley drops, inhales/spits Bronto without copying, presses small switch, falls through16-pixel floor gap into734upper at3844. Both720 left bomb-chain cells remain intact. No upstream719 proof.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:upper734",
+                  "to": "bomb_733_yellow:left720",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal flight across isolated734 upper compartment, real door2,4 returns to720left at4136. No assumed734 AP entry.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:left720",
+                  "to": "bomb_733_yellow:top730",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal walk to720door2,7, real730top arrival at4313. Both valid720 arrivals are independently evidenced.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:top730",
+                  "to": "bomb_733_yellow:upper_source",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Normal route from top arrival to original upper Sparky; acquire UFO at5450.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:upper_source",
+                  "to": "bomb_733_yellow:ladder_top",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Carry upper UFO through directed maze and moving Gordo. Lure lower Sparky with180-frame wait before intentional Select discard at6830.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:ladder_top",
+                  "to": "bomb_733_yellow:lower_source",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Only the reviewed Normal ladder descent after dropping upper UFO. No dropped-star recovery; original lower source is then inhaled safely.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:lower_source",
+                  "to": "bomb_733_yellow:lower_carry",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Acquire lower original Sparky as UFO at6994 and carry without loss to730exit.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                },
+                {
+                  "from": "bomb_733_yellow:lower_carry",
+                  "to": "bomb_733_yellow:arrival733",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Actual730\u2192733 transition with lower UFO retained, no unrelated exit proof.",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Continuous physical door/floor transition in sealed full replay; no source is revisited."
+                },
+                {
+                  "from": "bomb_733_yellow:arrival733",
+                  "to": "bomb_733_yellow:chest",
+                  "evidence": "dev-docs/carrot-yellow-ufo-source-witness.md; Dry pose(217.996,102.996),160-frame top charge clears only lowerF1(21,6) at8257; upper(18,2) stays intact through chest0x088D3DD0/check3960501 at8613. No-shot and90-frame medium controls fail. ActualHP1/6\u00d7enemy100/500 only.",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "capability": "bomb_733_yellow_ufo_top_charge"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_17": {
@@ -8491,7 +11252,11 @@
                   "source_key": "WADDLE_DEE",
                   "acquisition_evidence": "Distinct native target at (528,136), finite instance. Swallowing consumes it and cannot also produce a projectile."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY",
+                "ability": "Ice"
+              }
             },
             "central_statues": {
               "version": 1,
@@ -8544,6 +11309,97 @@
               "required_targets": [
                 "frozen_825_permanent:chest"
               ]
+            },
+            "ufo_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_14"
+              },
+              "nodes": [
+                {
+                  "id": "frozen_825_sound_effects:ufo_entry831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_door831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_arrival",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_arena",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_launch",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_sound_effects:ufo_chest",
+                  "native_room": 825
+                }
+              ],
+              "starts": [
+                "frozen_825_sound_effects:ufo_entry831"
+              ],
+              "required_targets": [
+                "frozen_825_sound_effects:ufo_chest"
+              ],
+              "routes": [
+                {
+                  "from": "frozen_825_sound_effects:ufo_entry831",
+                  "to": "frozen_825_sound_effects:ufo_door831",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Native814 doorway enters831 at bottom-left (40,280.996), its sole normalized incoming route. Continuous cold HP1/6 and enemy100/500 runs traverse the complete current/spike maze as Normal and reach the far-right825 door. Independent access is ROOM_6_14, not arbitrary814 arrival."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_door831",
+                  "to": "frozen_825_sound_effects:ufo_arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Physical native831 far-right door enters825 at (280,296.996), after the verified complete Normal maze traversal."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_arrival",
+                  "to": "frozen_825_sound_effects:ufo_arena",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Continuous native lower arrival route reaches Frosty arena as Normal without helper attacks or imported equipment."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_arena",
+                  "to": "frozen_825_sound_effects:ufo_launch",
+                  "required_equipment": [
+                    "UFO"
+                  ],
+                  "evidence": "Defeat original Frosty with Normal native ammunition, swallow dizzy source and carry acquired UFO to the dry firing pose; no source refresh."
+                },
+                {
+                  "from": "frozen_825_sound_effects:ufo_launch",
+                  "to": "frozen_825_sound_effects:ufo_chest",
+                  "capability": "switch_825_ufo_top_charge",
+                  "evidence": "Top-charge beam damage18 kills intercepted Waddle HP2/10 and continues to small button0x088CD360; cross timed gate0x088CD33C and collect chest66/client3960523. No persistent switch credit or weaker-charge equivalence."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "0x088CD3F0",
+                  "node": "frozen_825_sound_effects:ufo_arena",
+                  "source_key": "MR_FROSTY",
+                  "acquisition_evidence": "Original finite Frosty HP30/150 defeated with Normal shots; swallow dizzy source to acquire guaranteed singleton UFO. Cold endpoint runs preserve actual Kirby HP1/6. No retries, gameplay writes or restores."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY",
+                "ability": "UFO"
+              }
             }
           }
         }

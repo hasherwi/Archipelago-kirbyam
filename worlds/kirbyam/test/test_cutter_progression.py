@@ -33,7 +33,7 @@ SEEDS = (1042, 20261107, 8675309)
 @pytest.mark.parametrize("gating", [False, True])
 def test_new_starting_set_and_cutter_collection(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
-    assert starting_copy_abilities(mode) == ("Beam",)
+    assert starting_copy_abilities(mode) == ("Beam", "Ice")
     state = CollectionState(world.multiworld)
     assert not state.has("Cutter Ability", 1)
     item = world.create_item("Cutter Ability")
@@ -159,14 +159,14 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
-    # Beam-only starts and the sixteen Goal Game slots change fill order.
+    # Beam+Ice starts and the sixteen Goal Game slots change fill order.
     # Preserve exact unsafe samples as refusals rather than replacing their seeds.
     refused_check = None
     if gating == 1 and accessibility == "minimal":
-        if seed == 8675309:
+        if seed == 8675309 and mode == 0:
             refused_check = "Radish Ruins - Big Switch"
         elif seed == 20261107 and mode == 1:
-            refused_check = "Peppermint Palace - Goal Game 2"
+            refused_check = "Moonlight Mansion - Goal Game 1"
     if refused_check is not None:
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
@@ -193,6 +193,17 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(
         {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
+    # Retain the exact mixed minimal sample as a refusal; the other two seeds
+    # must still produce archives and preserve explicit Cutter multiplicity.
+    if seed == 8675309:
+        from ..check_accessibility import KirbyAmCheckAccessibilityError
+        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, seed, options)
+        message = str(caught.value)
+        assert "Player 2" in message and "Olive Ocean - Goal Game 1" in message
+        assert "unfilled=[]; unavailable even with all inventory=[]" in message
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
     # The added Goal Game slots make seed 1042 pass the unchanged all-check
     # guard. Keep that exact seed and validate the accepted archive normally.
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)

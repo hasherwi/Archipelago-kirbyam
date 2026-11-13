@@ -1,0 +1,2096 @@
+{
+  "schema_version": 1,
+  "status": "PASS_BOUNDED",
+  "production_source_commit": "6948ac7295d3b3e8e1eaf08506338592d707254e",
+  "integration_base": "0c35d3203987a3153359fa609bc4aaa6bec7a275",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "target": {
+    "id": "bomb_538_beam_left_exit",
+    "owner": "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+    "exit": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+    "native_room": 538,
+    "actual_exit_native_room": 537,
+    "independent_access": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06"
+  },
+  "source": {
+    "template": "0x088B6138",
+    "source_key": "WADDLE_DOO",
+    "native_room": 542,
+    "native_type": 18,
+    "native_ability": 7,
+    "finite": true
+  },
+  "scope": "Decoded independent321-to544 upper arrival fixture; actual full544-to543-to542-to538-to537 played. Upstream321 acquisition/carry and304/546 ingress not replayed. No upstream1HP composition claim.",
+  "geometry": {
+    "room": 538,
+    "width": 31,
+    "height": 23,
+    "targets": [
+      {
+        "x": 8,
+        "y": 8,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 9,
+        "y": 8,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 10,
+        "y": 8,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 8,
+        "y": 9,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 9,
+        "y": 9,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 10,
+        "y": 9,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 7,
+        "y": 10,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 8,
+        "y": 10,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 9,
+        "y": 10,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 12,
+        "y": 10,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 13,
+        "y": 10,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 14,
+        "y": 10,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 5,
+        "y": 11,
+        "initial": 241,
+        "replacement": 0
+      },
+      {
+        "x": 6,
+        "y": 11,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 7,
+        "y": 11,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 8,
+        "y": 11,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 9,
+        "y": 11,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 11,
+        "y": 11,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 12,
+        "y": 11,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 13,
+        "y": 11,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 14,
+        "y": 11,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 15,
+        "y": 11,
+        "initial": 241,
+        "replacement": 0
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "initial": 242,
+        "replacement": 13
+      },
+      {
+        "x": 9,
+        "y": 12,
+        "initial": 242,
+        "replacement": 13
+      },
+      {
+        "x": 10,
+        "y": 12,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 11,
+        "y": 12,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 12,
+        "y": 12,
+        "initial": 243,
+        "replacement": 13
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "initial": 242,
+        "replacement": 0
+      },
+      {
+        "x": 9,
+        "y": 13,
+        "initial": 242,
+        "replacement": 13
+      },
+      {
+        "x": 10,
+        "y": 13,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 11,
+        "y": 13,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 12,
+        "y": 13,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 11,
+        "y": 14,
+        "initial": 243,
+        "replacement": 0
+      },
+      {
+        "x": 12,
+        "y": 14,
+        "initial": 243,
+        "replacement": 0
+      }
+    ]
+  },
+  "startup": {
+    "record_xy": [
+      56,
+      32
+    ],
+    "spawn_tile": [
+      3,
+      2
+    ],
+    "entry_record": "0x08891758",
+    "first_logged_frame": 1085,
+    "first_logged_x": 40.0,
+    "first_logged_y_by_hp": {
+      "1": 25.14453125,
+      "6": 25.44140625
+    }
+  },
+  "setup": {
+    "fresh_blank_battery_bytes": 32768,
+    "blank_byte": 255,
+    "client_config_writes": 8,
+    "configuration_frame": 1085,
+    "helpers_room": 101,
+    "gameplay_ram_writes": 0,
+    "runtime_rom_writes": 0,
+    "state_restores": 0,
+    "phone_inputs": 0,
+    "helper_parent_attacks_in_route": 0,
+    "startup_fixture_ranges": [
+      "0x2D8CB8..0x2D8CBF",
+      "0x2D8CD0..0x2D8CEF"
+    ]
+  },
+  "positive": [
+    {
+      "run": "full05",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner": {
+        "task": "0x3001b6c",
+        "object": "0x3004064",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6798,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6311,
+          "signed_hp": 1,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6570,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6577,
+          "signed_hp": -5,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "33eac67a828f21c59722cc0fa57f72a2b865bb29d942ca8a501aa4bd5ea2b1b7",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "89eca8c57ef54eb5b3e0328a671e3b58cba493877f056b2c33af495a3505636c"
+      },
+      "fixture_sha256": "5ba86a0f535583d6d21958e502859c08ecad16903451925b81bc1274daabaffa",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6870,
+      "chain_changes_sha256": "57eb02f762de18781d1b5e61562f813e253106709535b54efe5baed523f486ec",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 4839
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6211
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5666
+        }
+      ],
+      "source_first": {
+        "frame": 5501,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 4,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5781,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "matrix100-6",
+      "hp": 6,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.44140625
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner": {
+        "task": "0x3001c0c",
+        "object": "0x3003cc0",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6798,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6311,
+          "signed_hp": 1,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6570,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6577,
+          "signed_hp": -5,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "6fac06e691e588f0916248995d232d1579e2582c94e38e910e5b68374161a14a",
+        "hp.json": "f7d90d965622d9d9b5c96900b0a039cb2ca6438d9090f9d425743733056649d7",
+        "result.json": "38d7d63bac90b0743bdac9b49f3ad8af08cdbefbc4930a7effa8ee7a1cbf7dc4"
+      },
+      "fixture_sha256": "85956159ecdb94906686c17a190766409d3acdc22b808efc4809e0de048bd53a",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6870,
+      "chain_changes_sha256": "57eb02f762de18781d1b5e61562f813e253106709535b54efe5baed523f486ec",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 4839
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6211
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5666
+        }
+      ],
+      "source_first": {
+        "frame": 5501,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 4,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5781,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 6,
+      "hp_max": 6,
+      "final_ability": 7
+    },
+    {
+      "run": "full500-04",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner": {
+        "task": "0x3001bd0",
+        "object": "0x3003ffc",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6822,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6336,
+          "signed_hp": 5,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6594,
+          "signed_hp": 2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6601,
+          "signed_hp": -1,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "ec13ff29f443839ad39ace92534f46399db56573a5eea82cd387f330f20e543b",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "68ca6c445b47a7c29923895e24d3712af35235a9cb21cd8e41953c93790671be"
+      },
+      "fixture_sha256": "55b7908a55cc6d97c793cf248a0b985201acd12c1f20c6cd2e8f919853d61206",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6894,
+      "chain_changes_sha256": "3a6c8b1c31e7b6ece793ff13e704e7edc9687ed8d656757a9914ef7d119bbb0f",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 5043
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6235
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5690
+        }
+      ],
+      "source_first": {
+        "frame": 5525,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 20,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5805,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "full500-6-nohit02",
+      "hp": 6,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "frame_count": 5976,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.44140625
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6356,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6991,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5892,
+      "first_scanner": {
+        "task": "0x3001c48",
+        "object": "0x3003e88",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6852,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6366,
+          "signed_hp": 5,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6624,
+          "signed_hp": 2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6631,
+          "signed_hp": -1,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "805d51f08bdb02206d162dac8a22a24bbc3dd0f0479a875162c01da3d2849de4",
+        "states.json": "8de898eb018fa9f1c71a945b6301c51d021efe422aec6b1d4e0bad9a92786cb2",
+        "hp.json": "9dc6c7e10f18d2ab15f7a41ac67b3fc0570f15657223ce47109dddd035b0df62",
+        "result.json": "c4df6331bc2afd88e32f2b192e97e66adc85aea28b8c166d42ccd6d2ca3b7444"
+      },
+      "fixture_sha256": "4314205d27e62e74bd2b32721ab94be5d05993f174027c33764c2adb28bc7e50",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6924,
+      "chain_changes_sha256": "13e2dcc41ef2aab52f533896ff74b3fdd99fb2d2f120e7ef8cef36d61841184f",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 5043
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6265
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5750
+        }
+      ],
+      "source_first": {
+        "frame": 5525,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 20,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5835,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 6,
+      "hp_max": 6,
+      "final_ability": 7
+    },
+    {
+      "run": "boundary124",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 124,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6937,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "first_scanner": {
+        "task": "0x3001b6c",
+        "object": "0x3004064",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6798,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6311,
+          "signed_hp": 1,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6570,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6577,
+          "signed_hp": -5,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "04d395953a73e5feed6074e59027979cb8bf5d2ae4fee0eab52e78d188e357c5",
+        "states.json": "8f8cdc1824614c0395c0288b835050bb88e283b8eb57200409b2ac1d8ff11007",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "4d5a2c06336b919f60e5e846c9460da31ba9cd2789489f0a13c1ada70a781f63"
+      },
+      "fixture_sha256": "cc1620c81032b29f71631948e231bbf8ca31574b1273549d41eee8e842e4d65e",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6870,
+      "chain_changes_sha256": "57eb02f762de18781d1b5e61562f813e253106709535b54efe5baed523f486ec",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 4839
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6211
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5666
+        }
+      ],
+      "source_first": {
+        "frame": 5501,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 5,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5781,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "boundary125",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 125,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner": {
+        "task": "0x3001bd0",
+        "object": "0x3003ffc",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6822,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6336,
+          "signed_hp": 1,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6594,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6601,
+          "signed_hp": -5,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "6c4c836ccba0cf1873ffbb93218c4f1d24cea5d4238be993bf7adfe28027c78b",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "269bb95cbdd5d9870baab37f9a918e5ddcce6b2b9a950e8a108b4614666811f0"
+      },
+      "fixture_sha256": "b230a37bf085dd6aeccecdd4416469b5993bac6b8456116c09cc30c3469f9b3d",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6894,
+      "chain_changes_sha256": "3a6c8b1c31e7b6ece793ff13e704e7edc9687ed8d656757a9914ef7d119bbb0f",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 5043
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6235
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5690
+        }
+      ],
+      "source_first": {
+        "frame": 5525,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 5,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5805,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "boundary349",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 349,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner": {
+        "task": "0x3001bd0",
+        "object": "0x3003ffc",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6822,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6336,
+          "signed_hp": 3,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6594,
+          "signed_hp": 0,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6601,
+          "signed_hp": -3,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "c9f64914db384cdacab8a57d5892a145b224cc331f01885f0f1562a7f9430cbc",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "67c30544a015ef8db1ba5ba3ff07db9a939fcb858dc4ff10322cfdecfe6be5bc"
+      },
+      "fixture_sha256": "5ab850e4baeb408827933b848f0f2db5395a574fd66b1fc2fd1c7a65fdcea9aa",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6894,
+      "chain_changes_sha256": "3a6c8b1c31e7b6ece793ff13e704e7edc9687ed8d656757a9914ef7d119bbb0f",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 5043
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6235
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5690
+        }
+      ],
+      "source_first": {
+        "frame": 5525,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 14,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5805,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "boundary350",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 350,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6961,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "first_scanner": {
+        "task": "0x3001bd0",
+        "object": "0x3003ffc",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6822,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6336,
+          "signed_hp": 4,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6594,
+          "signed_hp": 1,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6601,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "3bcefcda32a754a4d4c9668876f13bcda0133f4b6fd5e4d1834db43ab0f45d0b",
+        "states.json": "4c7dbc6d63db3cbee2c7195db045c59fb06f3f6505f023cd4a33fe2fd7f4deeb",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "43f46893ec6ae80182235bc3067fa47950a983401b6610143a6809e01d3ebb01"
+      },
+      "fixture_sha256": "7c981416339574d10b49e95258979b690448d4682d8f6108998ecd98b9ff5b28",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6894,
+      "chain_changes_sha256": "3a6c8b1c31e7b6ece793ff13e704e7edc9687ed8d656757a9914ef7d119bbb0f",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 5043
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6235
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5690
+        }
+      ],
+      "source_first": {
+        "frame": 5525,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 14,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5805,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    },
+    {
+      "run": "gated100-02",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 1,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5952,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6332,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        },
+        {
+          "frame": 6967,
+          "room": 537,
+          "xy": [
+            696.0,
+            40.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5868,
+      "first_scanner": {
+        "task": "0x3001c84",
+        "object": "0x3003d3c",
+        "fn": "0x8070581",
+        "room": 538,
+        "parent": "0x2020ee0",
+        "x": 91.2578125,
+        "y": 185.99609375,
+        "damage": 3,
+        "flags": "0xa0084105",
+        "category": "0x20000403",
+        "damage_box": [
+          -6,
+          -6,
+          6,
+          6
+        ],
+        "counter": 5,
+        "vx": -1877,
+        "vy": -768,
+        "collision_pointer": "0x0",
+        "state": "0x807d209",
+        "hold_latch": 0,
+        "segment_frame": 5,
+        "segment_subframe": 80,
+        "bounds": [
+          -2,
+          -2,
+          2,
+          2
+        ]
+      },
+      "first_scanner_frame": 6828,
+      "first_scanner_player_xy": [
+        140.91796875,
+        168.99609375
+      ],
+      "scarfy_health_changes": [
+        {
+          "frame": 6341,
+          "signed_hp": 1,
+          "state": "0x80a75c5"
+        },
+        {
+          "frame": 6600,
+          "signed_hp": -2,
+          "state": "0x809b6a9"
+        },
+        {
+          "frame": 6607,
+          "signed_hp": -5,
+          "state": "0x809b6a9"
+        }
+      ],
+      "hashes": {
+        "inputs.json": "14df9f2211fdb9f59e0681b40ed269ccaeb2053f165c66250c57a9418ed3ffe8",
+        "states.json": "243c063c9fc4c8ec8d2c2b77e2bd820aacd8987817ccfcd69c8c1898c0c8cff0",
+        "hp.json": "54d92f4dac01793c15098a940a35d677b0e1415048e46baaf5965ef0f760a335",
+        "result.json": "9ffc719e91b88935de7ad07f4aed9b64fb1169d6d0e7558da2974099877d01b0"
+      },
+      "fixture_sha256": "0aec39c9323cb0df0c0b3c6e0deee20bc17107c3d85bbf5cf28d70e8dbcec61d",
+      "chain_change_count": 34,
+      "chain_complete_frame": 6900,
+      "chain_changes_sha256": "4fafd6740d9daf4d13049c6af7dca45c3e57dd148c267352a8fe5151aa899ac6",
+      "room542_changes": [
+        {
+          "xy": [
+            30,
+            17
+          ],
+          "frame": 4839
+        },
+        {
+          "xy": [
+            21,
+            8
+          ],
+          "frame": 6241
+        },
+        {
+          "xy": [
+            6,
+            3
+          ],
+          "frame": 5726
+        }
+      ],
+      "source_first": {
+        "frame": 5501,
+        "room": 542,
+        "type": 18,
+        "copy_field": 7,
+        "hp": 4,
+        "template": "0x88b6138"
+      },
+      "source_last": {
+        "frame": 5811,
+        "room": 542,
+        "copy_field": 0,
+        "state": "0x809c48d"
+      },
+      "hp_min": 1,
+      "hp_max": 1,
+      "final_ability": 7
+    }
+  ],
+  "controls": [
+    {
+      "run": "control100-1",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "hashes": {
+        "inputs.json": "9288bc28c2bea8e5829406b08d07d08547d8b772a700811547dec591a9566591",
+        "states.json": "cfabd781cab40ecf2ed65292b6f40b4ab6b0f3d9c8f40c371e21a7952e5910d4",
+        "hp.json": "e0b3b3e9f9c9a801662531917a908cbc85222d2533dedac1a320e822fa0e3a8e",
+        "result.json": "0b4542fba2a9cc523f3eedc61c11bf132a3e6c006378d3989094b2bfbd56caef"
+      },
+      "fixture_sha256": "5ba86a0f535583d6d21958e502859c08ecad16903451925b81bc1274daabaffa",
+      "omitted_attack_start": 6768,
+      "matched_positive": "full05",
+      "final_xy": [
+        134,
+        168.99609375
+      ],
+      "chain_unchanged": true
+    },
+    {
+      "run": "control100-6",
+      "hp": 6,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "frame_count": 5922,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.44140625
+          ]
+        },
+        {
+          "frame": 4100,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4703,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6302,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5838,
+      "hashes": {
+        "inputs.json": "9288bc28c2bea8e5829406b08d07d08547d8b772a700811547dec591a9566591",
+        "states.json": "063722327936954bb1134fc4ea8493d88ae4ab036365f0a3379e2b1e1814100f",
+        "hp.json": "f7d90d965622d9d9b5c96900b0a039cb2ca6438d9090f9d425743733056649d7",
+        "result.json": "138fa0676ecbd4621cd9a4215199845cabf892480bc7a0c91abe70f489e86aef"
+      },
+      "fixture_sha256": "85956159ecdb94906686c17a190766409d3acdc22b808efc4809e0de048bd53a",
+      "omitted_attack_start": 6768,
+      "matched_positive": "matrix100-6",
+      "final_xy": [
+        134,
+        168.99609375
+      ],
+      "chain_unchanged": true
+    },
+    {
+      "run": "control500-1",
+      "hp": 1,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "frame_count": 5946,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.14453125
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6326,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5862,
+      "hashes": {
+        "inputs.json": "e6602fa2c88e0d4a0cf82910d8bde517d9494d0eec00fe46ec5d7deb15df7d51",
+        "states.json": "fe0322075d37b0ed4c6c742c60e4157632009fd97b89be32878b861bcd504664",
+        "hp.json": "02d10bb44cdd0767ec1780718dde2d8b6b1f86c6cd8678a6d3c7ce5b2cccd7c3",
+        "result.json": "d6b559a632180909ebe069b63739f6b9defcf2736c74af90aa640bff03ea03d0"
+      },
+      "fixture_sha256": "55b7908a55cc6d97c793cf248a0b985201acd12c1f20c6cd2e8f919853d61206",
+      "omitted_attack_start": 6792,
+      "matched_positive": "full500-04",
+      "final_xy": [
+        134,
+        168.99609375
+      ],
+      "chain_unchanged": true
+    },
+    {
+      "run": "control500-6",
+      "hp": 6,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 6,
+        "maximum_health": 6
+      },
+      "frame_count": 5976,
+      "transitions": [
+        {
+          "frame": 1085,
+          "room": 544,
+          "xy": [
+            40.0,
+            25.44140625
+          ]
+        },
+        {
+          "frame": 4304,
+          "room": 543,
+          "xy": [
+            488.0,
+            24.99609375
+          ]
+        },
+        {
+          "frame": 4907,
+          "room": 542,
+          "xy": [
+            504.0,
+            280.99609375
+          ]
+        },
+        {
+          "frame": 6356,
+          "room": 538,
+          "xy": [
+            232.0,
+            296.99609375
+          ]
+        }
+      ],
+      "beam_acquired_frame": 5892,
+      "hashes": {
+        "inputs.json": "dfbedd0b7caec2f14bd993ec044c1fe39da2742ec017fe28ee0c89c657565808",
+        "states.json": "2426b2d5b010a6e36df01d4786fc3ece48a0072ea92adfe48476d693cd883e20",
+        "hp.json": "9dc6c7e10f18d2ab15f7a41ac67b3fc0570f15657223ce47109dddd035b0df62",
+        "result.json": "2c4f7edd0d37d7b4e009b87ff6a957ff2d429e9ba14f464bfc97c77afe3724d3"
+      },
+      "fixture_sha256": "4314205d27e62e74bd2b32721ab94be5d05993f174027c33764c2adb28bc7e50",
+      "omitted_attack_start": 6822,
+      "matched_positive": "full500-6-nohit02",
+      "final_xy": [
+        134,
+        168.99609375
+      ],
+      "chain_unchanged": true
+    }
+  ],
+  "limitations": [
+    "Only native mode0 Doo provider tested, with gating off and one gating-on/no-items run.",
+    "No reverse crossover,539 exit, universal Normal impossibility, all health values or all RNG phases.",
+    "No production logic change or logic-test claim.",
+    "Prior Mini lower witnesses take damage; no no-hit upstream route established.",
+    "Optional logic source-policy equivalence is tested separately; the native packet is mode0 only.",
+    "The6HP500 no-hit recipe is separate; damaged then healed matrix500-6 and earlier failed attempts are not accepted.",
+    "This direct537 exit grants no539-specific post-chain route and no reverse crossover. Existing537 return and HORIZONTAL corridors remain unchanged.",
+    "The previous Mini lower arrival is Normal at2HP after damage. No continuous upstream1HP composition is established.",
+    "The primary packet alone does not cover every finite HP tuple. The separate frozen health supplement adds26 fresh1HP representatives; no all-percentage, RNG-phase or upstream1HP claim follows."
+  ],
+  "private_artifact_sha256": {
+    "report.md": "0417c0d764dbe1f862d23c891301fab3b6a24f14be208a41a46d3f367f41f8a2",
+    "validate.py": "987747f2e79d77c6dd7d0d4dfeb5062ee71781b19c7d2d6735db59bdc3f85212",
+    "validation.json": "62cb8bffe233b06ff06f30a1341aacc998cc399591e9550f09868e9404d73243",
+    "provenance.json": "df95e30434950e06fc7a7abb6e4f7ecda02a51b1133befa2eee9c8444996b049",
+    "experiment-index.json": "92f1c6f2558f4620ed677a5bf21f0a35c509c94510a6fe0cb633d8b915aa2672",
+    "public/beam538-summary.json": "ec845d49319f7c4ba4a8a8e390dc4fdf6b077d50b0f6b866927bafa094576ce2"
+  },
+  "native_source_sha256": {
+    "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645",
+    "src/scarfy.c": "927b12bcfad781e9e62904814be709bc7ade6cb71a6a3bfac259a6f0668af791",
+    "src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+    "src/code_0806F780.c": "c1379a8c878d5863485a31d276b24336ac147764bc282f70854447b6e4f38963",
+    "src/code_080023A4.c": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+    "src/code_0800E0E4.c": "2bb00626a906b3b9ce5720dc3a4cbca5bd3974a3c16dc7f5753047682a168bf3"
+  },
+  "upstream_sha256": {
+    "mini321-acceptance.md": "ac3f528607f4895fa7170d5d73740a80c78ecbd6157eef6b421cb61f5a0a992c",
+    "mini321-acceptance.json": "01bcd1b9ee0c1271770bc9bedaf1afbb06b34a0419a18ce449a5ac1936517c10",
+    "mini321-nohit-followup.md": "406f8325a7df736f2a454c6c09b4a388217d8c033b7e3911db2acac59256d5fb",
+    "mini321-nohit-followup.json": "fcb99a04c19fb072bcd2bc68592946d64f6a35081fcde29eb094d439869ed345",
+    "mini321-cross-spit.md": "c782ca84abc1b9871c4e3d07d1db61c3fc704c2de1f8f914c76a0d2f2e5e5b04",
+    "mini321-cross-spit.json": "61814f1a92f2f9c03a2bb8e7ab7374e8f66ce5f6b26c34db396e7a8a770d661f"
+  },
+  "tracked_source_sha256": {
+    "client.py": "b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9",
+    "enemy_health_scaling.py": "cff04ec15000178c220ea4a3774cebc4412ceb386275faefe85d46e1d72c8098",
+    "data/abilities.json": "ef5f85b8d44fea48bb325209bee3cd599c56b3b840f23e0b796c686499a30d27"
+  },
+  "tracked_source_hash_format": "UTF-8 text with LF line endings (Git blob content)",
+  "hash_semantics": "Private artifact digests are exact original bytes, including the zero-frame snapshot at1541. No controller log was normalized or republished.",
+  "preserved_region_sha256": {
+    "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL": "e1c1a7560a562faea6eff2f092ad385a6a120fcd49909aeac8030bfe04c941cf",
+    "REGION_RAINBOW_ROUTE/ROOM_1_35": "37dcb5233263abb08b554cbbc9a193b2c894c2346090ce26e5d161927a4c1398",
+    "REGION_RAINBOW_ROUTE/ROOM_1_37": "dac208f108a274278caa261a398abb32307f642492d9eeb5fbcba48d0aff5567",
+    "REGION_RAINBOW_ROUTE/ROOM_1_38": "d636e66b7a4e02fded5b261f7b93994267a42c688a2d55dc2ce2700060ecca2f",
+    "REGION_RAINBOW_ROUTE/ROOM_1_39": "5080d1845d7e5900fffd7121b7350bd7fe34021e834189050cccb2ea34d36486",
+    "REGION_RAINBOW_ROUTE/ROOM_1_40": "74ffd9af4e6655dca630d4ed713f7730d5d984202742461c980efa1dacb75ba5",
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_01": "8cd687532b4197d0fa1909e95fd84db79e87e63bc1bf2fa17e1b1a8549cf4468",
+    "REGION_MUSTARD_MOUNTAIN/ROOM_4_06": "a1391a299a9fe6a162e2fd8440e52ef8eac66abb547b8394d468515e09d9321d"
+  },
+  "preserved_target_sha256": {
+    "wheel_108_chest": "1ee1e3ace92592c94eaa4f3e675afac7e5276b7ab924dac51ea8163c6416f8e6",
+    "bomb_110_room9": "452bdb4edddec225e3cf1e8399fd8a10650e589d502f2c89175b30abee6f7d3e",
+    "bomb_138_green": "f994d89ade2c147c90790c96053ca33220ce1a3402db49727c131fb51314d021",
+    "fuse_126": "ea8b43b4bcc4685a0de8b852fcaae623ee22034f3201d9b837de5aa03d246a81",
+    "rope_143_23_14": "7ed341b7ba452dcc0ef387985a6a4f482bd318fcda5aca3c0afc27662a48e39b",
+    "peg_149_35_18": "e35b6a5eda64372cce10b09d74e9cead59c2005a3cc220f190d00bc8b0fa4d55",
+    "bomb_517_chocolate": "0ef78b4996fe59b7050ef5146669484ad748e522cc79e80439d5e4c594f3679c",
+    "peg_510_7_7": "508f07c8e7a074e0666514341f8fc80efa0303896d04adcb08559ec2462c7213",
+    "peg_513_4_7": "cb5f72694e8a537a2101442d836a978fefd7062ab3ea0c979a50019587b1bf0f",
+    "peg_527_56_16": "d5d8aa92f120e17053003f78b40b7c441ad40b0b427e94c1e29487bd984e7002",
+    "peg_527_18_13": "02b991002d1e595eca8cefc60bd3ddd56edc36e022df55dadba5985772b64bd7",
+    "switch_310_mustard_map": "5836565256e30b65ea4a9b306204a287ab1f29dc2ce21be9bc609401bd41a61d",
+    "mini_321_lower": "a03f047182a521d537db5b5f70845f1f14a9e26b2f7265d74743e65a16fc347c",
+    "mini_321_cross_to_right": "a6cccea3b75ed1de2f5a752393e63904aee84c5e75e2672a94bfef5ab2378573",
+    "mini_321_right_lower": "7f30ff532e7efd57cd61c3c85926a337e4d6bfcbd3093e080631e11fed1e8da3",
+    "rope_316_35_5": "186a59ef8305311d9405bbccafcc82c65f530569a9d423181583fb414e8197bb",
+    "fuse_323": "8be8f456a5c25b77d79b1b2545f1f82c8190b8cd9af716cf1f0cc99cdb03647d",
+    "switch_533_room16": "dae3cc329183f95c6ff5fe4479009d57f41ed7a635d4506e08a22cb2d138b9c4",
+    "mini_312_warp": "f68db433c6c32d21c2ea8cd5251b021ece7cf6400fdd94c41b73db28546821a3",
+    "bomb_719_room13": "5c027d74f93c5c8246d913ae296bc70196c72f04ee08111442192cd1ea774ca8",
+    "mini_736_chest": "0fadb8511ecb1e37894a7a9e31ff48d3910b67ced14ccc8da5a672d687bc2dde",
+    "bomb_733_yellow": "3f895275022470c92c0813d9fa8e9dfa619bf7c0f6af26ea380703cc799e8cca",
+    "peg_816_26_3": "d60c65165f721cc16ca0f558fd255085888e153b94edec198dd3a4834ff1c91d",
+    "frozen_825_sound_effects": "69ce94d449c15c028f585178122b93c6ec90563613c7302873fab84d82bb4310",
+    "mini_134_ocean_spray": "8cf6b4de6676ce54be11fefdeff5fb23e90dc723b1ea1e713d9f969a2405c513",
+    "fuse_827": "438d7ad6ea416e408c9946320a2efc9e2b874caf020488b41e6098f7a29c7298",
+    "rope_553_26_7": "7eaae4e2acb5bdc9f8ca3b8a9a00cf73c7cd26e56638f0aff2d2b4c60d5f73fa",
+    "underwater_819_exit": "9b93c4bd1a0b798f29a0473959b0d1d297a1c13936d8eb32b9575042272a2b0b",
+    "rope_227_20_12": "8955ad48d09aeb4d9d72d5c65ea0dc7fd503f8ab8a0aa74289256347c6b55bea",
+    "rope_228_11_21": "cfc7de48aa975cb905d06131a5d8c842cabe07b8ee1bed6df2ee8bad7611e36d",
+    "peg_204_62_4": "0e45b69a0b24ab55c6504ae5185ff8e3079e73348ae5091f89dc019c3d4a3118",
+    "rope_217_6_5": "c13b2b674bc564a22ddcf1ff5a7b5201f257a6ecf872b39b6ac8de1fda3926cf",
+    "peg_221_41_12": "d4cdc5869df69366e57919a82f2d7d446df6dd6a67bcc697c5fdfc149e257f97",
+    "peg_605_12_24": "ab991cfc390a24a254c86285246c4bc23904b0ca9150e781b7af40fe64daffc9",
+    "fuse_502": "789cde2f901baf3d9d9b660c60606538c72a6e82626c7cb6658277678919c6aa",
+    "peg_401_28_30": "b05bfc1cbed610ee425ab202abc9a24c9a1a1926c437a0bff923916445fe609d",
+    "peg_411_4_3": "47dd7ff80d5ee80984b11fe3a02424c2c23b6fc3754bc9f7f4090901e30e6626"
+  },
+  "structural_snapshot": {
+    "counts": {
+      "regions": 366,
+      "mapped_native_definitions": 343,
+      "locations": 384,
+      "surfaces": 1059,
+      "room_sanity_locations": 263,
+      "installed_target_definitions": 38
+    },
+    "input_sha256": {
+      "data.py": "1f7167775c29e4c26680fad19c52cfe8b75a471244978c19543c7ee758a85d4a",
+      "dev-docs/native-room-wikirby-map.json": "51e2272ea74506f35272fb61402138bd4dd7ee08776d250fddb03d816cdef705",
+      "data/abilities.json": "ef5f85b8d44fea48bb325209bee3cd599c56b3b840f23e0b796c686499a30d27",
+      "data/addresses.json": "b54549bfb72012b510fd7adc92a8da0145e85fd3d6e9197db525cae8975bf545",
+      "data/chest_recovery.json": "9b75672ad0a25c049251355be23171a8f04c1e291f10805125efaaaad2317100",
+      "data/colors.json": "1b577977721218d4b6c2f02640e093a471addc53b9a3da5f90f45a451ea0ab7d",
+      "data/deathlink_flavor_text.json": "c548125d4288db05e79046789e73e6c23ec7737b2a7fc6578f611fa329762c23",
+      "data/enemies.json": "802474ec871dc4fad66f789456d069f426ed1dfa6301fe248bd2c88ab145e7c8",
+      "data/hub_switch_contract.json": "7a55098d09f407b769780c133e785a60b86796fcb8c0a0fe6d8e252bc6d30fe4",
+      "data/item_id_reservations.json": "a49fb4bda2ac923e3281fed9cd573e53baa9a19c38816e8dc94b24437607d011",
+      "data/items.json": "97b2760dcb8d42d64671e91c353674f83f7639da9a65f19961363390ea21b72a",
+      "data/locations.json": "9ddfacda3be365e50cc275bf586b9b96648a0b65d5e1ea5ba7bdf6950ea2fd51",
+      "data/minor_chest_manifest.json": "aaf761f9941a23278e6654d71667a96857846ac2934eba8b7a68735800ad95c3",
+      "data/native_address_policy.json": "f6c61e0d14d6a848cdd9104d8f81f67231a3ac81b15df56db789d40b21b5a6b6",
+      "data/regions/areas.json": "8966ecbdca842c9a7d8112dff92439a059e0892ada81dc698e69a8470323c2a4",
+      "data/regions/rooms.json": "f0989a0ab6f315bfa459b09980d0dc452ac287343af4a5044a779c6b041669f1"
+    },
+    "new_surface": {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "requirement": null,
+      "room_sanity": false
+    },
+    "input_hash_format": "UTF-8 text with LF line endings (Git blob content)"
+  },
+  "health_supplement": {
+    "file": "rainbow-beam538-health-acceptance.json",
+    "sha256": "376fab1233e223f95974d611641defbf7b2a3bfdb23be6cdcfec1dfda4a9c2ae",
+    "private_inventory_sha256": "d8469923b3793d874b3a66c57d39f76b094c5b1ece2101fd9af3efc84a76e3b6",
+    "scope": "26 fresh no-hit1HP runs plus6 primary representatives cover32 distinct nativeHP1/2/4 tuples across50..500%. One tested percentage per tuple, not every percentage or phase. Primary inputs and evidence remain unchanged.",
+    "tracked_copy_hash_format": "UTF-8 text with LF line endings (Git blob content); original packet digest remains raw."
+  }
+}
