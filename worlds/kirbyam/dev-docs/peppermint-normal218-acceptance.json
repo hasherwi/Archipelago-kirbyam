@@ -1,0 +1,763 @@
+{
+  "schema_version": 1,
+  "scope": "bounded evidence only; unchanged host rules",
+  "integration_base": "15a1761391925cf343e155e512b09ab667e2401c",
+  "integration_tree": "02c7ba0ef4d3a57d8d1a19f2ad397964013352b3",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "seed": 218,
+  "host": {
+    "mapping": {
+      "221": "REGION_PEPPERMINT_PALACE/ROOM_7_22",
+      "218": "REGION_PEPPERMINT_PALACE/ROOM_7_23",
+      "200": "REGION_PEPPERMINT_PALACE/ROOM_7_24"
+    },
+    "exit_22_to_23": null,
+    "exit_23_to_24": null,
+    "new_target": false,
+    "source_policy_binding": false,
+    "target_count": 57,
+    "witness_count": 146,
+    "policy_fallback_count": 4
+  },
+  "boundary": {
+    "qualified_start": "221 left door bay only",
+    "startup_stored_pixels": [
+      40,
+      40
+    ],
+    "source_door_tile": [
+      1,
+      2
+    ],
+    "source_template": "0x088C1950",
+    "source_transition": "0x0888C72C",
+    "arrival_218_stored_tile": [
+      15,
+      3
+    ],
+    "arrival_218_frame": 1113,
+    "arrival_218_xy": [
+      232,
+      40.99609375
+    ],
+    "exit_tile": [
+      5,
+      4
+    ],
+    "exit_transition": "0x0888C3CE",
+    "arrival_200_stored_tile": [
+      41,
+      9
+    ],
+    "arrival_200_frame": 2188,
+    "arrival_200_xy": [
+      648,
+      136.99609375
+    ]
+  },
+  "setup": {
+    "startup_only_fixture_byte_differences": 15,
+    "configuration_frame": 1085,
+    "pre_sync_distinct_from_post_sync": true,
+    "blank_battery_boot": true,
+    "gameplay_ram_writes": 0,
+    "runtime_rom_writes": 0,
+    "state_restores": 0,
+    "server_transmission": false,
+    "explicit_extra_starting_items": false
+  },
+  "mechanism": {
+    "equipment": "Normal",
+    "puff_spawn_frame": 2109,
+    "puff_contact_frame": 2114,
+    "puff_callback": "0x08072E41",
+    "puff_category": "0x20000042",
+    "contact_xy": [
+      48.37109375,
+      72.99609375
+    ],
+    "terrain_bounds": [
+      -2,
+      -2,
+      2,
+      2
+    ],
+    "contact_flag": "0x80000",
+    "chain_callback": "0x0800E27D",
+    "chain_parent_is_human_puff": true,
+    "mutations_complete_frame": 2168,
+    "mutation_count": 13,
+    "ceiling_hazard_count": 7,
+    "ceiling_hazard_value": 29,
+    "peg_tile": [
+      9,
+      33
+    ],
+    "peg_value": 246,
+    "f3_attributes": 65,
+    "f3_is_solid": false
+  },
+  "copy_field": {
+    "shuffled_doo_generated_assignment": 21,
+    "shuffled_doo_generated_ability": "Magic",
+    "doo_live_native_value": 7,
+    "doo_live_native_ability": "Beam",
+    "template": "0x088C1708",
+    "subtypes": [
+      0,
+      0
+    ],
+    "object_callback": "0x08099B81",
+    "state_callbacks": [
+      "0x080B6B69",
+      "0x080B6CD9",
+      "0x080B7361"
+    ],
+    "copy_request_occurred": false,
+    "rule": "Exact subtype/template/callback constructor override only; verified request hook would restore table assignment at swallow boundary. No generic copy-field exemption.",
+    "layout_provenance": {
+      "source_type": "ObjectTemplate",
+      "subtype1_offset": 14,
+      "true_subtype2_offset": 16,
+      "legacy_subtype2_label_offset": 15,
+      "legacy_field_source_name": "unkF",
+      "verified_values_at_offsets_14_15_16": [
+        0,
+        0,
+        0
+      ],
+      "observed_template_count": 14,
+      "verified_rom_count": 6,
+      "verification": "immutable production and fixture bytes",
+      "historical_trace_relabelled": false,
+      "generalized_to_other_templates": false
+    }
+  },
+  "attribution": {
+    "regular_enemy_types": [
+      0,
+      55
+    ],
+    "destroyed_endpoints_included": true,
+    "symmetric_observed_bounds": true,
+    "positive_attack_enemy_pairs": 202,
+    "omission_attack_enemy_pairs": 166,
+    "remote_attack_human_pairs": 517,
+    "overlaps": 0,
+    "helper_room_after_sync": 101,
+    "helper_ai_zero_is_absence": false,
+    "helper_contribution": false,
+    "object_base_bytes": 120,
+    "unknown_tasks": "metadata only",
+    "non_object_index_callbacks": [
+      "0x0800EF61",
+      "0x0803EE19"
+    ],
+    "within_frame_omniscience": false,
+    "audit_status": "historical; not the corrected contact-box audit",
+    "contact_box_interpretation": "legacy direct edge offsets, not decoded half extents",
+    "disappeared_previous_endpoints_included": false,
+    "body_enemy_pairs_included": false,
+    "corrected_supplement": "corrected_contact_box_audit"
+  },
+  "cases": [
+    {
+      "name": "natural500-positive",
+      "cumulative_attempt": 7,
+      "production_source_commit": "9a7663ef2e70b63f8ee02d72e2eccbeffdbe716b",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "actual_hp": 1,
+      "normal": true,
+      "damage_taken": 0,
+      "copy_request": false,
+      "precollected_item_ids": [
+        3860107
+      ],
+      "ownership": 128,
+      "area_key_bits": 0,
+      "sample_start": 1068,
+      "sample_end": 2188,
+      "snapshot_count": 1121,
+      "input_record_count": 1114,
+      "final_room": 200,
+      "fixture_sha256": "40324f7696011d76f10322370c7ca209a1f260bcde124efccc293b873d85db66",
+      "input_sha256": "4838b751135fb81e4cc6abd7856ecd9529eaca564ed3add8922dc5ac180f2886",
+      "states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+      "result_sha256": "dedff37ee6748c23fb065326804b402d44e807735119f22caa6137e11e0f1805"
+    },
+    {
+      "name": "natural500-repeat",
+      "cumulative_attempt": 8,
+      "production_source_commit": "9a7663ef2e70b63f8ee02d72e2eccbeffdbe716b",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "actual_hp": 1,
+      "normal": true,
+      "damage_taken": 0,
+      "copy_request": false,
+      "precollected_item_ids": [
+        3860107
+      ],
+      "ownership": 128,
+      "area_key_bits": 0,
+      "sample_start": 1068,
+      "sample_end": 2188,
+      "snapshot_count": 1121,
+      "input_record_count": 1114,
+      "final_room": 200,
+      "fixture_sha256": "40324f7696011d76f10322370c7ca209a1f260bcde124efccc293b873d85db66",
+      "input_sha256": "4838b751135fb81e4cc6abd7856ecd9529eaca564ed3add8922dc5ac180f2886",
+      "states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+      "result_sha256": "0b80e13ff72f31f803e0614c756acef9f317e342f9f6d467af6c1563e2c9b3de"
+    },
+    {
+      "name": "natural500-omission",
+      "cumulative_attempt": 9,
+      "production_source_commit": "9a7663ef2e70b63f8ee02d72e2eccbeffdbe716b",
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "area_keys": 0,
+        "enemy_health_multiplier": 500,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "actual_hp": 1,
+      "normal": true,
+      "damage_taken": 0,
+      "copy_request": false,
+      "precollected_item_ids": [
+        3860107
+      ],
+      "ownership": 128,
+      "area_key_bits": 0,
+      "sample_start": 1068,
+      "sample_end": 2237,
+      "snapshot_count": 1170,
+      "input_record_count": 1163,
+      "final_room": 218,
+      "fixture_sha256": "40324f7696011d76f10322370c7ca209a1f260bcde124efccc293b873d85db66",
+      "input_sha256": "499541c8e0de7dad1618483b2a682baf8b4b7b1ed00cb48a8d6e6ee9ee800295",
+      "states_sha256": "659d130f4ebcb5d9aadabffd0779fb4c088fa770d581837cfd11c2153a60a947",
+      "result_sha256": "894ec63e83f5f46bfc8b04db5a7a1f7a6c53024913dbafef70272cd221d4d2a1"
+    },
+    {
+      "name": "shuffled50-positive",
+      "cumulative_attempt": 12,
+      "production_source_commit": "15a1761391925cf343e155e512b09ab667e2401c",
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 50,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "actual_hp": 1,
+      "normal": true,
+      "damage_taken": 0,
+      "copy_request": false,
+      "precollected_item_ids": [
+        3860107,
+        3860041
+      ],
+      "ownership": 128,
+      "area_key_bits": 4,
+      "sample_start": 1068,
+      "sample_end": 2188,
+      "snapshot_count": 1121,
+      "input_record_count": 1114,
+      "final_room": 200,
+      "fixture_sha256": "2f0a5ea3d7127102ec40145fc341f44edcf3931ae4642ed0fb024ab88c26c275",
+      "input_sha256": "4838b751135fb81e4cc6abd7856ecd9529eaca564ed3add8922dc5ac180f2886",
+      "states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+      "result_sha256": "6020923963084c9462419d1724aaddf46ff7d29f7fc88d86cdebc39db05db52f"
+    },
+    {
+      "name": "shuffled50-repeat",
+      "cumulative_attempt": 13,
+      "production_source_commit": "15a1761391925cf343e155e512b09ab667e2401c",
+      "options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 1,
+        "area_keys": 1,
+        "enemy_health_multiplier": 50,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "actual_hp": 1,
+      "normal": true,
+      "damage_taken": 0,
+      "copy_request": false,
+      "precollected_item_ids": [
+        3860107,
+        3860041
+      ],
+      "ownership": 128,
+      "area_key_bits": 4,
+      "sample_start": 1068,
+      "sample_end": 2188,
+      "snapshot_count": 1121,
+      "input_record_count": 1114,
+      "final_room": 200,
+      "fixture_sha256": "2f0a5ea3d7127102ec40145fc341f44edcf3931ae4642ed0fb024ab88c26c275",
+      "input_sha256": "4838b751135fb81e4cc6abd7856ecd9529eaca564ed3add8922dc5ac180f2886",
+      "states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+      "result_sha256": "6020923963084c9462419d1724aaddf46ff7d29f7fc88d86cdebc39db05db52f"
+    }
+  ],
+  "independent_sha256": {
+    "native3-review-addendum.md": "6d53466487650e185307a1cae58d5b52b90c89fed0502766be3c5593bdc44059",
+    "repeat4-acceptance.md": "0c1b4a9cfccb037f202506a1258511afa4540c221671a06a6c7d6341a97a76ce",
+    "omission5-acceptance.md": "9fe0c6be33aa8651cdb59d2d9d252de7deb944fa0b208d0f0d4b660c47b78104",
+    "positive12-acceptance.md": "ffac9c5a6b214a052111478191114de1e9f92ddbf5c946f7fe9c80b79fa0da6e",
+    "218-host-scope-review.md": "ea88d85224979874986d17f0dd05b27269985f5e18bb0e890dde01efd4758e16",
+    "repeat13-acceptance.md": "4a35e9832fe88b09efb2b2561c2c330f8b4812d308699443fa4614cbf7f779e1",
+    "failure14-verdict.md": "e71c9b11a8a07f88cc5c78a348cecc23f426c5ac10a10a35199c8b9d3c95ba57",
+    "layout-and-fresh-witness-review.md": "1161b47ac401b9f0190bafcd19183a91b71f43214d41ec3a6ca2940163eb1713"
+  },
+  "accounting": {
+    "consumed_attempts": 14,
+    "v1_attempts": 4,
+    "v2_attempts": 5,
+    "later_attempts": 5,
+    "failed_cumulative_attempts": [
+      1,
+      5,
+      6,
+      10,
+      11,
+      14
+    ],
+    "accepted_current_evidence_attempts": [
+      7,
+      8,
+      9,
+      12,
+      13
+    ],
+    "all_consumed_attempts_finished": true,
+    "unrun_and_not_credited": [
+      15,
+      16
+    ]
+  },
+  "limitations": [
+    "Only qualified 221 left-bay entry, not right-side 217/225 ingress to that bay or new-game reachability.",
+    "No Paint01 peg, RoomSanity delivery, 200-to-219, boss defeat or whole-upstream claim.",
+    "No generic Normal capability, new target, source-policy binding or ability gate.",
+    "No all-seed, all-RNG, all-health or shuffled/live profile generalization.",
+    "Shuffled positive12 and exact repeat13 are accepted; live default HP6 failed at1119 and is not route-qualified. Proposed fresh15/repeat16 are unrun and not credited.",
+    "Scope tests are not emulator replays. Endpoint geometry alone cannot exclude arbitrary hidden within-frame effects."
+  ],
+  "exact_repeat": {
+    "all_states_equal": true,
+    "all_inputs_equal": true,
+    "snapshot_count": 1121,
+    "input_record_count": 1114,
+    "post_setup_single_frame_commands": 1103
+  },
+  "omission": {
+    "matched_prefix_through": 2108,
+    "common_window_end": 2188,
+    "only_common_input_difference_frame": 2109,
+    "success_keys": 2,
+    "omission_keys": 0,
+    "scheduled_up_frame": 2177,
+    "scheduled_up_position_qualified": false,
+    "scheduled_up_preinput_x": 79.33984375,
+    "separate_suffix_neutral_frames": 8,
+    "settled_frame": 2196,
+    "settled_xy": [
+      85.72265625,
+      72.99609375
+    ],
+    "settled_velocity": [
+      0,
+      0
+    ],
+    "settled_collision": 4,
+    "settled_animation": 33,
+    "settled_state": "0x080488E1",
+    "qualified_fresh_up_frame": 2197,
+    "post_up_neutral_frames": 40,
+    "end_frame": 2237,
+    "final_room": 218,
+    "target_cells_unchanged": 13,
+    "peg_value": 246,
+    "arrival_200": false,
+    "entire_control_one_bit_only": false,
+    "directional_rescue": false
+  },
+  "mutations": [
+    {
+      "frame": 2114,
+      "tile": [
+        2,
+        4
+      ],
+      "before": 241,
+      "after": 0
+    },
+    {
+      "frame": 2120,
+      "tile": [
+        2,
+        3
+      ],
+      "before": 243,
+      "after": 0
+    },
+    {
+      "frame": 2126,
+      "tile": [
+        2,
+        2
+      ],
+      "before": 243,
+      "after": 0
+    },
+    {
+      "frame": 2132,
+      "tile": [
+        2,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2138,
+      "tile": [
+        3,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2144,
+      "tile": [
+        4,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2150,
+      "tile": [
+        5,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2156,
+      "tile": [
+        5,
+        2
+      ],
+      "before": 243,
+      "after": 0
+    },
+    {
+      "frame": 2156,
+      "tile": [
+        6,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2162,
+      "tile": [
+        5,
+        3
+      ],
+      "before": 243,
+      "after": 0
+    },
+    {
+      "frame": 2162,
+      "tile": [
+        7,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    },
+    {
+      "frame": 2168,
+      "tile": [
+        5,
+        4
+      ],
+      "before": 243,
+      "after": 255
+    },
+    {
+      "frame": 2168,
+      "tile": [
+        8,
+        1
+      ],
+      "before": 243,
+      "after": 29
+    }
+  ],
+  "private_manifest_sha256": {
+    "natural500-attempt3": "3cd39474ac07aaa259e39fb3152f2fdf6c3561dd1876b5deea609aba8063b66c",
+    "natural500-attempt4": "7671af032a485819555f1e45134d44d344b300bdb2a69f87490880c90c4b11a3",
+    "natural500-attempt5": "27ffa4cc61ad6a13c88669e0bbbb09079d0fc53c0aab823c280bf9ef45f4b0af",
+    "shuffled50-positive12": "af72482443ba38e044a6f67c769c24abc40d9fe15d0c7964b7c6490d5556c699",
+    "failed-startup10": "0fcf9d0ef2bc594681fd5457b98c46ac38117272e545e43d24a4fe290c0d0f68",
+    "failed-copy11": "b29d9dc6b4c3b978bffdd731d533de942e8d1320af73b2e554d1acdb02beb1a5",
+    "shuffled50-repeat13": "e87bc915fec11f055dccdb8e81a414ca8896a3b81ecebef2d827a1075aa56d66",
+    "failed-live14": "f63fee103bca00af9a16a8b536c24c2c43569604c632e3b4f1dbb3cc6dffca23"
+  },
+  "source_sha256": {
+    "client.py": "c68533f1850649e62fe45d5aeb7b10997e07bdb9f35fa4a134c883e7862ee211",
+    "rom.py": "c4db4985e6b721eef20aa0df8cfc709b0f37bda8097aee73a2f93cc7a94a5946",
+    "data/regions/rooms.json": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+    "data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
+    "dev-docs/native-room-wikirby-map.json": "6d64fee2281902b4af1edc49e68d09d5f282fb6f0caf7f5677fc14a245471b52",
+    "katam/src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+    "katam/src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645",
+    "katam/src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+    "katam/src/code_0806F780.c": "c1379a8c878d5863485a31d276b24336ac147764bc282f70854447b6e4f38963",
+    "katam/src/code_0800E0E4.c": "2bb00626a906b3b9ce5720dc3a4cbca5bd3974a3c16dc7f5753047682a168bf3",
+    "katam/src/code_080023A4.c": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
+    "katam/asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a"
+  },
+  "production_verification": {
+    "natural500": {
+      "production_sha256": "f52d6a584f9bd84139b3ad337a163a0ecb89df5bbd2375fd11341e7786d02808",
+      "archive_sha256": "9a7fc5a3f8a60648c0b3e1306e50f1c6be23d0b0d6167bd08d0ad276c86912fe",
+      "write_records": 8,
+      "scaler_only_baseline_differences": 555,
+      "reconstruction_residual": 0
+    },
+    "shuffled50": {
+      "production_sha256": "8931ca3f1a23c7a32a0f1a6508d685b439cd820bf22f4451ed503124f3a755e9",
+      "archive_sha256": "b4c456e2ee6772af5780b97af774c9f1e7388caf704a3c1c373e8581175c3f99",
+      "write_records": 81,
+      "copy_table_assignments": 73,
+      "baseline_byte_differences": 548,
+      "reconstruction_residual": 0
+    }
+  },
+  "shuffled_exact_repeat": {
+    "all_states_equal": true,
+    "all_inputs_equal": true,
+    "snapshot_count": 1121,
+    "input_record_count": 1114,
+    "post_setup_single_frame_commands": 1103
+  },
+  "failed_live_profile": {
+    "cumulative_attempt": 14,
+    "options": {
+      "ability_randomization_mode": 2,
+      "ability_gating": 1,
+      "area_keys": 1,
+      "enemy_health_multiplier": 100,
+      "minimum_health": 6,
+      "maximum_health": 10
+    },
+    "actual_hp": 6,
+    "actual_current_max_hp": 6,
+    "exact_projected_prefix_end": 1118,
+    "failure_frame": 1119,
+    "final_room": 218,
+    "arrival_200": false,
+    "route_accepted": false,
+    "observed_state_duplicate_of_previous_except_frame": true,
+    "specific_cause_established": false,
+    "failure": "strict source-equivalence mismatch; no timing or physical-field normalization",
+    "result_sha256": "7ac164f8306177a7fd3e3cfb4c8f35f5ccb624315c773430dca8fca9d5c1ef8d",
+    "states_sha256": "889afe43e246538b6f7f2cd807bfc9aaefa3cff6747651dd151fcb7dda37944c",
+    "inputs_sha256": "b8fb5cc426d5bd6ab3f847a2bb29a9a11fd99c3f8766ed547db1bc30a7c0b7ae",
+    "retry_occurred": false
+  },
+  "corrected_contact_box_audit": {
+    "schema_version": 1,
+    "historical_attribution_values_reinterpreted": false,
+    "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "provenance": {
+      "supplement_manifest_sha256": "cf510aa35558af44c7595fb19f6bc3073d92032d939317a406c4cf6a46b90ea0",
+      "report_sha256": "6cba857536b915940febcc2c5634259629fdb488830e7cefeda7bf17b126a19c",
+      "audit_result_sha256": "3216b79a5523e45ea1c96c9090e764840df8050b611fffa00abb488f15085ebb",
+      "audit_code_sha256": "9a12cfa6944092f3e4738e123a01cc6782500563616ad3dcc4a8fecb5875e7b6",
+      "source_sha256": {
+        "katam/include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+        "katam/include/object.h": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "katam/include/kirby.h": "9874d9fae39c5af9c0c94b2abca2b7937b2af6f2e61232ebd662ccff6bc49f62",
+        "katam/src/kirby.c": "041be2e8ff2c61026179d8c840b4680c9daa7308ecb76e0567c911d60efbf722",
+        "katam/asm/code_08032E98.s": "e06b6dd2bcac9a2aef40cc1452f431cd689b9e63c03674c13524a2f439f6a30a"
+      }
+    },
+    "layout": {
+      "source_type": "ObjectBase",
+      "contact_offsets": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "contact_encoding": [
+        "left",
+        "top",
+        "half_width",
+        "half_height"
+      ],
+      "contact_right": "left + 2 * half_width",
+      "contact_bottom": "top + 2 * half_height",
+      "source_extent_storage": "abs(edge_difference) >> 1; odd extents truncate",
+      "terrain_offsets": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "terrain_encoding": [
+        "left",
+        "top",
+        "right",
+        "bottom"
+      ]
+    },
+    "method": {
+      "contact_positions": "floor fixed-point coordinates to integer pixels",
+      "terrain_positions": "retain fractional pixel coordinates",
+      "horizontal_orientations": "union original and mirrored intervals",
+      "mirrored_contact_left": "-left - 2 * half_width",
+      "vertical_orientation": "source top/bottom; not mirrored",
+      "body_enemy_boxes": "decoded contact boxes only",
+      "attack_comparison_boxes": "union terrain bounds and decoded contact boxes",
+      "endpoint_policy": "current and previous same-identity hulls; retain destroyed and disappeared endpoints",
+      "identity_fields": [
+        "task",
+        "address",
+        "template",
+        "parent"
+      ],
+      "regular_enemy_type_range": [
+        0,
+        55
+      ],
+      "room_matching_required": true,
+      "chain_propagation_excluded": "0x0800E27D",
+      "effect_objects_and_untyped_tasks_boxed": false,
+      "boundary_touch_counts_as_overlap": true,
+      "count_unit": "eligible frame-by-frame pair observations, not unique actors or native trials"
+    },
+    "cases": [
+      {
+        "name": "natural500-positive",
+        "cumulative_attempt": 7,
+        "raw_states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+        "raw_states_bytes": 11388527,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "natural500-repeat",
+        "cumulative_attempt": 8,
+        "raw_states_sha256": "03e20b1a3c98e13ac48901f04dd50204b10f53978e45f89268b326f97fbb9941",
+        "raw_states_bytes": 11388527,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "natural500-omission",
+        "cumulative_attempt": 9,
+        "raw_states_sha256": "659d130f4ebcb5d9aadabffd0779fb4c088fa770d581837cfd11c2153a60a947",
+        "raw_states_bytes": 11757417,
+        "sample_count": 1153,
+        "first_frame": 1085,
+        "last_frame": 2237,
+        "pair_observations": {
+          "body_enemy": 3104,
+          "human_attack_enemy": 182,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3824,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "shuffled50-positive",
+        "cumulative_attempt": 12,
+        "raw_states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+        "raw_states_bytes": 11422472,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      },
+      {
+        "name": "shuffled50-repeat",
+        "cumulative_attempt": 13,
+        "raw_states_sha256": "2189379cf2de01bef87493789087dfdb71097ac1419cf453dfc67f14d68dfe3b",
+        "raw_states_bytes": 11422472,
+        "sample_count": 1104,
+        "first_frame": 1085,
+        "last_frame": 2188,
+        "pair_observations": {
+          "body_enemy": 3004,
+          "human_attack_enemy": 220,
+          "remote_attack_human": 538
+        },
+        "total_pair_observations": 3762,
+        "observed_overlaps": 0
+      }
+    ],
+    "limits": {
+      "new_native_trials": 0,
+      "raw_fields_modified": false,
+      "profile_projection": false,
+      "within_frame_omniscience": false,
+      "helper_inactivity_proved": false,
+      "live6_route_success": false,
+      "host_rules_changed": false,
+      "broader_seed_rng_ingress_or_boss_claim": false
+    }
+  }
+}

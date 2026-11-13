@@ -1,0 +1,20 @@
+{
+  "historical_native105100": {
+    "seed": 105100,
+    "mode": 0,
+    "gating": 1,
+    "accessibility": "minimal",
+    "unreachable_count": 32,
+    "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 3 - Hub Room 1', 'Area 6 - Hub Room', 'Cabbage Cavern - Boss Defeat', 'Cabbage Cavern - First Visit', 'Cabbage Cavern 3-05 - Music Sheet #9 Chest', 'Cabbage Cavern 3-06 - Spray Paint #12 Chest', 'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-12 - Music Sheet #3 Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest', 'Cabbage Cavern 3-15 - Small Chest', 'Cabbage Cavern Center - Big Switch', 'Cabbage Cavern East - Big Switch', 'Cabbage Cavern Goal - Small Chest #1', 'Cabbage Cavern Map - Big Chest', 'Cabbage Cavern West - Big Switch', 'Moonlight Mansion 2-11 - Lever', 'Moonlight Mansion 2-15 - Small Chest #1', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-19 - Small Chest', 'Radish Ruins Vitality - Big Chest', 'Rainbow Route Goal 1 - Small Chest #1', 'Rainbow Route Goal 2 - Small Chest #1']",
+    "error_sha256": "a732a9779e2293207d7701f1cb950da1131d3daf3fef1f5a08d46314fc75bb1c"
+  },
+  "current_native8675309": {
+    "seed": 8675309,
+    "mode": 0,
+    "gating": 1,
+    "accessibility": "minimal",
+    "unreachable_count": 12,
+    "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 8 - Hub Room', 'Radish Ruins - Big Switch', 'Radish Ruins - Boss Defeat', 'Radish Ruins - First Visit', 'Radish Ruins 8-07 - Small Chest #1', 'Radish Ruins 8-11 - Small Chest', 'Radish Ruins 8-12 - Lever', 'Radish Ruins 8-22 - Music Sheet #4 Chest', 'Radish Ruins 8-22 - Small Chest #1', 'Radish Ruins 8-GOAL-1 - Spray Paint #10 Chest', 'Radish Ruins Map - Big Chest', 'Radish Ruins Vitality - Big Chest']",
+    "error_sha256": "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5"
+  }
+}

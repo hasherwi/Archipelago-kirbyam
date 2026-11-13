@@ -1,0 +1,3441 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "checked_on": "2026-11-08",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "mapping_checked_on": "2026-11-01",
+  "scope": "13 failed-page rooms. Independent native initial collision, static object, mutation and tile-transition evidence. Not recovered WiKirby prose; not traversal/attack acceptance. No complete collision maps or ROM assets emitted.",
+  "collision_attributes": {
+    "0x00": "0x00000001",
+    "0x0D": "0x00000200",
+    "0x48": "0x00000003",
+    "0x50": "0x00000210",
+    "0xF0": "0x00001200",
+    "0xF1": "0x00101260",
+    "0xF2": "0x00000240",
+    "0xF3": "0x00000041",
+    "0xF4": "0x00101200",
+    "0xF5": "0x00201200",
+    "0xF6": "0x00301220",
+    "0xF7": "0x00401200"
+  },
+  "rooms": [
+    {
+      "native_id": 114,
+      "completion_index": 247,
+      "object_list_index": 247,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_23"
+      ],
+      "wiki_title": "Radish Ruins - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 13,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 4,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            24,
+            120
+          ],
+          "room_state_slot": 8,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x61",
+          "type_name": "OBJ_TOMATO",
+          "pixel_xy": [
+            120,
+            40
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x95",
+          "type_name": "OBJ_ABILITY_STATUE_4",
+          "pixel_xy": [
+            56,
+            64
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x95",
+          "type_name": "OBJ_ABILITY_STATUE_4",
+          "pixel_xy": [
+            184,
+            64
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8AF508",
+          "source_tiles": [
+            1,
+            7
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 129,
+          "destination_room": 129,
+          "destination_spawn_tiles": [
+            2,
+            2
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Radish Ruins - Boss"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 102,
+          "source_title": "Radish Ruins - Room 22",
+          "source_tiles": [
+            1,
+            2
+          ],
+          "destination_spawn_tiles": [
+            14,
+            8
+          ],
+          "rom_offset": "0x8af0d4"
+        }
+      ]
+    },
+    {
+      "native_id": 117,
+      "completion_index": 46,
+      "object_list_index": 46,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_24",
+        "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"
+      ],
+      "wiki_title": "Rainbow Route - Room 24",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Room_24",
+      "verification": "page",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 46,
+      "height_tiles": 13,
+      "initial_tracked_tile_counts": {
+        "0xF0": 4,
+        "0xF1": 2,
+        "0xF2": 4,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 2
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            4,
+            8
+          ],
+          "center_pixel_xy": [
+            72,
+            136
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x00",
+              "0x00"
+            ],
+            "right": [
+              "0xF2",
+              "0xF1"
+            ],
+            "above": [
+              "0xF2",
+              "0x0D"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x87D966",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        },
+        {
+          "tile_xy": [
+            6,
+            8
+          ],
+          "center_pixel_xy": [
+            104,
+            136
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0xF2",
+              "0xF1"
+            ],
+            "right": [
+              "0x00",
+              "0x00"
+            ],
+            "above": [
+              "0xF2",
+              "0x0D"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x87D98A",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            4,
+            7,
+            6,
+            8
+          ],
+          "tile_counts": {
+            "0xF1": 2,
+            "0xF2": 4
+          },
+          "bomb_tiles": [
+            [
+              4,
+              8
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "overlapping_transition_indices": []
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 16,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x99",
+          "type_name": "OBJ_AREA_DOOR",
+          "pixel_xy": [
+            24,
+            144
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x34",
+          "type_name": "OBJ_MIRRA",
+          "pixel_xy": [
+            24,
+            128
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            40,
+            56
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            24,
+            56
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            344,
+            120
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x2D",
+          "type_name": "OBJ_BATTY",
+          "pixel_xy": [
+            376,
+            24
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x5F",
+          "type_name": "OBJ_POP_SODA",
+          "pixel_xy": [
+            696,
+            24
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x2D",
+          "type_name": "OBJ_BATTY",
+          "pixel_xy": [
+            560,
+            56
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x12",
+          "type_name": "OBJ_WADDLE_DOO",
+          "pixel_xy": [
+            312,
+            24
+          ]
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            168,
+            40
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            608,
+            72
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x12",
+          "type_name": "OBJ_WADDLE_DOO",
+          "pixel_xy": [
+            536,
+            136
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            408,
+            40
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            488,
+            24
+          ]
+        },
+        {
+          "index": 14,
+          "spawn_table": 1,
+          "type": "0x07",
+          "type_name": "OBJ_SNOOTER_1",
+          "pixel_xy": [
+            168,
+            136
+          ]
+        },
+        {
+          "index": 15,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            696,
+            136
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x87D8CC",
+          "source_tiles": [
+            10,
+            2
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 192,
+          "destination_spawn_tiles": [
+            3,
+            9
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Rainbow Route - Hub 3"
+        },
+        {
+          "rom_offset": "0x87D958",
+          "source_tiles": [
+            1,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 120,
+          "destination_spawn_tiles": [
+            28,
+            29
+          ],
+          "initial_tile_code": "0x00",
+          "destination_title": "Carrot Castle - Room 2"
+        },
+        {
+          "rom_offset": "0x87D9AE",
+          "source_tiles": [
+            43,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 118,
+          "destination_spawn_tiles": [
+            3,
+            5
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Rainbow Route - Room 23"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 118,
+          "source_title": "Rainbow Route - Room 23",
+          "source_tiles": [
+            1,
+            4
+          ],
+          "destination_spawn_tiles": [
+            43,
+            9
+          ],
+          "rom_offset": "0x87db3c"
+        },
+        {
+          "source_native_id": 120,
+          "source_title": "Carrot Castle - Room 2",
+          "source_tiles": [
+            28,
+            28
+          ],
+          "destination_spawn_tiles": [
+            3,
+            9
+          ],
+          "rom_offset": "0x8af6e4"
+        },
+        {
+          "source_native_id": 192,
+          "source_title": "Rainbow Route - Hub 3",
+          "source_tiles": [
+            1,
+            8
+          ],
+          "destination_spawn_tiles": [
+            12,
+            3
+          ],
+          "rom_offset": "0x8821c8"
+        }
+      ]
+    },
+    {
+      "native_id": 194,
+      "completion_index": 36,
+      "object_list_index": 36,
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2"
+      ],
+      "wiki_title": "Rainbow Route - Hub 2",
+      "wiki_url": "https://wikirby.com/wiki/Rainbow_Route_-_Hub_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 13,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 7,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x95",
+          "type_name": "OBJ_ABILITY_STATUE_4",
+          "pixel_xy": [
+            200,
+            48
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x92",
+          "type_name": "OBJ_ABILITY_STATUE_1",
+          "pixel_xy": [
+            64,
+            48
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            232,
+            104
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            24,
+            104
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x86",
+          "type_name": "OBJ_BIG_BUTTON",
+          "pixel_xy": [
+            136,
+            96
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x97",
+          "type_name": "OBJ_DOOR_TO_HUB",
+          "pixel_xy": [
+            136,
+            144
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x97",
+          "type_name": "OBJ_DOOR_TO_HUB",
+          "pixel_xy": [
+            136,
+            64
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x87AADE",
+          "source_tiles": [
+            8,
+            3
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 801,
+          "destination_spawn_tiles": [
+            15,
+            18
+          ],
+          "initial_tile_code": "0x00",
+          "destination_title": "Rainbow Route - Central Circle"
+        },
+        {
+          "rom_offset": "0x87AAEC",
+          "source_tiles": [
+            1,
+            6
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 127,
+          "destination_spawn_tiles": [
+            44,
+            12
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Rainbow Route - Room 15"
+        },
+        {
+          "rom_offset": "0x87AAFA",
+          "source_tiles": [
+            14,
+            6
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 137,
+          "destination_spawn_tiles": [
+            3,
+            18
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Rainbow Route - Room 14"
+        },
+        {
+          "rom_offset": "0x87AB1A",
+          "source_tiles": [
+            8,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 591,
+          "destination_spawn_tiles": [
+            9,
+            3
+          ],
+          "initial_tile_code": "0x00",
+          "destination_title": "Cabbage Cavern - Hub 2"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 127,
+          "source_title": "Rainbow Route - Room 15",
+          "source_tiles": [
+            44,
+            11
+          ],
+          "destination_spawn_tiles": [
+            3,
+            7
+          ],
+          "rom_offset": "0x87a028"
+        },
+        {
+          "source_native_id": 137,
+          "source_title": "Rainbow Route - Room 14",
+          "source_tiles": [
+            1,
+            17
+          ],
+          "destination_spawn_tiles": [
+            14,
+            7
+          ],
+          "rom_offset": "0x87aa48"
+        },
+        {
+          "source_native_id": 591,
+          "source_title": "Cabbage Cavern - Hub 2",
+          "source_tiles": [
+            8,
+            3
+          ],
+          "destination_spawn_tiles": [
+            8,
+            8
+          ],
+          "rom_offset": "0x8a1136"
+        },
+        {
+          "source_native_id": 801,
+          "source_title": "Rainbow Route - Central Circle",
+          "source_tiles": [
+            15,
+            18
+          ],
+          "destination_spawn_tiles": [
+            9,
+            3
+          ],
+          "rom_offset": "0x873646"
+        }
+      ]
+    },
+    {
+      "native_id": 202,
+      "completion_index": 86,
+      "object_list_index": 86,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_02"
+      ],
+      "wiki_title": "Peppermint Palace - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 46,
+      "height_tiles": 23,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 1,
+        "0xF2": 3,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            10,
+            14
+          ],
+          "center_pixel_xy": [
+            168,
+            232
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x00",
+              "0x00"
+            ],
+            "right": [
+              "0xF2",
+              "0x00"
+            ],
+            "above": [
+              "0xF2",
+              "0x0D"
+            ],
+            "below": [
+              "0x50",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x886D82",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            10,
+            13,
+            11,
+            14
+          ],
+          "tile_counts": {
+            "0xF1": 1,
+            "0xF2": 3
+          },
+          "bomb_tiles": [
+            [
+              10,
+              14
+            ]
+          ],
+          "overlapping_transition_indices": []
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 18,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            272,
+            288
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x73",
+          "type_name": "OBJ_OBJECT_SPAWNER",
+          "pixel_xy": [
+            528,
+            184
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 258,
+            "offset_16": 0,
+            "offset_18": 256,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 3
+          }
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x73",
+          "type_name": "OBJ_OBJECT_SPAWNER",
+          "pixel_xy": [
+            464,
+            184
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 258,
+            "offset_16": 0,
+            "offset_18": 256,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 3
+          }
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x33",
+          "type_name": "OBJ_PRANK",
+          "pixel_xy": [
+            240,
+            232
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x80",
+          "type_name": "OBJ_SMALL_CHEST",
+          "pixel_xy": [
+            496,
+            72
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            568,
+            72
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            24,
+            56
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            56,
+            232
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            88,
+            88
+          ]
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x16",
+          "type_name": "OBJ_PENGY",
+          "pixel_xy": [
+            400,
+            232
+          ]
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            280,
+            88
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            496,
+            296
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            112,
+            296
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x80",
+          "type_name": "OBJ_SMALL_CHEST",
+          "pixel_xy": [
+            712,
+            56
+          ]
+        },
+        {
+          "index": 14,
+          "spawn_table": 1,
+          "type": "0x63",
+          "type_name": "OBJ_1UP",
+          "pixel_xy": [
+            496,
+            136
+          ]
+        },
+        {
+          "index": 15,
+          "spawn_table": 1,
+          "type": "0x60",
+          "type_name": "OBJ_MEAT",
+          "pixel_xy": [
+            176,
+            40
+          ]
+        },
+        {
+          "index": 16,
+          "spawn_table": 1,
+          "type": "0x00",
+          "type_name": "OBJ_WADDLE_DEE_1",
+          "pixel_xy": [
+            216,
+            88
+          ]
+        },
+        {
+          "index": 17,
+          "spawn_table": 1,
+          "type": "0x16",
+          "type_name": "OBJ_PENGY",
+          "pixel_xy": [
+            344,
+            40
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x886D34",
+          "source_tiles": [
+            1,
+            3
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 208,
+          "destination_spawn_tiles": [
+            5,
+            19
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Peppermint Palace - Room 3"
+        },
+        {
+          "rom_offset": "0x886D42",
+          "source_tiles": [
+            35,
+            4
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 0,
+          "destination_room": 208,
+          "destination_spawn_tiles": [
+            19,
+            19
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Peppermint Palace - Room 3"
+        },
+        {
+          "rom_offset": "0x886D74",
+          "source_tiles": [
+            3,
+            14
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 211,
+          "destination_spawn_tiles": [
+            4,
+            3
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Peppermint Palace - Room 1"
+        }
+      ],
+      "completion_entries": [
+        {
+          "rom_offset": 9640016,
+          "kind": 1,
+          "chest_position_pixels": [
+            496,
+            72
+          ]
+        },
+        {
+          "rom_offset": 9640024,
+          "kind": 1,
+          "chest_position_pixels": [
+            712,
+            56
+          ]
+        }
+      ],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 208,
+          "source_title": "Peppermint Palace - Room 3",
+          "source_tiles": [
+            3,
+            18
+          ],
+          "destination_spawn_tiles": [
+            3,
+            4
+          ],
+          "rom_offset": "0x888140"
+        },
+        {
+          "source_native_id": 208,
+          "source_title": "Peppermint Palace - Room 3",
+          "source_tiles": [
+            17,
+            18
+          ],
+          "destination_spawn_tiles": [
+            35,
+            5
+          ],
+          "rom_offset": "0x88814e"
+        },
+        {
+          "source_native_id": 211,
+          "source_title": "Peppermint Palace - Room 1",
+          "source_tiles": [
+            2,
+            2
+          ],
+          "destination_spawn_tiles": [
+            5,
+            15
+          ],
+          "rom_offset": "0x888f4c"
+        }
+      ]
+    },
+    {
+      "native_id": 218,
+      "completion_index": 109,
+      "object_list_index": 109,
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_23"
+      ],
+      "wiki_title": "Peppermint Palace - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 53,
+      "initial_tracked_tile_counts": {
+        "0xF0": 12,
+        "0xF1": 1,
+        "0xF2": 6,
+        "0xF3": 12,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 1,
+        "0xF7": 0
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            2,
+            4
+          ],
+          "center_pixel_xy": [
+            40,
+            72
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x0D",
+              "0x0D"
+            ],
+            "right": [
+              "0x00",
+              "0x00"
+            ],
+            "above": [
+              "0xF3",
+              "0xF3"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x88C3AA",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            2,
+            1,
+            8,
+            4
+          ],
+          "tile_counts": {
+            "0xF1": 1,
+            "0xF3": 12
+          },
+          "bomb_tiles": [
+            [
+              2,
+              4
+            ]
+          ],
+          "overlapping_transition_indices": [
+            0
+          ]
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 14,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            192,
+            376
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            224,
+            128
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            88,
+            72
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x16",
+          "type_name": "OBJ_PENGY",
+          "pixel_xy": [
+            120,
+            536
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            80,
+            144
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x1A",
+          "type_name": "OBJ_SWORD_KNIGHT",
+          "pixel_xy": [
+            104,
+            376
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x19",
+          "type_name": "OBJ_SPARKY",
+          "pixel_xy": [
+            104,
+            424
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x12",
+          "type_name": "OBJ_WADDLE_DOO",
+          "pixel_xy": [
+            104,
+            472
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x63",
+          "type_name": "OBJ_1UP",
+          "pixel_xy": [
+            152,
+            744
+          ]
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            152,
+            696
+          ]
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x60",
+          "type_name": "OBJ_MEAT",
+          "pixel_xy": [
+            152,
+            648
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x5F",
+          "type_name": "OBJ_POP_SODA",
+          "pixel_xy": [
+            152,
+            600
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x60",
+          "type_name": "OBJ_MEAT",
+          "pixel_xy": [
+            120,
+            296
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x8D",
+          "type_name": "OBJ_HAMMER_PEG",
+          "pixel_xy": [
+            152,
+            536
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x88C3CE",
+          "source_tiles": [
+            5,
+            4
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 200,
+          "destination_spawn_tiles": [
+            41,
+            9
+          ],
+          "initial_tile_code": "0xF3",
+          "destination_title": "Peppermint Palace - Room 24"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 221,
+          "source_title": "Peppermint Palace - Room 22",
+          "source_tiles": [
+            1,
+            2
+          ],
+          "destination_spawn_tiles": [
+            15,
+            3
+          ],
+          "rom_offset": "0x88c72c"
+        }
+      ]
+    },
+    {
+      "native_id": 411,
+      "completion_index": 152,
+      "object_list_index": 152,
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_08"
+      ],
+      "wiki_title": "Candy Constellation - Room 8",
+      "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_8",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 31,
+      "height_tiles": 23,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 0,
+        "0xF2": 8,
+        "0xF3": 3,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 1,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 4,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x8D",
+          "type_name": "OBJ_HAMMER_PEG",
+          "pixel_xy": [
+            72,
+            56
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            40,
+            120
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            456,
+            104
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            24,
+            296
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x895AA8",
+          "source_tiles": [
+            28,
+            6
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 418,
+          "destination_spawn_tiles": [
+            3,
+            5
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Candy Constellation - Room 10"
+        },
+        {
+          "rom_offset": "0x895AC8",
+          "source_tiles": [
+            2,
+            7
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 405,
+          "destination_spawn_tiles": [
+            74,
+            9
+          ],
+          "initial_tile_code": "0xF3",
+          "destination_title": "Candy Constellation - Room 9"
+        },
+        {
+          "rom_offset": "0x895B0C",
+          "source_tiles": [
+            1,
+            18
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 490,
+          "destination_spawn_tiles": [
+            14,
+            6
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Candy Constellation - Hub"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 405,
+          "source_title": "Candy Constellation - Room 9",
+          "source_tiles": [
+            74,
+            8
+          ],
+          "destination_spawn_tiles": [
+            3,
+            8
+          ],
+          "rom_offset": "0x894922"
+        },
+        {
+          "source_native_id": 418,
+          "source_title": "Candy Constellation - Room 10",
+          "source_tiles": [
+            1,
+            4
+          ],
+          "destination_spawn_tiles": [
+            28,
+            7
+          ],
+          "rom_offset": "0x898fda"
+        },
+        {
+          "source_native_id": 490,
+          "source_title": "Candy Constellation - Hub",
+          "source_tiles": [
+            14,
+            5
+          ],
+          "destination_spawn_tiles": [
+            3,
+            19
+          ],
+          "rom_offset": "0x89b438"
+        }
+      ]
+    },
+    {
+      "native_id": 509,
+      "completion_index": 172,
+      "object_list_index": 172,
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_10",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+        "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT"
+      ],
+      "wiki_title": "Cabbage Cavern - Room 10",
+      "wiki_url": "https://wikirby.com/wiki/Cabbage_Cavern_-_Room_10",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 46,
+      "height_tiles": 23,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 1,
+        "0xF2": 33,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 1,
+        "0xF7": 0
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            12,
+            9
+          ],
+          "center_pixel_xy": [
+            200,
+            152
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x00",
+              "0x00"
+            ],
+            "right": [
+              "0x00",
+              "0x00"
+            ],
+            "above": [
+              "0x00",
+              "0x00"
+            ],
+            "below": [
+              "0xF2",
+              "0xF2"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x89BB30",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            11,
+            9,
+            14,
+            11
+          ],
+          "tile_counts": {
+            "0xF1": 1,
+            "0xF2": 8
+          },
+          "bomb_tiles": [
+            [
+              12,
+              9
+            ]
+          ],
+          "overlapping_transition_indices": []
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 9,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            664,
+            56
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            40,
+            296
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            344,
+            248
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            528,
+            248
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            232,
+            280
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            472,
+            152
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x60",
+          "type_name": "OBJ_MEAT",
+          "pixel_xy": [
+            504,
+            152
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x8D",
+          "type_name": "OBJ_HAMMER_PEG",
+          "pixel_xy": [
+            520,
+            40
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x99",
+          "type_name": "OBJ_AREA_DOOR",
+          "pixel_xy": [
+            312,
+            128
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x89B9AC",
+          "source_tiles": [
+            41,
+            3
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 510,
+          "destination_spawn_tiles": [
+            4,
+            6
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Cabbage Cavern - Room 9"
+        },
+        {
+          "rom_offset": "0x89BAC8",
+          "source_tiles": [
+            19,
+            7
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 127,
+          "destination_spawn_tiles": [
+            12,
+            18
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Rainbow Route - Room 15"
+        },
+        {
+          "rom_offset": "0x89BBD2",
+          "source_tiles": [
+            2,
+            18
+          ],
+          "collision_attribute": 253,
+          "transition_flags": 2,
+          "destination_room": 508,
+          "destination_spawn_tiles": [
+            43,
+            28
+          ],
+          "initial_tile_code": "0xFD",
+          "destination_title": "Cabbage Cavern - Room 11"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 127,
+          "source_title": "Rainbow Route - Room 15",
+          "source_tiles": [
+            10,
+            17
+          ],
+          "destination_spawn_tiles": [
+            21,
+            8
+          ],
+          "rom_offset": "0x87a068"
+        },
+        {
+          "source_native_id": 508,
+          "source_title": "Cabbage Cavern - Room 11",
+          "source_tiles": [
+            44,
+            27
+          ],
+          "destination_spawn_tiles": [
+            4,
+            19
+          ],
+          "rom_offset": "0x89b79e"
+        },
+        {
+          "source_native_id": 510,
+          "source_title": "Cabbage Cavern - Room 9",
+          "source_tiles": [
+            2,
+            5
+          ],
+          "destination_spawn_tiles": [
+            41,
+            4
+          ],
+          "rom_offset": "0x89bd08"
+        },
+        {
+          "source_native_id": 513,
+          "source_title": "Cabbage Cavern - Room 13",
+          "source_tiles": [
+            8,
+            2
+          ],
+          "destination_spawn_tiles": [
+            43,
+            17
+          ],
+          "rom_offset": "0x89d458"
+        }
+      ]
+    },
+    {
+      "native_id": 603,
+      "completion_index": 221,
+      "object_list_index": 221,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_06"
+      ],
+      "wiki_title": "Radish Ruins - Room 6",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_6",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 53,
+      "initial_tracked_tile_counts": {
+        "0xF0": 24,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 14,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x25",
+          "type_name": "OBJ_BOXIN",
+          "pixel_xy": [
+            48,
+            584
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            152,
+            416
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            88,
+            384
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x0F",
+          "type_name": "OBJ_LEAP",
+          "pixel_xy": [
+            144,
+            352
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x01",
+          "type_name": "OBJ_BRONTO_BURT",
+          "pixel_xy": [
+            80,
+            128
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x01",
+          "type_name": "OBJ_BRONTO_BURT",
+          "pixel_xy": [
+            160,
+            152
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            96,
+            472
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            120,
+            248
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            184,
+            56
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            56,
+            776
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x05",
+          "type_name": "OBJ_SCARFY",
+          "pixel_xy": [
+            96,
+            320
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x25",
+          "type_name": "OBJ_BOXIN",
+          "pixel_xy": [
+            184,
+            776
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x25",
+          "type_name": "OBJ_BOXIN",
+          "pixel_xy": [
+            56,
+            56
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x2F",
+          "type_name": "OBJ_BANG_BANG",
+          "pixel_xy": [
+            168,
+            520
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8A9024",
+          "source_tiles": [
+            11,
+            3
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 604,
+          "destination_spawn_tiles": [
+            4,
+            6
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Radish Ruins - Room 9"
+        },
+        {
+          "rom_offset": "0x8A91E2",
+          "source_tiles": [
+            3,
+            48
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 611,
+          "destination_spawn_tiles": [
+            17,
+            5
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Radish Ruins - Room 5"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 604,
+          "source_title": "Radish Ruins - Room 9",
+          "source_tiles": [
+            2,
+            5
+          ],
+          "destination_spawn_tiles": [
+            11,
+            4
+          ],
+          "rom_offset": "0x8a9642"
+        },
+        {
+          "source_native_id": 611,
+          "source_title": "Radish Ruins - Room 5",
+          "source_tiles": [
+            15,
+            4
+          ],
+          "destination_spawn_tiles": [
+            5,
+            49
+          ],
+          "rom_offset": "0x8aa3d4"
+        }
+      ]
+    },
+    {
+      "native_id": 621,
+      "completion_index": 228,
+      "object_list_index": 228,
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_02"
+      ],
+      "wiki_title": "Radish Ruins - Room 2",
+      "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_2",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 76,
+      "height_tiles": 23,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 3,
+        "0xF2": 53,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 10
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            19,
+            12
+          ],
+          "center_pixel_xy": [
+            312,
+            200
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x0D",
+              "0x0D"
+            ],
+            "right": [
+              "0x00",
+              "0x00"
+            ],
+            "above": [
+              "0xF2",
+              "0xF2"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x8AB66A",
+              "attribute": "0xF1",
+              "replacement": "0x0D"
+            }
+          ]
+        },
+        {
+          "tile_xy": [
+            39,
+            16
+          ],
+          "center_pixel_xy": [
+            632,
+            264
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0x00",
+              "0x00"
+            ],
+            "right": [
+              "0xF1",
+              "0xF2"
+            ],
+            "above": [
+              "0x00",
+              "0x00"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x8AB67C",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        },
+        {
+          "tile_xy": [
+            40,
+            16
+          ],
+          "center_pixel_xy": [
+            648,
+            264
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0xF1",
+              "0x00"
+            ],
+            "right": [
+              "0xF2",
+              "0xF2"
+            ],
+            "above": [
+              "0x00",
+              "0x00"
+            ],
+            "below": [
+              "0x0D",
+              "0x0D"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x8AB68E",
+              "attribute": "0xF1",
+              "replacement": "0x00"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            10,
+            8,
+            25,
+            12
+          ],
+          "tile_counts": {
+            "0xF1": 1,
+            "0xF2": 49
+          },
+          "bomb_tiles": [
+            [
+              19,
+              12
+            ]
+          ],
+          "overlapping_transition_indices": []
+        },
+        {
+          "bounding_box_tiles": [
+            39,
+            16,
+            44,
+            16
+          ],
+          "tile_counts": {
+            "0xF1": 2,
+            "0xF2": 4
+          },
+          "bomb_tiles": [
+            [
+              39,
+              16
+            ],
+            [
+              40,
+              16
+            ]
+          ],
+          "overlapping_transition_indices": []
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 15,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            88,
+            280
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            640,
+            120
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            40,
+            280
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x06",
+          "type_name": "OBJ_GORDO",
+          "pixel_xy": [
+            728,
+            264
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            632,
+            136
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            648,
+            136
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            776,
+            136
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            792,
+            136
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            808,
+            136
+          ]
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            824,
+            136
+          ]
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            840,
+            136
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            856,
+            136
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            872,
+            136
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x74",
+          "type_name": "OBJ_DESTROYABLE_ROCK_BLOCK",
+          "pixel_xy": [
+            888,
+            136
+          ]
+        },
+        {
+          "index": 14,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            280,
+            264
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8AB6E8",
+          "source_tiles": [
+            2,
+            17
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 2,
+          "destination_room": 605,
+          "destination_spawn_tiles": [
+            44,
+            5
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Radish Ruins - Room 3"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 620,
+          "source_title": "Radish Ruins - Room 1",
+          "source_tiles": [
+            7,
+            8
+          ],
+          "destination_spawn_tiles": [
+            73,
+            3
+          ],
+          "rom_offset": "0x8ab048"
+        },
+        {
+          "source_native_id": 620,
+          "source_title": "Radish Ruins - Room 1",
+          "source_tiles": [
+            8,
+            8
+          ],
+          "destination_spawn_tiles": [
+            73,
+            3
+          ],
+          "rom_offset": "0x8ab068"
+        }
+      ]
+    },
+    {
+      "native_id": 800,
+      "completion_index": 212,
+      "object_list_index": 212,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_23"
+      ],
+      "wiki_title": "Olive Ocean - Room 23",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_23",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 33,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 5,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            24,
+            280
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x92",
+          "type_name": "OBJ_ABILITY_STATUE_1",
+          "pixel_xy": [
+            168,
+            208
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x94",
+          "type_name": "OBJ_ABILITY_STATUE_3",
+          "pixel_xy": [
+            128,
+            200
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x95",
+          "type_name": "OBJ_ABILITY_STATUE_4",
+          "pixel_xy": [
+            88,
+            208
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            24,
+            440
+          ],
+          "room_state_slot": 4,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8A6AF0",
+          "source_tiles": [
+            1,
+            27
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 130,
+          "destination_room": 822,
+          "destination_spawn_tiles": [
+            12,
+            3
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Olive Ocean - Boss"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 821,
+          "source_title": "Olive Ocean - Room 22",
+          "source_tiles": [
+            116,
+            8
+          ],
+          "destination_spawn_tiles": [
+            10,
+            4
+          ],
+          "rom_offset": "0x8a85dc"
+        }
+      ]
+    },
+    {
+      "native_id": 819,
+      "completion_index": 216,
+      "object_list_index": 216,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_21"
+      ],
+      "wiki_title": "Olive Ocean - Room 21",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_21",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 46,
+      "height_tiles": 23,
+      "initial_tracked_tile_counts": {
+        "0xF0": 1,
+        "0xF1": 1,
+        "0xF2": 11,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 95,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [
+        {
+          "tile_xy": [
+            27,
+            12
+          ],
+          "center_pixel_xy": [
+            440,
+            200
+          ],
+          "axial_initial_tile_samples_near_to_far": {
+            "left": [
+              "0xF2",
+              "0x0D"
+            ],
+            "right": [
+              "0xF2",
+              "0x0D"
+            ],
+            "above": [
+              "0xF2",
+              "0xF2"
+            ],
+            "below": [
+              "0x48",
+              "0x48"
+            ]
+          },
+          "mutation_records": [
+            {
+              "rom_offset": "0x8A7DAC",
+              "attribute": "0xF1",
+              "replacement": "0x48"
+            }
+          ]
+        }
+      ],
+      "bomb_network_geometric_components": [
+        {
+          "bounding_box_tiles": [
+            26,
+            9,
+            28,
+            12
+          ],
+          "tile_counts": {
+            "0xF1": 1,
+            "0xF2": 11
+          },
+          "bomb_tiles": [
+            [
+              27,
+              12
+            ]
+          ],
+          "overlapping_transition_indices": []
+        }
+      ],
+      "replacement_f1_count": 0,
+      "object_template_count": 15,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x61",
+          "type_name": "OBJ_TOMATO",
+          "pixel_xy": [
+            608,
+            120
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            248,
+            56
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            192,
+            312
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            400,
+            256
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            128,
+            232
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            608,
+            296
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x62",
+          "type_name": "OBJ_BATTERY",
+          "pixel_xy": [
+            224,
+            232
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x63",
+          "type_name": "OBJ_1UP",
+          "pixel_xy": [
+            232,
+            168
+          ]
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            680,
+            296
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            520,
+            96
+          ]
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x06",
+          "type_name": "OBJ_GORDO",
+          "pixel_xy": [
+            408,
+            168
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            264,
+            96
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            304,
+            232
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x5E",
+          "type_name": "OBJ_SMALL_FOOD",
+          "pixel_xy": [
+            440,
+            104
+          ]
+        },
+        {
+          "index": 14,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            584,
+            192
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8A8010",
+          "source_tiles": [
+            42,
+            18
+          ],
+          "collision_attribute": 253,
+          "transition_flags": 1,
+          "destination_room": 821,
+          "destination_spawn_tiles": [
+            2,
+            5
+          ],
+          "initial_tile_code": "0xFD",
+          "destination_title": "Olive Ocean - Room 22"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 816,
+          "source_title": "Olive Ocean - Chest 2",
+          "source_tiles": [
+            58,
+            16
+          ],
+          "destination_spawn_tiles": [
+            3,
+            5
+          ],
+          "rom_offset": "0x8a76ba"
+        }
+      ]
+    },
+    {
+      "native_id": 821,
+      "completion_index": 217,
+      "object_list_index": 217,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_22"
+      ],
+      "wiki_title": "Olive Ocean - Room 22",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_22",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 121,
+      "height_tiles": 13,
+      "initial_tracked_tile_counts": {
+        "0xF0": 62,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 9,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 19,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x23",
+          "type_name": "OBJ_SHOOTY",
+          "pixel_xy": [
+            1184,
+            24
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x23",
+          "type_name": "OBJ_SHOOTY",
+          "pixel_xy": [
+            856,
+            96
+          ]
+        },
+        {
+          "index": 2,
+          "spawn_table": 1,
+          "type": "0x23",
+          "type_name": "OBJ_SHOOTY",
+          "pixel_xy": [
+            888,
+            40
+          ]
+        },
+        {
+          "index": 3,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            576,
+            72
+          ]
+        },
+        {
+          "index": 4,
+          "spawn_table": 1,
+          "type": "0x18",
+          "type_name": "OBJ_SIR_KIBBLE",
+          "pixel_xy": [
+            1696,
+            72
+          ]
+        },
+        {
+          "index": 5,
+          "spawn_table": 1,
+          "type": "0x1A",
+          "type_name": "OBJ_SWORD_KNIGHT",
+          "pixel_xy": [
+            1648,
+            104
+          ]
+        },
+        {
+          "index": 6,
+          "spawn_table": 1,
+          "type": "0x1A",
+          "type_name": "OBJ_SWORD_KNIGHT",
+          "pixel_xy": [
+            656,
+            72
+          ]
+        },
+        {
+          "index": 7,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            1864,
+            136
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 256
+          }
+        },
+        {
+          "index": 8,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            208,
+            96
+          ]
+        },
+        {
+          "index": 9,
+          "spawn_table": 1,
+          "type": "0x63",
+          "type_name": "OBJ_1UP",
+          "pixel_xy": [
+            1016,
+            88
+          ]
+        },
+        {
+          "index": 10,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            1304,
+            56
+          ]
+        },
+        {
+          "index": 11,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            424,
+            152
+          ]
+        },
+        {
+          "index": 12,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            312,
+            120
+          ]
+        },
+        {
+          "index": 13,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            232,
+            136
+          ]
+        },
+        {
+          "index": 14,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            152,
+            136
+          ]
+        },
+        {
+          "index": 15,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            1304,
+            120
+          ]
+        },
+        {
+          "index": 16,
+          "spawn_table": 1,
+          "type": "0x02",
+          "type_name": "OBJ_BLIPPER",
+          "pixel_xy": [
+            336,
+            88
+          ]
+        },
+        {
+          "index": 17,
+          "spawn_table": 1,
+          "type": "0x03",
+          "type_name": "OBJ_GLUNK",
+          "pixel_xy": [
+            1008,
+            40
+          ]
+        },
+        {
+          "index": 18,
+          "spawn_table": 1,
+          "type": "0x61",
+          "type_name": "OBJ_TOMATO",
+          "pixel_xy": [
+            1272,
+            88
+          ]
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8A85DC",
+          "source_tiles": [
+            116,
+            8
+          ],
+          "collision_attribute": 255,
+          "transition_flags": 1,
+          "destination_room": 800,
+          "destination_spawn_tiles": [
+            10,
+            4
+          ],
+          "initial_tile_code": "0xFF",
+          "destination_title": "Olive Ocean - Room 23"
+        }
+      ],
+      "completion_entries": [],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 819,
+          "source_title": "Olive Ocean - Room 21",
+          "source_tiles": [
+            42,
+            18
+          ],
+          "destination_spawn_tiles": [
+            2,
+            5
+          ],
+          "rom_offset": "0x8a8010"
+        },
+        {
+          "source_native_id": 832,
+          "source_title": "Olive Ocean - Room 17",
+          "source_tiles": [
+            28,
+            47
+          ],
+          "destination_spawn_tiles": [
+            2,
+            2
+          ],
+          "rom_offset": "0x8a69ce"
+        }
+      ]
+    },
+    {
+      "native_id": 826,
+      "completion_index": 204,
+      "object_list_index": 204,
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_03"
+      ],
+      "wiki_title": "Olive Ocean - Room 3",
+      "wiki_url": "https://wikirby.com/wiki/Olive_Ocean_-_Room_3",
+      "verification": "category",
+      "note": "Completion-index join; AP compartments share this native room",
+      "width_tiles": 16,
+      "height_tiles": 13,
+      "initial_tracked_tile_counts": {
+        "0xF0": 0,
+        "0xF1": 0,
+        "0xF2": 0,
+        "0xF3": 0,
+        "0xF4": 0,
+        "0xF5": 0,
+        "0xF6": 0,
+        "0xF7": 0
+      },
+      "bomb_blocks": [],
+      "bomb_network_geometric_components": [],
+      "replacement_f1_count": 0,
+      "object_template_count": 2,
+      "small_switch_count": 0,
+      "vertical_gate_count": 0,
+      "objects": [
+        {
+          "index": 0,
+          "spawn_table": 1,
+          "type": "0x80",
+          "type_name": "OBJ_SMALL_CHEST",
+          "pixel_xy": [
+            200,
+            56
+          ]
+        },
+        {
+          "index": 1,
+          "spawn_table": 1,
+          "type": "0x6F",
+          "type_name": "OBJ_DOOR",
+          "pixel_xy": [
+            56,
+            120
+          ],
+          "room_state_slot": 0,
+          "template_parameters": {
+            "offset_14": 0,
+            "offset_16": 0,
+            "offset_18": 0,
+            "offset_1A": 0,
+            "offset_1C": 0,
+            "offset_1E": 0,
+            "offset_20": 0,
+            "offset_22": 0
+          }
+        }
+      ],
+      "transitions": [
+        {
+          "rom_offset": "0x8A4758",
+          "source_tiles": [
+            3,
+            7
+          ],
+          "collision_attribute": 253,
+          "transition_flags": 1,
+          "destination_room": 131,
+          "destination_spawn_tiles": [
+            36,
+            9
+          ],
+          "initial_tile_code": "0xFD",
+          "destination_title": "Olive Ocean - Room 2"
+        }
+      ],
+      "completion_entries": [
+        {
+          "rom_offset": 9643776,
+          "kind": 1,
+          "chest_position_pixels": [
+            200,
+            56
+          ]
+        }
+      ],
+      "incoming_tile_transitions": [
+        {
+          "source_native_id": 131,
+          "source_title": "Olive Ocean - Room 2",
+          "source_tiles": [
+            35,
+            5
+          ],
+          "destination_spawn_tiles": [
+            4,
+            4
+          ],
+          "rom_offset": "0x8a14da"
+        }
+      ]
+    }
+  ]
+}

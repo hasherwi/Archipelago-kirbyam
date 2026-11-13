@@ -28,7 +28,7 @@ from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
-from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities
+from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities, starting_copy_abilities
 from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
 from .health import (
     MAXIMUM_HEALTH_DEFAULT,
@@ -4736,7 +4736,7 @@ class KirbyAmClient(BizHawkClient):
         item_id = cls._coerce_u32(getattr(item, "item", None))
         entry = data.items.get(item_id)
         return (entry is not None and entry.label in
-                {f"{name} Ability" for name in STARTING_COPY_ABILITIES})
+                {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))})
 
     async def _deliver_items(self, ctx: KirbyAmBizHawkClientContext, allow_new_writes: bool = True,
                              *, allow_starting_abilities: bool = False) -> None:

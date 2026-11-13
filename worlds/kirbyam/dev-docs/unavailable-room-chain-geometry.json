@@ -1,0 +1,2035 @@
+{
+  "chain-geometry": {
+    "checked_on": "2026-11-08",
+    "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "source_date": "2026-09-17",
+    "scope": "Conditional scalar prediction after successful isolated F1 activation, using the native left/up/right/down 0x40 chain rule and first matching mutation record. No timing, combat, camera, other dynamic mutations or Kirby physics simulated.",
+    "collision_attribute_correction": "0x48 is passable water with attributes0x3, not a slope. 0xF3 has attributes0x41 and is passable chain terrain, not a solid wall.",
+    "clear_cell_probe": {
+      "allowed_tile_codes": [
+        "0x00",
+        "0x48",
+        "0xF3",
+        "0xFD",
+        "0xFF"
+      ],
+      "method": "Four-neighbor point/cell adjacency only, starting at the native transition center tile; excludes slopes, one-way/raised platforms, hazards, currents, all unbroken terrain and dynamic objects. Paths do not prove Kirby movement or attack acceptance; missing paths do not prove impossibility.",
+      "path_coordinates": "Turn waypoints compress sequences of adjacent allowed tile cells; not controller inputs."
+    },
+    "rooms": [
+      {
+        "native_id": 218,
+        "wiki_title": "Peppermint Palace - Room 23",
+        "arrivals": [
+          {
+            "center_tile": [
+              14,
+              2
+            ],
+            "center_pixel_xy": [
+              232,
+              40.99609375
+            ],
+            "recorded_spawn_tiles": [
+              15,
+              3
+            ],
+            "source_native_id": 221,
+            "initial_tile": "0x00"
+          }
+        ],
+        "chest_objects": [],
+        "chains": [
+          {
+            "seed_tile": [
+              2,
+              4
+            ],
+            "replacement_count_including_seed": 13,
+            "subsequent_wave_sizes": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2
+            ],
+            "max_frontier": 2,
+            "updates": [
+              {
+                "tile_xy": [
+                  2,
+                  4
+                ],
+                "before": "0xF1",
+                "after": "0x00",
+                "wave": 0,
+                "mutation_record": "0x0088C3AA"
+              },
+              {
+                "tile_xy": [
+                  2,
+                  3
+                ],
+                "before": "0xF3",
+                "after": "0x00",
+                "wave": 1,
+                "mutation_record": "0x0088C386"
+              },
+              {
+                "tile_xy": [
+                  2,
+                  2
+                ],
+                "before": "0xF3",
+                "after": "0x00",
+                "wave": 2,
+                "mutation_record": "0x0088C362"
+              },
+              {
+                "tile_xy": [
+                  2,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 3,
+                "mutation_record": "0x0088C2E4"
+              },
+              {
+                "tile_xy": [
+                  3,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 4,
+                "mutation_record": "0x0088C2F6"
+              },
+              {
+                "tile_xy": [
+                  4,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 5,
+                "mutation_record": "0x0088C308"
+              },
+              {
+                "tile_xy": [
+                  5,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 6,
+                "mutation_record": "0x0088C31A"
+              },
+              {
+                "tile_xy": [
+                  6,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 7,
+                "mutation_record": "0x0088C32C"
+              },
+              {
+                "tile_xy": [
+                  5,
+                  2
+                ],
+                "before": "0xF3",
+                "after": "0x00",
+                "wave": 7,
+                "mutation_record": "0x0088C374"
+              },
+              {
+                "tile_xy": [
+                  7,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 8,
+                "mutation_record": "0x0088C33E"
+              },
+              {
+                "tile_xy": [
+                  5,
+                  3
+                ],
+                "before": "0xF3",
+                "after": "0x00",
+                "wave": 8,
+                "mutation_record": "0x0088C398"
+              },
+              {
+                "tile_xy": [
+                  8,
+                  1
+                ],
+                "before": "0xF3",
+                "after": "0x1D",
+                "wave": 9,
+                "mutation_record": "0x0088C350"
+              },
+              {
+                "tile_xy": [
+                  5,
+                  4
+                ],
+                "before": "0xF3",
+                "after": "0xFF",
+                "wave": 9,
+                "mutation_record": "0x0088C3BC"
+              }
+            ],
+            "exit_effects": [
+              {
+                "tile_xy": [
+                  5,
+                  4
+                ],
+                "destination_native_id": 200,
+                "initial_code": "0xF3",
+                "after_chain_code": "0xFF",
+                "changed_by_chain": true
+              }
+            ],
+            "cell_connectivity": [
+              {
+                "arrival_center_tile": [
+                  14,
+                  2
+                ],
+                "initial_clear_component_cells": 133,
+                "post_chain_clear_component_cells": 133,
+                "target_neighbor_paths": [
+                  {
+                    "side": "left",
+                    "tile_xy": [
+                      1,
+                      4
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "above",
+                    "tile_xy": [
+                      2,
+                      3
+                    ],
+                    "tile_code": "0xF3",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "right",
+                    "tile_xy": [
+                      3,
+                      4
+                    ],
+                    "tile_code": "0x00",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "below",
+                    "tile_xy": [
+                      2,
+                      5
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  }
+                ],
+                "object_center_cell_connectivity": [
+                  {
+                    "object_index": 2,
+                    "object_type": "OBJ_DOOR",
+                    "object_tile_xy": [
+                      5,
+                      4
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 8,
+                    "object_type": "OBJ_1UP",
+                    "object_tile_xy": [
+                      9,
+                      46
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 9,
+                    "object_type": "OBJ_BATTERY",
+                    "object_tile_xy": [
+                      9,
+                      43
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 10,
+                    "object_type": "OBJ_MEAT",
+                    "object_tile_xy": [
+                      9,
+                      40
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 11,
+                    "object_type": "OBJ_POP_SODA",
+                    "object_tile_xy": [
+                      9,
+                      37
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 12,
+                    "object_type": "OBJ_MEAT",
+                    "object_tile_xy": [
+                      7,
+                      18
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 13,
+                    "object_type": "OBJ_HAMMER_PEG",
+                    "object_tile_xy": [
+                      9,
+                      33
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "native_id": 621,
+        "wiki_title": "Radish Ruins - Room 2",
+        "arrivals": [
+          {
+            "center_tile": [
+              72,
+              2
+            ],
+            "center_pixel_xy": [
+              1160,
+              40.99609375
+            ],
+            "recorded_spawn_tiles": [
+              73,
+              3
+            ],
+            "source_native_id": 620,
+            "initial_tile": "0x00"
+          }
+        ],
+        "chest_objects": [],
+        "chains": [
+          {
+            "seed_tile": [
+              19,
+              12
+            ],
+            "replacement_count_including_seed": 50,
+            "subsequent_wave_sizes": [
+              1,
+              1,
+              3,
+              5,
+              6,
+              6,
+              6,
+              6,
+              5,
+              4,
+              3,
+              2,
+              1
+            ],
+            "max_frontier": 6,
+            "updates": [
+              {
+                "tile_xy": [
+                  19,
+                  12
+                ],
+                "before": "0xF1",
+                "after": "0x0D",
+                "wave": 0,
+                "mutation_record": "0x008AB66A"
+              },
+              {
+                "tile_xy": [
+                  19,
+                  11
+                ],
+                "before": "0xF2",
+                "after": "0x0D",
+                "wave": 1,
+                "mutation_record": "0x008AB658"
+              },
+              {
+                "tile_xy": [
+                  19,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 2,
+                "mutation_record": "0x008AB5DA"
+              },
+              {
+                "tile_xy": [
+                  18,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 3,
+                "mutation_record": "0x008AB5C8"
+              },
+              {
+                "tile_xy": [
+                  19,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 3,
+                "mutation_record": "0x008AB4BA"
+              },
+              {
+                "tile_xy": [
+                  20,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 3,
+                "mutation_record": "0x008AB5EC"
+              },
+              {
+                "tile_xy": [
+                  17,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 4,
+                "mutation_record": "0x008AB5B6"
+              },
+              {
+                "tile_xy": [
+                  18,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 4,
+                "mutation_record": "0x008AB4A8"
+              },
+              {
+                "tile_xy": [
+                  19,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 4,
+                "mutation_record": "0x008AB2E6"
+              },
+              {
+                "tile_xy": [
+                  20,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 4,
+                "mutation_record": "0x008AB4CC"
+              },
+              {
+                "tile_xy": [
+                  21,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 4,
+                "mutation_record": "0x008AB5FE"
+              },
+              {
+                "tile_xy": [
+                  16,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB5A4"
+              },
+              {
+                "tile_xy": [
+                  17,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB496"
+              },
+              {
+                "tile_xy": [
+                  18,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB2D4"
+              },
+              {
+                "tile_xy": [
+                  20,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB2F8"
+              },
+              {
+                "tile_xy": [
+                  21,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB4DE"
+              },
+              {
+                "tile_xy": [
+                  22,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 5,
+                "mutation_record": "0x008AB610"
+              },
+              {
+                "tile_xy": [
+                  15,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB592"
+              },
+              {
+                "tile_xy": [
+                  16,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB484"
+              },
+              {
+                "tile_xy": [
+                  17,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB2C2"
+              },
+              {
+                "tile_xy": [
+                  21,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB30A"
+              },
+              {
+                "tile_xy": [
+                  22,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB4F0"
+              },
+              {
+                "tile_xy": [
+                  23,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 6,
+                "mutation_record": "0x008AB622"
+              },
+              {
+                "tile_xy": [
+                  14,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB580"
+              },
+              {
+                "tile_xy": [
+                  15,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB472"
+              },
+              {
+                "tile_xy": [
+                  16,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB2B0"
+              },
+              {
+                "tile_xy": [
+                  22,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB31C"
+              },
+              {
+                "tile_xy": [
+                  23,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB502"
+              },
+              {
+                "tile_xy": [
+                  24,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 7,
+                "mutation_record": "0x008AB634"
+              },
+              {
+                "tile_xy": [
+                  13,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB56E"
+              },
+              {
+                "tile_xy": [
+                  14,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB460"
+              },
+              {
+                "tile_xy": [
+                  15,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB29E"
+              },
+              {
+                "tile_xy": [
+                  23,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB32E"
+              },
+              {
+                "tile_xy": [
+                  24,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB514"
+              },
+              {
+                "tile_xy": [
+                  25,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 8,
+                "mutation_record": "0x008AB646"
+              },
+              {
+                "tile_xy": [
+                  12,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 9,
+                "mutation_record": "0x008AB55C"
+              },
+              {
+                "tile_xy": [
+                  13,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 9,
+                "mutation_record": "0x008AB44E"
+              },
+              {
+                "tile_xy": [
+                  14,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 9,
+                "mutation_record": "0x008AB28C"
+              },
+              {
+                "tile_xy": [
+                  24,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 9,
+                "mutation_record": "0x008AB340"
+              },
+              {
+                "tile_xy": [
+                  25,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 9,
+                "mutation_record": "0x008AB526"
+              },
+              {
+                "tile_xy": [
+                  11,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 10,
+                "mutation_record": "0x008AB54A"
+              },
+              {
+                "tile_xy": [
+                  12,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 10,
+                "mutation_record": "0x008AB43C"
+              },
+              {
+                "tile_xy": [
+                  13,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 10,
+                "mutation_record": "0x008AB27A"
+              },
+              {
+                "tile_xy": [
+                  25,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 10,
+                "mutation_record": "0x008AB352"
+              },
+              {
+                "tile_xy": [
+                  10,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 11,
+                "mutation_record": "0x008AB538"
+              },
+              {
+                "tile_xy": [
+                  11,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 11,
+                "mutation_record": "0x008AB42A"
+              },
+              {
+                "tile_xy": [
+                  12,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 11,
+                "mutation_record": "0x008AB268"
+              },
+              {
+                "tile_xy": [
+                  10,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 12,
+                "mutation_record": "0x008AB418"
+              },
+              {
+                "tile_xy": [
+                  11,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 12,
+                "mutation_record": "0x008AB256"
+              },
+              {
+                "tile_xy": [
+                  10,
+                  8
+                ],
+                "before": "0xF2",
+                "after": "0x65",
+                "wave": 13,
+                "mutation_record": "0x008AB244"
+              }
+            ],
+            "exit_effects": [
+              {
+                "tile_xy": [
+                  2,
+                  17
+                ],
+                "destination_native_id": 605,
+                "initial_code": "0xFF",
+                "after_chain_code": "0xFF",
+                "changed_by_chain": false
+              }
+            ],
+            "cell_connectivity": [
+              {
+                "arrival_center_tile": [
+                  72,
+                  2
+                ],
+                "initial_clear_component_cells": 85,
+                "post_chain_clear_component_cells": 85,
+                "target_neighbor_paths": [
+                  {
+                    "side": "left",
+                    "tile_xy": [
+                      18,
+                      12
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "above",
+                    "tile_xy": [
+                      19,
+                      11
+                    ],
+                    "tile_code": "0xF2",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "right",
+                    "tile_xy": [
+                      20,
+                      12
+                    ],
+                    "tile_code": "0x00",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "below",
+                    "tile_xy": [
+                      19,
+                      13
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  }
+                ],
+                "object_center_cell_connectivity": [
+                  {
+                    "object_index": 0,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      5,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 1,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      40,
+                      7
+                    ],
+                    "before_connected": true,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 2,
+                    "object_type": "OBJ_DOOR",
+                    "object_tile_xy": [
+                      2,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 14,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      17,
+                      16
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "seed_tile": [
+              39,
+              16
+            ],
+            "replacement_count_including_seed": 6,
+            "subsequent_wave_sizes": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "max_frontier": 1,
+            "updates": [
+              {
+                "tile_xy": [
+                  39,
+                  16
+                ],
+                "before": "0xF1",
+                "after": "0x00",
+                "wave": 0,
+                "mutation_record": "0x008AB67C"
+              },
+              {
+                "tile_xy": [
+                  40,
+                  16
+                ],
+                "before": "0xF1",
+                "after": "0x00",
+                "wave": 1,
+                "mutation_record": "0x008AB68E"
+              },
+              {
+                "tile_xy": [
+                  41,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 2,
+                "mutation_record": "0x008AB6A0"
+              },
+              {
+                "tile_xy": [
+                  42,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 3,
+                "mutation_record": "0x008AB6B2"
+              },
+              {
+                "tile_xy": [
+                  43,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 4,
+                "mutation_record": "0x008AB6C4"
+              },
+              {
+                "tile_xy": [
+                  44,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 5,
+                "mutation_record": "0x008AB6D6"
+              }
+            ],
+            "exit_effects": [
+              {
+                "tile_xy": [
+                  2,
+                  17
+                ],
+                "destination_native_id": 605,
+                "initial_code": "0xFF",
+                "after_chain_code": "0xFF",
+                "changed_by_chain": false
+              }
+            ],
+            "cell_connectivity": [
+              {
+                "arrival_center_tile": [
+                  72,
+                  2
+                ],
+                "initial_clear_component_cells": 85,
+                "post_chain_clear_component_cells": 85,
+                "target_neighbor_paths": [
+                  {
+                    "side": "left",
+                    "tile_xy": [
+                      38,
+                      16
+                    ],
+                    "tile_code": "0x00",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "above",
+                    "tile_xy": [
+                      39,
+                      15
+                    ],
+                    "tile_code": "0x00",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "right",
+                    "tile_xy": [
+                      40,
+                      16
+                    ],
+                    "tile_code": "0xF1",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "below",
+                    "tile_xy": [
+                      39,
+                      17
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  }
+                ],
+                "object_center_cell_connectivity": [
+                  {
+                    "object_index": 0,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      5,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 1,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      40,
+                      7
+                    ],
+                    "before_connected": true,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 2,
+                    "object_type": "OBJ_DOOR",
+                    "object_tile_xy": [
+                      2,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 14,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      17,
+                      16
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "seed_tile": [
+              40,
+              16
+            ],
+            "replacement_count_including_seed": 6,
+            "subsequent_wave_sizes": [
+              2,
+              1,
+              1,
+              1
+            ],
+            "max_frontier": 2,
+            "updates": [
+              {
+                "tile_xy": [
+                  40,
+                  16
+                ],
+                "before": "0xF1",
+                "after": "0x00",
+                "wave": 0,
+                "mutation_record": "0x008AB68E"
+              },
+              {
+                "tile_xy": [
+                  39,
+                  16
+                ],
+                "before": "0xF1",
+                "after": "0x00",
+                "wave": 1,
+                "mutation_record": "0x008AB67C"
+              },
+              {
+                "tile_xy": [
+                  41,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 1,
+                "mutation_record": "0x008AB6A0"
+              },
+              {
+                "tile_xy": [
+                  42,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 2,
+                "mutation_record": "0x008AB6B2"
+              },
+              {
+                "tile_xy": [
+                  43,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 3,
+                "mutation_record": "0x008AB6C4"
+              },
+              {
+                "tile_xy": [
+                  44,
+                  16
+                ],
+                "before": "0xF2",
+                "after": "0x00",
+                "wave": 4,
+                "mutation_record": "0x008AB6D6"
+              }
+            ],
+            "exit_effects": [
+              {
+                "tile_xy": [
+                  2,
+                  17
+                ],
+                "destination_native_id": 605,
+                "initial_code": "0xFF",
+                "after_chain_code": "0xFF",
+                "changed_by_chain": false
+              }
+            ],
+            "cell_connectivity": [
+              {
+                "arrival_center_tile": [
+                  72,
+                  2
+                ],
+                "initial_clear_component_cells": 85,
+                "post_chain_clear_component_cells": 85,
+                "target_neighbor_paths": [
+                  {
+                    "side": "left",
+                    "tile_xy": [
+                      39,
+                      16
+                    ],
+                    "tile_code": "0xF1",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "above",
+                    "tile_xy": [
+                      40,
+                      15
+                    ],
+                    "tile_code": "0x00",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "right",
+                    "tile_xy": [
+                      41,
+                      16
+                    ],
+                    "tile_code": "0xF2",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "below",
+                    "tile_xy": [
+                      40,
+                      17
+                    ],
+                    "tile_code": "0x0D",
+                    "pre_chain_clear_cell_path": null
+                  }
+                ],
+                "object_center_cell_connectivity": [
+                  {
+                    "object_index": 0,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      5,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 1,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      40,
+                      7
+                    ],
+                    "before_connected": true,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 2,
+                    "object_type": "OBJ_DOOR",
+                    "object_tile_xy": [
+                      2,
+                      17
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 14,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      17,
+                      16
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "native_id": 819,
+        "wiki_title": "Olive Ocean - Room 21",
+        "arrivals": [
+          {
+            "center_tile": [
+              2,
+              4
+            ],
+            "center_pixel_xy": [
+              40,
+              72.99609375
+            ],
+            "recorded_spawn_tiles": [
+              3,
+              5
+            ],
+            "source_native_id": 816,
+            "initial_tile": "0x48"
+          }
+        ],
+        "chest_objects": [],
+        "chains": [
+          {
+            "seed_tile": [
+              27,
+              12
+            ],
+            "replacement_count_including_seed": 12,
+            "subsequent_wave_sizes": [
+              3,
+              3,
+              3,
+              2
+            ],
+            "max_frontier": 3,
+            "updates": [
+              {
+                "tile_xy": [
+                  27,
+                  12
+                ],
+                "before": "0xF1",
+                "after": "0x48",
+                "wave": 0,
+                "mutation_record": "0x008A7DAC"
+              },
+              {
+                "tile_xy": [
+                  26,
+                  12
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 1,
+                "mutation_record": "0x008A7D9A"
+              },
+              {
+                "tile_xy": [
+                  27,
+                  11
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 1,
+                "mutation_record": "0x008A7D76"
+              },
+              {
+                "tile_xy": [
+                  28,
+                  12
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 1,
+                "mutation_record": "0x008A7DBE"
+              },
+              {
+                "tile_xy": [
+                  26,
+                  11
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 2,
+                "mutation_record": "0x008A7D64"
+              },
+              {
+                "tile_xy": [
+                  27,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 2,
+                "mutation_record": "0x008A7CE6"
+              },
+              {
+                "tile_xy": [
+                  28,
+                  11
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 2,
+                "mutation_record": "0x008A7D88"
+              },
+              {
+                "tile_xy": [
+                  26,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 3,
+                "mutation_record": "0x008A7CD4"
+              },
+              {
+                "tile_xy": [
+                  27,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 3,
+                "mutation_record": "0x008A7BEA"
+              },
+              {
+                "tile_xy": [
+                  28,
+                  10
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 3,
+                "mutation_record": "0x008A7CF8"
+              },
+              {
+                "tile_xy": [
+                  26,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 4,
+                "mutation_record": "0x008A7BD8"
+              },
+              {
+                "tile_xy": [
+                  28,
+                  9
+                ],
+                "before": "0xF2",
+                "after": "0x48",
+                "wave": 4,
+                "mutation_record": "0x008A7BFC"
+              }
+            ],
+            "exit_effects": [
+              {
+                "tile_xy": [
+                  42,
+                  18
+                ],
+                "destination_native_id": 821,
+                "initial_code": "0xFD",
+                "after_chain_code": "0xFD",
+                "changed_by_chain": false
+              }
+            ],
+            "cell_connectivity": [
+              {
+                "arrival_center_tile": [
+                  2,
+                  4
+                ],
+                "initial_clear_component_cells": 131,
+                "post_chain_clear_component_cells": 310,
+                "target_neighbor_paths": [
+                  {
+                    "side": "left",
+                    "tile_xy": [
+                      26,
+                      12
+                    ],
+                    "tile_code": "0xF2",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "above",
+                    "tile_xy": [
+                      27,
+                      11
+                    ],
+                    "tile_code": "0xF2",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "right",
+                    "tile_xy": [
+                      28,
+                      12
+                    ],
+                    "tile_code": "0xF2",
+                    "pre_chain_clear_cell_path": null
+                  },
+                  {
+                    "side": "below",
+                    "tile_xy": [
+                      27,
+                      13
+                    ],
+                    "tile_code": "0x48",
+                    "pre_chain_clear_cell_path": {
+                      "step_count": 38,
+                      "turn_waypoints_tiles": [
+                        [
+                          2,
+                          4
+                        ],
+                        [
+                          2,
+                          3
+                        ],
+                        [
+                          11,
+                          3
+                        ],
+                        [
+                          11,
+                          5
+                        ],
+                        [
+                          21,
+                          5
+                        ],
+                        [
+                          21,
+                          14
+                        ],
+                        [
+                          26,
+                          14
+                        ],
+                        [
+                          26,
+                          13
+                        ],
+                        [
+                          27,
+                          13
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                "object_center_cell_connectivity": [
+                  {
+                    "object_index": 0,
+                    "object_type": "OBJ_TOMATO",
+                    "object_tile_xy": [
+                      38,
+                      7
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 1,
+                    "object_type": "OBJ_BATTERY",
+                    "object_tile_xy": [
+                      15,
+                      3
+                    ],
+                    "before_connected": true,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 6,
+                    "object_type": "OBJ_BATTERY",
+                    "object_tile_xy": [
+                      14,
+                      14
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 7,
+                    "object_type": "OBJ_1UP",
+                    "object_tile_xy": [
+                      14,
+                      10
+                    ],
+                    "before_connected": false,
+                    "after_connected": false
+                  },
+                  {
+                    "object_index": 8,
+                    "object_type": "OBJ_DOOR",
+                    "object_tile_xy": [
+                      42,
+                      18
+                    ],
+                    "before_connected": false,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 12,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      19,
+                      14
+                    ],
+                    "before_connected": true,
+                    "after_connected": true
+                  },
+                  {
+                    "object_index": 13,
+                    "object_type": "OBJ_SMALL_FOOD",
+                    "object_tile_xy": [
+                      27,
+                      6
+                    ],
+                    "before_connected": false,
+                    "after_connected": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "sequence-probes": {
+    "checked_on": "2026-11-08",
+    "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "scope": "Supplemental scalar conditional point-connectivity witnesses; no ROM/assets, no emulator, no capability grant.",
+    "rooms": [
+      {
+        "native_id": 621,
+        "method": "Three conditional clear-cell graph stages. Crumble clearance and successful lower bomb activation are stipulated, not simulated.",
+        "stage1_initial_to_above_left_crumble": {
+          "step_count": 38,
+          "turn_waypoints_tiles": [
+            [
+              72,
+              2
+            ],
+            [
+              62,
+              2
+            ],
+            [
+              62,
+              3
+            ],
+            [
+              60,
+              3
+            ],
+            [
+              60,
+              4
+            ],
+            [
+              58,
+              4
+            ],
+            [
+              58,
+              6
+            ],
+            [
+              39,
+              6
+            ],
+            [
+              39,
+              7
+            ]
+          ]
+        },
+        "stage2_assumed_crumble_changes": [
+          {
+            "tile_xy": [
+              39,
+              8
+            ],
+            "from": "0xF7",
+            "to": "0x00",
+            "mutation_record": "0x8ab364"
+          },
+          {
+            "tile_xy": [
+              40,
+              8
+            ],
+            "from": "0xF7",
+            "to": "0x00",
+            "mutation_record": "0x8ab376"
+          }
+        ],
+        "stage2_to_above_lower_bomb": {
+          "step_count": 46,
+          "turn_waypoints_tiles": [
+            [
+              72,
+              2
+            ],
+            [
+              62,
+              2
+            ],
+            [
+              62,
+              3
+            ],
+            [
+              60,
+              3
+            ],
+            [
+              60,
+              4
+            ],
+            [
+              58,
+              4
+            ],
+            [
+              58,
+              6
+            ],
+            [
+              39,
+              6
+            ],
+            [
+              39,
+              15
+            ]
+          ]
+        },
+        "stage3_lower_chain_seed": [
+          39,
+          16
+        ],
+        "stage3_to_right_of_upper_recess_bomb": {
+          "step_count": 70,
+          "turn_waypoints_tiles": [
+            [
+              72,
+              2
+            ],
+            [
+              62,
+              2
+            ],
+            [
+              62,
+              3
+            ],
+            [
+              60,
+              3
+            ],
+            [
+              60,
+              4
+            ],
+            [
+              58,
+              4
+            ],
+            [
+              58,
+              6
+            ],
+            [
+              39,
+              6
+            ],
+            [
+              39,
+              16
+            ],
+            [
+              21,
+              16
+            ],
+            [
+              21,
+              13
+            ],
+            [
+              20,
+              13
+            ],
+            [
+              20,
+              12
+            ]
+          ]
+        },
+        "remaining_limits": "Ordinary crumble contact/countdown, room-object interference, body clearance, low tunnel movement and the two actual attack contacts still require gameplay acceptance. Upper chain produces current tiles whose flow is outside this graph."
+      },
+      {
+        "native_id": 218,
+        "method": "Explicit upward-only platform relaxation: admit tile0x0F only for upward adjacency steps into and out of it. All other steps require the strict clear-cell set. This is a cell model, not a Kirby physics simulation.",
+        "initial_to_right_of_bomb": {
+          "step_count": 81,
+          "turn_waypoints_tiles": [
+            [
+              14,
+              2
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              13,
+              11
+            ],
+            [
+              12,
+              11
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              13,
+              16
+            ],
+            [
+              13,
+              21
+            ],
+            [
+              11,
+              21
+            ],
+            [
+              11,
+              31
+            ],
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        },
+        "platform_cells_crossed_upward": [
+          [
+            3,
+            30
+          ],
+          [
+            3,
+            27
+          ],
+          [
+            3,
+            24
+          ],
+          [
+            3,
+            21
+          ],
+          [
+            3,
+            14
+          ]
+        ],
+        "remaining_limits": "The strict graph deliberately stops at one-way platforms. The positive relaxed path shows why that negative is not proof of a solid-wall separation; validate climbing/flight, collision-body clearance and target attack in gameplay."
+      }
+    ]
+  },
+  "validation": {
+    "checked_on": "2026-11-08",
+    "status": "passed_source_static_checks",
+    "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "deterministic_rerun_equal": true,
+    "chain_sizes_verified": [
+      {
+        "native_id": 218,
+        "seed_tile": [
+          2,
+          4
+        ],
+        "count": 13
+      },
+      {
+        "native_id": 621,
+        "seed_tile": [
+          19,
+          12
+        ],
+        "count": 50
+      },
+      {
+        "native_id": 621,
+        "seed_tile": [
+          39,
+          16
+        ],
+        "count": 6
+      },
+      {
+        "native_id": 621,
+        "seed_tile": [
+          40,
+          16
+        ],
+        "count": 6
+      },
+      {
+        "native_id": 819,
+        "seed_tile": [
+          27,
+          12
+        ],
+        "count": 12
+      }
+    ],
+    "max_chain_frontier": 6,
+    "native_frontier_capacity": 32,
+    "no_metal_cells_mutated": true,
+    "no_chest_objects_in_three_rooms": true,
+    "negative_controls": {
+      "short_rom": "rejected",
+      "modified_rom": "rejected",
+      "wrong_seed_list": "rejected",
+      "sequence_short_rom": "rejected"
+    },
+    "python_ast": "passed",
+    "json_parse": "passed",
+    "no_private_paths_in_supplement": true,
+    "original_artifacts_unchanged": {
+      "README.md": true,
+      "native-room-evidence.json": true,
+      "retained-source-status.json": true,
+      "extract_missing_rooms.py": true
+    },
+    "not_run": [
+      "emulator",
+      "actual attacks",
+      "Kirby body/physics simulation",
+      "crumble contact/countdown simulation",
+      "current traversal",
+      "WiKirby retrieval",
+      "repository writes/publication"
+    ],
+    "sha256": {
+      "README.md": "49011634feb7676f0d015563bb9b022f74b40a1428b9a42be94e679910ebf2d4",
+      "analyze_chains.py": "1b8ab5c8717b783dbb952d3d5e2c5b6ec363e00656d4a7ea8ce7767dd7893b6a",
+      "chain-geometry.json": "9ea89003d2a7b45621e2e5c2c32b034d69bf0b81fa7be1468cbadc27b1cfe378",
+      "sequence-probes.json": "e08e1442b4269f8638cf1eea14303b6cd111be401e5d89b02084958db8e05cb0",
+      "sequence_probes.py": "45212c545cd4f68e36a8426783000680d053f8a871624f47c98ba0bcf22bc5d0"
+    }
+  }
+}

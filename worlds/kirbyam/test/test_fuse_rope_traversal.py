@@ -69,7 +69,10 @@ def test_cannon_traversal_is_narrower_than_ignition_and_never_persistent() -> No
             for route in graph.routes:
                 if route.capability == 'fuse':
                     assert route.opens is None
-                    assert route.allowed_abilities and route.allowed_abilities <= CANNON_PROVIDERS
+                    if (row['id'], witness) == ('fuse_126', 'lower_entry_crash'):
+                        assert route.allowed_abilities == frozenset({'Crash'})
+                    else:
+                        assert route.allowed_abilities and route.allowed_abilities <= CANNON_PROVIDERS
 
 
 def physical_exits(region: str) -> set[str]:

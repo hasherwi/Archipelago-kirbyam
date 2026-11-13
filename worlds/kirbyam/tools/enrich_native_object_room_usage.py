@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Enrich native object mapping with per-room usage counts from KatAM ROM data."""
+"""Enrich a spawn-table-1 native object mapping with per-room ROM usage counts.
+
+ObjectTemplate types are local to their spawn table. This helper accepts only
+mappings of table-1 type IDs (the OBJ_* / gSpawnFuncTable1 namespace); it does
+not merge table-2 records into those IDs and rejects unknown spawn tables. The optional default
+mapping file is not distributed here, so callers must verify that convention
+for their input mapping.
+"""
 
 from __future__ import annotations
 
@@ -17,15 +24,19 @@ LEVEL_OBJ_LISTS_COUNT = 287
 ROOM_PROPS_ADDR = 0x089331AC
 ROOM_PROPS_SIZE = 0x00009998
 ROOM_PROPS_STRIDE = 0x28
-ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET = 0x20
-ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x22
+ROOM_PROPS_OBJECT_LIST2_IDX_OFFSET = 0x1C
+ROOM_PROPS_OBJECT_LIST_IDX_OFFSET = 0x20
 ROOM_PROPS_DOORS_IDX_OFFSET = 0x24
 
 LEVEL_INFO_1E4_SIZE = 0x10
 LEVEL_INFO_1E4_OBJ_PTR_OFFSET = 0x00
+# Header +0x0C counts distinct spawn-table-1 types, not object records.
 LEVEL_INFO_1E4_COUNT_OFFSET = 0x0C
 
 OBJECT_SIZE = 0x24
+OBJECT_SIZE_OFFSET = 0x01
+OBJECT_SPAWN_TABLE_OFFSET = 0x00
+MAPPING_SPAWN_TABLE = 1
 OBJECT_TYPE_OFFSET = 0x0C
 
 
@@ -36,7 +47,7 @@ ROOMS_PATH = ROOT / "worlds" / "kirbyam" / "data" / "regions" / "rooms.json"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Enrich native object mapping with per-room usage counts from KatAM ROM data.",
+        description="Enrich a spawn-table-1 native object mapping with per-room ROM usage counts.",
     )
     parser.add_argument(
         "--rom",
@@ -48,7 +59,7 @@ def parse_args() -> argparse.Namespace:
         "--mapping",
         type=Path,
         default=MAPPING_PATH,
-        help=f"Path to native object mapping JSON (default: {MAPPING_PATH}).",
+        help=f"Path to spawn-table-1 type-ID mapping JSON (default: {MAPPING_PATH}).",
     )
     parser.add_argument(
         "--rooms",
@@ -76,11 +87,18 @@ def gba_addr_to_offset(addr: int) -> int:
     return addr - ROM_BASE
 
 
+def require_bytes(data: bytes, offset: int, size: int) -> None:
+    if offset < 0 or offset + size > len(data):
+        raise ValueError(f"Truncated ROM data at offset 0x{offset:X} (need {size} bytes)")
+
+
 def read_u16(data: bytes, offset: int) -> int:
+    require_bytes(data, offset, 2)
     return int.from_bytes(data[offset:offset + 2], "little")
 
 
 def read_u32(data: bytes, offset: int) -> int:
+    require_bytes(data, offset, 4)
     return int.from_bytes(data[offset:offset + 4], "little")
 
 
@@ -126,24 +144,37 @@ def build_doors_idx_to_ap_room_keys(rooms_data: dict[str, Any]) -> dict[int, lis
 
 
 def parse_object_types_for_list(rom: bytes, list_ptr_addr: int) -> List[int]:
-    if list_ptr_addr < ROM_BASE:
+    """Return table-1 type IDs, validating and stepping over every record."""
+    # A null pointer represents an absent list. Other invalid pointers fail closed.
+    if list_ptr_addr == 0:
         return []
 
     list_off = gba_addr_to_offset(list_ptr_addr)
+    require_bytes(rom, list_off, LEVEL_INFO_1E4_SIZE)
     obj_ptr = read_u32(rom, list_off + LEVEL_INFO_1E4_OBJ_PTR_OFFSET)
-    obj_count = rom[list_off + LEVEL_INFO_1E4_COUNT_OFFSET]
-
-    if obj_ptr < ROM_BASE or obj_count == 0:
+    if obj_ptr == 0:
         return []
 
     obj_off = gba_addr_to_offset(obj_ptr)
     out: List[int] = []
-    for i in range(obj_count):
-        ent_off = obj_off + i * OBJECT_SIZE
-        if ent_off + OBJECT_SIZE > len(rom):
-            break
-        out.append(rom[ent_off + OBJECT_TYPE_OFFSET])
-    return out
+    # CreateLevelObjects (code_080023A4.c) walks by ObjectTemplate::unk1,
+    # the size byte at +1, until zero. The header's unkC is not a record count.
+    while True:
+        require_bytes(rom, obj_off, OBJECT_SIZE_OFFSET + 1)
+        size = rom[obj_off + OBJECT_SIZE_OFFSET]
+        if size == 0:
+            return out
+        if size <= OBJECT_TYPE_OFFSET:
+            raise ValueError(f"Object record at 0x{obj_off:X} is too short for its type: {size}")
+        require_bytes(rom, obj_off, size)
+        # CreateObject dispatches by spawnTable before interpreting the type.
+        # Table 2 must not collide with table-1 mapping IDs.
+        spawn_table = rom[obj_off + OBJECT_SPAWN_TABLE_OFFSET]
+        if spawn_table not in (1, 2):
+            raise ValueError(f"Object record at 0x{obj_off:X} has unknown spawn table {spawn_table}")
+        if spawn_table == MAPPING_SPAWN_TABLE:
+            out.append(rom[obj_off + OBJECT_TYPE_OFFSET])
+        obj_off += size
 
 
 def main() -> None:  # noqa: C901
@@ -168,10 +199,9 @@ def main() -> None:  # noqa: C901
     room_props = parse_room_props(rom)
     doors_idx_to_ap = build_doors_idx_to_ap_room_keys(rooms_data)
 
-    # Cache object types per object list index.
+    # gLevelObjLists is a union: background-only entries are not object streams.
+    # Parse only the objectListIdx selected by level.c, never objectList2Idx/unk22.
     object_types_by_list_idx: dict[int, list[int]] = {}
-    for idx, list_ptr in enumerate(level_obj_list_ptrs):
-        object_types_by_list_idx[idx] = parse_object_types_for_list(rom, list_ptr)
 
     total_usage_by_object: Counter[int] = Counter()
     per_room_usage_by_object: dict[int, dict[int, int]] = defaultdict(dict)
@@ -183,13 +213,16 @@ def main() -> None:  # noqa: C901
 
         room_counter: Counter[int] = Counter()
 
-        for list_field in ("object_list_idx", "object_list2_idx"):
-            list_idx = entry[list_field]
-            if list_idx == 0xFFFF:
-                continue
-            if list_idx >= LEVEL_OBJ_LISTS_COUNT:
-                continue
-            room_counter.update(object_types_by_list_idx.get(list_idx, []))
+        list_idx = entry["object_list_idx"]
+        if list_idx == 0xFFFF:
+            continue
+        if list_idx >= len(level_obj_list_ptrs):
+            raise ValueError(f"Room {room_id} has invalid object list index {list_idx}")
+        if list_idx not in object_types_by_list_idx:
+            object_types_by_list_idx[list_idx] = parse_object_types_for_list(
+                rom, level_obj_list_ptrs[list_idx],
+            )
+        room_counter.update(object_types_by_list_idx[list_idx])
 
         if not room_counter:
             continue

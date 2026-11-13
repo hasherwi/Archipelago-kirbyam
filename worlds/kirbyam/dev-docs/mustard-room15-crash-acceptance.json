@@ -1,0 +1,306 @@
+{
+  "schema_version": 2,
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "normal_generation_seed": 29,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 14642711172500888381,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088C2714",
+    "source_key": "FOLEY",
+    "native_room": 533,
+    "position": [
+      224,
+      64
+    ],
+    "ability": "Crash",
+    "runtime_ability_id": 24,
+    "finite_acquisition": true
+  },
+  "target": {
+    "template": "0x088C26F0",
+    "gate_template": "0x088C26CC",
+    "native_room": 533,
+    "native_switch_origin": [
+      312,
+      145.99609375
+    ],
+    "template_position": [
+      312,
+      144
+    ],
+    "destination": 325
+  },
+  "independent_entry": "Rainbow Hub4 / native590; actual lower-left door to534, then original534\u2192533 door.",
+  "equipment_transition": "Normal \u2192 native Foley payload \u2192 Crash \u2192 Crash screen attack \u2192 Normal \u2192 timed gate crossing \u2192325.",
+  "qualification_6hp": "Positives at actual 6 HP and 100%/500% enemy health match the 1 HP timings and coordinates from the recorded checkpoints. No-trigger and offscreen controls are qualified at 1 HP only.",
+  "scope": "Camera-valid Crash alternative only for switch_533_room16.",
+  "native_fixture_options": {
+    "ability_gating": 0,
+    "area_keys": 0
+  },
+  "fixture_boundary": "Production AP ROM, startup room/positions only; eight guarded client configuration writes before movement; no gameplay writes, equipment injection, restores or helpers.",
+  "positive_pose": {
+    "position": [
+      208.75,
+      145.6836
+    ],
+    "viewport": [
+      88.75,
+      65.6836,
+      328.75,
+      225.6836
+    ],
+    "switch_bounds": [
+      305,
+      135.996,
+      319,
+      143.996
+    ]
+  },
+  "offscreen_pose": {
+    "position": [
+      166,
+      152.996
+    ],
+    "viewport_x": [
+      46,
+      286
+    ],
+    "switch_left": 305
+  },
+  "frames": {
+    "acquisition": 4377,
+    "attack_start": 4455,
+    "switch_contact": 4525,
+    "normal_consumption": 4610,
+    "gate_crossing": 4681,
+    "arrival325": 4906
+  },
+  "runs": {
+    "final100-positive": {
+      "health_percent": 100,
+      "actual_hp": 1,
+      "control": "positive",
+      "rom_sha256": "a9f8653cc984ed744bbc6d2dff094cf6b57495749e3a0b7a73d25cf344646629",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "ee185b3d507520fbffae123f67986bc4e1a56132ea147acb0e25fbffd6801cca",
+      "states_sha256": "76f6cd982d9f7321182154fe5a0136593e5473e0c086470d91d09cf58662d8a0",
+      "hp_sha256": "be4e7e6164c9cd3993005d58a236ad9415563fa9ed982e6197dd87efcbf8b185",
+      "hp_sample_count": 3870,
+      "hp_min": 1,
+      "hp_max": 1,
+      "switch_activated": true,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 325,
+        "x": 56.0,
+        "y": 312.99609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 0
+      }
+    },
+    "final500-positive": {
+      "health_percent": 500,
+      "actual_hp": 1,
+      "control": "positive",
+      "rom_sha256": "bae15511c95bdfb25f5dcc00aef3424b78ea29aba86b7c758793b5641a8acf9c",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "0948c22a87911e918b03ccb8a809971afc717427f5a49a49598ad0eaed5df867",
+      "states_sha256": "76f6cd982d9f7321182154fe5a0136593e5473e0c086470d91d09cf58662d8a0",
+      "hp_sha256": "be4e7e6164c9cd3993005d58a236ad9415563fa9ed982e6197dd87efcbf8b185",
+      "hp_sample_count": 3870,
+      "hp_min": 1,
+      "hp_max": 1,
+      "switch_activated": true,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 325,
+        "x": 56.0,
+        "y": 312.99609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 0
+      }
+    },
+    "final100-no-trigger": {
+      "health_percent": 100,
+      "actual_hp": 1,
+      "control": "no-trigger",
+      "rom_sha256": "a9f8653cc984ed744bbc6d2dff094cf6b57495749e3a0b7a73d25cf344646629",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "647326d0e3a0b2d0d5a706b811a425ed60de8523518fef33b9d631ce2ed249e0",
+      "states_sha256": "44c231e23044b6785496d0d1a8cb6f8056279bcb2eacbf8a9b567340ff032d75",
+      "hp_sha256": "be4e7e6164c9cd3993005d58a236ad9415563fa9ed982e6197dd87efcbf8b185",
+      "hp_sample_count": 3870,
+      "hp_min": 1,
+      "hp_max": 1,
+      "switch_activated": false,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 533,
+        "x": 169.99609375,
+        "y": 150.10546875,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 24
+      }
+    },
+    "final500-no-trigger": {
+      "health_percent": 500,
+      "actual_hp": 1,
+      "control": "no-trigger",
+      "rom_sha256": "bae15511c95bdfb25f5dcc00aef3424b78ea29aba86b7c758793b5641a8acf9c",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "7500a31dd09e2b403b70deb073e6e88ed630182151251c484533ef1f3071666b",
+      "states_sha256": "44c231e23044b6785496d0d1a8cb6f8056279bcb2eacbf8a9b567340ff032d75",
+      "hp_sha256": "be4e7e6164c9cd3993005d58a236ad9415563fa9ed982e6197dd87efcbf8b185",
+      "hp_sample_count": 3870,
+      "hp_min": 1,
+      "hp_max": 1,
+      "switch_activated": false,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 533,
+        "x": 169.99609375,
+        "y": 150.10546875,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 24
+      }
+    },
+    "final100-offscreen": {
+      "health_percent": 100,
+      "actual_hp": 1,
+      "control": "offscreen",
+      "rom_sha256": "a9f8653cc984ed744bbc6d2dff094cf6b57495749e3a0b7a73d25cf344646629",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "0500ea99e7326d9bd320d7f46ad32d41e3db2a3c6f300c705a5530b48f196d87",
+      "states_sha256": "16c2a94149ff4ea0e825872162fb4a321f86a563d25cd2a63a8900f0bc162524",
+      "hp_sha256": "49d00ff9e454af043bfec550be72f4e38ec648bd17a01a7a2bec425f9bb22411",
+      "hp_sample_count": 3661,
+      "hp_min": 1,
+      "hp_max": 1,
+      "switch_activated": false,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4745,
+        "room": 533,
+        "x": 166.0,
+        "y": 152.99609375,
+        "hp": 1,
+        "max_hp": 1,
+        "ability": 0
+      }
+    },
+    "final100-6hp-positive": {
+      "health_percent": 100,
+      "actual_hp": 6,
+      "control": "positive",
+      "rom_sha256": "0916d27fa2c7bc02d4af8be5b7b2b57947f3fb566deb7633fdcfb7abd34afe65",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "f2f9f42bcfb6d59d79f760e69bc7a07756dddf76328aab8717ec3c936e8f0cfc",
+      "states_sha256": "54c8bdc56e6ac331658f1a3168948bec8eef8c44f82f4a7315282a746425a4c4",
+      "hp_sha256": "8d18b98afab9f6587cd835d4bc5f03ea2fc026df555e3756a764ff358d9fb7c5",
+      "hp_sample_count": 3870,
+      "hp_min": 6,
+      "hp_max": 6,
+      "switch_activated": true,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 325,
+        "x": 56.0,
+        "y": 312.99609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 0
+      }
+    },
+    "final500-6hp-positive": {
+      "health_percent": 500,
+      "actual_hp": 6,
+      "control": "positive",
+      "rom_sha256": "e42afbb0a2b1b8e6ee562dab6ad79f7e1ce9c0b8f138fad3c81b4b5966b9d81e",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "result_sha256": "bca8da91d3c661fd67a8f435797df5afbc31d33025073dccb23fb2ab4adc1aaa",
+      "states_sha256": "54c8bdc56e6ac331658f1a3168948bec8eef8c44f82f4a7315282a746425a4c4",
+      "hp_sha256": "8d18b98afab9f6587cd835d4bc5f03ea2fc026df555e3756a764ff358d9fb7c5",
+      "hp_sample_count": 3870,
+      "hp_min": 6,
+      "hp_max": 6,
+      "switch_activated": true,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "final": {
+        "frame": 4954,
+        "room": 325,
+        "x": 56.0,
+        "y": 312.99609375,
+        "hp": 6,
+        "max_hp": 6,
+        "ability": 0
+      }
+    }
+  },
+  "limits": [
+    "Production fixtures use ability_gating=0 and area_keys=0; native permission enforcement was not separately exercised. Host-side tests enforce Crash permission when gating is enabled.",
+    "No general whole-room Crash coverage, other switch templates, Bomb Block credit, health-sensitive alternatives, environmental Foley explosion, Phone helper, or other exits are established.",
+    "This is a guaranteed shuffled finite source witness, not prediction of random-mode retries.",
+    "Conditional progression promotion is restricted to the enforced guaranteed-Foley Crash alternative. Other policies retain useful classification."
+  ],
+  "trace_scope": "Continuous HP observations cover gameplay from frame 1085. Full per-frame coordinate/state traces begin at frame 4374; earlier approach evidence consists of inputs, transitions and checkpoints."
+}

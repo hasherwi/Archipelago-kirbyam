@@ -1,0 +1,5051 @@
+{
+  "schema_version": 1,
+  "target": {
+    "id": "switch_310_mustard_map",
+    "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+    "location_id": 3960205,
+    "native_room": 310,
+    "chest": 39,
+    "chest_template": "0x088C3FA4",
+    "switch_template": "0x088C3F14"
+  },
+  "source_commit": "6e189f5f7f3d13797c9ea5cf8333009e85b6fbcb",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "generation_seed": 63,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 7582041893722069666,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "key": "TWISTER",
+    "template": "0x088B59B4",
+    "native_xy": [
+      144,
+      280
+    ],
+    "native_room": 534,
+    "table_offset": "0x3518EE",
+    "source_bit": 28,
+    "ability": 19,
+    "finite": true,
+    "independent_access": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+    "normal_start_room": 590
+  },
+  "private_artifact_sha256": {
+    "packet.json": "6e5717827f62f74c28bf48e5bf583c4e181acb0e9fa7cccd89bede04638f4438",
+    "acceptance.json": "c4d1218cf61a7a58dde5a93eb147b51f5963b0bddc4fc559bd5b20358e2fce55",
+    "gating-acceptance.json": "3cd7be9a38d349c6aca905af303b44a7f866671e06f2020c9e28756e7ad2f8fc",
+    "witness.md": "f1a18a981a7960fdc5238daa2f5234a7a227de42b9ba0304e13757b21a95de89",
+    "robust-inputs.json": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f",
+    "positive-inputs.json": "e5a2baabfb38b3654cc8eaf975dd8cf495d8227a97313ce206cab8956bab34c4",
+    "prefix-inputs.json": "8a8d9255adbcfdbf606f573bf39e8dead31830b424cb65e62d4ed8ad4d740ed7",
+    "health-pairs.json": "0e27dfc1bccf0e3dcaf66807b947252e04c04229bb967658459ec82bfd16f079",
+    "verify.py": "5b7ffb975b36b3ea15ba5a90bc62fe5c553b806f2b48bf7d8724418f0f93907c"
+  },
+  "private_hash_format": "Exact raw bytes; never normalize the immutable private artifacts.",
+  "tracked_client_hash_format": "UTF-8 text with LF line endings (Git blob content)",
+  "tracked_client_sha256": "b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9",
+  "setup": {
+    "full_route_gating": false,
+    "area_keys": false,
+    "normal_entry_fixture_only": true,
+    "fixture_byte_differences": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 78
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 2
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 248
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 104
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "client_config_writes": [
+      {
+        "frame": 1085,
+        "address": "0x203b064",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b068",
+        "size": 4,
+        "value": "a21a6f53",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b06c",
+        "size": 4,
+        "value": "eed23869",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b070",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b074",
+        "size": 4,
+        "value": "feffff03",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b0",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b0b4",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      },
+      {
+        "frame": 1085,
+        "address": "0x203b078",
+        "size": 4,
+        "value": "00000000",
+        "guard_failed": false,
+        "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+      }
+    ],
+    "gameplay_ram_writes": 0,
+    "runtime_rom_writes": 0,
+    "state_restores": 0,
+    "server_submission": false,
+    "helpers_room": 101,
+    "helper_parent_attacks_in310": false,
+    "helpers_inert": false
+  },
+  "inputs": {
+    "columns": [
+      "start",
+      "frames",
+      "keys"
+    ],
+    "positive": [
+      [
+        0,
+        180,
+        0
+      ],
+      [
+        180,
+        1,
+        8
+      ],
+      [
+        181,
+        120,
+        0
+      ],
+      [
+        301,
+        1,
+        8
+      ],
+      [
+        302,
+        120,
+        0
+      ],
+      [
+        422,
+        1,
+        1
+      ],
+      [
+        423,
+        240,
+        0
+      ],
+      [
+        663,
+        1,
+        1
+      ],
+      [
+        664,
+        180,
+        0
+      ],
+      [
+        844,
+        1,
+        1
+      ],
+      [
+        845,
+        240,
+        0
+      ],
+      [
+        1085,
+        60,
+        0
+      ],
+      [
+        1145,
+        20,
+        64
+      ],
+      [
+        1165,
+        60,
+        0
+      ],
+      [
+        1225,
+        50,
+        17
+      ],
+      [
+        1275,
+        10,
+        18
+      ],
+      [
+        1285,
+        20,
+        128
+      ],
+      [
+        1305,
+        30,
+        0
+      ],
+      [
+        1335,
+        55,
+        80
+      ],
+      [
+        1390,
+        1,
+        2
+      ],
+      [
+        1391,
+        30,
+        0
+      ],
+      [
+        1421,
+        40,
+        16
+      ],
+      [
+        1461,
+        30,
+        80
+      ],
+      [
+        1491,
+        21,
+        32
+      ],
+      [
+        1512,
+        1,
+        1
+      ],
+      [
+        1513,
+        30,
+        0
+      ],
+      [
+        1543,
+        20,
+        17
+      ],
+      [
+        1563,
+        20,
+        16
+      ],
+      [
+        1583,
+        1,
+        128
+      ],
+      [
+        1584,
+        40,
+        129
+      ],
+      [
+        1624,
+        50,
+        80
+      ],
+      [
+        1674,
+        60,
+        64
+      ],
+      [
+        1734,
+        90,
+        16
+      ],
+      [
+        1824,
+        110,
+        16
+      ],
+      [
+        1934,
+        50,
+        16
+      ],
+      [
+        1984,
+        25,
+        64
+      ],
+      [
+        2009,
+        30,
+        16
+      ],
+      [
+        2039,
+        1,
+        2
+      ],
+      [
+        2040,
+        30,
+        0
+      ],
+      [
+        2070,
+        65,
+        16
+      ],
+      [
+        2135,
+        20,
+        64
+      ],
+      [
+        2155,
+        60,
+        0
+      ],
+      [
+        2215,
+        1,
+        1
+      ],
+      [
+        2216,
+        30,
+        0
+      ],
+      [
+        2246,
+        20,
+        64
+      ],
+      [
+        2266,
+        60,
+        0
+      ],
+      [
+        2326,
+        5,
+        17
+      ],
+      [
+        2331,
+        25,
+        0
+      ],
+      [
+        2356,
+        20,
+        64
+      ],
+      [
+        2376,
+        60,
+        0
+      ],
+      [
+        2436,
+        70,
+        80
+      ],
+      [
+        2506,
+        25,
+        16
+      ],
+      [
+        2531,
+        1,
+        17
+      ],
+      [
+        2532,
+        35,
+        16
+      ],
+      [
+        2567,
+        20,
+        16
+      ],
+      [
+        2587,
+        23,
+        80
+      ],
+      [
+        2610,
+        40,
+        64
+      ],
+      [
+        2650,
+        16,
+        64
+      ],
+      [
+        2666,
+        85,
+        16
+      ],
+      [
+        2751,
+        34,
+        144
+      ],
+      [
+        2785,
+        1,
+        98
+      ],
+      [
+        2786,
+        14,
+        64
+      ],
+      [
+        2800,
+        75,
+        0
+      ],
+      [
+        2875,
+        6,
+        64
+      ],
+      [
+        2881,
+        1,
+        66
+      ],
+      [
+        2882,
+        14,
+        64
+      ],
+      [
+        2896,
+        104,
+        0
+      ],
+      [
+        3000,
+        32,
+        144
+      ],
+      [
+        3032,
+        16,
+        16
+      ],
+      [
+        3048,
+        1,
+        2
+      ],
+      [
+        3049,
+        27,
+        0
+      ],
+      [
+        3076,
+        1,
+        2
+      ],
+      [
+        3077,
+        27,
+        0
+      ],
+      [
+        3104,
+        1,
+        2
+      ],
+      [
+        3105,
+        27,
+        0
+      ],
+      [
+        3132,
+        1,
+        2
+      ],
+      [
+        3133,
+        27,
+        0
+      ],
+      [
+        3160,
+        1,
+        2
+      ],
+      [
+        3161,
+        27,
+        0
+      ],
+      [
+        3188,
+        1,
+        2
+      ],
+      [
+        3189,
+        27,
+        0
+      ],
+      [
+        3216,
+        1,
+        2
+      ],
+      [
+        3217,
+        27,
+        0
+      ],
+      [
+        3244,
+        1,
+        2
+      ],
+      [
+        3245,
+        27,
+        0
+      ],
+      [
+        3272,
+        60,
+        16
+      ],
+      [
+        3332,
+        1,
+        2
+      ],
+      [
+        3333,
+        28,
+        0
+      ],
+      [
+        3361,
+        60,
+        16
+      ],
+      [
+        3421,
+        28,
+        16
+      ],
+      [
+        3449,
+        20,
+        64
+      ],
+      [
+        3469,
+        80,
+        0
+      ]
+    ],
+    "control": "Remove only B from the second launch at2881; clean prefixes stop3000.",
+    "post_crossing_weak_arrows": 8,
+    "omission": [
+      [
+        0,
+        180,
+        0
+      ],
+      [
+        180,
+        1,
+        8
+      ],
+      [
+        181,
+        120,
+        0
+      ],
+      [
+        301,
+        1,
+        8
+      ],
+      [
+        302,
+        120,
+        0
+      ],
+      [
+        422,
+        1,
+        1
+      ],
+      [
+        423,
+        240,
+        0
+      ],
+      [
+        663,
+        1,
+        1
+      ],
+      [
+        664,
+        180,
+        0
+      ],
+      [
+        844,
+        1,
+        1
+      ],
+      [
+        845,
+        240,
+        0
+      ],
+      [
+        1085,
+        60,
+        0
+      ],
+      [
+        1145,
+        20,
+        64
+      ],
+      [
+        1165,
+        60,
+        0
+      ],
+      [
+        1225,
+        50,
+        17
+      ],
+      [
+        1275,
+        10,
+        18
+      ],
+      [
+        1285,
+        20,
+        128
+      ],
+      [
+        1305,
+        30,
+        0
+      ],
+      [
+        1335,
+        55,
+        80
+      ],
+      [
+        1390,
+        1,
+        2
+      ],
+      [
+        1391,
+        30,
+        0
+      ],
+      [
+        1421,
+        40,
+        16
+      ],
+      [
+        1461,
+        30,
+        80
+      ],
+      [
+        1491,
+        21,
+        32
+      ],
+      [
+        1512,
+        1,
+        1
+      ],
+      [
+        1513,
+        30,
+        0
+      ],
+      [
+        1543,
+        20,
+        17
+      ],
+      [
+        1563,
+        20,
+        16
+      ],
+      [
+        1583,
+        1,
+        128
+      ],
+      [
+        1584,
+        40,
+        129
+      ],
+      [
+        1624,
+        50,
+        80
+      ],
+      [
+        1674,
+        60,
+        64
+      ],
+      [
+        1734,
+        90,
+        16
+      ],
+      [
+        1824,
+        110,
+        16
+      ],
+      [
+        1934,
+        50,
+        16
+      ],
+      [
+        1984,
+        25,
+        64
+      ],
+      [
+        2009,
+        30,
+        16
+      ],
+      [
+        2039,
+        1,
+        2
+      ],
+      [
+        2040,
+        30,
+        0
+      ],
+      [
+        2070,
+        65,
+        16
+      ],
+      [
+        2135,
+        20,
+        64
+      ],
+      [
+        2155,
+        60,
+        0
+      ],
+      [
+        2215,
+        1,
+        1
+      ],
+      [
+        2216,
+        30,
+        0
+      ],
+      [
+        2246,
+        20,
+        64
+      ],
+      [
+        2266,
+        60,
+        0
+      ],
+      [
+        2326,
+        5,
+        17
+      ],
+      [
+        2331,
+        25,
+        0
+      ],
+      [
+        2356,
+        20,
+        64
+      ],
+      [
+        2376,
+        60,
+        0
+      ],
+      [
+        2436,
+        70,
+        80
+      ],
+      [
+        2506,
+        25,
+        16
+      ],
+      [
+        2531,
+        1,
+        17
+      ],
+      [
+        2532,
+        35,
+        16
+      ],
+      [
+        2567,
+        20,
+        16
+      ],
+      [
+        2587,
+        23,
+        80
+      ],
+      [
+        2610,
+        40,
+        64
+      ],
+      [
+        2650,
+        16,
+        64
+      ],
+      [
+        2666,
+        85,
+        16
+      ],
+      [
+        2751,
+        34,
+        144
+      ],
+      [
+        2785,
+        1,
+        98
+      ],
+      [
+        2786,
+        14,
+        64
+      ],
+      [
+        2800,
+        75,
+        0
+      ],
+      [
+        2875,
+        6,
+        64
+      ],
+      [
+        2881,
+        1,
+        64
+      ],
+      [
+        2882,
+        14,
+        64
+      ],
+      [
+        2896,
+        104,
+        0
+      ],
+      [
+        3000,
+        32,
+        144
+      ],
+      [
+        3032,
+        16,
+        16
+      ],
+      [
+        3048,
+        1,
+        2
+      ],
+      [
+        3049,
+        27,
+        0
+      ],
+      [
+        3076,
+        1,
+        2
+      ],
+      [
+        3077,
+        27,
+        0
+      ],
+      [
+        3104,
+        1,
+        2
+      ],
+      [
+        3105,
+        27,
+        0
+      ],
+      [
+        3132,
+        1,
+        2
+      ],
+      [
+        3133,
+        27,
+        0
+      ],
+      [
+        3160,
+        1,
+        2
+      ],
+      [
+        3161,
+        27,
+        0
+      ],
+      [
+        3188,
+        1,
+        2
+      ],
+      [
+        3189,
+        27,
+        0
+      ],
+      [
+        3216,
+        1,
+        2
+      ],
+      [
+        3217,
+        27,
+        0
+      ],
+      [
+        3244,
+        1,
+        2
+      ],
+      [
+        3245,
+        27,
+        0
+      ],
+      [
+        3272,
+        60,
+        16
+      ],
+      [
+        3332,
+        1,
+        2
+      ],
+      [
+        3333,
+        28,
+        0
+      ],
+      [
+        3361,
+        60,
+        16
+      ],
+      [
+        3421,
+        28,
+        16
+      ],
+      [
+        3449,
+        20,
+        64
+      ],
+      [
+        3469,
+        80,
+        0
+      ]
+    ]
+  },
+  "health_pairs": [
+    {
+      "chip_hp": 1,
+      "knight_hp": 2,
+      "health_percent_interval": [
+        50,
+        62
+      ],
+      "representative": 50,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 1
+    },
+    {
+      "chip_hp": 1,
+      "knight_hp": 3,
+      "health_percent_interval": [
+        63,
+        74
+      ],
+      "representative": 63,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 1
+    },
+    {
+      "chip_hp": 2,
+      "knight_hp": 3,
+      "health_percent_interval": [
+        75,
+        87
+      ],
+      "representative": 75,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 1
+    },
+    {
+      "chip_hp": 2,
+      "knight_hp": 4,
+      "health_percent_interval": [
+        88,
+        112
+      ],
+      "representative": 88,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 2
+    },
+    {
+      "chip_hp": 2,
+      "knight_hp": 5,
+      "health_percent_interval": [
+        113,
+        124
+      ],
+      "representative": 113,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 2
+    },
+    {
+      "chip_hp": 3,
+      "knight_hp": 5,
+      "health_percent_interval": [
+        125,
+        137
+      ],
+      "representative": 125,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 2
+    },
+    {
+      "chip_hp": 3,
+      "knight_hp": 6,
+      "health_percent_interval": [
+        138,
+        162
+      ],
+      "representative": 138,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 2
+    },
+    {
+      "chip_hp": 3,
+      "knight_hp": 7,
+      "health_percent_interval": [
+        163,
+        174
+      ],
+      "representative": 163,
+      "chip_weak_hits_to_defeat": 1,
+      "knight_weak_hits_to_defeat": 3
+    },
+    {
+      "chip_hp": 4,
+      "knight_hp": 7,
+      "health_percent_interval": [
+        175,
+        187
+      ],
+      "representative": 175,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 3
+    },
+    {
+      "chip_hp": 4,
+      "knight_hp": 8,
+      "health_percent_interval": [
+        188,
+        212
+      ],
+      "representative": 188,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 3
+    },
+    {
+      "chip_hp": 4,
+      "knight_hp": 9,
+      "health_percent_interval": [
+        213,
+        224
+      ],
+      "representative": 213,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 3
+    },
+    {
+      "chip_hp": 5,
+      "knight_hp": 9,
+      "health_percent_interval": [
+        225,
+        237
+      ],
+      "representative": 225,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 3
+    },
+    {
+      "chip_hp": 5,
+      "knight_hp": 10,
+      "health_percent_interval": [
+        238,
+        262
+      ],
+      "representative": 238,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 4
+    },
+    {
+      "chip_hp": 5,
+      "knight_hp": 11,
+      "health_percent_interval": [
+        263,
+        274
+      ],
+      "representative": 263,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 4
+    },
+    {
+      "chip_hp": 6,
+      "knight_hp": 11,
+      "health_percent_interval": [
+        275,
+        287
+      ],
+      "representative": 275,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 4
+    },
+    {
+      "chip_hp": 6,
+      "knight_hp": 12,
+      "health_percent_interval": [
+        288,
+        312
+      ],
+      "representative": 288,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 4
+    },
+    {
+      "chip_hp": 6,
+      "knight_hp": 13,
+      "health_percent_interval": [
+        313,
+        324
+      ],
+      "representative": 313,
+      "chip_weak_hits_to_defeat": 2,
+      "knight_weak_hits_to_defeat": 5
+    },
+    {
+      "chip_hp": 7,
+      "knight_hp": 13,
+      "health_percent_interval": [
+        325,
+        337
+      ],
+      "representative": 325,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 5
+    },
+    {
+      "chip_hp": 7,
+      "knight_hp": 14,
+      "health_percent_interval": [
+        338,
+        362
+      ],
+      "representative": 338,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 5
+    },
+    {
+      "chip_hp": 7,
+      "knight_hp": 15,
+      "health_percent_interval": [
+        363,
+        374
+      ],
+      "representative": 363,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 5
+    },
+    {
+      "chip_hp": 8,
+      "knight_hp": 15,
+      "health_percent_interval": [
+        375,
+        387
+      ],
+      "representative": 375,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 5
+    },
+    {
+      "chip_hp": 8,
+      "knight_hp": 16,
+      "health_percent_interval": [
+        388,
+        412
+      ],
+      "representative": 388,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 6
+    },
+    {
+      "chip_hp": 8,
+      "knight_hp": 17,
+      "health_percent_interval": [
+        413,
+        424
+      ],
+      "representative": 413,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 6
+    },
+    {
+      "chip_hp": 9,
+      "knight_hp": 17,
+      "health_percent_interval": [
+        425,
+        437
+      ],
+      "representative": 425,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 6
+    },
+    {
+      "chip_hp": 9,
+      "knight_hp": 18,
+      "health_percent_interval": [
+        438,
+        462
+      ],
+      "representative": 438,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 6
+    },
+    {
+      "chip_hp": 9,
+      "knight_hp": 19,
+      "health_percent_interval": [
+        463,
+        474
+      ],
+      "representative": 463,
+      "chip_weak_hits_to_defeat": 3,
+      "knight_weak_hits_to_defeat": 7
+    },
+    {
+      "chip_hp": 10,
+      "knight_hp": 19,
+      "health_percent_interval": [
+        475,
+        487
+      ],
+      "representative": 475,
+      "chip_weak_hits_to_defeat": 4,
+      "knight_weak_hits_to_defeat": 7
+    },
+    {
+      "chip_hp": 10,
+      "knight_hp": 20,
+      "health_percent_interval": [
+        488,
+        500
+      ],
+      "representative": 488,
+      "chip_weak_hits_to_defeat": 4,
+      "knight_weak_hits_to_defeat": 7
+    }
+  ],
+  "cases": [
+    {
+      "name": "robust-100-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 100,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "ed662a75fd8bf143c2ab22e9261006131a50339f7c9dab6a13128f43ed744094",
+        "result.json": "06e13547a9ba94fef25611bb92e9b3af143e28202aa354bb3cbce90825b89654",
+        "states.json": "a57b4f1a8c3a9a47e8bdf03da5a0ef0aa190f56768ee3d83277ace5f1b8192ad",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "152d995583ed022836591e5bd0db4d578f1376e5c34469644cde5e29866aa174",
+        "slot_sha256": "568c01753cd19042162a44f209209f7dc58d4f0afd3f098800c6ed97d3a3b098",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "baacffd6046267725ddfb3c1cc1752438619bb3cb62f04951b16072d626a9a5d",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 2,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 4,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 1,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": -2,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "robust-100-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 100,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "0f1bf612b2fd96dceb1e33cda80a8f88f8dffdb2cc250a19939195fe79eb935a",
+        "result.json": "1d1a3c4dacd03cd76782e64bddee262539f7e9720f48279d268ceb145ef399c7",
+        "states.json": "b5943be86b6779deb796b3d68d22f3e2bd29740a1dca3ec148e6c70e8e77fcce",
+        "hp.json": "67878596cb7060dc5c016a161f7cdd8e1e288673ad5b922c75d09149e94da061"
+      },
+      "identity": {
+        "rom_sha256": "152d995583ed022836591e5bd0db4d578f1376e5c34469644cde5e29866aa174",
+        "slot_sha256": "568c01753cd19042162a44f209209f7dc58d4f0afd3f098800c6ed97d3a3b098",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "baacffd6046267725ddfb3c1cc1752438619bb3cb62f04951b16072d626a9a5d",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "clean-prefix-100-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": true,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 100,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3000,
+      "final_ability": 19,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "0e3b81a84a00e7a8355954fb81960934a3b9a63b5cb9361e989b3fccee918881",
+        "result.json": "f7564237891365ed7b422d86fd8eb273616d0a62aa77ebba1ecaa41ab8f4d8b0",
+        "states.json": "ec4469eabb55c3f62262e0a8b1e0b3370db1211e3236e900140483ffa123e1c0",
+        "hp.json": "faafc8b49dac8053bd42e0e2e22b1730853b46ea2b1fba0aa1683d8b5e52c09c"
+      },
+      "identity": {
+        "rom_sha256": "152d995583ed022836591e5bd0db4d578f1376e5c34469644cde5e29866aa174",
+        "slot_sha256": "568c01753cd19042162a44f209209f7dc58d4f0afd3f098800c6ed97d3a3b098",
+        "input_file_sha256": "8a8d9255adbcfdbf606f573bf39e8dead31830b424cb65e62d4ed8ad4d740ed7"
+      },
+      "build_json_sha256": "baacffd6046267725ddfb3c1cc1752438619bb3cb62f04951b16072d626a9a5d",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "robust-100-6hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 6,
+      "hp_min": 6,
+      "hp_max": 6,
+      "enemy_health_percent": 100,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "c6d39131bd42725b6d6109da50cef6266a2f9e9462fd4e14d3ebe49716af63a1",
+        "result.json": "0cd969028b036efb2c0154fa515941edfa025d568544b356cbfdfc8092046cf0",
+        "states.json": "f8337ccb9bdf7e8d264bcd64988a2d7f57ac6aad0e7ac3c994e7eb7890ee1460",
+        "hp.json": "f8908d49f33c9be835937b5e9ae15323917d69a766ae8d8b00112267aead6b23"
+      },
+      "identity": {
+        "rom_sha256": "9dd6194aee593768c64652a6bd07c7993e27396883f40f4d0ba36c472c5bda04",
+        "slot_sha256": "181ce432d4fa73ce826dc2038295106eb99a0bbab7c850f09ae49673cd0439da",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "dc0c5edb2cadcb6ee7aa7884ddf8e7ab6e4e2e562982a715d54087fdf3030b72",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 2,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 4,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 1,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": -2,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "robust-100-6hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 6,
+      "hp_min": 5,
+      "hp_max": 6,
+      "enemy_health_percent": 100,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "ab48ae547f1d2703d75f3c2279d150a3b25d4c68176073aea4d55baf88daab94",
+        "result.json": "0e87e299237185cb60fa56162d48845a4a973ed5d48e8fa1a399f935caebadb9",
+        "states.json": "7b6c1758c88019654117215ee98a3e74bb0feb33f80c1cdd70385e0d89c13bb9",
+        "hp.json": "1f40cb8d869d1c8181f5084e4c2f7b4ee0649bd5301442c89f5f95a7a63a80fc"
+      },
+      "identity": {
+        "rom_sha256": "9dd6194aee593768c64652a6bd07c7993e27396883f40f4d0ba36c472c5bda04",
+        "slot_sha256": "181ce432d4fa73ce826dc2038295106eb99a0bbab7c850f09ae49673cd0439da",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "dc0c5edb2cadcb6ee7aa7884ddf8e7ab6e4e2e562982a715d54087fdf3030b72",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "clean-prefix-100-6hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": true,
+      "hp": 6,
+      "hp_min": 6,
+      "hp_max": 6,
+      "enemy_health_percent": 100,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3000,
+      "final_ability": 19,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "42140f9160a6f834a7c06207c1e5dba89c185b3887aa864f64921de10e20bd6e",
+        "result.json": "5a54ff037e80f58363ca2b96f22b3f9fa5fce3f27ba32063aca72045e4471c67",
+        "states.json": "148b28ef31717d3b015851bcdfca0c7deeec33d20634f9304591f3c54942d262",
+        "hp.json": "4d023810092caeab6d5a94d54090b53f9698a6aa890fc4f16df2ea3ef55e4839"
+      },
+      "identity": {
+        "rom_sha256": "9dd6194aee593768c64652a6bd07c7993e27396883f40f4d0ba36c472c5bda04",
+        "slot_sha256": "181ce432d4fa73ce826dc2038295106eb99a0bbab7c850f09ae49673cd0439da",
+        "input_file_sha256": "8a8d9255adbcfdbf606f573bf39e8dead31830b424cb65e62d4ed8ad4d740ed7"
+      },
+      "build_json_sha256": "dc0c5edb2cadcb6ee7aa7884ddf8e7ab6e4e2e562982a715d54087fdf3030b72",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "robust-500-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 500,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "1f8b81ba1cad1cdc86e8caec9b4848ff60a100f5b8075087646acb61d060c4e3",
+        "result.json": "2e9ad7311b91ff29889e834a1f2184d495949db4c37fb753b369b9f601923090",
+        "states.json": "011d9a975b6e29cd21d5e6373ac2c36d60d5f00a144942006e99ddd2804975a9",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "591318ccba4cafc6e7a9a78f6059916c358b0ffa378693776dccd9921b0f1e8f",
+        "slot_sha256": "facb26d4dc87ea256482ba214f1245c688ed5ca8e2dbc5868631575f258f0af2",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1e57ec30aac5c5410ac4f52a86d8c1833a77c935289471132c5b9fef4344247e",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 10,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 7,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 20,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "robust-500-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 500,
+      "first_damage_frame": 3161,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "4445fb8fd86c6aa53d0cb65eca73c9d6e30a1f28a64a88be6aaed287edda1330",
+        "result.json": "0e09300f8c2312e7f369cc4d19a1d498b2c7213d072560863af3bd969140f2c0",
+        "states.json": "12cda0008b1272deb154156e4f58b19e0f08deb4b8595e3c88fcbb2d54bde9ad",
+        "hp.json": "87a7db5f1eb7ac3bf3637b379a1e2507c49e47aa8784c586cef1087c8a7f7a93"
+      },
+      "identity": {
+        "rom_sha256": "591318ccba4cafc6e7a9a78f6059916c358b0ffa378693776dccd9921b0f1e8f",
+        "slot_sha256": "facb26d4dc87ea256482ba214f1245c688ed5ca8e2dbc5868631575f258f0af2",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1e57ec30aac5c5410ac4f52a86d8c1833a77c935289471132c5b9fef4344247e",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "clean-prefix-500-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": true,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 500,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3000,
+      "final_ability": 19,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "35c8c1c21f2d264d9ce606cb351e8365a72898a62ca965c6bba3d5e68a4e2740",
+        "result.json": "4b34492afb722fd9ef5e90267b8a5736a891cc9774c40e611d7b3f37b30fb782",
+        "states.json": "bf443225048fcd50c66ecc736ad01dafbed3bddc5fe0c38ec52976b7dbcd5b69",
+        "hp.json": "faafc8b49dac8053bd42e0e2e22b1730853b46ea2b1fba0aa1683d8b5e52c09c"
+      },
+      "identity": {
+        "rom_sha256": "591318ccba4cafc6e7a9a78f6059916c358b0ffa378693776dccd9921b0f1e8f",
+        "slot_sha256": "facb26d4dc87ea256482ba214f1245c688ed5ca8e2dbc5868631575f258f0af2",
+        "input_file_sha256": "8a8d9255adbcfdbf606f573bf39e8dead31830b424cb65e62d4ed8ad4d740ed7"
+      },
+      "build_json_sha256": "1e57ec30aac5c5410ac4f52a86d8c1833a77c935289471132c5b9fef4344247e",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "robust-500-6hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 6,
+      "hp_min": 6,
+      "hp_max": 6,
+      "enemy_health_percent": 500,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "693acf351cea1385d7fa928721df006a0d9984a7a52385d4c695bfb2692184b8",
+        "result.json": "a191ca60ed78e4a67e707d547d45661830086e907dcb771de91be7b8360e67dd",
+        "states.json": "cd61273a61423d4a7bd18d6263ddd4a6dfe39a56d25bb0581291c23364ef9aa7",
+        "hp.json": "f8908d49f33c9be835937b5e9ae15323917d69a766ae8d8b00112267aead6b23"
+      },
+      "identity": {
+        "rom_sha256": "3c181022e700a648732083d04a2cf0408c67e856d81fbddfb5de77c78eaad541",
+        "slot_sha256": "46572e96fba1951633ca4658bb8cb9c36493629ecf16fcc179d3c7b3b814ea56",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "ec63f1aa8b0da2bab536c3a36cf7e384a2e99b814d0250a70b8d2c7d1696fad6",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 10,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 7,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 20,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "robust-500-6hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 6,
+      "hp_min": 5,
+      "hp_max": 6,
+      "enemy_health_percent": 500,
+      "first_damage_frame": 3161,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "c16e0c429eddf1390034dfa370630e680e8c1b96549f594db9bca5ac76b606a2",
+        "result.json": "a1d313d7ab37630720f64c33583923291760ca6cc12315a3c5d272e7d6c13517",
+        "states.json": "d677863f75e9fc8081f320c6385daa61c352016ea3326ac8b29db1a9cd61aa7a",
+        "hp.json": "ec8b572991883ba35ec520214c583cd4942caa6a4b3d248c60a0aa0de09abcbb"
+      },
+      "identity": {
+        "rom_sha256": "3c181022e700a648732083d04a2cf0408c67e856d81fbddfb5de77c78eaad541",
+        "slot_sha256": "46572e96fba1951633ca4658bb8cb9c36493629ecf16fcc179d3c7b3b814ea56",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "ec63f1aa8b0da2bab536c3a36cf7e384a2e99b814d0250a70b8d2c7d1696fad6",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "clean-prefix-500-6hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": true,
+      "hp": 6,
+      "hp_min": 6,
+      "hp_max": 6,
+      "enemy_health_percent": 500,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3000,
+      "final_ability": 19,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "d8684633800d01b260b7c4d915e24367041d65fe2d3f1f522f4f7e577d184416",
+        "result.json": "4f20227140ae6bbdd5461105d770029b631cac795f6ae33b95458486fcf7f0e8",
+        "states.json": "49efd76a7fa1e2b287066eea6c3bec1a2e57e8974800e2ef0c1d45b0a11343bf",
+        "hp.json": "4d023810092caeab6d5a94d54090b53f9698a6aa890fc4f16df2ea3ef55e4839"
+      },
+      "identity": {
+        "rom_sha256": "3c181022e700a648732083d04a2cf0408c67e856d81fbddfb5de77c78eaad541",
+        "slot_sha256": "46572e96fba1951633ca4658bb8cb9c36493629ecf16fcc179d3c7b3b814ea56",
+        "input_file_sha256": "8a8d9255adbcfdbf606f573bf39e8dead31830b424cb65e62d4ed8ad4d740ed7"
+      },
+      "build_json_sha256": "ec63f1aa8b0da2bab536c3a36cf7e384a2e99b814d0250a70b8d2c7d1696fad6",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "threshold-50-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 50,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "67becccb34e3ce599441fd4905ea985e1908aa882b901aabcf00ee34588cbd6b",
+        "result.json": "c55b5b498547ba83aafa36eaa367f0bf5c3890f66a27310358378384c610ae85",
+        "states.json": "ef5ba9a814405c7fe4a8bfc4d4414c3df7cbfb6a888058d93bbdb53d31208220",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "4198f606eecc20d6227450e5298cb02b3a9cd5a54b071fca145dfded8af88477",
+        "slot_sha256": "44742428170e973ffcd94819bd0eb16d007dddacfed51ec355fe76e54d37a557",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "7c72e300764222db1aa092e954637c735e81951afff89996e948a0ff24ccc241",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 1,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -2,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 2,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": -1,
+          "x": 488.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "threshold-50-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 50,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "22216735f39795b9cb415276b8dab0265a8e74b0c6d7c25f0ca44eb131be21a5",
+        "result.json": "644c70047810e0702862d5bbf9abdd3bed4dcb3889dc85750d668f48a769d809",
+        "states.json": "a5f6397b654b69f46ee4186c16e832963c0790ffc157a909974c1039c40d563c",
+        "hp.json": "98ae65c866c69f049700c1d8ba4e7e909568c4ac78c7a9738f15ff1220eaca59"
+      },
+      "identity": {
+        "rom_sha256": "4198f606eecc20d6227450e5298cb02b3a9cd5a54b071fca145dfded8af88477",
+        "slot_sha256": "44742428170e973ffcd94819bd0eb16d007dddacfed51ec355fe76e54d37a557",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "7c72e300764222db1aa092e954637c735e81951afff89996e948a0ff24ccc241",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "threshold-162-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 162,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "6acceee4963924af10ef485619dce1b5ce6c712270dba6bad3932f6343ea79b3",
+        "result.json": "0397189c37626210b492d99cb79eb5afdb489bec56b116c9c3f4d2b87f3263c1",
+        "states.json": "1679f061e0935d4f8b307d802fd0429462eeef3a181902f61bdb3524cc0de1a4",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "0c62e7c0a49d3fcf3d325f53163f751bc89ad79a7a308b85258f2e759e3633bd",
+        "slot_sha256": "cf2e90e0109406fc125c3b9140a53380f57c2993f1b60ffbcb6673598fe49824",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "9bed45a90f6e8c13ce9aad4594dc00093c36ab51acfc8cd1b6cbad9939f3c8e3",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 3,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 0,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 6,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 3,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": 0,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "threshold-162-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 162,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "793f5ff3a0c666e1bd452e2bb823b18dc6e79d76fa5a74871280bcb6f9ce7ca4",
+        "result.json": "6df0b170535dd9c1685048b7e3034e7ebe214dcc37258424e7b791ab0280709f",
+        "states.json": "f9717adff1374dba53e0ec1ecd6489973834f6d370f2205a21b955b0a0c10fe6",
+        "hp.json": "67878596cb7060dc5c016a161f7cdd8e1e288673ad5b922c75d09149e94da061"
+      },
+      "identity": {
+        "rom_sha256": "0c62e7c0a49d3fcf3d325f53163f751bc89ad79a7a308b85258f2e759e3633bd",
+        "slot_sha256": "cf2e90e0109406fc125c3b9140a53380f57c2993f1b60ffbcb6673598fe49824",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "9bed45a90f6e8c13ce9aad4594dc00093c36ab51acfc8cd1b6cbad9939f3c8e3",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "threshold-163-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 163,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "e1b0af0b63f3cb399e715b3c74d03e18c7e6bb7335efb292acb63b5044e6c82b",
+        "result.json": "176d3a476dbe89afc13562a1e298d593b1482f64ac5f64521cb4ffeec9c3f40f",
+        "states.json": "c0a1d0bf97791854f6d6fe2a0c568678ef73b09110be3839b4962640e777b1e8",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "d803a7dff2e2c749dce78e74bef7eda99814be3153e7b4e8cae744e302e85d85",
+        "slot_sha256": "1fec1d5b04d600c43754e42ac337080c8f35fb9a6bff5bd09b3dc70d82334018",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "00e12aa3fd6b8efa5cb7483f9b6da8569ba8d02a0dbecf463b22256fdd32524c",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 3,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 0,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 7,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 4,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": 1,
+          "x": 497.0
+        },
+        {
+          "frame": 3123,
+          "hp": -2,
+          "x": 505.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "threshold-163-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 163,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "516ba5128f248c9bf09f0ce2f445ff1d57ecea58be1afe1091c66041b449da63",
+        "result.json": "7b990485e7f385a6137b76533a78bc7dd0f465affb74e9286023d7dc684c6f07",
+        "states.json": "29882764ce5ebd367415bfd80d9d7b8bffb7c7e6790ff07d951c4b89201b8d15",
+        "hp.json": "67878596cb7060dc5c016a161f7cdd8e1e288673ad5b922c75d09149e94da061"
+      },
+      "identity": {
+        "rom_sha256": "d803a7dff2e2c749dce78e74bef7eda99814be3153e7b4e8cae744e302e85d85",
+        "slot_sha256": "1fec1d5b04d600c43754e42ac337080c8f35fb9a6bff5bd09b3dc70d82334018",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "00e12aa3fd6b8efa5cb7483f9b6da8569ba8d02a0dbecf463b22256fdd32524c",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "threshold-174-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 174,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "69aecdca3af474b4949655ae4128a4ceabf1cdf80a4b009a79280d29a8c3faa3",
+        "result.json": "2d6b4f4542e618888ae5c2377ab945a920b46e00965927934036f3ec444e4d56",
+        "states.json": "c0a1d0bf97791854f6d6fe2a0c568678ef73b09110be3839b4962640e777b1e8",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "7c8d953de849fc4ea14b794e18efa2a506f8c9d797cc121447a0278bd194f838",
+        "slot_sha256": "806d7ae3c1bc422e4e2d8d58c8a85965f907f45240930920dc25c8d8cf31a60b",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "a1139fa598fbd7f479c7c33cf1cda9bcfbe48f3bcbab06965ea9600d3e504301",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 3,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 0,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 7,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 4,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": 1,
+          "x": 497.0
+        },
+        {
+          "frame": 3123,
+          "hp": -2,
+          "x": 505.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "threshold-174-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 174,
+      "first_damage_frame": 3128,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "eb0982ffd4b73eb09acd2f1510e36b14e6c9718c85634066de6a0a00b0230a7e",
+        "result.json": "f3caf1fa71734709778c78aa917052da88d1529a2b58b709b3a1d794ff8a3818",
+        "states.json": "29882764ce5ebd367415bfd80d9d7b8bffb7c7e6790ff07d951c4b89201b8d15",
+        "hp.json": "67878596cb7060dc5c016a161f7cdd8e1e288673ad5b922c75d09149e94da061"
+      },
+      "identity": {
+        "rom_sha256": "7c8d953de849fc4ea14b794e18efa2a506f8c9d797cc121447a0278bd194f838",
+        "slot_sha256": "806d7ae3c1bc422e4e2d8d58c8a85965f907f45240930920dc25c8d8cf31a60b",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "a1139fa598fbd7f479c7c33cf1cda9bcfbe48f3bcbab06965ea9600d3e504301",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "threshold-175-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 175,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "9a68ef1576d2e466584c45a695fdff44726d8c00ab845697e7e74af2300103fb",
+        "result.json": "a2a2f78eb021048e9c1995474aff64475c10c62918746e0c3f3cf882528d2989",
+        "states.json": "f0c605689ae267a84ee39ac080ac290a116b6977eac646cd966bd804e09cae0c",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "c560f3e8263f1be2fe222f05187aab6cf5238e9a4d26cee905505cfa2559a276",
+        "slot_sha256": "44ff6c4051166f9e79a83ca57a421ceb6bdb969cf2414e9f240f253657230464",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "dd6e8c0746789aacbd07d0e07d259c150f56f070f2f24e8357eac0c5826bcdca",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 4,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 7,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "threshold-175-1hp-no-map-shot",
+      "positive": false,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 0,
+      "hp_max": 1,
+      "enemy_health_percent": 175,
+      "first_damage_frame": 3161,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 0,
+      "client_locations": [],
+      "hashes": {
+        "accepted-result.json": "ec6f43ede42c4286de8f94b12f46bc0cb8ecacd76f2b558c2d0341d7e3c6035d",
+        "result.json": "355e04e1c9dcfde07a99dd59c34b547bc9aa67ec0ac7330c654dc34bb06481b3",
+        "states.json": "10ea75408bf79bfef59e0936a6ec80601e8a369891d928c761822b2fc9061470",
+        "hp.json": "87a7db5f1eb7ac3bf3637b379a1e2507c49e47aa8784c586cef1087c8a7f7a93"
+      },
+      "identity": {
+        "rom_sha256": "c560f3e8263f1be2fe222f05187aab6cf5238e9a4d26cee905505cfa2559a276",
+        "slot_sha256": "44ff6c4051166f9e79a83ca57a421ceb6bdb969cf2414e9f240f253657230464",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "dd6e8c0746789aacbd07d0e07d259c150f56f070f2f24e8357eac0c5826bcdca",
+      "switch_contact_frame": null,
+      "crossing_frame": null,
+      "chip_hp_changes": [],
+      "knight_hp_changes": [],
+      "final_collection": {
+        "chest39": false,
+        "mustard_map_check": false,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false,
+      "slot1_high_frames": null,
+      "chest_frame": null
+    },
+    {
+      "name": "sweep-63-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 63,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "be40c64068bcf07a455d9bf2fb7c622435f54afdb996e2075a2ab30ba332a7c4",
+        "result.json": "1103e507d3021f4f1770b39fb0bdfc4caa540a27f8f6719cc21b3c80b457bc30",
+        "states.json": "3e6e3d213d6908d224c0d2c1d01d6d18ef2ffb92d42ffdfd3a532e9be5d38dd7",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "c8f627b99829d78e50b1c5c99168b43bb710a4aa1711e6d8d8cb285d2af0558f",
+        "slot_sha256": "bfbdadadde641bc78088187fb668278b5600cff95fecb2eec14b225d5ba7eaad",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "e220cec6f00fe9e90f4d1ddf6dacf470255d9ecf7867a3025d5214fb9b7a259a",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 1,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -2,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 3,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 0,
+          "x": 488.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-75-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 75,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "51e142e12c9898a6c4af31558cbe480058fb90cf3a06bd5a0a3dff3a430cd1c3",
+        "result.json": "a98b941a778621bc23e4aeecb6237fa8ac8d8ee8564c27652ad9c3977b97f813",
+        "states.json": "b72fffa47cfeab904e43d98c49e69f4ff007ba192ee34eaae12c528b34967c67",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "8d78deadffc9c6e7f0acc17213051ccfc30a4a11added6cef592b76179965800",
+        "slot_sha256": "deb75f708f087f07ec65d63ec1e392a017b4895c8d29297e8bc5634331834c8b",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1bc54957fe81e746cf01897c52296f7af6d2a8ec0892511c53847697b56cef00",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 2,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 3,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 0,
+          "x": 488.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-88-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 88,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "6c1b319c54e6750e7c67852a807fed28fd80cc740b515ba8ed0f29031fbcee2e",
+        "result.json": "6f333eb044721a213c055b54dffb89a83aa2724359a38597b99f2adb344c370d",
+        "states.json": "a57b4f1a8c3a9a47e8bdf03da5a0ef0aa190f56768ee3d83277ace5f1b8192ad",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "d463f84def3053cd2ad9c650af12f25bb4b979548214c16ddda3f704ff0fb1e6",
+        "slot_sha256": "ed42a9bf1fe1b83669ec081a9d9d1043939110ecd8d6179e3fc92bdb746744c9",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "873c5bc2b19a40fce1f59e7281a906ad90433f47aed8b47a66f6f91786def0d8",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 2,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 4,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 1,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": -2,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-113-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 113,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "9b0d1d09b07c40f5fc683ca8659ff5c32e36a03ccd122b72e2473972219c0d59",
+        "result.json": "f545b4cd4408b7c6ea05eb6c3613c0c8bc3df07637bc794714c9e7814a147d3e",
+        "states.json": "38f1c4155ee26115d110000136ca4591b68afc7bb2e9484137be62776ef4abe2",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "d6fe4c079d514f333989caae51bffdbc3a89d8907205b25a1c017e31cdd44ac0",
+        "slot_sha256": "b6705f0068420095d0e7c3fa19f27f25540ae1bef5904a5bd672557b2da3d996",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "486d282345f715dce60bb960b65768859716bfd55d81f6f164e20ce05ad3d477",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 2,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": -1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 5,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 2,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": -1,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-125-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 125,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "74ac59ccc92c45f9622bc8c7bdf465bfcdc9a117a4e4c21838d7ef6b140ce57e",
+        "result.json": "71220564a689ccdf3773f9429704035fe02c0c427e43186974bd8c268526a85d",
+        "states.json": "21a9d856b2de3468e1a155b493fc77288ae222aec41b54f528fd8d7bbfcba8f0",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "16e149f743bda7872cf4522accfd62a4b04f3ee278a56479509756f6bb34a392",
+        "slot_sha256": "4fe87d994c55e425539f4fb3029fa3a5b19dc0edb2dfe0ff8e517e62cedb0f9c",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1869f2378d679d5c117e1079c26077111ffd87eae7e3e468af93378a524cae17",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 3,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 0,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 5,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 2,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": -1,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-138-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 138,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "cc379d238020d67d0f79239ce727bd8c7e292f22cdaf77f02424e6c9db349691",
+        "result.json": "ccd16b01fe71f904b8e5061d1deee46ba182d2c82178e25d022a77d3c312d01d",
+        "states.json": "c411d854a88bb55063a79b9ae0c60b2299b22e2a6e4875143656de412b906eae",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "c80c914b92b5d763efd784c0d9460eb6421f392e756d250aeb345b4a8b5ba131",
+        "slot_sha256": "467e42d975334a32885c42e123b359f8d33d2f61cf1f51137036231cebb5565b",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "6bc07dee79930fc96d0d4f74ebcc5c83042343040634ce19f8ce7acaf2ce0fb8",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 3,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 0,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 6,
+          "x": 535.5
+        },
+        {
+          "frame": 3064,
+          "hp": 3,
+          "x": 488.5
+        },
+        {
+          "frame": 3093,
+          "hp": 0,
+          "x": 497.0
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-188-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 188,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "4b6b7c420b0a6ddaa6e58b412a5c59bfecf8a7468c7e2fbeb1b5a3e95ad8643f",
+        "result.json": "8e330e3347dcedce555157f760fdd94b70f3e68a61ebe3e0804de9892276ae35",
+        "states.json": "22a71ff5abfb1200215a21449dd3870a8dd72f2c8ef9776d31b952d62b80d1da",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "e9bc90d9f256b17dce2074aa7aba67028ed088e2a8975c60e1445cc0201e238d",
+        "slot_sha256": "535327a232a3b16c628acf6987053f4d567589f449be9eb7464bbebd1ef75762",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "3ee97ce03164ca8f11d2bcfd22b5ec5c5e480c272ab2592a8d6f8064fceb3901",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 4,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 8,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-213-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 213,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "67f1e4c57c4e1785168ed8861912a2fbec076189b2b826e469d5bce0b798bd46",
+        "result.json": "f5e50b054e660ced9186bedd5f6828d6d6afc1aa16539144784423c0240740a6",
+        "states.json": "70b5431d1dff07fbc4dcc1905262ba0229188a0119af0446d3a82e848f8ec91f",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "0056cb1231570cc1deae6cb432ec9b65882edaf889c76902e0388f2d571718f6",
+        "slot_sha256": "893a1896a885f851b198ffb561676a25b5d2ee08d2eae57a72334b1a0bd00447",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "a71539909ea4a64029bf3408855aebaf1ae9cf036270f2572152fc49da907451",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 4,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 1,
+          "x": 322.1875
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 9,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-225-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 225,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "43b694e099a89801d466df74eeb12db12b8964c83a7de889a42b9e348564ec34",
+        "result.json": "210b36c2f2583a7a50ac790c278e5c6e3d3398f5167e5e7cd5e16160a8cfe96f",
+        "states.json": "b8326733a36d9863c60117e2082c540ddb0c6169897391e4cf57044442146600",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "f369e9dff4eb28838593a4857f81fc0d12aad10226a5acad21dac1c1058731b7",
+        "slot_sha256": "1de767e635b8ad18182c79f27bca0c7d29ba5aa18168fe2b0693f3a8b833c830",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "3fda355401dcc31892ba090312aed18e6853e4cf444af533f89098cee2d9b191",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 5,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 2,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 9,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-238-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 238,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "188f30164a0fc608de5a0635a4ce42641b23fe5876cf470a011c7a5623df5d0a",
+        "result.json": "9232c58f1e0e8607cf69f9c886bb16cb6204d0c19856bc824cb83e78e32faa4f",
+        "states.json": "f01bf7db6d90887c6d6e76782deb5740f9c1e56ffac027de71a6e9c8c01ee02d",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "240f30e7ee3a85501362a5b33b6e117a00af2a075b6c4c634f2ed69c1cf874d9",
+        "slot_sha256": "af6534b37db2dbbb36084f9fc8402e72b6a6004c5a24693919ef6775506ce86b",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "d545e195fb2b42154b0d9791e9b2e12f426b4fc890e61c79ac8d180e05d5754b",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 5,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 2,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 10,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-263-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 263,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "857103f409111337056961de0fe3550ff10d53425ad726255a9eaf8e7d9f5eb9",
+        "result.json": "15f5fc828a91bfeddf35cebe2ce31004708de9da5389a633a27d020dc5b5561d",
+        "states.json": "549d2b3a3db41f36f10c7da10e79e3a985760cbf47537c43c2f1840361ab86e2",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "c7bb1c11b6830832f0cad930be78a94ef28ebc0a000174c9aa4d7884fe43d61b",
+        "slot_sha256": "930f6f31f58b1aaa0504c92f53fc7445cff1ddcb9be163481ce3eba186c85eb8",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "984abe4fa6c32a3651aee93e2236a4cda9064ebce14849384f22bf646292cdfa",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 5,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 2,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 11,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-275-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 275,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "c240dd7194b11448630bfc51510db9daaa54a65139d80491e857776b8c25fd83",
+        "result.json": "169aa1efce668e960565439bfcbf84043878f7fd58291b3223c54bf5fc196353",
+        "states.json": "41bd34e3fff7ba187a51a6d015d89bfbffcdf8e9924a3c714f058015f1d7d729",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "7a73d2a3bea6f714232100d1cf9bc27d8317a7db57c234d1b6a8128cc1d67fcd",
+        "slot_sha256": "a95b808979fe2895c126db84eca44a75efe10e33cbd8f9baa26e09ee7a9ed3fd",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1ac56a44b2f44610449cc668cfeec162112bff642e64f0121e2ac241d139780d",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 6,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 3,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 11,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-288-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 288,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "f42e32e7141e8317466fffc918f656a7f94fe375a97b0780cca16f5cfcefaa68",
+        "result.json": "c7c3ce5ad77a87303d5798127afc93d4086a502c6d0f9acdaa7463590c0be984",
+        "states.json": "ecd87a6ed553bb4978baa5fc9dfbafc1e6a638334b789ab6437928d18470c58f",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "eed16795d6e19391a87b21957e3ad69ff3a88cbc108533817e61f832308381ab",
+        "slot_sha256": "81318777c24caf2ed49729bbc08de324f60b7fbd58a36f38876959c343847432",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "2f1b360d5ee374b6fbb503cf051981c556a7e1d64226d5e742d45763ab425277",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 6,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 3,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 12,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-313-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 313,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "05ab4bd80e0167bc2a0cac63ca88cfb8f74bad3e60ab09bd66b87db6dc518f65",
+        "result.json": "5fb3fb8ff2d5d09cb70d810eb82dae9b51c8cdcbccca1b8e27fd262ceebde206",
+        "states.json": "3c1381744f255faf4635678754cf44e6b44bae0c9759f3792f4b0a217711a8b4",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "7cb3500c71740e5811f81bf45b7cd220b35a61219b1b476f792c6d9e6455fbe3",
+        "slot_sha256": "9048ddc1d15128d5e3bb41b6098d5d743afd409e447f8de5fd22a2e6e1104726",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "38102b0a9d22549d9b5ef612ecd17b36af57c7799552da0d00102d394b973937",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 6,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 3,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 13,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-325-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 325,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "02a528340be2a60ce0a85606a47970a24c43b1675205db171e1365f7f7699a34",
+        "result.json": "678d18746a273ec57b1fdad05e81acbb479d720de98d323092a699551167ec96",
+        "states.json": "e3c29e1498168d9b47d06d4c8fd4c30b29a1b3b12d5acd85d6bd1ed9801c4dd6",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "6c3c5a010fcea3fe87770c0ada314a7e1ea4916685116413f31bcb6e1baab3e4",
+        "slot_sha256": "8705d1a441792cdf93ba29837ebd68c168cdd8469609ecda1f002298d0d1346f",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "93444ed9040e584884b006d6765d136926366127e4fbcce0047c44884649c939",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 7,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 4,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 13,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-338-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 338,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "ccd4127d9530d263e8530f1e3058cbe04e4d7a624db3cf043a20b49c198b7a58",
+        "result.json": "c499e2175ebaed0e804331cadc52fcf6b00ea2fabb95bf261fb6dbd03c26d4a9",
+        "states.json": "77b6c5e6a2c9dbc17536e15657ab3a9ccfd4f72240686f12189d1c058970a027",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "2b27b4364111565db6a63aa4c6689256888447b18a827851118ece1e58b91a88",
+        "slot_sha256": "fa352903942eb6a7dbcb07f539098b3e4237b45cf54e50b75393449f7335d2e5",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "6906c40bdf7682986cf557ce21fc548ad2454f662b0adefd59fed48d5a664e34",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 7,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 4,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 14,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-363-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 363,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "ac066ac72748a9b74b4c192825a7921f689c3d4a260078067260305adb04805d",
+        "result.json": "b4b3604283101a11abe114c665088eaef7cdbebf39a088597322a55cd4678d19",
+        "states.json": "526cc761a2ef86cecd457f85c75aac4354aaa98dd1f77b46b7d00facb692ec3e",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "8d8af7a0fcd0d498b5f230ba7677f4241fc7cb87fabeba4c03d99192c8426aab",
+        "slot_sha256": "8ad22f557ac4d998fbb45f06efc70a96c188fd21e750e6c2b015d1003988ba36",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "52b953fbcb7ca954a14f26a53c79284eb75a9a4ff13731f6dc0bc9f2619c66cc",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 7,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 4,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 15,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-375-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 375,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "84d88bde230666a58119fba9f4880fc0d15645e4448f54a44b0f430df4b11c75",
+        "result.json": "52969259dce1308843286010b5368e1fd642d5fa5bf34f0a624c9b77d6ce241f",
+        "states.json": "11be0819fb7fbf34d6fd845d66243334f8b52fa3cf3c33f804a52a388711c85a",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "be43e7dd4c05a1364916880e4885fb9bd6eaa01bace9e313634d298c6cc48fa4",
+        "slot_sha256": "df26cfc342eafdc6ca87a0fcb3a457088cf5171e3faf2707b5a2daaa1b301cb5",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "a161e462e1ec16f4d67be89529c1dcc00ca257e248c22d473fe5ff1614fcf0f1",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 8,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 5,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 15,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-388-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 388,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "97348c167d72a7c99e97c7a453b99f1534220a1948d16724820ccb93af5bb4cf",
+        "result.json": "ac443f5011eadbf57a4f4c5f23c0c6562bd11c34aeaa227c6a055d315faa46fd",
+        "states.json": "fecc4d8a7abd41db162bd047713c0fe99df46aa2dffc82b7591f385a418586b6",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "24357a25149ab184aff4767cd8a9d122f9d154bf94e90d04806c064a52c7fbea",
+        "slot_sha256": "51185a2bf0a06328e85fa8d12d7f7342a119583d4a3cb9bf12200e10e747a91d",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "44a486a00ce590a0c96dedfe1492ddb29af2f4d2e028f177d6b4ad11c32c2335",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 8,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 5,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 16,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-413-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 413,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "4a823c67dfe8acec38894c067a3024c2aba86b93bc6aba208c1db0576181f1f2",
+        "result.json": "04d42658302469d72df514ef351274581d87a14ac8df9197c48f5d99445cad39",
+        "states.json": "35551ef79a84c5e6f47bde538bbb169f7b9e76dfe169c08b7319122404435397",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "5e2a170529a70ace9ad0832f5ae60ab81de1ebf190b2fea1e3e2b3787ea983f6",
+        "slot_sha256": "a4b5a7e858b7dbfd921551134287f7f0e580d4c06ed46a6371cde731c8fce4c8",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "7ccb4493450a4df7c986cb5cc1e24bc8a593b7de8401ee4ac8bcbbe13ad747b3",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 8,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 5,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 17,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-425-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 425,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "bba07b9e297d5e34d68c37da4798c2a8f7e7bbd1c1c938cca1a0bc1e51a18b43",
+        "result.json": "9a2c950e62b38f19dc41bffc6a3839841a3886274434d9fe3ca9bbb7d747060d",
+        "states.json": "b69b6df1c0b86920a05552d3da1a401ac9a80ebdf6f9e0cc90d8e6fa95f21fb7",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "6c1086a4e3d57d7cf1df7810f3d1c2d90ad7bc2250a2227b1e1b34b107b9e6cf",
+        "slot_sha256": "3b1feb7e6003c9067a0ed4392375d1e6cf478d5c2314f69ff269a2b4c45889aa",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "20fd9d3c40ebd6f71e2a98232c21aeea6bec30916a0c350f8d8a902316b5c1f0",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 9,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 6,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 17,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-438-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 438,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "d7a5da455b915287173e04917509d6500b9433b7ddd94d7acc41970d9c25fce8",
+        "result.json": "bb9467c2e8177837f4bfc1c96c9964221cfa744de0ecd6d0a34474599fb512f3",
+        "states.json": "f4d5342c459534c2083f6e705b92abcff925a5353f67edef7c6624613c98c724",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "5f33ac03ca8a3ea2d0683245f691d1ef45a8abaf64686b6b2b0a1731778db0e8",
+        "slot_sha256": "86c20bbef2f6d74049410461bcced1a4b2c1e3f71b4b55523451140ced40b987",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "f4be156b1048cb0d132c13f34e58c04f8da59a86491cb8871a830148479f6876",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 9,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 6,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 18,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-463-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 463,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "69260ed3dbfc33d35859da033b6b09b93615045ddede4394e48fa7ed71dba126",
+        "result.json": "b5761921a2f9e10ad99391b06f5a1d4d93d5a72c7ebe87fb38c7add2f9eda5ec",
+        "states.json": "0d6553abaeffa6d14e6ea00b65bdfab5e924f29fc2152dae8bcda1eee7229656",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "6c39cbf7d9ad0c04dec1bed2551600ac39a603982c8e4ec951dee266c72900f5",
+        "slot_sha256": "1b334b88b2221a67f3bbfae351cae50005a46a12132ca66a9c6c5879d9cb8889",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "fdb8a6fbeb314af69156370d9fbe34d2299ae2d7a47b90b3b2368ae0f3eb6d99",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 9,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 6,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 19,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-475-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 475,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "89b846e70147a1e7a79a145a93e1f2ad4bc5380ee0522709c610e68521b60a73",
+        "result.json": "6daee3844b8115120dd7e5ddbab94b2dfe061a7734c71c0ab321d9d7ff48e6ac",
+        "states.json": "16be5754518da56ecdcaeb511052f626e7ab1fa9bf91bb0f1cdc2bf87823f1a2",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "d32df2047c0a024c26380007be306d654a7dbaa74dd0655221b1b15b66de368c",
+        "slot_sha256": "32b077207f84174cc1a5f23db2dbd47f18104282afa8ca98b51801613e4e9de6",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "223351e4357ee06e6c1646bb1da4b5d5daeffa5bca768e5f5e12b2a2104b418f",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 10,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 7,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 19,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    },
+    {
+      "name": "sweep-488-1hp-positive",
+      "positive": true,
+      "clean_prefix": false,
+      "hp": 1,
+      "hp_min": 1,
+      "hp_max": 1,
+      "enemy_health_percent": 488,
+      "first_damage_frame": null,
+      "source_acquisition_frame": 1320,
+      "entry310_frame": 2368,
+      "final_frame": 3549,
+      "final_ability": 19,
+      "client_locations": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960205
+          ]
+        }
+      ],
+      "hashes": {
+        "accepted-result.json": "71d1445dfb9a1df7fe594d00d4aaf1ee3a87ecb76f955596aa78c508216707ed",
+        "result.json": "da908266a3c4369e330b3d61303efdc096b68c8271eebd597a2c1ee215c95614",
+        "states.json": "011d9a975b6e29cd21d5e6373ac2c36d60d5f00a144942006e99ddd2804975a9",
+        "hp.json": "c58c642bde838ed16d661704fd04635eb5b5c7943bfdfe9fbe7827b357301bcc"
+      },
+      "identity": {
+        "rom_sha256": "d84ee3db0183466256b7759989aa00c45beebb3ca0438f4d7e8bdce0a7152bac",
+        "slot_sha256": "633ceb08c8215ba0610a2116c791fc1e00fd7acc025443d267eb62a337afb1f8",
+        "input_file_sha256": "0c68359e85cde0ac8a515dd3b5cbd72cec3f68fc4504ef1d78a6d1a2b22b596f"
+      },
+      "build_json_sha256": "1cd6a4cf515907395b99615e6611c17fd36c6812e5580670d4f7c5959fca7f13",
+      "slot1_high_frames": [
+        2969,
+        2980
+      ],
+      "chest_frame": 3452,
+      "switch_contact_frame": 2968,
+      "crossing_frame": 3045,
+      "chip_hp_changes": [
+        {
+          "frame": 2527,
+          "hp": 10,
+          "x": 352.0
+        },
+        {
+          "frame": 2848,
+          "hp": 7,
+          "x": 322.1875
+        },
+        {
+          "frame": 3314,
+          "hp": 1,
+          "x": 304.33984375
+        }
+      ],
+      "knight_hp_changes": [
+        {
+          "frame": 2724,
+          "hp": 20,
+          "x": 535.5
+        }
+      ],
+      "final_collection": {
+        "chest39": true,
+        "mustard_map_check": true,
+        "native_map_ownership": false
+      },
+      "configuration_write_count": 8,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "server_transmission": false
+    }
+  ],
+  "native_timing": {
+    "release": {
+      "frame": 2896,
+      "x": 425.99609375,
+      "player_after_update_y": 85.16796875,
+      "charge": 0
+    },
+    "first_switch_contact": {
+      "frame": 2968,
+      "arrow": {
+        "task": "0x3001c20",
+        "object": "0x3003fc0",
+        "fn": "0x8081eb1",
+        "room": 310,
+        "parent": "0x2020ee0",
+        "x": 301.0859375,
+        "y": 134.4375,
+        "damage": 3,
+        "flags": "0xa0044043",
+        "category": "0x2003",
+        "damage_box": [
+          -6,
+          -3,
+          3,
+          3
+        ],
+        "counter": 73,
+        "vx": -201,
+        "vy": -1037,
+        "collision_pointer": "0x30040f0"
+      },
+      "switch": {
+        "address": "0x30040f0",
+        "room": 310,
+        "type": 109,
+        "copy_field": 0,
+        "hp": 0,
+        "x": 312.0,
+        "y": 145.99609375,
+        "flags": "0x13648002",
+        "state": "0x8119981",
+        "b4": 0,
+        "b6": 0,
+        "b8": 0,
+        "counter": 591,
+        "collision_pointer": "0x3003fc0",
+        "parent": "0x0",
+        "damage_box": [
+          -7,
+          -10,
+          7,
+          4
+        ],
+        "bounds": [
+          -7,
+          -10,
+          7,
+          -2
+        ]
+      }
+    },
+    "slot1_high_frames": [
+      2969,
+      2980
+    ],
+    "crossing": {
+      "frame": 3045,
+      "x": 455.296875,
+      "y": 136.99609375,
+      "gate": [
+        {
+          "address": "0x30041b0",
+          "room": 310,
+          "type": 113,
+          "copy_field": 0,
+          "hp": 0,
+          "x": 440.0,
+          "y": 144.0,
+          "flags": "0x12408940",
+          "state": "0x811b8e5",
+          "b4": 3,
+          "b6": 772,
+          "b8": 0,
+          "counter": 0,
+          "collision_pointer": "0x0",
+          "parent": "0x0",
+          "damage_box": [
+            -8,
+            -32,
+            8,
+            10
+          ],
+          "bounds": [
+            -8,
+            -32,
+            8,
+            -12
+          ]
+        }
+      ]
+    },
+    "chest_frame": 3452,
+    "gate_open_frame": 2970,
+    "arrow_pre_movement_y": 85.10546875,
+    "first_arrow_update": {
+      "frame": 2896,
+      "x": 417.5234375,
+      "y": 82.40625,
+      "vx": -633,
+      "vy": 691,
+      "counter": 1
+    }
+  },
+  "gating_acquisition": {
+    "scope": "Gating-on finite-source acquisition boundary only; no broader no-route claim or full gated route",
+    "cases": [
+      {
+        "permission": "received",
+        "initial_items_received": [
+          [
+            3860119,
+            0,
+            1,
+            1
+          ]
+        ],
+        "runtime_gate_mask": 67108470,
+        "runtime_unlocked_mask": 524288,
+        "final_ability": 19,
+        "frame": 1335,
+        "hp_min": 1,
+        "hp_max": 1,
+        "source_template": "0x088b59b4",
+        "source_table_byte": 19,
+        "native_equipment_writes": 0,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "scope": "Normal590 entry and original534 Twister ingestion only; withheld source outcome is Normal, not a general no-route claim",
+        "build_sha256": "04b56b27c9b1b7795d3c4e8e6d4cf9a7bafe5788c6e4726a375c2d5e14bddcb0",
+        "script_sha256": "538d5fe02da9931626f8251d34cf2ed6018436577481d280ba6b5a645b08d0a4",
+        "trace_sha256": "51f26cb40ecaa8c6863b5a9d360776c292bcd5a0af5fcd04aa20074f11973225",
+        "base_replay_sha256": "f25d41ec913f039548216ce99d4456486571a7713f5ace3c353f7f9725653c43",
+        "result_sha256": "8bb27d67263dfc56d1327f91470035c8275ea71c8cc482d5107b7870e0ab836f",
+        "states_sha256": "502c4d48723372d003e768158c0d2fa0a75b151dc548a48cc03accadef8a4c27",
+        "acquired_cupid_frame": 1320,
+        "initial_source_object": {
+          "frame": 1168,
+          "address": "0x20000c4",
+          "room": 534,
+          "type": 28,
+          "copy_field": 19,
+          "hp": 4,
+          "x": 144.0,
+          "y": 280.0,
+          "flags": "0x10000005",
+          "state": "0x80bbe09",
+          "b4": 0,
+          "b6": 0,
+          "b8": 65288,
+          "counter": 0,
+          "collision_pointer": "0x0",
+          "parent": "0x0",
+          "damage_box": [
+            -5,
+            -6,
+            5,
+            5
+          ],
+          "bounds": [
+            -6,
+            -7,
+            6,
+            7
+          ]
+        },
+        "gating_result_sha256": "2ba2e54c9696ad103fef1e120806c7a6be68c17b28d6023bc69d2477acea6590",
+        "build_script_sha256": "c5aed31b521cd5880118668d4fb95f9edd25ca7efbba7d16a144c93c1415329c",
+        "fixture_differences": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ]
+      },
+      {
+        "permission": "withheld",
+        "initial_items_received": [],
+        "runtime_gate_mask": 67108470,
+        "runtime_unlocked_mask": 0,
+        "final_ability": 0,
+        "frame": 1335,
+        "hp_min": 1,
+        "hp_max": 1,
+        "source_template": "0x088b59b4",
+        "source_table_byte": 19,
+        "native_equipment_writes": 0,
+        "gameplay_ram_writes": 0,
+        "state_restores": 0,
+        "scope": "Normal590 entry and original534 Twister ingestion only; withheld source outcome is Normal, not a general no-route claim",
+        "build_sha256": "04b56b27c9b1b7795d3c4e8e6d4cf9a7bafe5788c6e4726a375c2d5e14bddcb0",
+        "script_sha256": "538d5fe02da9931626f8251d34cf2ed6018436577481d280ba6b5a645b08d0a4",
+        "trace_sha256": "51f26cb40ecaa8c6863b5a9d360776c292bcd5a0af5fcd04aa20074f11973225",
+        "base_replay_sha256": "f25d41ec913f039548216ce99d4456486571a7713f5ace3c353f7f9725653c43",
+        "result_sha256": "c779d19946a935a0fd2fa2c840d5d4d0e2169cd5fc60cc19598451242d2e5ae0",
+        "states_sha256": "93c0aeae1cecc128b87c1cfe1e4edd41f8343d3d9bac32d731aaea5b96c8f4f1",
+        "acquired_cupid_frame": null,
+        "initial_source_object": {
+          "frame": 1168,
+          "address": "0x20000c4",
+          "room": 534,
+          "type": 28,
+          "copy_field": 19,
+          "hp": 4,
+          "x": 144.0,
+          "y": 280.0,
+          "flags": "0x10000005",
+          "state": "0x80bbe09",
+          "b4": 0,
+          "b6": 0,
+          "b8": 65288,
+          "counter": 0,
+          "collision_pointer": "0x0",
+          "parent": "0x0",
+          "damage_box": [
+            -5,
+            -6,
+            5,
+            5
+          ],
+          "bounds": [
+            -6,
+            -7,
+            6,
+            7
+          ]
+        },
+        "gating_result_sha256": "979039cc7bbc506e422f0e0f6c97d1ba8fb3a849e772f877c55e390b92db91f8",
+        "build_script_sha256": "c5aed31b521cd5880118668d4fb95f9edd25ca7efbba7d16a144c93c1415329c",
+        "fixture_differences": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ]
+      }
+    ],
+    "main_ungated_manifest_sha256": "c4d1218cf61a7a58dde5a93eb147b51f5963b0bddc4fc559bd5b20358e2fce55",
+    "summarizer_sha256": "76ff0657b80d2ee806d41bcffd9ce7d86927f5bcae49500a3420adaf5d7c8280"
+  },
+  "failed_two_arrow_diagnostic": {
+    "enemy_health_percent": 163,
+    "knight_hp": 7,
+    "knight_hp_after_two_hits": 1,
+    "first_damage_frame": 3126,
+    "input_sha256": "e5a2baabfb38b3654cc8eaf975dd8cf495d8227a97313ce206cab8956bab34c4",
+    "result_sha256": "577d23c20c2157fbe68906618f0054a38160bad54db975768934f31a8a7a493b",
+    "scope": "Preserved failed older two-post-arrow sequence; not accepted-route evidence."
+  },
+  "limitations": [
+    "Each sampled percentage is generated independently; other enemy HP and global RNG are not asserted identical throughout each Chip/Knight interval.",
+    "Full omitted-launch controls take later damage. Clean prefix controls end3000 after native positive contact and opening.",
+    "No all-seed, arbitrary arrival timing, helper inactivity or generic ranged ability grant is claimed.",
+    "The gating-on pair verifies acquisition, not complete gated-route collection.",
+    "Physical chest and local client emission are not server receipt or randomized item delivery; native map ownership stays false.",
+    "No general Cupid, triple/max-charge, whole-room ranged, inventory-as-equipment or renewable-source grant."
+  ],
+  "preserved_graph_sha256": {
+    "hub4_ufo_entry": "035e9268c78e83bbf68f546ee602d5e7fed5e936e782abe81eb9123c98919671",
+    "hub4_crash_entry": "f3b0aa3533d836ba858ae9380fec3f90cabff4822dedd80eafed79bf40d4d4fb"
+  },
+  "case_counts": {
+    "ungated": 47,
+    "positive": 34,
+    "full_control": 9,
+    "clean_prefix": 4,
+    "gated_acquisition": 2,
+    "health_pairs": 28,
+    "distinct_percentages": 32
+  }
+}

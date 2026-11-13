@@ -1,0 +1,587 @@
+{
+  "schema": "supplemental-sword110-entry-v1",
+  "date": "2026-11-10",
+  "qualification": "Actual controller crossing from a startup-only nearby dry pose in native108 lower-mid. This proves the exact door approach, entry, acquisition, carry, target and exit at native source policy, 100% enemy health and actual 1 HP. It does not prove access to the startup pose from arbitrary native108 entry or generic108 reachability. It supplements, and does not replace, the unchanged original five-run packet.",
+  "original_acceptance_sha256": "de76fc970b327fd1d5d52e31213ec2dc810a68d8e9b03865ea69c0a89f3a421a",
+  "original_witness_sha256": "b2280f466f23106c54ffbbdaf87fc6a7ab01bd2e4ed83b43cc17bea5ead6489f",
+  "build": {
+    "options": {
+      "ability_randomization_mode": 0,
+      "ability_gating": 0,
+      "area_keys": 0,
+      "enemy_health_multiplier": 100,
+      "minimum_health": 1,
+      "maximum_health": 1
+    },
+    "seed": 110,
+    "sha256": {
+      "production.gba": "8fb119a716c007580d8f4db85eec3e6132adfd59e3cbe2df7727d7d56dbfaf26",
+      "fixture.gba": "0a168292d077d2704d0b2c940c8ee08ca4733ea129434d3c19b312d435ba2b8c",
+      "production.apkirbyam": "e2b4a2852120fec22135f97ac491fbc10bde3ce7e98c3bd9aa93598290a617d5"
+    },
+    "fixture_byte_diff": [
+      {
+        "offset": "0x2d8cb8",
+        "before": 35,
+        "after": 108
+      },
+      {
+        "offset": "0x2d8cb9",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cba",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbb",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbc",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbd",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cbe",
+        "before": 35,
+        "after": 101
+      },
+      {
+        "offset": "0x2d8cbf",
+        "before": 3,
+        "after": 0
+      },
+      {
+        "offset": "0x2d8cd1",
+        "before": 96,
+        "after": 8
+      },
+      {
+        "offset": "0x2d8cd2",
+        "before": 0,
+        "after": 2
+      },
+      {
+        "offset": "0x2d8cd5",
+        "before": 144,
+        "after": 40
+      },
+      {
+        "offset": "0x2d8cd6",
+        "before": 0,
+        "after": 1
+      },
+      {
+        "offset": "0x2d8cd9",
+        "before": 80,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8cdd",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ce1",
+        "before": 64,
+        "after": 48
+      },
+      {
+        "offset": "0x2d8ce5",
+        "before": 144,
+        "after": 80
+      },
+      {
+        "offset": "0x2d8ced",
+        "before": 144,
+        "after": 80
+      }
+    ],
+    "repo_commit": "8dbf941f30f88f8d0f151e2a556d31ca19aa6ac5"
+  },
+  "production_sha256": "8fb119a716c007580d8f4db85eec3e6132adfd59e3cbe2df7727d7d56dbfaf26",
+  "fixture_sha256": "0a168292d077d2704d0b2c940c8ee08ca4733ea129434d3c19b312d435ba2b8c",
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "options": {
+    "ability_randomization_mode": 0,
+    "ability_gating": 0,
+    "area_keys": 0,
+    "enemy_health_multiplier": 100,
+    "minimum_health": 1,
+    "maximum_health": 1
+  },
+  "client_repo_commit": "b98feba7d5b771919ab8f0ad642c11570e3c6427",
+  "client_source_sha256": "b32450357cfbd9486ce71ad1c5dfd9000e5b0aca770422722e62a235408251f9",
+  "entry": {
+    "ap_compartment": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+    "door_rom_offset": "0x0087847A",
+    "door_record_14_bytes": "03ff22120e00ffff6e00070800ff",
+    "trigger_tile": [
+      34,
+      18
+    ],
+    "spawn_tile": [
+      7,
+      8
+    ],
+    "startup_pose": {
+      "frame": 1085,
+      "room": 108,
+      "x": 504.0,
+      "y": 277.0,
+      "hp": 1,
+      "max_hp": 1,
+      "ability": 0,
+      "animation": 0,
+      "water": false,
+      "kflags": "0x202",
+      "ai": 0,
+      "mode": 0,
+      "ability_gate": 0
+    },
+    "door_press": {
+      "frame": 1207,
+      "room": 108,
+      "x": 551.546875,
+      "y": 296.99609375,
+      "hp": 1,
+      "max_hp": 1,
+      "ability": 0,
+      "animation": 42,
+      "water": false,
+      "kflags": "0xb00",
+      "ai": 0,
+      "mode": 0,
+      "ability_gate": 0
+    },
+    "first110": {
+      "frame": 1218,
+      "room": 110,
+      "x": 104.0,
+      "y": 120.99609375,
+      "hp": 1,
+      "max_hp": 1,
+      "ability": 0,
+      "animation": 0,
+      "water": false,
+      "kflags": "0xf02",
+      "ai": 0,
+      "mode": 0,
+      "ability_gate": 0,
+      "targets": {
+        "1,21": 241,
+        "14,21": 241,
+        "1,26": 241,
+        "11,26": 241,
+        "2,32": 241,
+        "13,32": 241,
+        "8,37": 241,
+        "2,43": 241,
+        "12,50": 241,
+        "2,55": 241,
+        "13,57": 241,
+        "2,63": 241,
+        "14,63": 241
+      }
+    },
+    "settled_source_observation": {
+      "frame": 1238,
+      "room": 110,
+      "x": 104.0,
+      "y": 120.99609375,
+      "hp": 1,
+      "max_hp": 1,
+      "ability": 0,
+      "animation": 0,
+      "water": false,
+      "kflags": "0x4",
+      "ai": 0,
+      "mode": 0,
+      "ability_gate": 0,
+      "targets": {
+        "1,21": 241,
+        "14,21": 241,
+        "1,26": 241,
+        "11,26": 241,
+        "2,32": 241,
+        "13,32": 241,
+        "8,37": 241,
+        "2,43": 241,
+        "12,50": 241,
+        "2,55": 241,
+        "13,57": 241,
+        "2,63": 241,
+        "14,63": 241
+      },
+      "template_observations": [
+        {
+          "address": "0x2000008",
+          "template": "0x88b74cc",
+          "kind": 1,
+          "type": 26,
+          "copy": 18,
+          "hp": 4,
+          "x": 120.0,
+          "y": 215.99609375,
+          "flags": "0x10000001",
+          "room": 110
+        }
+      ]
+    }
+  },
+  "acquisition": {
+    "frame": 1512,
+    "room": 110,
+    "x": 145.15234375,
+    "y": 216.99609375,
+    "hp": 1,
+    "max_hp": 1,
+    "ability": 18,
+    "animation": 95,
+    "water": false,
+    "kflags": "0x2b01",
+    "ai": 0,
+    "mode": 0,
+    "ability_gate": 0,
+    "targets": {
+      "1,21": 241,
+      "14,21": 241,
+      "1,26": 241,
+      "11,26": 241,
+      "2,32": 241,
+      "13,32": 241,
+      "8,37": 241,
+      "2,43": 241,
+      "12,50": 241,
+      "2,55": 241,
+      "13,57": 241,
+      "2,63": 241,
+      "14,63": 241
+    }
+  },
+  "target_hit": {
+    "frame": 3039,
+    "room": 110,
+    "x": 185.99609375,
+    "y": 926.71484375,
+    "hp": 1,
+    "max_hp": 1,
+    "ability": 18,
+    "animation": 105,
+    "water": true,
+    "kflags": "0x2800828",
+    "ai": 0,
+    "mode": 0,
+    "ability_gate": 0,
+    "targets": {
+      "1,21": 241,
+      "14,21": 0,
+      "1,26": 241,
+      "11,26": 0,
+      "2,32": 0,
+      "13,32": 0,
+      "8,37": 0,
+      "2,43": 0,
+      "12,50": 241,
+      "2,55": 0,
+      "13,57": 0,
+      "2,63": 0,
+      "14,63": 241
+    }
+  },
+  "registered_weapon_at_hit": {
+    "address": "0x3003f5c",
+    "parent": "0x2020ee0",
+    "x": 185.99609375,
+    "y": 926.71484375,
+    "flags": "0xa2084100",
+    "animation": "0x6f",
+    "variant": 1,
+    "bounds": [
+      0,
+      -26,
+      25,
+      -3
+    ],
+    "damage_box": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "sprite_box": [
+      0,
+      -26,
+      25,
+      -3
+    ]
+  },
+  "first554": {
+    "frame": 3541,
+    "room": 554,
+    "x": 56.0,
+    "y": 56.99609375,
+    "hp": 1,
+    "max_hp": 1,
+    "ability": 18,
+    "animation": 0,
+    "water": true,
+    "kflags": "0xf00",
+    "ai": 0,
+    "mode": 0,
+    "ability_gate": 0
+  },
+  "final": {
+    "frame": 3620,
+    "room": 554,
+    "x": 56.0,
+    "y": 56.99609375,
+    "hp": 1,
+    "max_hp": 1,
+    "ability": 18,
+    "animation": 0,
+    "water": false,
+    "kflags": "0x4",
+    "ai": 0,
+    "mode": 0,
+    "ability_gate": 0
+  },
+  "water_transitions": [
+    {
+      "frame": 1085,
+      "room": 108,
+      "x": 504.0,
+      "y": 277.0,
+      "water": false,
+      "ability": 0
+    },
+    {
+      "frame": 1218,
+      "room": 110,
+      "x": 104.0,
+      "y": 120.99609375,
+      "water": false,
+      "ability": 0
+    },
+    {
+      "frame": 2189,
+      "room": 110,
+      "x": 172.65234375,
+      "y": 721.68359375,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 2315,
+      "room": 110,
+      "x": 156.95703125,
+      "y": 719.62109375,
+      "water": false,
+      "ability": 18
+    },
+    {
+      "frame": 2787,
+      "room": 110,
+      "x": 100.33984375,
+      "y": 913.60546875,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 2993,
+      "room": 110,
+      "x": 175.91015625,
+      "y": 911.87109375,
+      "water": false,
+      "ability": 18
+    },
+    {
+      "frame": 3010,
+      "room": 110,
+      "x": 185.99609375,
+      "y": 913.15234375,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 3085,
+      "room": 110,
+      "x": 185.99609375,
+      "y": 911.18359375,
+      "water": false,
+      "ability": 18
+    },
+    {
+      "frame": 3238,
+      "room": 110,
+      "x": 233.99609375,
+      "y": 1056.88671875,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 3450,
+      "room": 110,
+      "x": 201.046875,
+      "y": 1055.49609375,
+      "water": false,
+      "ability": 18
+    },
+    {
+      "frame": 3467,
+      "room": 110,
+      "x": 201.046875,
+      "y": 1056.77734375,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 3541,
+      "room": 554,
+      "x": 56.0,
+      "y": 56.99609375,
+      "water": true,
+      "ability": 18
+    },
+    {
+      "frame": 3551,
+      "room": 554,
+      "x": 56.0,
+      "y": 56.99609375,
+      "water": false,
+      "ability": 18
+    }
+  ],
+  "configuration_writes": [
+    {
+      "frame": 1085,
+      "address": "0x203b064",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b068",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b06c",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b070",
+      "size": 4,
+      "value": "37000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b074",
+      "size": 4,
+      "value": "feffff03",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b0b0",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b0b4",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    },
+    {
+      "frame": 1085,
+      "address": "0x203b078",
+      "size": 4,
+      "value": "00000000",
+      "guard_failed": false,
+      "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+    }
+  ],
+  "gameplay_ram_writes": 0,
+  "state_restores": 0,
+  "hp_min": 1,
+  "hp_max": 1,
+  "hp_samples": 2536,
+  "frames": 3620,
+  "control": {
+    "difference": "Only frame3035 30-frame B target attack is omitted; all other controller inputs identical.",
+    "identical_prefix_through": 3035,
+    "final": {
+      "frame": 3620,
+      "room": 110,
+      "x": 160.59375,
+      "y": 909.73046875,
+      "hp": 1,
+      "max_hp": 1,
+      "ability": 18,
+      "animation": 35,
+      "water": false,
+      "kflags": "0x45",
+      "ai": 0,
+      "mode": 0,
+      "ability_gate": 0,
+      "targets": {
+        "1,21": 241,
+        "14,21": 0,
+        "1,26": 241,
+        "11,26": 0,
+        "2,32": 0,
+        "13,32": 0,
+        "8,37": 0,
+        "2,43": 0,
+        "12,50": 241,
+        "2,55": 0,
+        "13,57": 241,
+        "2,63": 0,
+        "14,63": 241
+      }
+    },
+    "target_sealed_all_native110_frames": true,
+    "never554": true
+  },
+  "phase_check": "A first exploratory prefix waited 90 frames after door activation and left Sword Knight farther along its patrol. Reusing the acquisition input there caused damage. The accepted prefix waits31 frames after the door press, then directly resumes movement from settled arrival. Source and every subsequent frame were independently replayed; no prefix or enemy-phase equivalence is assumed.",
+  "source_packet_sha256": "c32f298c8cae021c3075b334e91da1cee4cf32ff4a36c1391d306045416a53fd",
+  "artifact_sha256": {
+    "inputs.json": "a6aea2e957dd48f23523b6533b3cf85a1548a4b679a2b8f86ea61afd3d2a67fa",
+    "control-inputs.json": "26c0e2f707e7c78fd7b64c6956869dc2d6a8341fd027a13a16f3bbb87063f7c6",
+    "replay.py": "336e5d88830a1be57c59668330fa6994452100c43869eda764e3b5a25f2b9683",
+    "make_fixture.py": "b9726d4518766bc5070580fe2e9490c099e54fb161d236a92e3d67be07792035",
+    "assemble.py": "89e6ac689aeae03db30e7b4846feb991b6e95496992428270f081d7e89d7b8c1",
+    "accepted100-1hp/result.json": "51bc47d4702ca07542e4da36af796db650a2ae020bc59e8f2f50932e1d2d2059",
+    "accepted100-1hp/per-frame.json": "4d01589ae7b03cd4ae57a69690536507e6556fe577affdba430f0b5407a86c0e",
+    "accepted100-1hp/effects.json": "70eccd742f36e22dffaedd9c4613a44c252b07a5a783181b5b41eb1909a38666",
+    "control100-1hp/result.json": "2fc08e103deab02c7ac9e81984163d4a839bdcf61a316f4fba986a1b9c128aa1",
+    "control100-1hp/per-frame.json": "8f6809da680b0f354230f1de201bd89770beb7c25bdbf15556cb667e1de10123",
+    "control100-1hp/effects.json": "94bb461b6813203af66b414db2f06d78a50b677dd520cc2c5bd6713096596a1d"
+  }
+}

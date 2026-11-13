@@ -1,0 +1,215 @@
+{
+  "production_source_commit": "d04d4d0bec97f116a95d318e9a0d21518b615b72",
+  "integration_base": "a1c2cffee0fdb0ae49872cd6b86dbab99b53b5d9",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "original_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "target": {
+    "owner": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+    "location_key": "MAJOR_CHEST_CANDY_CONSTELLATION",
+    "location_id": 3960208,
+    "native_room": 426,
+    "chest_template": "0x088C87FC",
+    "requirement": null
+  },
+  "boundary": {
+    "room": 419,
+    "stored_xy": [
+      1184,
+      256
+    ],
+    "observed_xy": [
+      1176,
+      248.99609375
+    ],
+    "frame": 1085,
+    "up_frame": 1086,
+    "next_room": 426,
+    "transition_frame": 1098,
+    "next_xy": [
+      72,
+      56.99609375
+    ]
+  },
+  "setup": {
+    "startup_only_fixture_byte_differences": 17,
+    "client_configuration_writes": 8,
+    "configuration_frame": 1085,
+    "blank_battery_boot": true,
+    "gameplay_writes": false,
+    "runtime_rom_writes": false,
+    "state_restores": false,
+    "helpers_in_route": false,
+    "server_transmission": false,
+    "ability_gating": 0,
+    "area_keys": 0,
+    "enemy_copy_mode": 1,
+    "allowed_ability_count": 25,
+    "seed": 2
+  },
+  "mechanism": {
+    "equipment": "Normal",
+    "local_enemies": 0,
+    "copy_ability_required": false,
+    "first_switch_active_intervals": [
+      [
+        2009,
+        2020
+      ],
+      [
+        2194,
+        2205
+      ],
+      [
+        2635,
+        2704
+      ],
+      [
+        2723,
+        2764
+      ]
+    ],
+    "jump_frame": 2782,
+    "first_complete_crossing_frame": 2807,
+    "middle_switch_frame": 2820,
+    "lower_switch_frame": 3218,
+    "final_complete_crossing_frame": 3788,
+    "physical_chest_frame": 3976,
+    "first_crossing_gate_bounds": [
+      -8,
+      -32,
+      8,
+      -20
+    ],
+    "final_crossing_gate_bounds": [
+      -8,
+      -32,
+      8,
+      -28
+    ],
+    "latch_scope": "While the room remains loaded only.",
+    "f1_tile": [
+      25,
+      3
+    ],
+    "f1_action": "Ordinary down+B slide before the chest.",
+    "latch_flag": "0x4",
+    "switch_template_modes": {
+      "5": "0x8004",
+      "6": "0x0004"
+    }
+  },
+  "matrix": [
+    {
+      "case": "verified-combined-1hp",
+      "actual_hp": 1,
+      "enemy_health_multiplier": 100,
+      "sample_start": 1085,
+      "sample_end": 4154,
+      "sample_count": 3070,
+      "normal_every_sample": true,
+      "damage_taken": 0,
+      "helpers_in_426": false,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960208
+          ]
+        }
+      ],
+      "transport_flag": "0x200",
+      "input_sha256": "474990db1a659f35a58ae91974dc030078cd27af5866c7cace067c1a03f3af35",
+      "states_sha256": "e94ff62fb0f73d5be4b55070e406c7b6e25f95df7533a5ad01bc1c446bd9d024",
+      "result_sha256": "5a76c85f9bb8d772e8cc6f168e3f5be1ff90fd12c878b741cf3905e2a0f44112"
+    },
+    {
+      "case": "verified-combined-6hp-v2",
+      "actual_hp": 6,
+      "enemy_health_multiplier": 100,
+      "sample_start": 1085,
+      "sample_end": 4154,
+      "sample_count": 3070,
+      "normal_every_sample": true,
+      "damage_taken": 0,
+      "helpers_in_426": false,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960208
+          ]
+        }
+      ],
+      "transport_flag": "0x200",
+      "input_sha256": "474990db1a659f35a58ae91974dc030078cd27af5866c7cace067c1a03f3af35",
+      "states_sha256": "487ae114abd967f82b43179f2520f135cfd4004ecced216c0916c116a29a8f52",
+      "result_sha256": "11aacb6c763320227348bde89174a4b33c5050e8b5aaa03e6417a9d9a54a1612"
+    },
+    {
+      "case": "verified-combined-1hp-500",
+      "actual_hp": 1,
+      "enemy_health_multiplier": 500,
+      "sample_start": 1085,
+      "sample_end": 4154,
+      "sample_count": 3070,
+      "normal_every_sample": true,
+      "damage_taken": 0,
+      "helpers_in_426": false,
+      "local_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960208
+          ]
+        }
+      ],
+      "transport_flag": "0x200",
+      "input_sha256": "474990db1a659f35a58ae91974dc030078cd27af5866c7cace067c1a03f3af35",
+      "states_sha256": "3ac8b448cf1c69fd01a69a1b4f7fa7853d9f74f50c06c93bf49cd6eb605e7b93",
+      "result_sha256": "310a166f0ace33f893eb2fc7212d3bb86006675f477d417c1e17bfab50f70ec2"
+    }
+  ],
+  "private_artifact_sha256": {
+    "manifest.json": "d7d6980a0ed6db81a6e75cfddb01618f4e596c7af3bd425f7c00d2083240bc37",
+    "summary.json": "688c8b7a65caf3049525cb429a43d44bc5d316b788db26336320993738cba10b",
+    "independent-review.md": "0cae0dc24833b3e3ace33e062889696efbbc35250ada040b61107b678cdde750",
+    "independent-results.json": "bfa30ce57e1819f07b260cb9614a19e1012b7ed95d56496ad4587c529624daa4"
+  },
+  "limitations": [
+    "Qualified near-door 419 fixture, not arbitrary 419 arrivals or new-game access.",
+    "All-frame telemetry covers frames 1085 through 4154 only, not boot frame 0.",
+    "No 426 to 420 exit or RoomSanity credit.",
+    "No room-reset latch persistence or multiplayer proof.",
+    "No 6 HP / 500% endpoint, health continuum, copied ability matrix or gated runtime matrix.",
+    "The full repeated-contact and puff prefix matters; no arbitrary single-press timing claim.",
+    "Sufficiency, not minimality or uniqueness; preserve other ordinary alternatives and no health restriction.",
+    "Lower bypass exploration did not collect the map or enter 420.",
+    "Independent review reconstructed ROMs and checked source, states and client; it did not perform a fresh emulator replay."
+  ],
+  "control": {
+    "case": "control-no-jump-6hp",
+    "actual_hp": 6,
+    "enemy_health_multiplier": 100,
+    "sample_start": 1085,
+    "sample_end": 4154,
+    "sample_count": 3070,
+    "normal_every_sample": true,
+    "damage_taken": 0,
+    "helpers_in_426": false,
+    "local_client_messages": [],
+    "transport_flag": "0x0",
+    "input_sha256": "b05c5d2582d8c4d372b8e71124e71722eed9d5e15c7b92f2694577c580836872",
+    "states_sha256": "4dc158053b557df38396a99300d9e4ccd6754d1ed9d6b351abf66e5d5dcfe391",
+    "result_sha256": "2641e54716169c79eb34a3062b3baa75896365d289dabd11b5d7fcda102f5b90",
+    "difference_frame": 2782,
+    "success_keys": 17,
+    "control_keys": 16,
+    "omitted_key_bit": 1,
+    "identical_state_prefix_through": 2782,
+    "maximum_x_in_426": 250.375,
+    "first_complete_crossing": false,
+    "middle_switch_active": false,
+    "lower_switch_active": false,
+    "physical_chest_event": false
+  }
+}

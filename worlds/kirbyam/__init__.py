@@ -624,6 +624,20 @@ class KirbyAmWorld(World):
                 if (r.name, r.player) not in existing:
                     self.multiworld.regions.append(r)
 
+            # Main creates start_inventory before regions. Reclassify only the
+            # conditional permissions whose actual target could not exist yet.
+            # Early useful instances need collection unless guaranteed starts
+            # were already tracked by collect_item.
+            for item in self.multiworld.precollected_items[self.player]:
+                if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
+                                 "Parasol Ability", "Magic Ability", "Spark Ability"} \
+                        and not item.advancement:
+                    classification = self.create_item(item.name).classification
+                    if classification & ItemClassification.progression:
+                        item.classification = classification
+                        if item.name not in {f"{name} Ability" for name in starting_copy_abilities(0)}:
+                            self.multiworld.state.collect(item, prevent_sweep=True)
+
             # Log region creation
             fillable_locations = len([
                 loc for loc in self.multiworld.get_locations(self.player)
@@ -1320,7 +1334,7 @@ class KirbyAmWorld(World):
     def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
         # Track the fixed starting permissions without making them progression
         # or changing the existing permissive traversal predicates.
-        if item.name in {f"{name} Ability" for name in STARTING_COPY_ABILITIES}:
+        if item.name in {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}:
             return item.name
         return super().collect_item(state, item, remove)
 
@@ -1329,11 +1343,34 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
+        from .traversal_rules import cabbage_element_is_progression, mustard_magic_is_progression
+
         classification = get_item_classification(item_code)
         if self.item_id_to_name[item_code] == "Ice Ability":
             from .traversal_rules import goal2_ice_is_progression
-            if goal2_ice_is_progression(self):
+            if goal2_ice_is_progression(self) or cabbage_element_is_progression(self, "Ice"):
                 classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Spark Ability":
+            if cabbage_element_is_progression(self, "Spark"):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Crash Ability":
+            from .traversal_rules import mustard_crash_is_progression
+            if mustard_crash_is_progression(self):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Fighter Ability":
+            from .traversal_rules import carrot_fighter_is_progression
+            if carrot_fighter_is_progression(self):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Missile Ability":
+            from .traversal_rules import cabbage_missile_is_progression
+            if cabbage_missile_is_progression(self):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Parasol Ability":
+            from .traversal_rules import cabbage_parasol_is_progression
+            if cabbage_parasol_is_progression(self):
+                classification = ItemClassification.progression
+        if self.item_id_to_name[item_code] == "Magic Ability" and mustard_magic_is_progression(self):
+            classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],
             classification,

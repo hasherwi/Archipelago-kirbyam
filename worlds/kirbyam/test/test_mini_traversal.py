@@ -67,7 +67,7 @@ def test_only_minny_option_removed() -> None:
 
 def test_only_beam_is_forced_in_all_modes() -> None:
     assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == {"Beam"}
+    assert set(starting_copy_abilities(0)) == {"Beam", "Ice"}
     assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 

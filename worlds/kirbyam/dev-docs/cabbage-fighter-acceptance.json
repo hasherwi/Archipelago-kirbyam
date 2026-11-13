@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "ability": "Fighter",
+  "source_commit": "0db01bdd5c91bd971993e59dc92f38572a33c908",
+  "source_tree": "b9aa0f9b3a0898d0ccba1b253104dd960b6f1064",
+  "native_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "private_manifest_sha256": "53f509b1ef4761468fd80000ac67c667831c659769fbd66be0ac36f35f8225c3",
+  "independent_report_sha256": "a87abe1a9658c92b06cbed2a5619bc3bf7ad5773ba56576f6de2d3d89101823a",
+  "generation_seed": 39,
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 6282654274669279257,
+    "mapping_style": "per_enemy_type"
+  },
+  "source": {
+    "template": "0x088CA04C",
+    "native_type": 18,
+    "native_copy": 7,
+    "native_xy": [
+      528,
+      264
+    ],
+    "finite": true,
+    "renewal": false,
+    "acquisition_frame": 1939
+  },
+  "target": {
+    "capability": "bomb_517_fighter_first_combo",
+    "graph": "hub2_fighter_entry",
+    "location": "MINOR_CHEST_SPRAY_PAINT_12",
+    "location_id": 3960511,
+    "room": 517,
+    "f1": [
+      14,
+      7
+    ],
+    "linked_cells": 7,
+    "chest": 57,
+    "template": "0x088CA0B8"
+  },
+  "setup": {
+    "predecessor": 591,
+    "initial_ability": "Normal",
+    "helpers_room": 101,
+    "independent_hub2_access_assumed": true,
+    "startup_fixture_only": true,
+    "fresh_save_bytes": 32768,
+    "fresh_save_fill": 255,
+    "initial_state_restored": false,
+    "configuration_write_count": 8,
+    "configuration_frame": 1085,
+    "later_gameplay_writes": 0
+  },
+  "control": {
+    "omitted_B_half_open": [
+      3326,
+      3327
+    ],
+    "common_state_through": 3326,
+    "full_target_omission_controls": 4,
+    "no_permission_acquisition_only": true
+  },
+  "combat": {
+    "independently_reviewed": true,
+    "non_source_combat_dependency": false,
+    "non_source_hp_reductions": "Stable original enemies end at HP1 with removal flag 0x1000; native object.c:180-212 removal path. Recycled slots are not compared.",
+    "frozen_platform_or_payload_dependency": false
+  },
+  "runs": {
+    "final100-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": 3328,
+      "linked_complete_frame": 3358,
+      "chest_frame": 4252,
+      "final_ability": 20,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "states_sha256": "7a81c52d4a495d2181edc6f0156ef1b3a03e238b00d6dfaab5cd5896554b34f5",
+      "commands_sha256": "0510a877fd8088830c28650f1402675d878ad40ef1b216f96842630cb71fdbc3",
+      "attack": {
+        "task_fn": "0x807e821",
+        "parent": "0x2020ee0",
+        "mask": "0xb1000043",
+        "flags": "0xa0080100",
+        "scan_box": [
+          0,
+          -19,
+          60,
+          11
+        ],
+        "x": 185.99609375,
+        "y": 120.99609375,
+        "integer_rect": [
+          185,
+          101,
+          245,
+          131
+        ],
+        "animation": 53,
+        "header": 1
+      }
+    },
+    "final100-1hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 20,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "states_sha256": "10ca73ac3becf96b409d81a2750ed8ce2244e76bd67d47f46894d4bed911632b",
+      "commands_sha256": "bd09fd8523bf48b912b7309815d1301bf9b5667c7a7df7a254cdafd144bb2bab"
+    },
+    "final100-6hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": 3328,
+      "linked_complete_frame": 3358,
+      "chest_frame": 4252,
+      "final_ability": 20,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "states_sha256": "86784d7f13ff598641055851aac32209bfec9ddaceb10f9065087dd820407183",
+      "commands_sha256": "0510a877fd8088830c28650f1402675d878ad40ef1b216f96842630cb71fdbc3",
+      "attack": {
+        "task_fn": "0x807e821",
+        "parent": "0x2020ee0",
+        "mask": "0xb1000043",
+        "flags": "0xa0080100",
+        "scan_box": [
+          0,
+          -19,
+          60,
+          11
+        ],
+        "x": 185.99609375,
+        "y": 120.99609375,
+        "integer_rect": [
+          185,
+          101,
+          245,
+          131
+        ],
+        "animation": 53,
+        "header": 1
+      }
+    },
+    "final100-6hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 20,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "states_sha256": "996692e5fd2e6517a676324007c046b183530e0a1795d6a3685e9cde8358f56f",
+      "commands_sha256": "bd09fd8523bf48b912b7309815d1301bf9b5667c7a7df7a254cdafd144bb2bab"
+    },
+    "final500-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": 3328,
+      "linked_complete_frame": 3358,
+      "chest_frame": 4252,
+      "final_ability": 20,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "states_sha256": "faf3fec41ecdd6e9895d0c3da62680882960a9aa662630b49b3aef43d85e8dac",
+      "commands_sha256": "0510a877fd8088830c28650f1402675d878ad40ef1b216f96842630cb71fdbc3",
+      "attack": {
+        "task_fn": "0x807e821",
+        "parent": "0x2020ee0",
+        "mask": "0xb1000043",
+        "flags": "0xa0080100",
+        "scan_box": [
+          0,
+          -19,
+          60,
+          11
+        ],
+        "x": 185.99609375,
+        "y": 120.99609375,
+        "integer_rect": [
+          185,
+          101,
+          245,
+          131
+        ],
+        "animation": 53,
+        "header": 1
+      }
+    },
+    "final500-1hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 20,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "states_sha256": "819ddb3a18ffa8b877d21966e625b52d43ed861f07717791c7aea8623e27e11c",
+      "commands_sha256": "bd09fd8523bf48b912b7309815d1301bf9b5667c7a7df7a254cdafd144bb2bab"
+    },
+    "final500-6hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": 3328,
+      "linked_complete_frame": 3358,
+      "chest_frame": 4252,
+      "final_ability": 20,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "states_sha256": "6a5facddbe66eff7cd3a92422917d6b26eae4b0a48c27047ae692a41dd93b43f",
+      "commands_sha256": "0510a877fd8088830c28650f1402675d878ad40ef1b216f96842630cb71fdbc3",
+      "attack": {
+        "task_fn": "0x807e821",
+        "parent": "0x2020ee0",
+        "mask": "0xb1000043",
+        "flags": "0xa0080100",
+        "scan_box": [
+          0,
+          -19,
+          60,
+          11
+        ],
+        "x": 185.99609375,
+        "y": 120.99609375,
+        "integer_rect": [
+          185,
+          101,
+          245,
+          131
+        ],
+        "animation": 53,
+        "header": 1
+      }
+    },
+    "final500-6hp-control": {
+      "positive": false,
+      "acquisition_only": false,
+      "hp": 6,
+      "enemy_health": 500,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 6,
+      "hp_max": 6,
+      "source_hp": 20,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 20,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "states_sha256": "9825d18e2fae81cc4e22b43f76d618670e0774584d8741c19589575a84985adc",
+      "commands_sha256": "bd09fd8523bf48b912b7309815d1301bf9b5667c7a7df7a254cdafd144bb2bab"
+    },
+    "gated100-1hp-positive": {
+      "positive": true,
+      "acquisition_only": false,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 4490,
+      "sample_count": 3406,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": 1939,
+      "corridor_frame": 2009,
+      "target_frame": 3328,
+      "linked_complete_frame": 3358,
+      "chest_frame": 4252,
+      "final_ability": 20,
+      "final_target": 0,
+      "final_linked": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_chest": true,
+      "final_event_count": 1,
+      "local_client": {
+        "messages": [
+          {
+            "cmd": "LocationChecks",
+            "locations": [
+              3960511
+            ]
+          }
+        ],
+        "server_submission": false
+      },
+      "states_sha256": "eb29b0645850ebe1959b381e0f5d3473d43dc083a25024047dad4f1773e773e4",
+      "commands_sha256": "0510a877fd8088830c28650f1402675d878ad40ef1b216f96842630cb71fdbc3",
+      "gate_mask": 67108470,
+      "permission_mask": 1048576,
+      "attack": {
+        "task_fn": "0x807e821",
+        "parent": "0x2020ee0",
+        "mask": "0xb1000043",
+        "flags": "0xa0080100",
+        "scan_box": [
+          0,
+          -19,
+          60,
+          11
+        ],
+        "x": 185.99609375,
+        "y": 120.99609375,
+        "integer_rect": [
+          185,
+          101,
+          245,
+          131
+        ],
+        "animation": 53,
+        "header": 1
+      }
+    },
+    "gated100-1hp-no-permission": {
+      "positive": false,
+      "acquisition_only": true,
+      "hp": 1,
+      "enemy_health": 100,
+      "first_frame": 1085,
+      "last_frame": 2067,
+      "sample_count": 983,
+      "hp_min": 1,
+      "hp_max": 1,
+      "source_hp": 4,
+      "ingress_frame": 1109,
+      "acquisition_frame": null,
+      "corridor_frame": null,
+      "target_frame": null,
+      "linked_complete_frame": null,
+      "chest_frame": null,
+      "final_ability": 0,
+      "final_target": 241,
+      "final_linked": [
+        242,
+        242,
+        242,
+        242,
+        242,
+        242,
+        242
+      ],
+      "final_chest": false,
+      "final_event_count": 0,
+      "local_client": {
+        "messages": [],
+        "server_submission": false
+      },
+      "states_sha256": "d11b349e60059eddf04bd466eb2a1b7fc5c73f5fdc6c522cac4d4ad56b6a4d2d",
+      "commands_sha256": "8eb2d478a7fb8616b9336f8b723d95117a751146eae580381640fdf410924ae4",
+      "gate_mask": 67108470,
+      "permission_mask": 0
+    }
+  },
+  "prior_graphs_sha256": {
+    "hub2_entry": "b6bdfd79f8e96d060b0b056647ed1db98b7135ab7d036194d2efb8ec8a90bc40",
+    "hub2_smash_entry": "80e208da9be231463f253a26f7684ab50ced43c450da083e828c5ca4f47962ff",
+    "hub2_fire_entry": "9b28904963759d5f50271892cb2dacfef0557fe093c3ea3ded9d309d6535ed5a",
+    "hub2_missile_entry": "7bddf54bdfb8911b4948bcaf68d84c91ff311189b4f8daba8aba2a00ea35ce4a",
+    "hub2_parasol_entry": "253048c65f433ea580dfee2c8463baa217c20154d73dda1702d154eb8cfc9a4e",
+    "hub2_spark_entry": "a411ea6913b767fa9f08488f2cd0e1a046f787985272d526d10ae793bcf1edca",
+    "hub2_ice_entry": "c0aa62ce4b7a43f5865d1cbc531bd8f38ce22dc29881a39daa212f8437865980",
+    "hub2_sword_entry": "3fa32ce6e0b8060b9a36c90d00094caa1f9fde643dde79d72e1daef722d41aa5"
+  },
+  "prior_room_catalog_sha256": "e75fff33e4a571b67435d60807106a259f86013bbfa2c2b985551d257bb2d935",
+  "limits": [
+    "Independent Hub2 access is assumed, not game-start reachability.",
+    "Finite original source only; no renewal or random retry.",
+    "Inventory permission is not equipped ability.",
+    "Endpoint HP1/6 and enemy100/500 only; no intermediate-health or all-RNG guarantee.",
+    "No generic range, arrival envelope, other target, exit, helper route or RoomSanity guarantee.",
+    "Frame-sampled and source-reconciled attribution, not instruction-breakpoint tracing.",
+    "Local client poll only; no server submission or receipt."
+  ]
+}

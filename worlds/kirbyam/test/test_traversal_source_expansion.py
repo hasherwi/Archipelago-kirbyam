@@ -78,7 +78,7 @@ def generated_graph(seed: int) -> tuple[TraversalGraph, frozenset[str]]:
     preserves, resets = ((False, False), (True, False), (False, True))[seed % 3]
     routes = (
         Route("a", "b", "peg", "gate"),
-        Route("b", "a"),
+        Route("b", "a", required_equipment=frozenset({"Normal", "Stone"})),
         Route("a", "b", "metal_throw", uses_object="ammo"),
         Route("a", "b", "frozen_enemy_hit", uses_object="ammo"),
         Route("a", "b", "fuse"),  # Crash consumption must remain per Position.
@@ -108,7 +108,7 @@ def test_generated_paths_match_reference(resolver: SourcePolicy, gating: bool, r
 
 def catalog_graphs() -> tuple[tuple[str, str], ...]:
     return tuple((row["id"], witness)
-                 for kind in ("mini", "peg", "wheel", "fuse", "rope", "block", "reinforced", "metal")
+                 for kind in ("mini", "peg", "wheel", "fuse", "rope", "block", "switch", "reinforced", "metal")
                  for row in room_traversal_targets(kind) for witness in row["graphs"])
 
 
