@@ -21,6 +21,23 @@ ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
 
 
+def historical_client_before_ice_start(raw, expected):
+    """Project only the reviewed two-line receipt expansion, never rewrite evidence."""
+    text = raw.decode('utf-8').replace('\r\n', '\n')
+    changes = (
+        ('from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities, starting_copy_abilities',
+         'from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities'),
+        ('{f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}',
+         '{f"{name} Ability" for name in STARTING_COPY_ABILITIES}'),
+    )
+    for current, historical in changes:
+        assert text.count(current) == 1, 'Missing or duplicated reviewed Ice receipt delta'
+        text = text.replace(current, historical, 1)
+    projected = text.encode('utf-8')
+    assert lf_text_sha256(projected) == expected, 'Unreviewed client change outside Ice receipt delta'
+    return projected
+
+
 def evidence():
     return json.loads(EVIDENCE.read_text(encoding='utf-8'))
 
@@ -199,7 +216,10 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for path, expected in e['tracked_source_sha256'].items():
         expected = union['adopted_main_source_sha256'].get(path, expected)
-        assert lf_text_sha256((ROOT / path).read_bytes()) == expected
+        raw = (ROOT / path).read_bytes()
+        if path == 'client.py':
+            raw = historical_client_before_ice_start(raw, expected)
+        assert lf_text_sha256(raw) == expected
     for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
         text = path.read_text(encoding='utf-8')
         assert all(private not in text for private in ('/home/', '/Users/', 'C:\\', 'D:\\'))
@@ -321,3 +341,21 @@ def test_historical_reconstruction_rejects_green_contract_mutations(mutation):
         previous = before_reviewed_fire719_addition(rooms)
         restored, = [row for row in raw_targets(previous) if row['id'] == 'bomb_138_green']
         assert digest(restored) == evidence()['preserved_target_sha256']['bomb_138_green']
+
+
+@pytest.mark.parametrize('mutation', ['unrelated', 'duplicate', 'missing', 'weaken_receipt'])
+def test_historical_client_projection_rejects_unreviewed_changes(mutation):
+    raw = (ROOT / 'client.py').read_bytes()
+    union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
+    expected = union['adopted_main_source_sha256'].get('client.py', evidence()['tracked_source_sha256']['client.py'])
+    historical_client_before_ice_start(raw, expected)
+    if mutation == 'unrelated':
+        raw += b'\n# unrelated mutation\n'
+    elif mutation == 'duplicate':
+        raw += b'\n# {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}\n'
+    elif mutation == 'missing':
+        raw = raw.replace(b', starting_copy_abilities\n', b'\n', 1)
+    else:
+        raw = raw.replace(b'getattr(item, "location", None) != -2', b'getattr(item, "location", None) != -1', 1)
+    with pytest.raises(AssertionError):
+        historical_client_before_ice_start(raw, expected)

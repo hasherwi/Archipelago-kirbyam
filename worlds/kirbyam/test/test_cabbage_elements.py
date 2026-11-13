@@ -94,6 +94,9 @@ def test_actual_world_scope(monkeypatch, ability, gating, area_keys, statues, ro
     world = make_world(1, gating, accessibility='minimal', area_keys=area_keys,
                        ability_randomization_statues=statues, room_sanity=room_sanity)
     state = CollectionState(world.multiworld)
+    # Isolate permission removal from the new automatic Ice precollect.
+    if ability == 'Ice':
+        state.remove(world.create_item('Ice Ability'))
     item = world.create_item(f'{ability} Ability')
     assert ability in GATEABLE_ENEMY_COPY_ABILITIES
     assert item.classification == (ItemClassification.progression if gating and minor_chests
@@ -181,10 +184,11 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
     multiworld, = generated
     assert not multiworld.get_unfilled_locations()
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
-    expected = count if gating and minor_chests else 0
+    starting_count = max(1, count) if ability == 'Ice' else count
+    expected = starting_count if ability == 'Ice' or gating and minor_chests else 0
     assert before == [expected if ability == 'Ice' else 0] and after == [expected]
     starting = [item for item in multiworld.precollected_items[1] if item.name == name]
-    assert len(starting) == count
+    assert len(starting) == starting_count
     assert all(item.classification == (ItemClassification.progression if gating and minor_chests
                                        else ItemClassification.useful) for item in starting)
     state = CollectionState(multiworld)
@@ -195,7 +199,7 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
         state.can_reach_region = lambda name, player: name == OWNER
         assert not chest.access_rule(state)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (bool(count) or not gating)
+        assert chest.access_rule(state) is (bool(starting_count) or not gating)
         for item in starting:
             state.remove(item)
         assert not state.has(name, 1)
@@ -240,7 +244,7 @@ def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypa
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating)
+    assert chest.access_rule(state) is (ability == 'Ice' or not gating)
     state.collect(multiworld.worlds[1].create_item(f'{ability} Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -264,9 +268,9 @@ def test_reconciliation_does_not_double_collect_progression(monkeypatch, ability
         assert early.classification == (ItemClassification.progression if ability == 'Ice'
                                         else ItemClassification.useful)
         multiworld.push_precollected(early)
-    assert multiworld.state.count(name, 1) == (3 if ability == 'Ice' else 1)
+    assert multiworld.state.count(name, 1) == (4 if ability == 'Ice' else 1)
     world.create_regions()
-    assert multiworld.state.count(name, 1) == CollectionState(multiworld).count(name, 1) == 3
+    assert multiworld.state.count(name, 1) == CollectionState(multiworld).count(name, 1) == (4 if ability == 'Ice' else 3)
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
@@ -324,5 +328,5 @@ def test_uncertain_chocolate_preserves_independent_early_ice_progression(monkeyp
     world.create_regions()
     classification = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
     assert all(item.classification == classification for item in items)
-    expected = 3 if ability == 'Ice' else 0
+    expected = 4 if ability == 'Ice' else 0
     assert multiworld.state.count(items[0].name, 1) == CollectionState(multiworld).count(items[0].name, 1) == expected
