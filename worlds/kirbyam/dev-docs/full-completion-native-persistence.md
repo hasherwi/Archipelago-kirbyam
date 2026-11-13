@@ -97,3 +97,29 @@ roundtrip, in native file 0, on mGBA**. The other three lever sources, files 1/2
 receipt-first ordering, real server reconnect and the full goal/credits and
 interruption matrix remain unverified. The candidate status and known limitation
 remain in place.
+
+### Additional file and network coverage
+
+The same genuine route was then replayed continuously from blank SRAM in native
+files 1 and 2. Only legitimate menu file-selection inputs changed; the total
+41,104 input frames and all 115 room/position/health/ability checkpoints matched
+the original route. Both physical pulls and separate-process cold boots passed.
+Independent review verified full authentication, selected-file isolation, all
+six checksums, unchanged other files and actual zero process exits. Thus the
+Moonlight Mansion physical-first save/cold-load case now covers all three files.
+
+A separate file-0 test used the shipping AP server on localhost and the shipping
+Kirby client with an mGBA-backed BizHawk transport adapter. The initially empty
+server acknowledged the actual lever location 3960415. An actual disconnect and
+second connection preserved the same four checks and six-item received history,
+with no duplicate location reports. The full authenticated physical record
+survived. All 217 shipping-client memory writes passed their guards; these are
+legitimate client delivery/configuration writes, not a zero-write experiment.
+Both server and client/native processes exited zero, and independent review
+verified the packet history and native evidence. No administrative item grants
+or manually fabricated location checks were used.
+
+This adds real AP synchronization/reconnect coverage for the Moonlight file-0
+case, not actual BizHawk-emulator, receipt-first, other-lever or full-goal
+acceptance. Earlier checkpoint exclusions describe their original scope; this
+section records the later extensions without rewriting that provenance.

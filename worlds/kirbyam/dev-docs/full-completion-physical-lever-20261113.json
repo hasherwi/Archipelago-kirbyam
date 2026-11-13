@@ -956,11 +956,10 @@
   ],
   "non_claims": [
     "Other three lever sources",
-    "Native files 1 and 2 physical pulls",
-    "Receipt-first ordering or actual server reconnect",
+    "Receipt-first ordering",
     "Final-clear/credits or loaded-complete-save acceptance",
     "Health matrix, delayed delivery, rewind/reset completion-read matrix",
-    "Universal multiplayer or BizHawk acceptance"
+    "Universal multiplayer or actual BizHawk acceptance"
   ],
   "artifacts_withheld": [
     "Full ROM",
@@ -977,5 +976,63 @@
       "Both file0 record copies contain the physical record; files1/2 unchanged",
       "Cold-load battery is byte-identical to input battery"
     ]
+  },
+  "additional_native_files": [
+    {
+      "native_file": 1,
+      "physical_replay_owning_exit": 0,
+      "cold_load_owning_exit": 0,
+      "input_frames": 41104,
+      "endpoint_checks": 115,
+      "initial_state": "none; cold blank SRAM",
+      "memory_writes": 0,
+      "record_word": "0x48408000",
+      "activation_flags": 1,
+      "runtime_sha256": "76a302f6a2a18b0f771de880ec9d391a59de47febacf5a75945b8976bc749451",
+      "cold_runtime_sha256": "e3f69a106e406e54dc09f12b4262176708f7e480812033b6ffc539a68be699e8",
+      "battery_sha256": "6e26086ddeca3d3961aea140e87b581ade05814816b3a482849faa9b5632f2ad",
+      "cold_observation_sha256": "313b9e415a2b980a1b429bf776ffb390201a26d58b719f6bc1a0b437cfe83d81",
+      "independent_review": "passed: all six checksums, selected-file isolation, input sequence and endpoints, auth, no writes, cold battery identity"
+    },
+    {
+      "native_file": 2,
+      "physical_replay_owning_exit": 0,
+      "cold_load_owning_exit": 0,
+      "input_frames": 41104,
+      "endpoint_checks": 115,
+      "initial_state": "none; cold blank SRAM",
+      "memory_writes": 0,
+      "record_word": "0x48408000",
+      "activation_flags": 1,
+      "runtime_sha256": "95df2c84c416ad428d9032674e41f4c7dfcdd22f1bd196dc4299d3e019059703",
+      "cold_runtime_sha256": "c5dafcb682668c1388e248403e5b89254731a1e48548fa8586e6327dec071d37",
+      "battery_sha256": "eaaf5ba0f6132ad4a06029daabc2eb3ba57c42781706b7374709d91d131920e2",
+      "cold_observation_sha256": "6e996cc503e576366b5affebad80ecf805e68c98dd1f70d04ec1d1bfd9dc3e41",
+      "independent_review": "passed: all six checksums, selected-file isolation, input sequence and endpoints, auth, no writes, cold battery identity"
+    }
+  ],
+  "real_ap_reconnect": {
+    "scope": "Shipping AP server and Kirby client over real localhost websocket with mGBA-backed BizHawk transport adapter; not actual BizHawk emulator acceptance.",
+    "actual_connections": 2,
+    "initial_server_checked_locations": [],
+    "actual_physical_lever_location": 3960415,
+    "server_checked_locations": [
+      3960209,
+      3960415,
+      3960451,
+      3960452
+    ],
+    "received_history_count": 6,
+    "checked_locations_and_received_history_unchanged_on_second_connection": true,
+    "duplicate_location_reports_after_second_connection": 0,
+    "guarded_shipping_client_writes": 217,
+    "failed_guards": 0,
+    "full_auth_and_record_preserved": true,
+    "server_owning_exit": 0,
+    "client_native_owning_exit": 0,
+    "observation_sha256": "8a2566839dd586025bcf3e3c6399328c414a1e8f53703169d5bf03c0a69504ae",
+    "native_runtime_sha256": "ba46d3d6bea7ad5445c1f21c1d2bf1f0c59939c4e2be16ff2b24b5fd0f895564",
+    "server_log_sha256": "ff3ec1a2114de3e2511033b7ef1ac4180f542dafe83f6bb97bb645db9c7652a0",
+    "independent_review": "passed"
   }
 }
