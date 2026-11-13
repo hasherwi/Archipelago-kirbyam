@@ -113,7 +113,7 @@ Kirby client with an mGBA-backed BizHawk transport adapter. The initially empty
 server acknowledged the actual lever location 3960415. An actual disconnect and
 second connection preserved the same four checks and six-item received history,
 with no duplicate location reports. The full authenticated physical record
-survived. All 217 shipping-client memory writes passed their guards; these are
+survived. The 217 shipping-client memory writes reported no guard failures; these are
 legitimate client delivery/configuration writes, not a zero-write experiment.
 Both server and client/native processes exited zero, and independent review
 verified the packet history and native evidence. No administrative item grants
@@ -123,3 +123,39 @@ This adds real AP synchronization/reconnect coverage for the Moonlight file-0
 case, not actual BizHawk-emulator, receipt-first, other-lever or full-goal
 acceptance. Earlier checkpoint exclusions describe their original scope; this
 section records the later extensions without rewriting that provenance.
+
+### Receipt-first Carrot Castle and Radish Ruins coverage
+
+A separate ordinary generated seed (101614) used the supported `start_inventory`
+option for all 15 Hub Connections and four Lever Walls, alongside the normal
+Beam/Ice starting items. These are additional precollected copies, not an item-pool
+removal option. The actual localhost AP server delivered the inventory through
+the shipping client. All 21 precollected items matched the generated list, all
+four native wall bits were set, and the live hub ownership mask was `0xfffe`.
+No physical lever latch, physical lever record bit, outgoing lever check or
+server-acknowledged lever check was created by those receipts.
+
+Controller-only gameplay then reached and pulled the Carrot Castle lever in
+room 170. Only the actual Up interaction set activation bit 2 and authenticated
+record bit 17. Both native file-0 save copies contained the record, all six
+checksums were valid, and a separate cold boot restored the exact record and
+latch. The cold-load battery was byte-identical to its input.
+
+Continuing through the genuine Carrot exit and wind shaft reached Radish Ruins
+room 619. Its actual Up interaction added activation bit 3 and authenticated
+record bit 18, preserving the earlier Carrot bit. Both file-0 save copies and
+all six checksums passed independent review. A separate cold process restored
+the combined Carrot/Radish record and activation latches. These cases show that receiving a
+wall first neither grants physical credit nor prevents a later genuine pull.
+
+The runs use their own same-ROM checkpoints, with every owning process exit
+recorded and no route memory writes. The delivery phase uses legitimate
+shipping-client writes; it is not described as a zero-write experiment. The
+first delivery trial preserved a failed harness assertion: the live hub mask
+uses indices 1–15 (`0xfffe`), unlike the zero-based physical switch record. The
+corrected assertion passed on a fresh second trial. No production defect was
+inferred from that harness error.
+
+Full-goal/credits acceptance and the remaining native interruption matrix are
+still outstanding. These narrow additional cases do not remove the known
+limitation or establish universal multiplayer/BizHawk-emulator acceptance.

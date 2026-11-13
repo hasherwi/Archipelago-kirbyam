@@ -1,0 +1,2684 @@
+{
+  "schema_version": 1,
+  "scope": "Receipt-first native lever acceptance for separate generated seed101614, not full-game completion or credits validation. Each route uses only its own parent checkpoint.",
+  "source_head": "f706024da4be9ec656952041967577f0466e3cb5",
+  "rom_sha256": "c36bd6de386fbf8edbc4286b73e5b3cfa575cf6e254167ac467b7a3ea49a3f0c",
+  "starting_inventory": [
+    3860107,
+    3860102,
+    3860401,
+    3860402,
+    3860403,
+    3860404,
+    3860405,
+    3860406,
+    3860407,
+    3860408,
+    3860409,
+    3860410,
+    3860411,
+    3860412,
+    3860413,
+    3860414,
+    3860415,
+    3860037,
+    3860038,
+    3860039,
+    3860040
+  ],
+  "delivery": {
+    "owning_exit": 0,
+    "server_owning_exit": 0,
+    "native_file": 0,
+    "native_after": {
+      "label": "after-starting-item-delivery",
+      "frame": 810,
+      "room": 801,
+      "x": 102.0,
+      "y": 186.57421875,
+      "hp": 5,
+      "ability": 0,
+      "flags": 0,
+      "ai": 300,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 132,
+      "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+      "physical_record_word": "0x0",
+      "lever_activation_flags": 0,
+      "hub_mask": 65534,
+      "native_wall_bytes": [
+        4,
+        2,
+        36
+      ]
+    },
+    "server_checked_locations": [
+      3960209,
+      3960451
+    ],
+    "all_lever_locations": [
+      3960415,
+      3960416,
+      3960417,
+      3960418
+    ],
+    "items_received": [
+      [
+        3860107,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860102,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860401,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860402,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860403,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860404,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860405,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860406,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860407,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860408,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860409,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860410,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860411,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860412,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860413,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860414,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860415,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860037,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860038,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860039,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860040,
+        -2,
+        0,
+        0
+      ],
+      [
+        3860215,
+        3960209,
+        1,
+        2
+      ],
+      [
+        3860001,
+        3960451,
+        1,
+        0
+      ]
+    ],
+    "shipping_client_write_count": 207,
+    "network_packets": [
+      {
+        "direction": "server",
+        "cmd": "Connected",
+        "checked_locations": [],
+        "index": null,
+        "items": [],
+        "errors": null
+      },
+      {
+        "direction": "server",
+        "cmd": "ReceivedItems",
+        "checked_locations": null,
+        "index": 0,
+        "items": [
+          [
+            3860107,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860102,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860401,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860402,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860403,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860404,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860405,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860406,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860407,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860408,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860409,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860410,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860411,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860412,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860413,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860414,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860415,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860037,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860038,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860039,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860040,
+            -2,
+            0,
+            0
+          ]
+        ],
+        "errors": null
+      },
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960209
+        ]
+      },
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960209
+        ]
+      },
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960451
+        ]
+      },
+      {
+        "direction": "client",
+        "cmd": "Sync"
+      },
+      {
+        "direction": "server",
+        "cmd": "ReceivedItems",
+        "checked_locations": null,
+        "index": 21,
+        "items": [
+          [
+            3860215,
+            3960209,
+            1,
+            2
+          ]
+        ],
+        "errors": null
+      },
+      {
+        "direction": "server",
+        "cmd": "RoomUpdate",
+        "checked_locations": [
+          3960209
+        ],
+        "index": null,
+        "items": [],
+        "errors": null
+      },
+      {
+        "direction": "client",
+        "cmd": "Sync"
+      },
+      {
+        "direction": "server",
+        "cmd": "ReceivedItems",
+        "checked_locations": null,
+        "index": 22,
+        "items": [
+          [
+            3860001,
+            3960451,
+            1,
+            0
+          ]
+        ],
+        "errors": null
+      },
+      {
+        "direction": "server",
+        "cmd": "RoomUpdate",
+        "checked_locations": [
+          3960451
+        ],
+        "index": null,
+        "items": [],
+        "errors": null
+      },
+      {
+        "direction": "server",
+        "cmd": "ReceivedItems",
+        "checked_locations": null,
+        "index": 0,
+        "items": [
+          [
+            3860107,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860102,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860401,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860402,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860403,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860404,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860405,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860406,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860407,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860408,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860409,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860410,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860411,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860412,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860413,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860414,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860415,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860037,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860038,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860039,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860040,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860215,
+            3960209,
+            1,
+            2
+          ],
+          [
+            3860001,
+            3960451,
+            1,
+            0
+          ]
+        ],
+        "errors": null
+      },
+      {
+        "direction": "server",
+        "cmd": "ReceivedItems",
+        "checked_locations": null,
+        "index": 0,
+        "items": [
+          [
+            3860107,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860102,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860401,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860402,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860403,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860404,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860405,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860406,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860407,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860408,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860409,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860410,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860411,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860412,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860413,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860414,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860415,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860037,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860038,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860039,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860040,
+            -2,
+            0,
+            0
+          ],
+          [
+            3860215,
+            3960209,
+            1,
+            2
+          ],
+          [
+            3860001,
+            3960451,
+            1,
+            0
+          ]
+        ],
+        "errors": null
+      }
+    ]
+  },
+  "routes": [
+    {
+      "name": "route-001",
+      "parent": "receipt-delivery-002",
+      "state_sha256": "93c8ec422fef1b157f6a92cff601d68cde2022ae6af3291a094e12853dd72142",
+      "runtime_sha256": "41f6e12fb99ffe454795985d4b38e557be5bc9e84f87253cbbba55b9f4392387",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 12,
+          "keys": 64
+        },
+        {
+          "start": 12,
+          "frames": 100,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 801,
+          "x": 102.0,
+          "y": 186.57421875,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 12,
+          "room": 801,
+          "x": 102.0,
+          "y": 192.33984375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 112,
+          "room": 192,
+          "x": 200.0,
+          "y": 119.80859375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-002",
+      "parent": "route-001",
+      "state_sha256": "a5e836a2cdc449413c955c55013abc5a7903b201a7aa8816a960ebbfaa23213c",
+      "runtime_sha256": "35c6b2ef4ea937b03db7a9e2e2dc58d4d1db3e565681f9ce88c64bcff8c5c965",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 22,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 23,
+          "frames": 75,
+          "keys": 33
+        },
+        {
+          "start": 98,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 99,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 129,
+          "frames": 12,
+          "keys": 64
+        },
+        {
+          "start": 141,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 192,
+          "x": 200.0,
+          "y": 119.80859375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 22,
+          "room": 192,
+          "x": 200.0,
+          "y": 93.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 23,
+          "room": 192,
+          "x": 200.0,
+          "y": 92.76953125,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 98,
+          "room": 192,
+          "x": 168.859375,
+          "y": 46.83203125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "3",
+          "frame": 99,
+          "room": 192,
+          "x": 168.859375,
+          "y": 46.83203125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "4",
+          "frame": 129,
+          "room": 192,
+          "x": 168.859375,
+          "y": 72.01953125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "5",
+          "frame": 141,
+          "room": 192,
+          "x": 168.859375,
+          "y": 94.98828125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "6",
+          "frame": 231,
+          "room": 192,
+          "x": 168.859375,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-003",
+      "parent": "route-002",
+      "state_sha256": "a5c145e2a026b5cb8704b97e82780051da74d7ce24e258c22726cb1ba2b098cf",
+      "runtime_sha256": "fea6da9a9f5b1c469a408f54bb22c6ba12a23871a8309c4488db554226b7de0f",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 22,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 23,
+          "frames": 60,
+          "keys": 33
+        },
+        {
+          "start": 83,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 84,
+          "frames": 40,
+          "keys": 1
+        },
+        {
+          "start": 124,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 132,
+          "frames": 12,
+          "keys": 64
+        },
+        {
+          "start": 144,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 192,
+          "x": 168.859375,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 22,
+          "room": 192,
+          "x": 168.859375,
+          "y": 93.33984375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 23,
+          "room": 192,
+          "x": 168.859375,
+          "y": 92.11328125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 83,
+          "room": 192,
+          "x": 111.15625,
+          "y": 21.00390625,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "3",
+          "frame": 84,
+          "room": 192,
+          "x": 110.12890625,
+          "y": 21.08984375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "4",
+          "frame": 124,
+          "room": 192,
+          "x": 95.65625,
+          "y": 21.00390625,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "5",
+          "frame": 132,
+          "room": 192,
+          "x": 92.5625,
+          "y": 24.09765625,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "6",
+          "frame": 144,
+          "room": 192,
+          "x": 87.0546875,
+          "y": 21.00390625,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "7",
+          "frame": 234,
+          "room": 192,
+          "x": 86.1953125,
+          "y": 115.44921875,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-004",
+      "parent": "route-003",
+      "state_sha256": "3b4d7f94d8376fe3ff3a045b2848c227472b79a28c7a4d36e5a99bcce3eadfd1",
+      "runtime_sha256": "88fe70c01cf8b1a9b3ef6539c18444ce25f79a7fa8b4a6750acf8f4288c1d569",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 18,
+          "keys": 32
+        },
+        {
+          "start": 18,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 38,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 60,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 61,
+          "frames": 20,
+          "keys": 1
+        },
+        {
+          "start": 81,
+          "frames": 50,
+          "keys": 64
+        },
+        {
+          "start": 131,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 192,
+          "x": 86.1953125,
+          "y": 115.44921875,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 18,
+          "room": 192,
+          "x": 73.1171875,
+          "y": 121.08203125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 38,
+          "room": 192,
+          "x": 59.25,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 60,
+          "room": 192,
+          "x": 57.6171875,
+          "y": 109.33984375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "3",
+          "frame": 61,
+          "room": 192,
+          "x": 57.6171875,
+          "y": 108.11328125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "4",
+          "frame": 81,
+          "room": 192,
+          "x": 57.6171875,
+          "y": 81.86328125,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "5",
+          "frame": 131,
+          "room": 193,
+          "x": 136.0,
+          "y": 40.99609375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb",
+          "physical_record_word": "0x0",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "6",
+          "frame": 221,
+          "room": 193,
+          "x": 136.0,
+          "y": 98.68359375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-005",
+      "parent": "route-004",
+      "state_sha256": "247b08d23d11816e8badf23186ea0332cfa4f4dc0716f7de190c596bc99bdad6",
+      "runtime_sha256": "d1ddcedc73aa287b0b8f5cea209f96ead3347a4f4159de6b5372dc00ef14afe5",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 65,
+          "keys": 32
+        },
+        {
+          "start": 65,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 105,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 125,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 193,
+          "x": 136.0,
+          "y": 98.68359375,
+          "hp": 5,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 65,
+          "room": 193,
+          "x": 43.1875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 105,
+          "room": 193,
+          "x": 28.46875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 125,
+          "room": 170,
+          "x": 696.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "3",
+          "frame": 215,
+          "room": 170,
+          "x": 696.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-006",
+      "parent": "route-005",
+      "state_sha256": "440e1ef652e341464d5173418a27c84ecd9bc91bf5276c912491b32a12758dd0",
+      "runtime_sha256": "69ed52306778d4df57470cf01e2f661658f18cc0a93c12e881d7d0e9b2a0b1d0",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 22,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 23,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 103,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 104,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 184,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 185,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 265,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 266,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 346,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 347,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 427,
+          "frames": 1,
+          "keys": 32
+        },
+        {
+          "start": 428,
+          "frames": 80,
+          "keys": 33
+        },
+        {
+          "start": 508,
+          "frames": 40,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 696.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 22,
+          "room": 170,
+          "x": 696.0,
+          "y": 83.62890625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 23,
+          "room": 170,
+          "x": 696.0,
+          "y": 83.23828125,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 103,
+          "room": 170,
+          "x": 617.046875,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "3",
+          "frame": 104,
+          "room": 170,
+          "x": 615.984375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "4",
+          "frame": 184,
+          "room": 170,
+          "x": 530.984375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "5",
+          "frame": 185,
+          "room": 170,
+          "x": 529.921875,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "6",
+          "frame": 265,
+          "room": 170,
+          "x": 444.921875,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "7",
+          "frame": 266,
+          "room": 170,
+          "x": 443.859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "8",
+          "frame": 346,
+          "room": 170,
+          "x": 358.859375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "9",
+          "frame": 347,
+          "room": 170,
+          "x": 357.796875,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "10",
+          "frame": 427,
+          "room": 170,
+          "x": 272.796875,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "11",
+          "frame": 428,
+          "room": 170,
+          "x": 271.734375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "12",
+          "frame": 508,
+          "room": 170,
+          "x": 186.734375,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "13",
+          "frame": 548,
+          "room": 170,
+          "x": 171.234375,
+          "y": 37.015625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        }
+      ]
+    },
+    {
+      "name": "route-007",
+      "parent": "route-006",
+      "state_sha256": "ff642bae0135c6f031672f4d0101371f1a293a221e9a1da0741860d5a388f0be",
+      "runtime_sha256": "de9bde868dd933e99ea166274117213ed724a4f159b722d145aa57e80e6bb84b",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 95,
+          "keys": 32
+        },
+        {
+          "start": 95,
+          "frames": 70,
+          "keys": 0
+        },
+        {
+          "start": 165,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 250,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 171.234375,
+          "y": 37.015625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "0",
+          "frame": 95,
+          "room": 170,
+          "x": 76.34375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "1",
+          "frame": 165,
+          "room": 170,
+          "x": 60.84375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48400020",
+          "lever_activation_flags": 0
+        },
+        {
+          "label": "2",
+          "frame": 250,
+          "room": 170,
+          "x": 60.84375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 330,
+          "room": 170,
+          "x": 60.84375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-011",
+      "parent": "route-007",
+      "state_sha256": "6c9b9441c515e1d386afd4509494e26bef72881af79accdbbf2296f5c07f9d7c",
+      "runtime_sha256": "0f7b90ca27dd11cffaa7f7fa8c6bf41b2aada88135f5f89884a098346b8856b0",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 22,
+          "keys": 32
+        },
+        {
+          "start": 22,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 82,
+          "frames": 40,
+          "keys": 64
+        },
+        {
+          "start": 122,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 60.84375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 22,
+          "room": 170,
+          "x": 37.234375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 82,
+          "room": 170,
+          "x": 22.515625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 122,
+          "room": 170,
+          "x": 22.515625,
+          "y": 48.21484375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 212,
+          "room": 170,
+          "x": 22.515625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-013",
+      "parent": "route-011",
+      "state_sha256": "ba8a1f5d5811f71da0ff1f56ca3fe8e7e5880101c399e1d271decb9476932fb1",
+      "runtime_sha256": "4915f069ac636391cb67cee53ee048011bd0100ec923fbc951552d9f1cb90493",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 24,
+          "keys": 16
+        },
+        {
+          "start": 24,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 74,
+          "frames": 22,
+          "keys": 32
+        },
+        {
+          "start": 96,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 126,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 156,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 22.515625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 24,
+          "room": 170,
+          "x": 41.96875,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 74,
+          "room": 170,
+          "x": 57.49609375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 96,
+          "room": 170,
+          "x": 40.16796875,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 126,
+          "room": 170,
+          "x": 24.640625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "4",
+          "frame": 156,
+          "room": 170,
+          "x": 24.66796875,
+          "y": 50.83984375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "5",
+          "frame": 246,
+          "room": 170,
+          "x": 24.66796875,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-014",
+      "parent": "route-013",
+      "state_sha256": "3b6f5e8c0b75fc3598c64f0050ad31c40fe875c9fbbfd6b0cb2e3a8c4f7d886f",
+      "runtime_sha256": "cab1bdc3fac1c94aa358410f71b8a655930c60924cf2c537e98ae767bf08a496",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 35,
+          "keys": 16
+        },
+        {
+          "start": 35,
+          "frames": 55,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 24.66796875,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 35,
+          "room": 170,
+          "x": 55.80859375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 90,
+          "room": 170,
+          "x": 71.3359375,
+          "y": 121.56640625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-015",
+      "parent": "route-014",
+      "state_sha256": "dc4a6c99b13be54fe696da937ac4d020fc2c7ad9ee4272ce391428285e888b86",
+      "runtime_sha256": "bddbd85a91c97f819bc6e436a560479f468cba5a292dfd0f02c86ef7cbfb2a4a",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 20,
+          "frames": 35,
+          "keys": 32
+        },
+        {
+          "start": 55,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 85,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 105,
+          "frames": 90,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 170,
+          "x": 71.3359375,
+          "y": 121.56640625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 20,
+          "room": 170,
+          "x": 71.3359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 55,
+          "room": 170,
+          "x": 40.1953125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 85,
+          "room": 170,
+          "x": 24.66796875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 105,
+          "room": 181,
+          "x": 72.0,
+          "y": 40.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "4",
+          "frame": 195,
+          "room": 181,
+          "x": 72.0,
+          "y": 425.68359375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-016",
+      "parent": "route-015",
+      "state_sha256": "e80a4da4ebdf081d60d112e2b40d9de0c90295af6f9d6a6fcdfc2fabbacecc42",
+      "runtime_sha256": "ebca1e453fec830d739840ad2f145accf86824090171e1e75a1e4d39f4018074",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 160,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 181,
+          "x": 72.0,
+          "y": 425.68359375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 160,
+          "room": 619,
+          "x": 56.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-017",
+      "parent": "route-016",
+      "state_sha256": "82495a5eff167cd667ff5500eff40b204308c518d01e93f9fbdc6cc00a13a65f",
+      "runtime_sha256": "0e4bd4821391b3064caf01d9506a19531983babc3deb05b34cb98322f42e0aab",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 125,
+          "keys": 16
+        },
+        {
+          "start": 125,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 155,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 240,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 619,
+          "x": 56.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 125,
+          "room": 619,
+          "x": 217.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 155,
+          "room": 619,
+          "x": 217.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 240,
+          "room": 619,
+          "x": 217.99609375,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 320,
+          "room": 619,
+          "x": 217.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-018",
+      "parent": "route-017",
+      "state_sha256": "13fe6f7046fbb3364e1a1b4df3e602f29a3d0c41771b8462dc22b81b1c9fc15c",
+      "runtime_sha256": "33a38b96831a27d08605c2d00382ff02847f73408c69780a57a11dd7cc83c870",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 8,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 30,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 31,
+          "frames": 45,
+          "keys": 1
+        },
+        {
+          "start": 76,
+          "frames": 70,
+          "keys": 0
+        },
+        {
+          "start": 146,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 231,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 619,
+          "x": 217.99609375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 8,
+          "room": 619,
+          "x": 214.90234375,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 30,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 93.33984375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 31,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 92.11328125,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 76,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "4",
+          "frame": 146,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "5",
+          "frame": 231,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 85.00390625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "6",
+          "frame": 311,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        }
+      ]
+    },
+    {
+      "name": "route-019",
+      "parent": "route-018",
+      "state_sha256": "28189ae3d6c286912719aaa29d19e2be1c571aba5fc0d446e1ef00985cf11739",
+      "runtime_sha256": "1ff6f227879b7a8a3e992f592dc07364f4ce600fbb00c2be6c5c2ba5aa1c9adf",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 28,
+          "keys": 32
+        },
+        {
+          "start": 28,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 58,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 80,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 81,
+          "frames": 60,
+          "keys": 1
+        },
+        {
+          "start": 141,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 166,
+          "frames": 80,
+          "keys": 0
+        },
+        {
+          "start": 246,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 331,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 619,
+          "x": 208.53515625,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "0",
+          "frame": 28,
+          "room": 619,
+          "x": 184.83203125,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "1",
+          "frame": 58,
+          "room": 619,
+          "x": 169.3046875,
+          "y": 120.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "2",
+          "frame": 80,
+          "room": 619,
+          "x": 169.33203125,
+          "y": 93.33984375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "3",
+          "frame": 81,
+          "room": 619,
+          "x": 169.33203125,
+          "y": 92.11328125,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "4",
+          "frame": 141,
+          "room": 619,
+          "x": 169.33203125,
+          "y": 21.00390625,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "5",
+          "frame": 166,
+          "room": 619,
+          "x": 189.84765625,
+          "y": 42.32421875,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "6",
+          "frame": 246,
+          "room": 619,
+          "x": 205.375,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48420020",
+          "lever_activation_flags": 4
+        },
+        {
+          "label": "7",
+          "frame": 331,
+          "room": 619,
+          "x": 205.375,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48460020",
+          "lever_activation_flags": 12
+        },
+        {
+          "label": "8",
+          "frame": 411,
+          "room": 619,
+          "x": 205.375,
+          "y": 56.99609375,
+          "hp": 6,
+          "ability": 15,
+          "slot": 0,
+          "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+          "physical_record_word": "0x48460020",
+          "lever_activation_flags": 12
+        }
+      ]
+    }
+  ],
+  "cold_loads": [
+    {
+      "name": "carrot-cold-001",
+      "owning_exit": 0,
+      "observation": {
+        "label": "final",
+        "frame": 1145,
+        "room": 801,
+        "x": 232.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+        "physical_record_word": "0x48420020",
+        "lever_activation_flags": 4,
+        "input_battery_sha256": "7c918fb7e4052980b7f21417f705c14f8aec22f60b4d3f057a2c63df1dc6bf48",
+        "expected_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+        "expected_record_word": "0x48420020"
+      },
+      "runtime_sha256": "27af6aff04583436ae9ad1e9e1703b6dde6980fa7ce6124b14c12ecdb1eb2645",
+      "output_battery_sha256": "7c918fb7e4052980b7f21417f705c14f8aec22f60b4d3f057a2c63df1dc6bf48"
+    },
+    {
+      "name": "radish-cold-001",
+      "owning_exit": 0,
+      "observation": {
+        "label": "final",
+        "frame": 1145,
+        "room": 801,
+        "x": 232.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 300,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "physical_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+        "physical_record_word": "0x48460020",
+        "lever_activation_flags": 12,
+        "input_battery_sha256": "6e3167292ad2f6363156e67baf81be5b314ea7a61d2e5dfc34270f54af7f4b70",
+        "expected_record_authentication_sha256": "4158f7dfabc8f281f401c5d0aec0cf5b529a509dbafccdb06c8444a19dac991c",
+        "expected_record_word": "0x48460020"
+      },
+      "runtime_sha256": "118cfa68700aa5932012d8c3cf31df47e4ae5f597a0d31d3c9891b0c8d7ddb90",
+      "output_battery_sha256": "6e3167292ad2f6363156e67baf81be5b314ea7a61d2e5dfc34270f54af7f4b70"
+    }
+  ],
+  "harness_correction": "Preserved run001 failed an incorrect live hub-mask expectation0x7fff. Shipping client indices1\u201315 require0xfffe; corrected run002 passed. This was not a production defect.",
+  "exclusions": [
+    "Full-goal/credits acceptance",
+    "Actual BizHawk emulator",
+    "Universal multiplayer acceptance",
+    "Other native-file receipt-first combinations",
+    "All interruption/reset races"
+  ],
+  "private_artifacts": "Full ROM, battery saves and savestates are retained privately, not published."
+}
