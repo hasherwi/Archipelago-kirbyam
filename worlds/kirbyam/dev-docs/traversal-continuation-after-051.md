@@ -5,7 +5,7 @@ This follow-up plan adds no runtime rules or route evidence. Baseline: merged PR
 ## Scope
 - [ ] Keep Normal-only baseline work separate from Normal + Crash (#1064); Crash traversal belongs in advanced logic (#1089).
 - [ ] Keep unmerged Phone work (#1086) separate.
-- [ ] Record final baseline CI and release-artifact verification without relabelling historical results.
+- [x] Record final baseline CI and release-artifact verification: final #1052 head `2b51efe` passed the complete Windows/macOS/Linux matrix and focused Kirby tests ([run](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43362275606)). Merged source `727099d` was tagged `kirbyam-v0.5.1-rc1`; [tag-push run 43363217716](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43363217716), attempt 1, staged all three assets. Read-only public verification passed their downloaded hashes, signatures, source/tag/run identity and exact asset allowlist. Release remains mutable, not guaranteed immutable.
 
 ## Remaining declared source-policy fallbacks
 - [ ] Chocolate chest (517): qualify an ordinary or exact source/carry alternative across supported assignments. Upper-194 transit probes are not lower-194/591 or complete 517 proof.
