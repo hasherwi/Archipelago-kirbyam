@@ -225,3 +225,29 @@ Routing through the ordinary tutorial was HP-assisted. Current HP alone was froz
 Earlier harness failures remain documented: a nullable tutorial-progress assertion, a local-server startup timeout, and receipt polling before leaving the tutorial. The last is the expected non-gameplay delivery gate, not a reason to relax receipt checks. All final native/client and server processes exited zero. The separately documented 6/10 authoritative recovery case remains applicable. See [configured health-range evidence](full-completion-health-ranges-20261113.json).
 
 The outstanding limitation is now narrower, but remains: positive full-goal acceptance with all 99 physical acknowledgements, all 84 native chest bits and 272 visited rooms has not been demonstrated. Remaining physical order/file combinations, the full end-to-end pending-goal reset/rewind case, and universal BizHawk/multiplayer behavior are not established by these bounded tests. No merge or release is implied.
+
+
+### Real-server reconnect in native files 1 and 2
+
+The genuine Moonlight Mansion physical-first case now has real AP synchronization
+and reconnect coverage in all three native files. The additional file-1 and
+file-2 runs cold-loaded the previously reviewed, input-only physical-pull
+batteries from ordinary seed 101613. Their source inputs and native bridge were
+pinned before execution, and the shipping client/server source was verified
+against commit `a7f2ca105afe4a517f000d920abca1a16b01880d`, tree
+`0b3f648470ac8a55c4b2b02ef59baf531468e9eb`.
+
+Each run used a fresh, initially empty local AP server. It acknowledged the
+actual Moonlight lever location `3960415`; after an actual second connection,
+the same four checked locations and six-item history remained, with no duplicate
+location reports or goal notification. Both native files retained the complete
+authenticated physical record and mask `0x48408000`. Each run performed 211
+shipping-client guarded writes, with zero guard failures and no manual gameplay
+or completion writes. Both native/client and server owning waits exited zero.
+The output batteries were byte-identical to their respective inputs.
+
+This is mGBA-backed shipping-client transport coverage, not native BizHawk
+validation. It does not establish positive full-goal acceptance with all 99
+physical acknowledgements, 84 native chest bits and 272 rooms, an end-to-end
+pending-positive-goal race, or the remaining receipt/pull ordering and other-lever
+file combinations. See [the bounded network-file evidence](full-completion-network-files-20261113.json).

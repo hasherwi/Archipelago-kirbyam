@@ -29,6 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 
 ### Internal Changes
+- Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
 - Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
 
 ## v0.5.1
