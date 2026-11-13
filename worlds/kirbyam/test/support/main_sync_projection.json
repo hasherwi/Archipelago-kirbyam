@@ -145,5 +145,16 @@
         ]
       }
     ]
+  },
+  "catalog_provenance": {
+    "main": "727099d75aec8a70ea87cce88d7d69358e345426",
+    "feature_head": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
+    "source_hash_changes": {
+      "worlds/kirbyam/data/regions/rooms.json": {
+        "previous": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+        "integrated": "0e1c46f92ecd76f8c3f37c9d9c36d9fb3cb981388a8d755054b1bb2ed3603a4f"
+      }
+    },
+    "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
   }
 }
