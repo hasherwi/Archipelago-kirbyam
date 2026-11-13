@@ -343,9 +343,10 @@ def test_historical_reconstruction_rejects_green_contract_mutations(mutation):
         assert digest(restored) == evidence()['preserved_target_sha256']['bomb_138_green']
 
 
+@pytest.mark.parametrize('line_ending', [b'\n', b'\r\n'], ids=['LF', 'CRLF'])
 @pytest.mark.parametrize('mutation', ['unrelated', 'duplicate', 'missing', 'weaken_receipt'])
-def test_historical_client_projection_rejects_unreviewed_changes(mutation):
-    raw = (ROOT / 'client.py').read_bytes()
+def test_historical_client_projection_rejects_unreviewed_changes(mutation, line_ending):
+    raw = (ROOT / 'client.py').read_bytes().replace(b'\r\n', b'\n').replace(b'\n', line_ending)
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     expected = union['adopted_main_source_sha256'].get('client.py', evidence()['tracked_source_sha256']['client.py'])
     historical_client_before_ice_start(raw, expected)
@@ -354,7 +355,9 @@ def test_historical_client_projection_rejects_unreviewed_changes(mutation):
     elif mutation == 'duplicate':
         raw += b'\n# {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}\n'
     elif mutation == 'missing':
-        raw = raw.replace(b', starting_copy_abilities\n', b'\n', 1)
+        mutated = raw.replace(b', starting_copy_abilities', b'', 1)
+        assert mutated != raw
+        raw = mutated
     else:
         raw = raw.replace(b'getattr(item, "location", None) != -2', b'getattr(item, "location", None) != -1', 1)
     with pytest.raises(AssertionError):
