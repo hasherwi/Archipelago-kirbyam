@@ -159,3 +159,27 @@ inferred from that harness error.
 Full-goal/credits acceptance and the remaining native interruption matrix are
 still outstanding. These narrow additional cases do not remove the known
 limitation or establish universal multiplayer/BizHawk-emulator acceptance.
+
+### Olive Ocean receipt-first coverage
+
+For the remaining source, seed 101614 was restarted from a new blank native
+battery. A continuous replay of the previously verified controller inputs
+matched all 115 room/position/health/ability checkpoints on this new ROM,
+including the genuine Moonlight lever pull. Only inputs were reused, not a
+foreign savestate or battery. The new seed's full authentication matched.
+
+The real AP server then delivered the generated starting inventory. It
+acknowledged the genuine Moonlight check, while the other three lever checks
+remained absent. Ordinary gameplay passed through the newly owned Moonlight
+wall and wind shaft into Olive Ocean room 824. Only its actual Up interaction
+changed activation flags from 1 to 3 and the authenticated physical record from
+`0x48408000` to `0x48418000`. Both file-0 save copies contained the new record,
+all six native checksums remained valid, and other files were unchanged. A
+separate cold boot restored the exact authentication, record and latches; its
+output battery was byte-identical to its input.
+
+These captures establish genuine pull evidence for all four distinct lever
+sources, with physical-first Moonlight and receipt-first Carrot, Radish and
+Olive cases. They do not establish every source/order/file combination or
+full-goal/credits acceptance. The known limitation remains until the outstanding
+acceptance matrix is verified. See [Olive evidence](full-completion-olive-20261113.json).
