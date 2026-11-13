@@ -274,3 +274,20 @@ acknowledgement for it. File 2, other ordering/file combinations, positive full-
 acceptance and the pending-positive-goal race remain outside this result. See
 [the bounded Carrot file-1 evidence](full-completion-carrot-file1-20261113.json),
 including the retained non-fatal sqlite connection warning.
+
+
+### Receipt-first Carrot Castle in native file 2
+
+The same bounded receipt-first sequence also passed in a fresh native file 2:
+blank-SRAM tutorial, real delivery of 21 precollected items (23 total history
+entries including two earned tutorial checks), actual Carrot lever pull, native
+save and separate-process cold reload. The cold file retained activation `4` and
+record mask `0x48420020`; its battery was byte-identical to the pull-stage output.
+
+All four stages, wrapper and server exited zero, with no remaining live owned
+processes. The 2,596 pinned inputs were unchanged. Receipt delivery made 207
+shipping guarded writes with zero guard failures; the other stages made no manual
+writes. Thus the existing file-0 case and these file-1/2 extensions cover Carrot's
+receipt-first physical save/cold-load case in all three native files, not the
+other lever permutations. No post-pull server reconnect or positive full-goal
+acceptance is claimed. See [file-2 evidence](full-completion-carrot-file2-20261113.json).
