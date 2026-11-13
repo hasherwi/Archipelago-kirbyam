@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "scope": "Supported generated starting inventory delivered through the shipping local AP server/client, with native capacity and physical-check separation",
+  "source_head": "dc515b3895bbea9c2c04d879ecdf65911d405b25",
+  "source_tree": "b9070e07d491c00fb84fbb1e71f0d02fc664a676",
+  "generation_seed": 101615,
+  "profile": {
+    "goal": "full_completion",
+    "goal_value": 5,
+    "minimum_health": 6,
+    "maximum_health": 10,
+    "enemy_health_percent": 50,
+    "trap_fill_percent": 0,
+    "post_patch_edits": [],
+    "initial_battery": "new blank FF"
+  },
+  "artifact_sha256": {
+    "rom": "c1a2f6fee58c46e127445a2c50e54e5b0a7a88b1e340b7c4d6bb9826394bccdf",
+    "patch_archive": "b00b3e0f71fdda893311583c9cc93e89b6b332d4facb5feaf4d829ca154416c0",
+    "player_yaml": "7b6c837a6db5f919478ced81e3fe0d22b58807114ae249dd64dc707781cfebb4",
+    "blank_battery": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "slot_data": "924f519214ce9d09cdabebf3c6d3657a8fde395d781b4b03b8724a8c403a435b",
+    "server_seed": "be99ae3e5eb60b05d0e8cd7c58bfb1594cb2c8d1e61c154ace668ccd945bcd0a",
+    "delivery_runtime": "5f7746aedca03643c64b00e16cbb3f8d112fc72dff0fc641497b329a52abd01d",
+    "delivery_continuation": "092c5ce3aca26551942449d4182125336c83fced2b51762bebb4b1da372e535a"
+  },
+  "provenance": {
+    "method": "Own input-created checkpoints on this generated ROM; no foreign savestates or fabricated physical flags. Three failed template attempts retained. Attempt003 ended with native HP0; route001 used300 neutral frames and ordinary native respawn toHP6; routes002\u2013005 continued to hub801.",
+    "template_attempts_passed": false,
+    "uninterrupted_single_life_run": false,
+    "successful_route_ancestry": [
+      "tutorial-replay-003",
+      "route-001",
+      "route-002",
+      "route-003",
+      "route-004",
+      "route-005",
+      "receipt-delivery-001"
+    ],
+    "checkpoints": [
+      {
+        "run": "tutorial-replay",
+        "owning_exit": 1,
+        "runtime_sha256": "13e31e76ca81d8744ca7c3efeb5112406856c05b2d93b246f89ee436b5a25755",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 803,
+          "x": 1193.99609375,
+          "y": 109.33984375,
+          "hp": 5,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "e9609ff9eec8c6f357fdb9a80f420ab12e5fad8f80ee94b177168261b22c5447"
+      },
+      {
+        "run": "tutorial-replay-002",
+        "owning_exit": 1,
+        "runtime_sha256": "04099091d460150f4993f2b5c65ce426364d34cd77e067b3e49fe6161655f36e",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 804,
+          "x": 236.4375,
+          "y": 101.4375,
+          "hp": 5,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "049156a91b8a11b768215a52ca1cf5025b1c3382194f60e84604c4f55f67a62b"
+      },
+      {
+        "run": "tutorial-replay-003",
+        "owning_exit": 1,
+        "runtime_sha256": "bf1a31d1c947b8b7901f9fbfc0d98a1e94d082725e0fd61b4a7df33fc3887a8a",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 805,
+          "x": 973.7421875,
+          "y": 99.99609375,
+          "hp": 0,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "aaf2ab9f5e5c91f3e751bd44f4501f04a8dcde74467ca2892043e58970090df3"
+      },
+      {
+        "run": "route-001",
+        "owning_exit": 0,
+        "runtime_sha256": "e02114dbfc7e8a9f5371f6800a0a9f08b7f08b609235a2eefb80ff3c022b3b59",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 805,
+          "x": 56.0,
+          "y": 104.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "779497f45122832322730e51842c6e256c04263e6ce39cd7ea207a7b655f4dba"
+      },
+      {
+        "run": "route-002",
+        "owning_exit": 0,
+        "runtime_sha256": "4741196ff89f9b8087ad28a49da0b96455c30965026195efb18405fc78c41796",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 805,
+          "x": 569.99609375,
+          "y": 16.0,
+          "hp": 5,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "777b5ea158bd8bd014a0dcbee1b0d197f74c7fd381d10aa5dc59a477471efa4b"
+      },
+      {
+        "run": "route-003",
+        "owning_exit": 0,
+        "runtime_sha256": "4df272a1f6a5e7e5ccd95dcb01d0f855d6b52681b37c74bbcfea9b323e03102f",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 805,
+          "x": 1129.99609375,
+          "y": 66.4140625,
+          "hp": 5,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "241725dbbed197e3e073ffb35b00e530f683505eaa0df0cbbe1d94c4f292bc14"
+      },
+      {
+        "run": "route-004",
+        "owning_exit": 0,
+        "runtime_sha256": "37d4fcf1d992ea312e3af2e5747bd5e77dd3cb21564ed2570760a31907b80ac3",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 805,
+          "x": 1129.99609375,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "ai": 100,
+          "slot": 0
+        },
+        "continuation_sha256": "07b439c87a7e2c586e09650a5f43413ed9310a5d0c4b93b125bc95af88566938"
+      },
+      {
+        "run": "route-005",
+        "owning_exit": 0,
+        "runtime_sha256": "4c7e0909cebcba5cf5d30a2c89b6a560b8227377874a7fce4ef63bf81abd03ef",
+        "memory_write_count": 0,
+        "last_observation": {
+          "room": 801,
+          "x": 88.0,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "ai": 300,
+          "slot": 0
+        },
+        "continuation_sha256": "b92a8536f67516ad3f444b690cfe3bfac93839eb6f47d31aecfec05fc54b6d96"
+      }
+    ]
+  },
+  "delivery": {
+    "client_owning_exit": 0,
+    "server_owning_exit": 0,
+    "official_precollected_items": 33,
+    "received_items_total": 35,
+    "official_precollected_item_ids": [
+      3860107,
+      3860102,
+      3860401,
+      3860402,
+      3860403,
+      3860404,
+      3860405,
+      3860406,
+      3860407,
+      3860408,
+      3860409,
+      3860410,
+      3860411,
+      3860412,
+      3860413,
+      3860414,
+      3860415,
+      3860037,
+      3860038,
+      3860039,
+      3860040,
+      3860002,
+      3860003,
+      3860004,
+      3860005,
+      3860006,
+      3860007,
+      3860008,
+      3860009,
+      3860018,
+      3860019,
+      3860020,
+      3860021
+    ],
+    "natural_reward_location_ids": [
+      3960209,
+      3960451
+    ],
+    "server_checked_locations": [
+      3960209,
+      3960451
+    ],
+    "client_check_and_status_packets": [
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960209
+        ]
+      },
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960209
+        ]
+      },
+      {
+        "direction": "client",
+        "cmd": "LocationChecks",
+        "locations": [
+          3960451
+        ]
+      }
+    ],
+    "shipping_client_memory_write_count": 473,
+    "transport": "mGBA native bridge adapter to shipping BizHawkClientContext/game_watcher; not actual BizHawk emulator"
+  },
+  "native_before": {
+    "room": 801,
+    "x": 88.0,
+    "y": 72.99609375,
+    "hp": 5,
+    "ability": 0,
+    "ai": 300,
+    "slot": 0,
+    "vitality_physical_chests": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "native_vitality_count": 0,
+    "maximum_hp": 6
+  },
+  "native_after": {
+    "room": 801,
+    "x": 93.5,
+    "y": 72.99609375,
+    "hp": 10,
+    "ability": 0,
+    "ai": 300,
+    "slot": 0,
+    "lever_activation_flags": 0,
+    "hub_mask": 65534,
+    "native_wall_bytes": [
+      4,
+      2,
+      36
+    ],
+    "vitality_physical_chests": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "vitality_physical_transport": 0,
+    "native_vitality_count": 4,
+    "vitality_receipt_mask": 2147483663,
+    "maximum_hp": 10,
+    "player_index": 0,
+    "ai_state_u32": 300,
+    "demo_flags_u32": 0,
+    "completion_progress": {
+      "chests": 5,
+      "rooms": 0,
+      "switches": 15,
+      "shards": 8,
+      "final_clear": false
+    }
+  },
+  "physical_record_after_zero": true,
+  "asserted_results": {
+    "capacity_6_to_10": true,
+    "current_hp_5_to_10": true,
+    "vitality_owned_count_0_to_4": true,
+    "four_physical_vitality_chest_flags_remain_zero": true,
+    "physical_vitality_transport_after_zero": true,
+    "no_vitality_or_lever_checks_sent": true,
+    "no_vitality_or_lever_checks_acknowledged": true,
+    "eight_native_shards": true,
+    "physical_lever_credit_zero": true,
+    "full_completion": false,
+    "final_clear": false,
+    "goal_status30_sent": false
+  },
+  "limitations": [
+    "Not a successful exact or guided template replay: all three template attempts exited1, followed by ordinary input-only recovery.",
+    "Native ownership-derived chest/switch values are not proof of physical actions.",
+    "Shipping client performed real memory writes; not a zero-write or universally guarded-write test.",
+    "No credits, positive full-completion goal, offline persistence after a verified native save, or all-file matrix acceptance is established by this fixture."
+  ],
+  "cold_recovery": {
+    "offline_test": {
+      "owning_exit": 1,
+      "expected_capacity10_assertion_failed": true,
+      "runtime_sha256": "c8883d0c3b45a3d3e73cf3276bed296c82070f9a23ef35d2118458fa72dbeb6a",
+      "memory_write_count": 0,
+      "native_after": {
+        "room": 801,
+        "slot": 0,
+        "ai": 300,
+        "hp": 6,
+        "maximum_hp": 6,
+        "native_vitality_count": 0,
+        "vitality_receipt_mask": 0,
+        "physical_vitality_flags": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_vitality_transport": 0
+      },
+      "interpretation": "Immediate battery export after receipt delivery was not proof that native SaveGame had persisted received upgrades. Fresh boot without the AP client returned native count0/capacity6. Retained failed expectation, not established permanent defect."
+    },
+    "authoritative_reconnect": {
+      "owning_exit": 0,
+      "server_owning_exit": 0,
+      "runtime_sha256": "cff284855e467b988e41e45f14d88aa54144aaf4df7ebcb1199dea3c4fcd7c03",
+      "original_server_save_unchanged": true,
+      "prior_server_save_sha256": "eb08c8871bee7726a555791608d61c2b9a3c9f3076578d55157c7258648a8951",
+      "copied_server_save_sha256_before_launch": "eb08c8871bee7726a555791608d61c2b9a3c9f3076578d55157c7258648a8951",
+      "ordered35_item_history_exact_match": true,
+      "checked_locations_exact_match": [
+        3960209,
+        3960451
+      ],
+      "native_before": {
+        "room": 801,
+        "x": 232.0,
+        "y": 232.99609375,
+        "hp": 6,
+        "ability": 0,
+        "ai": 300,
+        "slot": 0,
+        "vitality_physical_chests": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "native_vitality_count": 0,
+        "maximum_hp": 6
+      },
+      "native_after": {
+        "room": 801,
+        "x": 232.5,
+        "y": 232.99609375,
+        "hp": 10,
+        "ability": 0,
+        "ai": 300,
+        "slot": 0,
+        "lever_activation_flags": 0,
+        "hub_mask": 65534,
+        "native_wall_bytes": [
+          4,
+          2,
+          36
+        ],
+        "vitality_physical_chests": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "vitality_physical_transport": 0,
+        "native_vitality_count": 4,
+        "vitality_receipt_mask": 2147483663,
+        "maximum_hp": 10,
+        "player_index": 0,
+        "ai_state_u32": 300,
+        "demo_flags_u32": 0,
+        "completion_progress": {
+          "chests": 5,
+          "rooms": 0,
+          "switches": 15,
+          "shards": 8,
+          "final_clear": false
+        }
+      },
+      "shipping_client_memory_write_count": 473,
+      "physical_record_after_zero": true,
+      "goal_status30_sent": false,
+      "client_check_and_status_packets": []
+    },
+    "interpretation": "Normal cold boot plus authenticated complete existing AP history restores received ownership and capacity without physical-credit inflation. This is connected recovery, not offline persistence or full-goal acceptance."
+  }
+}

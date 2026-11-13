@@ -183,3 +183,17 @@ sources, with physical-first Moonlight and receipt-first Carrot, Radish and
 Olive cases. They do not establish every source/order/file combination or
 full-goal/credits acceptance. The known limitation remains until the outstanding
 acceptance matrix is verified. See [Olive evidence](full-completion-olive-20261113.json).
+
+### Starting-item health and physical-completion separation
+
+A supported full-completion fixture (seed 101615, health 6–10, enemy health 50%, no traps) delivered 33 official starting items through the shipping local AP server and client, plus two rewards from actual tutorial checks. Native health capacity increased from 6 to 10, current HP from 5 to 10, and received Vitality count from 0 to 4. All four physical Vitality chest flags remained clear; their transport register remained zero. All eight mirror shards, hub connections and lever-wall ownership arrived without physical lever credit, Vitality/lever check packets, or a goal notification.
+
+The input-template attempts did not pass: all three exited with assertions. The third included a native death; 300 neutral frames then produced an ordinary respawn, and subsequent input-only checkpoints reached the hub. These failures are retained as observed timing/route divergence, not treated as product defects or an identical-replay success. No foreign states or fabricated physical flags were used. The successful route and delivery processes exited zero, as did the server.
+
+Delivery used the mGBA bridge adapter with the shipping client, not the BizHawk emulator. It performed 473 shipping-client memory writes; this is neither a zero-write nor an all-writes-guarded claim. Native ownership-derived counts (5 chests, 15 switches, 8 shards) did not establish physical completion: visited-room count was zero, physical lever credit was zero, final-clear was false, and the full-completion goal remained incomplete. Credits, positive full-goal acceptance and offline persistence after a verified native save are not established by this fixture.
+
+A separate offline boot of the immediate post-delivery battery export returned capacity 6 and received count 0. The original capacity-10 test expectation failed and is retained. Exporting SRAM immediately after item delivery did not prove that the native game had saved those received upgrades; the volatile receipt mask also correctly reset to zero.
+
+A subsequent ordinary cold boot connected to a byte-identical copy of the existing AP server save. Its 35 ordered item-history entries and two checked locations matched exactly before and after reconciliation; the original server save remained unchanged. The shipping client restored capacity 10 and received count 4 while physical Vitality chests and lever credit stayed zero, with no goal notification. Both processes exited zero. This verifies authoritative connected recovery, not offline persistence.
+
+See [health receipt evidence](full-completion-health-receipts-20261113.json) for sanitized checkpoints, hashes, exit results and network observations.
