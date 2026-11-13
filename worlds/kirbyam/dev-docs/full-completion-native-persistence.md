@@ -69,3 +69,31 @@ both receipt/pull orders, and the full-completion/credits, health and interrupti
 matrix in [the completion contract](full-completion.md). The feature's native
 policy remains candidate; neither this checkpoint nor the passing host suites
 justify removing the full-completion known limitation.
+
+## Genuine offline lever checkpoint (2026-11-13)
+
+An ordinary generated `full_completion` seed (101613) was started from blank
+SRAM on the unchanged shipping patch. Input-only gameplay reached room 743,
+including genuine acquisition of Burning from a Flamer and traversal of the
+room 708 metal barrier and room 743 maze. The run used its own hashed native
+checkpoints for branches; it was not an uninterrupted full-game playthrough.
+No received-item, chest, room or completion flags were injected.
+
+The physical Moonlight Mansion lever interaction changed activation flags from
+zero to one and the seed-bound physical record from zero to `0x48408000`
+(physical lever bit 15). Native wall ownership remained zero, as required: a
+physical pull is not receipt of the AP Lever Wall item. Ordinary native frames
+saved this record. A separate cold-start process loaded that battery into file
+0 and restored the complete authentication and physical lever latch in hub 801.
+
+Independent review verified the 115-run input-only ancestry, actual zero exits,
+ROM/state/runtime hashes, all six native world checksums and unchanged files
+1/2. The cold-load battery was byte-identical to its input. The narrow evidence
+is recorded in [the physical-pull checkpoint](full-completion-physical-lever-20261113.json).
+Full ROMs, battery saves and savestates remain private and are not published.
+
+This establishes **one genuine physical-first offline lever save/cold-load
+roundtrip, in native file 0, on mGBA**. The other three lever sources, files 1/2,
+receipt-first ordering, real server reconnect and the full goal/credits and
+interruption matrix remain unverified. The candidate status and known limitation
+remain in place.

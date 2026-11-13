@@ -1,0 +1,981 @@
+{
+  "schema_version": 1,
+  "status": "partial-native-acceptance",
+  "source_head": "947f45e7ccf2101c876f6821b02e644930b5bd5b",
+  "emulator": "mGBA 0.10.5",
+  "generated_seed": 101613,
+  "native_file": 0,
+  "scope": "Genuine offline Moonlight Mansion lever pull, native SRAM serialization, and a fresh-process cold load. No server, received-item writes, or completion-flag injection.",
+  "route_provenance": "Fresh blank SRAM followed by input-only gameplay. Branches resume only our own earlier same-ROM hashed checkpoints; not an uninterrupted full-game playthrough.",
+  "rom_sha256": "487de9f28d6bfe2d2c054db549a921f4a059c3696ad854c25de02dad24715358",
+  "patch_sha256": "fe3b29b67e0e044527063b41777c9d4c3b3cc7e41cb5c65b24aa873c3d7e5d44",
+  "lever": {
+    "room": 743,
+    "source_template": "0x088BE07C",
+    "before_record_word": "0x00000000",
+    "after_record_word": "0x48408000",
+    "physical_bit": 15,
+    "activation_flags_before": 0,
+    "activation_flags_after": 1,
+    "native_chest18_flag": 0,
+    "native_wall_ownership": "Not granted by offline physical pull; native chest flag remains zero as designed."
+  },
+  "cold_load": {
+    "room": 801,
+    "slot": 0,
+    "record_word": "0x48408000",
+    "full_auth_preserved": true,
+    "activation_flags": 1,
+    "owning_exit": 0,
+    "battery_sha256": "7d8e2e525a2a2b6f6d0853554714f333106ba1c76f709043fbe16547722a1ee8",
+    "runtime_sha256": "0f21d0e219e7e944019de9dd4cac95e2bffef46414d492d01cbe7e73e7c959c2",
+    "observation_sha256": "015d9d72cddf30c4964a5a599537e3ce436ad151990fc73f8070864e44e608c7",
+    "no_memory_writes": true
+  },
+  "route_chain": [
+    {
+      "run": "route-001",
+      "parent": "cold",
+      "runtime_sha256": "7f6a5498a129c06160e20e1b94922f0fbebbb172db1f22b3febade6dcab93ebd",
+      "state_sha256": "3835aacf6a8aa0eac1d8afc2961b28faf52b618f63dc9574a56e55cc1a9e1048",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-002",
+      "parent": "route-001",
+      "runtime_sha256": "c5dd6395dd8e8214cb41e7a3c6d389f6bf93962ed7458be4c96b2749032577a3",
+      "state_sha256": "fd1369c5e80a3c6f86b3bb5cd06ca899c38ea397aeadf69c31efabc91d390af6",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-003",
+      "parent": "route-002",
+      "runtime_sha256": "dd8b872ce75c1cdd710f03d3dfb471815aafc41aa7276fc37e41a9e9c3dd50b2",
+      "state_sha256": "c373ffcc306dbd807804ef43337ad41b93ad121b45c11f48d365ca912f117ff6",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-004",
+      "parent": "route-003",
+      "runtime_sha256": "d7a535c8bc5f5b4f3dae9ba49eb2ba33687970ebb086f4f88c7940ba104aff02",
+      "state_sha256": "36c5d43936655b93fe36feae1b0ad5f2ded479215b7a9272cf94cf39dce6337a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-005",
+      "parent": "route-004",
+      "runtime_sha256": "63b23fb681f0aa9a0c310202b328c8a9cc225ad10571443b9d67f86b484ff724",
+      "state_sha256": "9bb1cd34f7695de6ef2b7b5d44ab2ed472219a486560778c43ad54b807f354cd",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-006",
+      "parent": "route-005",
+      "runtime_sha256": "7e1b92d270ce5969f12c194c2d18831edaecdb0e5169780dbdeae4e0e966978c",
+      "state_sha256": "84d5212977bf968e4d4ef0f50279868dc8ea4e50236f0ef04f0ae2438f6e6bce",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-007",
+      "parent": "route-006",
+      "runtime_sha256": "e6aaee3d27ec7c207101952f00384ba3648ad317570d48ae0c3e3acbe1a99d39",
+      "state_sha256": "0cf079a306efb31152ac947212e604b16548bbfec8722c6d971023bea60bd0e3",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-008",
+      "parent": "route-007",
+      "runtime_sha256": "477ff2add340475310828a772e499b81d050e9fa271484026c95b25e2e1b469d",
+      "state_sha256": "74a729810e44983d0d13b1d509023a7d00d8810415b50138dd10100df5c88687",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-009",
+      "parent": "route-008",
+      "runtime_sha256": "0bd86b29384f7c3b4440215214fb394d9ef43e2ebfad7e62e0903a6c0468b8bd",
+      "state_sha256": "0099414ae301448f835d7c52897070dc5d4b85b52e83c10e474fe9880f0d85e1",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-010",
+      "parent": "route-009",
+      "runtime_sha256": "eb102b056fd9ef7365100d6fac41686f10272618c9906af8c9582dbeba704ea5",
+      "state_sha256": "34c46b3745cc8547fe7ba2af1d1ac2d662e1d24dac291d7548fa09576eb9434c",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-011",
+      "parent": "route-010",
+      "runtime_sha256": "0536636689e6952546a353acbe2c499833bdf89c2d1880cd383f277e88b57108",
+      "state_sha256": "dd80b424b6a43851ce2baf7cf681b0b8141804160242860dbff4023ce9884e55",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-012",
+      "parent": "route-011",
+      "runtime_sha256": "39edbb1dc3db77ec78a736e5638fd8edc2de2677657a96041a5ac6055fc2f195",
+      "state_sha256": "bd4dc874c98a17d7584e79bb8743faf7d0a55ec1a68c5c29fb8ae13b7121e685",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-013",
+      "parent": "route-012",
+      "runtime_sha256": "a87b718bab9fafec5a282192c81918d5955139412ceed2a70b083758e599a2b3",
+      "state_sha256": "13734d34df6e092be71ec51404503f116c896cda8e7ff1ac61efcf66cbd593ae",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-014",
+      "parent": "route-013",
+      "runtime_sha256": "a290ab3a82fb6eb4cbceab947b377fa4d9635cf4f22cf010bddb1755712ab192",
+      "state_sha256": "f266d0916bd6b20ac4d130a4d0ed10316287ba10eaaaee6265bb7d789fde762a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-015",
+      "parent": "route-014",
+      "runtime_sha256": "7530fb3f8e85bf7dc0bf4f70ef3ecc782dcfa97b5bce3eaa9345fc717586e7ac",
+      "state_sha256": "e560287c04b1a2176c746507c553adfd8f34ce201531c1719ee5de0b6abc0448",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-016",
+      "parent": "route-015",
+      "runtime_sha256": "963db05c71445889a1b1f67f551a222bc834412a9b05c8a6eed7040b9542f3dc",
+      "state_sha256": "5082134a10fcf304786e8280a0ef9b3266aa3edb008c2a22fc2d7b3673a08e14",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-017",
+      "parent": "route-016",
+      "runtime_sha256": "0e01042efd8e11ff7481454d2101c351772ff8f0ce6f4523edeef363d8f28ec4",
+      "state_sha256": "f24fa869f52da289021ca30f884f04916cc06ce6e8cbb13afbfdea2d9be80a46",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-018",
+      "parent": "route-017",
+      "runtime_sha256": "4f878c5630ec6bbeda438c6201c28088ffa70cd6dbf7f38d5a639ac95149aa41",
+      "state_sha256": "fab669be5178e373eba2673f3eab604f2415f1f08e4b5487cfa67ef7fac0ba9a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-019",
+      "parent": "route-018",
+      "runtime_sha256": "fb9e9132c31304ed883910af6291869353cb66e98299472e29969b26a6332600",
+      "state_sha256": "7faac2d70907b6b826fe2e56a6a2c0e6a508aec4ba22d724061acc875ccfd77f",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-020",
+      "parent": "route-019",
+      "runtime_sha256": "67e985d27576ddb18c194ae396eec3dc5907c99dabc8f0422ac1a10ad2dd5bc5",
+      "state_sha256": "b03b76e425e4fb81af28abffd8a572b566391cc8c8c3fef65f5114de4ab812cd",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-021",
+      "parent": "route-020",
+      "runtime_sha256": "0f6abec1575ea7d302d1bf7c7da692e1f96632b210f1f9bdc57677751d98e9ff",
+      "state_sha256": "0d1615142488c780ce3de94793c826bef08d35dabb914f0a7a1ad844ebbca9f7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-022",
+      "parent": "route-021",
+      "runtime_sha256": "e618b5053f65de5b292223aadd495087c1fd930d1ba17de5e048fb486d1f005d",
+      "state_sha256": "b7e5999ac7f05e5c5ec99552eb6e482d5b03078aa83aa09e5b500b9b82bf9098",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-023",
+      "parent": "route-022",
+      "runtime_sha256": "94c32938cb72fbab8a60d59f0743ca641cf0b8054b910b57324c9fd712e7ef5e",
+      "state_sha256": "e4e369be16495a863a9f3fa02b966771b32b19639ce17e82c670d37ed193c0c6",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-024",
+      "parent": "route-023",
+      "runtime_sha256": "27fe1820e24b12e48e2414ef5587f4dea1ba8f93cee7a6f175b22d23f3ec4bca",
+      "state_sha256": "39c0f6ab759e877ada6092bb08eecf2cad98558cb88ec28949e4720c800d93f3",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-025",
+      "parent": "route-024",
+      "runtime_sha256": "092559c20ca2961d95d3c9bf021f746e245ffa6175c95754ee4a9a1351ea5fa4",
+      "state_sha256": "370feefb6a6d1676e92505fa40f009f40ac445ec0ba9e450716e857b9f73e8a2",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-026",
+      "parent": "route-025",
+      "runtime_sha256": "cf335cfa70633385746d40ce7b398b1efbfc32dfb0ea7adc9ee45f6752cd9731",
+      "state_sha256": "c75707f821731fb734805cf545e05df90f0e559fdf3aca3f1fa02269934f5ccd",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-027",
+      "parent": "route-026",
+      "runtime_sha256": "0b3536e87e315d6827f85d943acc7a1adc1eeb9f7f41e11047b19f51c88c1396",
+      "state_sha256": "a520777ef3cda481ff3a23a1e457847df6901b51f004b2eed1d75e7520d5e589",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-028",
+      "parent": "route-027",
+      "runtime_sha256": "39fc14be327fa61d31f308b78389d6c09217cac530606f300a694da646cc6e34",
+      "state_sha256": "8a736821bcc08e269fcc943ecf5de765e5ceb39ca1a35724db58e0154ef59986",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-029",
+      "parent": "route-028",
+      "runtime_sha256": "1f71149d764ce6c11b5a7f315d0895e69471a1b486ca8784e6dfdae29838df0b",
+      "state_sha256": "3b7f445fd9ae4970c1fb82b6f713377fc6670996f45d62f628194ed056c636b5",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-030",
+      "parent": "route-029",
+      "runtime_sha256": "9e2a2c6cedb563378cbb528d8c58f8175c05c8fb66ab90c9034bc639ec4be84d",
+      "state_sha256": "71864416130320e3b6c536d83b5195858a4e1f0df5c2eb71346ed876d9b76894",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-031",
+      "parent": "route-030",
+      "runtime_sha256": "773d13f9b5d0c1364a89379185e476ab4946d6cbb14c7b4ad9633176be1fc271",
+      "state_sha256": "c5a0b663f52c2a63e5752a31e756c99a3996b42062085240035cad0913a4467a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-032",
+      "parent": "route-031",
+      "runtime_sha256": "ce60255fea2fbe454bb35cfb6e8e25ec3e37d2cad69795304a79b332a8b5eacf",
+      "state_sha256": "78f94cacd840dca7da7ac90934b0f40fa6b6ed61e9d65dfb496ff9be18c73f54",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-033",
+      "parent": "route-032",
+      "runtime_sha256": "e5dde02c8d0dcb4bc36b5e923a738ea382ecb0a86ea6dff9a46ab27d4267b52d",
+      "state_sha256": "4cde2ef7c244d05581c79da677ec6a22787b995cfefae2e5bcaf380dc1a989c7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-034",
+      "parent": "route-033",
+      "runtime_sha256": "7a37a119db10410e38a99e57a7d9282fca48d8ad40682097611a279e60ec52a3",
+      "state_sha256": "1fc261ef3578865070c1fafe592ff5fbbbdab2900636fe826456aff59655d2a5",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-035",
+      "parent": "route-034",
+      "runtime_sha256": "4dc4050e0297338e13d649f9ed65155b76ddd9c19dcf7409783c1d4ac4c15f7e",
+      "state_sha256": "5771e1c9c405a5ce4313d60ac7c8d92eba292eb27047efb9b2dbb6e4a44848d2",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-036",
+      "parent": "route-035",
+      "runtime_sha256": "907b1ed1cec13e44092e15636e3afb0adac55c56156c14042bb9b932b636efe8",
+      "state_sha256": "d78f6560bf0a8ac46d0609d6def9fec09e3bb4fda01970e442152cb498fed275",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-037",
+      "parent": "route-036",
+      "runtime_sha256": "5bd8a51e28a5a32379cb28923b2ad4ca0e8856c35923555e4d79150770493814",
+      "state_sha256": "96c08a681838ac8f389ce34bb60cb003b4cae8fa5ce36c4ede824c2c1c510c2b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-038",
+      "parent": "route-037",
+      "runtime_sha256": "bf51a672e7d208b7cfbc1e83d80f3bfca06dad0508b4d0c2408ca76851e54652",
+      "state_sha256": "cf56d44bf7442dc3bd4b98f8fcb6f94b03f80d516302048cdaa62decdabd301a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-039",
+      "parent": "route-038",
+      "runtime_sha256": "ba4f76766d1a1e0f710deb3fc1f86591212488d412a08fc53b3229da27ef9d82",
+      "state_sha256": "1b860915fe8b460c7000cfd59740d34a372ac53c5b77872f5e1d7a0c1cd032e4",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-040",
+      "parent": "route-039",
+      "runtime_sha256": "843250710ac4fe63beb72f830afa09ecc0c5b96f939b66ee5e5867db7b54df6b",
+      "state_sha256": "53b02d21016e667782251048299de63932bd8b1f6b0fde9050537060ffe920b7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-041",
+      "parent": "route-040",
+      "runtime_sha256": "637b494bff32d47d5727fb792cf59b5a8b3526c94215c13a0d1fa1d93dceb17b",
+      "state_sha256": "aba93f1b7e0cd825b962fa67024ce4b81f73bd0f970f1f5c69dfe58023d83ba0",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-042",
+      "parent": "route-041",
+      "runtime_sha256": "b4efc0de3da53d1805cb33e75d4311564d8b1de2e6326cff4e712bc879be386f",
+      "state_sha256": "c632981c540e4cc9d38d6c76631983040c8e6da8b5e68ba8a4fcbc88179e4656",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-043",
+      "parent": "route-042",
+      "runtime_sha256": "b42c68547447a3ad3252b1f36a62b9fe9191d0d651348a7715d5de1a062e817d",
+      "state_sha256": "eaff703a362cb894f30db0563e9992a92e8178f99d0d452b19c66e40b69c4c06",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-044",
+      "parent": "route-043",
+      "runtime_sha256": "5d10ccbe5dd0154bb3e5006467e429b739205fd10676fce4b94b4d8aa9e0051d",
+      "state_sha256": "f41582b0deff120f5fc07f978aef38e919fc806127a149a22021fc688d6ce672",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-045",
+      "parent": "route-044",
+      "runtime_sha256": "45f7962c9091fc7fd13b68c978225c3065da2f6cba354deae4934dccfbd51396",
+      "state_sha256": "eecb2425cc04d7ab5e3464e8f09e8a65365192feb506f7ebf7b5ace679890926",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-046",
+      "parent": "route-045",
+      "runtime_sha256": "eb6a114fb62ee71073a605e764a822504737f00f03c98fdcd2f206bf6461e31a",
+      "state_sha256": "1c14e593477e42468904b3d89627ea198b08864be9c2829234c7ca2a121d440d",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-047",
+      "parent": "route-046",
+      "runtime_sha256": "f2e977a6fc6426c2499576218c3eb55e6318f8a7b93c4b642fadeef38bb5937b",
+      "state_sha256": "23d814e3b64270a47060b8c07c553b54b7a403504d0a6002047888adbbb5dee8",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-048",
+      "parent": "route-047",
+      "runtime_sha256": "64d2030cf3afd9909966d6445dddf4af3b762972a6098c26fcfb8585574ddf2d",
+      "state_sha256": "d070e2a61594528e3bcb374787813ed81a419931ed15bb0ee75b8ac510bfc4ea",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-049",
+      "parent": "route-048",
+      "runtime_sha256": "bb9ab8c4c4e69dda3e5643a2a15dc0a140759d202eb64fe38ed05af09feed682",
+      "state_sha256": "487475d227b191db3b293cb0de408f31e10f935520449de38a5d165fe195b987",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-050",
+      "parent": "route-049",
+      "runtime_sha256": "dc81b3642fea3024f4b99690bb7652d2127a75dd9adc8db519c9567873b32668",
+      "state_sha256": "20a9be7161b3ea37b5a74263a89d866f6a347c494e1182d969914d82bca63f7f",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-051",
+      "parent": "route-050",
+      "runtime_sha256": "cc34f12e3401cfcb3adf3997ab9b44ef758cd568bf11c8b53b93f07c1bccbf9f",
+      "state_sha256": "e6ccdd8f0857c2faf41618142b8aaf803b9d40e2274d392ff76ed991b6d6596e",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-052",
+      "parent": "route-051",
+      "runtime_sha256": "ed548bb26727142d57ec53698ba50e797a01fa3d8764d2887a4c16fff263ed77",
+      "state_sha256": "f23afd5394479cc37d5871c5c862bc08e3e722a4e399ad2862afb542d02b1a88",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-053",
+      "parent": "route-052",
+      "runtime_sha256": "3bac748db25b754025127357617b06acb3cecaf8d5eb34f81545e64657c64f9e",
+      "state_sha256": "27b2da6924bfd581231bc5676f261af367f385fa08b832a20fc0d66cff624aca",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-054",
+      "parent": "route-053",
+      "runtime_sha256": "f58ff053ab00b7f705209b68785c1a6823c0557f41b8f3d2578c4a82383067a0",
+      "state_sha256": "f8a5ec8b43c0693d905870fc64cd9b6030ffc30c4f1d494bb0e25725f7c8cbf9",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-055",
+      "parent": "route-054",
+      "runtime_sha256": "5bbbb1dc60824bad42c506b14689f174d0132ebf4833291ee677216b910cae9a",
+      "state_sha256": "24d7f0e37ea06af4eb8bf8bd088f5de6d0a45a2eb6d34253af68890c6053abe8",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-056",
+      "parent": "route-055",
+      "runtime_sha256": "11a7a77c366a46eea19b44a4517d989f34c5d1373d45f8f46b2ca86d78f2c83a",
+      "state_sha256": "4a732927fe204a1d4a1bd8f8232ac02738552677b283fd28ee2ba865abbd45b9",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-057",
+      "parent": "route-056",
+      "runtime_sha256": "bb66a0182ffbfdcddced656213aa9200688312f8c37499f94f598c3f9a872329",
+      "state_sha256": "c1908a4870f5c321279bb276725136278b764cc32d0dd2d3a28bbe400a5cfded",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-058",
+      "parent": "route-057",
+      "runtime_sha256": "06eeac706b37656b700635ecc29ff4471d7d38b700aca39cafdaa789819dcb87",
+      "state_sha256": "c369ff10cf11465a668ad8cce42058d4c5806146915f8532de5994ddc1771f0d",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-059",
+      "parent": "route-058",
+      "runtime_sha256": "f548b7534a54dc00dd121b3d27d3fee311fa6b05b708aef21a2673836b68fad5",
+      "state_sha256": "65cc7fd8d420cfa07aaa6de8f31e7e0ef22c15fa6a212bb8cf5d415d0b9d5d53",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-060",
+      "parent": "route-059",
+      "runtime_sha256": "343baa11112fb1504a21c8cec8f73cdbcd76e3388f6d72ac03b9787a0c301915",
+      "state_sha256": "964eec3ee384b5388cf8d21436b672a6dfba31c25e1295feb9c59af5a356f587",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-061",
+      "parent": "route-060",
+      "runtime_sha256": "86870a37adce56c03f5a02f5e88f91d2f77cad7d29c5821369e68335b84a721d",
+      "state_sha256": "6a44eaf0ae8050328d58a713a70d2f6052719f3fc85cb494b576936282064302",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-062",
+      "parent": "route-061",
+      "runtime_sha256": "3e97e504ded3cd7baf76c99e711cbeaab3c829f3224cfb07170f66e55cc349ee",
+      "state_sha256": "bebeb2082d4c384fb71f2da315ca6d4e903ff184633d31001c18a65d757119fb",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-063",
+      "parent": "route-062",
+      "runtime_sha256": "1cb85fc2adedd20608ec6e3e13ba3a193defe0d3b9708460148937d0aba3f605",
+      "state_sha256": "eda5f55e6759f019132fa3c2e3fc0eea090cf010724142dc6e73dd318768dff3",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-064",
+      "parent": "route-063",
+      "runtime_sha256": "425943655dc7437c3a919c22244844c067db4884e83500d0016d27551a52f57c",
+      "state_sha256": "7d38bd9d6137fb937fc0c6b6fd2c8a9cca74cd8c1bf0baf49e31f6958540de14",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-065",
+      "parent": "route-064",
+      "runtime_sha256": "9ca19eb7a6735714aa58f17cdea2b170bfaefb37dfce3a1952194d52f1377c6e",
+      "state_sha256": "2a9d55e64a6bdb1ab76b1046739339e927fb3841114acca9f57f88ac852a0377",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-066",
+      "parent": "route-065",
+      "runtime_sha256": "874f232519a4a575fba3ebbfb594720db146b6c7fc650d06a81dbb6a91be80a7",
+      "state_sha256": "214a7b7e9c7035a92c22606354961a7304ecf83cce3a50afc70f1a1411c07f89",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-067",
+      "parent": "route-066",
+      "runtime_sha256": "b60270ed1c7a21ad6e03f0fada44347df596af899f68f6ced82d082e60d34cb3",
+      "state_sha256": "326d9cddb06876f58659bce5ef424f1d133d36f563f2c450e46af499dd4e7915",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-068",
+      "parent": "route-067",
+      "runtime_sha256": "e24d208b20c3191d8283f921ff9bdeeb1c2d1b12fea67ecb0cedcd5ce30f200c",
+      "state_sha256": "eb22bc698e59794cf0b302050c6f7cb733d731bd23a9a47afd716f5f4a3a1f0b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-069",
+      "parent": "route-068",
+      "runtime_sha256": "797c68044d83a30d9b9e5cb2d9c519928b53bad722f4b286a218d4425427ba75",
+      "state_sha256": "ba01d9856891f160cdd35605239eb1ca765c1b0fec08b2419c1317fb34b41281",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-070",
+      "parent": "route-069",
+      "runtime_sha256": "cf5ad0b7f3bd329dc2386873f3843d51b3d00b2df31e56c25e5e28a910effc26",
+      "state_sha256": "22d661eeb3eb30bf13c45ea4251caeab878e7139d4ccbc576428f748c0b3ad08",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-071",
+      "parent": "route-070",
+      "runtime_sha256": "fc77e6132bcc6dfd2267d1b6c9b0bad73bc0a8ca7f90fa7475da972e234018a6",
+      "state_sha256": "ac36db2d4b0d4b088b90bff4a1c7891ab1bf7b431ea6c773782bd6d6b3ef58e7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-072",
+      "parent": "route-071",
+      "runtime_sha256": "87e6ccddd47a4fb22351fc5ca8905d1910c811c1bb23113e9f61b04ed9ecc8c9",
+      "state_sha256": "4b538e7dd0eb5bf903190d406ec483515994866225f1246c728e84ce7983caaa",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-073",
+      "parent": "route-072",
+      "runtime_sha256": "64a0b4c1919983c2f0351c0ad75a77a30ec56faa4e0bef1053500dedc7b75378",
+      "state_sha256": "6e4134e68e4305409ebb0f1a4a27501b05b326317fd69846c7d13db576dc65d5",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-074",
+      "parent": "route-073",
+      "runtime_sha256": "82223b9e3252fb7e8fa892a042d0e89bdd69e26b3f2ca6e6dee55f3f18275aae",
+      "state_sha256": "6cd388393f999f3b85bdb5634f26194b2b293ea6a27f55587be4c0be5343cba2",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-075",
+      "parent": "route-074",
+      "runtime_sha256": "cad3136b256aee9550de5f8dcf6bde8f172eb23153365db855b57a0290009213",
+      "state_sha256": "333716f38b20fd7ac91d86c48ed5b8d6c40e0081a666a9dd3d49d65381f8f164",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-076",
+      "parent": "route-075",
+      "runtime_sha256": "dee18f3b3e2536a5dddb1b8fd08aa7b49a9a051d2319afd53edee2a88ee46ae0",
+      "state_sha256": "7c34091bca8a66e1f6a866824bce6731d1b3ce0c58d55c962a6620df6df604fa",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-100",
+      "parent": "route-076",
+      "runtime_sha256": "afefe2b30e927afb43930415c123e99710fa60d058275fcc6450bd897cacceb0",
+      "state_sha256": "ac43045bd29e242b9cc2438731a49985803f0ccb04f53b3e79f9e99bdea26afc",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-101",
+      "parent": "route-100",
+      "runtime_sha256": "f9688407a0d69924f6327fc6dd80d22cf5abe10f702cfb0af35c88375e1fe6ea",
+      "state_sha256": "36de2f15c0110340042e5c74f0e63f471fd89bc1838935d33f7bbffc35ca979c",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-102",
+      "parent": "route-101",
+      "runtime_sha256": "05c0c78ce800035f6d592e84cc2bd4e17b55f44d92a39f2b3a3e3be59eda3d60",
+      "state_sha256": "92f9b50eb18001ace177c32715d4e46437733b8b65ddc774edd8da0937af9d98",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-103",
+      "parent": "route-102",
+      "runtime_sha256": "1b25100a42659388381683cde994a374fa646b24186b5833ca4db4e8a62173c4",
+      "state_sha256": "8e9f945b513363406385a453ceca8468b5efb09f3c3c5f804618aa8854115bc4",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-104",
+      "parent": "route-103",
+      "runtime_sha256": "b3f3e70598246e254c0bbb0218d286c3ba3e3bdfc4556df8d70623bf508ba8c5",
+      "state_sha256": "45eca683263d35d8bcaa2abe6f54ce0de1b7f69e2fe2d1c8337bda7cd24e933d",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-112",
+      "parent": "route-104",
+      "runtime_sha256": "22f87a6f5503977533d3f21e5f13a69773575736bd0df16d0815950aa746638a",
+      "state_sha256": "1239b751ba786af9f74e6e5fa169c1dd3f7e047c2faa5bd12457cf4c642d1733",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-113",
+      "parent": "route-112",
+      "runtime_sha256": "5bad082a33d5c9ad20d6fd72753b9479ef657c9e5662d5634f387ba65e4e76e7",
+      "state_sha256": "949d813d5ad7173ea538a5373fd09594c96904f256860706d71030a222190f1c",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-114",
+      "parent": "route-113",
+      "runtime_sha256": "f11d4040311dd2b252177b796b6900ecba47602f7b8d686d8ac18bcfff8f3818",
+      "state_sha256": "362b7ccb4355ff40e13805fa6857a28eb7d2982763f328b1ea8a828d129a524a",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-115",
+      "parent": "route-114",
+      "runtime_sha256": "88d5c7f08ff29cb5d593a09140025f10f02cec45caf6ab3cb38ea8de992fca9e",
+      "state_sha256": "3e9b74b7fbeeb360f3d430c3f6c1bea0c3c79ccc441df35f33dad85f99311ca5",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-116",
+      "parent": "route-115",
+      "runtime_sha256": "fa83508b55050d42c42011953067eff9ec98d48c1a27b197365423fe02efd162",
+      "state_sha256": "5e6fde6b6adcc622ffbbf50c36ab580a9c73d16c566cc2b2933be31cc4ddf885",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-117",
+      "parent": "route-116",
+      "runtime_sha256": "4d77e834dcb4272631d313109d259cb731e03993decd94f796f056ff1818f4ba",
+      "state_sha256": "9de14ec9071f345258098138d720373da1b87e1be40dc2937eedb008961b149f",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-118",
+      "parent": "route-117",
+      "runtime_sha256": "1fc3645ee3362c71eb2bd37595b4f09d8628d7308b353718c389845fc7bac8b5",
+      "state_sha256": "6744e6844c959be36600477048d3019bfb20873765aafadaafea5b1c1e05e6d4",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-119",
+      "parent": "route-118",
+      "runtime_sha256": "2979026f375fcdda7415c6a5211bd6a1bf1554a4206b3eb1a7df1f50b36bbae8",
+      "state_sha256": "fa51c3903ae2eb95dbfc3d7505fbc7de351db899964a843c5e8f6e86a477c03b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-120",
+      "parent": "route-119",
+      "runtime_sha256": "28fb0c476227e987e85113cc08a2af374d5161b230cc57d81b8202b6e2b64eaf",
+      "state_sha256": "0327976e7b2c1d793b962bf50b55710625f75922212fa7da118663eb51979473",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-121",
+      "parent": "route-120",
+      "runtime_sha256": "c1e5509d32cd009fad96f79b9bc15bda984d0b1df9bf363c766229334b619691",
+      "state_sha256": "20bebd04d268e8dd30793f6dbdcd6197207a115827d5ce32df91a10a9015e933",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-122",
+      "parent": "route-121",
+      "runtime_sha256": "884d95bda109b400a406ab7529ce91ea99276f5db24187bf30556b882dd79527",
+      "state_sha256": "4d2c0ea1e01c330d062afd9e43baa6529f0d84bf530dd4f9d3b0caddbba73408",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-124",
+      "parent": "route-122",
+      "runtime_sha256": "bacb9902755e86e19b7a89b66ae5c1af83a30b52b584ba50394b656ee782b0f2",
+      "state_sha256": "5f2e95681373135cba55409d3f9ccc40b0e381a49427ba3cb03d414426f1b205",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-125",
+      "parent": "route-124",
+      "runtime_sha256": "2f19bbf70da0753108d1addc4d30a8c7b7158850ffeba04e8a89e86f4f828751",
+      "state_sha256": "0d485dcf1f37fb8449067ca8ccd8b9f2da13d67afdc3f0e55f8419ed8bbb82ed",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-126",
+      "parent": "route-125",
+      "runtime_sha256": "fa8155f673f1baa88456e6a6eb55adb529ee6b39e651c068df2614a548947e6d",
+      "state_sha256": "bd29f3559caf6cc2809992aeae6195b87fb83a64cfe52d9c4100fe32961a661b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-128",
+      "parent": "route-126",
+      "runtime_sha256": "305938efd94beb97e6704c9ff14d1253ae05bb9b78940e10a6abaf94c5e056f7",
+      "state_sha256": "7e247252ddd5ed0b6687a8b94e3c38bbfb3ff5bdd5e803305eb97de0e426217b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-132",
+      "parent": "route-128",
+      "runtime_sha256": "f3042d0c08845307d158bcecf3a862cbedd80e2fbd3f403ab953f99fb69e603a",
+      "state_sha256": "1acbc7d567a6dca544cad8530927a173e4937fc633c9041b6d0653c5149375f4",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-133",
+      "parent": "route-132",
+      "runtime_sha256": "2d41f96106895a29477b24a20b5a014bc229bf4adcd54c1e0a155ad0e7099550",
+      "state_sha256": "27cfee30179f0641df64bf8ead80df4983ae08ed8ed4db731c20647bd4c74121",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-134",
+      "parent": "route-133",
+      "runtime_sha256": "da8c75a413f85aab50bbf89258ccb99911aea9ab25306e47024a77bc0d5a0e21",
+      "state_sha256": "b307d843f83d7a474025e6d9e35d07f3439e87c7e8880883465ed608a238d4d7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-135",
+      "parent": "route-134",
+      "runtime_sha256": "3385005d335b7a92ce8fab8a1eb77619820a77d6b415b3c3ff46cea4eb2133cf",
+      "state_sha256": "f4e93efa1cf5cf27333b3cfb46043f7b810514cbedb1da56d170f0dbaa3dc250",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-136",
+      "parent": "route-135",
+      "runtime_sha256": "8b012381960a0aae52af83925bd2f1be549e4e6718a9211dd54a7e82767802c6",
+      "state_sha256": "5ddc36400beb7c51a9c4c2a3b282d201ccfd11f980cdd0bac5a5db1818f871c0",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-138",
+      "parent": "route-136",
+      "runtime_sha256": "f1a5f24da4c311fe8994f8ed762b4e95fed8f57551580fa23b0584c79d7c69bd",
+      "state_sha256": "388db47fe9ce21aeb51fac0a1cc13345beb71dc4d8842eca55bad6d0920de0b9",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-139",
+      "parent": "route-138",
+      "runtime_sha256": "cbc74ef215d707391ea128e7e60bb0bdb848006c0cc47115b5a3ced8f7d8f139",
+      "state_sha256": "b884bb14ea22f848ceb1ab50d39b835b6ebc0a702414a5d5c0b45a707089e64b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-140",
+      "parent": "route-139",
+      "runtime_sha256": "f893c4e05388d1400c72b106baded7aba3bfbf08ac06ff670ada73fede44b9c7",
+      "state_sha256": "f2ebd8638c23b1a79a39ef7f7381289a5994b6809a67f19f885d7d93eec9d07f",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-141",
+      "parent": "route-140",
+      "runtime_sha256": "d5c8b8bf40b4f12126d948b5deedb51f70ec06152dde5555dd58bd4eb5eb0b75",
+      "state_sha256": "a0b8b4ff158ef5a4b7f97c8b529f41412bbd33a9c2f82b03d65c2a908ada8693",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-143",
+      "parent": "route-141",
+      "runtime_sha256": "4ac6369b32b6885455d046533d3d3f47b334bcf0e722752b4116d2750285c6ee",
+      "state_sha256": "caf424419f3401fd26b43d7d01ae9d7139ae17ec18693caab73023fa7e030818",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-144",
+      "parent": "route-143",
+      "runtime_sha256": "7bdd35011834740ef1946dc5d336fd4e76cb0c91d82caa1ec155c9e93167116c",
+      "state_sha256": "e15c2a9ee87a044409187a3ca2883f961f2eb122612300e0cde8c0d835cb0cbb",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-145",
+      "parent": "route-144",
+      "runtime_sha256": "56d149eba8b7ca726fb6a2b31d0bc5656d3d4194af731d83a7e5e753cf5a749f",
+      "state_sha256": "c25fdd2668672350fb1e628660068935a3bfb21efd64896df95647c6a2371ca7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-146",
+      "parent": "route-145",
+      "runtime_sha256": "3af4a85ea6f455d6e162107c88a8e5dfc1cfa26a8f50d77619e5f5840b462509",
+      "state_sha256": "07a5d96ef7876daf446c2fbbdeca41b03115942f4b1094487b4decc45bc4559c",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-147",
+      "parent": "route-146",
+      "runtime_sha256": "c4a8a8c46aa8da790fead5e5562d41c22dcdbd82da5738041bc4c902a16c1c37",
+      "state_sha256": "0b1a6d85694ae1dd943d3b99e2a52b8ae7f49d27279b9bd408a7437ac0ae9db7",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-148",
+      "parent": "route-147",
+      "runtime_sha256": "30a16733704f4f0d49538525e3cd30c0653f7b38759b2d2457b1af15344e769e",
+      "state_sha256": "f4d1e51a6d768fca925dedc2355f2cb57adf9b407bb26ca0511f44256b39e46f",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-149",
+      "parent": "route-148",
+      "runtime_sha256": "b28d6edcdaf057134a92b993e45bb9cbe737ab8c0cd9c37710349c44372c1b14",
+      "state_sha256": "10b600edd50c5e4e9a9eb5d600718cb6f96e34e264d93d7ab3b970611c15183b",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-150",
+      "parent": "route-149",
+      "runtime_sha256": "daf1b00f6372b3c0e27f30ba424f46816c582baee6c249c72f80b9f0b9276a13",
+      "state_sha256": "435a6e0c8f61371165ef07401bb4010f23d8b973620b12464833a245d0ff56cf",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-151",
+      "parent": "route-150",
+      "runtime_sha256": "99a56372222f4d22035a6a7ce27340387ea00b59652a081127f2cab0abb68e49",
+      "state_sha256": "139a3675ee67356b94f16aedf600551071d9d6dfaf53e720f4c4bae130f70652",
+      "owning_exit": 0,
+      "memory_writes": 0
+    },
+    {
+      "run": "route-152",
+      "parent": "route-151",
+      "runtime_sha256": "7edfd7b25d32d71cb738511f5b3c142c58e27326fb4fec79c45f724b89f7cfee",
+      "state_sha256": "db6c2bf035c6e3cb4286c7cdc84cb23db7bd0804fa76ed47f3a8748d8cd66201",
+      "owning_exit": 0,
+      "memory_writes": 0
+    }
+  ],
+  "non_claims": [
+    "Other three lever sources",
+    "Native files 1 and 2 physical pulls",
+    "Receipt-first ordering or actual server reconnect",
+    "Final-clear/credits or loaded-complete-save acceptance",
+    "Health matrix, delayed delivery, rewind/reset completion-read matrix",
+    "Universal multiplayer or BizHawk acceptance"
+  ],
+  "artifacts_withheld": [
+    "Full ROM",
+    "Battery save",
+    "Savestates"
+  ],
+  "independent_review": {
+    "status": "passed",
+    "verified": [
+      "All 115 ancestor runtime/state/parent/ROM hashes and actual owning exits",
+      "Blank initial SRAM and no emulator memory writes",
+      "Authentication matches generated ROM; physical bit transition matches source743 mapping",
+      "All six native world checksums valid before pull, after pull and after cold load",
+      "Both file0 record copies contain the physical record; files1/2 unchanged",
+      "Cold-load battery is byte-identical to input battery"
+    ]
+  }
+}
