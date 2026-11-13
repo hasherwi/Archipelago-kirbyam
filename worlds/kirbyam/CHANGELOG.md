@@ -15,16 +15,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Improved Logic for Item Placement and Accessible Locations (PR #1041, #1042, #1045, #1048, #1051, #1052).
-- Keep Beam and Ice in new seeds' starting inventory. Preserve explicit item counts, legacy seed compatibility and ordered tutorial delivery; Ice is removed from the randomized pool (PR #1052).
-- Cutter, Wheel and Mini are no longer in the starting inventory (PR #1041, #1042).
-- Stone and Burning are no longer automatically precollected and are progression unlocks when ability gating is enabled (PR #1051).
+- Starting inventory: Ice added; Beam kept; Wheel, Mini, Cutter, Stone and Burning removed (PR #1041, #1042, #1051, #1052).
 
 ### Known Limitations
 - Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Native evidence is bounded, not uninterrupted full-game or universal multiplayer validation.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
