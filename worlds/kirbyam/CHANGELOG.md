@@ -8,19 +8,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
-
-### New Features
-
-### Improvements
-
-### Known Limitations
-
-### Bug Fixes
-- Require the Radish Lever Wall before crossing from Carrot Castle into the main Radish Ruins route; preserve the room visit and return route on the Carrot side (Issue #1093).
-
-### Internal Changes
-
 ## v0.5.1
 
 ### New Features
@@ -39,6 +26,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
+- Require the Radish Lever Wall before crossing from Carrot Castle into the main Radish Ruins route; preserve the room visit and return route on the Carrot side (Issue #1093, PR #1094).
 - Preserve explicit starting-inventory multiplicity and conditional permission counts across region creation (PR #1052).
 - Preserve shuffled enemy ability assignments when native enemy behavior overwrites them, including Waddle Doo's Beam and Parasol state resets (Issue #1049).
 

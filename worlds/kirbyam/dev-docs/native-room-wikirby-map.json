@@ -2723,7 +2723,8 @@
       "completion_index": 239,
       "object_list_index": 239,
       "ap_keys": [
-        "REGION_RADISH_RUINS/ROOM_8_12"
+        "REGION_RADISH_RUINS/ROOM_8_12",
+        "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE"
       ],
       "wiki_title": "Radish Ruins - Room 12",
       "wiki_url": "https://wikirby.com/wiki/Radish_Ruins_-_Room_12",

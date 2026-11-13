@@ -61,4 +61,29 @@ private conversation content, or full ROM is included in this change.
   original reported generation-seed regression).
 - Updated the expected compiled-region count by two (Carrot-side compartment
   and singleton physical-room sink) and regenerated the slot-data snapshot.
-- No new native gameplay run or tester-seed completion is claimed.
+- See the later bounded native gameplay comparison below; tester-seed completion remains unverified.
+
+## Bounded native gameplay comparison (2026-11-13)
+
+See `radish-lever-native-20261113.json`. Two ordinary generated seeds used the
+same gameplay options and starting inventory except the Radish wall item,
+with separate blank saves and legitimate local-server/shipping-client delivery.
+No post-patch ROM edits, forced coordinates, injected checks, or fabricated
+received items were used. Seeds differ, so this is not a bit-identical seed
+comparison; the replayed room/position approach checkpoints match exactly.
+
+- Seed 109314, Radish wall absent: Carrot chute arrival in native 619 at
+  (56,56.996). Holding right for 120 frames stops at x73.996 before the x80
+  wall. A further 120-frame up/right attempt also remains at x73.996.
+- Seed 109315, Radish wall received as an ordinary configured starting item:
+  the same arrival and 120-frame right input crosses to x217.996.
+- Screenshots visibly confirm the closed barrier and its absence respectively.
+  The two states retain the ability gained during ordinary gameplay; this is
+  directional movement testing, not attack/bypass testing.
+- All stage processes and both local servers exited successfully; dependency
+  pins remained unchanged and the exclusive native lock was released.
+
+CI additionally caught the new compartment missing from the explicit native-room
+map and two stale expected counts. Added the alias to native room 619, regenerated
+the mapping table, and corrected counts (384 compiled regions, 353 native mapped
+definitions). All 457 tools-policy tests pass after these metadata corrections.

@@ -14,8 +14,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_all_production_regions(self):
         self.assertEqual({r['region'] for r in self.coverage['regions']}, set(data.regions))
-        self.assertEqual(len(data.regions), 382)
-        self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 352)
+        self.assertEqual(len(data.regions), 384)
+        self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 353)
 
     def test_locations_owned_once_after_moves(self):
         rows = [s for s in self.coverage['surfaces'] if s['kind'] == 'location']
