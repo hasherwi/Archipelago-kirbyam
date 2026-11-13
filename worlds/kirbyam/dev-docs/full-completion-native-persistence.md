@@ -291,3 +291,29 @@ writes. Thus the existing file-0 case and these file-1/2 extensions cover Carrot
 receipt-first physical save/cold-load case in all three native files, not the
 other lever permutations. No post-pull server reconnect or positive full-goal
 acceptance is claimed. See [file-2 evidence](full-completion-carrot-file2-20261113.json).
+
+
+### Earned Rainbow Route East Map Chest: save, cold load and delivery
+
+On ordinary seed 101615, native file 0 followed controller inputs from its own
+earned post-ending save through the East mirror into room 190. The actual chest
+interaction added chest flag 5 and room completion bit 0. After the native chest
+animation settled, a separate-process cold load preserved 6 chest bits and 11
+visited rooms before any client writes. The real local AP server accepted
+location 3960203 and recorded its Cell Phone Battery receipt.
+
+Two retained hub-delivery attempts did not converge: the existing receipt at
+history index 33 was Invincible Candy, which native rules exclude in hub room
+801. No guard was waived and no receipt was reset. A fresh packet resumed the
+accepted, genuinely earned room-190 continuation with the already accepted server
+history. All 36 receipts converged, with 113 shipping-client writes, zero guard
+failures and no new LocationChecks or goal report. Wrapper, native/client and
+server owning waits exited zero; all 2,991 immutable pins remained unchanged.
+
+This is a bounded end-to-end chest milestone, not positive full-goal acceptance:
+2/99 required physical acknowledgements, 6/84 native chest flags (including
+ownership-derived flags), and 11/272 rooms remain below the complete requirement.
+The third server check is an area visit, not a required physical check. Cold
+persistence and eligible-room delivery are separately identified observations;
+resuming the room-190 state is not described as a cold load. See
+[the scoped Map Chest evidence](full-completion-map-chest-20261113.json).
