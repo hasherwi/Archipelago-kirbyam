@@ -44,3 +44,28 @@ all native save slots, receipt-before-pull and pull-before-receipt cases. Power
 loss before the native save completes is not guaranteed. Loading a newer save
 in an older payload is unsupported: the older payload does not understand the
 new tagged record. Regenerate patches with the updated client for this goal.
+
+## Native cold-load checkpoint (2026-11-13)
+
+The current patched ROM was exercised in mGBA 0.10.5, starting from new blank
+battery files rather than imported saves or savestates. All three native files
+were created and cold-reloaded. In three additional runs, the shipping client's
+`_reconcile_lever_activations` method restored all four acknowledged lever bits
+through its real guarded transport against the running emulator. The server
+acknowledgements were a **simulated context**, not a real server or physical pull.
+No native chest, room, ownership or final-clear flags were injected.
+
+Ordinary tutorial frames then let the original ARM code serialize the record.
+New-process cold loads retained the full authentication token and `0x48478000`
+record in the correct file, with all six native world-record checksums valid.
+All twelve subprocesses completed with exit code zero. This establishes actual
+native save/cold-load persistence of **client-restored** lever records in those
+three files; it replaces no offline physical-pull or goal-completion acceptance.
+The input/output hashes and explicit exclusions are recorded in
+[the bounded checkpoint](full-completion-native-cold-20261113.json).
+
+Still required: genuine disconnected pulls at the four physical lever sources,
+both receipt/pull orders, and the full-completion/credits, health and interruption
+matrix in [the completion contract](full-completion.md). The feature's native
+policy remains candidate; neither this checkpoint nor the passing host suites
+justify removing the full-completion known limitation.
