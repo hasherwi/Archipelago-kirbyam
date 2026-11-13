@@ -259,5 +259,16 @@
         "main": []
       }
     ]
+  },
+  "catalog_provenance": {
+    "main": "727099d75aec8a70ea87cce88d7d69358e345426",
+    "feature_head": "089b08129a19b3e5bb94703e589b74c043dddc41",
+    "source_hash_changes": {
+      "worlds/kirbyam/__init__.py": {
+        "previous": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
+        "integrated": "c9a224310a34c402e3ba411c90258f6bb3399d32609ca755cff30cb8598e5050"
+      }
+    },
+    "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
   }
 }
