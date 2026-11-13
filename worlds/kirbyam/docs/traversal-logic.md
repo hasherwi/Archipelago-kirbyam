@@ -2100,8 +2100,10 @@ the key100 final-action omission, source-derived finite classes over50–500,
 and source-only mode1. Historical clear/Hub doors are imported prerequisites.
 Real local client initialization includes RNG mailbox initialization and actual
 acknowledged receipt rows; it is not a full watcher, external-server, reconnect
-or native BizHawk portability proof. Current coverage is 145 witnesses/five
-conditional-policy fallback targets and PR1052 remains partial.
+or native BizHawk portability proof. At that historical checkpoint, coverage
+was 145 witnesses/five conditional-policy fallback targets. The current catalog
+has 146 witnesses and four declared conditional-policy fallback targets; these
+counts do not establish complete physical traversal coverage.
 
 ## Standard and advanced traversal
 
@@ -2114,7 +2116,11 @@ or unreviewed Crash routes are assumed.
 
 Standard excludes those three witnesses, not Crash from the game's random
 ability pool. Source selection, resampling, installed access rules, and Crash
-progression classification all use the selected logic level. Unsupported
-assignments must fail validation or be resampled rather than exposing a legacy
-fallback. Historical physical-evidence graphs remain available for inspection;
+progression classification all use the selected logic level. For an applicable
+reviewed target, an assignment whose eligible witnesses require excluded Crash
+must fail validation or be resampled; it cannot regain a legacy fallback merely
+because advanced logic is disabled. The four declared partial-policy fallback
+targets still retain older rules for source policies outside their qualified
+applicability, including relevant mixed or non-guaranteed assignments. Historical
+physical-evidence graphs remain available for inspection;
 the target-level `advanced_graphs` list controls their inclusion in world logic.

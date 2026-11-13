@@ -3,7 +3,8 @@
 This follow-up plan adds no runtime rules or route evidence. Baseline: merged PR #1052 at `727099d75aec8a70ea87cce88d7d69358e345426`, with Beam and Ice starting inventory. The catalog's 57 targets and 146 witnesses are not a physical-room count or a completion certificate.
 
 ## Scope
-- [ ] Keep Normal-only baseline work separate from Normal + Crash (#1064); Crash traversal belongs in advanced logic (#1089).
+- [x] Separate the three reviewed Crash witnesses into explicit advanced logic (#1089), implemented at `90b966790` with historical-fixture reconciliation at `9d4cdc389`. Normal-only baseline and Normal + Crash (#1064) remain distinct.
+- [ ] Complete remaining Normal-only physical qualification; the advanced option does not establish new route evidence.
 - [ ] Keep unmerged Phone work (#1086) separate.
 - [x] Record final baseline CI and release-artifact verification: final #1052 head `2b51efe` passed the complete Windows/macOS/Linux matrix and focused Kirby tests ([run](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43362275606)). Merged source `727099d` was tagged `kirbyam-v0.5.1-rc1`; [tag-push run 43363217716](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43363217716), attempt 1, staged all three assets. Read-only public verification passed their downloaded hashes, signatures, source/tag/run identity and exact asset allowlist. Release remains mutable, not guaranteed immutable.
 
