@@ -1,6 +1,6 @@
 # Traversal continuation after v0.5.1
 
-This follow-up plan adds no runtime rules or route evidence. Baseline: merged PR #1052 at `727099d75aec8a70ea87cce88d7d69358e345426`, with Beam and Ice starting inventory. The catalog's 57 targets and 146 witnesses are not a physical-room count or a completion certificate.
+This document tracks continuation work. The bounded experiments below do not themselves install new route rules. Baseline: merged PR #1052 at `727099d75aec8a70ea87cce88d7d69358e345426`, with Beam and Ice starting inventory. The catalog's 57 targets and 146 witnesses are not a physical-room count or a completion certificate.
 
 ## Scope
 - [x] Separate the three reviewed Crash witnesses into explicit advanced logic (#1089), implemented at `90b966790` with historical-fixture reconciliation at `9d4cdc389`. Normal-only baseline and Normal + Crash (#1064) remain distinct.
@@ -14,6 +14,34 @@ This follow-up plan adds no runtime rules or route evidence. Baseline: merged PR
 - [ ] Timed exit (533): qualify exact entry, attack, health and timed crossing without assuming a successful mixed/failable source roll.
 - [ ] Mustard map (310): qualify exact source, carry, attack and timed chest continuation.
 - [ ] Preserve older rules explicitly until each replacement is reviewed. These four targets are not an exhaustive physical-room checklist.
+
+## Bounded Chocolate-route progress (2026-11-13)
+
+A fresh, independently audited native run now validates the retained human
+Master carrier through the upper-to-lower landing in room 194, ending stationary
+at the reviewed frame-2081 boundary. The run contains 381 accepted observations
+and 380 committed gameplay commands, followed by a separate termination that
+adds no game frames. The complete child, service and controller suites passed
+independently: 571, 136 and 122 tests respectively. The reviewed source closure
+is `5421056eb1f67de035bad2126f7695f2ac36d85ed2483b8cb20cabcd92a2681a`.
+
+This closes the bounded landing segment, **not the Chocolate chest witness**.
+The endpoint retains Master at one HP and has not collected chest 57. Historical
+clear/Hub prerequisites remain explicit; this is not a new-seed full playthrough,
+universal multiplayer proof, or credit for helper combat or ability acquisition.
+The audit preserves earlier rejected attempts and verifies the final run's
+command acknowledgements, unchanged input save and actual process closure.
+
+The next segment is neutral landing-effect cleanup, followed separately by
+lower-room positioning, the 591 transition and the 517 target action. Cleanup
+still needs fresh terrain evidence and source-qualified retirement/new-generation
+tracking for remote effects. No new fallback replacement, source-policy coverage,
+location access rule or target count is claimed by this landing result.
+
+Checkpoint-based test acceleration is experimental and remains disabled for
+these traversal runs. A core save alone does not reconstruct the client,
+observer histories, input latch or command custody. The accepted landing run
+used the existing cold-prefix path; it was not restored from a checkpoint.
 
 ## Evidence and integration
 - [ ] Reconcile the coverage ledger, source census and exact AP location/exit ownership before selecting experiments.
