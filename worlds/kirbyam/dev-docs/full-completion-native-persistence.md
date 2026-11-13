@@ -251,3 +251,26 @@ validation. It does not establish positive full-goal acceptance with all 99
 physical acknowledgements, 84 native chest bits and 272 rooms, an end-to-end
 pending-positive-goal race, or the remaining receipt/pull ordering and other-lever
 file combinations. See [the bounded network-file evidence](full-completion-network-files-20261113.json).
+
+
+### Receipt-first Carrot Castle in native file 1
+
+A fresh native file-1 run on ordinary seed 101614 replayed the accepted tutorial
+from blank SRAM, then received 21 official starting items from the real local AP
+server through the shipping client. The total received history contained 23 items:
+21 precollected entries plus two earned tutorial checks. Physical lever activation
+was still zero before gameplay pulled the Carrot Castle lever.
+
+The accepted Carrot controller route matched its initial and final checkpoints at
+every segment. The genuine pull was saved by the original native code; a separate
+process cold-loaded the earned file-1 battery and retained activation `4` and the
+authenticated record mask `0x48420020`. Tutorial, pull and cold-load stages made no
+manual memory writes. Receipt delivery made 207 shipping guarded writes with zero
+guard failures. All four stages, the wrapper and the server exited zero, with no
+remaining live owned processes. The immutable source/input pins stayed unchanged.
+
+This packet did not reconnect after the physical pull or establish a new server
+acknowledgement for it. File 2, other ordering/file combinations, positive full-goal
+acceptance and the pending-positive-goal race remain outside this result. See
+[the bounded Carrot file-1 evidence](full-completion-carrot-file1-20261113.json),
+including the retained non-fatal sqlite connection warning.

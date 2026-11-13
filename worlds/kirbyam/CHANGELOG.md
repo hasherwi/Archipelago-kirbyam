@@ -29,6 +29,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 
 ### Internal Changes
+- Validate receipt-first Carrot Castle physical save/cold-load in native file 1 using real starting-item delivery; full-goal acceptance remains pending.
 - Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
 - Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
 
