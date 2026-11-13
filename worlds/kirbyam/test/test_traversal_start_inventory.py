@@ -53,9 +53,10 @@ def test_real_generation_starting_ice_and_twister_crash_permissions(
     monkeypatch.setattr(Main, 'main', capture_main)
     player = tmp_path / 'player.yaml'
     mode, seed = (0, 5) if ability == 'Ice' else (1, 15)
+    logic = 'advanced' if ability == 'Crash' else 'standard'
     player.write_text(
         'name: Starting Permission\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
-        f'  ability_randomization_mode: {mode}\n  ability_randomization_no_ability_weight: 0\n'
+        f'  traversal_logic: {logic}\n  ability_randomization_mode: {mode}\n  ability_randomization_no_ability_weight: 0\n'
         f'  ability_gating: {gating}\n  start_inventory:\n    {ability} Ability: {count}\n'
         '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
     archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
@@ -96,7 +97,7 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=5, options={
         'ability_randomization_mode': raw['mode'], 'ability_gating': int(scenario != 'gating_off'),
-        'accessibility': 'minimal',
+        'accessibility': 'minimal', 'traversal_logic': int(ability == 'Crash'),
     })
     world = multiworld.worlds[1]
     if scenario == 'absent':

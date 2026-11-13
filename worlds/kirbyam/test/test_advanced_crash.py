@@ -130,3 +130,19 @@ def test_invalid_advanced_graph_marker_rejected():
     row = {'id': 'bad', 'graphs': {'local': {}}, 'advanced_graphs': ['typo']}
     with pytest.raises(ValueError, match='Invalid advanced traversal graph list'):
         _validate_graphs(row, {}, {})
+
+
+def test_historical_projection_only_removes_exact_logic_annotations():
+    from copy import deepcopy
+    from .support.advanced_crash_history import before_advanced_crash, MARKERS
+    for row in rules.extra_traversal_targets():
+        original = deepcopy(row)
+        projected = before_advanced_crash(row)
+        if row['id'] in MARKERS:
+            projected['advanced_graphs'] = MARKERS[row['id']]
+        assert projected == row == original
+    for marker in ([], ['unknown'], ['hub4_crash_entry', 'hub4_crash_entry']):
+        with pytest.raises(AssertionError):
+            before_advanced_crash({'id': 'switch_533_room16', 'advanced_graphs': marker})
+    with pytest.raises(AssertionError):
+        before_advanced_crash({'id': 'unreviewed', 'advanced_graphs': []})
