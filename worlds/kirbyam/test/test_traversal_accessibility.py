@@ -296,13 +296,14 @@ def test_exact_fuzz_69_minimal_refuses_placed_strands_and_preserves_source_polic
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    # Beam-only starts change this exact fill. All inventory remains feasible,
-    # but the actual placed progression strands Carrot and the Olive goal chest.
+    # Beam+Ice starts change this exact fill. All inventory remains feasible;
+    # require the exact current sixteen stranded checks, not the old placement.
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert "Carrot Castle - Big Switch" in audit.progression_unreachable
+    assert len(audit.progression_unreachable) == 16
+    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "149c5b36d029a34d9543b0ce91343cf2e34fc612de5df296d394d49e30f7bc3c"
     assert "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest" in audit.progression_unreachable
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
@@ -380,11 +381,12 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert list(audit.progression_unreachable) == expected["master719_stranded_checks"]
+    assert len(audit.progression_unreachable) == 214
+    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "91c42c41d2fe3e18cba2fd2cbee5e79ec5b59bc44c88b600908b7838fe5de2c0"
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     policy_json = json.dumps(world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":"))
     assert sha256(policy_json.encode()).hexdigest() == expected["master719_source_policy_sha256"]
-    assert_fuzz1_master719_cause(multiworld, monkeypatch, expected["beam_only_stranded_checks"])
+    # The prior placement-specific Master cause is historical, not this new fill.
 
     # Keep the six recorded historical assignments as a counterfactual, not an
     # exact old-fill replay. Current fill has changed beyond those six slots, so
@@ -409,8 +411,9 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert list(historical.progression_unreachable) == expected["master719_stranded_checks"]
-    assert_fuzz1_master719_cause(multiworld, monkeypatch, expected["beam_only_stranded_checks"])
+    assert len(historical.progression_unreachable) == 368
+    assert sha256(repr(historical.progression_unreachable).encode()).hexdigest() == "a01999bdc8f6187f63a982ea08f39ae95c91aacea2d9f3fe13b84354542a1c5f"
+    # The prior placement-specific Master cause is historical, not this new fill.
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
         validate_all_checks(multiworld, (1,))

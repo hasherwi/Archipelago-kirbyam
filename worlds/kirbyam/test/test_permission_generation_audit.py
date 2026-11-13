@@ -35,17 +35,16 @@ PROFILES = (
 
 
 # Finite accepted samples after Beam-only starts and the source-backed goal rules.
-# Profile0 shuffled/gating1 and profile1 random/gating0 now have unsafe minimal
-# fills. Keep those refusals; profile0 supplies random/gating0, while the separate
-# seed105103 test supplies shuffled/gating1 without changing any option or guard.
+# These are historical Beam-only classifications; the current Beam+Ice sets
+# below explicitly add profile0 shuffled/gating1 acceptance.
 # These tables describe merged main a58d792, before the ranged catalog union.
 HISTORICAL_MAIN_REQUIRED = frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
 HISTORICAL_MAIN_REFUSED = frozenset({(0, 1, 1), (1, 2, 0)})
 # Historical core09 refused this exact sample with 32 stranded checks.
-# Current Green classification/fill ordering accepts it; retain the old error as history.
+# Current Beam+Ice ordering accepts it; retain the old error as history.
 COMBINED_CORE09 = (0, 0, 1)
-REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED
-EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED
+REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED | {(0, 1, 1)}
+EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED - {(0, 1, 1)}
 
 
 def assert_generation_contract(
@@ -58,12 +57,12 @@ def assert_generation_contract(
     gateable = {world.item_name_to_id[f"{name} Ability"] for name in GATEABLE_ENEMY_COPY_ABILITIES}
     inventory = Counter(decoded["precollected_items"][player])
     assert automatic <= inventory.keys()
-    assert not gateable.intersection(inventory)
+    assert gateable.intersection(inventory) == gateable.intersection(automatic)
     assert all(inventory[code] == 1 for code in automatic)
     placed = Counter(item[0] for locations in decoded["locations"].values()
                      for item in locations.values() if item[1] == player)
     assert not automatic.intersection(placed)
-    assert {code: placed[code] for code in gateable} == {code: int(gating) for code in gateable}
+    assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
     assert _gate_words(archive)[player] == expected_gate
     assert set(decoded["slot_data"][player]["ability_gateable_abilities"]) == (
@@ -178,62 +177,43 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
 
 
-def test_seed105103_supplies_accepted_shuffled_gated_minimal_archive(
+def test_seed105103_beam_ice_start_refuses_exact_placed_strands(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
-    # First additional seed in the bounded probe succeeded. All options match
-    # profile0; only seed changes. This is finite evidence, not universal safety.
+    # Previously accepted Beam-only sample; current required shuffled/gated
+    # acceptance is seed105100. This seed must now fail before archive output.
     options = {
         "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
-    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105103, [options])
-    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
-    assert audit.inventory_unreachable == audit.progression_unreachable == ()
-    # Every mode/gating pair still has a mandatory accepted minimal archive.
-    # This seed supplies (1, 1); required native seed 105100 supplies (0, 1)
-    # with all 124 checks reachable and Cutter earned from the Mustard Map.
-    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} | {(1, 1)} == {
+    with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+        _generate(monkeypatch, tmp_path, 105103, [options])
+    line = str(caught.value).splitlines()[-1]
+    assert "unfilled=[]; unavailable even with all inventory=[]" in line
+    assert hashlib.sha256(line.encode()).hexdigest() == "6b232eafe9e64ce915bde372a8c52484a040ccf380d408d7b0dfd189b5adc029"
+    assert not tuple((tmp_path / "output").glob("*.zip"))
+    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} == {
         (mode, gating) for mode in range(3) for gating in range(2)}
 
 
-def test_seed105100_refuses_smash_permission_behind_its_own_peg(
+def test_seed105100_beam_ice_start_accepts_shuffled_gated_minimal(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
-    original = check_accessibility.validate_all_checks
-    inspected: list[bool] = []
-
-    def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
-        state = CollectionState(multiworld)
-        state.sweep_for_advancements()
-        location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
-        assert location.item and location.item.name == "Smash Ability"
-        assert not state.has("Smash Ability", 1)
-        assert not location.can_reach(state)
-        assert location.can_reach(multiworld.get_all_state())
-        # The selected local source needs this very permission. An otherwise
-        # valid peg-breaking permission is not a substitute for its assignment.
-        for ability, reaches in (("Stone", False), ("Hammer", False), ("Smash", True)):
-            trial = state.copy()
-            trial.collect(multiworld.worlds[1].create_item(ability + " Ability"), prevent_sweep=True)
-            trial.sweep_for_advancements()
-            assert location.can_reach(trial) is reaches
-        inspected.append(True)
-        original(multiworld, players)
-
-    monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
+    # Beam-only previously stranded Smash behind its own peg. Beam+Ice changes
+    # the deterministic fill; require the new accepted archive, not either result.
     options = {
         "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
-    with pytest.raises(KirbyAmCheckAccessibilityError, match="unavailable even with all inventory=\\[\\]"):
-        _generate(monkeypatch, tmp_path, 105100, [options])
-    assert inspected == [True]
-    assert not tuple((tmp_path / "output").glob("*.zip"))
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105100, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+    location = multiworld.get_location("Carrot Castle - Boss Defeat", 1)
+    assert location.item and location.item.name == "Smash Ability"
 
 
 def test_historical_native105100_refusal_remains_distinct_from_current_requirement() -> None:
@@ -246,4 +226,5 @@ def test_historical_native105100_refusal_remains_distinct_from_current_requireme
     assert COMBINED_CORE09 in REQUIRED_MINIMAL_ARCHIVES
     assert COMBINED_CORE09 not in EXPECTED_REFUSED_MINIMAL_ARCHIVES
     assert HISTORICAL_MAIN_REQUIRED == frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
-    assert HISTORICAL_MAIN_REFUSED == EXPECTED_REFUSED_MINIMAL_ARCHIVES == frozenset({(0, 1, 1), (1, 2, 0)})
+    assert HISTORICAL_MAIN_REFUSED == frozenset({(0, 1, 1), (1, 2, 0)})
+    assert EXPECTED_REFUSED_MINIMAL_ARCHIVES == frozenset({(1, 2, 0)})
