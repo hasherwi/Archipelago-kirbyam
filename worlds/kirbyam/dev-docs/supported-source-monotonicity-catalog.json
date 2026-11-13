@@ -2,12 +2,12 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
+    "worlds/kirbyam/__init__.py": "3bf65af2e7f9b535396cb2245fcd15678abd1278b566b29f721e60a5ec4cce64",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+    "worlds/kirbyam/data/regions/rooms.json": "f61dc67b511bf5f33ae5b70d072d8dab4b32b56e5acb60a8f77b3bfa686456e9",
     "worlds/kirbyam/traversal.py": "88316aafca98d2791cf7fc874aafc4d1b95cf30a9f9d64c5038fb7a6f9564b1b",
     "worlds/kirbyam/traversal_data.py": "5455ab08271ddf377bc528f8197316e934a9d4cd608c93f5860c64b9b1eda6d7",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e"
@@ -13725,5 +13725,20 @@
   "integration_inputs": {
     "main": "a58d79223214d4e274b57afda5845a491e7c9e71",
     "reviewed_ranged_ufo_tree": "65ec012ad7762a31574b11f7b41b00c356446513"
+  },
+  "current_main_sync": {
+    "main": "727099d75aec8a70ea87cce88d7d69358e345426",
+    "feature_head": "6884876664a1cc8df34a4ae6527407f31746bcd6",
+    "source_hash_changes": {
+      "worlds/kirbyam/__init__.py": {
+        "previous": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
+        "integrated": "3bf65af2e7f9b535396cb2245fcd15678abd1278b566b29f721e60a5ec4cce64"
+      },
+      "worlds/kirbyam/data/regions/rooms.json": {
+        "previous": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+        "integrated": "f61dc67b511bf5f33ae5b70d072d8dab4b32b56e5acb60a8f77b3bfa686456e9"
+      }
+    },
+    "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
   }
 }
