@@ -9906,6 +9906,9 @@
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_05": null,
       "REGION_RADISH_RUINS/ROOM_8_12": null
+    },
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_12": "CARROT_SIDE"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_07": {
@@ -15723,8 +15726,18 @@
       "LEVER_RADISH_RUINS_8_12": null
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_06": "rr_lever",
+      "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE": "rr_lever",
       "REGION_RADISH_RUINS/ROOM_8_11": null
+    },
+    "logical_subregions": {
+      "CARROT_SIDE": {
+        "exits": {
+          "REGION_CARROT_CASTLE/ROOM_5_06": null,
+          "REGION_RADISH_RUINS/ROOM_8_12": "rr_lever"
+        },
+        "locations": [],
+        "events": []
+      }
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_13": {

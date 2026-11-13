@@ -8,6 +8,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+
+### Improvements
+
+### Known Limitations
+
+### Bug Fixes
+- Require the Radish Lever Wall before crossing from Carrot Castle into the main Radish Ruins route; preserve the room visit and return route on the Carrot side (Issue #1093).
+
+### Internal Changes
+
 ## v0.5.1
 
 ### New Features

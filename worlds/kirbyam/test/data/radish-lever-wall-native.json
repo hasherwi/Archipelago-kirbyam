@@ -1,0 +1,41 @@
+{
+  "native_room": 619,
+  "doors_idx": 239,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "carrot_arrival_spawn_tiles": [
+    4,
+    4
+  ],
+  "wall_tiles": [
+    [
+      5,
+      1
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "closed_component_sizes": [
+    12,
+    54
+  ],
+  "lever_tiles": [
+    12,
+    3
+  ],
+  "carrot_exit_tiles": [
+    2,
+    3
+  ],
+  "radish_exit_tiles": [
+    12,
+    7
+  ],
+  "wall_object_offset": "0x008D1478",
+  "scope": "Static collision separation and opened-grid connectivity; not native gameplay or tester seed completion."
+}
