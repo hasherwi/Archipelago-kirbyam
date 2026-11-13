@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "scope": "Configured health-range capacity and physical-credit separation using ordinary fresh generated seeds and real AP server/shipping client, with explicitly assisted tutorial routing",
+  "source_head": "66bd44484d3316ad014955c7dc45dd83dd51a9c1",
+  "source_tree": "9bdf7f7fb0505b04cd3e8d9a9ec6729cebff4737",
+  "post_patch_rom_edits": [],
+  "assistance": {
+    "purpose": "Finish ordinary tutorial before Vitality receipt gate opens",
+    "only_manual_address": "0x02020fe0 human current HP",
+    "method": "Freeze current HP at10 in tutorial, then explicitly set current HP to configured minimum and disable assistance before baseline and AP receipt processing",
+    "capacity_item_physical_completion_manual_writes": 0,
+    "limitation": "This is a controlled assisted-routing test, not proof of unassisted survival at minimum health; baseline current HP is controlled, while baseline capacity is native."
+  },
+  "cases": [
+    {
+      "minimum": 6,
+      "maximum": 6,
+      "seed": 101617,
+      "run": "receipt-003",
+      "owning_exit": 0,
+      "server_exit": 0,
+      "before": {
+        "room": 801,
+        "ai": 300,
+        "hp": 6,
+        "maximum_hp": 6,
+        "native_vitality_count": 0,
+        "receipt_mask": 0,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 0,
+        "pending": 0
+      },
+      "after": {
+        "room": 801,
+        "ai": 300,
+        "hp": 6,
+        "maximum_hp": 6,
+        "native_vitality_count": 0,
+        "receipt_mask": 2147483648,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 4,
+        "pending": 0
+      },
+      "tutorial_hp_write_count": 9,
+      "shipping_client_write_count": 119,
+      "items_received_count": 4,
+      "server_checked_locations": [
+        3960209,
+        3960451
+      ],
+      "goal_reported": false,
+      "sha256": {
+        "rom": "38ddd3f165298542ef586b1e9bc3ff171174d43eb987add9295e74a269d15e23",
+        "build": "d5d06686f01756a2ff19c8ef5b6047ebd4f5d194a89a4711ba89be91ed88d928",
+        "observation": "f8574dda26b16b89fc5d0d1c14d52457bb68fe164ed93beae988c5efee6d418e",
+        "runtime": "be0697fb4ffc6aac8b2400b53eeaa55928e2b5ab24f903408824b95cbebbf6db",
+        "receiver_source": "0b8baad219034314f284117463c53a3fd1b024631bbac03d8b95104cb8842eaa",
+        "launcher_source": "a9ac500105e4b8c345e85527a64072f33820b2623dec7fe7aba5d119072c2b55",
+        "input_template": "284d6bc2ef7251734e7b681cc4552fa6fc7449935f35348bb710a9603d011f78"
+      }
+    },
+    {
+      "minimum": 3,
+      "maximum": 5,
+      "seed": 101618,
+      "run": "receipt-002",
+      "owning_exit": 0,
+      "server_exit": 0,
+      "before": {
+        "room": 801,
+        "ai": 300,
+        "hp": 3,
+        "maximum_hp": 3,
+        "native_vitality_count": 0,
+        "receipt_mask": 0,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 0,
+        "pending": 0
+      },
+      "after": {
+        "room": 801,
+        "ai": 300,
+        "hp": 5,
+        "maximum_hp": 5,
+        "native_vitality_count": 2,
+        "receipt_mask": 2147483651,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 6,
+        "pending": 0
+      },
+      "tutorial_hp_write_count": 9,
+      "shipping_client_write_count": 132,
+      "items_received_count": 6,
+      "server_checked_locations": [
+        3960209,
+        3960451
+      ],
+      "goal_reported": false,
+      "sha256": {
+        "rom": "d5d249a0e729b55ac12b1bc9e2cad6a6b2f91fbfbec6e20c8b8468f8ef8a15d8",
+        "build": "24719b509cac0f40b98badfceece62f777a5aa9104337ee0a5ed8957a82064f8",
+        "observation": "dd1e7493b20c9d86e7742066100ebbbeb273340dfcadbf7f3d676f6481b8f62a",
+        "runtime": "8ff9af399cf47c66dac16b2ad299f880cb92def0fe38ce2c0c610bac5903a51a",
+        "receiver_source": "0b8baad219034314f284117463c53a3fd1b024631bbac03d8b95104cb8842eaa",
+        "launcher_source": "a9ac500105e4b8c345e85527a64072f33820b2623dec7fe7aba5d119072c2b55",
+        "input_template": "284d6bc2ef7251734e7b681cc4552fa6fc7449935f35348bb710a9603d011f78"
+      }
+    },
+    {
+      "minimum": 1,
+      "maximum": 10,
+      "seed": 101619,
+      "run": "receipt-001",
+      "owning_exit": 0,
+      "server_exit": 0,
+      "before": {
+        "room": 801,
+        "ai": 300,
+        "hp": 1,
+        "maximum_hp": 1,
+        "native_vitality_count": 0,
+        "receipt_mask": 0,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 0,
+        "pending": 0
+      },
+      "after": {
+        "room": 801,
+        "ai": 300,
+        "hp": 10,
+        "maximum_hp": 10,
+        "native_vitality_count": 9,
+        "receipt_mask": 2147484159,
+        "physical_vitality": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "physical_transport": 0,
+        "cursor": 13,
+        "pending": 0
+      },
+      "tutorial_hp_write_count": 9,
+      "shipping_client_write_count": 159,
+      "items_received_count": 13,
+      "server_checked_locations": [
+        3960209,
+        3960451
+      ],
+      "goal_reported": false,
+      "sha256": {
+        "rom": "d701da00af4cf2e1413869dc5f5eaca5eb8287da122f8d8a611b4e3e2ff9e5c3",
+        "build": "22a5a6a6cf7e7ffceac810c9911f5c032fe61387a36ea9cc10a759cacf01e4cc",
+        "observation": "d31ac3aac87d45a729d1a85feebcb79ab1cab8710e7a29569b0c9cc99a3d4a04",
+        "runtime": "3b5bbbd36f4cb8c680c9673b9d996584de3318c28c3a42ccd832b4e73917c7ca",
+        "receiver_source": "0b8baad219034314f284117463c53a3fd1b024631bbac03d8b95104cb8842eaa",
+        "launcher_source": "a9ac500105e4b8c345e85527a64072f33820b2623dec7fe7aba5d119072c2b55",
+        "input_template": "284d6bc2ef7251734e7b681cc4552fa6fc7449935f35348bb710a9603d011f78"
+      }
+    }
+  ],
+  "retained_failed_attempts": [
+    {
+      "range": "6/6",
+      "run": "receipt-001",
+      "outcome": "Health assertions passed, but harness incorrectly required non-null completion progress during tutorial; child1,server0. Corrected expectation, not production code."
+    },
+    {
+      "range": "6/6",
+      "run": "receipt-002",
+      "outcome": "Local server startup exceeded10-second harness window before authentication; child1,server1. Expanded bounded startup allowance."
+    },
+    {
+      "range": "3/5",
+      "run": "receipt-001",
+      "outcome": "Stopped in tutorial AI100; native consumed Beam/Ice but correctly deferred extra Vitality, so full history cursor did not settle. Child1,server0. Resolved by ordinary tutorial progression, not relaxing receipt guards."
+    }
+  ],
+  "does_not_establish": [
+    "Unassisted gameplay",
+    "Physical opening of the four Vitality chests in every configuration",
+    "Positive full-completion goal",
+    "Universal BizHawk/multiplayer acceptance"
+  ],
+  "existing_6_10_case": "See full-completion-health-receipts-20261113.json for separately verified real delivery and authoritative cold recovery."
+}

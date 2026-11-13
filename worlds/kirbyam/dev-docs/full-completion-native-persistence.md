@@ -197,3 +197,31 @@ A separate offline boot of the immediate post-delivery battery export returned c
 A subsequent ordinary cold boot connected to a byte-identical copy of the existing AP server save. Its 35 ordered item-history entries and two checked locations matched exactly before and after reconciliation; the original server save remained unchanged. The shipping client restored capacity 10 and received count 4 while physical Vitality chests and lever credit stayed zero, with no goal notification. Both processes exited zero. This verifies authoritative connected recovery, not offline persistence.
 
 See [health receipt evidence](full-completion-health-receipts-20261113.json) for sanitized checkpoints, hashes, exit results and network observations.
+
+### Later HP-assisted ending and completed-save validation
+
+At the owner's explicit request, final-boss testing used a current-HP freeze. The actual ending branch contains 34 logged writes, all to the human player's current-HP byte (`0x02020fe0 = 10`). Boss HP, capacity, abilities, item receipts, physical checks and completion flags were not directly changed. Own same-ROM checkpoint branches and failed attempts were preserved. This is assisted testing, not an uninterrupted or unassisted playthrough.
+
+Controller inputs defeated the final eye and shooting stage. The freeze was then disabled: the native ending reached the visually verified **The End** screen, transitioned to AI state 9999, and returned to the title. A new process cold-loaded that earned battery into hub 801 with final-clear state 9999 and no boss refight or memory writes.
+
+The shipping client then reconnected to a byte-identical copy of the original real server save. All 35 ordered items and two physical acknowledgements remained identical; the original save was unchanged. Native final-clear was true, but only 5 chest bits and 10 visited rooms were present. The 15 native switches and 8 shards include ownership-derived state and are not claims of physical AP checks. No `CLIENT_GOAL` was reported, as required. The client performed 470 real reconciliation writes. Native and server processes exited zero; the retained log also contains a websocket keepalive/closure warning.
+
+A separate actual guarded-read test accepted an unchanged native snapshot, then rejected that same snapshot after loading an earlier own same-ROM state. It made no manual memory writes or server/goal requests. This verifies the shipping guarded-read mechanism through the mGBA adapter, **not** the whole pending full-completion-report race with all positive preconditions satisfied.
+
+Independent file review verified state/runtime hashes, parent links, exit results, write inventories, ending/title images, cold loading and the reconnect evidence. Historical executed script hashes were not pre-pinned, so this is not a tamper-proof execution attestation. See [assisted ending and cold-load evidence](full-completion-assisted-ending-20261113.json).
+
+### Configured health-range receipt cases
+
+Fresh ordinary full-completion seeds now cover these native capacity transitions with the real local AP server and shipping client:
+
+| Configured minimum/maximum | Capacity before/after | Received Vitality count | Physical Vitality bits | Goal |
+| --- | --- | --- | --- | --- |
+| 6/6 | 6 → 6 | 0 | all zero | not reported |
+| 3/5 | 3 → 5 | 2 | all zero | not reported |
+| 1/10 | 1 → 10 | 9 | all zero | not reported |
+
+Routing through the ordinary tutorial was HP-assisted. Current HP alone was frozen at 10, then explicitly restored to the configured minimum before recording the controlled baseline and disabling assistance. Capacity, items and physical/completion flags were never manually changed. The later capacity/receipt changes came from real AP delivery. These cases do not claim unassisted survival at minimum health or physical opening of every Vitality chest.
+
+Earlier harness failures remain documented: a nullable tutorial-progress assertion, a local-server startup timeout, and receipt polling before leaving the tutorial. The last is the expected non-gameplay delivery gate, not a reason to relax receipt checks. All final native/client and server processes exited zero. The separately documented 6/10 authoritative recovery case remains applicable. See [configured health-range evidence](full-completion-health-ranges-20261113.json).
+
+The outstanding limitation is now narrower, but remains: positive full-goal acceptance with all 99 physical acknowledgements, all 84 native chest bits and 272 visited rooms has not been demonstrated. Remaining physical order/file combinations, the full end-to-end pending-goal reset/rewind case, and universal BizHawk/multiplayer behavior are not established by these bounded tests. No merge or release is implied.
