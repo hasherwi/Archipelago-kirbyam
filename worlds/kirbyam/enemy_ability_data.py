@@ -61,8 +61,8 @@ def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
 
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Only Beam is forced; other abilities use reviewed physical-source logic."""
-    return ("Beam",)
+    """Keep Beam and Ice available at the start while traversal work continues."""
+    return ("Beam", "Ice")
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")

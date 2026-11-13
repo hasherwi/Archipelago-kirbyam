@@ -35,7 +35,7 @@ SEEDS = (1042, 20261107, 8675309)
 @pytest.mark.parametrize("gating", [False, True])
 def test_new_starting_set_and_cutter_collection(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
-    assert starting_copy_abilities(mode) == ("Beam",)
+    assert starting_copy_abilities(mode) == ("Beam", "Ice")
     state = CollectionState(world.multiworld)
     assert not state.has("Cutter Ability", 1)
     item = world.create_item("Cutter Ability")

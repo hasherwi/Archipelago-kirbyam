@@ -14,21 +14,22 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Access to the Copy Ability Room is now an AP Item (Issue #1002).
 
 ### Improvements
+- Keep Beam and Ice in new seeds’ starting inventory while remaining traversal work continues. Preserve explicit item counts, legacy seed compatibility and ordered tutorial delivery; Ice is removed from the randomized pool.
 - Add the exact late post-clear Central Master source and forward carrier as a fifth Carrot Room7-to-lower-Room13 alternative. Require all eight unique shards, actual Dimension access and the Dark Meta Knight sequence, reachable Central, both carrier Hubs and the enabled Carrot Key. Bounded native and source-derived health evidence grants no helper, return, upper-room or reward credit (PR #1052).
 - Add the finite original Waddle Doo-to-UFO carry and maximum-charge large shot as a tenth Chocolate chest alternative, preserving source permission and all nine existing routes (PR #1052).
 - Add the original finite Waddle Doo-to-Fighter route and ordinary first combo as a ninth Chocolate chest alternative, preserving prior routes and Fighter permission behavior (PR #1052).
 - Add the original finite Waddle Doo-to-Sword route and ordinary first slash as another Chocolate chest alternative, preserving its seven existing routes (PR #1052).
 - Add source-aware, entry-specific ranged routes for selected Bomb Blocks, timed switches, the Mustard map and Olive Sound Effects chest. Each accepted alternative keeps its own finite source, carried ability, attack and timing requirements; ordinary solo alternatives remain available (PR #1052).
-- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. Stone and Burning are now progression unlocks when ability gating is enabled; only Beam is automatically precollected. Explicit starting inventory and historical seed gate lists remain supported (PR #1051).
+- Add source-aware metal traversal with exact arrival compartments and reviewed ability-carry routes. Stone and Burning are now progression unlocks when ability gating is enabled; Beam and Ice are automatically precollected. Explicit starting inventory and historical seed gate lists remain supported (PR #1051).
 - Make the randomizer better understand what Kirby can actually do underwater and with frozen enemies. Correct two Olive Ocean routes that do not need a metal-breaking ability, keep one-way platforms one-way, and require a separate enemy for each frozen-enemy hit. The Sound Effects chest accepts its finite Frosty Ice/UFO witnesses or a guarded permanent Ice source and carry route, independently of Frosty assignment (PRs #1048, #1051, #1052).
 - Cutter, Wheel and Mini are no longer in the starting inventory, with traversal logic added to support their removal (PRs #1041, #1042).
 
 ### Known Limitations
-- Ranged-attack coverage is incomplete. Five bounded targets preserve the older base rule outside reviewed source assignments, including native Mustard map and Yellow Paint assignments; relevant physical outcomes still need adjudication. Unsupported source assignments and routes retain their existing partial behavior; the implemented subset does not establish universal wall piercing, maximum range or removal of starting abilities (PR #1052).
+- Ranged-attack coverage is incomplete. Four bounded targets (517, 733, 533 and 310) preserve the older base rule outside reviewed source assignments, including native Mustard map and Yellow Paint assignments; relevant physical outcomes still need adjudication. Unsupported source assignments and routes retain their existing partial behavior; the implemented subset does not establish universal wall piercing, maximum range or removal of starting abilities (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Beam remains automatically precollected. Native evidence consists of bounded source, carrier and action proofs, not uninterrupted full-game, direct AP one-HP or universal multiplayer replays.
+- Beam and Ice remain automatically precollected. Native evidence consists of bounded source, carrier and action proofs, not uninterrupted full-game, direct AP one-HP or universal multiplayer replays.
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes

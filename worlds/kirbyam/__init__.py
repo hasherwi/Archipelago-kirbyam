@@ -625,7 +625,8 @@ class KirbyAmWorld(World):
 
             # Main creates start_inventory before regions. Reclassify only the
             # conditional permissions whose actual target could not exist yet.
-            # Their early useful instances were not collected into current state.
+            # Early useful instances need collection unless guaranteed starts
+            # were already tracked by collect_item.
             for item in self.multiworld.precollected_items[self.player]:
                 if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
                                  "Parasol Ability", "Magic Ability", "Spark Ability"} \
@@ -633,7 +634,8 @@ class KirbyAmWorld(World):
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
                         item.classification = classification
-                        self.multiworld.state.collect(item, prevent_sweep=True)
+                        if item.name not in {f"{name} Ability" for name in starting_copy_abilities(0)}:
+                            self.multiworld.state.collect(item, prevent_sweep=True)
 
             # Log region creation
             fillable_locations = len([
@@ -1328,7 +1330,7 @@ class KirbyAmWorld(World):
     def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
         # Track the fixed starting permissions without making them progression
         # or changing the existing permissive traversal predicates.
-        if item.name in {f"{name} Ability" for name in STARTING_COPY_ABILITIES}:
+        if item.name in {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}:
             return item.name
         return super().collect_item(state, item, remove)
 

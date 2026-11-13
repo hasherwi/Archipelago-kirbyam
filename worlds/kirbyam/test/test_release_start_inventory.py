@@ -58,11 +58,17 @@ def test_release_catalog_preserves_legacy_receipt_protocol() -> None:
 
 @pytest.mark.parametrize('mode', [0, 1, 2])
 @pytest.mark.parametrize('gating', [False, True])
-def test_only_beam_forced_and_exact_ability_pool(mode: int, gating: bool) -> None:
-    assert starting_copy_abilities(mode) == ('Beam',)
+def test_beam_and_ice_forced_and_exact_ability_pool(mode: int, gating: bool) -> None:
+    assert starting_copy_abilities(mode) == ('Beam', 'Ice')
     world = early_world(mode, gating)
     before = Counter(i.name for i in world.multiworld.precollected_items[1] if 'Abilities' in cast(KirbyAmItem, i).tags)
-    assert before == {'Beam Ability': 1}
+    assert before == {'Beam Ability': 1, 'Ice Ability': 1}
+    assert world.multiworld.state.count('Ice Ability', 1) == 1
+    ice = world.create_item('Ice Ability')
+    assert world.remove(world.multiworld.state, ice)
+    assert not world.multiworld.state.has('Ice Ability', 1)
+    assert world.collect(world.multiworld.state, ice)
+    assert world.multiworld.state.count('Ice Ability', 1) == 1
     for ability in ('Stone', 'Burning'):
         item = world.create_item(ability + ' Ability')
         assert item.classification == ItemClassification.progression
@@ -71,9 +77,9 @@ def test_only_beam_forced_and_exact_ability_pool(mode: int, gating: bool) -> Non
     world.set_rules()
     world.create_items()
     ability_pool = [i for i in world.multiworld.itempool if 'Abilities' in cast(KirbyAmItem, i).tags]
-    assert len(ability_pool) == (24 if gating else 0)
+    assert len(ability_pool) == (23 if gating else 0)
     assert Counter(i.name for i in ability_pool) == (
-        Counter({n + ' Ability': 1 for n in GATEABLE_ENEMY_COPY_ABILITIES}) if gating else Counter())
+        Counter({n + ' Ability': 1 for n in GATEABLE_ENEMY_COPY_ABILITIES if n != 'Ice'}) if gating else Counter())
     assert Counter(i.name for i in world.multiworld.precollected_items[1]
                    if 'Abilities' in cast(KirbyAmItem, i).tags) == before
     slot = world.fill_slot_data()
@@ -85,7 +91,7 @@ def test_explicit_starts_additive_main_order_and_multiplicity(mode: int) -> None
     explicit = {'Beam Ability': 2, 'Stone Ability': 3, 'Burning Ability': 2, 'Ice Ability': 3}
     world = early_world(mode, True, explicit)
     actual = Counter(i.name for i in world.multiworld.precollected_items[1] if 'Abilities' in cast(KirbyAmItem, i).tags)
-    assert actual == explicit  # No additional automatic copy of an explicit Beam.
+    assert actual == explicit  # No additional automatic copy of an explicit Beam or Ice.
     for name in ('Stone Ability', 'Burning Ability', 'Ice Ability'):
         assert world.multiworld.state.count(name, 1) == explicit[name]
     world.create_regions()
@@ -95,5 +101,6 @@ def test_explicit_starts_additive_main_order_and_multiplicity(mode: int) -> None
         assert world.multiworld.state.count(name, 1) == explicit[name]
     # Explicit start_inventory is additive, unlike start_inventory_from_pool.
     pool = Counter(i.name for i in world.multiworld.itempool if 'Abilities' in cast(KirbyAmItem, i).tags)
-    assert pool['Stone Ability'] == pool['Burning Ability'] == pool['Ice Ability'] == 1
-    assert sum(pool.values()) == 24
+    assert pool['Stone Ability'] == pool['Burning Ability'] == 1
+    assert pool['Ice Ability'] == 0
+    assert sum(pool.values()) == 23
