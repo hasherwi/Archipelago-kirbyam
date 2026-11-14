@@ -1,0 +1,66 @@
+{
+  "schema": "kirbyam-phone-current-client-cold-replay-v1",
+  "checked_on": "2026-11-14",
+  "client_commit": "1de6c1125f36a85e4aad658bfab457417be347da",
+  "historical_native_build_commit": "c235d1d07f2de0574467ed42f054ab7c43bfbb1b",
+  "accepted": true,
+  "native_frames": 4031,
+  "write_count": 84,
+  "write_count_by_production_routine": {
+    "_sync_enemy_copy_ability_runtime_config": 32,
+    "_sync_challenge_runtime_config": 6,
+    "_sync_hub_connection_item_ownership": 21,
+    "_sync_starting_kirby_color_runtime_config": 1,
+    "sync_copy_room_ownership": 2,
+    "sync_phone_ownership": 2,
+    "_deliver_items": 15,
+    "_persist_u32": 5
+  },
+  "native_records": [
+    {
+      "native_file": 0,
+      "checksums_valid": true,
+      "redundant_records_byte_identical": true,
+      "ownership_word": "0x43500003"
+    },
+    {
+      "native_file": 1,
+      "checksums_valid": true,
+      "redundant_records_byte_identical": true,
+      "ownership_word": "0x0"
+    },
+    {
+      "native_file": 2,
+      "checksums_valid": true,
+      "redundant_records_byte_identical": true,
+      "ownership_word": "0x0"
+    }
+  ],
+  "other_two_native_files_unchanged": true,
+  "scope": "Current unmodified production watcher with historical native Phone test fixture; one cold-save run, ordinary East Hub door and R/L lifecycle.",
+  "checks": [
+    "Incomplete item history defers ownership/delivery",
+    "Mismatched Phone pairing performs no writes",
+    "Five receipts use native ACK then durable cursor",
+    "Repeated polls and same-session reconnect do not duplicate delivery",
+    "Native ownership persists to checksummed save; other files unchanged",
+    "Normal R summons helpers in East Hub; L returns to Central; movement resumes"
+  ],
+  "limits": [
+    "Historical five-byte modified test ROM; not current generated-seed acceptance",
+    "Synthetic AP history and captured outbound messages; no live AP server or BizHawk Lua transport",
+    "Only one cold run here; no new persistence-reload or deterministic-repeat proof",
+    "No helper traversal/combat, full route, native linked-GBA multiplayer or Phone activation claim"
+  ],
+  "artifact_sha256": {
+    "runtime.json": "91f9794cf8e8caabf22e80e31529bd733a6c6d90c27063253872525aebbe8bbc",
+    "trace.json": "9c99aa3cea10eeffbc72b983e72e4925c82f32e88362d83bc3741a4658c400e3",
+    "commands.json": "3b87690b82ea6a057dd91efd23e8bddaa3ce9dee579e571bec69f96c452f0c20",
+    "transport.json": "3f1ebf3500e813774cec584ca6832ac71b1227461c139864983b9345a11df07a",
+    "polls.json": "00295694376c0d5ca430a4a543cae88231acb339f1a94e0f6184f9985509a0a4",
+    "outbound.json": "dbdb923df987f2cb55423dc3818bf91b1e6a1ec4ca1d5d370c918417c0b33795",
+    "packages.json": "2ff479b273d3ffd36fbc3091bb2940e06d4195872c49d40e2ea5b3ac7efcf461",
+    "outcome.json": "c9ca8495c13685abaef20e824e3e25f412b9f03fa52292c3a1139e0303fc55c0",
+    "end.sav": "f67ab2ffda86a904f5d01a052d8a0f81c0fedefe83227907c8285969e08b787f"
+  }
+}

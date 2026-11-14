@@ -223,3 +223,21 @@ Independent review found no blocking defect in this disabled-production mileston
 7. Add the progression classification, balanced item-pool insertion, generation option, versioned ROM token/slot-data pairing, source combinations, placement and reachability tests only after the relevant routes are sound. Keep activation zero until then.
 
 The initial source audit and its uncertainty remain applicable. Room prose and source eligibility are not CPU reliability evidence.
+
+## Current-client compatibility replay (2026-11-14)
+
+A bounded native replay at client commit `1de6c1125f36a85e4aad658bfab457417be347da`
+passed 4,031 frames with 84 audited guarded production writes. The unmodified
+watcher processed five receipt/ACK/cursor transitions, rejected incomplete history
+and mismatched pairing, retained ownership across same-session reconnect, and
+saved valid native records without changing the other two files. Ordinary inputs
+entered East Hub, summoned helpers with Normal R, returned with L, and resumed
+movement. Native process, offline verifier, and owning wrapper all exited zero;
+source pins and process closure were checked afterward.
+
+This is **current-client compatibility with the historical Phone fixture**, not a
+fresh generated-seed or helper-traversal acceptance. The older fixture retains its
+five documented test-only ROM byte changes and synthetic AP history. This run does
+not add persistence-reload, repeat-determinism, live-server, BizHawk Lua, helper
+combat, or linked-GBA multiplayer coverage. Phone remains disabled in production.
+See [the scoped evidence](phone-current-client-cold-20261114.json).
