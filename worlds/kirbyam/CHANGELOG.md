@@ -8,6 +8,32 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+- Add 100% Game Completion: all native completion rooms, physical chests, levers and Big Switches, required native unlocks and Dark Mind clear. Health upgrades do not add completion requirements (Issue #204).
+
+### Improvements
+
+
+### Known Limitations
+- 100% Game Completion still requires real BizHawk acceptance. Use the updated client and regenerated patch; do not load new physical-check saves in an older payload.
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
+
+### Bug Fixes
+
+
+### Internal Changes
+- Record bounded Rainbow Route East Map Chest acquisition, independent native cold persistence and real-server delivery evidence; full-goal acceptance remains pending.
+- Validate receipt-first Carrot Castle physical save/cold-load in all three native files using real starting-item delivery; full-goal acceptance remains pending.
+- Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
+- Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
+
 ## v0.5.1
 
 ### New Features

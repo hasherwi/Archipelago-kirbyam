@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "scope": "Genuine Moonlight physical-first real-server synchronization and reconnect in native files 1 and 2",
+  "source_head": "a7f2ca105afe4a517f000d920abca1a16b01880d",
+  "source_tree": "0b3f648470ac8a55c4b2b02ef59baf531468e9eb",
+  "rom_sha256": "487de9f28d6bfe2d2c054db549a921f4a059c3696ad854c25de02dad24715358",
+  "inputs": "Existing independently reviewed input-only physical-pull batteries from ordinary seed101613; no imported foreign saves or fabricated server acknowledgements",
+  "client_server": "Unmodified published shipping client and local AP server with mGBA-backed guarded transport; not native BizHawk",
+  "preexecution_review": true,
+  "source_files_pinned": 2526,
+  "script_sha256": "948ec38c94c854a43b818032f038076d82105438685abd4362a8104f2d595d5b",
+  "source_inputs_unchanged_after_runs": true,
+  "cases": [
+    {
+      "native_file": 1,
+      "owning_exit": 0,
+      "server_exit": 0,
+      "actual_connections": 2,
+      "physical_lever_locations": [
+        3960415
+      ],
+      "server_checked_locations": [
+        3960209,
+        3960415,
+        3960451,
+        3960452
+      ],
+      "received_item_count": 6,
+      "checks_and_history_unchanged_on_reconnect": true,
+      "duplicate_reports_on_reconnect": false,
+      "goal_reported": false,
+      "physical_record_tag_mask": "0x48408000",
+      "shipping_guarded_write_count": 211,
+      "guard_failures": 0,
+      "sha256": {
+        "observation": "f3a11c46d95ae007ca5f3b4e8708affc580f54fd54c89b919aac1d1f3e1c8e1d",
+        "runtime": "743172525d2e672f6acbb0c63ed942fa432c02a7d0b37b935f79f669ea775521",
+        "input_battery": "6e26086ddeca3d3961aea140e87b581ade05814816b3a482849faa9b5632f2ad",
+        "output_battery": "6e26086ddeca3d3961aea140e87b581ade05814816b3a482849faa9b5632f2ad",
+        "owning_wait": "3ae07e576fc648e916aef06ddc08432476f87f806188366e277caa9e0a72a2f5",
+        "server_wait": "4fae71b7d4ae8293b982a4e510c88b65e1b2be7ffc3a3d9716bbd05513bcfc26"
+      }
+    },
+    {
+      "native_file": 2,
+      "owning_exit": 0,
+      "server_exit": 0,
+      "actual_connections": 2,
+      "physical_lever_locations": [
+        3960415
+      ],
+      "server_checked_locations": [
+        3960209,
+        3960415,
+        3960451,
+        3960452
+      ],
+      "received_item_count": 6,
+      "checks_and_history_unchanged_on_reconnect": true,
+      "duplicate_reports_on_reconnect": false,
+      "goal_reported": false,
+      "physical_record_tag_mask": "0x48408000",
+      "shipping_guarded_write_count": 211,
+      "guard_failures": 0,
+      "sha256": {
+        "observation": "f8287c1268c86e7d2e097a1a435f3c177d07b249d77da83dfca48339b760f6ab",
+        "runtime": "71a0ac28c212388620a52798ce0e863e75f0d5ef5ab15c11198d14cab9587234",
+        "input_battery": "eaaf5ba0f6132ad4a06029daabc2eb3ba57c42781706b7374709d91d131920e2",
+        "output_battery": "eaaf5ba0f6132ad4a06029daabc2eb3ba57c42781706b7374709d91d131920e2",
+        "owning_wait": "0b5bb842ae0e359b9dc260f8f6ab8dc576e518775b339dfb4136e445494fd9ac",
+        "server_wait": "4fae71b7d4ae8293b982a4e510c88b65e1b2be7ffc3a3d9716bbd05513bcfc26"
+      }
+    }
+  ],
+  "limitations": [
+    "Not positive full99 physical acknowledgements/84 native chest bits/272 visited rooms acceptance",
+    "Not end-to-end pending-positive-goal reset or rewind race",
+    "Not receipt-first native files1/2 or all four lever sources in both orders/files",
+    "Not universal BizHawk or multiplayer acceptance"
+  ]
+}

@@ -2,7 +2,7 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
+    "worlds/kirbyam/__init__.py": "c9a224310a34c402e3ba411c90258f6bb3399d32609ca755cff30cb8598e5050",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",

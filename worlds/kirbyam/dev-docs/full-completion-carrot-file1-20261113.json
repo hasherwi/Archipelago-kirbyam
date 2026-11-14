@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "scope": "Genuine Carrot Castle receipt-first physical pull and cold-load roundtrip in native file1; no reconnect stage",
+  "source_head": "460c641b2909725c2636818e5a88c130044d40b2",
+  "source_tree": "bcadf48c6e9c0067beebc7ab18eb0a899b3711f3",
+  "seed": 101614,
+  "rom_sha256": "c36bd6de386fbf8edbc4286b73e5b3cfa575cf6e254167ac467b7a3ea49a3f0c",
+  "native_file": 1,
+  "source_files_pinned": 2595,
+  "preexecution_independent_review": true,
+  "immutable_inputs_unchanged": true,
+  "sequence": [
+    "Blank SRAM with ordinary native file1 selection and accepted tutorial replay",
+    "Real local AP server and shipping client delivered21 official precollected items before physical lever pull",
+    "23 total received history entries:21 precollected plus2 actual tutorial checks",
+    "Actual accepted Carrot route001-007 controller inputs, strict initial and endpoint comparisons",
+    "Original native save then new-process cold-load of own file1 battery"
+  ],
+  "receipt": {
+    "precollected_item_count": 21,
+    "total_history_count": 23,
+    "server_checked_locations": [
+      3960209,
+      3960451
+    ],
+    "before_physical_lever_activation": 0,
+    "shipping_guarded_write_count": 207,
+    "guard_failures": 0,
+    "goal_reported": false
+  },
+  "pull_and_cold": {
+    "activation_flags": 4,
+    "physical_record_tag_mask": "0x48420020",
+    "cold_native_file": 1,
+    "manual_writes": 0
+  },
+  "waits": {
+    "tutorial": {
+      "exit": 0,
+      "actual_wait_completed": true,
+      "remaining_live_processes": 0
+    },
+    "receipt": {
+      "exit": 0,
+      "actual_wait_completed": true,
+      "remaining_live_processes": 0
+    },
+    "carrot": {
+      "exit": 0,
+      "actual_wait_completed": true,
+      "remaining_live_processes": 0
+    },
+    "cold": {
+      "exit": 0,
+      "actual_wait_completed": true,
+      "remaining_live_processes": 0
+    },
+    "wrapper": {
+      "exit": 0,
+      "actual_wait_completed": true
+    },
+    "server": {
+      "exit": 0,
+      "actual_wait_completed": true
+    }
+  },
+  "hashes": {
+    "manifest": "18c03a42cfdda015e7069607e9ef507941fb2dccfc77c5ec5a3ebe0926ecbf0a",
+    "review": "20b2e3e97e9f9a2b711627a432b97709f289da43d02328701fea3c09b3c74983",
+    "input_blank_sram": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "physical_battery": "5fc8e71dda49a222473778af30f00116c6672bab01e4a18e0efc359282ba570d",
+    "cold_battery": "5fc8e71dda49a222473778af30f00116c6672bab01e4a18e0efc359282ba570d",
+    "tutorial_runtime": "3559a3eeddd3049a444c7e099c3c8b507dd33c54fc45b889e6227ecdc14ad157",
+    "tutorial_script": "ef68cb23994bc96782d51f0dbf15b13911f7262f4ae6a07c80c38e31fa7414ba",
+    "tutorial_observation": "2ee39f5b5ba9cafd7741a172b079ab2e76982a41215d1171edb6fe129f7a2f54",
+    "receipt_runtime": "c85a644300aa0fc0fedb9fb13d607c65424c860a8783e3f1b9b19cd280e0319f",
+    "receipt_script": "f6e0b9cd7519bf817438a846d82ee0d9a07de21fe587d8d0d2584e69c535c993",
+    "receipt_observation": "81ded583b0d274b3b2eefed488a100c2fbf7158c0d10151491e9787cd4363ad5",
+    "carrot_runtime": "bae125f070277335e2be6f95dfca0a16e9586712578aa6f5f7340c985785a30b",
+    "carrot_script": "40b46fd82be5703d579ded3161d4bb22dff9f7582799fa6d9e836cb7e6fe669c",
+    "carrot_observation": "6a6fe1bd9f365c07630d352763826b58789d20f33acd4c914a005ebee6cda6e5",
+    "cold_runtime": "f524069bc81e82d7fc3beb560b7c78d5064f0f2086ad1f6da4abdbf470a232b6",
+    "cold_script": "256cb6f2d0275d83a865c113d7d950e96c5c1ba4b448a1c3047b2d79e7030549",
+    "cold_observation": "2f02b4521d0a58c7ee6591fe332439565c9bdb51cd3db18e5f9a8e9f73944b71"
+  },
+  "limitations": [
+    "Not Carrot nativefile2 coverage",
+    "Not a server reconnect after pull; no new AP acknowledgement assertion for Carrot in this packet",
+    "Not all remaining lever ordering/file combinations",
+    "Not positive99 physical acknowledgements/84 native chest bits/272 rooms completion or pending-positive-goal race",
+    "mGBA-backed shipping transport, not universal BizHawk/multiplayer acceptance"
+  ],
+  "retained_log_warning": "Receipt teardown logged an unclosed sqlite3 connection ResourceWarning; owning child/server waits both0. No cleanup escalation or live owned process groups."
+}

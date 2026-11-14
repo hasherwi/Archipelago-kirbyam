@@ -1,0 +1,593 @@
+{
+  "schema_version": 1,
+  "scope": "Separate seed101614: genuine physical-first Moonlight replay, real server starting-item delivery, genuine receipt-first Olive lever. Not full-game/credits acceptance.",
+  "rom_sha256": "c36bd6de386fbf8edbc4286b73e5b3cfa575cf6e254167ac467b7a3ea49a3f0c",
+  "replay": {
+    "blank_sram_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "native_runtime_sha256": "ed48f4a0c67ed55c96419a3e1156c383f0fb518250f6a2ceb8685ead8553fc4c",
+    "input_frames": 41104,
+    "write_count": 0,
+    "owning_exit": 0,
+    "input_chain_source_manifest_sha256": "221d89ecb522c302f58d02d8743b6113ab49a53103727e3aad6c6ec5a9e404f3",
+    "verified_endpoint_count": 115,
+    "final": {
+      "label": "route-152",
+      "frame": 41104,
+      "room": 743,
+      "x": 166.0,
+      "y": 120.99609375,
+      "hp": 5,
+      "ability": 0,
+      "slot": 0,
+      "lever_activation_flags": 1,
+      "physical_record_word": "0x48408000",
+      "authentication_matches_rom": true
+    }
+  },
+  "delivery": {
+    "owning_exit": 0,
+    "server_exit": 0,
+    "precollected_items": [
+      3860107,
+      3860102,
+      3860401,
+      3860402,
+      3860403,
+      3860404,
+      3860405,
+      3860406,
+      3860407,
+      3860408,
+      3860409,
+      3860410,
+      3860411,
+      3860412,
+      3860413,
+      3860414,
+      3860415,
+      3860037,
+      3860038,
+      3860039,
+      3860040
+    ],
+    "server_checked_locations": [
+      3960209,
+      3960415,
+      3960451,
+      3960452
+    ],
+    "lever_location_ids": [
+      3960415,
+      3960416,
+      3960417,
+      3960418
+    ],
+    "native_after": {
+      "label": "after-starting-item-delivery",
+      "frame": 81,
+      "room": 743,
+      "x": 166.0,
+      "y": 120.99609375,
+      "hp": 5,
+      "ability": 0,
+      "slot": 0,
+      "lever_activation_flags": 1,
+      "physical_record_word": "0x48408000",
+      "authentication_matches_rom": true
+    },
+    "native_wall_bytes": [
+      4,
+      2,
+      36
+    ],
+    "live_hub_mask": "0xfffe",
+    "shipping_client_write_count": 216,
+    "runtime_sha256": "cec141e8e1c20647bd707e1f6997347ce9f02ea48667354d1b6353d83078feeb"
+  },
+  "routes": [
+    {
+      "name": "route-031",
+      "parent": "moonlight-delivery-001",
+      "state_sha256": "ae6066698347a623e709d3743131f5caa5f3332b4d981214582c030b71b97a76",
+      "runtime_sha256": "0ee00ac61cdedd802f33ebbd786865e360fd3567e4fc77a86bf97aebc992f0ce",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 34,
+          "keys": 32
+        },
+        {
+          "start": 34,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 54,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 74,
+          "frames": 180,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 743,
+          "x": 166.0,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "0",
+          "frame": 34,
+          "room": 743,
+          "x": 126.828125,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "1",
+          "frame": 54,
+          "room": 743,
+          "x": 112.375,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "2",
+          "frame": 74,
+          "room": 743,
+          "x": 112.109375,
+          "y": 113.02734375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "3",
+          "frame": 254,
+          "room": 743,
+          "x": 112.109375,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        }
+      ]
+    },
+    {
+      "name": "route-032",
+      "parent": "route-031",
+      "state_sha256": "aa127d4f8b2cdee9297409600384fb17e42f12017ebda14911b6e67cc1446ce0",
+      "runtime_sha256": "efbb909c9c04fa42e575c1827f8aa329461aab76357a3d4f50f0ed2c12824917",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 8,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 38,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 58,
+          "frames": 240,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 743,
+          "x": 112.109375,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "0",
+          "frame": 8,
+          "room": 743,
+          "x": 109.015625,
+          "y": 120.99609375,
+          "hp": 5,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "1",
+          "frame": 38,
+          "room": 743,
+          "x": 102.0,
+          "y": 120.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "2",
+          "frame": 58,
+          "room": 743,
+          "x": 102.0,
+          "y": 120.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "3",
+          "frame": 298,
+          "room": 824,
+          "x": 184.0,
+          "y": 56.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        }
+      ]
+    },
+    {
+      "name": "route-033",
+      "parent": "route-032",
+      "state_sha256": "b0d06f8e789314f7e666c1fc39ce3c7bee5edf5fc5344736050eba416f87f6d8",
+      "runtime_sha256": "b3c5760f9303e80bddc6fbf4e10a3e951703c57d685a1375d94dba0377b5813c",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 22,
+          "keys": 1
+        },
+        {
+          "start": 22,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 23,
+          "frames": 100,
+          "keys": 33
+        },
+        {
+          "start": 123,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 153,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 213,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 298,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 824,
+          "x": 184.0,
+          "y": 56.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "0",
+          "frame": 22,
+          "room": 824,
+          "x": 184.0,
+          "y": 30.65234375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "1",
+          "frame": 23,
+          "room": 824,
+          "x": 184.0,
+          "y": 32.43359375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "2",
+          "frame": 123,
+          "room": 824,
+          "x": 83.796875,
+          "y": 21.00390625,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "3",
+          "frame": 153,
+          "room": 824,
+          "x": 67.109375,
+          "y": 77.20703125,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "4",
+          "frame": 213,
+          "room": 824,
+          "x": 67.015625,
+          "y": 120.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "5",
+          "frame": 298,
+          "room": 824,
+          "x": 67.015625,
+          "y": 21.15234375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "6",
+          "frame": 378,
+          "room": 824,
+          "x": 67.015625,
+          "y": 103.07421875,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        }
+      ]
+    },
+    {
+      "name": "route-034",
+      "parent": "route-033",
+      "state_sha256": "9beb7fa4488ea62e52cf05f622e62f9a7967378bb89a565161616005fa77142d",
+      "runtime_sha256": "aced9e330bc15958c80f792879b759bdb1e07c612095410b60d34ce67b67da29",
+      "owning_exit": 0,
+      "write_count": 0,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 40,
+          "keys": 1
+        },
+        {
+          "start": 40,
+          "frames": 20,
+          "keys": 33
+        },
+        {
+          "start": 60,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 90,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 140,
+          "frames": 85,
+          "keys": 64
+        },
+        {
+          "start": 225,
+          "frames": 80,
+          "keys": 0
+        }
+      ],
+      "observations": [
+        {
+          "label": "initial",
+          "frame": 0,
+          "room": 824,
+          "x": 67.015625,
+          "y": 103.07421875,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "0",
+          "frame": 40,
+          "room": 824,
+          "x": 67.015625,
+          "y": 55.73046875,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "1",
+          "frame": 60,
+          "room": 824,
+          "x": 51.8125,
+          "y": 29.48046875,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "2",
+          "frame": 90,
+          "room": 824,
+          "x": 35.21875,
+          "y": 56.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "3",
+          "frame": 140,
+          "room": 824,
+          "x": 35.21875,
+          "y": 56.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 1,
+          "physical_record_word": "0x48408000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "4",
+          "frame": 225,
+          "room": 824,
+          "x": 35.21875,
+          "y": 54.27734375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 3,
+          "physical_record_word": "0x48418000",
+          "authentication_matches_rom": true
+        },
+        {
+          "label": "5",
+          "frame": 305,
+          "room": 824,
+          "x": 35.21875,
+          "y": 56.99609375,
+          "hp": 4,
+          "ability": 0,
+          "slot": 0,
+          "lever_activation_flags": 3,
+          "physical_record_word": "0x48418000",
+          "authentication_matches_rom": true
+        }
+      ]
+    }
+  ],
+  "cold": {
+    "owning_exit": 0,
+    "final": {
+      "label": "final",
+      "frame": 1145,
+      "room": 801,
+      "x": 232.0,
+      "y": 232.99609375,
+      "hp": 6,
+      "ability": 0,
+      "slot": 0,
+      "lever_activation_flags": 3,
+      "physical_record_word": "0x48418000",
+      "authentication_matches_rom": true
+    },
+    "runtime_sha256": "933af1ca2bd0105eba0d60c3369ffa13e4de7fb18a9c06fbc7da69ba4338c4c6",
+    "input_battery_sha256": "16e3a8d309b279db349106e6aa34017687a77f21919fe13ef97a6053b730fb87",
+    "output_battery_sha256": "16e3a8d309b279db349106e6aa34017687a77f21919fe13ef97a6053b730fb87"
+  },
+  "exclusions": [
+    "Full-goal/credits acceptance",
+    "Actual BizHawk emulator",
+    "Universal multiplayer",
+    "Remaining native interruption and health-range matrix"
+  ],
+  "private_artifacts": "Full ROM, battery saves and savestates retained privately; none published."
+}

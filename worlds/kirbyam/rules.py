@@ -22,9 +22,9 @@ Current rules:
             * Defeat Area Boss: collect Defeat Area Boss after the selected boss
               defeat location becomes reachable.
 
-NOTE: Dark Mind is modeled as an explicit AP goal location.
-The client reports this goal location from native AI-state signals and sends
-CLIENT_GOAL after server acknowledgement of the selected goal location check.
+Goals are locked addressless AP events for generation. The client sends
+CLIENT_GOAL after the selected runtime predicate passes; full completion also
+requires acknowledgements for its physical checks.
 """
 
 from __future__ import annotations
@@ -44,6 +44,7 @@ from .data import LocationCategory, data, load_json_data, normalize_region_exits
 from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
+from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
 from .traversal import CAPABILITY_ABILITIES, METAL_BREAKING_ABILITIES
 
 if TYPE_CHECKING:
@@ -63,6 +64,7 @@ _SHARD_ITEM_LABELS = [
 
 _GOAL_LOCATION_LABELS = {
     Goal.option_dark_mind: "Defeat Dark Mind",
+    Goal.option_full_completion: "100% Game Completion",
     Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
     Goal.option_defeat_area_boss: "Defeat Area Boss",
     Goal.option_defeat_area_boss_count: "Defeat a Number of Area Bosses",
@@ -481,7 +483,20 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                 set_rule(goal_location, lambda _state: True)
                 continue
 
-            if goal_location_name == _DARK_MIND_GOAL_LABEL:
+            if goal_value == Goal.option_full_completion:
+                # Physical visits are independent of whether Room Sanity awards items.
+                # Ten native final-sequence rooms use the existing Dark Mind model.
+                def full_completion_rule(state):
+                    return (
+                        state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
+                        and all(state.has(item.label, world.player) for item in REQUIRED_ITEMS)
+                        and all(any(state.can_reach_region(region, world.player) for region in regions)
+                                for regions in ROOM_REGIONS)
+                        and all(state.can_reach_location(data.locations[key].label, world.player)
+                                for key in PHYSICAL_KEYS)
+                    )
+                set_rule(goal_location, full_completion_rule)
+            elif goal_location_name == _DARK_MIND_GOAL_LABEL:
                 # Sequenced after Dark Meta Knight within the Dimension Mirror.
                 def dmk_rule(state):
                     return (

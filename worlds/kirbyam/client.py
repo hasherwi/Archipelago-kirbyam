@@ -303,6 +303,10 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             return False
         if goal == Goal.option_dark_mind:
             description = "Defeat Dark Mind."
+        elif goal == Goal.option_full_completion:
+            description = ("100% Game Completion: explore all 272 native rooms, open every chest, "
+                           "activate all levers and Big Switches, obtain all shards and native unlocks, "
+                           "and finish Dark Mind. Vitality ownership and Goal Games are not required.")
         elif goal == Goal.option_defeat_any_area_boss:
             description = "Defeat any one area boss."
         elif goal == Goal.option_defeat_area_boss:
@@ -512,6 +516,7 @@ class KirbyAmClient(BizHawkClient):
         self._cached_area_key_bits_items_len: int = 0
 
     def initialize_client(self) -> None:
+        self._full_completion_reported_scope = None
         self._curated_color_rom_confirmed: bool | None = None
         old_journal = getattr(self, "_receipt_journal", None)
         if old_journal is not None:
@@ -541,6 +546,8 @@ class KirbyAmClient(BizHawkClient):
                     self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
                 elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
                     self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
+                elif loc.name == "GOAL_100_PERCENT":
+                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id
                 elif loc.name == "GOAL_AREA_BOSS_COUNT":
                     self._goal_location_ids_by_option[Goal.option_defeat_area_boss_count] = loc.location_id
                 elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
@@ -2065,6 +2072,16 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            physical_version = slot.get("physical_check_save_version")
+            if physical_version is not None or slot.get("goal") == Goal.option_full_completion:
+                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET
+                if type(physical_version) is not int or physical_version != 1:
+                    raise ValueError("unsupported physical check save protocol")
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(marker) != FULL_COMPLETION_MARKER:
+                    raise ValueError("physical check persistence requires a regenerated ROM patch")
             copy_room_version = copy_room_slot_version(slot)
             if copy_room_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
@@ -3099,7 +3116,8 @@ class KirbyAmClient(BizHawkClient):
             self._suppress_next_local_death_send = False
         self._last_local_alive_state = alive_now
 
-    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int) -> bool:
+    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int,
+                                             *, evidence_guards: list | None = None) -> bool:
         """A saved clear flag persists in gameplay; require a live player task.
 
         Results screens destroy this task, but replay credits can retain it.
@@ -3139,15 +3157,20 @@ class KirbyAmClient(BizHawkClient):
             payload = 0x03000000 + offset
         else:
             return False
-        final = await bizhawk.read(ctx.bizhawk_ctx, [
+        final_reads = [
             (payload, 1, "System Bus"), (owner_addr, 4, "System Bus"), (task, 20, "System Bus"),
             (demo_addr, 4, "System Bus"), (hp_addr, 1, "System Bus"),
             (room_addr, 2, "System Bus"), (hp_addr + _KIRBY_ROOM_OFFSET_FROM_HP, 2, "System Bus"),
-        ])
-        return (len(final) == 7 and final[0] == b"\0" and final[1] == values[0] and final[2] == header
-                and len(final[3]) == 4 and not self._u32_le(final[3]) & _POST_CLEAR_NON_GAMEPLAY_FLAGS
-                and len(final[4]) == 1 and self._s8(final[4]) == expected_hp
-                and final[5] == values[1] and final[6] == values[2])
+        ]
+        final = await bizhawk.read(ctx.bizhawk_ctx, final_reads)
+        valid = (len(final) == 7 and final[0] == b"\0" and final[1] == values[0] and final[2] == header
+                 and len(final[3]) == 4 and not self._u32_le(final[3]) & _POST_CLEAR_NON_GAMEPLAY_FLAGS
+                 and len(final[4]) == 1 and self._s8(final[4]) == expected_hp
+                 and final[5] == values[1] and final[6] == values[2])
+        if valid and evidence_guards is not None:
+            evidence_guards.extend((address, value, domain)
+                                   for (address, _size, domain), value in zip(final_reads, final))
+        return valid
 
     async def _runtime_gameplay_state(self, ctx: KirbyAmBizHawkClientContext) -> tuple[bool, str, int | None]:
         """
@@ -4045,7 +4068,7 @@ class KirbyAmClient(BizHawkClient):
         """Restore acknowledged pulls after reset, without granting wall ownership.
 
         Recompute from this Connected session every tick; never cache a mask or
-        use received wall items. Offline/unacknowledged pulls remain volatile.
+        use received wall items. New patches save physical pulls independently.
         """
         import base64
         session = self._authenticated_session_key(ctx)
@@ -4068,6 +4091,36 @@ class KirbyAmClient(BizHawkClient):
         if not mask or lever_addr is None or cookie_addr is None:
             return
         connector, server = ctx.bizhawk_ctx, ctx.server
+        save_version = ctx.slot_data.get("physical_check_save_version")
+        if save_version is not None:
+            if type(save_version) is not int or save_version != 1:
+                return
+            from .completion import (
+                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,
+                SAVE_ID_ADDRESS, merge_acknowledged_levers,
+            )
+            socket = server.socket
+            slot_data = ctx.slot_data
+            auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+            guards = [(auth_addr, auth, "ROM"),
+                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, "ROM"),
+                      (cookie_addr, (0x4B41504D).to_bytes(4, "little"), "System Bus")]
+            reads = [(PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (SAVE_ID_ADDRESS, 2, "System Bus")]
+            saved = await bizhawk.guarded_read(connector, reads, guards)
+            if (saved is None or len(saved) != 2 or len(saved[0]) != 20 or len(saved[1]) != 2
+                    or int.from_bytes(saved[1], "little") > 2 or not self._server_session_ready(ctx)
+                    or ctx.server is not server or server.socket is not socket or ctx.bizhawk_ctx is not connector
+                    or ctx.slot_data is not slot_data or session != self._authenticated_session_key(ctx)
+                    or self._lever_checked_session != session):
+                return
+            updated = merge_acknowledged_levers(saved[0], auth, mask)
+            if updated != saved[0]:
+                # Update the existing native RAM save buffer, never SRAM/checksums.
+                # The payload restores its volatile latches from this record.
+                await bizhawk.guarded_write(connector, [(PHYSICAL_SAVE_ADDRESS, updated, "System Bus")],
+                                            guards + [(PHYSICAL_SAVE_ADDRESS, saved[0], "System Bus"),
+                                                      (SAVE_ID_ADDRESS, saved[1], "System Bus")])
+            return
         raw = await bizhawk.read(connector, [
             (lever_addr, 4, "System Bus"), (cookie_addr, 4, "System Bus")])
         if (len(raw) != 2 or any(len(value) != 4 for value in raw)
@@ -5193,6 +5246,86 @@ class KirbyAmClient(BizHawkClient):
             return False
         return configured_goal.location_id in checked_locations
 
+    async def _maybe_report_full_completion(self, ctx) -> None:
+        """Recompute this goal from one authenticated native-save snapshot.
+
+        Do not reuse the generic AI latch: a loaded older save must not inherit it.
+        Physical AP acknowledgements and received ownership are separate evidence.
+        """
+        import base64
+        from .completion import (
+            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,
+            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,
+            native_progress, ownership_complete, saved_physical_mask,
+        )
+        from NetUtils import ClientStatus
+
+        slot_data = getattr(ctx, "slot_data", None)
+        version = slot_data.get("full_completion_version") if isinstance(slot_data, dict) else None
+        if (type(version) is not int or version != FULL_COMPLETION_VERSION
+                or not self._server_session_ready(ctx) or not self._hub_connection_item_history_ready(ctx)):
+            return
+        auth = self._health_rom_auth
+        if not isinstance(auth, bytes) or len(auth) != 16 or base64.b64encode(auth).decode() != ctx.auth:
+            return
+        session = self._authenticated_session_key(ctx)
+        connector, server, socket = ctx.bizhawk_ctx, ctx.server, ctx.server.socket
+        checked = getattr(ctx, "checked_locations", None)
+        active = self._active_location_id_set(ctx)
+        if not isinstance(checked, set) or not active or not PHYSICAL_IDS <= checked or not PHYSICAL_IDS <= active:
+            return
+        history = tuple(ctx.items_received)
+        item_ids = [fields[0] for item in history if (fields := self._extract_delivery_item_fields(item)) is not None]
+        if not ownership_complete(item_ids):
+            return
+
+        def session_valid():
+            return (self._server_session_ready(ctx) and ctx.server is server and ctx.server.socket is socket
+                    and ctx.bizhawk_ctx is connector and ctx.slot_data is slot_data
+                    and self._authenticated_session_key(ctx) == session
+                    and self._hub_connection_item_history_ready(ctx)
+                    and tuple(ctx.items_received) == history and PHYSICAL_IDS <= ctx.checked_locations)
+
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        cookie_addr = self._transport_addr("mailbox_init_cookie")
+        if cookie_addr is None:
+            return
+        guards = [(auth_addr, auth, "ROM"),
+                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, "ROM"),
+                  (cookie_addr, (0x4B41504D).to_bytes(4, "little"), "System Bus")]
+        hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
+        if hp_addr is None:
+            return
+        reads = [*NATIVE_READS, (PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (hp_addr, 1, "System Bus")]
+        raw = await bizhawk.guarded_read(connector, reads, guards)
+        if raw is None or len(raw) != len(reads) or not session_valid():
+            return
+        progress = native_progress(raw[:len(NATIVE_READS)])
+        if (progress is None or not progress.complete
+                or saved_physical_mask(raw[7], auth) != PHYSICAL_SAVE_MASK
+                or len(raw[8]) != 1 or self._s8(raw[8]) <= 0):
+            return
+        save_id = int.from_bytes(raw[4], "little")
+        scope = (session, socket, connector, save_id)
+        if self._full_completion_reported_scope == scope:
+            return
+        player_guards = []
+        if not await self._post_clear_player_task_active(ctx, self._s8(raw[8]), evidence_guards=player_guards):
+            return
+        # Guard every observed byte again before reporting. No stale snapshot can
+        # bridge a reset, slot change, concurrent receipt or savestate rewind.
+        snapshot_guards = [(address, value, domain) for (address, _size, domain), value in zip(reads, raw)]
+        verified = await bizhawk.guarded_read(connector, [], guards + snapshot_guards + player_guards)
+        if verified is None or not session_valid():
+            return
+        if getattr(ctx, "finished_game", False) is not True:
+            await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            if not session_valid():
+                return
+            ctx.finished_game = True
+        self._full_completion_reported_scope = scope
+        await self._display_client_message(ctx, "Goal complete")
+
     async def _maybe_report_goal(
         self,
         ctx: KirbyAmBizHawkClientContext,
@@ -5207,6 +5340,11 @@ class KirbyAmClient(BizHawkClient):
           LocationChecks first and CLIENT_GOAL after server acknowledgement.
         - Falls back to no-op when native addresses are unavailable.
         """
+        slot_data = getattr(ctx, "slot_data", None)
+        if isinstance(slot_data, dict) and type(slot_data.get("goal")) is int and slot_data["goal"] == Goal.option_full_completion:
+            await self._maybe_report_full_completion(ctx)
+            return
+        self._full_completion_reported_scope = None
         if self._goal_reported:
             return
 
