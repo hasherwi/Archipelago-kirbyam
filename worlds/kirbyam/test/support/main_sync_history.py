@@ -36,6 +36,12 @@ def main_text(name: str, raw: bytes) -> bytes:
 
 
 def main_surfaces(surfaces: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    # Lever reversal groups by owner; reject noncanonical input order first so
+    # its grouping cannot conceal an undeclared order mutation. Within-owner
+    # order remains protected by the lever fixture and full historical hash.
+    assert surfaces == sorted(surfaces, key=lambda row: row['owner']), 'Unreviewed surface order'
+    from .lever_history import before_lever_compartments
+    surfaces = before_lever_compartments(surfaces)
     entry = record()['surfaces']
     rows = [json.dumps(row, sort_keys=True, separators=(',', ':')) for row in surfaces]
     raw = json.dumps(surfaces, sort_keys=True, separators=(',', ':')).encode()

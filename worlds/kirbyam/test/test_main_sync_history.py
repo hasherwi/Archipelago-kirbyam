@@ -60,3 +60,18 @@ def test_projection_record_cannot_change_restored_main(monkeypatch: pytest.Monke
     monkeypatch.setattr(history, 'record', lambda: record)
     with pytest.raises(AssertionError, match='Invalid main projection'):
         history.main_text('client.py', (ROOT / 'client.py').read_bytes())
+
+
+@pytest.mark.parametrize('mutation', ['lever_requirement', 'same_owner_order'])
+def test_composed_lever_projection_rejects_mutations(mutation: str) -> None:
+    rows = deepcopy(build_coverage()['surfaces'])
+    history.main_surfaces(rows)
+    if mutation == 'lever_requirement':
+        row = next(row for row in rows if 'ROOM_5_05__LOGIC__CHUTE_SIDE' in row['owner'])
+        row['requirement'] = 'can_swim'
+    else:
+        index = next(i for i in range(len(rows) - 1)
+                     if rows[i]['owner'] == rows[i + 1]['owner'] and rows[i] != rows[i + 1])
+        rows[index], rows[index + 1] = rows[index + 1], rows[index]
+    with pytest.raises(AssertionError):
+        history.main_surfaces(rows)

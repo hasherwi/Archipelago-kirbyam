@@ -210,9 +210,10 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     # Frozen404 native provenance remains 144; Master719 and Green138 each add exactly one graph.
     assert contract['counts']['witnesses'] == 144
     assert status['counts'] == {**contract['counts'], 'witnesses': 146,
-                                'locations': 400, 'surfaces': 1099}
+                                'locations': 400, 'surfaces': 1107,
+                                'regions': 386, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (382, 400, 1099, 57, 146)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 400, 1107, 57, 146)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
