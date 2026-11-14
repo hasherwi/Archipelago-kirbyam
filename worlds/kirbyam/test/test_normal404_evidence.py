@@ -215,9 +215,10 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
             len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 384, 1091, 57, 146)
     from .support.lever_history import before_lever_compartments
     assert digest(before_lever_compartments(coverage['surfaces'])) == contract['normalized_surface_sha256']
-    # Strictly project Green off the unchanged Master-era catalog pin; keep frozen404 evidence.
+    # Strictly project Green and exact Crash logic annotations off the Master-era pin.
     from .support.green138_history import before_green138
-    historical = [{**row, 'target': before_green138(row['target'])}
+    from .support.advanced_crash_history import before_advanced_crash
+    historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
                   for row in coverage['installed_targets']]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     carrot = next(row['target'] for row in coverage['installed_targets']

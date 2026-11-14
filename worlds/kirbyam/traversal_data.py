@@ -166,6 +166,10 @@ def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[s
 def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any]) -> None:
     if not row.get("graphs"):
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
+    advanced = row.get("advanced_graphs", [])
+    if (not isinstance(advanced, list) or any(not isinstance(name, str) for name in advanced)
+            or len(set(advanced)) != len(advanced) or any(name not in row["graphs"] for name in advanced)):
+        raise ValueError(f"Invalid advanced traversal graph list: {row['id']}")
     for payload in row["graphs"].values():
         graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
         from .master_source import CENTRAL_MASTER_SOURCE

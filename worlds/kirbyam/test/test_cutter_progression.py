@@ -165,11 +165,13 @@ def test_generated_seed_matrix(
     # exactly one check behind its own Radish hub connection for this sample.
     if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
         from .. import check_accessibility
-        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["current_native8675309"]
+        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())[
+            "current_native8675309"]
         assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
             "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5")
         original = check_accessibility.validate_all_checks
         inspected: list[bool] = []
+
         def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
             state = CollectionState(multiworld)
             state.sweep_for_advancements()
@@ -185,23 +187,14 @@ def test_generated_seed_matrix(
         with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
             _generate(monkeypatch, tmp_path, seed, [options])
         assert inspected == [True]
-        assert str(caught.value).splitlines()[-1] == "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Radish Ruins Vitality - Big Chest']"
+        assert str(caught.value).splitlines()[-1] == (
+            "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; "
+            "unreachable from placed progression=['Radish Ruins Vitality - Big Chest']")
         assert not tuple((tmp_path / "output").glob("*.zip"))
         return
-    # New Beam+Ice fill has a precise unsafe minimal sample; keep refusing it.
-    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
-        from ..check_accessibility import KirbyAmCheckAccessibilityError
-        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-            _generate(monkeypatch, tmp_path, seed, [options])
-        line = str(caught.value).splitlines()[-1]
-        assert "unfilled=[]; unavailable even with all inventory=[]" in line
-        # Preserve the historical refusal while asserting the exact new closed-wall result.
-        refusal = json.loads((Path(__file__).parent / "data/lever-seed1042-refusal.json").read_text())
-        assert refusal["prior_error_sha256"] == "c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879"
-        assert line == refusal["current_error"]
-        assert hashlib.sha256(line.encode()).hexdigest() == refusal["current_error_sha256"]
-        assert not tuple((tmp_path / "output").glob("*.zip"))
-        return
+    # Standard traversal rejects the old Crash-only source policy and resamples.
+    # Seed1042 now proceeds through the ordinary successful-generation assertions.
+    # The historical advanced-mode refusal is tested separately below.
     # Source-mode 1/2 refusals retain their existing exact sample boundaries.
     if seed == 8675309 and mode in (1, 2) and gating == 1 and accessibility == "minimal":
         from ..check_accessibility import KirbyAmCheckAccessibilityError
@@ -214,6 +207,10 @@ def test_generated_seed_matrix(
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
+    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
+        from .support.check_accessibility import audit_local_checks, LocalCheckAudit
+        assert decoded['slot_data'][1]['traversal_logic'] == 0
+        assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())
 
 
 @pytest.mark.parametrize("seed", SEEDS)
@@ -301,3 +298,24 @@ async def test_client_cutter_gate_respects_seed_policy_and_received_history(
                 assert bool(unlocked & (1 << 6)) == bool(received)
                 from ..data import data
                 assert set(memory) <= set(data.transport_ram_addresses.values())
+
+
+def test_historical_advanced_seed1042_still_refuses_unsafe_minimal_fill(monkeypatch, tmp_path):
+    from ..check_accessibility import KirbyAmCheckAccessibilityError
+    options = {'traversal_logic': 'advanced', 'ability_randomization_mode': 1,
+               'ability_gating': 1, 'accessibility': 'minimal',
+               'ability_randomization_no_ability_weight': 0,
+               'ability_randomization_statues': 0, 'ability_randomization_passive_enemies': 0,
+               'ability_randomization_minibosses': 0, 'ability_randomization_boss_spawns': 0,
+               'room_sanity': 0, 'area_keys': 1}
+    with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+        _generate(monkeypatch, tmp_path, 1042, [options])
+    line = str(caught.value).splitlines()[-1]
+    assert 'unfilled=[]; unavailable even with all inventory=[]' in line
+    # Advanced mode retains the exact main lever-corrected refusal; standard mode
+    # above still resamples its unsupported Crash-only source policy.
+    refusal = json.loads((Path(__file__).parent / 'data/lever-seed1042-refusal.json').read_text())
+    assert refusal['prior_error_sha256'] == 'c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879'
+    assert line == refusal['current_error']
+    assert hashlib.sha256(line.encode()).hexdigest() == refusal['current_error_sha256']
+    assert not tuple((tmp_path / 'output').glob('*.zip'))

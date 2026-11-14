@@ -53,7 +53,7 @@ def test_conditional_policy_preserves_base_rule_and_independent_entry(
     row = target_row()
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     assert rules.target_applies(row, resolver) is applies
-    assert rules.static_extra_witness(resolver)
+    assert rules.static_extra_witness(resolver, advanced=True)
 
     def original_rule(state):
         return state.base_rule
@@ -212,7 +212,7 @@ def test_four_or_alternatives_exact_target_and_preserved_prior_graphs():
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
-                for g in rules.target_graphs(row, False)] == [
+                for g in rules.target_graphs(row, False, advanced=True)] == [
                     ability == 'UFO', ability == 'Crash', ability == 'Cupid', False]
     for key, wrong in [('id', 'switch_other'), ('native_room', 533), ('kind', 'block'),
                        ('region', SOURCE_ROOM), ('location', 'MAJOR_CHEST_RAINBOW_ROUTE')]:

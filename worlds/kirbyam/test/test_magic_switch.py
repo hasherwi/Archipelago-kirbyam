@@ -209,9 +209,9 @@ def test_four_or_alternatives_preserve_graphs_and_exact_target():
     for ability in ('Bomb', 'UFO', 'Crash', 'Magic'):
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
-        assert rules.static_extra_witness(resolver)
+        assert rules.static_extra_witness(resolver, advanced=True)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
-                for g in rules.target_graphs(row, False)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic')]
+                for g in rules.target_graphs(row, False, advanced=True)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic')]
     for key, wrong in [('id', 'switch_other'), ('kind', 'block'), ('native_room', 310),
                        ('region', UPSTREAM), ('exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_17')]:
         altered = deepcopy(row)

@@ -405,6 +405,17 @@ class RoomSanity(Toggle):
     default = 0
 
 
+class TraversalLogic(Choice):
+    """Standard excludes Crash-dependent traversal. Advanced enables the reviewed
+    Crash routes, including their physical source and one-use timing requirements.
+    This does not assume helper combat or enable unreviewed routes.
+    """
+    display_name = "Traversal Logic"
+    option_standard = 0
+    option_advanced = 1
+    default = 0
+
+
 class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
@@ -426,6 +437,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     starting_kirby_color: StartingKirbyColor  # type: ignore[valid-type]
 
     no_extra_lives: NoExtraLives
+
+    traversal_logic: TraversalLogic
 
     ability_gating: AbilityGating
 
@@ -476,6 +489,7 @@ OPTION_GROUPS = [
         RoomSanity,
     ]),
     OptionGroup("Make the game harder", [
+        TraversalLogic,
         AbilityGating,
         EnableTraps,
         TrapFillPercentage,

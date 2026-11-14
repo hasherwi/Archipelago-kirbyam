@@ -334,7 +334,7 @@ def test_default_joint_search_preserves_stream_beyond_old_budget(
         wheel_checks.append(policy.candidate['ordinal'])
         return bool(policy.candidate['ordinal'] >= 1024)
 
-    def extra_witness(policy: SimpleNamespace) -> bool:
+    def extra_witness(policy: SimpleNamespace, *, advanced: bool = False) -> bool:
         extra_checks.append(policy.candidate['ordinal'])
         return bool(policy.candidate['ordinal'] >= first_valid_attempt - 1)
 

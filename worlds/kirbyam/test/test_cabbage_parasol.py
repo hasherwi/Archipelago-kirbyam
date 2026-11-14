@@ -215,7 +215,8 @@ def test_full_seed29_fill_uses_actual_policy_and_progression(tmp_path, monkeypat
     player = tmp_path / 'player.yaml'
     player.write_text(
         'name: Parasol517\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
-        '  ability_randomization_mode: 1\n  ability_randomization_no_ability_weight: 0\n'
+        # Historical seed29 also needs its FOLEY-to-Crash witness; retain that exact assignment.
+        '  traversal_logic: advanced\n  ability_randomization_mode: 1\n  ability_randomization_no_ability_weight: 0\n'
         f'  ability_gating: {gating}\n  area_keys: {area_keys}\n  enemy_health_multiplier: {health}\n'
         '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
     archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=29)
@@ -262,7 +263,8 @@ def test_full_seed29_start_inventory_is_reconciled_after_regions(
     player = tmp_path / 'player.yaml'
     player.write_text(
         'name: Starting Parasol\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
-        '  ability_randomization_mode: 1\n  ability_randomization_no_ability_weight: 0\n'
+        # Historical seed29 also needs its FOLEY-to-Crash witness; retain that exact assignment.
+        '  traversal_logic: advanced\n  ability_randomization_mode: 1\n  ability_randomization_no_ability_weight: 0\n'
         f'  ability_gating: {gating}\n  start_inventory:\n    Parasol Ability: {count}\n'
         f'  room_sanity: {int(not minor_chests)}\n'  # Supply slots when minor chests are disabled.
         '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
