@@ -483,7 +483,11 @@ def test_room_reachability_from_start() -> None:
         "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
         "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK",
     } <= reachable
-    assert len(reachable) == 360
+    assert "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE" in reachable
+    assert "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK" in reachable
+    assert "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE" in reachable
+    assert "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK" in reachable
+    assert len(reachable) == 364
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable

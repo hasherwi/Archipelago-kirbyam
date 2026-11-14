@@ -1,0 +1,236 @@
+{
+  "current": [
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "requirement": "cc_lever",
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "location",
+      "target": "LEVER_CARROT_CASTLE_5_12",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "requirement": "cc_lever",
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK",
+      "kind": "location",
+      "target": "ROOM_SANITY_5_05",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "kind": "location",
+      "target": "ROOM_SANITY_5_06",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "requirement": "rr_lever",
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_11",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+      "kind": "location",
+      "target": "LEVER_RADISH_RUINS_8_12",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "requirement": null,
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12",
+      "requirement": "rr_lever",
+      "room_sanity": false
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK",
+      "requirement": null,
+      "room_sanity": true
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK",
+      "kind": "location",
+      "target": "ROOM_SANITY_8_12",
+      "requirement": null,
+      "room_sanity": true
+    }
+  ],
+  "historical": {
+    "REGION_CARROT_CASTLE/ROOM_5_05": [
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "kind": "exit",
+        "target": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "kind": "exit",
+        "target": "REGION_CARROT_CASTLE/ROOM_5_06",
+        "requirement": "cc_lever",
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "kind": "exit",
+        "target": "REGION_CARROT_CASTLE/ROOM_5_07",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "kind": "location",
+        "target": "LEVER_CARROT_CASTLE_5_12",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "kind": "location",
+        "target": "ROOM_SANITY_5_05",
+        "requirement": null,
+        "room_sanity": true
+      }
+    ],
+    "REGION_CARROT_CASTLE/ROOM_5_06": [
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+        "kind": "exit",
+        "target": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+        "kind": "exit",
+        "target": "REGION_RADISH_RUINS/ROOM_8_12",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_CARROT_CASTLE/ROOM_5_06",
+        "kind": "location",
+        "target": "ROOM_SANITY_5_06",
+        "requirement": null,
+        "room_sanity": true
+      }
+    ],
+    "REGION_RADISH_RUINS/ROOM_8_12": [
+      {
+        "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+        "kind": "exit",
+        "target": "REGION_CARROT_CASTLE/ROOM_5_06",
+        "requirement": "rr_lever",
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+        "kind": "exit",
+        "target": "REGION_RADISH_RUINS/ROOM_8_11",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+        "kind": "location",
+        "target": "LEVER_RADISH_RUINS_8_12",
+        "requirement": null,
+        "room_sanity": false
+      },
+      {
+        "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+        "kind": "location",
+        "target": "ROOM_SANITY_8_12",
+        "requirement": null,
+        "room_sanity": true
+      }
+    ]
+  }
+}
