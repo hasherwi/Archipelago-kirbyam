@@ -88,6 +88,7 @@
   "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
+  "goal_game_protocol_version": 2,
   "health_protocol_version": 2,
   "hub_connection_protocol_version": 2,
   "locations": {
@@ -270,6 +271,150 @@
       "tags": [
         "Goal",
         "MAP_DIMENSION_MIRROR"
+      ]
+    },
+    "GOAL_GAME_1_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Rainbow Route - Goal Game 1",
+      "location_id": 3960700,
+      "tags": [
+        "Goal Games",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
+    "GOAL_GAME_1_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Rainbow Route - Goal Game 2",
+      "location_id": 3960701,
+      "tags": [
+        "Goal Games",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
+    "GOAL_GAME_1_GOAL_3": {
+      "category": "GOAL_GAME",
+      "label": "Rainbow Route - Goal Game 3",
+      "location_id": 3960702,
+      "tags": [
+        "Goal Games",
+        "MAP_RAINBOW_ROUTE"
+      ]
+    },
+    "GOAL_GAME_2_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Moonlight Mansion - Goal Game 1",
+      "location_id": 3960703,
+      "tags": [
+        "Goal Games",
+        "MAP_MOONLIGHT_MANSION"
+      ]
+    },
+    "GOAL_GAME_2_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Moonlight Mansion - Goal Game 2",
+      "location_id": 3960704,
+      "tags": [
+        "Goal Games",
+        "MAP_MOONLIGHT_MANSION"
+      ]
+    },
+    "GOAL_GAME_3_GOAL": {
+      "category": "GOAL_GAME",
+      "label": "Cabbage Cavern - Goal Game",
+      "location_id": 3960705,
+      "tags": [
+        "Goal Games",
+        "MAP_CABBAGE_CAVERN"
+      ]
+    },
+    "GOAL_GAME_4_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Mustard Mountain - Goal Game 1",
+      "location_id": 3960706,
+      "tags": [
+        "Goal Games",
+        "MAP_MUSTARD_MOUNTAIN"
+      ]
+    },
+    "GOAL_GAME_4_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Mustard Mountain - Goal Game 2",
+      "location_id": 3960707,
+      "tags": [
+        "Goal Games",
+        "MAP_MUSTARD_MOUNTAIN"
+      ]
+    },
+    "GOAL_GAME_6_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Olive Ocean - Goal Game 1",
+      "location_id": 3960708,
+      "tags": [
+        "Goal Games",
+        "MAP_OLIVE_OCEAN"
+      ]
+    },
+    "GOAL_GAME_6_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Olive Ocean - Goal Game 2",
+      "location_id": 3960709,
+      "tags": [
+        "Goal Games",
+        "MAP_OLIVE_OCEAN"
+      ]
+    },
+    "GOAL_GAME_7_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Peppermint Palace - Goal Game 1",
+      "location_id": 3960710,
+      "tags": [
+        "Goal Games",
+        "MAP_PEPPERMINT_PALACE"
+      ]
+    },
+    "GOAL_GAME_7_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Peppermint Palace - Goal Game 2",
+      "location_id": 3960711,
+      "tags": [
+        "Goal Games",
+        "MAP_PEPPERMINT_PALACE"
+      ]
+    },
+    "GOAL_GAME_8_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Radish Ruins - Goal Game 1",
+      "location_id": 3960712,
+      "tags": [
+        "Goal Games",
+        "MAP_RADISH_RUINS"
+      ]
+    },
+    "GOAL_GAME_8_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Radish Ruins - Goal Game 2",
+      "location_id": 3960713,
+      "tags": [
+        "Goal Games",
+        "MAP_RADISH_RUINS"
+      ]
+    },
+    "GOAL_GAME_9_GOAL_1": {
+      "category": "GOAL_GAME",
+      "label": "Candy Constellation - Goal Game 1",
+      "location_id": 3960714,
+      "tags": [
+        "Goal Games",
+        "MAP_CANDY_CONSTELLATION"
+      ]
+    },
+    "GOAL_GAME_9_GOAL_2": {
+      "category": "GOAL_GAME",
+      "label": "Candy Constellation - Goal Game 2",
+      "location_id": 3960715,
+      "tags": [
+        "Goal Games",
+        "MAP_CANDY_CONSTELLATION"
       ]
     },
     "HUB_SWITCH_CABBAGE_CAVERN_CENTER": {

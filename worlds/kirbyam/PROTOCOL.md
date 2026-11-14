@@ -277,6 +277,7 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
+- `goal_game_protocol_version` (int): `2` enables sixteen Goal Game checks with `APGOAL2\0` at ROM offset `0x1000010`; version 1 single-save prototypes must regenerate.
 - `copy_ability_room_protocol_version` (int): `2` requires the native three-file Copy Room ROM capability and authenticated ownership mailbox; prototype version `1` must regenerate.
 - `starting_copy_ability_room_access` (bool): true only when the access item was explicitly precollected; false by default.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
@@ -939,8 +940,10 @@ The native three-file selector, mode-menu Back behavior, slot validation, WORLD
 descriptors, 788-byte saved WORLD copies, checksum rules and backup offsets are
 unchanged. Each selected native file stores its own seed-authenticated ownership
 in previously unused WORLD words 22–26 (`0x02028C68`): words 22–25 hold the full
-16-byte ROM auth token, word 26 is `0x43500000 | owned` with ownership exactly
-zero or one. Native WORLD word 18 is derived, never authority. A vanilla unlock,
+16-byte ROM auth token, word 26 is `0x43500000 | (goal_flags << 1) | owned` with ownership exactly
+zero or one and sixteen Goal Game completion bits. Ownership grants preserve the
+Goal Game flags; completions preserve ownership. Existing protocol-2 records with
+zero Goal Game flags remain valid. Native WORLD word 18 is derived, never authority. A vanilla unlock,
 a mismatching seed, or the old prototype record never grants access. Hub words
 27–31 are untouched. There is no single-save bypass, 4 KiB extension or shared-save
 protocol dependency. Preserve original saves; the deferred prototype's expanded
@@ -999,3 +1002,47 @@ sources. Native linked-GBA multiplayer is unsupported; AP multiworld is separate
 Host lifecycle/transport regressions are not native emulator or real-server
 acceptance. See [native acceptance and limits](dev-docs/copy-room-native-save-acceptance.md)
 for the tested patch identity and actual replay coverage.
+
+
+## Goal Game completion checks (issue #1000, protocol 2)
+
+All sixteen physical Goal Games are default item checks, including zero-prize
+completions. Checks are independent of Room Sanity and chests; they add no new
+100% goal condition. Exact source doors and exit-route rules identify each game.
+Native `gVisitedDoors` indices are not completion evidence.
+
+The capability is `APGOAL2\0` at ROM offset `0x1000010` and
+`goal_game_protocol_version: 2`. The former protocol-1 APSHR02 single-save
+prototype is rejected. Regenerate matching seeds, clients and ROM patches.
+The native three-file selector, 788-byte WORLD copies, checksums and layout are
+unchanged. No 4 KiB save extension or File 1 bypass is restored.
+
+Goal flags occupy bits 1–16 of WORLD word 26 alongside Copy Room ownership at
+bit 0 and tag `0x43500000`. Both use the existing full seed authentication in
+words 22–25 and the Copy Room active native-file context. Goal completions OR
+only their flag, and Copy Room grants OR only ownership. Neither clears the
+other feature. A fresh or mismatched-seed record starts with all flags clear.
+Existing current-main records are valid and have zero goal flags. Do not
+use an older payload after saving Goal Game flags: its stricter record validator
+would reinitialize the record and lose those flags and cached Copy Room access.
+Preserve original saves. Expanded single-save prototype saves are not migrated.
+
+The transient run at `0x0203B170` records exact source-door identity, context
+epoch, scene, participant star and phase. Entry alone, abort, death, another
+file/epoch, a wrong participant or another doorway cannot award completion.
+The native landing callback after the completion delay awards the bit, including
+zero prizes, then the existing context saves both native checksummed copies.
+Failed saves retry in the same active file. Unsaved completion can be lost on
+power loss or leaving the context; arbitrary rewind is not a durability promise.
+
+The client reads active context, full saved record and ROM auth twice, fences
+native file/epoch and AP session/socket identity, and only reports matching
+currently missing checks. It rereads persistent bits after reconnect; no pending
+RAM-derived queue crosses a connection. Hub words 27–31 and the Copy Room
+ownership mailbox are unchanged. Linked-GBA native multiplayer is unsupported.
+
+The historical `dev-docs/goal-game-evidence.json` describes the old single-save
+prototype, not acceptance of this three-file integration. Current host tests
+cover all sixteen completion events, three-file save/reload, grant preservation,
+failed-save retries, seed isolation and reconnect fencing. Fresh emulator
+acceptance of the integrated three-file payload remains outstanding.

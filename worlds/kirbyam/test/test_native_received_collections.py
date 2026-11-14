@@ -20,6 +20,8 @@ def test_mailbox_collections_and_active_player_vitality(tmp_path: Path) -> None:
         pytest.skip('requires Linux mapped memory and a C compiler')
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
     source += "\n" + (WORLD / 'kirby_ap_payload/copy_room.c').read_text()
+    # Link the shipping Goal Game poll called by the real mailbox.
+    source += "\n" + (WORLD / 'kirby_ap_payload/goal_game.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')

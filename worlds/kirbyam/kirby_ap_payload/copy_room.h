@@ -7,6 +7,8 @@
 /* Native WORLD words 22..26; Hub checks remain independent in 27..31. */
 #define AP_COPY_TAG 0x43500000u
 #define AP_COPY_OWNED 1u
+#define AP_GOAL_FLAGS 0x0001FFFEu
+AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit);
 struct ApCopyContext {
     uint32_t epoch, serial, slot, dirty, loaded_slot, task, owned, cookie, retry;
 };

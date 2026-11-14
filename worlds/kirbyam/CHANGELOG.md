@@ -8,6 +8,17 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+- All sixteen Goal Games award a check when completed, including runs with no prizes. Checks persist per native save file and report on reconnect, independently of Room Sanity and chests.
+
+### Known Limitations
+- Goal Game checks require matching protocol-2 seeds, client and ROM patch. Fresh emulator acceptance of the integrated three-file persistence remains pending; older single-save prototype evidence does not validate this payload. Preserve original saves and do not downgrade a payload after saving Goal Game flags (PR #1026).
+
+### Internal Changes
+- Store sixteen Goal Game flags beside Copy Room ownership in the existing authenticated, isolated three-file WORLD record. Fence reconnect reporting by current save, ROM and session identity (PR #1026).
+
 ## v0.5.1
 
 ### New Features

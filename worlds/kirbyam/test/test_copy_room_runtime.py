@@ -104,6 +104,33 @@ int main(void) {
     FLAGS=0x10;CHECK(!ap_copy_room_epoch());FLAGS=0;CHECK(!ap_copy_room_epoch());
     CHECK(ap_copy_room_load(1,2)==0);START();CHECK(ap_copy_room_owned());
     U32(CTX->task+8)=0;CHECK(!ap_copy_room_epoch());
+    /* Goal Game completion shares the authenticated native file, not ownership.
+     * All sixteen bits survive saving, cold context reload and duplicate grants. */
+    for(unsigned slot=0;slot<3;slot++) {
+        SAVE_SLOT=slot;CHECK(ap_copy_room_load(1,slot)==0);START();
+        CHECK(ap_copy_room_epoch());
+        for(unsigned bit=0;bit<16;bit++) ap_copy_room_complete_goal(bit);
+        CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS && ap_copy_room_owned());
+        fail_save=1;ap_copy_room_poll();CHECK(CTX->dirty);
+        fail_save=0;for(unsigned i=0;i<61;i++)ap_copy_room_poll();
+        CHECK(!CTX->dirty && files[slot][26]==(AP_COPY_TAG|AP_GOAL_FLAGS|1));
+        unsigned before=saves[slot];
+        ap_copy_room_complete_goal(15);ap_copy_room_complete_goal(16);COMMAND(1);
+        CHECK(saves[slot]==before && !CTX->dirty);
+        memset((void*)CTX,0,sizeof(*CTX));
+        CHECK(ap_copy_room_load(1,slot)==0);START();
+        CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS && ap_copy_room_owned());
+    }
+    /* A fresh file has no flags and a grant must preserve its partial goal set. */
+    SAVE_SLOT=1;ap_copy_room_clear(1);START();
+    CHECK(!ap_copy_room_owned() && !(RECORD[4]&AP_GOAL_FLAGS));
+    ap_copy_room_complete_goal(3);COMMAND(1);
+    CHECK(RECORD[4]==(AP_COPY_TAG|1u|(1u<<4)));
+    SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
+    CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS); /* File 1 clear stayed isolated. */
+    FLAGS=0x10;uint32_t inactive_record=RECORD[4];
+    ap_copy_room_complete_goal(0);CHECK(RECORD[4]==inactive_record && !CTX->epoch);
+    FLAGS=0;
     /* Wrong seed is never migrated from native word18 or old record. */
     ((uint32_t*)AUTH)[3]^=1;SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
     CHECK(!ap_copy_room_owned());COMMAND(0);CHECK(files[2][26]==AP_COPY_TAG);

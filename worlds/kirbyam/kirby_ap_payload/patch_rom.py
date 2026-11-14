@@ -1022,6 +1022,9 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
 
 def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
     targets = {
+        "goal_transition_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_transition_entry"),
+        "goal_start_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_start_callback"),
+        "goal_landed_target": resolve_elf_symbol_address(payload_elf_path, "ap_goal_landed_callback"),
         "treasure_paint_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_treasure_paint_selection"),
         "vitality_menu_hook_target": resolve_elf_symbol_address(
@@ -1091,6 +1094,9 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "goal_transition_target": "Goal Game doorway transition",
+    "goal_start_target": "Goal Game start callback",
+    "goal_landed_target": "Goal Game landing callback",
     "copy_room_load_target": "Copy Room load guard",
     "copy_room_clear_target": "Copy Room clear guard",
     "copy_room_state_target": "Copy Room state guard",
@@ -1134,6 +1140,10 @@ def validate_payload_targets(
     payload_rom_end: int,
 ) -> None:
     for name, target in hook_targets.items():
+        if name in ("goal_start_target", "goal_landed_target"):
+            if not 0x09000000 <= target < 0x0900FFD4:
+                raise SystemExit("Goal Game callback outside extension")
+            continue
         if not (payload_rom_start <= target < payload_rom_end):
             raise SystemExit(
                 "Error: "
@@ -1142,6 +1152,22 @@ def validate_payload_targets(
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
             )
+
+
+def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    writes = {}
+    for offset, native, key in ((0xC5F0, 0x0800DCAD, "goal_start_target"),
+                                (0xD2DC, 0x0800D2E1, "goal_landed_target")):
+        validate_expected_instruction_sequence(rom, offset, native.to_bytes(4, "little"), key)
+        target = targets[key] | 1
+        if not 0x09000000 <= target < 0x0900FFD4:
+            raise SystemExit("Goal Game callback outside extension")
+        writes[offset] = target.to_bytes(4, "little")
+    offset = 0x55DF0
+    validate_expected_instruction_sequence(rom, offset, thumb_bl_bytes(0x08000000 + offset, 0x080562D0),
+                                           "Goal Game doorway transition")
+    writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["goal_transition_target"])
+    return writes
 
 
 COPY_ROOM_NATIVE_CALLS = (
@@ -1720,6 +1746,7 @@ def patch_rom_with_payload(
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
     regression_writes.update(build_copy_room_context_writes(rom, hook_targets))
+    regression_writes.update(build_goal_game_writes(rom, hook_targets))
     regression_writes.update(build_copy_room_native_grant_writes(rom))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(

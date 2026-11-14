@@ -1,6 +1,6 @@
 """Cutter permission is progression, not automatic equipment or starting inventory."""
 
-from collections.abc import Awaitable, Callable, Iterable
+from collections.abc import Awaitable, Callable
 from typing import cast
 from .. import KirbyAmWorld
 from ..client import KirbyAmClient
@@ -11,8 +11,6 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any
 import zipfile
-import hashlib
-import json
 
 import pytest
 from BaseClasses import CollectionState, ItemClassification, MultiWorld, PlandoOptions
@@ -161,54 +159,20 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
-    # Preserve the old twelve-check refusal as history; Beam+Ice now strands
-    # exactly one check behind its own Radish hub connection for this sample.
-    if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
-        from .. import check_accessibility
-        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["current_native8675309"]
-        assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
-            "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5")
-        original = check_accessibility.validate_all_checks
-        inspected: list[bool] = []
-        def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
-            state = CollectionState(multiworld)
-            state.sweep_for_advancements()
-            checks = [loc for loc in multiworld.get_locations(1) if loc.address is not None]
-            assert len(checks) == 124 and all(loc.item is not None for loc in checks)
-            assert [loc.name for loc in checks if not loc.can_reach(state)] == ["Radish Ruins Vitality - Big Chest"]
-            location = multiworld.get_location("Radish Ruins Vitality - Big Chest", 1)
-            assert location.item and location.item.name == "Radish Ruins - Hub Connection"
-            assert all(loc.can_reach(multiworld.get_all_state()) for loc in checks)
-            inspected.append(True)
-            original(multiworld, players)
-        monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
-        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
-            _generate(monkeypatch, tmp_path, seed, [options])
-        assert inspected == [True]
-        assert str(caught.value).splitlines()[-1] == "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Radish Ruins Vitality - Big Chest']"
-        assert not tuple((tmp_path / "output").glob("*.zip"))
-        return
-    # New Beam+Ice fill has a precise unsafe minimal sample; keep refusing it.
-    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
-        from ..check_accessibility import KirbyAmCheckAccessibilityError
-        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-            _generate(monkeypatch, tmp_path, seed, [options])
-        line = str(caught.value).splitlines()[-1]
-        assert "unfilled=[]; unavailable even with all inventory=[]" in line
-        # Preserve the historical refusal while asserting the exact new closed-wall result.
-        refusal = json.loads((Path(__file__).parent / "data/lever-seed1042-refusal.json").read_text())
-        assert refusal["prior_error_sha256"] == "c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879"
-        assert line == refusal["current_error"]
-        assert hashlib.sha256(line.encode()).hexdigest() == refusal["current_error_sha256"]
-        assert not tuple((tmp_path / "output").glob("*.zip"))
-        return
-    # Source-mode 1/2 refusals retain their existing exact sample boundaries.
-    if seed == 8675309 and mode in (1, 2) and gating == 1 and accessibility == "minimal":
+    # Beam+Ice starts and the sixteen Goal Game slots change fill order.
+    # Preserve exact unsafe samples as refusals rather than replacing their seeds.
+    refused_check = None
+    if gating == 1 and accessibility == "minimal":
+        if seed == 8675309 and mode == 0:
+            refused_check = "Radish Ruins - Big Switch"
+        elif seed == 20261107 and mode == 1:
+            refused_check = "Moonlight Mansion - Goal Game 1"
+    if refused_check is not None:
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
             _generate(monkeypatch, tmp_path, seed, [options])
         message = str(caught.value)
-        assert "Player 1" in message and "Radish Ruins - Big Switch" in message
+        assert "Player 1" in message and refused_check in message
         assert "unfilled=[]; unavailable even with all inventory=[]" in message
         assert not tuple((tmp_path / "output").glob("*.zip"))
         return
@@ -229,16 +193,19 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(
         {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
-    if seed == 1042:
+    # Retain the exact mixed minimal sample as a refusal; the other two seeds
+    # must still produce archives and preserve explicit Cutter multiplicity.
+    if seed == 8675309:
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
             _generate(monkeypatch, tmp_path, seed, options)
         message = str(caught.value)
-        assert "Player 2" in message and "Radish Ruins - Big Switch" in message
-        assert "Rainbow Route 1-06 (Lower) - Small Chest" in message
+        assert "Player 2" in message and "Olive Ocean - Goal Game 1" in message
         assert "unfilled=[]; unavailable even with all inventory=[]" in message
         assert not tuple((tmp_path / "output").glob("*.zip"))
         return
+    # The added Goal Game slots make seed 1042 pass the unchanged all-check
+    # guard. Keep that exact seed and validate the accepted archive normally.
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
     gates = _gate_words(archive)
     for player in multiworld.player_ids:

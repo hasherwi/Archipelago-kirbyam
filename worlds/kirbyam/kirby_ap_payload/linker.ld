@@ -37,7 +37,7 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     ap_extension_code_end = .;
     . = 0xFFD4;
     KEEP(*(.apcopyinfo))
@@ -57,3 +57,5 @@ ASSERT(ap_extension_code_end <= 0x0900FFD4, "Enemy source config overlaps extens
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
 ASSERT(ap_copy_room_marker == 0x0900FFD4, "Copy Room marker address changed")
+
+ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")

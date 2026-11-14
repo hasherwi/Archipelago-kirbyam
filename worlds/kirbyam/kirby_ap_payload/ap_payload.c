@@ -3,6 +3,7 @@
 #include "hub_connection_runtime_logic.h"
 #include "hub_save_logic.h"
 #include "copy_room.h"
+AP_COPY_EXT void ap_goal_poll(void);
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -2155,8 +2156,9 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
 }
 
 
-void ap_poll_mailbox_c(void) {
+AP_COPY_EXT void ap_poll_mailbox_c(void) {
     ap_copy_room_poll();
+    ap_goal_poll();
 
     // Hook liveness diagnostic counter; increments on every AP hook entry.
     AP_HOOK_HEARTBEAT++;

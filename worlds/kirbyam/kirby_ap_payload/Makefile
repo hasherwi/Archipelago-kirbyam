@@ -19,7 +19,7 @@ LDFLAGS := -T linker.ld -nostdlib
 
 all: payload.bin color_payload.bin
 
-payload.elf: ap_payload.o ap_hook.o color_payload.o copy_room.o
+payload.elf: ap_payload.o ap_hook.o color_payload.o copy_room.o goal_game.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lgcc
 
 ap_payload.o: ap_payload.c copy_room.h area_key_objects.inc statue_runtime_logic.h minor_chest_runtime_logic.h lever_runtime_logic.h vitality_runtime_logic.h hub_connection_runtime_logic.h hub_save_logic.h generated_hub_switch_tables.inc color_runtime_logic.h color_tables.h enemy_runtime_logic.h candy_runtime_logic.h transition_runtime_logic.h transition_route_logic.h
@@ -44,4 +44,7 @@ color_payload.bin: payload.elf
 	$(OBJCOPY) -O binary --only-section=.apcolors $< $@
 
 copy_room.o: copy_room.c copy_room.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+goal_game.o: goal_game.c copy_room.h goal_game_runtime_logic.h generated_goal_game_doors.inc
 	$(CC) $(CFLAGS) -c -o $@ $<

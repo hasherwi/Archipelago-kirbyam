@@ -16,16 +16,19 @@ from .test_yellow_ufo_upstream_evidence import lf_text_sha256
 from .support.normal110_history import before_normal110
 from .support.master719_history import before_master719
 from .support.green138_history import before_green138
+from .support.main_sync_history import main_text
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'dev-docs/rainbow-beam538-acceptance.json'
 
 
 def historical_client_before_ice_start(raw, expected):
-    """Project only the reviewed two-line receipt expansion, never rewrite evidence."""
+    """Reverse the pinned feature delta, then the reviewed two-line Ice receipt expansion."""
+    raw = main_text('client.py', raw)
     text = raw.decode('utf-8').replace('\r\n', '\n')
     changes = (
-        ('from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities, starting_copy_abilities',
+        ('from .enemy_ability_data import STARTING_COPY_ABILITIES, '
+         'resolve_slot_gateable_abilities, starting_copy_abilities',
          'from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities'),
         ('{f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}',
          '{f"{name} Ability" for name in STARTING_COPY_ABILITIES}'),
@@ -234,9 +237,10 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'regions': 366, 'mapped_native_definitions': 343, 'locations': 384,
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert current['counts'] == {
-        'regions': 386, 'mapped_native_definitions': 354, 'locations': 384,
-        'surfaces': 1091, 'room_sanity_locations': 263, 'installed_target_definitions': 57}
-    assert set(snapshot['input_sha256']) == set(current['input_sha256'])
+        'regions': 386, 'mapped_native_definitions': 354, 'locations': 400,
+        'surfaces': 1107, 'room_sanity_locations': 263, 'installed_target_definitions': 57}
+    assert set(snapshot['input_sha256']) | {
+        'data/goal_game_doors.json', 'data/locations_goal_games.json'} == set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
     assert snapshot['new_surface'] == {

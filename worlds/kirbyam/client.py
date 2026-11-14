@@ -24,6 +24,7 @@ from .copy_room_protocol import (
     COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
     copy_room_slot_version, sync_copy_room_ownership,
 )
+from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -2065,6 +2066,12 @@ class KirbyAmClient(BizHawkClient):
             return False
         version = getattr(self, "_health_protocol_version", 1)
         try:
+            if goal_slot_version(slot):
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, "ROM")]))[0]
+                if session_expired():
+                    return False
+                if bytes(marker) != GOAL_MARKER:
+                    raise ValueError("ROM and slot Goal Game versions differ")
             copy_room_version = copy_room_slot_version(slot)
             if copy_room_version:
                 marker = (await bizhawk.read(ctx.bizhawk_ctx, [(COPY_ROOM_MARKER_OFFSET, 8, "ROM")]))[0]
@@ -2299,6 +2306,7 @@ class KirbyAmClient(BizHawkClient):
             await self._poll_hub_switch_locations(ctx)
 
             await self._reconcile_lever_activations(ctx)
+            await poll_goal_games(ctx)
             # Physical lever checks remain independent of native wall ownership.
             await self._poll_lever_locations(ctx)
 
