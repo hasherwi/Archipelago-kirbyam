@@ -743,7 +743,8 @@
       "completion_index": 252,
       "object_list_index": 252,
       "ap_keys": [
-        "REGION_CARROT_CASTLE/ROOM_5_05"
+        "REGION_CARROT_CASTLE/ROOM_5_05",
+        "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE"
       ],
       "wiki_title": "Carrot Castle - Room 5",
       "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_5",

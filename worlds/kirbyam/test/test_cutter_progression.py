@@ -195,7 +195,11 @@ def test_generated_seed_matrix(
             _generate(monkeypatch, tmp_path, seed, [options])
         line = str(caught.value).splitlines()[-1]
         assert "unfilled=[]; unavailable even with all inventory=[]" in line
-        assert hashlib.sha256(line.encode()).hexdigest() == "c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879"
+        # Preserve the historical refusal while asserting the exact new closed-wall result.
+        refusal = json.loads((Path(__file__).parent / "data/lever-seed1042-refusal.json").read_text())
+        assert refusal["prior_error_sha256"] == "c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879"
+        assert line == refusal["current_error"]
+        assert hashlib.sha256(line.encode()).hexdigest() == refusal["current_error_sha256"]
         assert not tuple((tmp_path / "output").glob("*.zip"))
         return
     # Source-mode 1/2 refusals retain their existing exact sample boundaries.

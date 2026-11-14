@@ -84,7 +84,7 @@ def area_key_entrance_area_ids() -> dict[str, int]:
     # the later cross-area exit. Other room edges retain destination semantics.
     gated["REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER -> "
           "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"] = 6
-    gated["REGION_CARROT_CASTLE/ROOM_5_05 -> REGION_CARROT_CASTLE/ROOM_5_06"] = 8
+    gated["REGION_CARROT_CASTLE/ROOM_5_05 -> REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE"] = 8
     return gated
 
 

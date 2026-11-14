@@ -112,7 +112,7 @@ def test_generated_carrot_wall_still_requires_received_wall_item() -> None:
     multiworld = setup_solo_multiworld(KirbyAmWorld, seed=972)
     room = multiworld.get_region("REGION_CARROT_CASTLE/ROOM_5_05", 1)
     wall_exit = next(exit for exit in room.exits if exit.connected_region is not None
-                     and exit.connected_region.name == "REGION_CARROT_CASTLE/ROOM_5_06")
+                     and exit.connected_region.name == "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE")
     state = CollectionState(multiworld)
     assert not wall_exit.access_rule(state)
     world = multiworld.worlds[1]
@@ -131,7 +131,7 @@ def test_carrot_lever_move_preserves_current_room_topology() -> None:
     rooms = cast(dict[str, Any], load_json_data("regions/rooms.json"))
     assert rooms["REGION_CARROT_CASTLE/ROOM_5_05"]["exits"] == {
         "REGION_CARROT_CASTLE/ROOM_5_HUB": None,
-        "REGION_CARROT_CASTLE/ROOM_5_06": "cc_lever",
+        "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE": "cc_lever",
         "REGION_CARROT_CASTLE/ROOM_5_07": None,
     }
     old_room = rooms["REGION_CARROT_CASTLE/ROOM_5_12"]

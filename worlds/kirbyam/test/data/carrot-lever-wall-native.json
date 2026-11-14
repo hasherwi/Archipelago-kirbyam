@@ -1,0 +1,35 @@
+{
+  "native_room": 170,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "wall_tiles": [
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      4,
+      8
+    ]
+  ],
+  "closed_component_sizes": [
+    6,
+    327
+  ],
+  "chute_spawn_tiles": [
+    3,
+    9
+  ],
+  "spawn_collision_cell": [
+    2,
+    8
+  ],
+  "lever_tiles": [
+    3,
+    5
+  ],
+  "scope": "Static geometry only; not native gameplay or seed completion."
+}

@@ -87,3 +87,40 @@ CI additionally caught the new compartment missing from the explicit native-room
 map and two stale expected counts. Added the alias to native room 619, regenerated
 the mapping table, and corrected counts (384 compiled regions, 353 native mapped
 definitions). All 457 tools-policy tests pass after these metadata corrections.
+
+## All-four audit follow-up
+
+The Carrot room 170 has the same arrival-side issue: the 181 chute arrives
+at (3,9), collision cell (2,8), inside a six-cell pocket behind the F2 wall
+at x=4,y=6..8. Its lever (3,5), upper door and onward right door are in the
+separate 327-cell main component. `verify_carrot_lever_wall.py` reproduces
+this static separation. `CHUTE_SIDE` therefore has its own ungated return,
+while crossing either way requires `cc_lever`. Physical room credit is a
+singleton sink; neither side borrows the other's lever access.
+
+Olive room 824 has the analogous wall at x=9,y=1..3 with component sizes12/54;
+the existing `ENTRY_FROM_MOONLIGHT` compartment already represents the entry
+side. No new Olive topology change is justified by this static check.
+Moonlight room743's trigger at `0x8BE19C` is at cell(9,6). Its connected
+lever-controlled chain is exactly x=8..9,y=5..7. The other20 F2 cells are
+not attached to that trigger and must not be treated as lever walls.
+`verify_all_lever_chains.py` follows collision attribute0x40 adjacency from
+all four type0x91 trigger templates, each with counter selector1/value1.
+The current Moonlight before/after/dead-end split gates both directions of
+the chute barrier by `mm_lever`; no topology edit is warranted by this audit.
+The separate pre-existing `ordinary-743-joint-lever-acceptance.json` records
+bounded main-to-lever-to180 gameplay at default/500% health, including its
+intentional Normal postcondition. It is historical evidence, not a fresh run
+or proof of arbitrary routes or universal multiplayer behavior.
+
+All four lever trigger chains have now been statically attributed. Two
+arrival-side topology corrections are included (Radish and Carrot); Olive
+and Moonlight retain existing gates. This is not a completed all-four native
+gameplay or original tester-seed audit.
+
+The structural tests reverse only the exact Carrot/Radish surface delta and
+recover the unchanged historical404 surface hash. The source-monotonicity
+catalog's only changed field is the `rooms.json` source hash; its graphs,
+capabilities and provenance are unchanged. The seed1042 minimal sample is
+still rejected with no archive; the exact changed inaccessible-check list is
+recorded separately rather than relabeling the old refusal as new evidence.
