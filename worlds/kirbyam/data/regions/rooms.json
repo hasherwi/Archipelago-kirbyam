@@ -9897,12 +9897,20 @@
     },
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_HUB": null,
-      "REGION_CARROT_CASTLE/ROOM_5_06": "cc_lever",
-      "REGION_CARROT_CASTLE/ROOM_5_07": null
+      "REGION_CARROT_CASTLE/ROOM_5_07": null,
+      "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE": "cc_lever"
     },
     "events": [
       "Activate Lever - Carrot Castle 5-05"
-    ]
+    ],
+    "logical_subregions": {
+      "CHUTE_SIDE": {
+        "exits": {
+          "REGION_CARROT_CASTLE/ROOM_5_05": "cc_lever",
+          "REGION_CARROT_CASTLE/ROOM_5_06": null
+        }
+      }
+    }
   },
   "REGION_CARROT_CASTLE/ROOM_5_06": {
     "locations": {
@@ -9915,6 +9923,10 @@
     "exits": {
       "REGION_CARROT_CASTLE/ROOM_5_05": null,
       "REGION_RADISH_RUINS/ROOM_8_12": null
+    },
+    "logical_exit_overrides": {
+      "REGION_RADISH_RUINS/ROOM_8_12": "CARROT_SIDE",
+      "REGION_CARROT_CASTLE/ROOM_5_05": "CHUTE_SIDE"
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_07": {
@@ -15732,8 +15744,18 @@
       "LEVER_RADISH_RUINS_8_12": null
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_06": "rr_lever",
+      "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE": "rr_lever",
       "REGION_RADISH_RUINS/ROOM_8_11": null
+    },
+    "logical_subregions": {
+      "CARROT_SIDE": {
+        "exits": {
+          "REGION_CARROT_CASTLE/ROOM_5_06": null,
+          "REGION_RADISH_RUINS/ROOM_8_12": "rr_lever"
+        },
+        "locations": [],
+        "events": []
+      }
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_13": {

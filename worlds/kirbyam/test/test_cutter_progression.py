@@ -165,11 +165,13 @@ def test_generated_seed_matrix(
     # exactly one check behind its own Radish hub connection for this sample.
     if (seed, mode, gating, accessibility) == (8675309, 0, 1, "minimal"):
         from .. import check_accessibility
-        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["current_native8675309"]
+        historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())[
+            "current_native8675309"]
         assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
             "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5")
         original = check_accessibility.validate_all_checks
         inspected: list[bool] = []
+
         def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
             state = CollectionState(multiworld)
             state.sweep_for_advancements()
@@ -185,7 +187,9 @@ def test_generated_seed_matrix(
         with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
             _generate(monkeypatch, tmp_path, seed, [options])
         assert inspected == [True]
-        assert str(caught.value).splitlines()[-1] == "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Radish Ruins Vitality - Big Chest']"
+        assert str(caught.value).splitlines()[-1] == (
+            "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; "
+            "unreachable from placed progression=['Radish Ruins Vitality - Big Chest']")
         assert not tuple((tmp_path / "output").glob("*.zip"))
         return
     # Standard traversal rejects the old Crash-only source policy and resamples.
@@ -308,5 +312,10 @@ def test_historical_advanced_seed1042_still_refuses_unsafe_minimal_fill(monkeypa
         _generate(monkeypatch, tmp_path, 1042, [options])
     line = str(caught.value).splitlines()[-1]
     assert 'unfilled=[]; unavailable even with all inventory=[]' in line
-    assert hashlib.sha256(line.encode()).hexdigest() == 'c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879'
+    # Advanced mode retains the exact main lever-corrected refusal; standard mode
+    # above still resamples its unsupported Crash-only source policy.
+    refusal = json.loads((Path(__file__).parent / 'data/lever-seed1042-refusal.json').read_text())
+    assert refusal['prior_error_sha256'] == 'c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879'
+    assert line == refusal['current_error']
+    assert hashlib.sha256(line.encode()).hexdigest() == refusal['current_error_sha256']
     assert not tuple((tmp_path / 'output').glob('*.zip'))

@@ -209,10 +209,12 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 native provenance remains 144; Master719 and Green138 each add exactly one graph.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 146}
+    assert status['counts'] == {**contract['counts'], 'witnesses': 146,
+                                'regions': 386, 'mapped_native_definitions': 354, 'surfaces': 1091}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (382, 384, 1083, 57, 146)
-    assert digest(coverage['surfaces']) == contract['normalized_surface_sha256']
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 384, 1091, 57, 146)
+    from .support.lever_history import before_lever_compartments
+    assert digest(before_lever_compartments(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green and exact Crash logic annotations off the Master-era pin.
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
