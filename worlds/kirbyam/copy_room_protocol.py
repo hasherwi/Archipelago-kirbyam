@@ -57,6 +57,14 @@ async def sync_copy_room_ownership(ctx: Any, history_ready: Callable[[Any], bool
     slot = getattr(ctx, "slot_data", {})
     if not copy_room_slot_version(slot) or not history_ready(ctx):
         return False
+    # Fence scalar authorization too: slot dictionaries can change in place
+    # while either connector read is pending. Types distinguish bool/int aliases;
+    # the sentinel distinguishes absent optional fields from explicit None.
+    missing = object()
+    grant_config = {key: slot.get(key, missing) for key in (
+        "copy_ability_room_protocol_version", "shared_save_protocol_version",
+        "starting_copy_ability_room_access",
+    )}
     session = _session(ctx)
     items = tuple(ctx.items_received)
     owned = slot.get("starting_copy_ability_room_access", False)
@@ -76,6 +84,8 @@ async def sync_copy_room_ownership(ctx: Any, history_ready: Callable[[Any], bool
     fence = await bizhawk.read(ctx.bizhawk_ctx, [
         (COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"), (0xF00000, 16, "ROM")])
     if (session != _session(ctx) or ctx.slot_data is not slot or not history_ready(ctx)
+            or any(type(slot.get(key, missing)) is not type(value) or slot.get(key, missing) != value
+                   for key, value in grant_config.items())
             or tuple(ctx.items_received) != items or len(raw) != 2 or len(fence) != 2
             or bytes(raw[1]) != auth or bytes(fence[1]) != auth):
         return False

@@ -18,6 +18,7 @@ def test_shipping_switch_callback_and_initializer(tmp_path):
     payload = Path(__file__).resolve().parents[1] / 'kirby_ap_payload'
     source = (payload / 'ap_payload.c').read_text()
     source += "\n" + (payload / 'copy_room.c').read_text()
+    source += "\n" + (payload / 'phone.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -45,6 +46,7 @@ static int16_t fake_save(uint32_t section, uint16_t slot) {
 }
 static void fake_network(uint32_t request) { if(request==8) network_requests++; }
 int main(void) {
+    CHECK(mmap((void*)0x09000000u,0x10000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x09000000u);
     CHECK(mmap((void*)0x02000000u,0x40000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02000000u);
     CHECK(mmap((void*)0x08F00000u,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08F00000u);
     CHECK(mmap((void*)0x08340000u,65536,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x08340000u);

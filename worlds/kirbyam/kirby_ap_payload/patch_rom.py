@@ -1153,6 +1153,15 @@ COPY_ROOM_NATIVE_CALLS = (
 )
 
 
+def build_phone_gate_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    """Gate the common R entry, never L or individual state-specific callsites."""
+    validate_expected_instruction_sequence(
+        rom, 0x56C2C, bytes.fromhex("f0 b5 47 46 80 b4 81 b0"), "Phone R entry prologue")
+    if not 0x09000000 <= (target & ~1) < 0x0900FFC8:
+        raise SystemExit("Phone entry is outside the verified ROM extension")
+    return {0x56C2C: bytes.fromhex("00 4b 18 47") + (target | 1).to_bytes(4, "little")}
+
+
 def build_copy_room_context_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
     """Wrap exact USA calls, preserving native selector, bounds and save layout."""
     writes = {}
@@ -1721,6 +1730,8 @@ def patch_rom_with_payload(
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
     regression_writes.update(build_copy_room_context_writes(rom, hook_targets))
     regression_writes.update(build_copy_room_native_grant_writes(rom))
+    regression_writes.update(build_phone_gate_writes(
+        rom, hook_targets["phone_call_extension_target"]))
     regression_writes.update(build_runtime_regression_writes(rom, hook_targets, rom_base))
     regression_writes.update(build_health_hud_writes(
         rom, hook_targets["health_hud_hook_target"], rom_base))
@@ -2060,6 +2071,8 @@ def main() -> None:
         payload_rom_start = rom_base + PAYLOAD_OFFSET
         payload_rom_end = payload_rom_start + len(payload)
         validate_payload_targets(hook_targets, payload_rom_start, payload_rom_end)
+        hook_targets["phone_call_extension_target"] = resolve_elf_symbol_address(
+            payload_elf_path, "ap_phone_call_entry")
 
         hook_bl_bytes = build_payload_hook_bl_bytes(hook_targets, rom_base)
 

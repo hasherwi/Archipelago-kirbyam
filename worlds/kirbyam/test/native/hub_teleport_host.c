@@ -62,6 +62,7 @@ static void ready(void) {
     requests = tasks = script_after_tasks = cancel_call = 0; accepts = 1;
 }
 int main(void) {
+    CHECK(mmap((void*)0x09000000u,0x10000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x09000000u);
     CHECK(mmap((void*)0x02000000, 0x40000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000);
     CHECK(mmap((void*)0x03000000, 0x8000, PROT_READ|PROT_WRITE,

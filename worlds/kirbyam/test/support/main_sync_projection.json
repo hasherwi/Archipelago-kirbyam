@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
+  "integrated_commit": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable.",
+  "files": {
+    "client.py": {
+      "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
+      "integrated_sha256": "7d810b050bb532d8a18acb19029626a10ef9a034bc15c78036fef7990b63db10",
+      "reverse_slices": [
+        {
+          "start": 12,
+          "stop": 13,
+          "current": [
+            "from typing import TYPE_CHECKING, Any, Callable, Optional\n"
+          ],
+          "main": [
+            "from typing import TYPE_CHECKING, Callable, Optional\n"
+          ]
+        },
+        {
+          "start": 22,
+          "stop": 25,
+          "current": [
+            "from .phone_protocol import (\n",
+            "    PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,\n",
+            ")\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2036,
+          "stop": 2037,
+          "current": [
+            "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
+          ],
+          "main": [
+            "    async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:\n"
+          ]
+        },
+        {
+          "start": 2070,
+          "stop": 2080,
+          "current": [
+            "            # The GBA bus remains addressable for older, shorter ROMs. Their\n",
+            "            # mirrored/open-bus bytes have no Phone marker and remain legacy.\n",
+            "            # Probe on every poll so a ROM/config swap cannot reuse permission.\n",
+            "            config = (await bizhawk.read(ctx.bizhawk_ctx, [(PHONE_CONFIG_BUS_ADDRESS, 12, \"System Bus\")]))[0]\n",
+            "            if session_expired():\n",
+            "                return False\n",
+            "            phone_version = validate_phone_pairing(slot, bytes(config))\n",
+            "            if not phone_version and any(getattr(item, \"item\", 0) == PHONE_ITEM_ID\n",
+            "                                         for item in getattr(ctx, \"items_received\", ())):\n",
+            "                raise ValueError(\"Phone item received without a compatible slot\")\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2284,
+          "stop": 2285,
+          "current": [
+            "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
+          ],
+          "main": []
+        }
+      ]
+    },
+    "data/minor_chest_manifest.json": {
+      "main_sha256": "aaf761f9941a23278e6654d71667a96857846ac2934eba8b7a68735800ad95c3",
+      "integrated_sha256": "3ad42bb0aa8fb97524f533f180578ce6cb8e8483b0fcd22e8d8fb0e1e29bee7f",
+      "reverse_slices": [
+        {
+          "start": 32,
+          "stop": 34,
+          "current": [
+            "    \"multi_chest_rooms_total\": 7,\n",
+            "    \"multi_chest_rooms_exact_source_offsets_unique\": 7,\n"
+          ],
+          "main": [
+            "    \"multi_chest_rooms_total\": 8,\n",
+            "    \"multi_chest_rooms_exact_source_offsets_unique\": 8,\n"
+          ]
+        },
+        {
+          "start": 519,
+          "stop": 522,
+          "current": [
+            "        \"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\"\n",
+            "      ],\n",
+            "      \"room_sanity_ap_room_keys\": [\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 523,
+          "stop": 525,
+          "current": [
+            "      ],\n",
+            "      \"ap_room_mapping_evidence\": \"dev-docs/phone-heave-ho-acceptance.md#qualified-retry-crossings-and-physical-collection\"\n"
+          ],
+          "main": [
+            "      ]\n"
+          ]
+        },
+        {
+          "start": 3382,
+          "stop": 3382,
+          "current": [],
+          "main": [
+            "      \"room_key\": \"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\n",
+            "      \"chest_count\": 2,\n",
+            "      \"source_rom_offsets\": [\n",
+            "        \"0x008BC018\",\n",
+            "        \"0x008BC114\"\n",
+            "      ],\n",
+            "      \"source_offsets_unique\": true\n",
+            "    },\n",
+            "    {\n"
+          ]
+        }
+      ]
+    }
+  },
+  "surfaces": {
+    "main_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
+    "integrated_sha256": "143f27302e8d8802842a0581ac7618d965da994bf1cc42214da72ff0c6f3ff8b",
+    "reverse_slices": [
+      {
+        "start": 414,
+        "stop": 414,
+        "current": [],
+        "main": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
+        ]
+      },
+      {
+        "start": 416,
+        "stop": 418,
+        "current": [
+          "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT\"}",
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
+        ],
+        "main": [
+          "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18\"}"
+        ]
+      }
+    ]
+  },
+  "catalog_provenance": {
+    "main": "727099d75aec8a70ea87cce88d7d69358e345426",
+    "feature_head": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
+    "source_hash_changes": {
+      "worlds/kirbyam/data/regions/rooms.json": {
+        "previous": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
+        "integrated": "0e1c46f92ecd76f8c3f37c9d9c36d9fb3cb981388a8d755054b1bb2ed3603a4f"
+      }
+    },
+    "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
+  }
+}

@@ -134,5 +134,8 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
     for name, digest in evidence['preserved_source_text_sha256'].items():
         digest = union['adopted_main_source_sha256'].get(name, digest)
         raw = (root / name).read_bytes()
+        if name == 'data/minor_chest_manifest.json':
+            from .support.main_sync_history import main_text
+            raw = main_text(name, raw)
         assert lf_text_sha256(raw) == lf_text_sha256(raw.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')) == digest
     assert all(private not in EVIDENCE.read_text(encoding='utf-8') for private in ('/home/', '/Users/', 'C:\\'))

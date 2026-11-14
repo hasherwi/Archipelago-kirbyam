@@ -20,6 +20,7 @@ def test_mailbox_collections_and_active_player_vitality(tmp_path: Path) -> None:
         pytest.skip('requires Linux mapped memory and a C compiler')
     source = (WORLD / 'kirby_ap_payload/ap_payload.c').read_text()
     source += "\n" + (WORLD / 'kirby_ap_payload/copy_room.c').read_text()
+    source += "\n" + (WORLD / 'kirby_ap_payload/phone.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -47,6 +48,7 @@ static void receive(unsigned item) {
     ap_poll_mailbox_c();
 }
 int main(void) {
+    CHECK(mmap((void*)0x09000000u,0x10000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x09000000u);
     CHECK(mmap((void*)0x02000000u, 0x40000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000u);
     for (unsigned item=3860200; item<=3860223; item++) {

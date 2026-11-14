@@ -8,6 +8,38 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+
+
+### Improvements
+
+
+### Known Limitations
+- Phone ownership and call gating are an inactive foundation only. Generated seeds do not enable the Phone item or Phone traversal requirements; source, solo-route and lifecycle acceptance remains unfinished. Future helper logic is limited to small-switch and Heave-Ho cooperation, never helper abilities or Bomb Block/chest attacks (PR #1086).
+
+### Bug Fixes
+- Reject newly generated patch artifacts unless Phone has its exact disabled configuration, both immediately after the base patch and after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).
+- Reject Copy Room grants when capability or starting-ownership values or types change during pending emulator reads, and preserve the absent/null distinction in both ownership synchronizers. Verify native grant orders, three-file persistence, menu/R/L controls and the Area Key requirement for helper arrival without enabling Phone generation (PR #1086).
+- Reject stale Phone grants when slot capabilities or starting ownership change during pending emulator reads, including boolean/integer type changes. Add reconnect, generation-boundary and native zero-battery/offline-reload coverage without activating Phone in generated seeds (PR #1086).
+- Place Moonlight Mansion Goal 2's Chalk chest in its verified upper-left compartment and its return in Room 18's bottom-right compartment. Preserve the existing flight requirement and keep the native source manifest and extractor consistent (PR #1086).
+
+### Internal Changes
+- Integrate Beam/Ice automatic starts and source-aware traversal from main while preserving disabled Phone patch validation, ownership fences and the coordinated Chalk mapping. Historical Phone native ledgers retain their original starts and gate masks; they do not certify the new starting-permission configuration (PR #1086).
+- Verify native pause/resume during Phone call startup with a cold neutral control: exactly one battery debit, retained ownership and restored L/movement control. Keep production Phone disabled (PR #1086).
+- Recheck the bounded Heave-Ho solo Sword attempt: genuine source/carry and quake displacement do not establish its doorway. Separate the final terrain obstruction from earlier body contact without claiming universal solo impossibility or enabling Phone (PR #1086).
+- Clarify helper Normal requests, actual room-transition resets and the limits of a bounded natural-UFO search. Identify Mustard 11’s large-block pocket as outside current AP checks/exits; add no Phone dependency or activation (PR #1086).
+- Verify the same Mustard 12 Burning solo route with historical production ability gating ON and its Beam/Burning/Stone starting permissions. Audit ordinary client configuration separately from controller-only gameplay; this does not certify the current Beam/Ice start or a new Burning unlock or activate Phone (PR #1086).
+- Verify separate solo Mustard 12 routes at native HP 6 and HP 1: Normal reaches the ordinary lower exit, while source-acquired Burning clears the large block and upper secret exit through real wall quakes. Keep the destination compartments separate and Phone generation disabled (PR #1086).
+- Verify the full Phone/Copy watcher on native memory, including guarded grants, mailbox ACKs, menu/history/pairing controls, reconnect and journal-backed cold-reload delivery. Keep production Phone disabled (PR #1086).
+- Extend the disabled Phone generation boundary to 48 option combinations and actual token serialization/application, including enabling/corrupting-token negative controls (PR #1086).
+- Verify native Mini R/L restrictions before and after Phone receipt, then ordinary Select disposal and Normal call/return recovery. Preserve native eligibility and keep Phone generation disabled (PR #1086).
+- Verify source-acquired UFO calls and native L return before and after Phone receipt, with exact cold-repeat and disabled-gate controls. Document natural CPU ability changes that still prevent a general helper-route guarantee; Phone generation remains disabled (PR #1086).
+- Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Retain this as historical observation only: helper Bomb Block attacks are excluded from progression under the current design (PR #1086).
+- Record independent Normal/no-Phone Mustard 11 chest and ordinary-exit witnesses, including native HP-1 checks and explicit failed replay limits. Prepare a read-only native BizHawk bus-probe harness without claiming completed emulator acceptance (PR #1086).
+- Add disabled-by-default Phone ownership, authenticated three-file persistence and a gate for new local single-player R calls, with a rebuilt ROM patch. Preserve tutorial calls, L return, existing Copy Room ownership and native eligibility (PR #1086).
+
 ## v0.5.1
 
 ### New Features

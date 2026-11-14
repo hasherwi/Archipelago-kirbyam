@@ -181,3 +181,30 @@ ap_copy_room_state_entry:
     ldr r3, 1f
     bx r3
 1: .word ap_copy_room_state
+
+// R entry only. L return to Central Circle enters 0x08056E40 separately.
+// The denied path returns before native call state, battery or animation writes.
+.section .aphub,"ax",%progbits
+.balign 4
+.global ap_phone_call_entry
+.type ap_phone_call_entry, %function
+.thumb_func
+ap_phone_call_entry:
+    push {r0-r2, lr}
+    bl ap_phone_call_blocked
+    cmp r0, #0
+    bne 2f
+    pop {r0-r2}
+    pop {r3}
+    mov lr, r3
+    // Replay the exact eight displaced bytes from USA 0x08056C2C.
+    push {r4-r7, lr}
+    mov r7, r8
+    push {r7}
+    sub sp, #4
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word 0x08056C35
+2:  pop {r0-r2, pc}
+.size ap_phone_call_entry, .-ap_phone_call_entry

@@ -30,8 +30,8 @@
         "This tool resolves each entry by payload-prefix match in the target ROM."
       ]
     },
-    "multi_chest_rooms_total": 8,
-    "multi_chest_rooms_exact_source_offsets_unique": 8,
+    "multi_chest_rooms_total": 7,
+    "multi_chest_rooms_exact_source_offsets_unique": 7,
     "respawn_reopen_policy": {
       "conclusion": "no_repeatable_minor_chest_reopen_path_confirmed",
       "ap_handling": "Use the exact ObjectTemplate source pointer for each AP check; preserve native chest flags and use the complete chest_recovery.json audit for unique saved physical flag recovery",
@@ -517,8 +517,12 @@
         64
       ],
       "candidate_ap_room_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT"
+      ],
+      "room_sanity_ap_room_keys": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
-      ]
+      ],
+      "ap_room_mapping_evidence": "dev-docs/phone-heave-ho-acceptance.md#qualified-retry-crossings-and-physical-collection"
     },
     {
       "entry_index": 12,
@@ -3372,15 +3376,6 @@
       "source_rom_offsets": [
         "0x008D3E64",
         "0x008D3E88"
-      ],
-      "source_offsets_unique": true
-    },
-    {
-      "room_key": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
-      "chest_count": 2,
-      "source_rom_offsets": [
-        "0x008BC018",
-        "0x008BC114"
       ],
       "source_offsets_unique": true
     },

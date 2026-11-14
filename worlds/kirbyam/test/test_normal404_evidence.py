@@ -213,8 +213,9 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
                                 'regions': 386, 'mapped_native_definitions': 354, 'surfaces': 1091}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
             len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 384, 1091, 57, 146)
-    from .support.lever_history import before_lever_compartments
-    assert digest(before_lever_compartments(coverage['surfaces'])) == contract['normalized_surface_sha256']
+    # Project only the pinned feature surfaces, retaining the frozen native record.
+    from .support.main_sync_history import main_surfaces
+    assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green off the unchanged Master-era catalog pin; keep frozen404 evidence.
     from .support.green138_history import before_green138
     historical = [{**row, 'target': before_green138(row['target'])}

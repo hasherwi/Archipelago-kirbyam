@@ -19,7 +19,7 @@ __attribute__((used,section(".apcopyinfo")))
 const char ap_copy_room_marker[8] = "APCPY02";
 
 static AP_COPY_EXT uint8_t record_valid(void) {
-    if ((RECORD[4] & ~AP_COPY_OWNED) != AP_COPY_TAG) return 0u;
+    if ((RECORD[4] & ~AP_ACCESS_MASK) != AP_COPY_TAG) return 0u;
     for (uint32_t i=0u; i<4u; ++i) if (RECORD[i] != AUTH[i]) return 0u;
     return 1u;
 }
@@ -60,6 +60,16 @@ AP_COPY_EXT uint32_t ap_copy_room_epoch(void) {
 }
 AP_COPY_EXT uint32_t ap_copy_room_owned(void) {
     return ap_copy_room_epoch() ? (RECORD[4] & AP_COPY_OWNED) : 0u;
+}
+AP_COPY_EXT uint32_t ap_copy_room_access_owned(uint32_t mask) {
+    return ap_copy_room_epoch() ? (RECORD[4] & mask & AP_ACCESS_MASK) : 0u;
+}
+AP_COPY_EXT void ap_copy_room_grant_access(uint32_t mask) {
+    if (!ap_copy_room_epoch() || !mask || (mask & ~AP_ACCESS_MASK)) return;
+    if ((RECORD[4] & mask) != mask) {
+        RECORD[4] |= mask; CTX->dirty=1u; CTX->retry=0u;
+    }
+    CTX->owned=RECORD[4]&AP_COPY_OWNED;
 }
 AP_COPY_EXT int16_t ap_copy_room_load(uint32_t kind, uint16_t slot) {
     int16_t result;
@@ -103,7 +113,7 @@ AP_COPY_EXT void ap_copy_room_poll(void) {
             /* Receipt is permanent within this authenticated native file.
              * Empty/replayed histories and zero commands cannot revoke it. */
             if (!(RECORD[4]&AP_COPY_OWNED)) {
-                RECORD[4]=AP_COPY_TAG|AP_COPY_OWNED; CTX->dirty=1u; CTX->retry=0u;
+                RECORD[4]|=AP_COPY_OWNED; CTX->dirty=1u; CTX->retry=0u;
             }
             CTX->owned=AP_COPY_OWNED; REQUEST[3]=AP_COPY_OWNED; REQUEST[2]=epoch;
         }

@@ -1,0 +1,1066 @@
+{
+  "schema_version": 1,
+  "status": "Historical bounded solo Sword route plus current source audit; no successful room-148 or Chalk witness",
+  "ai_assisted": true,
+  "date": "2026-11-11",
+  "production_audit_commit": "c11f5876eb267137b64f50a0bc5d006bae16723b",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "scope": [
+    "Reanalysis of retained native input/observation logs, not a new replay. Current source comparison verifies 50 selected geometry/behavior ranges unchanged by the distributable patch.",
+    "The historical fixture uses original retail startup rooms/positions and an actual post-tutorial native save. Earlier tutorial play used R; this is only a no-R post-reload solo procedure.",
+    "Production shuffled-policy builder, full default whitelist, candidate 116 from random.Random(0), policy seed 1365001903070189292; minimal accessibility, no-ability weight 0, boss/miniboss/passive/statue randomization OFF. This validates a policy/source fixture, not a generated-seed fill.",
+    "Phone configuration is disabled, with compatible version-0 slot metadata. No Phone receipt occurs. This is not an enabled-gate matched control.",
+    "Complete initial history is East Hub 3860401, Moonlight Key 3860041 and Sword permission 3860118. All 22 logged runtime writes are ordinary production configuration/receipt transport, not direct pose/equipment/HP/battery/CPU/AI edits. Permission does not equip Sword.",
+    "Approach takes ordinary damage and loses/reacquires Sword, ending at HP 4 from initial HP 6. No minimum-health or damage-free acceptance follows."
+  ],
+  "source_and_carry": {
+    "source": {
+      "native_room": 143,
+      "template_rom_address": "0x088B7C0C",
+      "type": "Sir Kibble",
+      "grant_table_rom_offset": "0x0035188E",
+      "granted_runtime_ability": 18,
+      "identity_limit": "Pinned source/route audit and observed acquisition transition; source-object pointer was not newly sampled in this run."
+    },
+    "milestones": [
+      {
+        "frame": 2260,
+        "observation": "Human still Normal after Sword permission 0x40000."
+      },
+      {
+        "frame": 4202,
+        "observation": "Genuine Sword acquisition."
+      },
+      {
+        "frame": 5337,
+        "observation": "Native hit loses Sword; HP 6 to 5."
+      },
+      {
+        "frame": 5527,
+        "observation": "Second native hit; HP 5 to 4."
+      },
+      {
+        "frame": 5568,
+        "observation": "Ordinary pursuit, inhale and Down recover the dropped Sword."
+      },
+      {
+        "frame": 6139,
+        "observation": "Real door enters native 145 with Sword."
+      },
+      {
+        "frame": 7421,
+        "observation": "Revised, qualified 145 approach enters native 146 with Sword."
+      }
+    ]
+  },
+  "observed_block_procedure": {
+    "template": "0x088BBB90",
+    "initial_position": [
+      160,
+      128
+    ],
+    "bounds": [
+      -15,
+      -16,
+      15,
+      16
+    ],
+    "inhale_threshold": 4,
+    "quake_edge_count": 38,
+    "movement_pulse_count": 33,
+    "movements": [
+      {
+        "frame": 7584,
+        "old_x": 160.0,
+        "new_x": 162.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7685,
+        "old_x": 162.0,
+        "new_x": 164.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7745,
+        "old_x": 164.0,
+        "new_x": 166.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7805,
+        "old_x": 166.0,
+        "new_x": 168.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7865,
+        "old_x": 168.0,
+        "new_x": 170.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7925,
+        "old_x": 170.0,
+        "new_x": 172.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 7985,
+        "old_x": 172.0,
+        "new_x": 174.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8045,
+        "old_x": 174.0,
+        "new_x": 176.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8105,
+        "old_x": 176.0,
+        "new_x": 178.0,
+        "delta": 2.0,
+        "human": [
+          56.0,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8714,
+        "old_x": 178.0,
+        "new_x": 180.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8764,
+        "old_x": 180.0,
+        "new_x": 182.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8814,
+        "old_x": 182.0,
+        "new_x": 184.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8864,
+        "old_x": 184.0,
+        "new_x": 186.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8914,
+        "old_x": 186.0,
+        "new_x": 188.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 8964,
+        "old_x": 188.0,
+        "new_x": 190.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9014,
+        "old_x": 190.0,
+        "new_x": 192.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9064,
+        "old_x": 192.0,
+        "new_x": 194.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9114,
+        "old_x": 194.0,
+        "new_x": 196.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9164,
+        "old_x": 196.0,
+        "new_x": 198.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9214,
+        "old_x": 198.0,
+        "new_x": 200.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9264,
+        "old_x": 200.0,
+        "new_x": 202.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9314,
+        "old_x": 202.0,
+        "new_x": 204.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9364,
+        "old_x": 204.0,
+        "new_x": 206.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9414,
+        "old_x": 206.0,
+        "new_x": 208.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9464,
+        "old_x": 208.0,
+        "new_x": 210.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9514,
+        "old_x": 210.0,
+        "new_x": 212.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9564,
+        "old_x": 212.0,
+        "new_x": 214.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9614,
+        "old_x": 214.0,
+        "new_x": 216.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9664,
+        "old_x": 216.0,
+        "new_x": 218.0,
+        "delta": 2.0,
+        "human": [
+          110.0625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 9954,
+        "old_x": 218.0,
+        "new_x": 220.0,
+        "delta": 2.0,
+        "human": [
+          145.515625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 10004,
+        "old_x": 220.0,
+        "new_x": 222.0,
+        "delta": 2.0,
+        "human": [
+          145.515625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 10054,
+        "old_x": 222.0,
+        "new_x": 224.0,
+        "delta": 2.0,
+        "human": [
+          145.515625,
+          136.99609375
+        ]
+      },
+      {
+        "frame": 10104,
+        "old_x": 224.0,
+        "new_x": 224.99609375,
+        "delta": 0.99609375,
+        "human": [
+          145.515625,
+          136.99609375
+        ]
+      }
+    ],
+    "initialization_limit": "First newly spawned samples at 7432/7433 have raw net field 224 before its first update. From 7434 onward, including every quake edge, net inhale is zero. These initial values are not interpreted as helper contributions.",
+    "other_kirbys": "All sampled block-phase observations place the other three Kirbys in 801; this is not cancellation of opposing helper inhale.",
+    "body_obstruction": {
+      "frames": [
+        8356,
+        8416,
+        8476,
+        8536
+      ],
+      "human_position": [
+        157,
+        136.99609375
+      ],
+      "block_x": 178,
+      "E3": "0x3D",
+      "displacement": 0,
+      "finding": "Moving the human clear restores rightward displacement."
+    },
+    "terrain_obstruction": {
+      "last_movement_frame": 10104,
+      "block_x": 224.99609375,
+      "block_right_edge": 239.99609375,
+      "clear_human_checkpoint_frame": 10119,
+      "human_x": 145.515625,
+      "terrain": "0x05",
+      "E3_before_new_quake": "0x11",
+      "confirming_quake_frame": 10154,
+      "E3_on_new_quake": "0x1D",
+      "displacement": 0,
+      "finding": "Final obstruction persists with Kirby distant; it is the right wall, not the earlier body-contact condition."
+    },
+    "final_checkpoint": {
+      "frame": 10295,
+      "room": 146,
+      "human_position": [
+        203.99609375,
+        136.99609375
+      ],
+      "ability": 18,
+      "hp": 4,
+      "battery": 3,
+      "phone_owned": false,
+      "other_kirby_rooms": [
+        801,
+        801,
+        801
+      ],
+      "chalk_flag13": false,
+      "event_counter": 0,
+      "event_ring_first": 0
+    },
+    "positive_intermediate_observation": {
+      "frame": 9839,
+      "block_x": 218,
+      "human_position": [
+        223.34765625,
+        105.99609375
+      ],
+      "finding": "Human reaches the top of the shifted block; this does not establish descent to the floor-level door."
+    }
+  },
+  "source_constraints": [
+    "Lower-right door requires center in tile (13,8): 208 <= x < 224 and 128 <= y < 144. It leads to native 148 upper-left; the upper-right 146 door instead reaches 147 and a different 148 compartment.",
+    "For the ordinary left-side floor clearance observed at the terminal block, human center stops at 203.99609375, over 4 pixels short of the door tile. More pulses cannot move the block through solid terrain at x240.",
+    "Quake movement direction follows the block/template facing bit, not Sword facing, landing side or quake origin. Remote Sword, Burning and Stone quakes feed the same block branch.",
+    "The old policy contains Burning at native 145 Sparky after the approach rope, but no Burning acquisition/carry trial occurred here. That different quake does not remove the terminal wall condition.",
+    "The fixed Stone statue in 190 is before 143 rope. Stone permission/source presence alone does not solve that carry prerequisite, and no Stone route was run.",
+    "Gray upper platform collision attribute 0x4 does not satisfy the ordinary downward-drop predicate 0x8. Do not infer a drop through it from a screenshot.",
+    "No successful room 146 solo route, universal impossibility, exhaustive intermediate-position search, or mandatory Phone dependency is established."
+  ],
+  "source_anchors": [
+    {
+      "path": "src/large_stone_block_7D.c",
+      "lines": [
+        9,
+        49
+      ],
+      "purpose": "Template, threshold, bounds and block update."
+    },
+    {
+      "path": "asm/star_stone_block.s",
+      "lines": [
+        143,
+        748
+      ],
+      "purpose": "Body/terrain obstruction, quake edge rearm and fixed direction."
+    },
+    {
+      "path": "src/code_0806F780.c",
+      "lines": [
+        874,
+        938
+      ],
+      "purpose": "Same-room quake registration."
+    },
+    {
+      "path": "src/code_0806F780.c",
+      "lines": [
+        1090,
+        1108
+      ],
+      "purpose": "Same-room quake lookup."
+    },
+    {
+      "path": "src/kirby.c",
+      "lines": [
+        16755,
+        16805
+      ],
+      "purpose": "Grounded Sword Up+B dispatch."
+    },
+    {
+      "path": "src/kirby.c",
+      "lines": [
+        17250,
+        17480
+      ],
+      "purpose": "Landing slash and ground-contact quake."
+    },
+    {
+      "path": "src/kirby.c",
+      "lines": [
+        14881,
+        14906
+      ],
+      "purpose": "Ordinary door eligibility and location."
+    }
+  ],
+  "selected_range_verification": [
+    {
+      "name": "room143 room props",
+      "start": "0x934804",
+      "end_exclusive": "0x93482c",
+      "changed_count": 0,
+      "original_sha256": "5b9978352f74c09690f8326e70f2bd2d306c16bc1668c393d8b1c79394d2c992",
+      "current_sha256": "5b9978352f74c09690f8326e70f2bd2d306c16bc1668c393d8b1c79394d2c992"
+    },
+    {
+      "name": "room143 tile dimensions",
+      "start": "0x94c4cc",
+      "end_exclusive": "0x94c4ec",
+      "changed_count": 0,
+      "original_sha256": "efe0e841ea82879989b65c85ec7059b493dd7b7210c5c48abbbb81691a87efb9",
+      "current_sha256": "efe0e841ea82879989b65c85ec7059b493dd7b7210c5c48abbbb81691a87efb9"
+    },
+    {
+      "name": "room143 solidity header",
+      "start": "0x879c8c",
+      "end_exclusive": "0x879c94",
+      "changed_count": 0,
+      "original_sha256": "066d8c0baa7d78a07afb93fcbd1e4310a769385264d0c5c2b8c8acf56e49170d",
+      "current_sha256": "066d8c0baa7d78a07afb93fcbd1e4310a769385264d0c5c2b8c8acf56e49170d"
+    },
+    {
+      "name": "room143 collision stream",
+      "start": "0x87973c",
+      "end_exclusive": "0x879855",
+      "changed_count": 0,
+      "original_sha256": "5274329dc752f154a72cbd12def6e8583f85ffc2a2a7b78a684ee56a964cc2b6",
+      "current_sha256": "5274329dc752f154a72cbd12def6e8583f85ffc2a2a7b78a684ee56a964cc2b6"
+    },
+    {
+      "name": "room143 object header",
+      "start": "0x8b7cdc",
+      "end_exclusive": "0x8b7cec",
+      "changed_count": 0,
+      "original_sha256": "7c6e3344b833ca7d67c067de24279eb5ab7c59f25c2517c868c9deffd92d6b3a",
+      "current_sha256": "7c6e3344b833ca7d67c067de24279eb5ab7c59f25c2517c868c9deffd92d6b3a"
+    },
+    {
+      "name": "room143 objects",
+      "start": "0x8b7aa4",
+      "end_exclusive": "0x8b7cc2",
+      "changed_count": 0,
+      "original_sha256": "5bcdb13d5f32d057a399b2856d0952545d48b5eb784e4a0fc14ee5c6b374a2c3",
+      "current_sha256": "5bcdb13d5f32d057a399b2856d0952545d48b5eb784e4a0fc14ee5c6b374a2c3"
+    },
+    {
+      "name": "room143 solidity records",
+      "start": "0x879858",
+      "end_exclusive": "0x879c86",
+      "changed_count": 0,
+      "original_sha256": "3bc9cecc3aacc17582cf6280e24710238730450ad16eee2ac4ce3775aea6b408",
+      "current_sha256": "3bc9cecc3aacc17582cf6280e24710238730450ad16eee2ac4ce3775aea6b408"
+    },
+    {
+      "name": "room145 room props",
+      "start": "0x934854",
+      "end_exclusive": "0x93487c",
+      "changed_count": 0,
+      "original_sha256": "69c00b0f5fdca3061ac40436e5e69d90738542a468be3dfac3c1984548ae4721",
+      "current_sha256": "69c00b0f5fdca3061ac40436e5e69d90738542a468be3dfac3c1984548ae4721"
+    },
+    {
+      "name": "room145 tile dimensions",
+      "start": "0x95aec0",
+      "end_exclusive": "0x95aee0",
+      "changed_count": 0,
+      "original_sha256": "15d2ca882b07f9e296c268bcefdef248a6f8a8fb9fe8db94ae6f10f3ed8c00d7",
+      "current_sha256": "15d2ca882b07f9e296c268bcefdef248a6f8a8fb9fe8db94ae6f10f3ed8c00d7"
+    },
+    {
+      "name": "room145 solidity header",
+      "start": "0x88256c",
+      "end_exclusive": "0x882574",
+      "changed_count": 0,
+      "original_sha256": "1e2c8bfa6e7d45a9a36d2e301d617974432a0ef85e3a22f70c8df0a98a94fbea",
+      "current_sha256": "1e2c8bfa6e7d45a9a36d2e301d617974432a0ef85e3a22f70c8df0a98a94fbea"
+    },
+    {
+      "name": "room145 collision stream",
+      "start": "0x882328",
+      "end_exclusive": "0x8824b7",
+      "changed_count": 0,
+      "original_sha256": "e601ce784e1d736906e48f6d407f2433ba816556bee92aa4cc94cddd05e9d6db",
+      "current_sha256": "e601ce784e1d736906e48f6d407f2433ba816556bee92aa4cc94cddd05e9d6db"
+    },
+    {
+      "name": "room145 object header",
+      "start": "0x8bbb38",
+      "end_exclusive": "0x8bbb48",
+      "changed_count": 0,
+      "original_sha256": "b8b6e2f34424ffab55cfbd44c1d4f5179d6d83538d68e9c26c613754613e3fbf",
+      "current_sha256": "b8b6e2f34424ffab55cfbd44c1d4f5179d6d83538d68e9c26c613754613e3fbf"
+    },
+    {
+      "name": "room145 objects",
+      "start": "0x8bb72c",
+      "end_exclusive": "0x8bbb1e",
+      "changed_count": 0,
+      "original_sha256": "7d4557672f8e71a7b4c110d87b2fa7d20293599389d55b9de4fc86e94c03d23f",
+      "current_sha256": "7d4557672f8e71a7b4c110d87b2fa7d20293599389d55b9de4fc86e94c03d23f"
+    },
+    {
+      "name": "room145 solidity records",
+      "start": "0x8824b8",
+      "end_exclusive": "0x882566",
+      "changed_count": 0,
+      "original_sha256": "6e6e7de4fd15c64da94c2b979a2e8d5863ecff4fb7d94c216c777a2914195b45",
+      "current_sha256": "6e6e7de4fd15c64da94c2b979a2e8d5863ecff4fb7d94c216c777a2914195b45"
+    },
+    {
+      "name": "room 146 room props",
+      "start": "0x93487c",
+      "end_exclusive": "0x9348a4",
+      "changed_count": 0,
+      "original_sha256": "c70f5f2bf6922e024bd87682cc65b427dde12fc10b65be3ad5771318e0b56a7c",
+      "current_sha256": "c70f5f2bf6922e024bd87682cc65b427dde12fc10b65be3ad5771318e0b56a7c"
+    },
+    {
+      "name": "room 146 tile dimensions",
+      "start": "0x95b0e8",
+      "end_exclusive": "0x95b108",
+      "changed_count": 0,
+      "original_sha256": "30b1bd8760d2a1e00adf6cdb009477615a78fcda6a5e6bbd6e3ddb632512357d",
+      "current_sha256": "30b1bd8760d2a1e00adf6cdb009477615a78fcda6a5e6bbd6e3ddb632512357d"
+    },
+    {
+      "name": "room 146 solidity header",
+      "start": "0x8825fc",
+      "end_exclusive": "0x882604",
+      "changed_count": 0,
+      "original_sha256": "04f9d2c2563ecb2af060bb63053467109f470aa2f3bdedc93fe513c62a95e074",
+      "current_sha256": "04f9d2c2563ecb2af060bb63053467109f470aa2f3bdedc93fe513c62a95e074"
+    },
+    {
+      "name": "room 146 collision stream",
+      "start": "0x882574",
+      "end_exclusive": "0x8825bb",
+      "changed_count": 0,
+      "original_sha256": "b13065bbfab3a1910507d38aeb8b88b1d538726dea90008704575c4fc990992e",
+      "current_sha256": "b13065bbfab3a1910507d38aeb8b88b1d538726dea90008704575c4fc990992e"
+    },
+    {
+      "name": "room 146 object header",
+      "start": "0x8bbc58",
+      "end_exclusive": "0x8bbc68",
+      "changed_count": 0,
+      "original_sha256": "0f7c68e3437af2f98d50e35b3316db0981a226d16dc662745cdf2bca4555546a",
+      "current_sha256": "0f7c68e3437af2f98d50e35b3316db0981a226d16dc662745cdf2bca4555546a"
+    },
+    {
+      "name": "room 146 objects",
+      "start": "0x8bbb48",
+      "end_exclusive": "0x8bbc46",
+      "changed_count": 0,
+      "original_sha256": "f4dd4be80fdc6e2087bcd6381eea140e3666bae33046a367639bf99d8e3a14bd",
+      "current_sha256": "f4dd4be80fdc6e2087bcd6381eea140e3666bae33046a367639bf99d8e3a14bd"
+    },
+    {
+      "name": "room 146 solidity records",
+      "start": "0x8825bc",
+      "end_exclusive": "0x8825f6",
+      "changed_count": 0,
+      "original_sha256": "0a9475aa1225a7745936ce1deb57aad788bd8692ecba9c5def467a0a608a1c78",
+      "current_sha256": "0a9475aa1225a7745936ce1deb57aad788bd8692ecba9c5def467a0a608a1c78"
+    },
+    {
+      "name": "room147 room props",
+      "start": "0x9348a4",
+      "end_exclusive": "0x9348cc",
+      "changed_count": 0,
+      "original_sha256": "964309ff5f374caaea58fae1452a6828b874246bcdebcc66d229558fb0c9a008",
+      "current_sha256": "964309ff5f374caaea58fae1452a6828b874246bcdebcc66d229558fb0c9a008"
+    },
+    {
+      "name": "room147 tile dimensions",
+      "start": "0x95bc20",
+      "end_exclusive": "0x95bc40",
+      "changed_count": 0,
+      "original_sha256": "2563508984e91102284948f5e7ee58d882a98ab3102f50a95cfe3e28c96eb3f3",
+      "current_sha256": "2563508984e91102284948f5e7ee58d882a98ab3102f50a95cfe3e28c96eb3f3"
+    },
+    {
+      "name": "room147 solidity header",
+      "start": "0x882900",
+      "end_exclusive": "0x882908",
+      "changed_count": 0,
+      "original_sha256": "28a2b54868e6804f4c771c4f251e9e737ad8e837a0234539a3693f0fe2c679d1",
+      "current_sha256": "28a2b54868e6804f4c771c4f251e9e737ad8e837a0234539a3693f0fe2c679d1"
+    },
+    {
+      "name": "room147 collision stream",
+      "start": "0x882604",
+      "end_exclusive": "0x88276f",
+      "changed_count": 0,
+      "original_sha256": "ef54068cdca99a9903ee59a455708c98d185448f88012581f3e9d43a6f545f70",
+      "current_sha256": "ef54068cdca99a9903ee59a455708c98d185448f88012581f3e9d43a6f545f70"
+    },
+    {
+      "name": "room147 object header",
+      "start": "0x8bbea0",
+      "end_exclusive": "0x8bbeb0",
+      "changed_count": 0,
+      "original_sha256": "517b34bd22fb497e8f1682ae1f042acf0ab54c9127d45f98fba08e1a90d2ec25",
+      "current_sha256": "517b34bd22fb497e8f1682ae1f042acf0ab54c9127d45f98fba08e1a90d2ec25"
+    },
+    {
+      "name": "room147 objects",
+      "start": "0x8bbc68",
+      "end_exclusive": "0x8bbe86",
+      "changed_count": 0,
+      "original_sha256": "ce35ab32c29ffdbda240d9224e37d2372b69bf79dcb6653bd6e86fb46c576659",
+      "current_sha256": "ce35ab32c29ffdbda240d9224e37d2372b69bf79dcb6653bd6e86fb46c576659"
+    },
+    {
+      "name": "room147 solidity records",
+      "start": "0x882770",
+      "end_exclusive": "0x8828fa",
+      "changed_count": 0,
+      "original_sha256": "9646528d13c888b083ce0b4847d7a8286fbd87cfebbb88f11ed9908c00599911",
+      "current_sha256": "9646528d13c888b083ce0b4847d7a8286fbd87cfebbb88f11ed9908c00599911"
+    },
+    {
+      "name": "room148 room props",
+      "start": "0x9348cc",
+      "end_exclusive": "0x9348f4",
+      "changed_count": 0,
+      "original_sha256": "0026d7c22916e681ed922bc1fba7d50c05b6b0efb3f0237095f13d06ebf30de7",
+      "current_sha256": "0026d7c22916e681ed922bc1fba7d50c05b6b0efb3f0237095f13d06ebf30de7"
+    },
+    {
+      "name": "room148 tile dimensions",
+      "start": "0x95c9b8",
+      "end_exclusive": "0x95c9d8",
+      "changed_count": 0,
+      "original_sha256": "dc402eb3239534af7f3871e0ca7771386c8f6b964db42de4b34b77e4dd9f6007",
+      "current_sha256": "dc402eb3239534af7f3871e0ca7771386c8f6b964db42de4b34b77e4dd9f6007"
+    },
+    {
+      "name": "room148 solidity header",
+      "start": "0x882c90",
+      "end_exclusive": "0x882c98",
+      "changed_count": 0,
+      "original_sha256": "da7474312ef5cfd0621ab6b8f3517b1933c6e3fdfb8a49d0bcc217d908dfb4b8",
+      "current_sha256": "da7474312ef5cfd0621ab6b8f3517b1933c6e3fdfb8a49d0bcc217d908dfb4b8"
+    },
+    {
+      "name": "room148 collision stream",
+      "start": "0x882908",
+      "end_exclusive": "0x882a33",
+      "changed_count": 0,
+      "original_sha256": "7695ace34a7d1c407b9e4e903534d2ed07759b4e0750e396bda4c9a4c82662fc",
+      "current_sha256": "7695ace34a7d1c407b9e4e903534d2ed07759b4e0750e396bda4c9a4c82662fc"
+    },
+    {
+      "name": "room148 object header",
+      "start": "0x8bc1c0",
+      "end_exclusive": "0x8bc1d0",
+      "changed_count": 0,
+      "original_sha256": "2a5b20b093b2fdbf08c24aa234e7fcffa760bad6650cb1a58f3d6a07360f4b16",
+      "current_sha256": "2a5b20b093b2fdbf08c24aa234e7fcffa760bad6650cb1a58f3d6a07360f4b16"
+    },
+    {
+      "name": "room148 objects",
+      "start": "0x8bbeb0",
+      "end_exclusive": "0x8bc1a6",
+      "changed_count": 0,
+      "original_sha256": "3d9f272c8c4bcf82f1dfbc82639e6f2f3c4ac80c62e83e406c78302538d9d1fa",
+      "current_sha256": "3d9f272c8c4bcf82f1dfbc82639e6f2f3c4ac80c62e83e406c78302538d9d1fa"
+    },
+    {
+      "name": "room148 solidity records",
+      "start": "0x882a34",
+      "end_exclusive": "0x882c8a",
+      "changed_count": 0,
+      "original_sha256": "955b5603057fd5df73305f815d2a90056c114aa1604f3fcdade371806a9f3fe1",
+      "current_sha256": "955b5603057fd5df73305f815d2a90056c114aa1604f3fcdade371806a9f3fe1"
+    },
+    {
+      "name": "room190 room props",
+      "start": "0x934f5c",
+      "end_exclusive": "0x934f84",
+      "changed_count": 0,
+      "original_sha256": "f0a666aa3e7ddf76de12f2afaaebdc71d42ced0baa25576c6029a03e23c2b6b3",
+      "current_sha256": "f0a666aa3e7ddf76de12f2afaaebdc71d42ced0baa25576c6029a03e23c2b6b3"
+    },
+    {
+      "name": "room190 tile dimensions",
+      "start": "0x94c76c",
+      "end_exclusive": "0x94c78c",
+      "changed_count": 0,
+      "original_sha256": "060b85fd950d35a4b8874b7a87c246bae1cd1ec18e45f7319854cceb35551c92",
+      "current_sha256": "060b85fd950d35a4b8874b7a87c246bae1cd1ec18e45f7319854cceb35551c92"
+    },
+    {
+      "name": "room190 solidity header",
+      "start": "0x879d08",
+      "end_exclusive": "0x879d10",
+      "changed_count": 0,
+      "original_sha256": "fbbce64ec455057f33426a9558c3f4debc3c6cd0656705d90683281837974870",
+      "current_sha256": "fbbce64ec455057f33426a9558c3f4debc3c6cd0656705d90683281837974870"
+    },
+    {
+      "name": "room190 collision stream",
+      "start": "0x879c94",
+      "end_exclusive": "0x879cc1",
+      "changed_count": 0,
+      "original_sha256": "9f9be92b2605112139008b4b9fad642b4397380282b2c5a86e18c8fde36df141",
+      "current_sha256": "9f9be92b2605112139008b4b9fad642b4397380282b2c5a86e18c8fde36df141"
+    },
+    {
+      "name": "room190 object header",
+      "start": "0x8b7dd8",
+      "end_exclusive": "0x8b7de8",
+      "changed_count": 0,
+      "original_sha256": "f03e6a9bc7f2abda79f5004f4bc346c3154ab2193fc77980a0eecb0d01a5d91d",
+      "current_sha256": "f03e6a9bc7f2abda79f5004f4bc346c3154ab2193fc77980a0eecb0d01a5d91d"
+    },
+    {
+      "name": "room190 objects",
+      "start": "0x8b7cec",
+      "end_exclusive": "0x8b7dc6",
+      "changed_count": 0,
+      "original_sha256": "1f0fea6c52990329d3f1b8c4174103c983022eeb32f9912ea832fd89c3fd145a",
+      "current_sha256": "1f0fea6c52990329d3f1b8c4174103c983022eeb32f9912ea832fd89c3fd145a"
+    },
+    {
+      "name": "room190 solidity records",
+      "start": "0x879cc4",
+      "end_exclusive": "0x879d02",
+      "changed_count": 0,
+      "original_sha256": "b750b01d3270e2b7738b7d2ec1fd0c71a1862bdb0a0704d2a2fecefebc5051f9",
+      "current_sha256": "b750b01d3270e2b7738b7d2ec1fd0c71a1862bdb0a0704d2a2fecefebc5051f9"
+    },
+    {
+      "name": "Sword grounded rising landing chain",
+      "start": "0x5f55c",
+      "end_exclusive": "0x60e18",
+      "changed_count": 0,
+      "original_sha256": "56d78ef2de8a929eff7947b2c1cbba8b13577d08fb47c5a00ff52d68ad59a7f0",
+      "current_sha256": "56d78ef2de8a929eff7947b2c1cbba8b13577d08fb47c5a00ff52d68ad59a7f0"
+    },
+    {
+      "name": "shared block and 7D",
+      "start": "0x11e960",
+      "end_exclusive": "0x1201a8",
+      "changed_count": 0,
+      "original_sha256": "06d61462a4f4c3c8013c45b7346f4ab7e6e7c6eb7f6ffcd575f92ac79996d740",
+      "current_sha256": "06d61462a4f4c3c8013c45b7346f4ab7e6e7c6eb7f6ffcd575f92ac79996d740"
+    },
+    {
+      "name": "same-room quake check",
+      "start": "0x70504",
+      "end_exclusive": "0x70580",
+      "changed_count": 0,
+      "original_sha256": "5889d5bb4f3edaa9448b957366c8fd6b92644561cf4c4aeb5a530980eae6f7f3",
+      "current_sha256": "5889d5bb4f3edaa9448b957366c8fd6b92644561cf4c4aeb5a530980eae6f7f3"
+    },
+    {
+      "name": "Burning and Stone handlers",
+      "start": "0x5dc70",
+      "end_exclusive": "0x5f55c",
+      "changed_count": 0,
+      "original_sha256": "0ba19b9aa708fb26564bfb17ae0d55ff6b435882924e33077593b67c5dc4eda6",
+      "current_sha256": "0ba19b9aa708fb26564bfb17ae0d55ff6b435882924e33077593b67c5dc4eda6"
+    },
+    {
+      "name": "platform drop predicate",
+      "start": "0x35f4",
+      "end_exclusive": "0x3704",
+      "changed_count": 0,
+      "original_sha256": "092a54de4a53148f8d1159a1e01d5b65f10e98e72437f87d630880dd0b790372",
+      "current_sha256": "092a54de4a53148f8d1159a1e01d5b65f10e98e72437f87d630880dd0b790372"
+    },
+    {
+      "name": "ladder and drop predicate",
+      "start": "0x9d28",
+      "end_exclusive": "0x9dc8",
+      "changed_count": 0,
+      "original_sha256": "f799e5c94bc3ddf1b1f669d97c3739db23d5751248b49d53cff72aa5f716f470",
+      "current_sha256": "f799e5c94bc3ddf1b1f669d97c3739db23d5751248b49d53cff72aa5f716f470"
+    },
+    {
+      "name": "native Up-door tile check",
+      "start": "0x5bc78",
+      "end_exclusive": "0x5bd4c",
+      "changed_count": 0,
+      "original_sha256": "0a41d17056e2df997465c1848609e3624e4da100a9e5fc5a0ce9ca9d085f863c",
+      "current_sha256": "0a41d17056e2df997465c1848609e3624e4da100a9e5fc5a0ce9ca9d085f863c"
+    },
+    {
+      "name": "fixed statue grants",
+      "start": "0x3538fc",
+      "end_exclusive": "0x35390f",
+      "changed_count": 0,
+      "original_sha256": "839aaed94ee950fa49c6147c3025f6418e952df6d826e951db7c88fdf0beabcd",
+      "current_sha256": "839aaed94ee950fa49c6147c3025f6418e952df6d826e951db7c88fdf0beabcd"
+    }
+  ],
+  "retained_trace_hashes": {
+    "audit_sha256": "c3c330dda18045903261e9a24cc241b2e08e8ee7f9117d4e65e84ef51ae03fb3",
+    "runtime_sha256": "1bbc2d254f840b30b3a5c5f14c001042785793efebe093c54c4c4758abe650c2"
+  },
+  "limits": [
+    "Human collision bounds were not added to the old trace; geometric bound statements are source-derived.",
+    "No fresh emulator, live server or BizHawk run. Earlier exploratory failed approaches remain excluded from accepted carry/displacement outcomes.",
+    "No new graph binding, Phone progression classification, generation activation, merge or deployment.",
+    "Full ROMs, native saves, authentication bytes, raw transport payloads and private paths are excluded."
+  ],
+  "mini_source_only_followup": {
+    "status": "Conditional geometric opening, but no source-backed continuous solo controller plan; no native trial.",
+    "bounds": {
+      "mini_primary": [
+        -3,
+        0,
+        3,
+        7
+      ],
+      "ordinary_primary": [
+        -6,
+        -5,
+        6,
+        7
+      ],
+      "scope": "Ordinary airborne terrain/object bounds. Crouch, slide, attack transitions and exact corner timing are not exhausted."
+    },
+    "intermediate_positions_considered": [
+      200,
+      202,
+      204,
+      218,
+      224.99609375
+    ],
+    "conditional_example": {
+      "block_center_x": 200,
+      "mini_ascent_center_x_open_interval": [
+        179,
+        182
+      ],
+      "mini_descent_center_x_open_interval": [
+        218,
+        224
+      ],
+      "finding": "If Mini were already equipped with the block here, rectangle clearance and native jump height admit a plausible path shape. This is not a tile/object simulation or controller witness."
+    },
+    "source_constraints": [
+      "Ordinary door input accepts Mini, then the ordinary arrival chain clears Mini to Normal. The separate real native-134 Minny witness therefore is not an equipped Mini carry route into 146.",
+      "Ordinary door entry expels a mouth-held source and clears pending ability/inhale state; carrying an uncommitted Mini source through that path is not established.",
+      "The inspected old mode-1 policy maps Wheelie and fixed Minny to Mini, but neither appears in decoded rooms 143/144/145/146/147/148/190. Room 146 itself has only CPU triggers, the large block and mirror visuals, with no enemy/statue source.",
+      "The old history grants Sword but lacks gated Mini permission. Adding permission would not equip Mini or repair its missing source/carry prerequisite.",
+      "A dropped Sword star under this mode-1 policy does not reroll into Mini. No mode change or RNG search was performed.",
+      "Leaving 146 with all three helpers still in 801 detaches and destroys its block object. Re-entry allocates fresh ROOM/template state at block x160, so a fetch-and-return plan preserves neither equipped Mini nor the intermediate block state.",
+      "The normal-body shaft/right-descent tradeoff near block x202/204 does not exclude other launch directions, crouch/slide/attack bounds or precise corners. Mini is not claimed to be the only geometric opening."
+    ],
+    "anchors": [
+      {
+        "path": "src/kirby.c",
+        "lines": [
+          21,
+          27
+        ],
+        "purpose": "Actual ordinary/Mini primary bounds."
+      },
+      {
+        "path": "src/kirby.c",
+        "lines": [
+          7821,
+          7946
+        ],
+        "purpose": "Native jump/gravity and Mini inflation restriction."
+      },
+      {
+        "path": "src/kirby.c",
+        "lines": [
+          12346,
+          12518
+        ],
+        "purpose": "Mouth-source disposal on ordinary door entry."
+      },
+      {
+        "path": "src/kirby.c",
+        "lines": [
+          12667,
+          12727
+        ],
+        "purpose": "Mini cleared in ordinary arrival chain."
+      },
+      {
+        "path": "src/level.c",
+        "lines": [
+          299,
+          365
+        ],
+        "purpose": "Old-room object detach or transfer and fresh ROOM allocation."
+      },
+      {
+        "path": "src/code_080023A4.c",
+        "lines": [
+          1464,
+          1486
+        ],
+        "purpose": "Detached object owner sentinel."
+      },
+      {
+        "path": "src/kirby.c",
+        "lines": [
+          5444,
+          5456
+        ],
+        "purpose": "Detached sentinel takes precedence over keepalive."
+      },
+      {
+        "path": "src/object.c",
+        "lines": [
+          180,
+          214
+        ],
+        "purpose": "Detached ordinary object destruction."
+      },
+      {
+        "path": "src/inhalable_star.c",
+        "lines": [
+          130,
+          149
+        ],
+        "purpose": "Native dropped-ability star stores current ability."
+      }
+    ],
+    "patch_comparison_scope": "Reviewed room/detach/terrain/bounds/Mini-clear/mouth-disposal/door/block ranges are unchanged, except the separately identified expected AP button-door and ability-start call replacements in common movement states. No blanket pristine-handler claim."
+  }
+}

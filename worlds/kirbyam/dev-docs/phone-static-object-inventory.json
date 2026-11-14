@@ -1,0 +1,3740 @@
+{
+  "schema_version": 1,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "input_sha256": {
+    "parser": "142bdac43515c6b135d105a45613f299146812591264f226a605609dc01dbfab",
+    "mapping": "51e2272ea74506f35272fb61402138bd4dd7ee08776d250fddb03d816cdef705",
+    "constants": "b4faa1b6ca67d6f70b7be0aba5e1fd37e8529acf6b0b4ecfe88331df862a4fc3",
+    "constructor_names": "5e0dd34698e64ad26dc9a688b720c142f80b21faaa502915fb746f9d80f12ae1",
+    "object_census_script": "d5304a33aa09dcc3fa10aba04f96536f6a7f0fd21c1769475938cd3b0834e90f"
+  },
+  "counts": {
+    "object_lists": 287,
+    "templates": 3482,
+    "templates_by_spawn_table": {
+      "1": 3482
+    },
+    "focused_rows": 496,
+    "object_spawners": 37,
+    "small_switch_positions_crosschecked": 35
+  },
+  "spawner_source": "asm/object_spawner.s365-422 constructs table1,size0x24 and takes lowbyte of source template+0x14 as target type; other runtime constructors are not covered.",
+  "scope": "Phone-relevant subset of all287 static lists and3482 templates, with namespace separation. All37 static ObjectSpawner low-byte targets checked. Other runtime constructors and helper reliability are not certified.",
+  "templates": [
+    {
+      "list_index": 1,
+      "record_index": 0,
+      "rom_offset": "0x8B4CD0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        1160,
+        40
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 0,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 60
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65496,
+        "0x1C": 65496,
+        "0x1E": 80,
+        "0x20": 64,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 1,
+      "record_index": 1,
+      "rom_offset": "0x8B4CF4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        1048,
+        88
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 50
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65448,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 1,
+      "record_index": 2,
+      "rom_offset": "0x8B4D18",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        816,
+        88
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 40
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65448,
+        "0x1E": 32,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 1,
+      "record_index": 3,
+      "rom_offset": "0x8B4D3C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        648,
+        88
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 30
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65448,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 1,
+      "record_index": 4,
+      "rom_offset": "0x8B4D60",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        496,
+        88
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 20
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65504,
+        "0x1C": 65448,
+        "0x1E": 64,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 1,
+      "record_index": 5,
+      "rom_offset": "0x8B4D84",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        232,
+        88
+      ],
+      "native_rooms": [
+        803
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65448,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 1,
+      "rom_offset": "0x8B4ECC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        768,
+        56
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 40
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65480,
+        "0x1E": 32,
+        "0x20": 96,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 2,
+      "rom_offset": "0x8B4EF0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        504,
+        72
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 30
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65528,
+        "0x1E": 24,
+        "0x20": 16,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 5,
+      "rom_offset": "0x8B4F5C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        872,
+        120
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 1,
+        "0x03": 2,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 6,
+      "rom_offset": "0x8B4F80",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        712,
+        56
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 1,
+        "0x03": 3,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 7,
+      "rom_offset": "0x8B4FA4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        136,
+        80
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32772
+      }
+    },
+    {
+      "list_index": 2,
+      "record_index": 8,
+      "rom_offset": "0x8B4FC8",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        296,
+        128
+      ],
+      "native_rooms": [
+        804
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 20
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32768
+      }
+    },
+    {
+      "list_index": 3,
+      "record_index": 3,
+      "rom_offset": "0x8B50C8",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        1080,
+        56
+      ],
+      "native_rooms": [
+        805
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 50
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65480,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 3,
+      "record_index": 4,
+      "rom_offset": "0x8B50EC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        856,
+        72
+      ],
+      "native_rooms": [
+        805
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 40
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65464,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 3,
+      "record_index": 5,
+      "rom_offset": "0x8B5110",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        648,
+        56
+      ],
+      "native_rooms": [
+        805
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 30
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65480,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 3,
+      "record_index": 6,
+      "rom_offset": "0x8B5134",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        384,
+        88
+      ],
+      "native_rooms": [
+        805
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 20
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65448,
+        "0x1E": 32,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 3,
+      "record_index": 7,
+      "rom_offset": "0x8B5158",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        216,
+        88
+      ],
+      "native_rooms": [
+        805
+      ],
+      "ap_keys": [
+        "REGION_TUTORIAL/ROOM_0_03"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 7,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65448,
+        "0x1E": 48,
+        "0x20": 208,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 53,
+      "record_index": 7,
+      "rom_offset": "0x8BA780",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        424,
+        552
+      ],
+      "native_rooms": [
+        173
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_18",
+        "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 57,
+      "record_index": 9,
+      "rom_offset": "0x8BB098",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        120,
+        288
+      ],
+      "native_rooms": [
+        177
+      ],
+      "ap_keys": [
+        "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 7,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 60,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 62,
+      "record_index": 0,
+      "rom_offset": "0x8BBB48",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        200,
+        120
+      ],
+      "native_rooms": [
+        146
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 0,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65512,
+        "0x1C": 65512,
+        "0x1E": 64,
+        "0x20": 48,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 62,
+      "record_index": 1,
+      "rom_offset": "0x8BBB6C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        112,
+        128
+      ],
+      "native_rooms": [
+        146
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65520,
+        "0x1E": 32,
+        "0x20": 32,
+        "0x22": 1
+      }
+    },
+    {
+      "list_index": 62,
+      "record_index": 2,
+      "rom_offset": "0x8BBB90",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7D",
+      "type_name": "OBJ_LARGE_STAR_STONE_BLOCK_7D",
+      "constructor": "CreateLargeStarStoneBlock7D",
+      "position_pixels": [
+        160,
+        128
+      ],
+      "native_rooms": [
+        146
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 125,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 63,
+      "record_index": 7,
+      "rom_offset": "0x8BBD64",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        520,
+        112
+      ],
+      "native_rooms": [
+        147
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_19"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 1,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 35,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 71,
+      "record_index": 6,
+      "rom_offset": "0x8BCD6C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        560,
+        304
+      ],
+      "native_rooms": [
+        707
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 72,
+      "record_index": 12,
+      "rom_offset": "0x8BD068",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        80,
+        384
+      ],
+      "native_rooms": [
+        708
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 12,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 100,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 76,
+      "record_index": 5,
+      "rom_offset": "0x8BD564",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        344,
+        464
+      ],
+      "native_rooms": [
+        712
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 100,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 79,
+      "record_index": 5,
+      "rom_offset": "0x8BDBCC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        280,
+        464
+      ],
+      "native_rooms": [
+        742
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_15_UPPER_LEDGE_SPAWN"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 120,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 81,
+      "record_index": 4,
+      "rom_offset": "0x8BDEEC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        200,
+        280
+      ],
+      "native_rooms": [
+        702
+      ],
+      "ap_keys": [
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 90,
+      "record_index": 0,
+      "rom_offset": "0x8BEE64",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        376,
+        136
+      ],
+      "native_rooms": [
+        206
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 0,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65528,
+        "0x1C": 65528,
+        "0x1E": 16,
+        "0x20": 16,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 90,
+      "record_index": 1,
+      "rom_offset": "0x8BEE88",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        248,
+        56
+      ],
+      "native_rooms": [
+        206
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_08"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65528,
+        "0x1C": 65528,
+        "0x1E": 16,
+        "0x20": 16,
+        "0x22": 6
+      }
+    },
+    {
+      "list_index": 92,
+      "record_index": 3,
+      "rom_offset": "0x8BF35C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        288,
+        624
+      ],
+      "native_rooms": [
+        209
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 100,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 99,
+      "record_index": 7,
+      "rom_offset": "0x8C04B4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        160,
+        208
+      ],
+      "native_rooms": [
+        228
+      ],
+      "ap_keys": [
+        "REGION_PEPPERMINT_PALACE/ROOM_7_09"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 60,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 117,
+      "record_index": 2,
+      "rom_offset": "0x8C26F0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        312,
+        144
+      ],
+      "native_rooms": [
+        533
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 128,
+      "record_index": 1,
+      "rom_offset": "0x8C3EF0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        584,
+        136
+      ],
+      "native_rooms": [
+        310
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65528,
+        "0x1C": 65528,
+        "0x1E": 16,
+        "0x20": 16,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 128,
+      "record_index": 2,
+      "rom_offset": "0x8C3F14",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        312,
+        144
+      ],
+      "native_rooms": [
+        310
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 131,
+      "record_index": 5,
+      "rom_offset": "0x8C4628",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x88",
+      "type_name": "OBJ_LARGE_STAR_STONE_BLOCK_88",
+      "constructor": "CreateLargeStarStoneBlock88",
+      "position_pixels": [
+        160,
+        32
+      ],
+      "native_rooms": [
+        315
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_12"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 136,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 136,
+      "record_index": 1,
+      "rom_offset": "0x8C4E94",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7E",
+      "type_name": "OBJ_LARGE_STAR_STONE_BLOCK_7E",
+      "constructor": "CreateLargeStarStoneBlock7E",
+      "position_pixels": [
+        864,
+        32
+      ],
+      "native_rooms": [
+        322
+      ],
+      "ap_keys": [
+        "REGION_MUSTARD_MOUNTAIN/ROOM_4_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 126,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 2
+      }
+    },
+    {
+      "list_index": 146,
+      "record_index": 3,
+      "rom_offset": "0x8C600C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        440,
+        64
+      ],
+      "native_rooms": [
+        404
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_01"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 0,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 167,
+      "record_index": 5,
+      "rom_offset": "0x8C888C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        312,
+        128
+      ],
+      "native_rooms": [
+        426
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 3,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 20
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32772
+      }
+    },
+    {
+      "list_index": 167,
+      "record_index": 6,
+      "rom_offset": "0x8C88B0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        312,
+        64
+      ],
+      "native_rooms": [
+        426
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 2,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 4
+      }
+    },
+    {
+      "list_index": 167,
+      "record_index": 7,
+      "rom_offset": "0x8C88D4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        184,
+        64
+      ],
+      "native_rooms": [
+        426
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 7,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32768
+      }
+    },
+    {
+      "list_index": 167,
+      "record_index": 8,
+      "rom_offset": "0x8C88F8",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        424,
+        56
+      ],
+      "native_rooms": [
+        426
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 8,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 30
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65528,
+        "0x1E": 24,
+        "0x20": 16,
+        "0x22": 4
+      }
+    },
+    {
+      "list_index": 168,
+      "record_index": 4,
+      "rom_offset": "0x8C89D4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        56,
+        240
+      ],
+      "native_rooms": [
+        427
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 300,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 168,
+      "record_index": 5,
+      "rom_offset": "0x8C89F8",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        424,
+        144
+      ],
+      "native_rooms": [
+        427
+      ],
+      "ap_keys": [
+        "REGION_CANDY_CONSTELLATION/ROOM_9_02"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 120,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 177,
+      "record_index": 10,
+      "rom_offset": "0x8C9808",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        56,
+        112
+      ],
+      "native_rooms": [
+        511
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_05"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 10,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 135,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 184,
+      "record_index": 2,
+      "rom_offset": "0x8CA544",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        856,
+        192
+      ],
+      "native_rooms": [
+        527
+      ],
+      "ap_keys": [
+        "REGION_CABBAGE_CAVERN/ROOM_3_14"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 100,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 194,
+      "record_index": 13,
+      "rom_offset": "0x8CBD40",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        712,
+        248
+      ],
+      "native_rooms": [
+        134
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_06"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 11,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 200,
+      "record_index": 2,
+      "rom_offset": "0x8CCCB4",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        384,
+        128
+      ],
+      "native_rooms": [
+        815
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 30
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65528,
+        "0x1C": 65520,
+        "0x1E": 24,
+        "0x20": 32,
+        "0x22": 4
+      }
+    },
+    {
+      "list_index": 200,
+      "record_index": 4,
+      "rom_offset": "0x8CCCFC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        184,
+        136
+      ],
+      "native_rooms": [
+        815
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 200,
+      "record_index": 6,
+      "rom_offset": "0x8CCD44",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        312,
+        80
+      ],
+      "native_rooms": [
+        815
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 20
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32768
+      }
+    },
+    {
+      "list_index": 200,
+      "record_index": 7,
+      "rom_offset": "0x8CCD68",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        168,
+        144
+      ],
+      "native_rooms": [
+        815
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 7,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 32768
+      }
+    },
+    {
+      "list_index": 203,
+      "record_index": 5,
+      "rom_offset": "0x8CD360",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        656,
+        144
+      ],
+      "native_rooms": [
+        825
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 255,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 209,
+      "record_index": 4,
+      "rom_offset": "0x8CDE08",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        472,
+        224
+      ],
+      "native_rooms": [
+        831
+      ],
+      "ap_keys": [
+        "REGION_OLIVE_OCEAN/ROOM_6_14"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 240,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 225,
+      "record_index": 4,
+      "rom_offset": "0x8CFDD0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        432,
+        128
+      ],
+      "native_rooms": [
+        610
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_1"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 120,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 231,
+      "record_index": 4,
+      "rom_offset": "0x8D0474",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        328,
+        96
+      ],
+      "native_rooms": [
+        608
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 4,
+        "0x04": 5,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 200,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 231,
+      "record_index": 5,
+      "rom_offset": "0x8D0498",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        464,
+        112
+      ],
+      "native_rooms": [
+        608
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 4,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 255,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 231,
+      "record_index": 6,
+      "rom_offset": "0x8D04BC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        752,
+        208
+      ],
+      "native_rooms": [
+        608
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 6,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 70,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 231,
+      "record_index": 7,
+      "rom_offset": "0x8D04E0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        1064,
+        272
+      ],
+      "native_rooms": [
+        608
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 7,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 70,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 231,
+      "record_index": 14,
+      "rom_offset": "0x8D05DC",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        936,
+        48
+      ],
+      "native_rooms": [
+        608
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_11"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 14,
+        "0x04": 3,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 30,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 237,
+      "record_index": 1,
+      "rom_offset": "0x8D10F0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        184,
+        40
+      ],
+      "native_rooms": [
+        617
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65520,
+        "0x1C": 65512,
+        "0x1E": 24,
+        "0x20": 48,
+        "0x22": 4
+      }
+    },
+    {
+      "list_index": 245,
+      "record_index": 3,
+      "rom_offset": "0x8D21C8",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x79",
+      "type_name": "OBJ_STAR_STONE_BLOCK",
+      "constructor": "CreateStarStoneBlock",
+      "position_pixels": [
+        488,
+        280
+      ],
+      "native_rooms": [
+        102
+      ],
+      "ap_keys": [
+        "REGION_RADISH_RUINS/ROOM_8_22"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 3,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 121,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 260,
+      "record_index": 0,
+      "rom_offset": "0x8D3D1C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x7F",
+      "type_name": "OBJ_CPU_KIRBY_TRIGGER",
+      "constructor": "CreateCPUKirbyTrigger",
+      "position_pixels": [
+        296,
+        40
+      ],
+      "native_rooms": [
+        733
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_16"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 0,
+        "0x04": 0,
+        "0x05": 0
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 127,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 10
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 0,
+        "0x1A": 65530,
+        "0x1C": 65530,
+        "0x1E": 12,
+        "0x20": 12,
+        "0x22": 4
+      }
+    },
+    {
+      "list_index": 267,
+      "record_index": 1,
+      "rom_offset": "0x8D486C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        600,
+        96
+      ],
+      "native_rooms": [
+        720
+      ],
+      "ap_keys": [
+        "REGION_CARROT_CASTLE/ROOM_5_14"
+      ],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 30,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 0
+      }
+    },
+    {
+      "list_index": 272,
+      "record_index": 1,
+      "rom_offset": "0x8D529C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        56,
+        256
+      ],
+      "native_rooms": [
+        911
+      ],
+      "ap_keys": [],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 1,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 60,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 272,
+      "record_index": 2,
+      "rom_offset": "0x8D52C0",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        136,
+        304
+      ],
+      "native_rooms": [
+        911
+      ],
+      "ap_keys": [],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 2,
+        "0x04": 2,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 90,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 272,
+      "record_index": 5,
+      "rom_offset": "0x8D532C",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        72,
+        304
+      ],
+      "native_rooms": [
+        911
+      ],
+      "ap_keys": [],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 3,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 80,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    },
+    {
+      "list_index": 276,
+      "record_index": 7,
+      "rom_offset": "0x8D5700",
+      "record_size": 36,
+      "spawn_table": 1,
+      "type": "0x6D",
+      "type_name": "OBJ_SMALL_BUTTON",
+      "constructor": "CreateSmallSwitch",
+      "position_pixels": [
+        120,
+        304
+      ],
+      "native_rooms": [
+        915
+      ],
+      "ap_keys": [],
+      "template_bytes_0x02_0x05": {
+        "0x02": 0,
+        "0x03": 5,
+        "0x04": 1,
+        "0x05": 1
+      },
+      "template_bytes_0x0A_0x11": {
+        "0x0A": 255,
+        "0x0B": 255,
+        "0x0C": 109,
+        "0x0D": 255,
+        "0x0E": 0,
+        "0x0F": 0,
+        "0x10": 0,
+        "0x11": 0
+      },
+      "template_parameters_u16": {
+        "0x12": 0,
+        "0x14": 0,
+        "0x16": 0,
+        "0x18": 180,
+        "0x1A": 0,
+        "0x1C": 0,
+        "0x1E": 0,
+        "0x20": 0,
+        "0x22": 8
+      }
+    }
+  ],
+  "spawner_targets": [
+    {
+      "rom_offset": "0x8BA06C",
+      "native_rooms": [
+        139
+      ],
+      "position_pixels": [
+        80,
+        152
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x08",
+      "spawned_type_name": "OBJ_CHIP",
+      "spawned_constructor": "CreateChip",
+      "full_parameter_0x14": 264
+    },
+    {
+      "rom_offset": "0x8BA1B0",
+      "native_rooms": [
+        139
+      ],
+      "position_pixels": [
+        104,
+        152
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x08",
+      "spawned_type_name": "OBJ_CHIP",
+      "spawned_constructor": "CreateChip",
+      "full_parameter_0x14": 264
+    },
+    {
+      "rom_offset": "0x8BA1D4",
+      "native_rooms": [
+        139
+      ],
+      "position_pixels": [
+        56,
+        152
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x07",
+      "spawned_type_name": "OBJ_SNOOTER_1",
+      "spawned_constructor": "CreateSnooter",
+      "full_parameter_0x14": 263
+    },
+    {
+      "rom_offset": "0x8BC084",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        768,
+        80
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x27",
+      "spawned_type_name": "OBJ_MINNY",
+      "spawned_constructor": "CreateMinny",
+      "full_parameter_0x14": 295
+    },
+    {
+      "rom_offset": "0x8BC0A8",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        800,
+        80
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x27",
+      "spawned_type_name": "OBJ_MINNY",
+      "spawned_constructor": "CreateMinny",
+      "full_parameter_0x14": 295
+    },
+    {
+      "rom_offset": "0x8BC0CC",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        848,
+        80
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x27",
+      "spawned_type_name": "OBJ_MINNY",
+      "spawned_constructor": "CreateMinny",
+      "full_parameter_0x14": 295
+    },
+    {
+      "rom_offset": "0x8BC0F0",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        864,
+        80
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x27",
+      "spawned_type_name": "OBJ_MINNY",
+      "spawned_constructor": "CreateMinny",
+      "full_parameter_0x14": 295
+    },
+    {
+      "rom_offset": "0x8BC15C",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        40,
+        160
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x14",
+      "spawned_type_name": "OBJ_HOT_HEAD",
+      "spawned_constructor": "CreateHotHead",
+      "full_parameter_0x14": 276
+    },
+    {
+      "rom_offset": "0x8BC180",
+      "native_rooms": [
+        148
+      ],
+      "position_pixels": [
+        184,
+        160
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x14",
+      "spawned_type_name": "OBJ_HOT_HEAD",
+      "spawned_constructor": "CreateHotHead",
+      "full_parameter_0x14": 276
+    },
+    {
+      "rom_offset": "0x8BC218",
+      "native_rooms": [
+        149
+      ],
+      "position_pixels": [
+        352,
+        16
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x2A",
+      "spawned_type_name": "OBJ_GIANT_ROCKY",
+      "spawned_constructor": "CreateGiantRocky",
+      "full_parameter_0x14": 298
+    },
+    {
+      "rom_offset": "0x8BD660",
+      "native_rooms": [
+        712
+      ],
+      "position_pixels": [
+        160,
+        256
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x05",
+      "spawned_type_name": "OBJ_SCARFY",
+      "spawned_constructor": "CreateScarfy",
+      "full_parameter_0x14": 261
+    },
+    {
+      "rom_offset": "0x8BD684",
+      "native_rooms": [
+        712
+      ],
+      "position_pixels": [
+        232,
+        288
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x05",
+      "spawned_type_name": "OBJ_SCARFY",
+      "spawned_constructor": "CreateScarfy",
+      "full_parameter_0x14": 261
+    },
+    {
+      "rom_offset": "0x8BD6A8",
+      "native_rooms": [
+        712
+      ],
+      "position_pixels": [
+        208,
+        264
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x05",
+      "spawned_type_name": "OBJ_SCARFY",
+      "spawned_constructor": "CreateScarfy",
+      "full_parameter_0x14": 261
+    },
+    {
+      "rom_offset": "0x8BE574",
+      "native_rooms": [
+        202
+      ],
+      "position_pixels": [
+        528,
+        184
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8BE598",
+      "native_rooms": [
+        202
+      ],
+      "position_pixels": [
+        464,
+        184
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8C6F74",
+      "native_rooms": [
+        414
+      ],
+      "position_pixels": [
+        48,
+        216
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x29",
+      "spawned_type_name": "OBJ_HEAVY_KNIGHT",
+      "spawned_constructor": "CreateHeavyKnight",
+      "full_parameter_0x14": 297
+    },
+    {
+      "rom_offset": "0x8C6F98",
+      "native_rooms": [
+        414
+      ],
+      "position_pixels": [
+        224,
+        216
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x29",
+      "spawned_type_name": "OBJ_HEAVY_KNIGHT",
+      "spawned_constructor": "CreateHeavyKnight",
+      "full_parameter_0x14": 297
+    },
+    {
+      "rom_offset": "0x8CCF68",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        376,
+        424
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8CCFB0",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        216,
+        424
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8CD088",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        112,
+        272
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8CD0AC",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        112,
+        320
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8CD0D0",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        240,
+        296
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8CD0F4",
+      "native_rooms": [
+        823
+      ],
+      "position_pixels": [
+        80,
+        296
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x02",
+      "spawned_type_name": "OBJ_BLIPPER",
+      "spawned_constructor": "CreateBlipper",
+      "full_parameter_0x14": 258
+    },
+    {
+      "rom_offset": "0x8D1FF0",
+      "native_rooms": [
+        526
+      ],
+      "position_pixels": [
+        704,
+        64
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D2014",
+      "native_rooms": [
+        526
+      ],
+      "position_pixels": [
+        664,
+        40
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D2038",
+      "native_rooms": [
+        526
+      ],
+      "position_pixels": [
+        632,
+        32
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D205C",
+      "native_rooms": [
+        526
+      ],
+      "position_pixels": [
+        584,
+        32
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D2898",
+      "native_rooms": [
+        121
+      ],
+      "position_pixels": [
+        496,
+        104
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D28BC",
+      "native_rooms": [
+        121
+      ],
+      "position_pixels": [
+        536,
+        96
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D28E0",
+      "native_rooms": [
+        121
+      ],
+      "position_pixels": [
+        512,
+        144
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x0F",
+      "spawned_type_name": "OBJ_LEAP",
+      "spawned_constructor": "CreateLeap",
+      "full_parameter_0x14": 271
+    },
+    {
+      "rom_offset": "0x8D2928",
+      "native_rooms": [
+        121
+      ],
+      "position_pixels": [
+        776,
+        32
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x29",
+      "spawned_type_name": "OBJ_HEAVY_KNIGHT",
+      "spawned_constructor": "CreateHeavyKnight",
+      "full_parameter_0x14": 297
+    },
+    {
+      "rom_offset": "0x8D5CF4",
+      "native_rooms": [
+        955
+      ],
+      "position_pixels": [
+        216,
+        112
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x3A",
+      "spawned_type_name": "OBJ_PHAN_PHAN",
+      "spawned_constructor": "CreatePhanPhan",
+      "full_parameter_0x14": 314
+    },
+    {
+      "rom_offset": "0x8D5D18",
+      "native_rooms": [
+        955
+      ],
+      "position_pixels": [
+        208,
+        112
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x39",
+      "spawned_type_name": "OBJ_BONKERS",
+      "spawned_constructor": "CreateBonkers",
+      "full_parameter_0x14": 313
+    },
+    {
+      "rom_offset": "0x8D5D84",
+      "native_rooms": [
+        956
+      ],
+      "position_pixels": [
+        208,
+        120
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x3D",
+      "spawned_type_name": "OBJ_BOXY",
+      "spawned_constructor": "CreateBoxy",
+      "full_parameter_0x14": 317
+    },
+    {
+      "rom_offset": "0x8D5DA8",
+      "native_rooms": [
+        956
+      ],
+      "position_pixels": [
+        184,
+        80
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x3E",
+      "spawned_type_name": "OBJ_MASTER_HAND",
+      "spawned_constructor": "CreateMasterHand",
+      "full_parameter_0x14": 318
+    },
+    {
+      "rom_offset": "0x8D5E14",
+      "native_rooms": [
+        957
+      ],
+      "position_pixels": [
+        200,
+        120
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x3C",
+      "spawned_type_name": "OBJ_BOX_BOXER",
+      "spawned_constructor": "CreateBoxBoxer",
+      "full_parameter_0x14": 316
+    },
+    {
+      "rom_offset": "0x8D5E38",
+      "native_rooms": [
+        957
+      ],
+      "position_pixels": [
+        216,
+        56
+      ],
+      "spawn_table": 1,
+      "spawned_type": "0x3F",
+      "spawned_type_name": "OBJ_BOMBAR",
+      "spawned_constructor": "CreateBombar",
+      "full_parameter_0x14": 319
+    }
+  ]
+}

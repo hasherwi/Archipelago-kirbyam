@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "scope": "Native mGBA bridge System Bus mapping only; not end-to-end BizHawk Lua transport. No ROM bytes or private saves included.",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "pre_phone_patch_commit": "7a198f4ff09a0b3a279dc61bc420bc57a0d62c10",
+  "results": [
+    {
+      "case": "retail16m",
+      "rom_size": 16777216,
+      "rom_sha256": "cfb194cd0cb373787094a962852e3e564fb2ecdb0609fe065afdd8de3f4e11f1",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "bus_address": "0x0900FFC8",
+      "returned_size": 12,
+      "phone_marker": false,
+      "bytes_sha256": "b534cd84e0b9d5686a86fad2bd60afd1fb192f13135390641856752b62871ba9"
+    },
+    {
+      "case": "pre-phone-main",
+      "rom_size": 16842752,
+      "rom_sha256": "edd6c31aa19f77c411a587aaa67fc7ecd795220adc5686f6408b5ac03bc1d71e",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "bus_address": "0x0900FFC8",
+      "returned_size": 12,
+      "phone_marker": false,
+      "bytes_sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"
+    }
+  ]
+}
