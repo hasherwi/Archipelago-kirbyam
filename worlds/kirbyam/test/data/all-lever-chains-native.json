@@ -1,0 +1,199 @@
+{
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "scope": "Static trigger and connected-chain attribution, not gameplay.",
+  "rooms": [
+    {
+      "native_room": 170,
+      "trigger_offset": "0x8d2e8c",
+      "counter_selector": 1,
+      "counter_value": 1,
+      "trigger_cell": [
+        4,
+        6
+      ],
+      "controlled_chain": [
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ]
+      ],
+      "other_f2_cells": []
+    },
+    {
+      "native_room": 619,
+      "trigger_offset": "0x8d1478",
+      "counter_selector": 1,
+      "counter_value": 1,
+      "trigger_cell": [
+        5,
+        3
+      ],
+      "controlled_chain": [
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ]
+      ],
+      "other_f2_cells": []
+    },
+    {
+      "native_room": 743,
+      "trigger_offset": "0x8be19c",
+      "counter_selector": 1,
+      "counter_value": 1,
+      "trigger_cell": [
+        9,
+        6
+      ],
+      "controlled_chain": [
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          5
+        ],
+        [
+          9,
+          6
+        ],
+        [
+          9,
+          7
+        ]
+      ],
+      "other_f2_cells": [
+        [
+          6,
+          13
+        ],
+        [
+          7,
+          13
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          9,
+          13
+        ],
+        [
+          10,
+          13
+        ],
+        [
+          11,
+          13
+        ],
+        [
+          12,
+          13
+        ],
+        [
+          13,
+          19
+        ],
+        [
+          13,
+          20
+        ],
+        [
+          14,
+          6
+        ],
+        [
+          14,
+          19
+        ],
+        [
+          14,
+          20
+        ],
+        [
+          15,
+          16
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          16
+        ],
+        [
+          18,
+          16
+        ],
+        [
+          19,
+          16
+        ],
+        [
+          20,
+          16
+        ],
+        [
+          21,
+          16
+        ],
+        [
+          22,
+          16
+        ]
+      ]
+    },
+    {
+      "native_room": 824,
+      "trigger_offset": "0x8cd264",
+      "counter_selector": 1,
+      "counter_value": 1,
+      "trigger_cell": [
+        9,
+        3
+      ],
+      "controlled_chain": [
+        [
+          9,
+          1
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          9,
+          3
+        ]
+      ],
+      "other_f2_cells": []
+    }
+  ]
+}
