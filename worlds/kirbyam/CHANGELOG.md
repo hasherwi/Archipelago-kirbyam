@@ -8,6 +8,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
+## Unreleased
+
+### New Features
+
+### Improvements
+- Improve traversal-validation documentation with bounded route evidence and replay-assisted reset/busy-lock diagnostics; full-route qualification remains incomplete (PR #1092).
+
+### Known Limitations
+
+### Bug Fixes
+
+### Internal Changes
+
 ## v0.5.1
 
 ### New Features
