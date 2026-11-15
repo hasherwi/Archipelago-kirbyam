@@ -406,7 +406,8 @@ class RoomSanity(Toggle):
 
 
 class TraversalLogic(Choice):
-    """Standard excludes Crash-dependent traversal. Advanced enables the reviewed
+    """Advanced logic is off by default. Standard excludes Crash-dependent traversal.
+    Advanced enables the reviewed
     Crash routes, including their physical source and one-use timing requirements.
     This does not assume helper combat or enable unreviewed routes.
     """

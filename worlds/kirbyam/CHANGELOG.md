@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add the opt-in `Traversal Logic` choice under `Make the game harder`; Advanced logic is off by default and enables reviewed Crash traversal routes (PR #1092).
 
 ### Improvements
 - Improve traversal-validation documentation with bounded route evidence and replay-assisted reset/busy-lock diagnostics; full-route qualification remains incomplete (PR #1092).

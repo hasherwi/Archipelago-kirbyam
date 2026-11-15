@@ -7,7 +7,7 @@ from Options import Accessibility
 from .. import traversal_rules as rules
 from ..options import TraversalLogic
 from ..traversal import CAPABILITY_ABILITIES
-from ..traversal_data import room_traversal_graph
+from ..traversal_data import _room_catalog, room_traversal_graph
 from .test_traversal import policy
 
 ADVANCED = {('fuse_126', 'lower_entry_crash'),
@@ -20,11 +20,40 @@ def test_default_standard_and_missing_option():
     assert not rules.advanced_traversal_enabled(SimpleNamespace(options=SimpleNamespace()))
 
 
-def test_all_crash_capable_catalog_routes_explicitly_advanced():
+@pytest.mark.parametrize('visibility', ['template', 'simple_ui', 'complex_ui'])
+def test_traversal_logic_is_grouped_under_make_the_game_harder(visibility):
+    from Options import Visibility, get_option_groups
+    from .. import KirbyAmWorld
+    groups = get_option_groups(KirbyAmWorld, getattr(Visibility, visibility))
+    assert [name for name, options in groups.items() if 'traversal_logic' in options] == [
+        'Make the game harder']
+    assert groups['Make the game harder']['traversal_logic'] is TraversalLogic
+
+
+def test_generated_yaml_keeps_advanced_off_by_default(monkeypatch, tmp_path):
+    import yaml
+    from Options import generate_yaml_templates
+    from worlds.AutoWorld import AutoWorldRegister
+    from .. import KirbyAmWorld
+    monkeypatch.setattr(AutoWorldRegister, 'world_types', {KirbyAmWorld.game: KirbyAmWorld})
+    generate_yaml_templates(tmp_path)
+    files = list(tmp_path.glob('*.yaml'))
+    assert len(files) == 1
+    text = files[0].read_text(encoding='utf-8-sig')
+    options = yaml.safe_load(text)[KirbyAmWorld.game]
+    assert options['traversal_logic'] == {'standard': 50, 'advanced': 0}
+    harder = text.split('# Make the game harder #', 1)[1].split('# Ability Randomization #', 1)[0]
+    assert 'traversal_logic:' in harder
+    assert TraversalLogic.from_any('standard').value == TraversalLogic.default == 0
+    assert TraversalLogic.from_any('advanced').value == 1
+
+
+@pytest.mark.parametrize('area_keys', [False, True])
+def test_all_crash_capable_catalog_routes_explicitly_advanced(area_keys):
     found = set()
-    for row in rules.extra_traversal_targets():
-        for name, payload in row['graphs'].items():
-            graph = room_traversal_graph(row['id'], name)
+    for row in _room_catalog()[0]:
+        for name in row['graphs']:
+            graph = room_traversal_graph(row['id'], name, area_keys)
             crash = any(
                 (route.capability is not None
                  and 'Crash' in CAPABILITY_ABILITIES[route.capability]
@@ -34,7 +63,7 @@ def test_all_crash_capable_catalog_routes_explicitly_advanced():
             if crash:
                 found.add((row['id'], name))
                 assert name in row.get('advanced_graphs', ())
-                assert graph not in rules.target_graphs(row, False)
+                assert graph not in rules.target_graphs(row, area_keys)
             if name in row.get('advanced_graphs', ()):
                 assert (row['id'], name) in ADVANCED
     assert found == ADVANCED

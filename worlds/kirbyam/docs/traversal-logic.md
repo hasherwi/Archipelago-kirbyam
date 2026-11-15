@@ -2107,7 +2107,12 @@ counts do not establish complete physical traversal coverage.
 
 ## Standard and advanced traversal
 
-`traversal_logic` defaults to `standard`. `advanced` additionally allows the
+The **Traversal Logic** choice appears under the existing **Make the game harder**
+option group. Advanced logic is **off by default**: leave it on `standard` unless
+you explicitly want the advanced routes. In YAML this remains a game-level
+`traversal_logic: standard` (or `advanced`) setting, not a nested option group.
+
+`advanced` additionally allows the
 reviewed Crash witnesses for Rainbow Route room 126's fuse, Mustard Mountain
 room 533's switch, and room 310's map chest. These routes still require their
 actual physical source, independent entry, carry, one-use consumption, and
@@ -2124,3 +2129,21 @@ targets still retain older rules for source policies outside their qualified
 applicability, including relevant mixed or non-guaranteed assignments. Historical
 physical-evidence graphs remain available for inspection;
 the target-level `advanced_graphs` list controls their inclusion in world logic.
+
+
+### Crash-route classification audit
+
+The complete compiled traversal catalog contains 57 targets and 146 witnesses
+(292 graph variants with Area Keys both off and on). Its only Crash-capable
+witnesses are the three advanced witnesses above. This is a source/catalog audit,
+not proof that every possible in-game Crash trick has been discovered or played.
+The regression enumerates the whole catalog, including non-extra target kinds,
+so an additional Crash-capable witness cannot silently enter standard logic.
+
+Three other cannon-fuse candidates explicitly exclude Crash: `fuse_323`
+(Mustard Mountain 4-13 left to 4-14 left), `fuse_827` (Olive Ocean 6-07 to 6-05),
+and `fuse_502` (Radish Ruins 8-16 to 8-17). Their entries in
+[`rooms.json`](../data/regions/rooms.json) record possible ignition but unreviewed
+light-to-board timing. They remain excluded even in advanced logic until a
+complete source/carry/consumption/boarding witness is supported. They are not
+additional currently enabled routes that need moving to advanced.
