@@ -21,7 +21,7 @@ def extra_traversal_targets() -> tuple[dict[str, Any], ...]:
 
 def advanced_traversal_enabled(world: Any) -> bool:
     """Missing settings in old fixtures/slots retain the safe standard baseline."""
-    option = getattr(getattr(world, "options", None), "traversal_logic", None)
+    option = getattr(getattr(world, "options", None), "advanced_logic", None)
     return getattr(option, "value", 0) == 1
 
 

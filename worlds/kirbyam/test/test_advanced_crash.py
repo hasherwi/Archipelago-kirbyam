@@ -5,7 +5,7 @@ import pytest
 from Options import Accessibility
 
 from .. import traversal_rules as rules
-from ..options import TraversalLogic
+from ..options import AdvancedLogic
 from ..traversal import CAPABILITY_ABILITIES
 from ..traversal_data import _room_catalog, room_traversal_graph
 from .test_traversal import policy
@@ -16,18 +16,29 @@ ADVANCED = {('fuse_126', 'lower_entry_crash'),
 
 
 def test_default_standard_and_missing_option():
-    assert TraversalLogic.default == TraversalLogic.option_standard
+    from ..options import KirbyAmOptions
+    assert AdvancedLogic.display_name == "Advanced Logic"
+    assert KirbyAmOptions.type_hints["advanced_logic"] is AdvancedLogic
+    assert "traversal_logic" not in KirbyAmOptions.type_hints
+    assert AdvancedLogic.default == 0
     assert not rules.advanced_traversal_enabled(SimpleNamespace(options=SimpleNamespace()))
 
 
+@pytest.mark.parametrize('legacy_value', ['standard', 'advanced'])
+def test_provisional_choice_values_are_not_toggle_aliases(legacy_value):
+    from Options import OptionError
+    with pytest.raises(OptionError):
+        AdvancedLogic.from_any(legacy_value)
+
+
 @pytest.mark.parametrize('visibility', ['template', 'simple_ui', 'complex_ui'])
-def test_traversal_logic_is_grouped_under_make_the_game_harder(visibility):
+def test_advanced_logic_is_grouped_under_make_the_game_harder(visibility):
     from Options import Visibility, get_option_groups
     from .. import KirbyAmWorld
     groups = get_option_groups(KirbyAmWorld, getattr(Visibility, visibility))
-    assert [name for name, options in groups.items() if 'traversal_logic' in options] == [
+    assert [name for name, options in groups.items() if 'advanced_logic' in options] == [
         'Make the game harder']
-    assert groups['Make the game harder']['traversal_logic'] is TraversalLogic
+    assert groups['Make the game harder']['advanced_logic'] is AdvancedLogic
 
 
 def test_generated_yaml_keeps_advanced_off_by_default(monkeypatch, tmp_path):
@@ -41,11 +52,12 @@ def test_generated_yaml_keeps_advanced_off_by_default(monkeypatch, tmp_path):
     assert len(files) == 1
     text = files[0].read_text(encoding='utf-8-sig')
     options = yaml.safe_load(text)[KirbyAmWorld.game]
-    assert options['traversal_logic'] == {'standard': 50, 'advanced': 0}
+    assert options['advanced_logic'] == {'false': 50, 'true': 0}
+    assert 'traversal_logic' not in options
     harder = text.split('# Make the game harder #', 1)[1].split('# Ability Randomization #', 1)[0]
-    assert 'traversal_logic:' in harder
-    assert TraversalLogic.from_any('standard').value == TraversalLogic.default == 0
-    assert TraversalLogic.from_any('advanced').value == 1
+    assert 'advanced_logic:' in harder
+    assert AdvancedLogic.from_any(False).value == AdvancedLogic.default == 0
+    assert AdvancedLogic.from_any(True).value == 1
 
 
 @pytest.mark.parametrize('area_keys', [False, True])
@@ -81,7 +93,7 @@ def test_static_and_installed_rules_agree_without_fallback_leak(monkeypatch, tar
     assert rules.static_extra_witness(source, advanced=advanced) is advanced
     target = SimpleNamespace(access_rule=lambda state: True)
     options = SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=False),
-                              traversal_logic=TraversalLogic(int(advanced)),
+                              advanced_logic=AdvancedLogic(int(advanced)),
                               accessibility=Accessibility(Accessibility.option_minimal))
     world = SimpleNamespace(player=1, options=options, _enemy_copy_ability_policy=source.policy,
                             _ability_gating_enabled=lambda: False, _area_keys_enabled=lambda: False,
@@ -110,11 +122,11 @@ def test_live_random_pool_not_rewritten_into_guaranteed_fire():
 
 
 def test_crash_progression_requires_advanced():
-    world = SimpleNamespace(options=SimpleNamespace(traversal_logic=TraversalLogic(0)),
+    world = SimpleNamespace(options=SimpleNamespace(advanced_logic=AdvancedLogic(0)),
                             _enemy_copy_ability_policy=policy(1, pool=['Crash']).policy,
                             _ability_gating_enabled=lambda: True)
     assert not rules.mustard_crash_is_progression(world)
-    world.options.traversal_logic = TraversalLogic(1)
+    world.options.advanced_logic = AdvancedLogic(1)
     assert rules.mustard_crash_is_progression(world)
 
 
@@ -149,9 +161,9 @@ def test_standard_preserves_every_non_crash_witness():
 @pytest.mark.parametrize('mode', [0, 1, 2])
 def test_real_world_option_survives_generation_and_slot_data(mode, advanced):
     from .test_mini_traversal import make_world
-    world = make_world(mode, 1, traversal_logic=int(advanced))
+    world = make_world(mode, 1, advanced_logic=int(advanced))
     assert rules.advanced_traversal_enabled(world) is advanced
-    assert world.fill_slot_data()['traversal_logic'] == int(advanced)
+    assert world.fill_slot_data()['advanced_logic'] == int(advanced)
 
 
 def test_invalid_advanced_graph_marker_rejected():

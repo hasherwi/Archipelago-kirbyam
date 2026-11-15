@@ -18,7 +18,7 @@ from .support.integration_generation import generate_archive_from_fixture, load_
 
 def make_world(*args, **kwargs):
     """Historical Crash route fixtures explicitly select advanced traversal."""
-    return _make_world(*args, traversal_logic=1, **kwargs)
+    return _make_world(*args, advanced_logic=1, **kwargs)
 
 CAPABILITY = 'switch_533_crash_viewport'
 ROOT = Path(__file__).resolve().parents[1]
@@ -144,7 +144,7 @@ def test_real_world_binding_collection_and_unrelated_exits(monkeypatch, gating, 
 def test_conditional_promotion_matches_source_gate(mode, pool, weight, progression):
     from types import SimpleNamespace
     resolver = policy(mode, pool=pool, weight=weight)
-    world = SimpleNamespace(options=SimpleNamespace(traversal_logic=SimpleNamespace(value=1)), _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
+    world = SimpleNamespace(options=SimpleNamespace(advanced_logic=SimpleNamespace(value=1)), _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
     assert rules.mustard_crash_is_progression(world) is progression
     world._ability_gating_enabled = lambda: False
     assert not rules.mustard_crash_is_progression(world)
@@ -154,7 +154,7 @@ def test_conditional_promotion_matches_source_gate(mode, pool, weight, progressi
 def test_normal_pool_seed29_one_hp_full_fill(tmp_path, gating, area_keys, health):
     player = tmp_path / 'player.yaml'
     player.write_text('name: Crash\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
-                      '  traversal_logic: advanced\n  ability_randomization_mode: 1\n  minimum_health: 1\n  maximum_health: 1\n'
+                      '  advanced_logic: true\n  ability_randomization_mode: 1\n  minimum_health: 1\n  maximum_health: 1\n'
                       f'  ability_gating: {gating}\n  area_keys: {area_keys}\n'
                       f'  enemy_health_multiplier: {health}\n', encoding='utf-8')
     archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=29)

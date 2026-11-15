@@ -2107,21 +2107,19 @@ counts do not establish complete physical traversal coverage.
 
 ## Standard and advanced traversal
 
-The **Traversal Logic** choice appears under the existing **Make the game harder**
-option group. Advanced logic is **off by default**: leave it on `standard` unless
-you explicitly want the advanced routes. In YAML this remains a game-level
-`traversal_logic: standard` (or `advanced`) setting, not a nested option group.
-
-`advanced` additionally allows the
+The **Advanced Logic** toggle appears under the existing **Make the game harder**
+option group. It is **off by default**. Set the game-level YAML option
+`advanced_logic: true` to opt in, or leave it at `false`; the option group is not
+a nested YAML key. Enabling it additionally allows the
 reviewed Crash witnesses for Rainbow Route room 126's fuse, Mustard Mountain
 room 533's switch, and room 310's map chest. These routes still require their
 actual physical source, independent entry, carry, one-use consumption, and
 reviewed timing. Owning Crash alone is not a route or a source. No helper combat
 or unreviewed Crash routes are assumed.
 
-Standard excludes those three witnesses, not Crash from the game's random
-ability pool. Source selection, resampling, installed access rules, and Crash
-progression classification all use the selected logic level. For an applicable
+With Advanced Logic off, logic excludes those three witnesses, not Crash from
+the game's random ability pool. Source selection, resampling, installed access rules, and Crash
+progression classification all use this toggle. For an applicable
 reviewed target, an assignment whose eligible witnesses require excluded Crash
 must fail validation or be resampled; it cannot regain a legacy fallback merely
 because advanced logic is disabled. The four declared partial-policy fallback
@@ -2147,3 +2145,11 @@ and `fuse_502` (Radish Ruins 8-16 to 8-17). Their entries in
 light-to-board timing. They remain excluded even in advanced logic until a
 complete source/carry/consumption/boarding witness is supported. They are not
 additional currently enabled routes that need moving to advanced.
+
+
+The provisional, unreleased `traversal_logic` choice has been replaced by this
+boolean option. If using a YAML prepared from an earlier revision of PR #1092,
+replace `traversal_logic: standard` with `advanced_logic: false`, or
+`traversal_logic: advanced` with `advanced_logic: true`. There is no second legacy
+option or alias; remove the old key. Released versions never exposed that
+provisional option. Slot data now reports `advanced_logic` as 0 (off) or 1 (on).

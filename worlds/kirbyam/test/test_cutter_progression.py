@@ -209,7 +209,7 @@ def test_generated_seed_matrix(
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
     if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
         from .support.check_accessibility import audit_local_checks, LocalCheckAudit
-        assert decoded['slot_data'][1]['traversal_logic'] == 0
+        assert decoded['slot_data'][1]['advanced_logic'] == 0
         assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())
 
 
@@ -302,7 +302,7 @@ async def test_client_cutter_gate_respects_seed_policy_and_received_history(
 
 def test_historical_advanced_seed1042_still_refuses_unsafe_minimal_fill(monkeypatch, tmp_path):
     from ..check_accessibility import KirbyAmCheckAccessibilityError
-    options = {'traversal_logic': 'advanced', 'ability_randomization_mode': 1,
+    options = {'advanced_logic': True, 'ability_randomization_mode': 1,
                'ability_gating': 1, 'accessibility': 'minimal',
                'ability_randomization_no_ability_weight': 0,
                'ability_randomization_statues': 0, 'ability_randomization_passive_enemies': 0,

@@ -405,15 +405,14 @@ class RoomSanity(Toggle):
     default = 0
 
 
-class TraversalLogic(Choice):
-    """Advanced logic is off by default. Standard excludes Crash-dependent traversal.
-    Advanced enables the reviewed
-    Crash routes, including their physical source and one-use timing requirements.
+class AdvancedLogic(Toggle):
+    """Off by default. Enable reviewed Crash-dependent traversal routes, including
+    their physical source and one-use timing requirements. Disabled logic excludes
+    these routes, but does not remove Crash from the ability pool.
+
     This does not assume helper combat or enable unreviewed routes.
     """
-    display_name = "Traversal Logic"
-    option_standard = 0
-    option_advanced = 1
+    display_name = "Advanced Logic"
     default = 0
 
 
@@ -439,7 +438,7 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     no_extra_lives: NoExtraLives
 
-    traversal_logic: TraversalLogic
+    advanced_logic: AdvancedLogic
 
     ability_gating: AbilityGating
 
@@ -490,7 +489,7 @@ OPTION_GROUPS = [
         RoomSanity,
     ]),
     OptionGroup("Make the game harder", [
-        TraversalLogic,
+        AdvancedLogic,
         AbilityGating,
         EnableTraps,
         TrapFillPercentage,

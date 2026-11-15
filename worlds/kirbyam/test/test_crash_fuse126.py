@@ -20,7 +20,7 @@ from .support.integration_generation import generate_archive_from_fixture, load_
 
 def make_world(*args, **kwargs):
     """Historical Crash route fixtures explicitly select advanced traversal."""
-    return _make_world(*args, traversal_logic=1, **kwargs)
+    return _make_world(*args, advanced_logic=1, **kwargs)
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_32'
@@ -70,7 +70,7 @@ def test_source_policy_and_conditional_progression(mode, pool, weight, success, 
     g = graph()
     assert g.evaluate(resolver, frozenset({'Crash Ability', 'Fire Ability'}), True,
                       allow_documented_retries=True).reaches(next(iter(g.required_targets))) is success
-    world = SimpleNamespace(options=SimpleNamespace(traversal_logic=SimpleNamespace(value=1)), _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
+    world = SimpleNamespace(options=SimpleNamespace(advanced_logic=SimpleNamespace(value=1)), _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: True)
     assert rules.mustard_crash_is_progression(world) is success
     world._ability_gating_enabled = lambda: False
     assert not rules.mustard_crash_is_progression(world)

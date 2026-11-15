@@ -48,7 +48,7 @@ def test_mustard_conditional_policy_entry_and_permission_matrix(
     world = SimpleNamespace(
         player=1, _enemy_copy_ability_policy=resolver.policy,
         _ability_gating_enabled=lambda: gating, _area_keys_enabled=lambda: area_keys,
-        options=SimpleNamespace(traversal_logic=SimpleNamespace(value=int(advanced)), ability_randomization_statues=SimpleNamespace(value=statues),
+        options=SimpleNamespace(advanced_logic=SimpleNamespace(value=int(advanced)), ability_randomization_statues=SimpleNamespace(value=statues),
                                 accessibility=Accessibility(Accessibility.option_full)),
         multiworld=SimpleNamespace(
             get_entrance=lambda name, player: target,
