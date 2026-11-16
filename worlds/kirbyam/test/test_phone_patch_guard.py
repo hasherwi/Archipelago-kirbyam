@@ -14,6 +14,7 @@ import pytest
 from worlds.Files import APTokenTypes
 from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_LEGACY, ENEMY_SOURCE_CONFIG_ROM_OFFSET
 from ..enemy_health_scaling import BOSS_HEALTH_TABLE_OFFSET
+from ..phone_generation import PHONE_CONFIG_FILE
 from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ENABLED_CONFIG, PHONE_MARKER, validate_phone_pairing
 from ..rom import (
     AREA_KEYS_CONFIG_ON, AREA_KEYS_CONFIG_ROM_OFFSET, ENEMY_HEALTH_MULTIPLIER_FILE,
@@ -72,6 +73,7 @@ def synthetic_source(monkeypatch: pytest.MonkeyPatch) -> None:
 def _synthetic_patch(base_diff: bytes) -> KirbyAmProcedurePatch:
     patch = KirbyAmProcedurePatch(player=1, player_name="ROM-free Phone guard")
     patch.write_file("base_patch.bsdiff4", base_diff)
+    patch.write_file(PHONE_CONFIG_FILE, DISABLED_PHONE_CONFIG)
     patch.write_file(ENEMY_HEALTH_MULTIPLIER_FILE, (150).to_bytes(2, "little"))
     patch.write_token(APTokenTypes.WRITE, HEALTH_INITIAL_ROM_OFFSET, HEALTH_CONFIG)
     patch.write_token(APTokenTypes.WRITE, 0x100, b"synthetic token")
@@ -113,7 +115,7 @@ def test_phone_validator_rejects_missing_or_truncated_buffers(length: int, synth
 
 def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsdiffs: dict[str, bytes]) -> None:
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
-                *HISTORICAL_PROCEDURE[1:], ("validate_production_phone_disabled", [])]
+                *HISTORICAL_PROCEDURE[1:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)
     with ZipFile(archive) as opened:
@@ -162,7 +164,7 @@ def test_archive_rejects_invalid_phone_without_creating_or_overwriting_output(
     if existing_output:
         output.write_bytes(sentinel)
 
-    with pytest.raises(ValueError, match=PHONE_GUARD_ERROR):
+    with pytest.raises(ValueError, match=(PHONE_GUARD_ERROR + "|Phone ROM differs from seed intent")):
         KirbyAmProcedurePatch(str(archive)).patch(str(output))
 
     if existing_output:
@@ -184,3 +186,25 @@ def test_historical_manifest_and_legacy_client_do_not_gain_new_guard(
     config = output.read_bytes()[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12]
     assert config == bytes(12)
     assert validate_phone_pairing({}, config) == 0
+
+
+@pytest.mark.parametrize("existing_output", [False, True])
+def test_enabled_archive_intent_roundtrip_and_late_corruption(
+        tmp_path: Path, synthetic_source: None, synthetic_bsdiffs: dict[str, bytes],
+        existing_output: bool) -> None:
+    patch = _synthetic_patch(synthetic_bsdiffs["disabled"])
+    patch.write_file(PHONE_CONFIG_FILE, PHONE_ENABLED_CONFIG)
+    patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + 8, bytes([1, 0, 0, 0]))
+    archive = _write_archive(patch, tmp_path)
+    output = tmp_path / "enabled.gba"
+    KirbyAmProcedurePatch(str(archive)).patch(str(output))
+    assert output.read_bytes()[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] == PHONE_ENABLED_CONFIG
+    # Later tokens must not undo or corrupt the intended configuration.
+    patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + 8, bytes(4))
+    archive = _write_archive(patch, tmp_path)
+    rejected = tmp_path / "rejected.gba"
+    if existing_output:
+        rejected.write_bytes(b"keep me")
+    with pytest.raises(ValueError, match="differs from seed intent"):
+        KirbyAmProcedurePatch(str(archive)).patch(str(rejected))
+    assert rejected.read_bytes() == b"keep me" if existing_output else not rejected.exists()

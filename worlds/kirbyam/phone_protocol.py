@@ -1,4 +1,4 @@
-"""Experimental Phone receipt transport; no generation option is enabled yet.
+"""Phone receipt transport for explicitly admitted progression slots.
 
 Ownership shares the authenticated native-file record with Copy Room, but has
 its own request queue. Empty histories cannot revoke either item.

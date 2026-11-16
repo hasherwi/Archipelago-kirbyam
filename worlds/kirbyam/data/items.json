@@ -874,5 +874,11 @@
     "classification": "PROGRESSION",
     "item_id": 3860500,
     "tags": ["RoomAccess"]
+  },
+  "PHONE_A_FRIEND": {
+    "label": "Phone a Friend",
+    "classification": "PROGRESSION",
+    "item_id": 3860501,
+    "tags": ["Phone", "Unique"]
   }
 }

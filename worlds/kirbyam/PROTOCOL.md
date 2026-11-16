@@ -298,6 +298,7 @@ Server → Client: ConnectionRefused | Connected
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`; this value is zero when `area_keys` is false.
 - `core_landmark_location_ids` (list[int]): the eight always-active keyed-area hub landmark checks. The client polls only these room-visit bits when full Room Sanity is off; absence of this field preserves old-seed behavior.
 - `advanced_logic` (int): `0` off (default), `1` on. Enabling Advanced Logic allows only reviewed Crash-dependent traversal witnesses; it does not change physical ability sources or client permissions.
+- `phone_progression` (bool): enabled only for the reviewed native-source Phone/Heave-Ho profile.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
 - `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
@@ -1000,3 +1001,15 @@ sources. Native linked-GBA multiplayer is unsupported; AP multiworld is separate
 Host lifecycle/transport regressions are not native emulator or real-server
 acceptance. See [native acceptance and limits](dev-docs/copy-room-native-save-acceptance.md)
 for the tested patch identity and actual replay coverage.
+
+### Phone progression capability
+
+Enabled Phone progression slots additionally carry `phone_protocol_version: 1` and
+`starting_phone_access` as an exact boolean from actual precollected ownership.
+They require authenticated Copy Room protocol 2 and matching `APPHN01` enabled ROM
+configuration. Disabled slots omit both fields and the Phone tracker label.
+New patch archives retain the disabled base guard, then compare the final Phone
+configuration with the exact 12-byte `phone_config.bin` seed intent after every
+token/header write. Historical archives retain their saved procedure.
+Ownership gates new local single-player R calls only; L return and tutorial calls
+remain native. Complete-history, pairing and three-file persistence fences are unchanged.

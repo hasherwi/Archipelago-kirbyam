@@ -4,7 +4,7 @@ The world emits AP procedure patches that apply:
 - the shipped KirbyAM base bsdiff patch artifact
 - per-seed enemy-health table scaling
 - per-seed token writes (auth token and selected runtime feature writes)
-- strict disabled Phone configuration checks before seed writes and after all mutations
+- strict disabled Phone base and exact per-seed intent checks after all mutations
 
 Issue #338 adds deterministic enemy copy-ability remap token writes for
 non-off enemy randomization modes.
@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
+from .phone_traversal import phone_progression_enabled
 from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
@@ -34,6 +35,7 @@ from .enemy_health_scaling import (
 )
 from .options import AbilityRandomizationMode
 from .phone_protocol import PHONE_CONFIG_OFFSET, PHONE_MARKER
+from .phone_generation import PHONE_CONFIG_FILE, phone_patch_config, validate_phone_patch_intent
 from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
 if TYPE_CHECKING:
@@ -84,6 +86,21 @@ class KirbyAmPatchExtension(APPatchExtension):
                 "KirbyAM production Phone must remain disabled with the exact APPHN01 marker and zero enable word; "
                 "rebuild the base patch and regenerate the seed"
             )
+        return rom
+
+    @staticmethod
+    def validate_phone_seed_config(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Compare final bytes with explicit seed intent; never repair the base.
+
+        Historical archives keep their recorded disabled-only procedure.
+        Generation profile admission precedes writing this archive intent.
+        """
+        try:
+            expected = validate_phone_patch_intent(caller.get_file(PHONE_CONFIG_FILE))
+        except (KeyError, FileNotFoundError) as exc:
+            raise ValueError("missing Phone patch intent; regenerate the seed") from exc
+        if rom[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + len(expected)] != expected:
+            raise ValueError("Phone ROM differs from seed intent; regenerate the seed")
         return rom
 
     @staticmethod
@@ -149,7 +166,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
         # Keep this last: no later mutation may bypass artifact rejection.
-        ("validate_production_phone_disabled", []),
+        ("validate_phone_seed_config", []),
     ]
 
     @classmethod
@@ -161,6 +178,11 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 
 
 def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
+    from .phone_traversal import validate_phone_profile
+    validate_phone_profile(world, require_policy=True)
+    config = phone_patch_config(phone_progression_enabled(world))
+    patch.write_file(PHONE_CONFIG_FILE, config)
+    patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + 8, config[8:])
     health_multiplier = int(world.options.enemy_health_multiplier.value)
     if not ENEMY_HEALTH_MULTIPLIER_MIN <= health_multiplier <= ENEMY_HEALTH_MULTIPLIER_MAX:
         raise ValueError(

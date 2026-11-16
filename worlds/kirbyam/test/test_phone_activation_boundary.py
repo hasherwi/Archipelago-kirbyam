@@ -1,4 +1,4 @@
-"""ROM-free generation/token boundary checks for the unaccepted Phone gate.
+"""ROM-free disabled-option generation/token boundary checks.
 
 The synthetic buffer models the shipping disabled Phone configuration only.
 These checks invoke the production Phone validator around serialized tokens.
@@ -58,7 +58,7 @@ def _assert_phone_disabled(
     AbilityRandomizationMode.option_completely_random,
 ], ids=["off", "shuffled", "completely_random"])
 @pytest.mark.parametrize("ability_randomization_statues", [0, 1])
-def test_production_generation_does_not_enable_phone_without_route_acceptance(
+def test_default_generation_does_not_enable_phone(
         ability_gating: int, area_keys: int, room_sanity: int,
         ability_randomization_mode: int, ability_randomization_statues: int,
         synthetic_post_base: bytes) -> None:
@@ -75,12 +75,12 @@ def test_production_generation_does_not_enable_phone_without_route_acceptance(
             if item.name.endswith(" Ability")] == ["Beam Ability", "Ice Ability"]
     assert tuple(slot_data["ability_gateable_abilities"]) == (
         GATEABLE_ENEMY_COPY_ABILITIES if ability_gating else ())
-    assert "Phone a Friend" not in world.item_name_to_id
+    assert world.item_name_to_id["Phone a Friend"] == PHONE_ITEM_ID
     assert "starting_phone_access" not in slot_data
-    assert not any("phone" in name.lower() for name in KirbyAmWorld.options_dataclass.type_hints)
+    assert slot_data["phone_progression"] is False
     assert "Phone a Friend" not in slot_data.get("unique_items", ())
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.precollected_items[1])
-    assert PHONE_ITEM_ID not in data.items
+    assert data.items[PHONE_ITEM_ID].label == "Phone a Friend"
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.itempool)
     assert "phone_protocol_version" not in slot_data
     assert len(multiworld.itempool) == len(multiworld.get_unfilled_locations())
@@ -112,7 +112,7 @@ def test_phone_guard_rejects_enabling_or_corrupting_tokens(
         _assert_phone_disabled(patch, world.fill_slot_data(), synthetic_post_base)
 
 
-def test_production_traversal_has_no_phone_helper_provider_or_requirement() -> None:
+def test_base_catalog_has_no_generic_phone_helper_provider_or_requirement() -> None:
     """Keep helper observations out of active source-aware progression logic."""
     assert not any("phone" in capability.lower() or "helper" in capability.lower()
                    for capability in CAPABILITY_ABILITIES)

@@ -202,3 +202,23 @@ unlock ownership. Generation validates every enabled check after placement,
 including with minimal accessibility, and refuses unsafe placements before
 creating an output archive. Such a refusal is not a playable seed or a guarantee
 that every possible option/seed combination will generate successfully.
+
+## Phone a Friend progression (opt-in)
+
+`phone_progression: true` adds one **Phone a Friend** progression item. Receiving
+it unlocks new local single-player **R** calls. **L** return/escape and tutorial
+calls are not locked. Ownership persists with the authenticated native save;
+Cell Phone Batteries remain ordinary consumables, not ownership items.
+
+This initial profile supports native enemy abilities (`ability_randomization_mode: off`),
+`ability_gating: false`, `minimum_health: 6`, `maximum_health: 10`,
+`enemy_health_multiplier: 100`, and `room_sanity: false`. Generation rejects other
+combinations rather than silently dropping progression. The default is off.
+
+The enabled route requires Phone, independently obtained Rainbow Route East Hub
+access, and the Moonlight Mansion Area Key when Area Keys are enabled. It uses the
+native Sir Kibble Cutter approach and collective inhale in room 146 to reach the
+lower-right doorway and Chalk's upper-left compartment. The reviewed procedure
+uses a post-tutorial reset with saved Phone ownership and three batteries; two
+calls are used. Other helpers, attacks, rooms or solo techniques are not assumed.
+See the [current admission scope](../dev-docs/phone-progression-admission.md).

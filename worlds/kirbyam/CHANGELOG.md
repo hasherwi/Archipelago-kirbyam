@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add opt-in `Phone a Friend Progression`: shuffle persistent R-call ownership and require it on the reviewed Moonlight Heave-Ho route to Chalk. Unsupported source/health profiles fail generation; native L return and tutorial calls remain unchanged (PR #1086).
 
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash traversal routes (PR #1092).
 
@@ -26,10 +27,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
-- Phone ownership and call gating are an inactive foundation only. Generated seeds do not enable the Phone item or Phone traversal requirements; source, solo-route and lifecycle acceptance remains unfinished. Future helper logic is limited to small-switch and Heave-Ho cooperation, never helper abilities or Bomb Block/chest attacks (PR #1086).
+- Phone progression is default-off and limited to the reviewed native-enemy, ability-gating-off, 6–10 HP, 100% enemy-health, Room-Sanity-off profile. Only the Moonlight Heave-Ho route is bound; broader helper routes, attacks and randomized-source profiles remain unsupported. Historical disabled-foundation evidence below remains historical (PR #1086).
 
 ### Bug Fixes
-- Reject newly generated patch artifacts unless Phone has its exact disabled configuration, both immediately after the base patch and after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).
+- Reject newly generated patch artifacts unless Phone has its exact disabled configuration immediately after the base patch and its exact canonical seed intent after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).
 - Reject Copy Room grants when capability or starting-ownership values or types change during pending emulator reads, and preserve the absent/null distinction in both ownership synchronizers. Verify native grant orders, three-file persistence, menu/R/L controls and the Area Key requirement for helper arrival without enabling Phone generation (PR #1086).
 - Reject stale Phone grants when slot capabilities or starting ownership change during pending emulator reads, including boolean/integer type changes. Add reconnect, generation-boundary and native zero-battery/offline-reload coverage without activating Phone in generated seeds (PR #1086).
 - Place Moonlight Mansion Goal 2's Chalk chest in its verified upper-left compartment and its return in Room 18's bottom-right compartment. Preserve the existing flight requirement and keep the native source manifest and extractor consistent (PR #1086).

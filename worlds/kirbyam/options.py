@@ -405,6 +405,19 @@ class RoomSanity(Toggle):
     default = 0
 
 
+class PhoneProgression(Toggle):
+    """Shuffle Phone a Friend into progression and require it for the reviewed
+    Moonlight Mansion Heave-Ho route to Chalk. R calls require ownership;
+    native L return and tutorial calls remain available.
+
+    Requires native enemy abilities, ability gating off, 6 starting/10 maximum
+    health, enemy health 100%, and Room Sanity off. Unsupported combinations
+    are rejected, not silently downgraded. Other helper routes are not assumed.
+    """
+    display_name = "Phone a Friend Progression"
+    default = 0
+
+
 class AdvancedLogic(Toggle):
     """Off by default. Enable reviewed Crash-dependent traversal routes, including
     their physical source and one-use timing requirements. Disabled logic excludes
@@ -439,6 +452,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     no_extra_lives: NoExtraLives
 
     advanced_logic: AdvancedLogic
+
+    phone_progression: PhoneProgression
 
     ability_gating: AbilityGating
 
@@ -490,6 +505,7 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game harder", [
         AdvancedLogic,
+        PhoneProgression,
         AbilityGating,
         EnableTraps,
         TrapFillPercentage,

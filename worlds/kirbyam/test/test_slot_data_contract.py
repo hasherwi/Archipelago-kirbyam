@@ -36,6 +36,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
 
     options = Mock()
     options.starting_kirby_color = Mock(value=0, current_key="pink")
+    options.phone_progression = Mock(value=0)
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
@@ -46,6 +47,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "no_extra_lives": False,
         "ability_gating": True,
         "advanced_logic": 0,
+        "phone_progression": False,
         "enable_traps": False,
         "trap_fill_percentage": 25,
         "enemy_health_multiplier": 100,
@@ -88,6 +90,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "no_extra_lives",
         "ability_gating",
         "advanced_logic",
+        "phone_progression",
         "enable_traps",
         "trap_fill_percentage",
         "enemy_health_multiplier",

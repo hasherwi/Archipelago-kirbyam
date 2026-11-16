@@ -711,6 +711,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
+    expected_non_filler_codes.discard(3860501)  # Phone progression defaults off.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
@@ -737,6 +738,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
+    expected_non_filler_codes.discard(3860501)  # Phone progression defaults off.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
