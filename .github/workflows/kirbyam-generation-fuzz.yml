@@ -68,7 +68,8 @@ jobs:
             --runs "$FUZZ_RUNS" \
             --jobs "$FUZZ_JOBS" \
             --timeout 60 \
-            --classify-minimal-rejections
+            --classify-minimal-rejections \
+            --classify-room16-rejections
 
       - name: Upload generation-fuzz artifacts
         if: always()

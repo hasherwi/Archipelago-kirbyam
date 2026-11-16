@@ -47,3 +47,16 @@ The applicability check uses the unfiltered source policy. It must not infer a
 guaranteed finite grant from the currently owned subset of ability permissions:
 collecting another permission could widen the live-random pool and invalidate
 that inference, violating monotone access rules.
+
+
+### Fuzzer rejection evidence
+
+The final all-check validator still rejects unsafe outputs. For an exact,
+single-player Room16 source/Advanced-option exclusion, it also logs the actual
+raw source policy and seed. The optional fuzzer classifier reconstructs that
+policy independently and checks the current target contract, rolled options,
+terminal exception, and reproducer. Qualified sources, missing proof, other
+infeasible checks, and full-accessibility placement failures remain unclassified.
+Raw failure counts and the minimum 50% playable-generation floor are unchanged.
+See `issue1099-fuzz-replay.json` for the bounded 119-case replay audit and the
+separate fresh local fuzz result; neither establishes native gameplay coverage.
