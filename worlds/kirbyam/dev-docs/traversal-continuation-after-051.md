@@ -3,7 +3,7 @@
 This document tracks continuation work. The bounded experiments below do not themselves install new route rules. Baseline: merged PR #1052 at `727099d75aec8a70ea87cce88d7d69358e345426`, with Beam and Ice starting inventory. The catalog's 57 targets and 146 witnesses are not a physical-room count or a completion certificate.
 
 ## Scope
-- [x] Separate the three reviewed Crash witnesses into explicit advanced logic (#1089), implemented at `90b966790` with historical-fixture reconciliation at `9d4cdc389`. Normal-only baseline and Normal + Crash (#1064) remain distinct.
+- [x] Separate the three reviewed Crash witnesses into **Advanced Logic**, the default-off `advanced_logic: false` toggle under **Make the game harder**. It enables only the reviewed room-126 fuse, room-533 switch and room-310 map witnesses, not every Crash trick. Normal-only baseline and Normal + Crash (#1064) remain distinct. The earlier `traversal_logic` choice was unreleased and is no longer supported.
 - [ ] Complete remaining Normal-only physical qualification; the advanced option does not establish new route evidence.
 - [ ] Keep unmerged Phone work (#1086) separate.
 - [x] Record final baseline CI and release-artifact verification: final #1052 head `2b51efe` passed the complete Windows/macOS/Linux matrix and focused Kirby tests ([run](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43362275606)). Merged source `727099d` was tagged `kirbyam-v0.5.1-rc1`; [tag-push run 43363217716](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43363217716), attempt 1, staged all three assets. Read-only public verification passed their downloaded hashes, signatures, source/tag/run identity and exact asset allowlist. Release remains mutable, not guaranteed immutable.
@@ -74,10 +74,50 @@ full-route completion. The diagnostic remains explicitly replay-assisted and
 non-authoritative for gameplay acceptance. No route rule, fallback, target count,
 tag or release is changed by this result.
 
-Next: qualify frame 2100 through the supervised retained observation and
-controller chain, preserving source/ownership checks and actual process closure.
-Only then continue lower-room positioning and the remaining target-specific
-route work.
+### Current status (2026-11-16)
+
+Later supervised work reached the retained frame-2101 boundary. That is a
+bounded room-194 result, not the 591 transition, room-517 target action or
+Chocolate chest acceptance. The subsequent one-shot attempt toward 2102 timed
+out under its supervisor; its last committed observation was frame 2098.
+It produced no native owning-wait receipt, so the native child's exit remains
+unknown. Controller termination and absent processes do not substitute for that
+receipt. The attempt remains unresolved; neither retry nor 2102 acceptance is
+implied. These are separate runs, not a regression of the earlier 2101 result.
+
+CI is green as of public source `18a96a3a3` ([unit and focused matrix](https://github.com/hasherwi/Archipelago-kirbyam/actions/runs/43782381123));
+the release job is skipped. That source/test result does not
+convert the physical limitations above into a route pass or a merge decision.
+The supervised lifecycle and recovery-reader work remains private qualification
+work, not a new public traversal rule.
+
+### Practical validation choices
+
+- **Human gameplay review now:** use an exact current generated patch, record
+  its source/build hashes and options, and retain a continuous source pickup,
+  ability carry, room transitions, target action and chest/AP check. Disclose
+  imported clear/Hub prerequisites, health, damage and normal client writes;
+  do not splice a target suffix into upstream proof. This needs one playable
+  setup and a recorded route, plus a repeat and an omitted-final-action control
+  if proposing a new witness. It can support route feasibility with transparent
+  limits, not callback/DMA custody, every source policy or full owner acceptance.
+- **Shorter automated checkpoint:** a cold source-acquisition or already reached
+  room-194 endpoint can check setup and retention at lower scope. Much of that
+  evidence already exists; it cannot establish the missing 591/517 continuation.
+  A restored near-target state would be a local suffix experiment only, and
+  checkpoint reconstruction remains unqualified. Do not add that infrastructure
+  merely to relabel a shorter test as a full carrier pass.
+- **Continue the automated supervised carrier:** after separately resolving lifecycle/recovery
+  prerequisites, qualify lower-room positioning, 591 entry, the 517 target and
+  collection. This is the highest-work automated option for a new complete
+  Chocolate witness with supervised custody. A continuous human run can instead
+  support physical feasibility with the limits above. No new diagnostic or launch is authorized by this
+  document.
+
+A human reviewer can assess the source changes and bounded evidence now while
+leaving the remaining physical work explicitly open. Prefer that focused review
+and a concrete gameplay checklist over expanding recovery infrastructure beyond
+what the next justified experiment requires.
 
 ## Evidence and integration
 - [ ] Reconcile the coverage ledger, source census and exact AP location/exit ownership before selecting experiments.
