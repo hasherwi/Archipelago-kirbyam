@@ -26,7 +26,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
-- Require Advanced Logic for the reviewed Magic timed-exit traversal and its progression classification (issue #1099).
 - Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (issue #1099). The ordinary Room 17 bypass remains available; RoomSanity accessibility is still validated.
 
 ### Internal Changes
