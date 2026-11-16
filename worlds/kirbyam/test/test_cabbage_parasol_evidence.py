@@ -134,6 +134,9 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
     for name, digest in evidence['preserved_source_text_sha256'].items():
         digest = union['adopted_main_source_sha256'].get(name, digest)
         raw = (root / name).read_bytes()
+        if name == 'data/items.json':
+            from .support.phone_activation_history import items_before_phone
+            raw = items_before_phone(raw)
         if name == 'data/minor_chest_manifest.json':
             from .support.main_sync_history import main_text
             raw = main_text(name, raw)

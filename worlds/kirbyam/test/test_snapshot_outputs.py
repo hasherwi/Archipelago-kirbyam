@@ -64,6 +64,7 @@ def _build_representative_slot_data() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.phone_progression = Mock(value=0)
     options.configured_area_boss = Mock(value=7, current_key="master_hand_crazy_hand_pair")
     options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
@@ -86,6 +87,7 @@ def _build_representative_slot_data() -> dict[str, object]:
         "ability_randomization_no_ability_weight": 55,
         "ability_randomization_statues": False,
         "room_sanity": False,
+        "phone_progression": False,
     }
 
     world.options = options

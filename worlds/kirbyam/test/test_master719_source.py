@@ -246,6 +246,8 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     # Source hashes are separately derived from current files; native evidence
     # bytes are never refreshed by this structural projection.
     from .support.green138_history import catalog_before_green138
+    from .support.phone_activation_history import catalog_scope_before_phone
+    catalog = catalog_scope_before_phone(catalog)
     catalog = catalog_before_green138(catalog)
     catalog.pop('source_sha256')
     assert catalog['witnesses'] == 145 and catalog['variants'] == 290
