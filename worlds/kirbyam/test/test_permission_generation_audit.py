@@ -45,6 +45,9 @@ HISTORICAL_MAIN_REFUSED = frozenset({(0, 1, 1), (1, 2, 0)})
 COMBINED_CORE09 = (0, 0, 1)
 REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED | {(0, 1, 1)}
 EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED - {(0, 1, 1)}
+# Exact RoomSanity samples with no reviewed Room16 route after #1099.
+# Both accessibility settings must reject rather than emit an unsafe archive.
+ROOM16_SOURCE_REFUSALS = frozenset({(1, 2), (2, 1), (2, 2)})
 
 
 def assert_generation_contract(
@@ -85,8 +88,10 @@ def test_generated_all_check_smoke_matrix(
 ) -> None:
     assert inspect.signature(validate_peg_assignment).parameters["max_attempts"].default == 8192
     validate = check_accessibility.validate_all_checks
+    audited_worlds = []
 
     def timed_validation(multiworld: MultiWorld, players: Iterable[int]) -> None:
+        audited_worlds.append(multiworld)
         start = perf_counter()
         try:
             validate(multiworld, players)
@@ -126,6 +131,16 @@ def test_generated_all_check_smoke_matrix(
             monkeypatch, tmp_path, 105100 + profile, [options],
         )
     except KirbyAmCheckAccessibilityError as error:
+        if (profile, mode) in ROOM16_SOURCE_REFUSALS:
+            assert rooms == 1 and audited_worlds
+            audit = audit_local_checks(audited_worlds[-1], 1)
+            assert audit.unfilled == ()
+            assert audit.inventory_unreachable == ('Room 4-16',)
+            assert "unavailable even with all inventory=['Room 4-16']" in str(error)
+            assert not tuple((tmp_path / "output").glob("*.zip"))
+            record_property("generation_outcome", "rejected_unqualified_room16")
+            record_property("generation_error", str(error))
+            return
         # Minimal fill may strand optional progression. Reject before output,
         # not by changing the option or silently treating the selected goal as all checks.
         assert accessibility == "minimal"
@@ -137,6 +152,7 @@ def test_generated_all_check_smoke_matrix(
         record_property("generation_outcome", "rejected_unsafe_fill")
         record_property("generation_error", str(error))
         return
+    assert (profile, mode) not in ROOM16_SOURCE_REFUSALS, "Unqualified Room16 archive was emitted"
     assert accessibility != "minimal" or (profile, mode, gating) not in EXPECTED_REFUSED_MINIMAL_ARCHIVES
     record_property("generation_outcome", "all_checks_reachable")
     audit, elapsed = assert_generation_contract(multiworld, decoded, archive, 1)
