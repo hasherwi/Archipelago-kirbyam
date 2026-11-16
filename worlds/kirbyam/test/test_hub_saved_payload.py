@@ -19,6 +19,7 @@ def test_shipping_switch_callback_and_initializer(tmp_path):
     source = (payload / 'ap_payload.c').read_text()
     source += "\n" + (payload / 'copy_room.c').read_text()
     source += "\n" + (payload / 'phone.c').read_text()
+    source += "\n" + (payload / 'battery.c').read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')

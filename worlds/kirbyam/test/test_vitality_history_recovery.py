@@ -126,11 +126,13 @@ static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
                  'ap_collect_small_chest_native']:
         source += f'static void {name}(uint32_t x) {{(void)x;}}\n'
     for name in [
-        'ap_grant_small_food', 'ap_grant_battery', 'ap_grant_max_tomato', 'ap_grant_invincibility_candy',
+        'ap_grant_small_food', 'ap_grant_max_tomato', 'ap_grant_invincibility_candy',
         'ap_grant_energy_drink', 'ap_grant_hunk_of_meat', 'ap_trap_health_down', 'ap_trap_life_down',
         'ap_trap_bomb', 'ap_trap_battery_drain', 'ap_trap_lives_wipeout',
     ]:
         source += f'static void {name}(void) {{}}\n'
+    # Battery delivery now returns whether the mailbox command was accepted.
+    source += 'static uint8_t ap_grant_battery(void) {return 1;}\n'
     source += '\n'.join(functions)+'''
 int main(void) {
     CHECK(mmap((void*)0x02020000,0x2000,PROT_READ|PROT_WRITE,
