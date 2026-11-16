@@ -8,6 +8,8 @@ from ..client import KirbyAmClient
 from argparse import Namespace
 from collections import Counter
 from io import BytesIO
+import hashlib
+import json
 from pathlib import Path
 from typing import Any
 import zipfile
@@ -178,6 +180,10 @@ def test_generated_seed_matrix(
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
+    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
+        from .support.check_accessibility import audit_local_checks, LocalCheckAudit
+        assert decoded['slot_data'][1]['advanced_logic'] == 0
+        assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())
 
 
 @pytest.mark.parametrize("seed", SEEDS)
@@ -268,3 +274,23 @@ async def test_client_cutter_gate_respects_seed_policy_and_received_history(
                 assert bool(unlocked & (1 << 6)) == bool(received)
                 from ..data import data
                 assert set(memory) <= set(data.transport_ram_addresses.values())
+
+
+def test_advanced_seed1042_with_goal_games_preserves_historical_refusal(monkeypatch, tmp_path):
+    # The historical 124-check main sample refused. Sixteen Goal Game checks
+    # change fill order; retain that evidence without claiming the new seed fails.
+    refusal = json.loads((Path(__file__).parent / 'data/lever-seed1042-refusal.json').read_text())
+    assert refusal['prior_error_sha256'] == 'c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879'
+    assert hashlib.sha256(refusal['current_error'].encode()).hexdigest() == refusal['current_error_sha256']
+    options = {'advanced_logic': True, 'ability_randomization_mode': 1,
+               'ability_gating': 1, 'accessibility': 'minimal',
+               'ability_randomization_no_ability_weight': 0,
+               'ability_randomization_statues': 0, 'ability_randomization_passive_enemies': 0,
+               'ability_randomization_minibosses': 0, 'ability_randomization_boss_spawns': 0,
+               'room_sanity': 0, 'area_keys': 1}
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 1042, [options])
+    _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
+    from .support.check_accessibility import audit_local_checks, LocalCheckAudit
+    assert decoded['slot_data'][1]['advanced_logic'] == 1
+    assert len([loc for loc in multiworld.get_locations(1) if loc.address is not None]) == 140
+    assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())

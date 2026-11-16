@@ -125,7 +125,7 @@ def installer_setup(
     if kind == "peg":
         monkeypatch.setattr(peg_traversal, "PEG_ROUTES", (row,))
         monkeypatch.setattr(peg_traversal, "peg_graph", lambda _: replace(graph, placements=(), access_region=None))
-        monkeypatch.setattr(peg_traversal, "carry_graphs", lambda *_: (graph,))
+        monkeypatch.setattr(peg_traversal, "carry_graphs", lambda *_, **kwargs: (graph,))
         install = peg_traversal.install_peg_rules
     elif kind == "wheel":
         monkeypatch.setattr(wheel_traversal, "RACE", row)
@@ -133,7 +133,7 @@ def installer_setup(
         install = wheel_traversal.install_wheel_rules
     else:
         monkeypatch.setattr(traversal_rules, "extra_traversal_targets", lambda: (row,))
-        monkeypatch.setattr(traversal_rules, "target_graphs", lambda *_: (graph,))
+        monkeypatch.setattr(traversal_rules, "target_graphs", lambda *_, **kwargs: (graph,))
         install = traversal_rules.install_extra_traversal_rules
     items = {"Route item", ability + " Ability"}
     state = SimpleNamespace(base_rule=True, accessible=True, has=lambda name, _: name in items)

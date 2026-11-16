@@ -12,9 +12,21 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - All sixteen Goal Games award a check when completed, including runs with no prizes. Checks persist per native save file and report on reconnect, independently of Room Sanity and chests.
+- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash traversal routes (PR #1092).
+
+### Improvements
+- Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
 - Goal Game checks require matching protocol-2 seeds, client and ROM patch. Fresh emulator acceptance of the integrated three-file persistence remains pending; older single-save prototype evidence does not validate this payload. Preserve original saves and do not downgrade a payload after saving Goal Game flags (PR #1026).
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
+
+### Bug Fixes
 
 ### Internal Changes
 - Store sixteen Goal Game flags beside Copy Room ownership in the existing authenticated, isolated three-file WORLD record. Fence reconnect reporting by current save, ROM and session identity (PR #1026).
@@ -49,7 +61,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Add Rainbow, Candy Corn, Negative, Pineapple, Cotton Candy, Royal, Pumpkin and Mint Chip Kirby palettes with normal, UFO and HUD rows; retain native effects and owned spray-paint precedence.
-- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key. Locked mirrors show boards and their associated Warp Stars stay hidden; receiving the key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements (Issues #42, #1010).
+- Added eight Area Key progression items for Areas 2 through 9. Cross-area mirrors (and other transitions like Warp Stars) now require the destination area's key. Locked mirrors show boards and their associated Warp Stars stay hidden; receiving the key updates nearby mirrors and eligible Warp Stars while preserving other unlock requirements (Issues #42, #1010). Thanks to SpawnSean for sharing early mirror-door research.
 - Add a default-on Area Keys option under Make the game easier. Turning it off removes Area Key requirements and replaces the eight keys with filler.
 - Added 15 Hub Connection progression items that unlock matching hub shortcuts while preserving alternate overland routes. Physical Big Switch checks remain independent, and received connections are restored across reconnects (Issue #482).
 - Add Hub Teleport Trap, which returns Kirby to Rainbow Route’s central hub (Issue #697).
