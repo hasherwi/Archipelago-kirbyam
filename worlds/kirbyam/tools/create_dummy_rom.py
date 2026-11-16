@@ -72,6 +72,11 @@ def build_dummy_rom() -> bytearray:
     # The common R-call entry is validated before installing the Phone wrapper.
     rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
 
+    # All battery writer/HUD guards need verified instruction fixtures too.
+    # Share the closed site inventory; the patcher still validates every byte.
+    for offset, original in patch_rom.BATTERY_SITES.values():
+        rom[offset:offset + 4] = bytes.fromhex(original)
+
     # Current main's delayed chest, lever, ability and health hooks.
     rom[0xB9A4:0xB9A8] = bytes.fromhex("D4 6C 20 1C")
     initializer = 0x351648 + 0x81 * 0x18 + 0x10
