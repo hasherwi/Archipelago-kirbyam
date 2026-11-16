@@ -329,3 +329,17 @@ def isolated_receipt_storage(tmp_path, monkeypatch):
         return original(*parts)
 
     monkeypatch.setattr(Utils, "user_path", user_path)
+
+
+@pytest.fixture
+def deathlink_clock(monkeypatch):
+    import time
+    from worlds.kirbyam import client as client_module
+
+    # Ordering tests must not accidentally exercise the ACK timeout when CI is
+    # descheduled. Replace only the client's clock, not asyncio's shared clock;
+    # explicit elapsed-time delivery cases still exercise the real timeout path.
+    clock = Mock(wraps=time)
+    clock.monotonic.return_value = 100.0
+    monkeypatch.setattr(client_module, 'time', clock)
+    return clock

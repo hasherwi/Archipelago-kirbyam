@@ -1,26 +1,13 @@
 """DeathLink watcher ordering, without emulator or native-save writes."""
 from contextlib import ExitStack
 import time
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from NetUtils import NetworkItem
 
 from .test_receipt_journal import make_client, tick
 from .test_reset_counter_gaps import Mailbox
-
-
-@pytest.fixture
-def deathlink_clock(monkeypatch):
-    from worlds.kirbyam import client as client_module
-
-    # Ordering tests must not accidentally exercise the ACK timeout when CI is
-    # descheduled. Replace only the client's clock, not asyncio's shared clock;
-    # explicit elapsed-time cases below still exercise the real timeout path.
-    clock = Mock(wraps=time)
-    clock.monotonic.return_value = 100.0
-    monkeypatch.setattr(client_module, 'time', clock)
-    return clock
 
 
 @pytest.fixture
