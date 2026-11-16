@@ -140,6 +140,21 @@ def mustard_magic_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Magic"})
 
 
+def mustard_ice_is_progression(world: Any) -> bool:
+    """Only Advanced Logic with a guaranteed Foley needs this Ice route."""
+    if not advanced_traversal_enabled(world):
+        return False
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    if not isinstance(raw, dict) or not world._ability_gating_enabled():
+        return False
+    try:
+        world.multiworld.get_entrance(
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_15 -> REGION_MUSTARD_MOUNTAIN/ROOM_4_16", world.player)
+    except KeyError:
+        return False
+    return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Ice"})
+
+
 def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 

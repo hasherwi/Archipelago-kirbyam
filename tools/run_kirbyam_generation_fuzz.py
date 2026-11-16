@@ -276,14 +276,14 @@ def _room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
             or row.get("region") != "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
             or row.get("exit") != "REGION_MUSTARD_MOUNTAIN/ROOM_4_16" or row.get("native_room") != 533
             or "requires_any_guaranteed_source" in row
-            or row.get("requires_guaranteed_source") != {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic"]}
-            or set(row["graphs"]) != {"hub4_entry", "hub4_ufo_entry", "hub4_crash_entry", "hub4_magic_entry"}
-            or row.get("advanced_graphs") != ["hub4_crash_entry", "hub4_magic_entry"]):
+            or row.get("requires_guaranteed_source") != {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic", "Ice"]}
+            or set(row["graphs"]) != {"hub4_entry", "hub4_ufo_entry", "hub4_crash_entry", "hub4_magic_entry", "hub4_ice_entry"}
+            or row.get("advanced_graphs") != ["hub4_crash_entry", "hub4_magic_entry", "hub4_ice_entry"]):
         raise ValueError("Room16 source/Advanced catalog contract changed")
     grant = SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed
-    if len(grant) != 1 or not grant <= {"Bomb", "UFO", "Crash", "Magic"}:
+    if len(grant) != 1 or not grant <= {"Bomb", "UFO", "Crash", "Magic", "Ice"}:
         reason = "unqualified_foley_source"
-    elif not proof["advanced_logic"] and grant <= {"Crash", "Magic"}:
+    elif not proof["advanced_logic"] and grant <= {"Crash", "Magic", "Ice"}:
         reason = "advanced_route_disabled"
     else:
         raise ValueError("qualified Room16 source failure requires investigation")

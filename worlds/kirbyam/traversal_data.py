@@ -294,7 +294,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
 
 
 def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
-    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic"]}:
+    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic", "Ice"]}:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
             "switch_533_room16", "switch", 533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
             "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",

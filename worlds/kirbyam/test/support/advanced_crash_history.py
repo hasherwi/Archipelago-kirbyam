@@ -1,14 +1,25 @@
 """Strict projection of only the reviewed Crash/Magic logic-level annotations.
 
-Historical physical evidence remains byte-for-byte pinned. This projection does
-not hide graph, source, ownership or applicability changes.
+Historical physical evidence remains byte-for-byte pinned. This projection
+does not hide changes to historical graphs, sources or ownership. The exact
+new Ice graph is hash-checked and removed only when comparing older witnesses. The exact issue #1099
+fail-closed metadata is projected separately from the historical native evidence.
 """
 from copy import deepcopy
+import hashlib
+import json
 from typing import Any
 
 MARKERS = {'fuse_126': ['lower_entry_crash'],
-           'switch_533_room16': ['hub4_crash_entry', 'hub4_magic_entry'],
+           'switch_533_room16': ['hub4_crash_entry', 'hub4_magic_entry', 'hub4_ice_entry'],
            'switch_310_mustard_map': ['hub4_crash_entry']}
+
+
+ROOM16_POLICY_METADATA = {
+    'required_for_generation': False,
+    'fail_closed': True,
+    'optional_route_evidence': 'dev-docs/mustard-room15-source-witness.md#all-policy-access-rule-issue-1099; Room15 -> Room17 -> Room18 bypasses Room16 for ordinary progression. Room16 itself is not granted by that bypass; its optional RoomSanity check remains subject to fill/accessibility.',
+}
 
 
 def before_advanced_crash(target: dict[str, Any]) -> dict[str, Any]:
@@ -17,6 +28,16 @@ def before_advanced_crash(target: dict[str, Any]) -> dict[str, Any]:
         assert result.pop('advanced_graphs') == MARKERS[result['id']]
     else:
         assert 'advanced_graphs' not in result
+    if result['id'] == 'switch_533_room16':
+        ice = result['graphs'].pop('hub4_ice_entry')
+        assert hashlib.sha256(json.dumps(ice, sort_keys=True).encode()).hexdigest() == (
+            'd000537124e8c4b531f59efc338e0dd5cd36b60ca6bf28247feb054c0c6eb48b')
+        source = result['requires_guaranteed_source']
+        assert source == {'source_key': 'FOLEY', 'abilities': ['Bomb', 'UFO', 'Crash', 'Magic', 'Ice']}
+        source['abilities'].remove('Ice')
+        for key, expected in ROOM16_POLICY_METADATA.items():
+            actual = result.pop(key)
+            assert type(actual) is type(expected) and actual == expected, key
     return result
 
 

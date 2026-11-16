@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
+- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash, Magic and Ice traversal routes (PR #1092).
 
 ### Improvements
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).

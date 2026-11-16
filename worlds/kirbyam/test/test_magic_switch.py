@@ -203,17 +203,17 @@ def test_actual_world_source_permission_options_and_unrelated_exits(
         assert target in world.multiworld.indirect_connections[world.multiworld.get_region(UPSTREAM, 1)]
 
 
-def test_four_or_alternatives_preserve_graphs_and_exact_target():
+def test_five_or_alternatives_preserve_graphs_and_exact_target():
     row = target_row()
-    assert list(row['graphs']) == ['hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry', WITNESS]
+    assert list(row['graphs']) == ['hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry', WITNESS, 'hub4_ice_entry']
     for key, digest in evidence()['preserved_graph_sha256'].items():
         assert hashlib.sha256(json.dumps(row['graphs'][key], sort_keys=True).encode()).hexdigest() == digest
-    for ability in ('Bomb', 'UFO', 'Crash', 'Magic'):
+    for ability in ('Bomb', 'UFO', 'Crash', 'Magic', 'Ice'):
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
         assert rules.static_extra_witness(resolver, advanced=True)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
-                for g in rules.target_graphs(row, False, advanced=True)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic')]
+                for g in rules.target_graphs(row, False, advanced=True)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic', 'Ice')]
     for key, wrong in [('id', 'switch_other'), ('kind', 'block'), ('native_room', 310),
                        ('region', UPSTREAM), ('exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_17')]:
         altered = deepcopy(row)

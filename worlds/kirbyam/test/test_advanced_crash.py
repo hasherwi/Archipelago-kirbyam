@@ -77,7 +77,7 @@ def test_all_crash_capable_catalog_routes_explicitly_advanced(area_keys):
                 assert name in row.get('advanced_graphs', ())
                 assert graph not in rules.target_graphs(row, area_keys)
             if name in row.get('advanced_graphs', ()):
-                assert (row['id'], name) in ADVANCED | {('switch_533_room16', 'hub4_magic_entry')}
+                assert (row['id'], name) in ADVANCED | {('switch_533_room16', 'hub4_magic_entry'), ('switch_533_room16', 'hub4_ice_entry')}
     assert found == ADVANCED
 
 
@@ -180,15 +180,47 @@ def test_invalid_advanced_graph_marker_rejected():
 
 def test_historical_projection_only_removes_exact_logic_annotations():
     from copy import deepcopy
-    from .support.advanced_crash_history import before_advanced_crash, MARKERS
+    from .support.advanced_crash_history import before_advanced_crash, MARKERS, ROOM16_POLICY_METADATA
     for row in rules.extra_traversal_targets():
         original = deepcopy(row)
         projected = before_advanced_crash(row)
         if row['id'] in MARKERS:
             projected['advanced_graphs'] = MARKERS[row['id']]
+        if row['id'] == 'switch_533_room16':
+            projected.update(ROOM16_POLICY_METADATA)
+            projected['graphs']['hub4_ice_entry'] = deepcopy(row['graphs']['hub4_ice_entry'])
+            projected['requires_guaranteed_source']['abilities'].append('Ice')
         assert projected == row == original
     for marker in ([], ['unknown'], ['hub4_crash_entry', 'hub4_crash_entry']):
         with pytest.raises(AssertionError):
             before_advanced_crash({'id': 'switch_533_room16', 'advanced_graphs': marker})
     with pytest.raises(AssertionError):
         before_advanced_crash({'id': 'unreviewed', 'advanced_graphs': []})
+
+
+@pytest.mark.parametrize('key,value', [
+    ('required_for_generation', True), ('required_for_generation', 0),
+    ('fail_closed', False), ('fail_closed', 1),
+    ('optional_route_evidence', 'unreviewed'),
+])
+def test_historical_projection_rejects_changed_room16_policy_metadata(key, value):
+    from copy import deepcopy
+    from .support.advanced_crash_history import before_advanced_crash
+    row = deepcopy(next(row for row in rules.extra_traversal_targets()
+                        if row['id'] == 'switch_533_room16'))
+    row[key] = value
+    with pytest.raises(AssertionError):
+        before_advanced_crash(row)
+
+
+@pytest.mark.parametrize('mutation', ['graph', 'source'])
+def test_historical_projection_rejects_changed_ice_extension(mutation):
+    from copy import deepcopy
+    from .support.advanced_crash_history import before_advanced_crash
+    row = deepcopy(next(row for row in rules.extra_traversal_targets() if row['id'] == 'switch_533_room16'))
+    if mutation == 'graph':
+        row['graphs']['hub4_ice_entry']['starts'] = []
+    else:
+        row['requires_guaranteed_source']['abilities'].append('Sword')
+    with pytest.raises(AssertionError):
+        before_advanced_crash(row)

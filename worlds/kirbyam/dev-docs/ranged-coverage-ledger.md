@@ -41,7 +41,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (146 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (147 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -642,4 +642,16 @@ proposed fresh15/repeat16 are unrun.
 Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
 unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
 new target, source-policy binding or generic Normal ability gate is added.
-Current counts remain 57 targets/146 witnesses/four target-wide fallbacks.
+Current counts are 57 targets/147 witnesses/three target-wide fallbacks after the Ice533 extension and #1099 fail-closed rule.
+
+
+## Advanced Ice at Mustard Room15 (#1099)
+
+The fifth Room15-to-Room16 alternative requires Advanced Logic and raw guaranteed
+Foley→Ice. The complete Hub4 ingress, natural acquisition, crouch-camera respawn,
+freeze/kick, switch contact and timed crossing are recorded in
+[mustard-room15-ice-source-witness.md](mustard-room15-ice-source-witness.md).
+Eight cold production-fixture runs cover HP 1/6 × health 100%/500% with matched
+no-freeze controls. This is not arbitrary carried-Ice access or a mixed/failable
+source guarantee. The second spawned Foley is one finite projectile, not an
+unlimited source. Standard logic and all unrelated targets are unchanged.

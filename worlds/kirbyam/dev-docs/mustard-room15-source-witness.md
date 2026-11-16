@@ -30,7 +30,7 @@ policies use the existing reviewed traversal graphs.
 Unsupported Foley assignments, mixed live-random results, and failable finite
 sources no longer bypass that rule. Ability ownership alone does not equip Kirby,
 and Phone is not assumed to supply an unreviewed alternative. Missing source-policy
-data also keeps this edge closed. Supported Bomb/UFO and Advanced-only Crash/Magic
+data also keeps this edge closed. Supported Bomb/UFO and Advanced-only Crash/Magic/Ice
 witnesses retain their existing entry, equipment, permission and crossing checks.
 
 This is an optional progression route, not an unconditional generation constraint:
@@ -60,3 +60,8 @@ infeasible checks, and full-accessibility placement failures remain unclassified
 Raw failure counts and the minimum 50% playable-generation floor are unchanged.
 See `issue1099-fuzz-replay.json` for the bounded 119-case replay audit and the
 separate fresh local fuzz result; neither establishes native gameplay coverage.
+
+The Advanced-only [Ice alternative](mustard-room15-ice-source-witness.md) also
+requires guaranteed Foley→Ice, natural acquisition and one witnessed camera
+respawn for a distinct finite frozen projectile. It does not qualify arbitrary
+carried Ice, mixed/failable grants or unlimited source retries.

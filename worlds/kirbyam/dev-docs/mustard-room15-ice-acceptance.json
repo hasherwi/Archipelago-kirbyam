@@ -1,0 +1,2669 @@
+{
+  "schema_version": 1,
+  "target": "switch_533_room16",
+  "mechanism": "Guaranteed Foley \u2192 Ice acquisition, crouch camera reset, actual Foley respawn, freeze and kick through solid wall, timed crossing into325",
+  "production_seed": 43,
+  "policy_seed": 4777282310011543242,
+  "source_revision": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixture_limit": "Normal production generation and patching; startup room/position fixture only. Area/ability gates off; independent Hub4 ingress, not full new game. Build checkout head96bfc803b plus in-progress Ice source logic; production ROM identities are exact, not final-commit coverage.",
+  "inputs": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1145,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 1165,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1225,
+      "frames": 50,
+      "keys": 17
+    },
+    {
+      "start": 1275,
+      "frames": 10,
+      "keys": 18
+    },
+    {
+      "start": 1285,
+      "frames": 60,
+      "keys": 16
+    },
+    {
+      "start": 1345,
+      "frames": 3,
+      "keys": 32
+    },
+    {
+      "start": 1348,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 1358,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 1378,
+      "frames": 5,
+      "keys": 16
+    },
+    {
+      "start": 1383,
+      "frames": 100,
+      "keys": 18
+    },
+    {
+      "start": 1483,
+      "frames": 20,
+      "keys": 17
+    },
+    {
+      "start": 1503,
+      "frames": 10,
+      "keys": 0
+    },
+    {
+      "start": 1513,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 1523,
+      "frames": 60,
+      "keys": 0
+    },
+    {
+      "start": 1583,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 1584,
+      "frames": 40,
+      "keys": 80
+    },
+    {
+      "start": 1624,
+      "frames": 120,
+      "keys": 64
+    },
+    {
+      "start": 1744,
+      "frames": 20,
+      "keys": 80
+    },
+    {
+      "start": 1764,
+      "frames": 160,
+      "keys": 64
+    },
+    {
+      "start": 1924,
+      "frames": 30,
+      "keys": 64
+    },
+    {
+      "start": 1954,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 1974,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 1994,
+      "frames": 20,
+      "keys": 96
+    },
+    {
+      "start": 2014,
+      "frames": 40,
+      "keys": 34
+    },
+    {
+      "start": 2054,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2094,
+      "frames": 5,
+      "keys": 64
+    },
+    {
+      "start": 2099,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2109,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2149,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2169,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2170,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2180,
+      "frames": 40,
+      "keys": 32
+    },
+    {
+      "start": 2220,
+      "frames": 15,
+      "keys": 16
+    },
+    {
+      "start": 2235,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2265,
+      "frames": 10,
+      "keys": 32
+    },
+    {
+      "start": 2275,
+      "frames": 10,
+      "keys": 64
+    },
+    {
+      "start": 2285,
+      "frames": 1,
+      "keys": 0
+    },
+    {
+      "start": 2286,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2296,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2356,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 2371,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2381,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2441,
+      "frames": 15,
+      "keys": 64
+    },
+    {
+      "start": 2456,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 2486,
+      "frames": 5,
+      "keys": 0
+    },
+    {
+      "start": 2491,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2501,
+      "frames": 60,
+      "keys": 32
+    },
+    {
+      "start": 2561,
+      "frames": 34,
+      "keys": 32
+    },
+    {
+      "start": 2595,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2615,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 2655,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 2665,
+      "frames": 20,
+      "keys": 32
+    },
+    {
+      "start": 2685,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 2705,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 2745,
+      "frames": 70,
+      "keys": 32
+    },
+    {
+      "start": 2815,
+      "frames": 80,
+      "keys": 64
+    },
+    {
+      "start": 2895,
+      "frames": 120,
+      "keys": 96
+    },
+    {
+      "start": 3015,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 3025,
+      "frames": 20,
+      "keys": 34
+    },
+    {
+      "start": 3045,
+      "frames": 65,
+      "keys": 32
+    },
+    {
+      "start": 3110,
+      "frames": 90,
+      "keys": 64
+    },
+    {
+      "start": 3200,
+      "frames": 110,
+      "keys": 80
+    },
+    {
+      "start": 3310,
+      "frames": 120,
+      "keys": 64
+    },
+    {
+      "start": 3430,
+      "frames": 65,
+      "keys": 96
+    },
+    {
+      "start": 3495,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 3505,
+      "frames": 20,
+      "keys": 0
+    },
+    {
+      "start": 3525,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 3555,
+      "frames": 55,
+      "keys": 64
+    },
+    {
+      "start": 3610,
+      "frames": 10,
+      "keys": 34
+    },
+    {
+      "start": 3620,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 3632,
+      "frames": 75,
+      "keys": 2
+    },
+    {
+      "start": 3707,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 3727,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 3767,
+      "frames": 30,
+      "keys": 17
+    },
+    {
+      "start": 3797,
+      "frames": 20,
+      "keys": 64
+    },
+    {
+      "start": 3817,
+      "frames": 120,
+      "keys": 80
+    },
+    {
+      "start": 3937,
+      "frames": 10,
+      "keys": 18
+    },
+    {
+      "start": 3947,
+      "frames": 35,
+      "keys": 16
+    },
+    {
+      "start": 3982,
+      "frames": 45,
+      "keys": 64
+    },
+    {
+      "start": 4027,
+      "frames": 135,
+      "keys": 96
+    },
+    {
+      "start": 4162,
+      "frames": 10,
+      "keys": 2
+    },
+    {
+      "start": 4172,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 4202,
+      "frames": 55,
+      "keys": 64
+    },
+    {
+      "start": 4257,
+      "frames": 10,
+      "keys": 34
+    },
+    {
+      "start": 4267,
+      "frames": 12,
+      "keys": 32
+    },
+    {
+      "start": 4279,
+      "frames": 75,
+      "keys": 2
+    },
+    {
+      "start": 4354,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 4374,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 4404,
+      "frames": 50,
+      "keys": 32
+    },
+    {
+      "start": 4454,
+      "frames": 50,
+      "keys": 0
+    },
+    {
+      "start": 4504,
+      "frames": 90,
+      "keys": 128
+    },
+    {
+      "start": 4594,
+      "frames": 1,
+      "keys": 16
+    },
+    {
+      "start": 4595,
+      "frames": 130,
+      "keys": 2
+    },
+    {
+      "frames": 40,
+      "keys": 16,
+      "start": 4725
+    },
+    {
+      "frames": 25,
+      "keys": 32,
+      "start": 4765
+    },
+    {
+      "frames": 100,
+      "keys": 97,
+      "start": 4790
+    },
+    {
+      "frames": 30,
+      "keys": 32,
+      "start": 4890
+    },
+    {
+      "frames": 100,
+      "keys": 64,
+      "start": 4920
+    },
+    {
+      "frames": 24,
+      "keys": 16,
+      "start": 5020
+    },
+    {
+      "frames": 10,
+      "keys": 2,
+      "start": 5044
+    },
+    {
+      "frames": 80,
+      "keys": 0,
+      "start": 5054
+    },
+    {
+      "frames": 20,
+      "keys": 64,
+      "start": 5134
+    },
+    {
+      "frames": 40,
+      "keys": 0,
+      "start": 5154
+    }
+  ],
+  "input_sha256": "f5ed3e1a9b330f4a937e6815ffae972b383b093157ecd37666882a5eb1c05883",
+  "script_sha256": {
+    "build_production.py": "924fb2927c0814212062a064ed5e3485c56788d0d882b454e480de2f673a2cd1",
+    "validate_raw.py": "0375489d0ec7653b0391c91c4cb173f49fed14e5168224a3f5f147cc2bb5e191",
+    "replay_support.py": "7cdefd2bd11ed2abe12c572fecdb6a513f8d16a7511a423e0eb5514cbad25b4a",
+    "compact.py": "29564489babc1855ff97607ba049c3ff2b28101e1a9b428185a3b624405f48a8"
+  },
+  "runs": [
+    {
+      "enemy_health_percent": 100,
+      "player_hp": 1,
+      "control": "positive",
+      "events": {
+        "respawned_foley": {
+          "frame": 4599,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 2,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        },
+        "first_frozen": {
+          "frame": 4661,
+          "state": {
+            "address": "0x30043ac",
+            "room": 533,
+            "x": 224.0,
+            "y": 134.57421875,
+            "flags": "0x304300",
+            "state": "0x807de29",
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x20000c4"
+          }
+        },
+        "switch_contact": {
+          "frame": 4810,
+          "contact": "0x30043ac"
+        },
+        "gate_opening": 4812,
+        "gate_closing": 4856,
+        "left_of_gate": {
+          "frame": 4865,
+          "x": 136.9375,
+          "y": 103.28125
+        },
+        "entered_325": 5146
+      },
+      "final_room": 325,
+      "final_frame": 5194,
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 100,
+          "minimum_health": 1,
+          "maximum_health": 1
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "63bf1fa82b10f1dae3332ca85620b557670097f1f78cc770e57d525b775ab34f",
+          "production.gba": "301461481ce7ecf96ea2d5d5a3b7af30467df17396fb9563eb3c09d677250a45",
+          "fixture.gba": "b6839e320cdfb9c622642c4cb138eb9373218a566862408f8ccc28f2649747a2",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "372cee3bdf4da8cfd3dd8ef5f7c3e2ff8829388253f291a01d339435aaad419b",
+        "states": "fb91214e686d52239e3c9af452f16b8d8c558d7ad46d84b2a12a4da24135e585",
+        "hp": "ba1de5a2af58ff63744fbe70317917eb37b35b87829fd2bdd820c296d3e19f62",
+        "slot": "3c65bafbbfba38d37c52ee915ce4bd115998c36fa5d339f6154a279745ee7313",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 100,
+      "player_hp": 1,
+      "control": "no-freeze",
+      "events": {
+        "respawned_foley": {
+          "frame": 4602,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 2,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        }
+      },
+      "final_room": 533,
+      "final_frame": 5194,
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 100,
+          "minimum_health": 1,
+          "maximum_health": 1
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "63bf1fa82b10f1dae3332ca85620b557670097f1f78cc770e57d525b775ab34f",
+          "production.gba": "301461481ce7ecf96ea2d5d5a3b7af30467df17396fb9563eb3c09d677250a45",
+          "fixture.gba": "b6839e320cdfb9c622642c4cb138eb9373218a566862408f8ccc28f2649747a2",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "0d1b2ab9c7deb6dcbf66bf62292a8cbebe0fce87945082e697e19b61af7015b4",
+        "states": "1560b6cb71ad0cddf4ab45a0cafc49848492b618f7e708d27f8c38c73cb811a9",
+        "hp": "ba1de5a2af58ff63744fbe70317917eb37b35b87829fd2bdd820c296d3e19f62",
+        "slot": "3c65bafbbfba38d37c52ee915ce4bd115998c36fa5d339f6154a279745ee7313",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 100,
+      "player_hp": 6,
+      "control": "positive",
+      "events": {
+        "respawned_foley": {
+          "frame": 4599,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 2,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        },
+        "first_frozen": {
+          "frame": 4661,
+          "state": {
+            "address": "0x30043ac",
+            "room": 533,
+            "x": 224.0,
+            "y": 134.57421875,
+            "flags": "0x304300",
+            "state": "0x807de29",
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x20000c4"
+          }
+        },
+        "switch_contact": {
+          "frame": 4810,
+          "contact": "0x30043ac"
+        },
+        "gate_opening": 4812,
+        "gate_closing": 4856,
+        "left_of_gate": {
+          "frame": 4865,
+          "x": 136.9375,
+          "y": 103.28125
+        },
+        "entered_325": 5146
+      },
+      "final_room": 325,
+      "final_frame": 5194,
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 100,
+          "minimum_health": 6,
+          "maximum_health": 6
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "b9ee043a3243a1a66c48000400036ae99b287023871a7ac1a2d51cf5e4d541ab",
+          "production.gba": "47e2b18db52cc7a55be8292dff1abca13768f4bc0b98d900a2aa8f899874e824",
+          "fixture.gba": "9e26824d19054c1c3174d62e5e8f0aacd1d6d2a67002f778c61a57c0bcb34bda",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "dbbec5e8ec707a05b452230545174c9cf8d631b3ea95c304f22a8cbfa0a1145e",
+        "states": "389e862448c9fc8128de88f8a38feac1ec0723c586b17eb6817183f8dd649831",
+        "hp": "0586246e390421266dd6b363478f56ee7c038554688f7badc584c99e0e3007f2",
+        "slot": "0e4c9c7db3da5c1239790b07d37490bfa8a41add68c435fcff7028cd6ba2c7ee",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 100,
+      "player_hp": 6,
+      "control": "no-freeze",
+      "events": {
+        "respawned_foley": {
+          "frame": 4602,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 2,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        }
+      },
+      "final_room": 533,
+      "final_frame": 5194,
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 100,
+          "minimum_health": 6,
+          "maximum_health": 6
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "b9ee043a3243a1a66c48000400036ae99b287023871a7ac1a2d51cf5e4d541ab",
+          "production.gba": "47e2b18db52cc7a55be8292dff1abca13768f4bc0b98d900a2aa8f899874e824",
+          "fixture.gba": "9e26824d19054c1c3174d62e5e8f0aacd1d6d2a67002f778c61a57c0bcb34bda",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "d9c30074efe274eca58a7018366c231bb21068edffab53b6267cbf3d6aa70403",
+        "states": "ddbd3594f1ed3a1c7be98159439e8811b2f2dc0e21fdcd80078140b9dd2ceb3f",
+        "hp": "0586246e390421266dd6b363478f56ee7c038554688f7badc584c99e0e3007f2",
+        "slot": "0e4c9c7db3da5c1239790b07d37490bfa8a41add68c435fcff7028cd6ba2c7ee",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 500,
+      "player_hp": 1,
+      "control": "positive",
+      "events": {
+        "respawned_foley": {
+          "frame": 4599,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 10,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        },
+        "first_frozen": {
+          "frame": 4705,
+          "state": {
+            "address": "0x3004428",
+            "room": 533,
+            "x": 228.5,
+            "y": 143.59765625,
+            "flags": "0x304300",
+            "state": "0x807de29",
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x20000c4"
+          }
+        },
+        "switch_contact": {
+          "frame": 4776,
+          "contact": "0x3004428"
+        },
+        "gate_opening": 4778,
+        "gate_closing": 4822,
+        "left_of_gate": {
+          "frame": 4855,
+          "x": 136.9375,
+          "y": 101.00390625
+        },
+        "entered_325": 5146
+      },
+      "final_room": 325,
+      "final_frame": 5194,
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 500,
+          "minimum_health": 1,
+          "maximum_health": 1
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "4f6e2c099ddb78c935c1c50e64689a936c21c520f766846722028a81cf33e1c6",
+          "production.gba": "7897c2cbf41c71c98d2281900a85737f35bb075206085b99a37dc8f7f536cdb5",
+          "fixture.gba": "1000522c1167407cd58c912adb183786030ff2aa8fb46b3ba1330e49f1c09dc7",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "e4e2a8a5b40fbaebff11f6a766da6f3d831bb6d5c5382c627a968eaafe58d11b",
+        "states": "f359107a34753429b79897042277ca64c806b0388f40b947297051d8f95e7622",
+        "hp": "ba1de5a2af58ff63744fbe70317917eb37b35b87829fd2bdd820c296d3e19f62",
+        "slot": "a42781b51c08c915283506df7c89ddccfeddf272b512bb7a459346e45b28679f",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 500,
+      "player_hp": 1,
+      "control": "no-freeze",
+      "events": {
+        "respawned_foley": {
+          "frame": 4602,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 10,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        }
+      },
+      "final_room": 533,
+      "final_frame": 5194,
+      "hp_min": 1,
+      "hp_max": 1,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 500,
+          "minimum_health": 1,
+          "maximum_health": 1
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "4f6e2c099ddb78c935c1c50e64689a936c21c520f766846722028a81cf33e1c6",
+          "production.gba": "7897c2cbf41c71c98d2281900a85737f35bb075206085b99a37dc8f7f536cdb5",
+          "fixture.gba": "1000522c1167407cd58c912adb183786030ff2aa8fb46b3ba1330e49f1c09dc7",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "fe420a2faa7a1b7e2a70baced8323dce3d0cb74d45b31a392c3752ccf8967e7a",
+        "states": "2f43284dc17205f9226c20c7320d2b00b5394938434f2045b3d0b8217ccda835",
+        "hp": "ba1de5a2af58ff63744fbe70317917eb37b35b87829fd2bdd820c296d3e19f62",
+        "slot": "a42781b51c08c915283506df7c89ddccfeddf272b512bb7a459346e45b28679f",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 500,
+      "player_hp": 6,
+      "control": "positive",
+      "events": {
+        "respawned_foley": {
+          "frame": 4599,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 10,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        },
+        "first_frozen": {
+          "frame": 4705,
+          "state": {
+            "address": "0x3004428",
+            "room": 533,
+            "x": 228.5,
+            "y": 143.59765625,
+            "flags": "0x304300",
+            "state": "0x807de29",
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x20000c4"
+          }
+        },
+        "switch_contact": {
+          "frame": 4776,
+          "contact": "0x3004428"
+        },
+        "gate_opening": 4778,
+        "gate_closing": 4822,
+        "left_of_gate": {
+          "frame": 4855,
+          "x": 136.9375,
+          "y": 101.00390625
+        },
+        "entered_325": 5146
+      },
+      "final_room": 325,
+      "final_frame": 5194,
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 500,
+          "minimum_health": 6,
+          "maximum_health": 6
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "4d319bb7f2290e561d9567587d544c8ceff1da12639311d40fd4374e6ed4376d",
+          "production.gba": "9ed1ce596281d323b56dd163d38d97e6271f1093dd1372ad380d761d65d819be",
+          "fixture.gba": "471f0f935e51576fa6c6d7fbea1e266a02fe4b3701fc3deb918578b74c035a6e",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "1c4461a82f782355a48e437fcc37d735f968e86078b1470211af1acb9dcdc11e",
+        "states": "a7ae7f789d1417227391e41de611956eaffa30b7c171e31af5c7bae174921be2",
+        "hp": "0586246e390421266dd6b363478f56ee7c038554688f7badc584c99e0e3007f2",
+        "slot": "cb6b3d85c8ada339d5a52251e173fe0ac987ea175f897b85c4cc26746c06d820",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    },
+    {
+      "enemy_health_percent": 500,
+      "player_hp": 6,
+      "control": "no-freeze",
+      "events": {
+        "respawned_foley": {
+          "frame": 4602,
+          "state": {
+            "address": "0x20000c4",
+            "room": 533,
+            "type": 46,
+            "copy_field": 2,
+            "hp": 10,
+            "x": 224.0,
+            "y": 63.5,
+            "flags": "0x10000141",
+            "state": "0x80c0d19",
+            "b4": 504,
+            "b6": 512,
+            "b8": 128,
+            "counter": 0,
+            "contact": "0x0",
+            "parent": "0x0"
+          }
+        }
+      },
+      "final_room": 533,
+      "final_frame": 5194,
+      "hp_min": 6,
+      "hp_max": 6,
+      "hp_sample_count": 4110,
+      "gameplay_ram_writes": 0,
+      "runtime_rom_writes": 0,
+      "state_restores": 0,
+      "config_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "cadefe27",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "f3504c42",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "build": {
+        "seed": 43,
+        "repo_commit": "96bfc803ba31e2901463b0c74ef5e5b3e2a10e7d",
+        "policy": {
+          "mode": 1,
+          "allowed_abilities": [
+            "Beam",
+            "Bomb",
+            "Burning",
+            "Cook",
+            "Crash",
+            "Cupid",
+            "Cutter",
+            "Fighter",
+            "Fire",
+            "Hammer",
+            "Ice",
+            "Laser",
+            "Magic",
+            "Mini",
+            "Missile",
+            "Parasol",
+            "Sleep",
+            "Smash",
+            "Spark",
+            "Stone",
+            "Sword",
+            "Throw",
+            "Tornado",
+            "UFO",
+            "Wheel"
+          ],
+          "ability_randomization_boss_spawns": true,
+          "ability_randomization_minibosses": true,
+          "ability_randomization_minny": false,
+          "ability_randomization_passive_enemies": true,
+          "ability_randomization_no_ability_weight": 0,
+          "seed": 4777282310011543242,
+          "mapping_style": "per_enemy_type"
+        },
+        "options": {
+          "ability_randomization_mode": 1,
+          "ability_gating": 0,
+          "ability_randomization_no_ability_weight": 0,
+          "area_keys": 0,
+          "room_sanity": 0,
+          "advanced_logic": 1,
+          "enemy_health_multiplier": 500,
+          "minimum_health": 6,
+          "maximum_health": 6
+        },
+        "source_table_byte": 2,
+        "source_bitmap_index": 34,
+        "fixture_byte_diff": [
+          {
+            "offset": "0x2d8cb8",
+            "before": 35,
+            "after": 78
+          },
+          {
+            "offset": "0x2d8cb9",
+            "before": 3,
+            "after": 2
+          },
+          {
+            "offset": "0x2d8cba",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbb",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbc",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbd",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cbe",
+            "before": 35,
+            "after": 101
+          },
+          {
+            "offset": "0x2d8cbf",
+            "before": 3,
+            "after": 0
+          },
+          {
+            "offset": "0x2d8cd1",
+            "before": 96,
+            "after": 248
+          },
+          {
+            "offset": "0x2d8cd5",
+            "before": 144,
+            "after": 104
+          },
+          {
+            "offset": "0x2d8cd9",
+            "before": 80,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8cdd",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ce1",
+            "before": 64,
+            "after": 48
+          },
+          {
+            "offset": "0x2d8ce5",
+            "before": 144,
+            "after": 80
+          },
+          {
+            "offset": "0x2d8ced",
+            "before": 144,
+            "after": 80
+          }
+        ],
+        "sha256": {
+          "production.apkirbyam": "4d319bb7f2290e561d9567587d544c8ceff1da12639311d40fd4374e6ed4376d",
+          "production.gba": "9ed1ce596281d323b56dd163d38d97e6271f1093dd1372ad380d761d65d819be",
+          "fixture.gba": "471f0f935e51576fa6c6d7fbea1e266a02fe4b3701fc3deb918578b74c035a6e",
+          "base_patch.bsdiff4": "1d0603711c00188d0ae883dc82230516031705b31392783030ead2a241e2d6ea"
+        }
+      },
+      "sha256": {
+        "result": "be424d881b9ca9a5b4821087a4143a3b63edf016aca2706962b91919ad2cd651",
+        "states": "021703732ba10c09cf75cac3c516754d2f0fd5ef68d2f028deba66bfcf4870f1",
+        "hp": "0586246e390421266dd6b363478f56ee7c038554688f7badc584c99e0e3007f2",
+        "slot": "cb6b3d85c8ada339d5a52251e173fe0ac987ea175f897b85c4cc26746c06d820",
+        "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      }
+    }
+  ],
+  "additional_raw_exploration": {
+    "health_percent": [
+      50,
+      100,
+      250,
+      500
+    ],
+    "player_hp": 6,
+    "outcome": "All completed325 without damage with same fixed inputs; raw Foley\u2192Ice table reassignment before boot. Not production native coverage."
+  }
+}
