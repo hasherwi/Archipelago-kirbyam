@@ -1,14 +1,14 @@
 # Phone a Friend implementation milestone
 
-Status: **in progress, not enabled for generated seeds**. AI-assisted work, 2026-11-11. This implements the native permission and receipt foundation from the [route audit](phone-a-friend-traversal-audit.md). It does not close #490 or certify a helper traversal.
+Status: **default-off Phone progression is implemented for one qualified Moonlight Heave-Ho route.** See [the narrow admission](phone-progression-admission.md) for the supported profile and source-equivalence bridge. The foundation and runtime ledgers below are historical evidence; this update does not claim a new native replay, universal helper behavior or completion of #490.
 
 ## Current design and merged-main boundary
 
-Future Phone traversal may rely only on helper participation at **small switches and Heave-Ho blocks**. Never rely on a helper's copy ability, ability attack, Bomb Block/chest attack or discarded ability source. The Carrot-16/733 Bomb Block observations below remain historical evidence, excluded from future progression witnesses even if the recorded action can be repeated. This restriction does not disable native CPU abilities or change AI behavior.
+Eligible Phone traversal may rely only on helper participation at **small switches and Heave-Ho blocks**. Never rely on a helper's copy ability, ability attack, Bomb Block/chest attack or discarded ability source. The Carrot-16/733 Bomb Block observations below remain historical evidence, excluded from future progression witnesses even if the recorded action can be repeated. This restriction does not disable native CPU abilities or change AI behavior.
 
-Independent human solo/source-backed solutions remain alternatives: witnesses for the same target must be OR alternatives, not separate rules that accidentally require both. Permission to investigate small-switch and Heave-Ho cooperation is not proof of deterministic arrival, positioning or useful participation. Phone remains absent from the catalog, pool, options, slot capabilities and traversal graph.
+Independent human solo/source-backed solutions remain alternatives: witnesses for the same target must be OR alternatives, not separate rules that accidentally require both. Permission to investigate small-switch and Heave-Ho cooperation is not proof of deterministic arrival, positioning or useful participation. Current generation exposes the default-off `phone_progression` option and its single profile-qualified route; it grants no other helper route.
 
-After PR #1051, only Beam is automatically precollected; Stone and Burning require their ordinary permissions when gating is enabled. Earlier Phone native ledgers retain their recorded ROM hashes, starts, gate masks and inputs. In particular, the real-hub legacy gate mask and the Mustard-12 Beam/Burning/Stone-start runs are historical bounded observations, not acceptance of the new Beam-only configuration. No new native replay is claimed by this integration. The Chalk compartment/source correction is independent of Phone activation and remains coordinated across the graph, locations, manifest, extractor and slot snapshot.
+Earlier Phone native ledgers retain their recorded ROM hashes, starts, gate masks and inputs. Historical starting permissions are not silently promoted to current-profile acceptance; [the narrow admission](phone-progression-admission.md) supplies the separate source-equivalence bridge. No new native replay is claimed. The Chalk compartment/source correction remains coordinated across the graph, locations, manifest, extractor and slot snapshot.
 
 ## Implemented boundary
 
@@ -16,8 +16,8 @@ After PR #1051, only Beam is automatically precollected; Stone and Burning requi
 - L return to Central Circle uses the separate native entry at `0x08056E40`, which is not patched. Native input, battery, room, ability and active-call restrictions are not replaced.
 - Only a new call initiated by the local Kirby in an authenticated single-player Adventure is gated. Answering another Kirby's call, already-running calls, naturally present CPU Kirbys and native linked play are left native. This is not a ban on companions.
 - Rooms 803–805 have a local tutorial exception. This does not award ownership and does not assume the tutorial is skipped. A cold-start replay now completes the retail tutorial and confirms the gate resumes afterward; the exception never grants ownership.
-- The reserved Phone item ID is `3860501`. It is not yet in the production catalog or item pool. No generation option, slot capability or graph route is enabled. A generation regression test protects this boundary.
-- Newly generated `.apkirbyam` procedures require exactly `APPHN01\0` plus a zero enable word immediately after BSDIFF and again as the last step, after all seed writes and header finalization. Invalid, enabled, missing or truncated Phone configuration raises `ValueError` before output is opened, with instructions to rebuild the base patch and regenerate the seed. No bytes are silently repaired. This is artifact rejection, not Phone activation, full base-integrity validation or a runtime gameplay change. New archives require the updated KirbyAM patch handler. Historical archives still execute their serialized procedures and do not acquire the new steps; legacy-ROM client pairing is unchanged.
+- The progression Phone item is `3860501`. Enabled supported seeds contain one ordinary pool copy and publish the matching slot capability; default-off seeds omit Phone from the pool and omit that capability. Explicit starting ownership uses the existing start-inventory contract.
+- Newly generated `.apkirbyam` procedures require exactly `APPHN01\0` plus a zero enable word immediately after BSDIFF. After all seed writes and header finalization, the final configuration must exactly match the archive's canonical disabled or enabled `phone_config.bin` intent. Invalid/missing intent or a mismatch rejects output without repair. Historical archives retain their serialized procedures and legacy-ROM client pairing remains unchanged.
 - Native ownership is saved alongside Copy Room in the existing authenticated per-file record. Copy Room retains bit 0 and its protocol-v2 snapshot; Phone uses bit 1. Grants OR into the record, so either grant order preserves the other item. The existing seed identity, selected/loaded-file, live-task, epoch, save retry and three-file checks remain authoritative.
 - The client checks ROM/slot pairing on every watcher poll, before any watcher writes. An enabled Phone ROM requires a compatible slot, and a compatible slot requires the exact enabled ROM configuration. Unknown Phone versions and invalid enable words are rejected. Marker-free legacy ROMs and the shipping disabled configuration remain compatible with capability-free slots.
 - The client uses a separate grant-only Phone request queue. It requires complete server history, explicit compatible slot capability, exact ROM marker/config, matching seed identity and two stable native context reads. Guarded writes publish the epoch last. Empty histories, reconnects and zero commands cannot revoke a saved grant. The ordinary mailbox cannot independently grant ownership.
@@ -26,7 +26,7 @@ After PR #1051, only Beam is automatically precollected; Stone and Burning requi
 
 | Surface | Address / format |
 | --- | --- |
-| ROM configuration | `0x0900FFC8`: `APPHN01\0`, then a little-endian enabled word; shipping value **0** |
+| ROM configuration | `0x0900FFC8`: `APPHN01\0`, then a little-endian enabled word; base/default value **0**; qualified enabled seed value **1** |
 | Copy Room marker | Unchanged at `0x0900FFD4`, `APCPY02\0` |
 | Native saved record | WORLD words 22–25: existing seed identity; word 26: `0x43500000` plus Copy bit 0 / Phone bit 1 |
 | Phone snapshot | `0x0203B170`: epoch, native slot, owned boolean, cookie `0x50484E31` |
@@ -35,7 +35,9 @@ After PR #1051, only Beam is automatically precollected; Stone and Burning requi
 
 The extension linker bound now ends before `0x0900FFC8`. No native save descriptor is resized and no additional WORLD words are claimed. A legacy ROM predating the Phone ownership bit is not a supported rollback target for an experimental Phone-enabled save.
 
-## Validation so far
+## Historical foundation validation and runtime ledgers (2026-11-11–14)
+
+Activation statements and remaining-work notes in the historical sections below describe the foundation at the time, not current generation. They do not expand or revoke the narrow admission linked above.
 
 The ARM payload and BSDIFF patch were rebuilt locally from the verified USA base (SHA-1 `274b102b6d940f46861a92b4e65f89a51815c12c`). Only the patch is distributable, never the source ROM.
 
@@ -212,7 +214,7 @@ A native mGBA bridge probe also checks the new configuration read at System Bus 
 
 Independent review found no blocking defect in this disabled-production milestone or the reverse-pairing follow-up. The broader native acceptance gaps below remain open.
 
-## Remaining work before activation
+## Historical pre-activation checklist
 
 1. Complete the R/L runtime matrix beyond the bounded normal, underwater, carried-ability, battery, call-start, pause/resume and three-file cases above, including other restricted states and interruption behavior. Zero-battery L/R and same-/cross-identity offline cold reload are now observed in the bounded file-0 scenario above; the multiplayer-only fallen-help initializer is outside the single-player gate. The ROM-free machine-level wrapper regression above is complete.
 2. Extend the completed tutorial/control replay to the supported generation-option matrix; retain the original initial rooms and positions.

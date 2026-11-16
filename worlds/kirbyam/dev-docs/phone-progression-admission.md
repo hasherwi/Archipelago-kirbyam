@@ -9,7 +9,7 @@ or discarded-star sources. The 315/310/426/511 candidates are not admitted by it
 ## Qualified profile and resources
 
 The initial supported profile is native ability assignment, ability gating off,
-HP 6–10, enemy health 100%, Room Sanity off and no One-Hit preset. Generation
+HP 6–10, enemy health 100%, either Room Sanity setting and no One-Hit preset. Generation
 rejects other enabled profiles instead of enabling a cosmetic or challenge-only
 item. The resolved Sir Kibble source must still grant Cutter. Source policy is
 checked again after generation and before seed token output.
@@ -69,3 +69,21 @@ adding Phone reaches Chalk. Both Area Keys settings are covered. The check
 therefore supplies actual progression logic and does not self-lock access to
 its human ability source. Separate complete generation/fill tests cover the
 item's placement. Pure graph/token tests are not additional physical evidence.
+
+## Room Sanity extension
+
+Room Sanity adds AP visit checks; it does not shuffle rooms or change the
+cooperation procedure. `regions.py` materializes additional visit locations,
+and `client._poll_room_sanity_locations` reads existing native visit flags and
+sends LocationChecks. It does not write helper, pose, battery or ability state.
+Production ROM token bytes and Phone intent are identical for on/off with the
+same seed identity and otherwise identical supported options. Existing
+source/gating/health/enemy restrictions remain unchanged.
+
+Paired on/off tests cover the actual graph, independently reachable source,
+Phone-required Chalk collection, token equality and complete generation/fill
+with beatability, accessibility and reachable Phone placement. A client test
+uses recorded-shaped flag bytes and checks only the AP check-set expansion;
+it is not a native gameplay run. More AP checks can change item placement and
+receipt timing, so no identical controller schedule or live-server timing is
+claimed. The physical witness remains the previously admitted route.

@@ -56,7 +56,7 @@ def test_disabled_preserves_exact_rule_and_does_not_validate_other_profiles():
 
 @pytest.mark.parametrize('field,value', [('ability_randomization_mode',1),('ability_gating',1),
     ('minimum_health',1),('maximum_health',9),('enemy_health_multiplier',101),
-    ('room_sanity',1),('one_hit_mode',1)])
+    ('room_sanity',2),('one_hit_mode',1)])
 def test_unsupported_profile_rejected(field,value):
     w, *_ = world()
     getattr(w.options,field).value=value
@@ -87,14 +87,15 @@ def test_only_declared_146_edge_is_installed_and_source_is_independent():
     assert edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
 
 @pytest.mark.parametrize('keys', [0, 1])
-def test_actual_generated_graph_phone_has_progression_without_source_self_lock(keys):
+@pytest.mark.parametrize('room_sanity', [0, 1])
+def test_actual_generated_graph_phone_has_progression_without_source_self_lock(keys, room_sanity):
     from BaseClasses import CollectionState
     from test.general import setup_multiworld
     from .. import KirbyAmWorld
     mw = setup_multiworld(KirbyAmWorld, seed=1086, options={
         'phone_progression':1, 'ability_gating':0, 'area_keys':keys,
         'ability_randomization_mode':0, 'minimum_health':6, 'maximum_health':10,
-        'enemy_health_multiplier':100, 'room_sanity':0})
+        'enemy_health_multiplier':100, 'room_sanity':room_sanity})
     w = mw.worlds[1]
     s = CollectionState(mw)
     for item in mw.itempool:

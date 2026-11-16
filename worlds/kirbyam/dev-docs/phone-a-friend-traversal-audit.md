@@ -1,14 +1,14 @@
 # Phone a Friend: traversal audit and implementation boundary
 
-Status: **implementation in progress; production activation and helper-route grants remain disabled.** The initial audit below was checked 2026-11-09. See [the native gate and ownership milestone](phone-implementation.md) for current code, tests, and remaining acceptance work. AI-assisted source review. This is a separate follow-up to [#490](https://github.com/hasherwi/Archipelago-kirbyam/issues/490), not a change to the through-wall evidence work in [#1052](https://github.com/hasherwi/Archipelago-kirbyam/pull/1052).
+Status: **default-off Phone progression is available for one qualified Moonlight Heave-Ho route.** See [the narrow admission](phone-progression-admission.md) for the supported profile, resource requirements and limits. The initial audit below was checked 2026-11-09 and remains historical evidence. AI-assisted source review. This is a separate follow-up to [#490](https://github.com/hasherwi/Archipelago-kirbyam/issues/490), not a change to the through-wall evidence work in [#1052](https://github.com/hasherwi/Archipelago-kirbyam/pull/1052).
 
 ## Current design
 
-Future Phone progression may assume helper participation only at **small switches and Heave-Ho blocks**, never helper copy abilities, ability attacks, Bomb Block/chest attacks or discarded ability sources. This is a logic restriction, not a change to native AI behavior. Room-specific arrival, positioning, useful cooperation and full traversal still require acceptance; these two permitted categories are not universal Phone grants.
+Eligible Phone progression may assume helper participation only at **small switches and Heave-Ho blocks**, never helper copy abilities, ability attacks, Bomb Block/chest attacks or discarded ability sources. This is a logic restriction, not a change to native AI behavior. Room-specific arrival, positioning, useful cooperation and full traversal still require acceptance; these two permitted categories are not universal Phone grants.
 
 The initial source audit also found documented cooperative Bomb Block behavior in Carrot Castle Room 16. Retain that discovery and the later native-733 observations as historical evidence, but exclude the helper attack from future progression witnesses under the current design. Independently reviewed human solo/source alternatives remain eligible and must be OR alternatives within each target, not separate AND requirements.
 
-Only Beam is automatically precollected after PR #1051. Historical Phone evidence keeps its original starts and masks and does not certify this new baseline. Phone remains inactive with no catalog item, pool entry, option, slot capability or traversal binding.
+The default-off `phone_progression` option now adds the progression item, balanced pool entry, slot capability and the single qualified Moonlight route. Unsupported enabled profiles fail generation. Earlier starts, masks and route findings below retain their historical scope; current admission is defined only by [the narrow admission](phone-progression-admission.md).
 
 ## Historical audit scope and baseline
 

@@ -27,7 +27,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
-- Phone progression is default-off and limited to the reviewed native-enemy, ability-gating-off, 6–10 HP, 100% enemy-health, Room-Sanity-off profile. Only the Moonlight Heave-Ho route is bound; broader helper routes, attacks and randomized-source profiles remain unsupported. Historical disabled-foundation evidence below remains historical (PR #1086).
+- Phone progression is default-off and limited to the reviewed native-enemy, ability-gating-off, 6–10 HP, 100% enemy-health profile with either Room Sanity setting. Only the Moonlight Heave-Ho route is bound; broader helper routes, attacks and randomized-source profiles remain unsupported. Historical disabled-foundation evidence below remains historical (PR #1086).
 
 ### Bug Fixes
 - Reject newly generated patch artifacts unless Phone has its exact disabled configuration immediately after the base patch and its exact canonical seed intent after all seed writes and header finalization. Invalid inputs cannot be hidden by repair tokens or create/overwrite output. Gameplay and legacy-ROM client compatibility are unchanged; historical patch manifests retain their saved procedures (PR #1086).

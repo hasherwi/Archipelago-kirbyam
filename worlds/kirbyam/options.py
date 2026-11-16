@@ -411,7 +411,7 @@ class PhoneProgression(Toggle):
     native L return and tutorial calls remain available.
 
     Requires native enemy abilities, ability gating off, 6 starting/10 maximum
-    health, enemy health 100%, and Room Sanity off. Unsupported combinations
+    health and enemy health 100%; either Room Sanity setting is supported. Unsupported combinations
     are rejected, not silently downgraded. Other helper routes are not assumed.
     """
     display_name = "Phone a Friend Progression"

@@ -38,13 +38,16 @@ def validate_phone_profile(world: Any, *, require_policy: bool = False) -> None:
         return
     expected = {"ability_randomization_mode": 0, "ability_gating": 0,
                 "minimum_health": 6, "maximum_health": 10,
-                "enemy_health_multiplier": 100, "room_sanity": 0,
+                "enemy_health_multiplier": 100,
                 "one_hit_mode": 0}
     mismatches = [f"{name}={value}" for name, value in expected.items()
                   if (type(_value(world, name, 0 if name == "one_hit_mode" else None)) is not int
                       or _value(world, name, 0 if name == "one_hit_mode" else None) != value)]
     if mismatches:
         raise ValueError("Phone progression requires the reviewed profile: " + ", ".join(mismatches))
+    room_sanity = _value(world, "room_sanity", 0)
+    if type(room_sanity) is not int or room_sanity not in (0, 1):
+        raise ValueError("room_sanity must be a canonical toggle value")
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if raw is None and require_policy:
         raise ValueError("Phone progression requires resolved source policy before publication")

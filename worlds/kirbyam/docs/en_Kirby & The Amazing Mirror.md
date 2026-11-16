@@ -212,7 +212,7 @@ Cell Phone Batteries remain ordinary consumables, not ownership items.
 
 This initial profile supports native enemy abilities (`ability_randomization_mode: off`),
 `ability_gating: false`, `minimum_health: 6`, `maximum_health: 10`,
-`enemy_health_multiplier: 100`, and `room_sanity: false`. Generation rejects other
+`enemy_health_multiplier: 100`, and either `room_sanity` setting. Generation rejects other
 combinations rather than silently dropping progression. The default is off.
 
 The enabled route requires Phone, independently obtained Rainbow Route East Hub

@@ -1,8 +1,8 @@
 # Phone helper acceptance: native room 146
 
-Status: **qualified real-hub crossings and native Chalk collection, not an accepted production traversal**. AI-assisted research, 2026-11-10. See the [implementation boundary](phone-implementation.md) and [sanitized input/checkpoint ledger](phone-heave-ho-evidence.json).
+Status: **historical qualified real-hub crossings and native Chalk collection.** The later [narrow progression admission](phone-progression-admission.md) enables one default-off, profile-qualified route; it does not alter the recorded runs or imply universal cooperation. AI-assisted research, 2026-11-10. See the [implementation boundary](phone-implementation.md) and [sanitized input/checkpoint ledger](phone-heave-ho-evidence.json).
 
-## Current acceptance limits
+## Historical acceptance limits (before narrow progression admission)
 
 Only small-switch and Heave-Ho helper participation is eligible for future progression logic. Helper copy abilities and attacks are never prerequisites or source providers; native CPU behavior remains unchanged. The Normal collective pull below is within that candidate scope, but its bounded successes do not prove deterministic cooperation. Independent human solo solutions must remain OR alternatives for the same target.
 

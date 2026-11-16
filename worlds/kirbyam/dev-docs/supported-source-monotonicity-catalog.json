@@ -11,7 +11,7 @@
     "worlds/kirbyam/traversal.py": "88316aafca98d2791cf7fc874aafc4d1b95cf30a9f9d64c5038fb7a6f9564b1b",
     "worlds/kirbyam/traversal_data.py": "0fc1d54554122557c2198dff7a33b88f5039651433315229f1963325ed971281",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/phone_traversal.py": "fb3673180e5ccb9f4c11ed132bcc4266a6cf881995ea1bef74e1cd63dfc909a5",
+    "worlds/kirbyam/phone_traversal.py": "150d179b07e656fc1d57089ef370b1375320f79c55266e71acb7722f46f77963",
     "worlds/kirbyam/rules.py": "255c7070ef275b5142a8ee0a2013f4ef09b06d49a201d376e5ec2be731e46ec5"
   },
   "witnesses": 146,
