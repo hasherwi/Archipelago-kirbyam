@@ -62,7 +62,7 @@ def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
-    max_attempts: int = 8192, *, require_all_witnesses: bool = True,
+    max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
@@ -91,7 +91,7 @@ def validate_peg_assignment(
             wheel_valid_candidate = candidate
         if wheel_valid and all(_assignment_has_witness(row, policy) for row in PEG_ROUTES):
             peg_valid_candidate = candidate
-            if static_extra_witness(policy):
+            if static_extra_witness(policy, advanced=advanced):
                 return candidate
         if policy.mode != 1:
             break

@@ -3036,7 +3036,10 @@
                 "ability": "Crash"
               }
             }
-          }
+          },
+          "advanced_graphs": [
+            "lower_entry_crash"
+          ]
         }
       ]
     }
@@ -8309,7 +8312,10 @@
                 "ability": "Cutter"
               }
             }
-          }
+          },
+          "advanced_graphs": [
+            "hub4_crash_entry"
+          ]
         }
       ]
     }
@@ -9562,7 +9568,10 @@
                 }
               ]
             }
-          }
+          },
+          "advanced_graphs": [
+            "hub4_crash_entry"
+          ]
         }
       ]
     }

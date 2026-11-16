@@ -13,6 +13,7 @@ from .test_traversal import policy
 from .support.normal110_history import before_normal110
 from .support.master719_history import before_master719
 from .support.green138_history import before_green138
+from .support.advanced_crash_history import before_advanced_crash
 
 TARGET = 'frozen_825_sound_effects'
 
@@ -131,7 +132,7 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.
             catalogs['targets'][row['id']] = before_normal110(
-                before_master719(before_green138({'region': region, **row})))
+                before_master719(before_green138(before_advanced_crash({'region': region, **row}))))
         for kind in ('graph_parts', 'source_sets'):
             for key, value in traversal.get(kind, {}).items():
                 assert key not in catalogs[kind]

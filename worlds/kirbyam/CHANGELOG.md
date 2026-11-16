@@ -12,11 +12,20 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 
+- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash traversal routes (PR #1092).
 
 ### Improvements
+- Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 
 ### Known Limitations
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
+
 - Phone ownership and call gating are an inactive foundation only. Generated seeds do not enable the Phone item or Phone traversal requirements; source, solo-route and lifecycle acceptance remains unfinished. Future helper logic is limited to small-switch and Heave-Ho cooperation, never helper abilities or Bomb Block/chest attacks (PR #1086).
 
 ### Bug Fixes
@@ -39,6 +48,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Record a bounded Phone-assisted Yellow chest procedure with cold repeat, native one-HP and matched unowned/no-call controls. Retain this as historical observation only: helper Bomb Block attacks are excluded from progression under the current design (PR #1086).
 - Record independent Normal/no-Phone Mustard 11 chest and ordinary-exit witnesses, including native HP-1 checks and explicit failed replay limits. Prepare a read-only native BizHawk bus-probe harness without claiming completed emulator acceptance (PR #1086).
 - Add disabled-by-default Phone ownership, authenticated three-file persistence and a gate for new local single-player R calls, with a rebuilt ROM patch. Preserve tutorial calls, L return, existing Copy Room ownership and native eligibility (PR #1086).
+
 
 ## v0.5.1
 

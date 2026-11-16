@@ -35,7 +35,7 @@ def setup(monkeypatch, graph):
     )
     row = {"id": "test-fuse", "kind": "fuse", "region": "Owner", "exit": "Exit", "graphs": {"local": {}}}
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
-    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys: (graph,))
+    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys, **kwargs: (graph,))
     items = set()
     state = SimpleNamespace(base_rule=True, accessible=False)
     state.has = lambda item, player: item in items
@@ -81,7 +81,7 @@ def test_multiple_incomplete_witnesses_do_not_merge(monkeypatch, setup, graph):
     nodes = graph.nodes + (Node("other", 126),)
     first = replace(graph, nodes=nodes, required_targets=frozenset({"done", "other"}))
     second = replace(first, routes=(Route("source", "other", "fuse"),))
-    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys: (first, second))
+    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys, **kwargs: (first, second))
     assert not rules.static_extra_witness(SourcePolicy({"mode": 0}))
     with pytest.raises(ValueError, match="No reviewed source witness"):
         rules.install_extra_traversal_rules(world)
@@ -90,7 +90,7 @@ def test_multiple_incomplete_witnesses_do_not_merge(monkeypatch, setup, graph):
 def test_optional_route_fails_closed_without_rejecting_world(monkeypatch, setup, graph):
     world, target, state, items, _, row = setup
     row["required_for_generation"] = False
-    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys: (replace(graph, placements=()),))
+    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys, **kwargs: (replace(graph, placements=()),))
     assert rules.static_extra_witness(SourcePolicy({"mode": 0}))
     rules.install_extra_traversal_rules(world)
     items.update({"Fire Ability", "Source access item"})
@@ -101,7 +101,7 @@ def test_optional_route_fails_closed_without_rejecting_world(monkeypatch, setup,
 def test_area_key_option_is_passed_to_graph_compiler(monkeypatch, setup, graph):
     world, _, _, _, _, _ = setup
     received = []
-    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys: received.append(area_keys) or (graph,))
+    monkeypatch.setattr(rules, "target_graphs", lambda row, area_keys, **kwargs: received.append(area_keys) or (graph,))
     rules.install_extra_traversal_rules(world)
     world._area_keys_enabled = lambda: False
     rules.install_extra_traversal_rules(world)
@@ -141,7 +141,7 @@ def test_complete_alternatives_on_one_target_are_or_not_separate_and_rules(monke
     # Synthetic second source validates composition only, not a Phone or room witness.
     world, target, state, items, _, _ = setup
     alternative = replace(graph, placements=(Placement('source', 'FOLEY'),))
-    monkeypatch.setattr(rules, 'target_graphs', lambda row, area_keys: (graph, alternative))
+    monkeypatch.setattr(rules, 'target_graphs', lambda row, area_keys, **kwargs: (graph, alternative))
     rules.install_extra_traversal_rules(world)
     state.accessible = True
     items.add('Bomb Ability')
