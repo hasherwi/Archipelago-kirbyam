@@ -317,40 +317,14 @@ def test_classified_rejection_does_not_hide_other_failure_timeout_or_crash(
     assert launcher.report_result(args, report, 1) == 1
 
 
-@pytest.mark.parametrize("minimum", range(1, 11))
 @pytest.mark.parametrize("room_sanity", ("false", "true"))
-def test_phone_fuzz_trigger_uses_supported_profile(minimum: int, room_sanity: str) -> None:
-    import yaml
-    from Generate import roll_triggers
-    from worlds.kirbyam.options import KirbyAmOptions
-    from worlds.kirbyam.phone_traversal import validate_phone_profile
-
-    game = "Kirby & The Amazing Mirror"
-    meta = yaml.safe_load(load_launcher().FUZZER_META_PATH.read_text(encoding="utf-8"))
-    weights = {game: {"phone_progression": "true", "minimum_health": minimum,
-                     "maximum_health": 1, "enemy_health_multiplier": 200,
-                     "ability_gating": "true", "ability_randomization_mode": "shuffled",
-                     "one_hit_mode": "include_vitality_counters", "room_sanity": room_sanity}}
-    resolved = roll_triggers(weights, meta["triggers"], set())[game]
-    assert resolved["minimum_health"] == 6
-    assert resolved["maximum_health"] == 10
-    assert resolved["room_sanity"] == room_sanity
-    options = SimpleNamespace(**{key: KirbyAmOptions.type_hints[key].from_any(value)
-                                 for key, value in resolved.items()})
-    validate_phone_profile(SimpleNamespace(options=options))
-    # Trigger normalization must not mutate the caller or turn Phone off.
-    assert weights[game]["maximum_health"] == 1
-    assert options.phone_progression.value == 1
-
-
-@pytest.mark.parametrize("room_sanity", ("false", "true"))
-def test_phone_off_fuzz_retains_randomized_profile(room_sanity: str) -> None:
+def test_unconditional_phone_does_not_override_fuzz_profiles(room_sanity: str) -> None:
     import yaml
     from Generate import roll_triggers
 
     game = "Kirby & The Amazing Mirror"
     meta = yaml.safe_load(load_launcher().FUZZER_META_PATH.read_text(encoding="utf-8"))
-    original = {"phone_progression": "false", "minimum_health": 2,
+    original = {"minimum_health": 2,
                 "maximum_health": 1, "enemy_health_multiplier": 200,
                 "ability_gating": "true", "ability_randomization_mode": "shuffled",
                 "one_hit_mode": "include_vitality_counters", "room_sanity": room_sanity}

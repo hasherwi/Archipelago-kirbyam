@@ -13,7 +13,6 @@ from BaseClasses import CollectionState, Item, ItemClassification, LocationProgr
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
 
-from .phone_traversal import phone_progression_enabled
 from .client import KirbyAmClient  # noqa: F401  # Required to register BizHawk client
 from .ability_randomization import (
     build_enemy_copy_ability_policy,
@@ -444,11 +443,6 @@ class KirbyAmWorld(World):
     def generate_early(self) -> None:
         from .phone_traversal import validate_phone_profile
         validate_phone_profile(self)
-        if not phone_progression_enabled(self):
-            for option_name in ("start_inventory", "start_inventory_from_pool"):
-                requested = getattr(getattr(self.options, option_name, None), "value", {})
-                if requested.get("Phone a Friend", 0):
-                    raise ValueError("Phone a Friend starting inventory requires phone_progression")
         # Reject unsupported health pairs before producing regions/items or a patch.
         health_range = self._health_range()
         if self._one_hit_mode_value():
@@ -807,9 +801,6 @@ class KirbyAmWorld(World):
                         or item.item_id in active_collection_item_codes
                     )
                 ]
-                if not phone_progression_enabled(self):
-                    non_filler_item_codes = [code for code in non_filler_item_codes
-                                             if "Phone" not in kirby_data.items[code].tags]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
                     vitality_item_codes = {
@@ -1198,6 +1189,8 @@ class KirbyAmWorld(World):
 
     # Helper method to fill slot data
     def fill_slot_data(self) -> dict[str, Any]:
+        from .phone_traversal import validate_phone_profile
+        validate_phone_profile(self, require_policy=True)
         # Slot data needed by client.
         # Pre-v0.1.0 policy: emit only canonical ability_randomization_* keys.
         # Legacy key aliases are intentionally not emitted before first public release.
@@ -1211,7 +1204,6 @@ class KirbyAmWorld(World):
             "no_extra_lives",
             "ability_gating",
             "advanced_logic",
-            "phone_progression",
             "enable_traps",
             "trap_fill_percentage",
             "enemy_health_multiplier",
@@ -1247,13 +1239,10 @@ class KirbyAmWorld(World):
         slot_data["starting_copy_ability_room_access"] = any(
             item.name == "Copy Ability Room Access" for item in precollected_items
         )
-        if phone_progression_enabled(self):
-            from .phone_traversal import validate_phone_profile
-            validate_phone_profile(self, require_policy=True)
-            slot_data["phone_protocol_version"] = 1
-            slot_data["starting_phone_access"] = any(
-                item.name == "Phone a Friend" for item in precollected_items
-            )
+        slot_data["phone_protocol_version"] = 1
+        slot_data["starting_phone_access"] = any(
+            item.name == "Phone a Friend" for item in precollected_items
+        )
         slot_data["area_keys"] = self._area_keys_enabled()
         slot_data["starting_area_key_bitfield"] = (
             area_key_bitfield_from_items(precollected_items) if slot_data["area_keys"] else 0
@@ -1343,7 +1332,6 @@ class KirbyAmWorld(World):
                 item_data.label
                 for item_data in kirby_data.items.values()
                 if "Unique" in item_data.tags
-                and ("Phone" not in item_data.tags or phone_progression_enabled(self))
             }
         )
 

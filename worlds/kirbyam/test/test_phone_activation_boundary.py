@@ -1,6 +1,6 @@
-"""ROM-free disabled-option generation/token boundary checks.
+"""ROM-free universal Phone generation/token boundary checks.
 
-The synthetic buffer models the shipping disabled Phone configuration only.
+The synthetic post-base buffer starts disabled; actual seed tokens enable it.
 These checks invoke the production Phone validator around serialized tokens.
 They do not apply the base BSDIFF, validate a real ROM, or prove native helper
 routes in an emulator.
@@ -19,7 +19,7 @@ from ..traversal import CAPABILITY_ABILITIES
 from ..traversal_data import compile_room_graph, graph_items, load_room_traversal
 from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_ROM_OFFSET
 from ..options import AbilityRandomizationMode
-from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ITEM_ID, PHONE_MARKER, validate_phone_pairing
+from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ITEM_ID, PHONE_MARKER, PHONE_ENABLED_CONFIG, validate_phone_pairing
 from ..rom import KirbyAmPatchExtension, KirbyAmProcedurePatch, write_tokens
 
 
@@ -36,17 +36,17 @@ def synthetic_post_base() -> bytes:
     return bytes(buffer)
 
 
-def _assert_phone_disabled(
+def _assert_phone_enabled(
         patch: KirbyAmProcedurePatch, slot_data: dict[str, Any], synthetic_post_base: bytes) -> None:
     KirbyAmPatchExtension.validate_production_phone_disabled(patch, synthetic_post_base)
     patched = APPatchExtension.apply_tokens(patch, synthetic_post_base, "token_data.bin")
-    assert KirbyAmPatchExtension.validate_production_phone_disabled(patch, patched) is patched
+    assert KirbyAmPatchExtension.validate_phone_seed_config(patch, patched) is patched
     assert len(patched) == len(synthetic_post_base)
     config = patched[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12]
     # Pairing alone accepts absent markers for legacy ROMs, so require exact
     # bytes as well: destroying the marker must not hide an accidental write.
-    assert config == DISABLED_PHONE_CONFIG, "seed tokens changed disabled Phone configuration"
-    assert validate_phone_pairing(slot_data, config) == 0
+    assert config == PHONE_ENABLED_CONFIG
+    assert validate_phone_pairing(slot_data, config) == 1
 
 
 @pytest.mark.parametrize("ability_gating", [0, 1])
@@ -58,7 +58,7 @@ def _assert_phone_disabled(
     AbilityRandomizationMode.option_completely_random,
 ], ids=["off", "shuffled", "completely_random"])
 @pytest.mark.parametrize("ability_randomization_statues", [0, 1])
-def test_default_generation_does_not_enable_phone(
+def test_all_profiles_generate_phone(
         ability_gating: int, area_keys: int, room_sanity: int,
         ability_randomization_mode: int, ability_randomization_statues: int,
         synthetic_post_base: bytes) -> None:
@@ -70,34 +70,34 @@ def test_default_generation_does_not_enable_phone(
     world = multiworld.worlds[1]
     assert isinstance(world, KirbyAmWorld)
     slot_data = world.fill_slot_data()
-    # Main's source-aware starts and the inactive Phone boundary must coexist.
+    # Main's source-aware starts and universal Phone ownership must coexist.
     assert [item.name for item in multiworld.precollected_items[1]
             if item.name.endswith(" Ability")] == ["Beam Ability", "Ice Ability"]
     assert tuple(slot_data["ability_gateable_abilities"]) == (
         GATEABLE_ENEMY_COPY_ABILITIES if ability_gating else ())
     assert world.item_name_to_id["Phone a Friend"] == PHONE_ITEM_ID
-    assert "starting_phone_access" not in slot_data
-    assert slot_data["phone_progression"] is False
-    assert "Phone a Friend" not in slot_data.get("unique_items", ())
+    assert slot_data["starting_phone_access"] is False
+    assert "phone_progression" not in slot_data
+    assert "Phone a Friend" in slot_data["unique_items"]
     assert all(item.code != PHONE_ITEM_ID for item in multiworld.precollected_items[1])
     assert data.items[PHONE_ITEM_ID].label == "Phone a Friend"
-    assert all(item.code != PHONE_ITEM_ID for item in multiworld.itempool)
-    assert "phone_protocol_version" not in slot_data
+    assert sum(item.code == PHONE_ITEM_ID for item in multiworld.itempool) == 1
+    assert slot_data["phone_protocol_version"] == 1
     assert len(multiworld.itempool) == len(multiworld.get_unfilled_locations())
 
     patch = KirbyAmProcedurePatch()
     write_tokens(world, patch)  # Includes the production token binary serialization.
-    _assert_phone_disabled(patch, slot_data, synthetic_post_base)
+    _assert_phone_enabled(patch, slot_data, synthetic_post_base)
 
     source = Path(__file__).resolve().parents[1] / "kirby_ap_payload" / "phone.c"
     assert 'gApPhoneConfig = {"APPHN01", 0u}' in source.read_text()
 
 
 @pytest.mark.parametrize("relative_offset,payload", [
-    (8, b"\1\0\0\0"),
+    (8, b"\0\0\0\0"),
     (0, b"X"),
-], ids=["enable", "corrupt-marker"])
-def test_phone_guard_rejects_enabling_or_corrupting_tokens(
+], ids=["disable", "corrupt-marker"])
+def test_phone_guard_rejects_disabling_or_corrupting_tokens(
         relative_offset: int, payload: bytes, synthetic_post_base: bytes) -> None:
     """Negative controls mutate serialized tokens, never production code or a ROM."""
     multiworld = setup_multiworld(KirbyAmWorld, seed=1086)
@@ -108,8 +108,8 @@ def test_phone_guard_rejects_enabling_or_corrupting_tokens(
     patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + relative_offset, payload)
     patch.write_file("token_data.bin", patch.get_token_binary())
 
-    with pytest.raises(ValueError, match="production Phone must remain disabled"):
-        _assert_phone_disabled(patch, world.fill_slot_data(), synthetic_post_base)
+    with pytest.raises(ValueError, match="differs from seed intent"):
+        _assert_phone_enabled(patch, world.fill_slot_data(), synthetic_post_base)
 
 
 def test_base_catalog_has_no_generic_phone_helper_provider_or_requirement() -> None:

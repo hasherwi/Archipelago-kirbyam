@@ -17,7 +17,6 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
-from .phone_traversal import phone_progression_enabled
 from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
@@ -180,7 +179,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     from .phone_traversal import validate_phone_profile
     validate_phone_profile(world, require_policy=True)
-    config = phone_patch_config(phone_progression_enabled(world))
+    config = phone_patch_config(True)
     patch.write_file(PHONE_CONFIG_FILE, config)
     patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + 8, config[8:])
     health_multiplier = int(world.options.enemy_health_multiplier.value)

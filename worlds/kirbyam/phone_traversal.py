@@ -1,7 +1,7 @@
 """One qualified Phone cooperation witness, not a generic helper capability.
 
-Enabled seeds conservatively replace the legacy permissive 146 lower-pocket
-edge. This does not assert Phone necessity: unqualified solo/ambient-helper
+All seeds require Phone ownership on the 146 lower-pocket edge; only the
+qualified profile adds the reviewed cooperation witness. This does not assert Phone necessity: unqualified solo/ambient-helper
 histories remain unmodeled, not physically impossible. The witness uses a
 post-tutorial same-file reset (three batteries), two calls, native Sir Kibble
 Cutter for the approach, then human Normal and collective inhale. Helpers do
@@ -25,46 +25,62 @@ def _value(world: Any, name: str, default: Any = None) -> Any:
     return getattr(option, "value", option)
 
 
-def phone_progression_enabled(world: Any) -> bool:
-    value = _value(world, "phone_progression", 0)
-    if type(value) is not int or value not in (0, 1):
-        raise ValueError("phone_progression must be a canonical toggle value")
-    return value == 1
+_PROFILE = {"ability_randomization_mode": 0, "ability_gating": 0,
+            "minimum_health": 6, "maximum_health": 10,
+            "enemy_health_multiplier": 100, "one_hit_mode": 0}
 
 
-def validate_phone_profile(world: Any, *, require_policy: bool = False) -> None:
-    """Validate early options, and resolved source policy whenever available."""
-    if not phone_progression_enabled(world):
-        return
-    expected = {"ability_randomization_mode": 0, "ability_gating": 0,
-                "minimum_health": 6, "maximum_health": 10,
-                "enemy_health_multiplier": 100,
-                "one_hit_mode": 0}
-    mismatches = [f"{name}={value}" for name, value in expected.items()
-                  if (type(_value(world, name, 0 if name == "one_hit_mode" else None)) is not int
-                      or _value(world, name, 0 if name == "one_hit_mode" else None) != value)]
-    if mismatches:
-        raise ValueError("Phone progression requires the reviewed profile: " + ", ".join(mismatches))
-    room_sanity = _value(world, "room_sanity", 0)
-    if type(room_sanity) is not int or room_sanity not in (0, 1):
-        raise ValueError("room_sanity must be a canonical toggle value")
+def validate_phone_profile(world: Any, *, require_policy: bool = False) -> bool:
+    """Return witness eligibility, not permission to generate the Phone item.
+
+    Valid other profiles remain supported. Malformed or changed installed
+    profiles cannot publish a stale qualified rule.
+    """
+    import json
+    values = {name: _value(world, name, 0 if name == "one_hit_mode" else None)
+              for name in (*_PROFILE, "room_sanity")}
+    for name, value in values.items():
+        if type(value) is not int:
+            raise ValueError(f"Phone route profile requires canonical {name}")
+    for name in ("ability_gating", "room_sanity"):
+        if values[name] not in (0, 1):
+            raise ValueError(f"Phone route profile requires canonical {name}")
+    if values["one_hit_mode"] not in (0, 1, 2):
+        raise ValueError("Phone route profile requires canonical one_hit_mode")
+    if values["ability_randomization_mode"] not in (0, 1, 2):
+        raise ValueError("Phone route profile requires canonical ability_randomization_mode")
     raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if raw is None and require_policy:
-        raise ValueError("Phone progression requires resolved source policy before publication")
-    if raw is not None:
-        from .traversal import SourcePolicy
-        if (not isinstance(raw, dict) or type(raw.get("mode")) is not int or raw.get("mode") != 0
-                or SourcePolicy(raw).grant("SIR_KIBBLE", lambda _: True).guaranteed
-                != frozenset({"Cutter"})):
-            raise ValueError("Phone progression requires native Sir Kibble -> Cutter")
+    if raw is None:
+        if require_policy:
+            raise ValueError("Phone route requires resolved source policy before publication")
+        return False
+    from .traversal import SourcePolicy
+    if (not isinstance(raw, dict) or type(raw.get("mode")) is not int
+            or raw["mode"] != values["ability_randomization_mode"]):
+        raise ValueError("Phone route source policy differs from selected mode")
+    source = SourcePolicy(raw)
+    signature = (tuple(values.items()), json.dumps(raw, sort_keys=True, separators=(",", ":")))
+    installed = getattr(world, "_phone_route_signature", None)
+    if installed is not None and signature != installed:
+        raise ValueError("Phone route profile changed after rule installation")
+    return (all(values[name] == value for name, value in _PROFILE.items())
+            and source.grant("SIR_KIBBLE", lambda _: True).guaranteed == frozenset({"Cutter"}))
 
 
 def install_phone_rules(world: Any) -> None:
-    if not phone_progression_enabled(world):
-        return
+    import json
     from worlds.generic.Rules import add_rule
-    validate_phone_profile(world, require_policy=True)
+    qualified = validate_phone_profile(world, require_policy=True)
+    values = {name: _value(world, name, 0 if name == "one_hit_mode" else None)
+              for name in (*_PROFILE, "room_sanity")}
+    world._phone_route_signature = (tuple(values.items()), json.dumps(
+        world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":")))
     entrance = world.multiworld.get_entrance(ENTRANCE, world.player)
+
+    if not qualified:
+        # Ownership-only conservative constraint, not a physical helper witness.
+        add_rule(entrance, lambda state: state.has(PHONE, world.player))
+        return
 
     def rule(state: Any) -> bool:
         return (state.has(PHONE, world.player)

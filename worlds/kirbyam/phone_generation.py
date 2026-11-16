@@ -1,7 +1,8 @@
 """Canonical per-seed Phone patch intent, separate from route admission.
 
-Encoding an enabled intent is not permission to generate it: the world must
-first admit the complete progression profile. The base ROM remains disabled.
+New seeds always encode enabled ownership. Disabled intent remains valid for
+previously generated archives; the base ROM remains disabled. Route admission
+is separate and does not change the ownership protocol.
 """
 from .phone_protocol import PHONE_ENABLED_CONFIG, PHONE_MARKER
 

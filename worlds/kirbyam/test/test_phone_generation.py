@@ -55,9 +55,9 @@ def test_final_guard_rejects_missing_intent_and_is_last() -> None:
     assert KirbyAmProcedurePatch.procedure[-1] == ("validate_phone_seed_config", [])
 
 
-@pytest.mark.parametrize("enabled", [False, True])
+@pytest.mark.parametrize("ability_gating", [False, True])
 @pytest.mark.parametrize("area_keys", [False, True])
-def test_actual_pool_slot_and_tokens(enabled: bool, area_keys: bool) -> None:
+def test_actual_pool_slot_and_tokens(ability_gating: bool, area_keys: bool) -> None:
     from test.general import setup_multiworld
     from worlds.Files import APPatchExtension
     from .. import KirbyAmWorld
@@ -65,25 +65,20 @@ def test_actual_pool_slot_and_tokens(enabled: bool, area_keys: bool) -> None:
     from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ITEM_ID, validate_phone_pairing
     from ..rom import KirbyAmPatchExtension, KirbyAmProcedurePatch, write_tokens
     multiworld = setup_multiworld(KirbyAmWorld, seed=1086, options={
-        "phone_progression": enabled, "ability_gating": False, "area_keys": area_keys,
+        "ability_gating": ability_gating, "area_keys": area_keys,
     })
     world = multiworld.worlds[1]
-    assert isinstance(world, KirbyAmWorld)
     phone_items = [item for item in multiworld.itempool if item.code == PHONE_ITEM_ID]
-    assert len(phone_items) == int(enabled)
-    assert all(item.advancement for item in phone_items)
+    assert len(phone_items) == 1 and phone_items[0].advancement
     assert len(multiworld.itempool) == len(multiworld.get_unfilled_locations())
     slot = world.fill_slot_data()
-    assert slot["phone_progression"] is enabled
-    assert ("Phone a Friend" in slot["unique_items"]) is enabled
-    if enabled:
-        assert slot["phone_protocol_version"] == 1
-        assert slot["starting_phone_access"] is False
-    else:
-        assert "phone_protocol_version" not in slot and "starting_phone_access" not in slot
+    assert "phone_progression" not in slot
+    assert "Phone a Friend" in slot["unique_items"]
+    assert slot["phone_protocol_version"] == 1
+    assert slot["starting_phone_access"] is False
     patch = KirbyAmProcedurePatch()
     write_tokens(world, patch)
-    assert patch.get_file(PHONE_CONFIG_FILE) == phone_patch_config(enabled)
+    assert patch.get_file(PHONE_CONFIG_FILE) == PHONE_ENABLED_CONFIG
     from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_ROM_OFFSET
     raw = bytearray(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36)
     raw[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = PHONE_DISABLED_CONFIG
@@ -91,23 +86,24 @@ def test_actual_pool_slot_and_tokens(enabled: bool, area_keys: bool) -> None:
     result = APPatchExtension.apply_tokens(patch, bytes(raw), "token_data.bin")
     assert KirbyAmPatchExtension.validate_phone_seed_config(patch, result) is result
     config = result[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12]
-    assert config == phone_patch_config(enabled)
-    assert validate_phone_pairing(slot, config) == int(enabled)
+    assert config == PHONE_ENABLED_CONFIG
+    assert validate_phone_pairing(slot, config) == 1
     with pytest.raises(ValueError):
-        validate_phone_pairing(slot, phone_patch_config(not enabled))
+        validate_phone_pairing(slot, PHONE_DISABLED_CONFIG)
 
 
-@pytest.mark.parametrize("inventory", ["start_inventory"])
-def test_disabled_phone_rejects_explicit_start(inventory: str) -> None:
-    from test.general import setup_multiworld
-    from .. import KirbyAmWorld
-    with pytest.raises(ValueError, match="requires phone_progression"):
-        setup_multiworld(KirbyAmWorld, options={inventory: {"Phone a Friend": 1}})
+def test_phone_has_no_option_or_fuzz_profile_override() -> None:
+    from ..options import KirbyAmOptions, OPTION_GROUPS
+    assert "phone_progression" not in KirbyAmOptions.type_hints
+    assert all(cls.__name__ != "PhoneProgression" for group in OPTION_GROUPS for cls in group.options)
+    meta = Path(__file__).resolve().parents[3] / "tools/kirbyam_generation_fuzz_meta.yaml"
+    assert "phone_progression" not in meta.read_text()
 
 
+@pytest.mark.parametrize("profile", ["qualified", "default", "shuffled", "random", "one_hp"])
 @pytest.mark.parametrize("inventory,count", [(None, 0), ("start_inventory", 1), ("start_inventory", 3)])
 def test_full_generation_phone_progression(
-        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, inventory: str | None, count: int) -> None:
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, inventory: str | None, count: int, profile: str) -> None:
     import Main
     from ..data import data
     from ..phone_protocol import PHONE_ITEM_ID
@@ -122,11 +118,16 @@ def test_full_generation_phone_progression(
 
     monkeypatch.setattr(Main, "main", capture)
     player = tmp_path / "phone.yaml"
+    profile_yaml = {
+        "qualified": "  ability_gating: false\n",
+        "default": "",
+        "shuffled": "  ability_randomization_mode: shuffled\n",
+        "random": "  ability_randomization_mode: completely_random\n",
+        "one_hp": "  minimum_health: 1\n  maximum_health: 1\n",
+    }[profile]
     player.write_text(
         "name: Phone Progression\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
-        "  phone_progression: true\n  ability_gating: false\n  ability_randomization_mode: 0\n"
-        "  minimum_health: 6\n  maximum_health: 10\n  enemy_health_multiplier: 100\n"
-        "  room_sanity: false\n  accessibility: full\n"
+        "  accessibility: full\n" + profile_yaml
         + (f"  {inventory}:\n    Phone a Friend: {count}\n" if inventory else ""))
     archive = generate_archive_from_fixture(player, tmp_path / "out", seed=1086)
     decoded = load_multidata_from_archive(archive)
@@ -168,7 +169,7 @@ def test_publication_rechecks_admitted_profile(mutation: str) -> None:
     from .. import KirbyAmWorld
     from ..rom import KirbyAmProcedurePatch, write_tokens
     multiworld = setup_multiworld(KirbyAmWorld, seed=1086, options={
-        "phone_progression": 1, "ability_gating": 0,
+        "ability_gating": 0,
     })
     world = multiworld.worlds[1]
     assert isinstance(world, KirbyAmWorld)
@@ -181,8 +182,8 @@ def test_publication_rechecks_admitted_profile(mutation: str) -> None:
     else:
         world.options.ability_randomization_mode.value = 1
     patch = KirbyAmProcedurePatch()
-    with pytest.raises(ValueError, match="Phone progression"):
+    with pytest.raises(ValueError, match="Phone"):
         write_tokens(world, patch)
     assert patch.files == {}  # Rejection precedes archive intent and token output.
-    with pytest.raises(ValueError, match="Phone progression"):
+    with pytest.raises(ValueError, match="Phone"):
         world.fill_slot_data()

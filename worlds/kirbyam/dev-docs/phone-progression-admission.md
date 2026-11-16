@@ -1,18 +1,26 @@
 # Narrow Phone progression admission
 
 This supplements, rather than rewrites, the historical Phone ledgers. The
-`phone_progression` option admits **one** cooperation witness: native 146 main
+standard Phone item has **one** profile-qualified cooperation witness: native 146 main
 through its Heave-Ho lower-right pocket into 148 upper-left and physical Chalk
 collection. It is not permission for helper attacks, Bomb Blocks, copy abilities
 or discarded-star sources. The 315/310/426/511 candidates are not admitted by it.
 
 ## Qualified profile and resources
 
-The initial supported profile is native ability assignment, ability gating off,
-HP 6–10, enemy health 100%, either Room Sanity setting and no One-Hit preset. Generation
-rejects other enabled profiles instead of enabling a cosmetic or challenge-only
-item. The resolved Sir Kibble source must still grant Cutter. Source policy is
-checked again after generation and before seed token output.
+Every new seed includes Phone ownership, without an option. The physically
+qualified profile is native ability assignment, gating off, HP 6–10, enemy
+health 100%, either Room Sanity setting and no One-Hit preset. Its resolved Sir
+Kibble source must grant Cutter. Generation and output recheck the installed
+profile/source signature so later mutations cannot retain stale qualification.
+
+Other valid profiles generate normally. Their existing 146 main→bottom-right
+edge receives only an AND Phone-ownership constraint, preserving prior rules.
+This conservatively makes the newly locked R capability available before the
+candidate edge and prevents placing Phone solely behind that edge. It does not
+prove physical helper cooperation, necessity, sufficiency or universal absence
+of softlocks. No fallback source/Hub/Key witness is claimed. Other edges are
+unchanged; helper attacks are never added as source capabilities.
 
 The route requires Phone a Friend, Rainbow Route East's Hub Connection,
 Moonlight Mansion's Area Key when Area Keys is enabled, and independent access
@@ -56,10 +64,10 @@ proof. Current Beam+Ice starting permissions do not gate ungated equipment.
 
 ## Conservative routing, not physical necessity
 
-Only when enabled, the legacy unconditional 146 main→bottom-right edge is
-qualified by this witness while preserving any existing constraints. Default-off
-behavior and all other edges,
-return paths and chest compartments stay unchanged. No already-qualified solo
+On the qualified profile, the 146 main→bottom-right edge is qualified by this
+witness while preserving existing constraints. Other profiles receive only the
+ownership constraint described above. All other edges, return paths and chest
+compartments stay unchanged. No already-qualified solo
 witness on that edge is removed. Potential Final Cutter or ambient-helper
 bypasses are not declared impossible; they lack a complete admitted source
 witness here. No generic Cutter/Sword inventory bypass is invented.
@@ -77,8 +85,8 @@ cooperation procedure. `regions.py` materializes additional visit locations,
 and `client._poll_room_sanity_locations` reads existing native visit flags and
 sends LocationChecks. It does not write helper, pose, battery or ability state.
 Production ROM token bytes and Phone intent are identical for on/off with the
-same seed identity and otherwise identical supported options. Existing
-source/gating/health/enemy restrictions remain unchanged.
+same seed identity and otherwise identical supported options. The physical witness remains restricted to its reviewed source/gating/health/enemy
+profile; these are not restrictions on generating the Phone item.
 
 Paired on/off tests cover the actual graph, independently reachable source,
 Phone-required Chalk collection, token equality and complete generation/fill

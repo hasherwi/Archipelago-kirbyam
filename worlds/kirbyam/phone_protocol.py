@@ -1,4 +1,4 @@
-"""Phone receipt transport for explicitly admitted progression slots.
+"""Phone receipt transport for current seeds and compatible historical slots.
 
 Ownership shares the authenticated native-file record with Copy Room, but has
 its own request queue. Empty histories cannot revoke either item.

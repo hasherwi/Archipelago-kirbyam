@@ -36,7 +36,6 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
 
     options = Mock()
     options.starting_kirby_color = Mock(value=0, current_key="pink")
-    options.phone_progression = Mock(value=0)
     options.as_dict.return_value = {
         "goal": 0,
         "configured_area_boss": 7,
@@ -47,7 +46,6 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "no_extra_lives": False,
         "ability_gating": True,
         "advanced_logic": 0,
-        "phone_progression": False,
         "enable_traps": False,
         "trap_fill_percentage": 25,
         "enemy_health_multiplier": 100,
@@ -63,21 +61,19 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "room_sanity": False,
     }
 
+    for key in ("ability_randomization_mode", "ability_gating", "minimum_health", "maximum_health", "enemy_health_multiplier", "room_sanity"):
+        setattr(options, key, Mock(value=int(options.as_dict.return_value[key])))
+    options.one_hit_mode = Mock(value=0)
     world.options = options
     world._resolved_starting_kirby_color_id = 7
     world._resolved_starting_kirby_color_name = "Sapphire"
     world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
-    world._enemy_copy_ability_policy = {
-        "mode": "shuffled",
-        "allowed_abilities": ["Sword", "Beam", "Burning"],
-        "identity_map": {"Sword": "Beam", "Beam": "Burning", "Burning": "Sword"},
-        "ability_randomization_boss_spawns": True,
-        "ability_randomization_minibosses": False,
-        "ability_randomization_minny": False,
-        "ability_randomization_passive_enemies": False,
-        "ability_randomization_no_ability_weight": 55,
-        "ability_randomization_statues": False,
-    }
+    import random
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+        random.Random(1086), 1, True, False, include_minny=False,
+        include_passive_enemies=False, no_ability_weight=55)
+
 
     slot_data = KirbyAmWorld.fill_slot_data(world)
     options.as_dict.assert_called_once_with(
@@ -90,7 +86,6 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
         "no_extra_lives",
         "ability_gating",
         "advanced_logic",
-        "phone_progression",
         "enable_traps",
         "trap_fill_percentage",
         "enemy_health_multiplier",

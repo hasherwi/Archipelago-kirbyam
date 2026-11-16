@@ -5,9 +5,7 @@ from typing import Any
 
 BASE_SCOPE = ('Current supported public generation, not custom narrowed policy safety or native gameplay. '
               'All compiled targets including logical subregions, both area-key modes.')
-PHONE_SCOPE = (BASE_SCOPE + ' The opt-in Phone 146 rule is separately profile-qualified in '
-               'phone-progression-admission.md and is not a compiled attack-provider graph; '
-               'its implementation is pinned here.')
+PHONE_SCOPE = (BASE_SCOPE + ' The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.')
 PHONE_ITEM_SUFFIX = b'''  },
   "PHONE_A_FRIEND": {
     "label": "Phone a Friend",

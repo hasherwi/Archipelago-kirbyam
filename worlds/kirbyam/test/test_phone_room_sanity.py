@@ -15,7 +15,7 @@ def test_room_sanity_preserves_exact_production_tokens(keys):
     counts = []
     for room_sanity in (0, 1):
         mw = setup_multiworld(KirbyAmWorld, seed=1086, options={
-            'phone_progression':1, 'ability_gating':0, 'area_keys':keys,
+            'ability_gating':0, 'area_keys':keys,
             'room_sanity':room_sanity})
         w = mw.worlds[1]
         # Location-count changes may advance generation RNG. The comparison
@@ -46,7 +46,7 @@ def test_full_room_sanity_generation_accessibility_and_phone_placement(tmp_path,
     monkeypatch.setattr(Main, 'main', capture)
     player = tmp_path / 'phone.yaml'
     player.write_text('name: Phone Room Sanity\ngame: Kirby & The Amazing Mirror\n'
-        'Kirby & The Amazing Mirror:\n  phone_progression: true\n'
+        'Kirby & The Amazing Mirror:\n'
         '  ability_gating: false\n  ability_randomization_mode: 0\n'
         f'  room_sanity: {str(room_sanity).lower()}\n  accessibility: full\n')
     generate_archive_from_fixture(player, tmp_path / 'out', seed=1086)

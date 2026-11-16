@@ -203,22 +203,21 @@ including with minimal accessibility, and refuses unsafe placements before
 creating an output archive. Such a refusal is not a playable seed or a guarantee
 that every possible option/seed combination will generate successfully.
 
-## Phone a Friend progression (opt-in)
+## Phone a Friend
 
-`phone_progression: true` adds one **Phone a Friend** progression item. Receiving
-it unlocks new local single-player **R** calls. **L** return/escape and tutorial
-calls are not locked. Ownership persists with the authenticated native save;
-Cell Phone Batteries remain ordinary consumables, not ownership items.
+Every new seed includes one **Phone a Friend** progression item; there is no
+Phone option. Receiving it unlocks new local single-player **R** calls. **L**
+return/escape and tutorial calls are not locked. Ownership persists with the
+authenticated native save. Cell Phone Batteries remain ordinary consumables.
 
-This initial profile supports native enemy abilities (`ability_randomization_mode: off`),
-`ability_gating: false`, `minimum_health: 6`, `maximum_health: 10`,
-`enemy_health_multiplier: 100`, and either `room_sanity` setting. Generation rejects other
-combinations rather than silently dropping progression. The default is off.
+The Moonlight Mansion Room 18 lower-right route requires Phone ownership.
+With native enemy abilities, ability gating off, 6 starting/10 maximum health,
+and 100% enemy health, the reviewed route additionally requires independently
+reachable Rainbow Route East Hub access, native Sir Kibble Cutter and the
+Moonlight Mansion Area Key when enabled. Either Room Sanity setting is supported.
 
-The enabled route requires Phone, independently obtained Rainbow Route East Hub
-access, and the Moonlight Mansion Area Key when Area Keys are enabled. It uses the
-native Sir Kibble Cutter approach and collective inhale in room 146 to reach the
-lower-right doorway and Chalk's upper-left compartment. The reviewed procedure
-uses a post-tutorial reset with saved Phone ownership and three batteries; two
-calls are used. Other helpers, attacks, rooms or solo techniques are not assumed.
+Other valid settings still generate normally. Their Room 18 rule adds only
+Phone ownership to the existing constraints, not a verified helper-route claim.
+Helper cooperation and broader route coverage remain incomplete across option
+combinations; this is not proof that every physical route or seed is safe.
 See the [current admission scope](../dev-docs/phone-progression-admission.md).

@@ -1,6 +1,6 @@
 # Phone helper acceptance: native room 146
 
-Status: **historical qualified real-hub crossings and native Chalk collection.** The later [narrow progression admission](phone-progression-admission.md) enables one default-off, profile-qualified route; it does not alter the recorded runs or imply universal cooperation. AI-assisted research, 2026-11-10. See the [implementation boundary](phone-implementation.md) and [sanitized input/checkpoint ledger](phone-heave-ho-evidence.json).
+Status: **historical qualified real-hub crossings and native Chalk collection.** The later [narrow progression admission](phone-progression-admission.md) qualifies one route for a limited profile while Phone ownership is always generated; it does not alter the recorded runs or imply universal cooperation. AI-assisted research, 2026-11-10. See the [implementation boundary](phone-implementation.md) and [sanitized input/checkpoint ledger](phone-heave-ho-evidence.json).
 
 ## Historical acceptance limits (before narrow progression admission)
 

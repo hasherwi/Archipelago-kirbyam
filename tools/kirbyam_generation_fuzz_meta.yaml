@@ -61,17 +61,3 @@ triggers:
     options:
       Kirby & The Amazing Mirror:
         maximum_health: random-range-10-10
-  # Phone-on samples must exercise the supported progression profile, rather
-  # than randomly reject incompatible settings. Keep Phone-off coverage random.
-  # This runs after the health triggers so they cannot undo the fixed 6–10 pair.
-  - option_category: Kirby & The Amazing Mirror
-    option_name: phone_progression
-    option_result: 'true'
-    options:
-      Kirby & The Amazing Mirror:
-        ability_randomization_mode: off
-        ability_gating: 'false'
-        minimum_health: 6
-        maximum_health: 10
-        enemy_health_multiplier: 100
-        one_hit_mode: off

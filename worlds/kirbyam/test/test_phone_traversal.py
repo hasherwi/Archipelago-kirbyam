@@ -7,8 +7,8 @@ from .. import phone_traversal as p
 from .test_traversal import policy
 
 
-def world(enabled=True, keys=True):
-    options = dict(phone_progression=int(enabled), ability_randomization_mode=0,
+def world(keys=True):
+    options = dict(ability_randomization_mode=0,
                    ability_gating=0, minimum_health=6, maximum_health=10,
                    enemy_health_multiplier=100, room_sanity=0, one_hit_mode=0)
     edge = NS(access_rule=lambda state: True)
@@ -44,36 +44,30 @@ def test_installed_witness_and_each_missing_resource(keys):
     assert indirect == [(p.SOURCE_REGION, edge)]
 
 
-def test_disabled_preserves_exact_rule_and_does_not_validate_other_profiles():
-    w, edge, _, indirect = world(False)
-    old = edge.access_rule
-    w.options.minimum_health.value = 1
-    w._enemy_copy_ability_policy = None
-    p.install_phone_rules(w)
-    assert edge.access_rule is old and not indirect
-    assert not p.phone_progression_enabled(NS(options=NS()))
-
-
 @pytest.mark.parametrize('field,value', [('ability_randomization_mode',1),('ability_gating',1),
-    ('minimum_health',1),('maximum_health',9),('enemy_health_multiplier',101),
-    ('room_sanity',2),('one_hit_mode',1)])
-def test_unsupported_profile_rejected(field,value):
-    w, *_ = world()
+    ('minimum_health',1),('maximum_health',9),('enemy_health_multiplier',101),('one_hit_mode',1)])
+def test_unsupported_profile_gets_only_ownership_constraint(field,value):
+    w, edge, other, indirect = world()
     getattr(w.options,field).value=value
-    with pytest.raises(ValueError, match=field):
-        p.validate_phone_profile(w)
+    if field == 'ability_randomization_mode':
+        w._enemy_copy_ability_policy=policy(1,pool=['Sword']).policy
+    assert not p.validate_phone_profile(w)
+    p.install_phone_rules(w)
+    assert not edge.access_rule(state())
+    assert edge.access_rule(state({p.PHONE}, source=False))
+    assert other.access_rule(state()) and not indirect
 
 
-def test_early_validation_vs_required_resolved_policy():
+def test_missing_or_inconsistent_policy_does_not_publish_or_install():
     w,*_=world()
     del w._enemy_copy_ability_policy
-    p.validate_phone_profile(w)
+    assert not p.validate_phone_profile(w)
     with pytest.raises(ValueError,match="resolved"):
         p.validate_phone_profile(w, require_policy=True)
     with pytest.raises(ValueError,match='resolved'):
         p.install_phone_rules(w)
     w._enemy_copy_ability_policy=policy(1,pool=['Sword']).policy
-    with pytest.raises(ValueError,match='Sir Kibble'):
+    with pytest.raises(ValueError,match='source policy'):
         p.validate_phone_profile(w)
 
 
@@ -93,7 +87,7 @@ def test_actual_generated_graph_phone_has_progression_without_source_self_lock(k
     from test.general import setup_multiworld
     from .. import KirbyAmWorld
     mw = setup_multiworld(KirbyAmWorld, seed=1086, options={
-        'phone_progression':1, 'ability_gating':0, 'area_keys':keys,
+        'ability_gating':0, 'area_keys':keys,
         'ability_randomization_mode':0, 'minimum_health':6, 'maximum_health':10,
         'enemy_health_multiplier':100, 'room_sanity':room_sanity})
     w = mw.worlds[1]
@@ -114,7 +108,7 @@ def test_actual_generated_graph_phone_has_progression_without_source_self_lock(k
     assert edge.access_rule(s)
     assert chalk.can_reach(s)
 
-@pytest.mark.parametrize('field,value', [('phone_progression',True),('ability_gating',False),
+@pytest.mark.parametrize('field,value', [('ability_gating',False),
     ('minimum_health',6.0),('enemy_health_multiplier',100.0),('room_sanity',False)])
 def test_noncanonical_profile_values_rejected(field,value):
     w,*_=world()
@@ -128,3 +122,21 @@ def test_existing_constraint_is_not_overwritten_by_phone_witness():
     edge.access_rule = lambda state: False
     p.install_phone_rules(w)
     assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
+
+
+@pytest.mark.parametrize('qualified', [False, True])
+def test_prior_constraint_survives_ownership_and_qualified_rules(qualified):
+    w, edge, _, indirect = world()
+    w.options.ability_gating.value = int(not qualified)
+    edge.access_rule = lambda state: False
+    p.install_phone_rules(w)
+    assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
+
+
+@pytest.mark.parametrize('field,value', [('ability_gating',1),('minimum_health',1),('room_sanity',1)])
+def test_installed_profile_cannot_change_before_publication(field,value):
+    w,*_=world()
+    p.install_phone_rules(w)
+    getattr(w.options,field).value=value
+    with pytest.raises(ValueError,match='changed after'):
+        p.validate_phone_profile(w, require_policy=True)
