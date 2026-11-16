@@ -1,6 +1,7 @@
 """DeathLink watcher ordering, without emulator or native-save writes."""
 from contextlib import ExitStack
-from unittest.mock import AsyncMock, patch
+import time
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 from NetUtils import NetworkItem
@@ -10,7 +11,20 @@ from .test_reset_counter_gaps import Mailbox
 
 
 @pytest.fixture
-def deathlink_session(mock_bizhawk_context):
+def deathlink_clock(monkeypatch):
+    from worlds.kirbyam import client as client_module
+
+    # Ordering tests must not accidentally exercise the ACK timeout when CI is
+    # descheduled. Replace only the client's clock, not asyncio's shared clock;
+    # explicit elapsed-time cases below still exercise the real timeout path.
+    clock = Mock(wraps=time)
+    clock.monotonic.return_value = 100.0
+    monkeypatch.setattr(client_module, 'time', clock)
+    return clock
+
+
+@pytest.fixture
+def deathlink_session(mock_bizhawk_context, deathlink_clock):
     ctx = mock_bizhawk_context
     ctx.server_seed_name = 'deathlink-ordering'
     ctx.items_received = [NetworkItem(3860018, 3960301, 1)]
@@ -124,3 +138,27 @@ async def test_pending_mailbox_survives_deathlink_tick(deathlink_session, ack_re
         await client.game_watcher(ctx)
         assert client._delivered_item_index == 1
         assert box.offers == [3860018]
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('elapsed, pending', [(0.0, True), (0.999, True), (1.0, False), (2.1, False)])
+async def test_deathlink_pending_mailbox_timeout_boundary(
+        deathlink_session, deathlink_clock, elapsed, pending, caplog):
+    from worlds.kirbyam import client as client_module
+
+    client, ctx, box, hp, display = deathlink_session
+    # The proxy must not replace the process-global monotonic function used by
+    # asyncio or other modules. Attributes other than monotonic still delegate.
+    assert client_module.time is not time
+    assert client_module.time.monotonic is not time.monotonic
+    assert deathlink_clock.get_clock_info('monotonic') == time.get_clock_info('monotonic')
+    await tick(client, ctx, box, display)
+    deathlink_clock.monotonic.return_value += elapsed
+    client._incoming_death_link_pending = True
+    await client.game_watcher(ctx)
+
+    assert box.memory[hp] == bytes([0])
+    assert client._delivery_pending is pending
+    assert client._delivered_item_index == 0
+    assert box.offers == [3860018]
+    assert ('Mailbox ACK timeout' in caplog.text) is not pending
