@@ -30,7 +30,7 @@ policies use the existing reviewed traversal graphs.
 Unsupported Foley assignments, mixed live-random results, and failable finite
 sources no longer bypass that rule. Ability ownership alone does not equip Kirby,
 and Phone is not assumed to supply an unreviewed alternative. Missing source-policy
-data also keeps this edge closed. Supported Bomb/UFO/Magic and advanced Crash
+data also keeps this edge closed. Supported Bomb/UFO and Advanced-only Crash/Magic
 witnesses retain their existing entry, equipment, permission and crossing checks.
 
 This is an optional progression route, not an unconditional generation constraint:

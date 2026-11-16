@@ -1,4 +1,4 @@
-"""Strict projection of only the three reviewed logic-level annotations.
+"""Strict projection of only the reviewed Crash/Magic logic-level annotations.
 
 Historical physical evidence remains byte-for-byte pinned. This projection does
 not hide graph, source, ownership or applicability changes.
@@ -7,7 +7,7 @@ from copy import deepcopy
 from typing import Any
 
 MARKERS = {'fuse_126': ['lower_entry_crash'],
-           'switch_533_room16': ['hub4_crash_entry'],
+           'switch_533_room16': ['hub4_crash_entry', 'hub4_magic_entry'],
            'switch_310_mustard_map': ['hub4_crash_entry']}
 
 

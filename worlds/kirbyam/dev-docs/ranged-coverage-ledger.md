@@ -410,6 +410,8 @@ for raw hashes, startup qualifications and native-versus-host coverage limits.
 ## Mustard Room15: bounded Magic Meta Knight alternative
 
 `switch_533_room16` adds one separate guaranteed FOLEY → Magic OR graph.
+This graph is enabled only with Advanced Logic; the default excludes Magic
+traversal and does not promote its permission item to progression.
 Normal enters through actual Hub4 → 534 → 533, acquires the finite source,
 carries Magic to the reviewed dry pose, selects Meta Knight using the visible
 roulette icon, consumes Magic to Normal and completes the timed crossing and
