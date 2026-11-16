@@ -150,6 +150,16 @@ def natural_policy(ability):
 ])
 def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, ability, gating, minor_chests, count):
     import Main
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(mw, players):
+        validated.append(mw)
+        return validate(mw, players)
+
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', capture_validation)
 
     generated, before, after = [], [], []
     main, create_regions = Main.main, KirbyAmWorld.create_regions
@@ -175,15 +185,32 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
         f'  ability_gating: {gating}\n  start_inventory:\n    {name}: {count}\n'
         f'  room_sanity: {int(not minor_chests)}\n'
         '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
-    archive = generate_archive_from_fixture(player, tmp_path / 'out', seed={'Spark': 22, 'Ice': 149}[ability])
-    decoded = load_multidata_from_archive(archive)
-    raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+    seed = {'Spark': 22, 'Ice': 149}[ability]
+    if not minor_chests:
+        # These exact RoomSanity fixtures have no qualified timed-exit source.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
+        multiworld, = validated
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not generated
+        assert not tuple((tmp_path / 'out').glob('*.zip'))
+        raw = multiworld.worlds[1]._enemy_copy_ability_policy
+        assert not multiworld.worlds[1].options.advanced_logic.value
+        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO'}
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
+        decoded = load_multidata_from_archive(archive)
+        raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+        multiworld, = generated
+        assert not multiworld.get_unfilled_locations()
+        assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     assert len(raw['allowed_abilities']) == 25
     assert raw['seed'] == natural_policy(ability)['seed']
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({ability})
-    multiworld, = generated
-    assert not multiworld.get_unfilled_locations()
-    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     starting_count = max(1, count) if ability == 'Ice' else count
     expected = starting_count if ability == 'Ice' or gating and minor_chests else 0
     assert before == [expected if ability == 'Ice' else 0] and after == [expected]
@@ -208,9 +235,20 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
 @pytest.mark.parametrize('mode,gating,area_keys', [(1, 1, 0), (1, 0, 1), (2, 1, 1)])
-def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypatch, ability, mode, gating, area_keys):
+@pytest.mark.parametrize('room_sanity', [0, 1])
+def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypatch, ability, mode, gating, area_keys, room_sanity):
     import Main
     from ..ability_randomization import build_enemy_copy_ability_policy
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(mw, players):
+        validated.append(mw)
+        return validate(mw, players)
+
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', capture_validation)
 
     def singleton(*args, **kwargs):
         return build_enemy_copy_ability_policy(*args, **kwargs, whitelist=[ability])
@@ -233,14 +271,28 @@ def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypa
         '  ability_randomization_boss_spawns: 0\n  ability_randomization_minny: 0\n'
         '  ability_randomization_passive_enemies: 0\n  ability_randomization_no_ability_weight: 0\n'
         '  minimum_health: 1\n  maximum_health: 1\n  enemy_health_multiplier: 500\n'
-        '  room_sanity: 1\n  accessibility: full\n', encoding='utf-8')
-    archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=22 if ability == 'Spark' else 149)
-    raw = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
+        f'  room_sanity: {room_sanity}\n  accessibility: full\n', encoding='utf-8')
+    seed = 22 if ability == 'Spark' else 149
+    if room_sanity:
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
+        multiworld, = validated
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == audit.progression_unreachable == ('Room 4-16',)
+        assert not generated
+        assert not tuple((tmp_path / 'out').glob('*.zip'))
+        raw = multiworld.worlds[1]._enemy_copy_ability_policy
+        assert SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed == frozenset({ability})
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
+        raw = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
+        multiworld, = generated
+        assert not multiworld.get_unfilled_locations()
+        assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     assert list(raw['allowed_abilities']) == [ability]
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({ability})
-    multiworld, = generated
-    assert not multiworld.get_unfilled_locations()
-    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)

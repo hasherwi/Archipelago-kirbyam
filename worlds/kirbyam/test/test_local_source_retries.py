@@ -94,25 +94,57 @@ def test_installed_wheel_rule_requires_its_independent_source_region_and_permiss
 @pytest.mark.parametrize('weight', [0, 55])
 @pytest.mark.parametrize('gating', [False, True])
 @pytest.mark.parametrize('area_keys', [False, True])
-def test_live_fixed_statue_local_retry_archive(tmp_path: Path, weight: int, gating: bool, area_keys: bool) -> None:
+@pytest.mark.parametrize('room_sanity', [0, 1])
+def test_live_fixed_statue_local_retry_archive(
+        tmp_path: Path, monkeypatch, weight: int, gating: bool, area_keys: bool, room_sanity: int) -> None:
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(multiworld, players):
+        validated.append(multiworld)
+        return validate(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', capture_validation)
     player = tmp_path / 'player.yaml'
     player.write_text(
         'name: Local retry\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
         '  ability_randomization_mode: 2\n  ability_randomization_statues: 0\n'
         f'  ability_randomization_no_ability_weight: {weight}\n'
         f'  ability_gating: {int(gating)}\n  area_keys: {int(area_keys)}\n'
-        '  room_sanity: 1\n', encoding='utf-8',
+        f'  room_sanity: {room_sanity}\n', encoding='utf-8',
     )
-    archive = generate_archive_from_fixture(
-        player, tmp_path / 'output', seed=8100 + weight + int(gating) * 2 + int(area_keys),
-    )
-    decoded = load_multidata_from_archive(archive)
-    assert decoded['locations'][1]
-    starts = decoded['precollected_items'][1]
+    seed = 8100 + weight + int(gating) * 2 + int(area_keys)
+    if room_sanity:
+        # Live full-pool draws are not a guaranteed Foley source for Room16.
+        # Local renewable retries must not make that finite route safe.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'output', seed=seed)
+        multiworld, = validated
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not tuple((tmp_path / 'output').glob('*.zip'))
+        raw = multiworld.worlds[1]._enemy_copy_ability_policy
+        assert raw['mode'] == 2 and raw['ability_randomization_no_ability_weight'] == weight
+        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed
+        locations = multiworld.get_locations(1)
+        assert locations
+        starts = [item.code for item in multiworld.precollected_items[1]]
+        stone_count = sum(loc.item.code == 3860108 and loc.item.player == 1
+                          for loc in locations if loc.item is not None)
+        pool = {loc.item.code for loc in locations if loc.item is not None}
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'output', seed=seed)
+        decoded = load_multidata_from_archive(archive)
+        assert decoded['locations'][1]
+        starts = decoded['precollected_items'][1]
+        stone_count = sum(item[0] == 3860108 and item[1] == 1
+                          for rows in decoded['locations'].values() for item in rows.values())
+        pool = {entry[0] for entry in decoded['locations'][1].values()}
     assert 3860108 not in starts  # Stone is acquired progression, not forced.
-    stone_count = sum(item[0] == 3860108 and item[1] == 1
-                      for rows in decoded['locations'].values() for item in rows.values())
     assert stone_count == int(gating)
     assert 3860104 not in starts  # Wheel remains a findable permission, never starting equipment.
-    pool = {entry[0] for entry in decoded['locations'][1].values()}
     assert (3860104 in pool) == gating
