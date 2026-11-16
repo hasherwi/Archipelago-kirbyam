@@ -114,7 +114,9 @@ def test_historical_reconstruction_rejects_changed_fire719_graph(mutation):
 
 
 def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
-    e, rooms = evidence(), load_json_data('regions/rooms.json')
+    # Compare physical neighbor records to their historical pins, not new logic metadata.
+    from .support.advanced_crash_history import rooms_before_advanced_crash
+    e, rooms = evidence(), rooms_before_advanced_crash(load_json_data('regions/rooms.json'))
     assert e['target'] == {
         'id': TARGET, 'owner': OWNER, 'exit': DESTINATION, 'native_room': 538,
         'actual_exit_native_room': 537, 'independent_access': UPSTREAM}

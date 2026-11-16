@@ -230,7 +230,8 @@ def test_current_counts_and_historical_404_record_are_distinct() -> None:
     assert status['counts']['witnesses'] == 146 and h['witnesses'] == 145
     assert len(coverage['installed_targets']) == h['targets'] == 57
     from .support.green138_history import before_green138
-    historical = [{**row, 'target': before_green138(row['target'])}
+    from .support.advanced_crash_history import before_advanced_crash
+    historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
                   for row in coverage['installed_targets']]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
