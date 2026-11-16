@@ -14,9 +14,15 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash traversal routes (PR #1092).
 
 ### Improvements
-- Improve traversal-validation documentation with bounded route evidence and replay-assisted reset/busy-lock diagnostics; full-route qualification remains incomplete (PR #1092).
+- Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
 
