@@ -4,6 +4,7 @@
 #include "hub_save_logic.h"
 #include "copy_room.h"
 #include "phone.h"
+#include "battery.h"
 #include "statue_runtime_logic.h"
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
@@ -1770,13 +1771,8 @@ static void ap_grant_hunk_of_meat(void) {
     ap_grant_heal_amount(3u);
 }
 
-static void ap_grant_battery(void) {
-    uint32_t kirby_addr = ap_get_active_kirby_addr();
-    uint8_t battery = *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET);
-
-    if (battery <= 2u) {
-        *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET) = (uint8_t)(battery + 1u);
-    }
+static uint32_t ap_grant_battery(void) {
+    return ap_battery_grant(ap_get_active_kirby_addr());
 }
 
 static void ap_grant_max_tomato(void) {
@@ -1904,7 +1900,7 @@ static void ap_trap_bomb(void) {
 
 static void ap_trap_battery_drain(void) {
     uint32_t kirby_addr = ap_get_active_kirby_addr();
-    *(volatile uint8_t*)(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET) = 0u;
+    ap_battery_native(kirby_addr + KIRBY_STRUCT_BATTERY_OFFSET, AP_BATTERY_DRAIN);
 }
 
 /* The native input decoder reads gHeldKeys and derives Kirby's press edges.
@@ -2052,8 +2048,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     }
 
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 27u)) {
-        ap_grant_battery();
-        return 1u;
+        return ap_grant_battery();
     }
 
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 28u)) {

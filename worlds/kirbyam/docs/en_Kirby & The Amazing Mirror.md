@@ -209,6 +209,12 @@ Every new seed includes one **Phone a Friend** progression item; there is no
 Phone option. Receiving it unlocks new local single-player **R** calls. **L**
 return/escape and tutorial calls are not locked. Ownership persists with the
 authenticated native save. Cell Phone Batteries remain ordinary consumables.
+Before you receive Phone, its battery display is empty but charges are retained.
+You start with three charges and can receive more than three; the display has
+only three segments, so extra charges have no additional visual indicator.
+Calls spend charges normally. Reloading or game-over still refills to three
+rather than preserving a surplus, and the Battery Drain Trap still empties it.
+Reconnecting does not replay already received batteries.
 
 The Moonlight Mansion Room 18 lower-right route requires Phone ownership.
 With native enemy abilities, ability gating off, 6 starting/10 maximum health,

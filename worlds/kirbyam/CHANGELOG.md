@@ -20,7 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 
 ### Known Limitations
-- Phone helper-route coverage varies with game options; broader cooperation routes remain unverified (PR #1086).
+- Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
@@ -30,7 +30,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 
 ### Bug Fixes
-- Corrected the Chalk chest compartment and preserved Phone ownership across saves and reconnects (PR #1086).
+- Corrected the Chalk chest compartment (PR #1086).
 
 ### Internal Changes
 - Detailed Phone source and historical validation records remain in the [Phone documentation](dev-docs/phone-progression-admission.md) (PR #1086).

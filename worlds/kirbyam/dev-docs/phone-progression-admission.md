@@ -38,10 +38,10 @@ retain the resource and helper-history qualifications. Gated/HP 1 successes are
 historical corroboration, not additional admitted profiles. Area Keys off only
 removes the approach door lock; it adds no helper/source behavior.
 
-## Current-source equivalence bridge
+## Pre-live-charge source equivalence bridge
 
 Read-only in-memory reconstruction on 2026-11-16 used the lawful USA base
-(SHA1 `274b102b6d940f46861a92b4e65f89a51815c12c`) and current base patch
+(SHA1 `274b102b6d940f46861a92b4e65f89a51815c12c`) and the then-current base patch
 (SHA256 `2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea`).
 Setting only the historical 16-byte synthetic identity and Phone enableword
 reproduces **every byte** of historical ungated real-hub ROM
@@ -50,7 +50,7 @@ No ROM was written or emulator invoked. All 180 historical enemy-HP entries
 (56 regular, 108 boss, 16 Dark Mind) equal the native USA table: 100%, not an inferred
 option default.
 
-For an actual generated supported-profile seed 1086, applying production tokens
+For that pre-live-charge payload and generated supported-profile seed 1086, applying production tokens
 in memory differs from that historical ROM only at authentication identity,
 the starting-color config and the source-policy version byte. Health, gate,
 area-key, Phone, ability tables and startup geometry remain equal. The new
@@ -95,3 +95,23 @@ uses recorded-shaped flag bytes and checks only the AP check-set expansion;
 it is not a native gameplay run. More AP checks can change item placement and
 receipt timing, so no identical controller schedule or live-server timing is
 claimed. The physical witness remains the previously admitted route.
+
+## Live-charge payload successor
+
+The battery successor base patch is SHA256
+`c3fca0d4b550130d6ff65e7679aca4950a88ae8d36a036d9371be918f79cd630`.
+It changes the payload identity, not the historical ledgers
+or their ROM hashes. It masks only the eligible unowned HUD and replaces the
+selected charge writers with a task/epoch-bound live uint32 counter. After
+ownership, native zero/one/two/full rendering and the reviewed three-charge,
+two-call procedure retain their behavior. Additional AP charges can exceed
+three (and the native byte range); native pickups, drain and reload/death
+refills retain their distinct existing semantics. No persistent surplus bank
+or helper-state reset is introduced.
+
+Validation is source/byte-guard and host execution evidence: all 13 hook windows,
+actual C lifecycle tests, hostile-callee synthetic ARM register/flag/stack
+contracts and client delayed-ACK tests. Rebuilt payload/extension bytes and
+existing relocated call targets are distinguished from the 13 added sites.
+These checks are not a new physical route run or qualification of fallback
+profiles. Historical gameplay evidence remains unchanged.

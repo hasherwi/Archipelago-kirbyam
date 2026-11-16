@@ -1087,6 +1087,8 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
         "starting_color_start_game_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_single_player_game"),
     }
+    for name in BATTERY_SITES:
+        targets[name] = resolve_elf_symbol_address(payload_elf_path, name)
     return {name: target & ~1 for name, target in targets.items()}
 
 
@@ -1137,7 +1139,7 @@ def validate_payload_targets(
         if not (payload_rom_start <= target < payload_rom_end):
             raise SystemExit(
                 "Error: "
-                f"{_PAYLOAD_TARGET_LABELS[name]} target address out of expected payload range.\n"
+                f"{_PAYLOAD_TARGET_LABELS.get(name, name)} target address out of expected payload range.\n"
                 f"Resolved address: 0x{target:08X}, expected within "
                 f"[0x{payload_rom_start:08X}, 0x{payload_rom_end:08X}). "
                 "Check your payload.elf link address and PAYLOAD_OFFSET."
@@ -1151,6 +1153,36 @@ COPY_ROOM_NATIVE_CALLS = (
      0x32390, 0x138D10, 0x13CA8C, 0x14043C, 0x141CAC, 0x142644, 0x1428BA, 0x1429A6)),
     (0x08002888, "copy_room_state_target", (0x1E5B2,)),
 )
+
+
+# Exact USA writer/read windows. Each containing function saves LR, and its
+# current LR is dead here; extension adapters preserve all other live state.
+BATTERY_SITES = {
+    "ap_battery_hud_init": (0x339FE, "00783073"),
+    "ap_battery_hud_compare": (0x33F06, "12789042"),
+    "ap_battery_hud_cache": (0x34000, "18782873"),
+    "ap_battery_hud_alt_compare": (0x3411C, "20788142"),
+    "ap_battery_hud_alt_cache": (0x3415A, "20783073"),
+    "ap_battery_hud_render": (0x34D9A, "00780128"),
+    "ap_battery_refill_a": (0x4FFE4, "03200870"),
+    "ap_battery_refill_b": (0x501AC, "03202070"),
+    "ap_battery_death_a": (0x501BA, "01202070"),
+    "ap_battery_death_b": (0x5082C, "01200870"),
+    "ap_battery_spend": (0x5735A, "01390170"),
+    "ap_battery_pickup": (0x1231F2, "01300870"),
+    "ap_battery_goal_pickup": (0x1B2E2, "01300870"),
+}
+
+
+def build_battery_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    writes = {}
+    for name, (offset, original) in BATTERY_SITES.items():
+        validate_expected_instruction_sequence(rom, offset, bytes.fromhex(original), name)
+        target = targets[name]
+        if type(target) is not int or not 0x0815DC00 <= target < 0x0815F688 or target & 1:
+            raise SystemExit("Battery trampoline outside guarded main payload")
+        writes[offset] = thumb_bl_bytes(0x08000000 + offset, target)
+    return writes
 
 
 def build_phone_gate_writes(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
@@ -1728,6 +1760,7 @@ def patch_rom_with_payload(
         "extended payload retail zero padding",
     )
     regression_writes = build_hub_teleport_writes(rom, hook_targets["hub_trap_hook_target"])
+    regression_writes.update(build_battery_writes(rom, hook_targets))
     regression_writes.update(build_copy_room_context_writes(rom, hook_targets))
     regression_writes.update(build_copy_room_native_grant_writes(rom))
     regression_writes.update(build_phone_gate_writes(

@@ -32,7 +32,7 @@ def test_native_phone_ownership_preserves_copy_room_and_file_isolation(tmp_path:
         pytest.skip("Linux mapped-memory host harness and C compiler required")
     assert cc is not None
     payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
-    source = (payload / "copy_room.c").read_text() + '\n' + (payload / "phone.c").read_text()
+    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + '\n' + (payload / "phone.c").read_text()
     for address, name in (("0x0800ACD5u", "fake_save"), ("0x0800A91Du", "fake_load"),
                           ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start")):
         source = source.replace(address, "&" + name)
@@ -75,13 +75,17 @@ int main(void) {
     memcpy((void*)AUTH,"0123456789abcdef",16);U32(0x0900FFD0)=1;
     for(unsigned slot=0;slot<3;slot++) {
         START(slot);ap_phone_poll();CHECK(!ap_phone_owned() && !ap_copy_room_owned());
+        CHECK(AP_BATTERY_CONTEXT->count==3 && !ap_battery_visible(KIRBY+0xDC));
+        CHECK(ap_battery_grant(KIRBY) && AP_BATTERY_CONTEXT->count==4);
+        for(unsigned i=0;i<3;i++)ap_phone_poll();
+        CHECK(AP_BATTERY_CONTEXT->count==4); /* Reconnect polling never reinitializes. */
         if(slot&1) COPY();
-        fail_save=1;PHONE(1);ap_copy_room_poll();CHECK(ap_phone_owned() && CTX->dirty);
+        fail_save=1;PHONE(1);ap_copy_room_poll();CHECK(ap_phone_owned() && CTX->dirty && AP_BATTERY_CONTEXT->count==4 && ap_battery_visible(KIRBY+0xDC)==4);
         fail_save=0;for(unsigned i=0;i<61;i++)ap_copy_room_poll();
         CHECK(!CTX->dirty && (files[slot][26]&AP_PHONE_OWNED));
         COPY();CHECK(ap_phone_owned() && ap_copy_room_owned() && files[slot][26]==(AP_COPY_TAG|3));
         unsigned before=saves;PHONE(0);PHONE(2);PHONE(1);ap_copy_room_poll();CHECK(saves==before);
-        uint32_t stale=CTX->epoch;START(slot);CHECK(CTX->epoch!=stale);
+        uint32_t stale=CTX->epoch;START(slot);CHECK(CTX->epoch!=stale && AP_BATTERY_CONTEXT->count==3);
         AP_PHONE_REQUEST[0]=stale;AP_PHONE_REQUEST[1]=1;ap_phone_poll();
         CHECK(ap_phone_owned() && ap_copy_room_owned());
         U16(KIRBY+0x60)=147;U8(0x02021580)=255;U8(0x0203AD44)=4;
@@ -98,6 +102,9 @@ int main(void) {
     U16(KIRBY+0x60)=147;U32(0x0900FFD0)=0;CHECK(!ap_phone_call_blocked(KIRBY));
     PHONE(1);CHECK(!ap_phone_owned() && !AP_PHONE_CONTEXT->epoch);
     U32(0x0900FFD0)=1;HUMANS=2;CHECK(!ap_phone_call_blocked(KIRBY));
+    CHECK(ap_battery_visible(KIRBY+0xDC)==U8(KIRBY+0xDC) && !AP_BATTERY_CONTEXT->active);
+    HUMANS=1;START(2);FLAGS=2;CHECK(ap_battery_visible(KIRBY+0xDC)==3 && !AP_BATTERY_CONTEXT->active);
+    FLAGS=0;START(2);LOCAL=1;CHECK(ap_battery_visible(KIRBY+0xDC)==3 && !AP_BATTERY_CONTEXT->active);
     CHECK(!ap_copy_room_epoch()); /* Linked play is outside the single-player AP epoch. */
     return 0;
 }

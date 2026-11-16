@@ -190,6 +190,10 @@ def test_invalid_health_pair_fails_early_before_generation(minimum: int, maximum
     world, _ = _build_world_for_create_items(RandomizeShards.option_completely_random)
     world.options.minimum_health = SimpleNamespace(value=minimum)
     world.options.maximum_health = SimpleNamespace(value=maximum)
+    # A canonical Phone profile lets this fixture reach the health-range guard.
+    for name, value in {"ability_randomization_mode": 0, "ability_gating": 1,
+                        "room_sanity": 0, "enemy_health_multiplier": 100}.items():
+        setattr(world.options, name, SimpleNamespace(value=value))
     with pytest.raises(ValueError, match="maximum_health"):
         world.generate_early()
     assert world.multiworld.itempool == []

@@ -24,7 +24,7 @@ def test_phone_thumb_wrapper_abi(tmp_path: Path) -> None:
     flags = ["-mthumb", "-mcpu=arm7tdmi", "-Os", "-ffreestanding", "-fno-builtin",
              "-fno-jump-tables", "-fno-tree-switch-conversion", "-nostdlib", "-Wall", "-Wextra"]
     objects = []
-    for source in ("ap_payload.c", "ap_hook.s", "color_payload.c", "copy_room.c", "phone.c"):
+    for source in ("ap_payload.c", "ap_hook.s", "color_payload.c", "copy_room.c", "phone.c", "battery.c", "battery_hook.s"):
         obj = tmp_path / (Path(source).stem + ".o")
         subprocess.run(["arm-none-eabi-gcc", *flags, "-I", str(payload), "-c",
                         str(payload / source), "-o", str(obj)], check=True)

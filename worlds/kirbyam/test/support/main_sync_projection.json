@@ -2,11 +2,11 @@
   "schema": 1,
   "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
   "integrated_commit": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
-  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable.",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Battery pending-delivery projection additionally reverses only the reviewed timeout-preservation delta; original main hash is unchanged.",
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "7d810b050bb532d8a18acb19029626a10ef9a034bc15c78036fef7990b63db10",
+      "integrated_sha256": "92fd8b86271a8ebfe028b260158299c43a6ca6cff1713bf19cba68f3d959230d",
       "reverse_slices": [
         {
           "start": 12,
@@ -62,6 +62,29 @@
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
+        },
+        {
+          "start": 4906,
+          "stop": 4909,
+          "current": [
+            "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
+            "            # through scripts, room transitions or a full/invalid battery epoch.\n",
+            "            # Clearing/reoffering it on a timer\n"
+          ],
+          "main": [
+            "            # Hub teleport and Candy deliberately leave the mailbox pending through scripts,\n",
+            "            # pause and native room transitions. Clearing/reoffering it on a timer\n"
+          ]
+        },
+        {
+          "start": 4913,
+          "stop": 4914,
+          "current": [
+            "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
+          ],
+          "main": [
+            "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID)):\n"
+          ]
         }
       ]
     },

@@ -189,7 +189,7 @@ generation preserves these relative weights across the remaining labels.
 | `Small Food` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 1, capped at `max_hp`; no effect for `hp <= 0` |
 | `Energy Drink` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 2, capped at `max_hp`; no effect for `hp <= 0` |
 | `Hunk of Meat` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 3, capped at `max_hp`; no effect for `hp <= 0` |
-| `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
+| `Cell Phone Battery` | Adds one live charge, including above three; defers without ACK at the checked uint32 limit or outside an authenticated live context |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
 
@@ -1014,3 +1014,26 @@ configuration with the exact 12-byte enabled `phone_config.bin` seed intent afte
 token/header write. Historical archives retain their saved procedure.
 Ownership gates new local single-player R calls only; L return and tutorial calls
 remain native. Complete-history, pairing and three-file persistence fences are unchanged.
+
+### Live Phone charges and HUD
+
+New payloads keep a live uint32 charge count in the AP-reserved EWRAM interval
+`0x0203B190..0x0203B1A4`, bound to the authenticated Adventure task and epoch.
+The native byte is a saturating proxy for native availability checks, not the
+bank. All selected native spend/refill/pickup writers update the wide count.
+Native pickups retain their native below-three limit; AP Battery grants do not.
+Before current-file Phone ownership, the eligible single-player HUD displays
+empty without modifying charges. Owned HUD counts zero, one, two, then full
+for three or more. Its cached comparisons use the same displayed value, so
+ownership alone refreshes the display. Excluded/invalid contexts retain native
+HUD behavior and cannot resurrect a stale bank.
+
+There is no new save format or lifetime-receipt reconstruction. Cold reload
+and game-over retain native refill-to-three behavior, intentionally discarding
+live surplus; the ordinary-death zero-to-one refill and battery drain remain.
+Same-epoch reconnect/ownership polling never resets or replays charges. A grant
+at `UINT32_MAX` or without a valid live context remains pending, with no mailbox
+ACK/counter advancement. The client preserves that in-flight command on timeout
+rather than clearing/reoffering it; Phone ownership has its separate queue.
+This can delay later consumables until delivery is possible. Already-ACKed
+batteries are not replayed after reload. Three is initial, not an AP charge cap.

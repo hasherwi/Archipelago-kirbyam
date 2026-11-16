@@ -1,4 +1,5 @@
 #include "copy_room.h"
+#include "battery.h"
 #define U32(a) (*(volatile uint32_t *)(a))
 #define U16(a) (*(volatile uint16_t *)(a))
 #define U8(a) (*(volatile uint8_t *)(a))
@@ -24,6 +25,7 @@ static AP_COPY_EXT uint8_t record_valid(void) {
     return 1u;
 }
 static AP_COPY_EXT void deactivate(void) {
+    ap_battery_deactivate();
     CTX->epoch=0u; CTX->owned=0u; CTX->slot=AP_COPY_INVALID_SLOT;
     CTX->task=0u; CTX->dirty=0u; CTX->retry=0u;
     REQUEST[0]=0u; REQUEST[2]=0u; REQUEST[3]=0u;
@@ -105,6 +107,7 @@ AP_COPY_EXT void ap_copy_room_start(uint8_t humans, uint8_t local, const uint16_
     CTX->slot=SAVE_SLOT; CTX->task=task; CTX->owned=RECORD[4]&AP_COPY_OWNED;
     ++CTX->serial; if (!CTX->serial) CTX->serial=1u;
     CTX->epoch=CTX->serial;
+    ap_battery_start();
 }
 AP_COPY_EXT void ap_copy_room_poll(void) {
     uint32_t epoch=ap_copy_room_epoch(), request=REQUEST[0];
