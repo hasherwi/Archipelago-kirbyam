@@ -77,7 +77,7 @@ def test_all_crash_capable_catalog_routes_explicitly_advanced(area_keys):
                 assert name in row.get('advanced_graphs', ())
                 assert graph not in rules.target_graphs(row, area_keys)
             if name in row.get('advanced_graphs', ()):
-                assert (row['id'], name) in ADVANCED
+                assert (row['id'], name) in ADVANCED | {('switch_533_room16', 'hub4_magic_entry')}
     assert found == ADVANCED
 
 
@@ -90,7 +90,8 @@ def test_static_and_installed_rules_agree_without_fallback_leak(monkeypatch, tar
     row = dict(original, graphs={witness: original['graphs'][witness]})
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     assert rules.target_applies(row, source)
-    assert rules.static_extra_witness(source, advanced=advanced) is advanced
+    required = row.get("required_for_generation", True)
+    assert rules.static_extra_witness(source, advanced=advanced) is (advanced or not required)
     target = SimpleNamespace(access_rule=lambda state: True)
     options = SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=False),
                               advanced_logic=AdvancedLogic(int(advanced)),
@@ -103,11 +104,15 @@ def test_static_and_installed_rules_agree_without_fallback_leak(monkeypatch, tar
     rules.install_extra_traversal_rules(world)
     state = SimpleNamespace(has=lambda *args: True, can_reach_region=lambda *args: True)
     assert target.access_rule(state) is advanced
-    # Under full accessibility the same unsupported assignment fails closed early.
+    # Required targets fail early; optional Room16 stays closed and enabled
+    # RoomSanity checks remain subject to final all-check validation.
     world.options.accessibility = Accessibility(Accessibility.option_full)
-    if not advanced:
+    if not advanced and required:
         with pytest.raises(ValueError, match='No reviewed source witness'):
             rules.install_extra_traversal_rules(world)
+    else:
+        rules.install_extra_traversal_rules(world)
+        assert target.access_rule(state) is advanced
 
 
 def test_live_random_pool_not_rewritten_into_guaranteed_fire():

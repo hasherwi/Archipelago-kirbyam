@@ -232,6 +232,10 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     ):
         raise ValueError("Central Master belongs only to the reviewed Carrot entry")
     _validate_new_connection(row)
+    if not isinstance(row.get("fail_closed", False), bool):
+        raise ValueError("fail_closed must be a boolean")
+    if row.get("fail_closed") and not row.get("exit"):
+        raise ValueError("fail_closed requires an exit target")
     condition = row.get("requires_guaranteed_source")
     alternatives = row.get("requires_any_guaranteed_source")
     if "requires_any_guaranteed_source" in row:

@@ -126,7 +126,9 @@ def carrot_fighter_is_progression(world: Any) -> bool:
 
 
 def mustard_magic_is_progression(world: Any) -> bool:
-    """Only the enabled Room16 exit and guaranteed Foley need Magic permission."""
+    """Only Advanced Logic with a guaranteed Foley needs Magic permission."""
+    if not advanced_traversal_enabled(world):
+        return False
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict) or not world._ability_gating_enabled():
         return False
@@ -158,10 +160,10 @@ def install_extra_traversal_rules(world: Any) -> None:
 
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
-        # Existing surfaces keep their prior fallback, but a newly introduced
-        # optional connection must never become free when source data is absent.
+        # Preserve legacy fallbacks except for new optional connections and
+        # existing exits explicitly migrated to fail-closed source-backed logic.
         for row in extra_traversal_targets():
-            if row.get("new_connection"):
+            if row.get("new_connection") or row.get("fail_closed"):
                 target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
                 add_rule(target, lambda state: False)
         return
@@ -169,6 +171,9 @@ def install_extra_traversal_rules(world: Any) -> None:
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
         if not target_applies(row, policy):
+            if row.get("fail_closed"):
+                target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
+                add_rule(target, lambda state: False)
             continue
         if row.get("exit"):
             target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)

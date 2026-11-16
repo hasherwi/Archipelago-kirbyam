@@ -2,7 +2,7 @@
 
 This is the broad scope of PR #1052, not a claim that all ranged logic is
 implemented. [Reproducible completion status](ranged-completion-status.md) tracks
-the four current target-wide source-policy fallbacks and the remaining evidence boundaries.
+the three remaining permissive target-wide source-policy fallbacks and the remaining evidence boundaries.
 The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
@@ -102,7 +102,7 @@ All anchors below refer to native1197474. Their category-mask compatibility is n
 
 Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big switches have different masks/player handling. Small switches also accept overlapping star-stone/large-star-stone objects (`big_small_switch.c:135–197`). Fuses admit categories0x100/0x10000 (`cannon_fuse.c:39–53,603–610`). Star-stone objects have strength4 resistance and physical behavior (`star_stone_block.c:14–37`); they are not background tiles. Destroyable rock blocks use Kirby position/state/delay (`destroyable_rock_block.c:13–64`), not an inferred attack from their name. Animated door opening is not completed traversal.
 
-Two raw `can_hit_far_switch` strings remain: Mustard Chest310 and Mustard15/native533→Mustard16/native325. Both receive installed source-aware constraints under their reviewed source policies; the strings alone are not missing implementations. Outside those policies the extra rule is skipped, preserving the permissive base rule. They must not become blanket ability gates:
+Two raw `can_hit_far_switch` strings remain: Mustard Chest310 and Mustard15/native533→Mustard16/native325. Both receive installed source-aware constraints under their reviewed source policies; the strings alone are not missing implementations. Outside those policies, Chest310 retains the permissive fallback. Issue #1099 changes the Room15→16 exit to fail closed without a reviewed source policy, while preserving the ordinary Room17 bypass; see [its source witness](mustard-room15-source-witness.md#all-policy-access-rule-issue-1099). They must not become blanket ability gates:
 
 - 310 has a solid intervening wall and near-zero release timer. The guaranteed
   TWISTER → UFO subset uses the complete Normal Hub4/native 590 → 534 approach,

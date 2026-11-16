@@ -9194,6 +9194,8 @@
           "kind": "switch",
           "native_room": 533,
           "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+          "required_for_generation": false,
+          "fail_closed": true,
           "requires_guaranteed_source": {
             "source_key": "FOLEY",
             "abilities": [
@@ -9203,6 +9205,7 @@
               "Magic"
             ]
           },
+          "optional_route_evidence": "dev-docs/mustard-room15-source-witness.md#all-policy-access-rule-issue-1099; Room15 -> Room17 -> Room18 bypasses Room16 for ordinary progression. Room16 itself is not granted by that bypass; its optional RoomSanity check remains subject to fill/accessibility.",
           "graphs": {
             "hub4_entry": {
               "version": 1,
@@ -9569,7 +9572,8 @@
             }
           },
           "advanced_graphs": [
-            "hub4_crash_entry"
+            "hub4_crash_entry",
+            "hub4_magic_entry"
           ]
         }
       ]
