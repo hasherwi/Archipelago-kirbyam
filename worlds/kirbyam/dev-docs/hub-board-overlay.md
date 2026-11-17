@@ -77,3 +77,28 @@ The full KirbyAM aggregate, packaging and exact-head CI results are recorded in
 the PR. Linked multiplayer, every route assignment and a complete playthrough
 are not claimed. Historical evidence in `area-key-object-reconciliation.md`
 predates this change; its gold-frame appearance limitation is superseded here.
+
+## In-flight Warp Star follow-up
+
+[Paired native evidence](hub-board-warp-star-flight-evidence.json) closes the
+previously unrun in-flight case for one Warp Star in native room 142, template
+`0x088B7A10`, on the merged boards implementation. The existing disclosed
+startup/mailbox fixture supplies the correct key. Controller input (70 frames
+Up, then 26 Up+Right) boards the star; native passenger mask becomes 1.
+
+An unedited boarded snapshot supplies two 1,200-frame continuations: ordinary
+control and controlled key-mask rollback immediately after boarding. Both
+retain the passenger for 513 frames, enter native room 195 at frame 503, and remove the
+original transport at frame 514. Recorded player position, room, star object fields
+and cleanup timing are identical when excluding the deliberately different
+key mask. This does not claim equality of every byte of emulator state.
+The rollback case finishes with keys absent and the human safely in native room 195;
+it verifies preservation of an already boarded transport, not permission for
+a new locked boarding attempt.
+
+The existing idle-star tests still cover suppression, receipt-driven respawn,
+duplicate prevention, relock and savestate reload. No production code or ROM
+patch changed for this follow-up. It remains a controlled lifecycle fixture,
+not natural route proof, Normal-only baseline evidence, every shuffled route
+or linked multiplayer coverage. ROMs, savestates and full native traces remain
+private; the committed record contains derived observations and hashes only.
