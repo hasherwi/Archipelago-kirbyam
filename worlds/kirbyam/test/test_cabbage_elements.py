@@ -273,7 +273,7 @@ def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypa
         '  minimum_health: 1\n  maximum_health: 1\n  enemy_health_multiplier: 500\n'
         f'  room_sanity: {room_sanity}\n  accessibility: full\n', encoding='utf-8')
     seed = 22 if ability == 'Spark' else 149
-    if room_sanity:
+    if room_sanity and ability != 'Ice':
         with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
                            match=r"unavailable even with all inventory=\['Room 4-16'\]"):
             generate_archive_from_fixture(player, tmp_path / 'out', seed=seed)
@@ -291,6 +291,8 @@ def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypa
         multiworld, = generated
         assert not multiworld.get_unfilled_locations()
         assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == audit.inventory_unreachable == audit.progression_unreachable == ()
     assert list(raw['allowed_abilities']) == [ability]
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({ability})
     state = CollectionState(multiworld)
