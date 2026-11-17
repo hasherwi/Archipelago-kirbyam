@@ -1,0 +1,231 @@
+{
+  "source_commit": "dba42dbde46ca87dae13a6c0afc8d7bc8a4e3ff5",
+  "scope": "Native three-file isolation and actual shipping client/MultiServer reconnect fixture, not natural route access or BizHawk GUI acceptance",
+  "multi_file": {
+    "fixture": "Source0 ROM from all-sources successor, blank battery shared across file selections; ordinary native menus and controller inputs only",
+    "results": [
+      {
+        "slot": 0,
+        "complete": false,
+        "initial": {
+          "slot": 0,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "final": {
+          "slot": 0,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "save_sha256": "2f37a02d92bc27c7349ba67db73a3a42346339b3fd475609681fa7c295647608"
+      },
+      {
+        "slot": 1,
+        "complete": true,
+        "initial": {
+          "slot": 1,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "final": {
+          "slot": 1,
+          "room": 801,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "save_sha256": "0b9a502685882cb7e727e28e2d8cc715fae1092bc6779578c705648265a246ba"
+      },
+      {
+        "slot": 2,
+        "complete": true,
+        "initial": {
+          "slot": 2,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "final": {
+          "slot": 2,
+          "room": 801,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "save_sha256": "127b7a5965ce9f63a4609b1ab0e62aeb8a6e0d36d3e816856b58d95195afdb63"
+      },
+      {
+        "slot": 0,
+        "complete": false,
+        "initial": {
+          "slot": 0,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "final": {
+          "slot": 0,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540000"
+        },
+        "save_sha256": "127b7a5965ce9f63a4609b1ab0e62aeb8a6e0d36d3e816856b58d95195afdb63"
+      },
+      {
+        "slot": 1,
+        "complete": false,
+        "initial": {
+          "slot": 1,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "final": {
+          "slot": 1,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "save_sha256": "127b7a5965ce9f63a4609b1ab0e62aeb8a6e0d36d3e816856b58d95195afdb63"
+      },
+      {
+        "slot": 2,
+        "complete": false,
+        "initial": {
+          "slot": 2,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "final": {
+          "slot": 2,
+          "room": 557,
+          "epoch": 1,
+          "record": "0x43540004"
+        },
+        "save_sha256": "127b7a5965ce9f63a4609b1ab0e62aeb8a6e0d36d3e816856b58d95195afdb63"
+      }
+    ]
+  },
+  "live_reporting": {
+    "seed": 1026001,
+    "room_sanity": true,
+    "area_keys": false,
+    "ability_gating": false,
+    "advanced_logic": false,
+    "startup_fixture": "Generated matching seed patched normally, then only startup room557 and position near source0 changed. Cold blank native save; own receipt database; no Goal flag/runtime position writes. Phone enabled by seed.",
+    "emulator": "mGBA0.10.5 resetcore using real BizHawk client protocol bridge",
+    "client": "Shipping PR client and MultiServer, Archipelago0.6.8; independent loopback ports",
+    "rows": [
+      {
+        "frame": 1666,
+        "label": "cold-goal-source",
+        "human": {
+          "room": 557,
+          "ability": 0,
+          "x": 424.0,
+          "y": 456.99609375,
+          "hp": 6
+        },
+        "slot": 1,
+        "new_server_checked": [],
+        "all_server_checked": [],
+        "goal_record": "0x43540000",
+        "native_file": 0
+      },
+      {
+        "frame": 5687,
+        "label": "goal-completed-offline",
+        "human": {
+          "room": 801,
+          "ability": 0,
+          "x": 216.0,
+          "y": 232.99609375,
+          "hp": 6
+        },
+        "slot": null,
+        "new_server_checked": [],
+        "all_server_checked": [],
+        "goal_record": "0x43540004",
+        "native_file": 0
+      },
+      {
+        "frame": 7226,
+        "label": "goal-first-reconnect-report",
+        "human": {
+          "room": 801,
+          "ability": 0,
+          "x": 253.5,
+          "y": 232.99609375,
+          "hp": 7
+        },
+        "slot": 1,
+        "new_server_checked": [
+          3960451,
+          3960700,
+          3961000
+        ],
+        "all_server_checked": [
+          3960451,
+          3960700,
+          3961000
+        ],
+        "goal_record": "0x43540004",
+        "native_file": 0
+      },
+      {
+        "frame": 9589,
+        "label": "goal-second-disconnect",
+        "human": {
+          "room": 801,
+          "ability": 0,
+          "x": 281.0,
+          "y": 232.99609375,
+          "hp": 7
+        },
+        "slot": null,
+        "new_server_checked": [],
+        "all_server_checked": [
+          3960451,
+          3960700,
+          3961000
+        ],
+        "goal_record": "0x43540004",
+        "native_file": 0
+      },
+      {
+        "frame": 9830,
+        "label": "goal-second-reconnect",
+        "human": {
+          "room": 801,
+          "ability": 0,
+          "x": 281.0,
+          "y": 232.99609375,
+          "hp": 7
+        },
+        "slot": 1,
+        "new_server_checked": [],
+        "all_server_checked": [
+          3960451,
+          3960700,
+          3961000
+        ],
+        "goal_record": "0x43540004",
+        "native_file": 0
+      }
+    ],
+    "goal_reward_count_first_reconnect": 1,
+    "goal_reward_count_second_reconnect": 1,
+    "server_goal_send_log_count": 1,
+    "reports_sha256": "4048ed35f7e1d6da86b62a3530605d609607ecc0152df1f74cb3f9d1b4b1e2cb",
+    "server_log_sha256": "e3f430ba6eb8f735626542d3692d0429f6ce2e7f750cffd2aa9428cc397a5cae",
+    "inputs_sha256": "3a1b10bd7c872f7723f540b35aba89e05fe2ac41c5fddc01aba8c3d788fe6406",
+    "rom_sha256": "09844ac0b791dab098257abb1183564d2ab6d71e5d70539e51c9775a7aa1344a"
+  },
+  "limitations": [
+    "Linked GBA multiplayer and BizHawk GUI not exercised.",
+    "File1/2 completion tested source0; all sixteen source matrix uses file0.",
+    "Real reconnect tested one source; exact per-bit protocol mappings have separate host tests."
+  ]
+}

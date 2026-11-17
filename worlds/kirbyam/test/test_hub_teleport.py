@@ -44,6 +44,8 @@ def test_actual_mailbox_and_hub_dispatch(tmp_path: Path, optimization: str) -> N
     assert compiler is not None
     source = (PAYLOAD / "ap_payload.c").read_text()
     source += "\n" + (PAYLOAD / "copy_room.c").read_text()
+    # Link the shipping Goal Game poll called by the real mailbox.
+    source += "\n" + (PAYLOAD / "goal_game.c").read_text()
     source += "\n" + (PAYLOAD / "phone.c").read_text()
     source += "\n" + (PAYLOAD / "battery.c").read_text()
     # Only platform calls/register bindings are substituted. All mailbox,

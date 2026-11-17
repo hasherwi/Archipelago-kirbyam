@@ -2,11 +2,11 @@
   "schema": 1,
   "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
   "integrated_commit": "089b08129a19b3e5bb94703e589b74c043dddc41",
-  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/full-completion projection against unchanged historical main pins; no native evidence rebaseline.",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/full-completion projection against unchanged historical main pins; no native evidence rebaseline. Combined Goal Game/full-completion projection; historical hashes remain unchanged.",
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "95d2f258a86a99f08ed39096ffc60d332ccbbf0d940b57617ca5990c13825c0d",
+      "integrated_sha256": "06bf653c6ab21240d23fe09af81bea8302ca528f25ca264dc83af731262f9489",
       "reverse_slices": [
         {
           "start": 12,
@@ -29,8 +29,16 @@
           "main": []
         },
         {
-          "start": 308,
-          "stop": 312,
+          "start": 29,
+          "stop": 30,
+          "current": [
+            "from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 309,
+          "stop": 313,
           "current": [
             "        elif goal == Goal.option_full_completion:\n",
             "            description = (\"100% Game Completion: explore all 272 native rooms, open every chest, \"\n",
@@ -40,16 +48,16 @@
           "main": []
         },
         {
-          "start": 521,
-          "stop": 522,
+          "start": 522,
+          "stop": 523,
           "current": [
             "        self._full_completion_reported_scope = None\n"
           ],
           "main": []
         },
         {
-          "start": 551,
-          "stop": 553,
+          "start": 552,
+          "stop": 554,
           "current": [
             "                elif loc.name == \"GOAL_100_PERCENT\":\n",
             "                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id\n"
@@ -57,8 +65,8 @@
           "main": []
         },
         {
-          "start": 2043,
-          "stop": 2044,
+          "start": 2044,
+          "stop": 2045,
           "current": [
             "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
           ],
@@ -67,9 +75,15 @@
           ]
         },
         {
-          "start": 2077,
-          "stop": 2097,
+          "start": 2078,
+          "stop": 2104,
           "current": [
+            "            if goal_slot_version(slot):\n",
+            "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
+            "                if session_expired():\n",
+            "                    return False\n",
+            "                if bytes(marker) != GOAL_MARKER:\n",
+            "                    raise ValueError(\"ROM and slot Goal Game versions differ\")\n",
             "            # The GBA bus remains addressable for older, shorter ROMs. Their\n",
             "            # mirrored/open-bus bytes have no Phone marker and remain legacy.\n",
             "            # Probe on every poll so a ROM/config swap cannot reuse permission.\n",
@@ -94,16 +108,24 @@
           "main": []
         },
         {
-          "start": 2301,
-          "stop": 2302,
+          "start": 2308,
+          "stop": 2309,
           "current": [
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
         },
         {
-          "start": 3132,
-          "stop": 3134,
+          "start": 2339,
+          "stop": 2340,
+          "current": [
+            "            await poll_goal_games(ctx)\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 3140,
+          "stop": 3142,
           "current": [
             "    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int,\n",
             "                                             *, evidence_guards: list | None = None) -> bool:\n"
@@ -113,8 +135,8 @@
           ]
         },
         {
-          "start": 3173,
-          "stop": 3174,
+          "start": 3181,
+          "stop": 3182,
           "current": [
             "        final_reads = [\n"
           ],
@@ -123,8 +145,8 @@
           ]
         },
         {
-          "start": 3177,
-          "stop": 3187,
+          "start": 3185,
+          "stop": 3195,
           "current": [
             "        ]\n",
             "        final = await bizhawk.read(ctx.bizhawk_ctx, final_reads)\n",
@@ -146,8 +168,8 @@
           ]
         },
         {
-          "start": 4084,
-          "stop": 4085,
+          "start": 4092,
+          "stop": 4093,
           "current": [
             "        use received wall items. New patches save physical pulls independently.\n"
           ],
@@ -156,8 +178,8 @@
           ]
         },
         {
-          "start": 4107,
-          "stop": 4137,
+          "start": 4115,
+          "stop": 4145,
           "current": [
             "        save_version = ctx.slot_data.get(\"physical_check_save_version\")\n",
             "        if save_version is not None:\n",
@@ -193,8 +215,8 @@
           "main": []
         },
         {
-          "start": 4959,
-          "stop": 4962,
+          "start": 4967,
+          "stop": 4970,
           "current": [
             "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
             "            # through scripts, room transitions or a full/invalid battery epoch.\n",
@@ -206,8 +228,8 @@
           ]
         },
         {
-          "start": 4966,
-          "stop": 4967,
+          "start": 4974,
+          "stop": 4975,
           "current": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
           ],
@@ -216,8 +238,8 @@
           ]
         },
         {
-          "start": 5263,
-          "stop": 5343,
+          "start": 5271,
+          "stop": 5351,
           "current": [
             "    async def _maybe_report_full_completion(self, ctx) -> None:\n",
             "        \"\"\"Recompute this goal from one authenticated native-save snapshot.\n",
@@ -303,8 +325,8 @@
           "main": []
         },
         {
-          "start": 5357,
-          "stop": 5362,
+          "start": 5365,
+          "stop": 5370,
           "current": [
             "        slot_data = getattr(ctx, \"slot_data\", None)\n",
             "        if isinstance(slot_data, dict) and type(slot_data.get(\"goal\")) is int and slot_data[\"goal\"] == Goal.option_full_completion:\n",
@@ -374,19 +396,59 @@
   },
   "surfaces": {
     "main_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
-    "integrated_sha256": "a65baf9db00145a6e4759f9741efcaf254e129f9ce04cd6099dd1199ecc31271",
+    "integrated_sha256": "134f4f783779c0de4926200b408798d4426508b131acbfdbf29ef8db7ee6ba8b",
     "reverse_slices": [
       {
+        "start": 91,
+        "stop": 92,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_GOAL\",\"requirement\":{\"all\":[\"can_break_block\",\"can_fly\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_3_GOAL\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 195,
+        "stop": 196,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_9_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 198,
+        "stop": 199,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_9_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
         "start": 414,
-        "stop": 414,
+        "stop": 415,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_2_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 417,
+        "stop": 418,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":{\"all\":[\"can_fly\",\"can_break_floating_block\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_2_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 419,
+        "stop": 419,
         "current": [],
         "main": [
           "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
         ]
       },
       {
-        "start": 416,
-        "stop": 418,
+        "start": 421,
+        "stop": 423,
         "current": [
           "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT\"}",
           "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
@@ -396,10 +458,98 @@
         ]
       },
       {
-        "start": 850,
-        "stop": 851,
+        "start": 504,
+        "stop": 505,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1\",\"requirement\":\"can_fly\",\"room_sanity\":false,\"target\":\"GOAL_GAME_4_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 507,
+        "stop": 508,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_4_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 616,
+        "stop": 617,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_GOAL_1\",\"requirement\":{\"any\":[\"can_fly\",\"can_swim\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_6_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 619,
+        "stop": 620,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_GOAL_2\",\"requirement\":{\"all\":[\"can_fly\",\"can_break_block\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_6_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 743,
+        "stop": 744,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1\",\"requirement\":{\"all\":[\"can_break_block\",\"can_fly\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_7_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 746,
+        "stop": 747,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_7_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 849,
+        "stop": 850,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RADISH_RUINS/ROOM_8_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_8_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 853,
+        "stop": 854,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RADISH_RUINS/ROOM_8_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_8_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 863,
+        "stop": 864,
         "current": [
           "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/MAIN\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_100_PERCENT\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1059,
+        "stop": 1060,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1063,
+        "stop": 1064,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2\",\"requirement\":\"can_break_floating_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1067,
+        "stop": 1068,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_3\"}"
         ],
         "main": []
       }
@@ -417,7 +567,7 @@
     "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
   },
   "reviewed_parent_projection_sha256": {
-    "full_completion": "907594329ab4d1eda60f0db260402e8221ca34df8cfa01a4336929915e2a58c2",
-    "phone": "e20c9c50965caba61ecc5bf1fb40c7939e1909ead3f9273968f7a44228c4dc9e"
+    "full_completion": "8ed93660ac4e98354242dd88fcf11d0c6c54fd78d2e2c0193c9c450c31bd6ed4",
+    "goal_games": "a3844498a5ea672634fe63b9699b310765cc202ee1da3089a480fde9781ed356"
   }
 }

@@ -301,3 +301,18 @@ async def test_acknowledged_lever_restore_uses_guarded_native_record(
         assert (PHYSICAL_SAVE_ADDRESS, previous, 'System Bus') in guards
         assert (0xF00000, AUTH, 'ROM') in guards
         assert (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, 'ROM') in guards
+
+
+def test_packaged_full_completion_and_goal_markers_do_not_overlap():
+    """Inspect the appended extension, whose bytes do not depend on the clean ROM."""
+    from pathlib import Path
+    import bsdiff4
+    from ..goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET
+
+    patch_bytes = (Path(__file__).parents[1] / 'data/base_patch.bsdiff4').read_bytes()
+    image = bsdiff4.patch(bytes(0x1000000), patch_bytes)
+    assert GOAL_MARKER_OFFSET == 0x1000010
+    assert FULL_COMPLETION_MARKER_OFFSET == 0x1000018
+    assert GOAL_MARKER_OFFSET + len(GOAL_MARKER) <= FULL_COMPLETION_MARKER_OFFSET
+    assert image[GOAL_MARKER_OFFSET:GOAL_MARKER_OFFSET + 8] == GOAL_MARKER
+    assert image[FULL_COMPLETION_MARKER_OFFSET:FULL_COMPLETION_MARKER_OFFSET + 8] == FULL_COMPLETION_MARKER

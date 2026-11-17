@@ -1,7 +1,7 @@
 # Physical lever persistence for full completion
 
 The full-completion payload carries `APFULL01` (eight bytes, no terminator) at ROM
-file offset `0x1000010`. Clients must validate this marker before relying on the
+file offset `0x1000018`. Clients must validate this marker before relying on the
 new native physical-check record or restoring lever acknowledgements into it.
 The existing color and Hub markers remain at their original offsets.
 

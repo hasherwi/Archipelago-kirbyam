@@ -653,6 +653,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
         + _lever_count
         + _room_sanity_count
         + _area_visit_count
+        + sum(1 for m in data.locations.values() if m.category == LocationCategory.GOAL_GAME)
     )
     assert len(world.multiworld.itempool) == _expected_pool_size
     assert all("Mirror Shard" not in item.name for item in world.multiworld.itempool)
@@ -693,6 +694,7 @@ def test_completely_random_pool_contains_all_shards_but_bosses_are_unlocked() ->
         + _lever_count
         + _room_sanity_count
         + _area_visit_count
+        + sum(1 for m in data.locations.values() if m.category == LocationCategory.GOAL_GAME)
     )
     _expected_pool_size = _open_non_goal_location_count
     assert len(world.multiworld.itempool) == _expected_pool_size

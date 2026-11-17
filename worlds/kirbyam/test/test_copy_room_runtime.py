@@ -12,7 +12,7 @@ def test_three_file_ownership_and_save_retries(tmp_path):
     if not cc or not sys.platform.startswith("linux"):
         pytest.skip("Linux mapped-memory host harness and C compiler required")
     payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
-    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text()
+    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text() + "\n" + (payload / "goal_game.c").read_text()
     for address, name in (("0x0800ACD5u", "fake_save"), ("0x0800A91Du", "fake_load"),
                           ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start")):
         source = source.replace(address, "&" + name)
@@ -105,6 +105,68 @@ int main(void) {
     FLAGS=0x10;CHECK(!ap_copy_room_epoch());FLAGS=0;CHECK(!ap_copy_room_epoch());
     CHECK(ap_copy_room_load(1,2)==0);START();CHECK(ap_copy_room_owned());
     U32(CTX->task+8)=0;CHECK(!ap_copy_room_epoch());
+    /* Goal Game completion shares the authenticated native file, not ownership.
+     * All sixteen bits survive saving, cold context reload and duplicate grants. */
+    for(unsigned slot=0;slot<3;slot++) {
+        SAVE_SLOT=slot;CHECK(ap_copy_room_load(1,slot)==0);START();
+        CHECK(ap_copy_room_epoch());
+        for(unsigned bit=0;bit<16;bit++) ap_copy_room_complete_goal(bit);
+        CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS && ap_copy_room_owned());
+        fail_save=1;ap_copy_room_poll();CHECK(CTX->dirty);
+        fail_save=0;for(unsigned i=0;i<61;i++)ap_copy_room_poll();
+        CHECK(!CTX->dirty && files[slot][26]==(AP_COPY_TAG|AP_GOAL_FLAGS|1));
+        unsigned before=saves[slot];
+        ap_copy_room_complete_goal(15);ap_copy_room_complete_goal(16);COMMAND(1);
+        CHECK(saves[slot]==before && !CTX->dirty);
+        memset((void*)CTX,0,sizeof(*CTX));
+        CHECK(ap_copy_room_load(1,slot)==0);START();
+        CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS && ap_copy_room_owned());
+    }
+    /* A fresh file has no flags and a grant must preserve its partial goal set. */
+    SAVE_SLOT=1;ap_copy_room_clear(1);START();
+    CHECK(!ap_copy_room_owned() && !(RECORD[4]&AP_GOAL_FLAGS));
+    ap_copy_room_complete_goal(3);COMMAND(1);
+    CHECK(RECORD[4]==(AP_COPY_TAG|1u|(1u<<5)));
+    SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
+    CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS); /* File 1 clear stayed isolated. */
+    FLAGS=0x10;uint32_t inactive_record=RECORD[4];
+    ap_copy_room_complete_goal(0);CHECK(RECORD[4]==inactive_record && !CTX->epoch);
+    FLAGS=0;
+    /* Execute both shipping pollers: Phone refresh must not erase a Goal run. */
+    SAVE_SLOT=0;ap_copy_room_clear(1);START();
+    const struct ApGoalDoor *door=&ap_goal_doors[0];
+    U16(KIRBY+0x60u)=door->destination;U8(KIRBY+0x100u)=6u;
+    ap_goal_enter(RUN,CTX->epoch,door->pointer,door->source,door->destination);
+    CHECK(RUN->phase==1u && RUN->epoch==CTX->epoch && RUN->bit==door->bit);
+    for(unsigned i=0;i<20;i++) { ap_phone_poll();ap_goal_poll(); }
+    CHECK(RUN->phase==1u && RUN->epoch==CTX->epoch && RUN->bit==door->bit);
+    ap_goal_start(RUN,CTX->epoch,door->destination,0x03002000u,1u);
+    for(unsigned i=0;i<20;i++) { ap_phone_poll();ap_goal_poll(); }
+    CHECK(RUN->phase==2u && RUN->star==0x03002000u);
+    /* Each Goal Game bit is independent of both permission bits. */
+    for(unsigned bit=0;bit<16;bit++) {
+        SAVE_SLOT=0;ap_copy_room_clear(1);START();
+        ap_copy_room_complete_goal(bit);
+        CHECK(RECORD[4]==(AP_COPY_TAG|(1u<<(bit+2u))));
+        CHECK(!ap_copy_room_access_owned(AP_ACCESS_MASK));
+        ap_copy_room_grant_access(2u);
+        CHECK(RECORD[4]==(AP_COPY_TAG|2u|(1u<<(bit+2u))));
+        CHECK(!ap_copy_room_owned() && ap_copy_room_access_owned(2u)==2u);
+        COMMAND(1);
+        CHECK(RECORD[4]==(AP_COPY_TAG|3u|(1u<<(bit+2u))));
+        CHECK(ap_copy_room_load(1,0)==0);START();
+        CHECK(RECORD[4]==(AP_COPY_TAG|3u|(1u<<(bit+2u))));
+    }
+    /* Old main Phone-only and old Goal2 records are ambiguous: neither is
+     * silently imported as new permissions or new completion evidence. */
+    const uint32_t old_flags[]={0x43500000u,0x43500001u,0x43500002u,0x43500003u,0x4351FFFFu};
+    for(unsigned i=0;i<sizeof(old_flags)/sizeof(old_flags[0]);i++) {
+        SAVE_SLOT=0;ap_copy_room_clear(1);START();
+        RECORD[4]=old_flags[i];
+        CHECK(!ap_copy_room_epoch());
+        START();CHECK(ap_copy_room_epoch() && RECORD[4]==AP_COPY_TAG);
+        CHECK(!ap_copy_room_access_owned(AP_ACCESS_MASK));
+    }
     /* Wrong seed is never migrated from native word18 or old record. */
     ((uint32_t*)AUTH)[3]^=1;SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
     CHECK(!ap_copy_room_owned());COMMAND(0);CHECK(files[2][26]==AP_COPY_TAG);

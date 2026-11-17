@@ -37,7 +37,7 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apfullinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
     ap_extension_code_end = .;
     . = 0xFFC8;
@@ -59,7 +59,8 @@ ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not co
 ASSERT(ap_extension_code_end <= 0x0900FFC8, "Enemy source config overlaps extension code")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
-ASSERT(ap_full_completion_marker == 0x09000010, "Full completion marker address changed")
+ASSERT(ap_full_completion_marker == 0x09000018, "Full completion marker address changed")
 ASSERT(ap_copy_room_marker == 0x0900FFD4, "Copy Room marker address changed")
 
+ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")
 ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")

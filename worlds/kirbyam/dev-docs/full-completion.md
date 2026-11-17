@@ -43,7 +43,7 @@ required. The final-clear/credits boundary still needs emulator confirmation.
 ## State and compatibility
 
 `full_completion_version: 1` identifies the goal contract. All new seeds emit
-`physical_check_save_version: 1` and require ROM marker `APFULL01` at 0x1000010.
+`physical_check_save_version: 1` and require ROM marker `APFULL01` at 0x1000018.
 Use the updated client and regenerate the ROM patch. Missing/unknown goal
 metadata, old patches, incomplete reads and unauthenticated sessions fail closed.
 Older seeds without the save-version field retain their legacy client path.
