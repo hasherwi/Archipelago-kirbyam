@@ -109,12 +109,16 @@ jobs:
 
       - name: Compute suffixed tags
         id: tags
+        env:
+          BUILD_IMAGE: ${{ env.REGISTRY }}/${{ needs.prepare.outputs.image-name }}:run-${{ github.run_id }}
         run: |
           readarray -t tags <<< "${{ needs.prepare.outputs.tags }}"
           suffixed=()
           for t in "${tags[@]}"; do
             suffixed+=("$t-${{ matrix.suffix }}")
           done
+          # Stable across partial retries, isolated from other workflow runs.
+          suffixed+=("$BUILD_IMAGE-${{ matrix.suffix }}")
           echo "tags=$(IFS=','; echo "${suffixed[*]}")" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
@@ -145,13 +149,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create and push multi-arch manifest
+        env:
+          BUILD_IMAGE: ${{ env.REGISTRY }}/${{ needs.prepare.outputs.image-name }}:run-${{ github.run_id }}
         run: |
           readarray -t tag_array <<< "${{ needs.prepare.outputs.tags }}"
 
           for tag in "${tag_array[@]}"; do
             docker manifest create "$tag" \
-              "$tag-amd64" \
-              "$tag-arm64"
+              "$BUILD_IMAGE-amd64" \
+              "$BUILD_IMAGE-arm64"
             
             docker manifest push "$tag"
           done
