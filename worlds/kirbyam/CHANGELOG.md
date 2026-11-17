@@ -8,18 +8,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
-
-### New Features
-- All sixteen Goal Games award a check when completed, including runs with no prizes (PR #1026).
-
-### Internal Changes
-- Keep Goal Game completion flags separate from Copy Room and Phone ownership in a versioned authenticated native save record, with separate runtime storage (PR #1026).
-
 ## v0.5.2
 
 ### New Features
 - Added "Phone a Friend" as a standard progression item (PR #1086). This gates Kirby's ability to call other Kirbys to the player, but not to return to Central Circle.
+- All sixteen Goal Games award a check when completed, including runs with no prizes (PR #1026).
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
