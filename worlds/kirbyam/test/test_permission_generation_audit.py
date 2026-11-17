@@ -68,6 +68,7 @@ def assert_generation_contract(
     assert placed[3860501] == 1 and inventory[3860501] == 0
     assert decoded["slot_data"][player]["phone_protocol_version"] == 1
     assert decoded["slot_data"][player]["starting_phone_access"] is False
+    assert "phone_progression" not in decoded["slot_data"][player]
 
     assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
@@ -184,13 +185,14 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
 
 
+@pytest.mark.parametrize("mode", [1, 2])
 def test_seed105103_refuses_new_goal_game_fill_lock(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int,
 ) -> None:
     # Keep the formerly accepted exact sample: Goal Game slots change its fill
     # into a progression lock, which the unchanged guard must refuse.
     options = {
-        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
@@ -203,9 +205,10 @@ def test_seed105103_refuses_new_goal_game_fill_lock(
     assert not tuple((tmp_path / "output").glob("*.zip"))
 
 
-@pytest.mark.parametrize("controlled_smash_lock", [False, True], ids=["original-fill", "controlled-smash-lock"])
+@pytest.mark.parametrize("mode,controlled_smash_lock", [(1, False), (1, True), (2, False)],
+                         ids=["mode1-original", "mode1-controlled-smash-lock", "mode2-original"])
 def test_seed105100_refuses_original_and_controlled_smash_lock(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, controlled_smash_lock: bool,
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, controlled_smash_lock: bool, mode: int,
 ) -> None:
     original = check_accessibility.validate_all_checks
     inspected: list[bool] = []
@@ -258,7 +261,7 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
 
     monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
     options = {
-        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
