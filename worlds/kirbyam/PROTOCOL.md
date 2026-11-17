@@ -265,6 +265,8 @@ Server → Client: ConnectionRefused | Connected
                  (with items_received, checked_locations, slot_data)
 
 `slot_data` currently includes:
+
+- `tracker` (object): Universal Tracker schema version 1, resolved Kirby options and effective precollected item counts. See `docs/universal-tracker.md`.
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
 - `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 - `required_area_bosses` (int): threshold from 1 to 8, default 3. Used only by `goal=4`; all other goals ignore it. Missing, malformed or out-of-range values disable count-goal reporting rather than defaulting.

@@ -116,6 +116,7 @@ class KirbyAmWorld(World):
     game = "Kirby & The Amazing Mirror"
     web = KirbyAmWebWorld()
     topology_present = True
+    ut_can_gen_without_yaml = True
 
     # IMPORTANT: must match the name your settings system expects for this world.
     settings_key = "kirby_am_settings"
@@ -439,8 +440,21 @@ class KirbyAmWorld(World):
             ordered_boss_locations.append(boss_loc)
         return ordered_boss_locations
 
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        # UT regenerates with this payload before constructing regions and rules.
+        from .tracker import validate_tracker_data
+        validate_tracker_data(slot_data)
+        return slot_data
+
     # Pre-generation adjustments
     def generate_early(self) -> None:
+        passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if self.game in passthrough:
+            from .tracker import restore_tracker_data
+            restore_tracker_data(self, passthrough[self.game])
+            self._generation_start_time = time.time()
+            return
         # Reject unsupported health pairs before producing regions/items or a patch.
         health_range = self._health_range()
         if self._one_hit_mode_value():
@@ -1325,6 +1339,9 @@ class KirbyAmWorld(World):
                 if "Unique" in item_data.tags
             }
         )
+
+        from .tracker import export_tracker_data
+        slot_data["tracker"] = export_tracker_data(self, precollected_items)
 
         return slot_data
 
