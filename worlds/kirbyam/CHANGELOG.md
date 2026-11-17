@@ -20,7 +20,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
-- 100% Game Completion still requires real BizHawk acceptance. Use the updated client and regenerated patch; do not load new physical-check saves in an older payload.
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
