@@ -59,6 +59,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
     "bomb_538_beam_left_crossover": frozenset({"Beam"}),
     "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
+    "bomb_733_cupid_upper_from_below": frozenset({"Cupid"}),
+    "bomb_733_cupid_lower_from_corridor": frozenset({"Cupid"}),
     "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
     "bomb_517_fire_breath": frozenset({"Fire"}),
     "bomb_517_missile_blast": frozenset({"Missile"}),
@@ -97,6 +99,8 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_138_green_normal_lower_slide": 138,
     "bomb_538_beam_left_crossover": 538,
     "bomb_733_yellow_ufo_top_charge": 733,
+    "bomb_733_cupid_upper_from_below": 733,
+    "bomb_733_cupid_lower_from_corridor": 733,
     "bomb_517_chocolate": 517,
     "bomb_517_fire_breath": 517,
     "bomb_517_missile_blast": 517,

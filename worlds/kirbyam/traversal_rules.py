@@ -170,7 +170,9 @@ def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> boo
 
 def install_extra_traversal_rules(world: Any) -> None:
     from worlds.generic.Rules import add_rule
+    from . import yellow_cupid
 
+    yellow_cupid.validate_profile(world, install=True)
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
         # Preserve legacy fallbacks except for new optional connections and
@@ -183,7 +185,9 @@ def install_extra_traversal_rules(world: Any) -> None:
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
-        if not target_applies(row, policy):
+        profile_graphs = yellow_cupid.target_graphs(world, row)
+        applies = target_applies(row, policy)
+        if not applies and not profile_graphs:
             if row.get("fail_closed"):
                 target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
                 add_rule(target, lambda state: False)
@@ -195,7 +199,8 @@ def install_extra_traversal_rules(world: Any) -> None:
                 target = world.multiworld.get_location(data.locations[row["location"]].label, world.player)
             except KeyError:
                 continue  # This optional location category is disabled.
-        graphs = target_graphs(row, world._area_keys_enabled(), advanced=advanced_traversal_enabled(world))
+        graphs = ((target_graphs(row, world._area_keys_enabled(), advanced=advanced_traversal_enabled(world))
+                   if applies else ()) + profile_graphs)
         required_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
         required_items |= frozenset(item for graph in graphs for item in graph_items(graph))
         if requires_all_traversal_witnesses(world) and row.get("required_for_generation", True) and not any(

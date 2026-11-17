@@ -179,6 +179,8 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
 def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     from .phone_traversal import validate_phone_profile
     validate_phone_profile(world, require_policy=True)
+    from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
+    validate_yellow_cupid_profile(world)
     config = phone_patch_config(True)
     patch.write_file(PHONE_CONFIG_FILE, config)
     patch.write_token(APTokenTypes.WRITE, PHONE_CONFIG_OFFSET + 8, config[8:])

@@ -227,6 +227,10 @@ class KirbyAmWorld(World):
         # progression balancing, including skip-output generation.
         from .check_accessibility import validate_all_checks
         players = (player for player in multiworld.player_ids if isinstance(multiworld.worlds[player], cls))
+        from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
+        players = tuple(players)
+        for player in players:
+            validate_yellow_cupid_profile(multiworld.worlds[player])
         validate_all_checks(multiworld, players)
 
     def _no_extra_lives_enabled(self) -> bool:
@@ -1191,6 +1195,8 @@ class KirbyAmWorld(World):
     def fill_slot_data(self) -> dict[str, Any]:
         from .phone_traversal import validate_phone_profile
         validate_phone_profile(self, require_policy=True)
+        from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
+        validate_yellow_cupid_profile(self)
         # Slot data needed by client.
         # Pre-v0.1.0 policy: emit only canonical ability_randomization_* keys.
         # Legacy key aliases are intentionally not emitted before first public release.

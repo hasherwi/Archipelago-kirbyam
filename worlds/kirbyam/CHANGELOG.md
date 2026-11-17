@@ -15,6 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
+- Improved Yellow Paint logic for one verified Cupid source profile with 6-HP settings (issue #1087).
 - Include the reviewed guaranteed-Foley Ice route through Mustard Room 15 in normal logic (issue #1099).
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).
 

@@ -67,3 +67,9 @@ Normal + Phone, all Cupid sources, every health setting or arbitrary retries.
 The existing UFO witness remains intact. The unsupported-policy fallback and
 Phone/helper restriction above remain blockers to closing #1087; no progression
 rule changed here, and #490's broader action gates remain outside this scope.
+
+## Exact-profile follow-up
+
+The subsequent [admission](carrot-yellow-cupid-admission.md) qualifies only the
+pinned source policy and fixed HP6 settings after no-healing cold replays and
+matched controls. Other policies and the Phone restriction remain unresolved.
