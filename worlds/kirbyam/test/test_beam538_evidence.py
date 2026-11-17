@@ -241,7 +241,10 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
     assert current['counts'] == {
         'regions': 386, 'mapped_native_definitions': 354, 'locations': 384,
         'surfaces': 1091, 'room_sanity_locations': 263, 'installed_target_definitions': 57}
-    assert set(snapshot['input_sha256']) == set(current['input_sha256'])
+    # The exact-profile Cupid supplement is new host data, not Beam native evidence.
+    assert set(current['input_sha256']) - set(snapshot['input_sha256']) == {
+        'data/yellow_cupid_witness.json'}
+    assert set(snapshot['input_sha256']) <= set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
     assert snapshot['new_surface'] == {
