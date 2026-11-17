@@ -8,13 +8,18 @@ replace those rules or introduce an independent tracker logic model.
 
 ## Versions and workflow
 
-Validation baseline: KirbyAM APWorld **0.5.1**, repository main
+Initial historical validation baseline: KirbyAM APWorld **0.5.1**, repository main
 `5fe94b87172416ef4fefef37df1179816d1e3a60`, with the changes in this PR;
 Archipelago **0.6.8** from that repository; Universal Tracker **v0.3.8**, upstream
 `FarisTheAncient/Archipelago` tracker branch commit
 `d923c759a6e1a5e318635422fce0d47edcff06cb`; Python **3.13**.
 This is source validation of the proposed integration, not a claim that the
 previously released 0.5.1 APWorld contains it.
+
+Current integration base: main `cb356f8b` (Phone progression plus PR #1107
+release metadata), KirbyAM APWorld **0.5.2**, Archipelago **0.6.8**, with the
+same pinned UT version. The PR description records the exact tested PR head
+and separates historical evidence from current-head validation.
 
 1. Install Archipelago with its generator, Universal Tracker, and a KirbyAM
    APWorld containing this integration. Use matching Kirby world logic on the
