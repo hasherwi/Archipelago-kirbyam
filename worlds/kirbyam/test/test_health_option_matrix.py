@@ -75,7 +75,7 @@ def test_health_pool_all_percentages_and_modifiers(minimum, maximum, shards, no_
 
 @pytest.mark.parametrize("minimum,maximum", VALID_RANGES)
 @pytest.mark.parametrize("scenario", range(12))
-def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scenario):
+def test_health_cross_option_archive_generation(monkeypatch, tmp_path, minimum, maximum, scenario):
     """Cross every health range with 12 mixed scenarios, not a Cartesian proof."""
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
@@ -103,6 +103,47 @@ def test_health_cross_option_archive_generation(tmp_path, minimum, maximum, scen
         f"  ability_randomization_statues: {randomize_statues}\n",
         encoding="utf-8",
     )
+    if scenario in {5, 7, 9, 11}:
+        # These exact RoomSanity samples cannot guarantee a reviewed Foley source.
+        # Preserve the rejection and audit, then exercise the same health/pool
+        # combination in a separately generated RoomSanity-off positive archive.
+        from .. import check_accessibility
+        from ..check_accessibility import KirbyAmCheckAccessibilityError
+        from ..traversal import SourcePolicy
+        from .support.check_accessibility import audit_local_checks
+
+        validated = []
+        original_validate = check_accessibility.validate_all_checks
+
+        def capture_validation(multiworld, players):
+            validated.append(multiworld)
+            original_validate(multiworld, players)
+
+        with monkeypatch.context() as scoped:
+            scoped.setattr(check_accessibility, 'validate_all_checks', capture_validation)
+            with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+                generate_archive_from_fixture(player, tmp_path / 'rejected', seed=934 + scenario)
+        assert len(validated) == 1
+        world = validated[0].worlds[1]
+        assert (world.options.minimum_health.value, world.options.maximum_health.value) == (minimum, maximum)
+        assert world.options.room_sanity.value == 1 and world.options.advanced_logic.value == 0
+        assert world.options.ability_randomization_mode.value == ability_mode
+        guaranteed = SourcePolicy(world._enemy_copy_ability_policy).grant('FOLEY', lambda _: True).guaranteed
+        assert not (len(guaranteed) == 1 and guaranteed <= {'Bomb', 'UFO'})
+        audit = audit_local_checks(validated[0], 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == audit.progression_unreachable == ('Room 4-16',)
+        assert str(caught.value).splitlines()[-1] == (
+            "Player 1 (Health Matrix): unfilled=[]; unavailable even with all inventory=['Room 4-16']; "
+            "unreachable from placed progression=[]")
+        assert not tuple((tmp_path / 'rejected').glob('*.zip'))
+        vitality = _vitality_item_codes()
+        assert Counter(loc.item.code for loc in validated[0].get_locations(1)
+                       if loc.item and loc.item.code in vitality) == Counter(
+            sorted(vitality)[:maximum - minimum])
+        original_yaml = player.read_text(encoding='utf-8')
+        assert original_yaml.count('  room_sanity: 1\n') == 1
+        player.write_text(original_yaml.replace('  room_sanity: 1\n', '  room_sanity: 0\n'), encoding='utf-8')
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=934 + scenario)
     decoded = load_multidata_from_archive(archive)
     slot_data = decoded["slot_data"][1]

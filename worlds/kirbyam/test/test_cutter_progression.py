@@ -166,6 +166,7 @@ def test_generated_seed_matrix(
     assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5"
     if gating == 1 and accessibility == "minimal" and (seed, mode) in {(1042, 0), (8675309, 1), (8675309, 2)}:
         _assert_phone_fill_refusal(monkeypatch, tmp_path, f"cutter-{seed}-{mode}-0", seed, [options])
+
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)

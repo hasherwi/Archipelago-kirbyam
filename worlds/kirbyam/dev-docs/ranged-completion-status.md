@@ -1,7 +1,7 @@
 # Ranged completion status
 
 PR #1052 remains **partial**. The bounded routes have real source-aware logic,
-but four targets skip their extra rule outside reviewed guaranteed source
+but three targets skip their extra rule outside reviewed guaranteed source
 assignments. Relevant physical outcomes also remain unadjudicated. Neither a
 large test count nor a machine inventory certifies every move against every
 surface, current-generator acceptance, or native gameplay completion.
@@ -51,18 +51,19 @@ There is **no public custom-whitelist option**.
 | --- | --- | --- |
 | `bomb_517_chocolate` | Cabbage Chocolate Paint | Outside its ten reviewed Doo assignments |
 | `bomb_733_yellow` | Carrot Yellow Paint | Outside guaranteed Sparky→UFO |
-| `switch_533_room16` | Mustard Room15→16 | Outside Foley→Bomb/UFO/Crash/Magic |
 | `switch_310_mustard_map` | Mustard map only | Outside Twister→UFO/Crash/Cupid/Cutter |
 
 Native Twister→Tornado and Sparky→Spark already leave the 310 and 733 rules
 unapplied. The three full live-pool weight profiles and the passive-excluded
-live profile skip all four. The older base rule remaining permissive is a
+live profile skip all three. The older base rule remaining permissive is a
 coverage gap, not evidence that every such
 room is physically impossible. Do not replace this gap with blanket fail-closed
 restrictions or assume helper abilities provide a solution.
 
-Two raw `can_hit_far_switch` strings remain, at 310 and 533. They acquire real
-constraints under the supported source assignments above. Main resolved 209
+Two raw `can_hit_far_switch` strings remain, at 310 and 533. The 310 rule acquires
+constraints under supported source assignments above. The 533 edge now fails
+closed for unsupported policies; reviewed Bomb/UFO/Ice and Advanced-only Crash/Magic
+keep their exact source and entry constraints. Main resolved 209
 through directed compartment/Normal/Snow-loop logic; it is not a third missing
 far-switch implementation. Preserve exact entry and historical native limits.
 
@@ -147,7 +148,7 @@ Before making a broader completion claim:
   is supplied by this contract.
 
 The normalized inventory has 382 regions, 384 locations and 1,083 AP surfaces.
-Its 57 targets/146 witnesses include `mini_321_right_lower` and `fuse_323`, which
+Its 57 targets/147 witnesses include `mini_321_right_lower` and `fuse_323`, which
 normalization adds to the 55 top-level union catalog rows. Those counts describe
 structure, not 57 universally complete routes or all move×surface pairings.
 
@@ -165,4 +166,4 @@ proposed fresh15/repeat16 are unrun.
 Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
 unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
 new target, source-policy binding or generic Normal ability gate is added.
-Current counts remain 57 targets/146 witnesses/four target-wide fallbacks.
+Current counts are 57 targets/147 witnesses/three target-wide fallbacks.

@@ -2,20 +2,20 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "4ffceeabcc9b0cc0b1d1300fa64901527192d5cd317c07fd7de78adf8042c059",
+    "worlds/kirbyam/__init__.py": "fb2cdf065f04803448866d5fb22570b01d289567e86f2bdb09a25ec19fef2978",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "150975cb9c0a23c1fe3c11ad9a2727a155356c1bdc1465bb12467eae3c9aa1e1",
+    "worlds/kirbyam/data/regions/rooms.json": "1ddc424652124f7d877fe744a8c9502585d5472f68b7ca17ae7a2eda248fadf4",
     "worlds/kirbyam/traversal.py": "88316aafca98d2791cf7fc874aafc4d1b95cf30a9f9d64c5038fb7a6f9564b1b",
-    "worlds/kirbyam/traversal_data.py": "0fc1d54554122557c2198dff7a33b88f5039651433315229f1963325ed971281",
+    "worlds/kirbyam/traversal_data.py": "dbd3eacc0decf9dbae3696b041c5a55f55cb2ade37d3236ebe5be9ee572a7f6b",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "255c7070ef275b5142a8ee0a2013f4ef09b06d49a201d376e5ec2be731e46ec5"
   },
-  "witnesses": 146,
-  "variants": 292,
+  "witnesses": 147,
+  "variants": 294,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -782,6 +782,14 @@
       {
         "source_key": "FOLEY",
         "identity": "0x088C2714",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "FOLEY@0x088C2714:camera_respawn1": [
+      {
+        "source_key": "FOLEY",
+        "identity": "0x088C2714:camera_respawn1",
         "renewable": false,
         "documented_retry": false
       }
@@ -8234,7 +8242,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8269,7 +8278,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8304,7 +8314,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8339,7 +8350,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8374,7 +8386,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8424,7 +8437,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8474,7 +8488,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -8555,7 +8570,8 @@
           "Bomb",
           "UFO",
           "Crash",
-          "Magic"
+          "Magic",
+          "Ice"
         ]
       },
       "target_source_alternatives": null,
@@ -13718,6 +13734,172 @@
           "to": "bomb_138_green:normal_chest",
           "required_equipment": [
             "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_533_room16",
+      "witness": "hub4_ice_entry",
+      "area_keys": false,
+      "source_ids": [
+        "FOLEY@0x088C2714",
+        "FOLEY@0x088C2714:camera_respawn1"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_533_room16:ice_pose",
+          "to": "switch_533_room16:ice_crossed",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "FOLEY",
+        "abilities": [
+          "Bomb",
+          "UFO",
+          "Crash",
+          "Magic",
+          "Ice"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "FOLEY",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_533_room16:ice_hub4",
+          "to": "switch_533_room16:ice_rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_rainbow34",
+          "to": "switch_533_room16:ice_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_arrival",
+          "to": "switch_533_room16:ice_source",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_source",
+          "to": "switch_533_room16:ice_pose",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_crossed",
+          "to": "switch_533_room16:ice_door",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_door",
+          "to": "switch_533_room16:ice_destination",
+          "required_equipment": [
+            "Ice"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_533_room16",
+      "witness": "hub4_ice_entry",
+      "area_keys": true,
+      "source_ids": [
+        "FOLEY@0x088C2714",
+        "FOLEY@0x088C2714:camera_respawn1"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_533_room16:ice_pose",
+          "to": "switch_533_room16:ice_crossed",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "FOLEY",
+        "abilities": [
+          "Bomb",
+          "UFO",
+          "Crash",
+          "Magic",
+          "Ice"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "FOLEY",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_533_room16:ice_hub4",
+          "to": "switch_533_room16:ice_rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_rainbow34",
+          "to": "switch_533_room16:ice_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_arrival",
+          "to": "switch_533_room16:ice_source",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_source",
+          "to": "switch_533_room16:ice_pose",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_crossed",
+          "to": "switch_533_room16:ice_door",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "switch_533_room16:ice_door",
+          "to": "switch_533_room16:ice_destination",
+          "required_equipment": [
+            "Ice"
           ]
         }
       ]

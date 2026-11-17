@@ -93,22 +93,52 @@ def test_normal_race_witnesses_are_not_wheel_gated() -> None:
 @pytest.mark.parametrize("mode", [0, 1, 2])
 @pytest.mark.parametrize("statues", [0, 1])
 @pytest.mark.parametrize("gating", [0, 1])
-def test_wheel_and_mini_archive_accessibility(tmp_path: Path, mode: int, statues: bool, gating: bool) -> None:
+@pytest.mark.parametrize("room_sanity", [0, 1])
+def test_wheel_and_mini_archive_accessibility(
+        tmp_path: Path, monkeypatch, mode: int, statues: bool, gating: bool, room_sanity: int) -> None:
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(multiworld, players):
+        validated.append(multiworld)
+        return validate(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", capture_validation)
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
     player = tmp_path / "player.yaml"
     player.write_text(
         "name: Traversal\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
         f"  ability_randomization_mode: {mode}\n  ability_randomization_statues: {statues}\n"
         f"  ability_gating: {gating}\n  ability_randomization_no_ability_weight: 100\n"
-        "  room_sanity: 1\n", encoding="utf-8",
+        f"  room_sanity: {room_sanity}\n", encoding="utf-8",
     )
-    archive = generate_archive_from_fixture(player, tmp_path / "output", seed=1041 + mode * 4 + statues * 2 + gating)
-    decoded = load_multidata_from_archive(archive)
-    starts = decoded["precollected_items"][1]
+    seed = 1041 + mode * 4 + statues * 2 + gating
+    if room_sanity and mode in (1, 2):
+        # Weight100 cannot provide a guaranteed Foley ability. The ordinary
+        # Wheel/Mini fill remains covered without RoomSanity, below.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
+        multiworld, = validated
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not tuple((tmp_path / "output").glob('*.zip'))
+        raw = multiworld.worlds[1]._enemy_copy_ability_policy
+        assert raw['ability_randomization_no_ability_weight'] == 100
+        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed
+        starts = [item.code for item in multiworld.precollected_items[1]]
+        pool = {loc.item.code for loc in multiworld.get_locations(1) if loc.item is not None}
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
+        decoded = load_multidata_from_archive(archive)
+        starts = decoded["precollected_items"][1]
+        pool = {entry[0] for entry in decoded["locations"][1].values()}
     assert 3860107 in starts  # Beam is the sole automatic ability.
     assert 3860103 not in starts and 3860108 not in starts
     assert 3860104 not in starts and 3860123 not in starts
-    pool = {entry[0] for entry in decoded["locations"][1].values()}
     assert (3860104 in pool) == bool(gating)
     assert (3860123 in pool) == bool(gating)
     assert (3860103 in pool) == bool(gating)
