@@ -67,6 +67,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--classify-minimal-rejections", action="store_true",
                         help="Separately classify evidenced minimal placed-progression safety rejections. "
                              "Requires at least 50%% successful generations; never counts rejections as success.")
+    parser.add_argument("--classify-room16-rejections", action="store_true",
+                        help="Separately classify exact Room16 exclusions with structured source-policy proof. "
+                             "Never counts rejections as playable generations.")
     return parser.parse_args(argv)
 
 
@@ -162,6 +165,14 @@ def _minimal_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     checks = ast.literal_eval(diagnostic[1])
     if not isinstance(checks, list) or not checks or not all(isinstance(check, str) and check for check in checks):
         raise ValueError("missing stranded check names")
+    context = _rejection_context(message, log)
+    if context["rolled_options"]["accessibility"] != 2:
+        raise ValueError("actual selected accessibility is not Kirby minimal")
+    return {**context, "stranded_checks": checks}
+
+
+def _rejection_context(message: str, log: str) -> dict[str, Any]:
+    """Validate the shared terminal exception and actual generation envelope."""
     mixed_markers = ("ExceptionGroup", "During handling of the above exception",
                      "The above exception was the direct cause")
     if log.count("Traceback (most recent call last):") != 1 or any(marker in log for marker in mixed_markers):
@@ -175,18 +186,119 @@ def _minimal_rejection_evidence(message: str, log: str) -> dict[str, Any]:
         raise ValueError("not a single-player rolled-options record")
     options = json.loads(rolled[0][1])
     if (not isinstance(options, dict) or options.get("game") != "Kirby & The Amazing Mirror"
-            or type(options.get("accessibility")) is not int or options["accessibility"] != 2):
-        raise ValueError("actual selected accessibility is not Kirby minimal")
+            or type(options.get("accessibility")) is not int or options["accessibility"] not in (0, 2)):
+        raise ValueError("actual selected accessibility is not supported Kirby full/minimal")
     seeds = re.findall(r"^Generating for 1 player, \d+ Seed (\d+) with plando: .+$", log, re.MULTILINE)
     if len(seeds) != 1:
         raise ValueError("missing single-player generation seed")
-    return {"seed": int(seeds[0]), "rolled_options": options, "stranded_checks": checks}
+    return {"seed": int(seeds[0]), "rolled_options": options}
 
 
-def classify_minimal_rejections(report: dict[str, Any], output_dir: Path) -> dict[str, Any]:
+ROOM16_EVIDENCE_PREFIX = "KirbyAM Room16 rejection evidence: "
+
+
+def _room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
+    """Reconstruct only explicit source exclusions, never infer one from a closed edge."""
+    # Direct ``python tools/run_kirbyam_generation_fuzz.py`` starts sys.path at
+    # tools/, unlike pytest. The classifier intentionally imports the checked-out
+    # production resolver, not an installed world or the fuzzer subprocess.
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from worlds.kirbyam.enemy_ability_data import VALID_ENEMY_COPY_ABILITIES
+    from worlds.kirbyam.traversal import SourcePolicy
+    from worlds.kirbyam.traversal_data import room_traversal_targets
+
+    diagnostic = re.fullmatch(
+        re.escape(CHECK_ERROR_PREFIX) + r"\nPlayer 1 \([^\n]+\): unfilled=\[\]; "
+        r"unavailable even with all inventory=\['Room 4-16'\]; "
+        r"unreachable from placed progression=(\[[^\n]*\])", message)
+    if diagnostic is None:
+        raise ValueError("not an exact filled single-player Room16 rejection")
+    checks = ast.literal_eval(diagnostic[1])
+    if not isinstance(checks, list) or not all(isinstance(check, str) and check for check in checks):
+        raise ValueError("invalid placed-progression diagnostics")
+    context = _rejection_context(message, log)
+    options = context["rolled_options"]
+    if options["accessibility"] == 0 and checks:
+        raise ValueError("full accessibility has additional placed-progression failures")
+    lines = [line for line in log.splitlines() if line.startswith(ROOM16_EVIDENCE_PREFIX)]
+    if len(lines) != 1 or log.index(lines[0]) > log.index("Traceback (most recent call last):"):
+        raise ValueError("missing, duplicated, or misplaced Room16 source proof")
+    proof = json.loads(lines[0][len(ROOM16_EVIDENCE_PREFIX):])
+    if not isinstance(proof, dict) or set(proof) != {
+        "schema", "player", "seed", "room_sanity", "advanced_logic", "source_policy"
+    }:
+        raise ValueError("invalid Room16 source proof schema")
+    for key, expected in (("schema", 1), ("player", 1), ("seed", context["seed"]), ("room_sanity", 1)):
+        if type(proof[key]) is not int or proof[key] != expected:
+            raise ValueError("Room16 source proof identity mismatch")
+    for key in ("room_sanity", "advanced_logic"):
+        if type(options.get(key)) is not int or options[key] not in (0, 1) or proof[key] != options[key]:
+            raise ValueError("Room16 proof does not match rolled options")
+    if type(proof["advanced_logic"]) is not int:
+        raise ValueError("invalid Advanced Logic proof")
+    raw = proof["source_policy"]
+    if not isinstance(raw, dict) or type(raw.get("mode")) is not int or raw["mode"] not in (0, 1, 2):
+        raise ValueError("missing or invalid source policy")
+    if type(options.get("ability_randomization_mode")) is not int or raw["mode"] != options["ability_randomization_mode"]:
+        raise ValueError("source mode differs from rolled options")
+    keys = {"mode", "allowed_abilities", "ability_randomization_boss_spawns", "ability_randomization_minibosses",
+            "ability_randomization_minny", "ability_randomization_passive_enemies", "ability_randomization_no_ability_weight"}
+    keys |= {"identity_map"} if raw["mode"] == 0 else {"seed", "mapping_style"}
+    if set(raw) != keys:
+        raise ValueError("source policy is incomplete or has unreviewed fields")
+    pool = raw["allowed_abilities"]
+    if (not isinstance(pool, list) or not pool or not all(isinstance(name, str) for name in pool)
+            or pool != sorted(VALID_ENEMY_COPY_ABILITIES)):
+        raise ValueError("invalid source ability pool")
+    for key in ("ability_randomization_boss_spawns", "ability_randomization_minibosses",
+                "ability_randomization_passive_enemies"):
+        if (type(raw[key]) is not bool or type(options.get(key)) is not int
+                or options[key] not in (0, 1) or raw[key] != bool(options[key])):
+            raise ValueError("source eligibility differs from rolled options")
+    weight = raw["ability_randomization_no_ability_weight"]
+    if (type(weight) is not int or not 0 <= weight <= 100
+            or type(options.get("ability_randomization_no_ability_weight")) is not int
+            or weight != options["ability_randomization_no_ability_weight"]
+            or raw["ability_randomization_minny"] is not False):
+        raise ValueError("source weight or legacy policy differs")
+    if raw["mode"] == 0:
+        if raw["identity_map"] != {name: name for name in pool}:
+            raise ValueError("invalid native policy")
+    elif (type(raw["seed"]) is not int or not 0 <= raw["seed"] < 2**64
+          or raw["mapping_style"] != {1: "per_enemy_type", 2: "per_grant_event"}[raw["mode"]]):
+        raise ValueError("invalid source mapping seed/style")
+    rows = [row for row in room_traversal_targets("switch") if row["id"] == "switch_533_room16"]
+    if len(rows) != 1:
+        raise ValueError("Room16 catalog target changed")
+    row = rows[0]
+    if (row.get("fail_closed") is not True or row.get("required_for_generation") is not False
+            or row.get("region") != "REGION_MUSTARD_MOUNTAIN/ROOM_4_15"
+            or row.get("exit") != "REGION_MUSTARD_MOUNTAIN/ROOM_4_16" or row.get("native_room") != 533
+            or "requires_any_guaranteed_source" in row
+            or row.get("requires_guaranteed_source") != {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic", "Ice"]}
+            or set(row["graphs"]) != {"hub4_entry", "hub4_ufo_entry", "hub4_crash_entry", "hub4_magic_entry", "hub4_ice_entry"}
+            or row.get("advanced_graphs") != ["hub4_crash_entry", "hub4_magic_entry"]):
+        raise ValueError("Room16 source/Advanced catalog contract changed")
+    grant = SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed
+    if len(grant) != 1 or not grant <= {"Bomb", "UFO", "Crash", "Magic", "Ice"}:
+        reason = "unqualified_foley_source"
+    elif not proof["advanced_logic"] and grant <= {"Crash", "Magic"}:
+        reason = "advanced_route_disabled"
+    else:
+        raise ValueError("qualified Room16 source failure requires investigation")
+    return {**context, "stranded_checks": checks, "inventory_unreachable": ["Room 4-16"],
+            "rejection_kind": reason, "source_proof": proof,
+            "source_policy_sha256": hashlib.sha256(json.dumps(raw, sort_keys=True).encode()).hexdigest()}
+
+
+def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
+                                minimal: bool = True, room16: bool = False) -> dict[str, Any]:
     """Keep raw failures unchanged and add an auditable, narrowly scoped outcome."""
     result: dict[str, Any] = {
-        "schema_version": 1, "policy": "single_player_minimal_placed_progression_only",
+        "schema_version": 2 if room16 else 1,
+        "policy": "single_player_explicit_room16_source_exclusions" if room16 else "single_player_minimal_placed_progression_only",
+        "enabled_classifications": {"minimal_placement": minimal, "room16_source": room16},
         "raw_stats": report.get("stats"), "unsafe_rejected": [], "unclassified": [], "errors": [],
     }
     try:
@@ -201,7 +313,12 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path) -> dic
             case_dir = output_dir / "error" / "kirbyam" / str(case)
             log_path = case_dir / f"{case}.log"
             log = log_path.read_text(encoding="utf-8-sig")
-            evidence = _minimal_rejection_evidence(message, log)
+            if room16 and "unavailable even with all inventory=['Room 4-16']" in message:
+                evidence = _room16_rejection_evidence(message, log)
+            elif minimal:
+                evidence = _minimal_rejection_evidence(message, log)
+            else:
+                raise ValueError("rejection category was not opted in")
             yamls = sorted(case_dir.glob("*.yaml"))
             if len(yamls) != 1 or not yamls[0].read_bytes():
                 raise ValueError("missing single-player YAML reproducer")
@@ -212,7 +329,7 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path) -> dic
                 "yaml": yamls[0].relative_to(output_dir).as_posix(),
                 "yaml_sha256": hashlib.sha256(yamls[0].read_bytes()).hexdigest(),
             })
-        except (OSError, ValueError, SyntaxError, TypeError) as exc:
+        except (OSError, ValueError, SyntaxError, TypeError, KeyError, IndexError, OverflowError) as exc:
             result["unclassified"].append({"case": case, "reason": str(exc)})
     return result
 
@@ -293,6 +410,7 @@ def write_metadata(args: argparse.Namespace, command: Sequence[str], fuzzer_retu
             "sample_from": str(args.sample_from.resolve()) if args.sample_from else None,
             "allow_ignored": args.allow_ignored,
             "classify_minimal_rejections": args.classify_minimal_rejections,
+            "classify_room16_rejections": getattr(args, "classify_room16_rejections", False),
         },
         "command": list(command),
         "fuzzer_return_code": fuzzer_return_code,
@@ -340,8 +458,9 @@ def run(argv: Sequence[str] | None = None) -> int:
 def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: int) -> int:
     unsafe_rejected = 0
     classification_errors: list[str] = []
-    if args.classify_minimal_rejections:
-        outcomes = classify_minimal_rejections(report, OUTPUT_DIR)
+    room16 = getattr(args, "classify_room16_rejections", False)
+    if args.classify_minimal_rejections or room16:
+        outcomes = classify_minimal_rejections(report, OUTPUT_DIR, minimal=args.classify_minimal_rejections, room16=room16)
         unsafe_rejected = len(outcomes["unsafe_rejected"])
         classification_errors = outcomes["errors"]
         (OUTPUT_DIR / CLASSIFICATION_FILENAME).write_text(json.dumps(outcomes, indent=2) + "\n", encoding="utf-8")

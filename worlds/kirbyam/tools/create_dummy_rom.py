@@ -87,6 +87,17 @@ def build_dummy_rom() -> bytearray:
         offset = 0x34BDBC + index * 4
         rom[offset:offset + 4] = (0x08126405 + index * 12).to_bytes(4, "little")
 
+    # Synthetic native sprite metadata, no retail graphics/palette bytes.
+    for offset, data in {
+        patch_rom.HUB_BOARD_ANIM_POINTER: (0x0841E494).to_bytes(4, "little"),
+        patch_rom.HUB_BOARD_ATTR_POINTER: (0x0846A744).to_bytes(4, "little"),
+        patch_rom.HUB_BOARD_NATIVE_VARIANTS + 24: (0x0841E348).to_bytes(4, "little"),
+        patch_rom.HUB_BOARD_NATIVE_SCRIPT: patch_rom.HUB_BOARD_SCRIPT,
+        patch_rom.HUB_BOARD_NATIVE_ATTRS + 32 * 12: patch_rom.HUB_BOARD_FRAME_ATTRS,
+        patch_rom.HUB_BOARD_OAM_OFFSET: patch_rom.HUB_BOARD_OAM,
+    }.items():
+        rom[offset:offset + len(data)] = data
+
     # Native Mini-star source load, flag, and request ABI.
     rom[0x9C690:0x9C69C] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")
     put_bl(0x9C69C, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)

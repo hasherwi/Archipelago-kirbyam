@@ -242,6 +242,16 @@ def test_full_seed5_fill_uses_actual_policy_and_progression(tmp_path, monkeypatc
 def test_full_seed5_start_inventory_is_reconciled_after_regions(
         tmp_path, monkeypatch, gating, minor_chests, count):
     import Main
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(multiworld, players):
+        validated.append(multiworld)
+        return validate(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', capture_validation)
 
     generated, region_states = [], []
     main, create_regions = Main.main, KirbyAmWorld.create_regions
@@ -265,14 +275,30 @@ def test_full_seed5_start_inventory_is_reconciled_after_regions(
         f'  ability_gating: {gating}\n  start_inventory:\n    Missile Ability: {count}\n'
         f'  room_sanity: {int(not minor_chests)}\n'  # Supply slots when minor chests are disabled.
         '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
-    archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=5)
-    decoded = load_multidata_from_archive(archive)
-    raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+    if not minor_chests:
+        # Preserve the absent-chest lifecycle assertions even though the enabled
+        # RoomSanity check correctly refuses seed5's unrelated Foley→Fire source.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'out', seed=5)
+        multiworld, = validated
+        audit = audit_local_checks(multiworld, 1)
+        assert audit.unfilled == () and audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not generated and not tuple((tmp_path / 'out').glob('*.zip'))
+        raw = multiworld.worlds[1]._enemy_copy_ability_policy
+        assert SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed == frozenset({'Fire'})
+        starts = [item.code for item in multiworld.precollected_items[1]]
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=5)
+        decoded = load_multidata_from_archive(archive)
+        raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+        starts = decoded['precollected_items'][1]
+        multiworld, = generated
+        assert not multiworld.get_unfilled_locations()
+        assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Missile'})
-    assert decoded['precollected_items'][1].count(3860125) == count
-    multiworld, = generated
-    assert not multiworld.get_unfilled_locations()
-    assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
+    assert starts.count(3860125) == count
     expected_count = count if gating and minor_chests else 0
     assert region_states == [expected_count]  # Existing state repaired once, before fill.
     starting = [item for item in multiworld.precollected_items[1] if item.name == 'Missile Ability']

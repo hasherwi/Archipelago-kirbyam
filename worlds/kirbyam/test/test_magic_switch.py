@@ -170,30 +170,32 @@ def test_raw_source_guard_never_filters_mixed_pool_into_a_guarantee(mode, pool, 
 @pytest.mark.parametrize('area_keys', [0, 1])
 @pytest.mark.parametrize('statues', [0, 1])
 @pytest.mark.parametrize('room_sanity', [0, 1])
+@pytest.mark.parametrize('advanced', [0, 1])
 def test_actual_world_source_permission_options_and_unrelated_exits(
-        monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, room_sanity):
+        monkeypatch, mode, pool, weight, applies, gating, area_keys, statues, room_sanity, advanced):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues, minny=False)
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', area_keys=area_keys,
-                       ability_randomization_statues=statues, room_sanity=room_sanity,
+                       ability_randomization_statues=statues, room_sanity=room_sanity, advanced_logic=advanced,
                        ability_randomization_no_ability_weight=weight)
     state = CollectionState(world.multiworld)
     target = world.multiworld.get_entrance(f'{OWNER} -> {EXIT}', 1)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     # Native Foley is Bomb; Magic must not replace that original permission.
     native_bomb = mode == 0
-    assert target.access_rule(state) is (not gating or not (applies or native_bomb))
+    magic_enabled = applies and bool(advanced)
+    assert target.access_rule(state) is (not gating and (magic_enabled or native_bomb))
     item = world.create_item('Magic Ability')
-    assert item.classification == (ItemClassification.progression if gating and applies else ItemClassification.useful)
+    assert item.classification == (ItemClassification.progression if gating and magic_enabled else ItemClassification.useful)
     state.collect(item, prevent_sweep=True)
-    assert state.has('Magic Ability', 1) is bool(gating and applies)
-    assert target.access_rule(state) is (not gating or not native_bomb)
+    assert state.has('Magic Ability', 1) is bool(gating and magic_enabled)
+    assert target.access_rule(state) is (magic_enabled or (native_bomb and not gating))
     state.remove(item)
-    assert target.access_rule(state) is (not gating or not (applies or native_bomb))
+    assert target.access_rule(state) is (not gating and (magic_enabled or native_bomb))
     state.collect(item, prevent_sweep=True)
     for accessible in (OWNER, 'REGION_RAINBOW_ROUTE/ROOM_1_34'):
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
-        assert target.access_rule(state) is (not (applies or native_bomb))
+        assert not target.access_rule(state)
         for destination in ('REGION_RAINBOW_ROUTE/ROOM_1_34', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_17'):
             assert world.multiworld.get_entrance(f'{OWNER} -> {destination}', 1).access_rule(state)
         assert all(location.access_rule(state) for location in world.multiworld.get_region(OWNER, 1).locations)
@@ -201,17 +203,17 @@ def test_actual_world_source_permission_options_and_unrelated_exits(
         assert target in world.multiworld.indirect_connections[world.multiworld.get_region(UPSTREAM, 1)]
 
 
-def test_four_or_alternatives_preserve_graphs_and_exact_target():
+def test_five_or_alternatives_preserve_graphs_and_exact_target():
     row = target_row()
-    assert list(row['graphs']) == ['hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry', WITNESS]
+    assert list(row['graphs']) == ['hub4_entry', 'hub4_ufo_entry', 'hub4_crash_entry', WITNESS, 'hub4_ice_entry']
     for key, digest in evidence()['preserved_graph_sha256'].items():
         assert hashlib.sha256(json.dumps(row['graphs'][key], sort_keys=True).encode()).hexdigest() == digest
-    for ability in ('Bomb', 'UFO', 'Crash', 'Magic'):
+    for ability in ('Bomb', 'UFO', 'Crash', 'Magic', 'Ice'):
         resolver = policy(1, pool=[ability])
         assert rules.target_applies(row, resolver)
         assert rules.static_extra_witness(resolver, advanced=True)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
-                for g in rules.target_graphs(row, False, advanced=True)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic')]
+                for g in rules.target_graphs(row, False, advanced=True)] == [ability == a for a in ('Bomb', 'UFO', 'Crash', 'Magic', 'Ice')]
     for key, wrong in [('id', 'switch_other'), ('kind', 'block'), ('native_room', 310),
                        ('region', UPSTREAM), ('exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_17')]:
         altered = deepcopy(row)
@@ -225,7 +227,7 @@ def test_four_or_alternatives_preserve_graphs_and_exact_target():
 
 
 @pytest.mark.parametrize('scenario', [
-    'enabled', 'gating_off', 'absent', 'wrong_source', 'mixed', 'failable', 'no_policy'])
+    'enabled', 'advanced_off', 'gating_off', 'absent', 'wrong_source', 'mixed', 'failable', 'no_policy'])
 def test_starting_inventory_reconciles_only_enabled_raw_source_once(monkeypatch, scenario):
     from .. import regions
     raw = evidence()['source_policy']
@@ -235,7 +237,8 @@ def test_starting_inventory_reconciles_only_enabled_raw_source_once(monkeypatch,
                      weight=50 if scenario == 'failable' else 0).policy
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     multiworld = setup_multiworld(KirbyAmWorld, steps=('generate_early',), seed=12, options={
-        'ability_randomization_mode': 1, 'ability_gating': int(scenario != 'gating_off'), 'accessibility': 'minimal'})
+        'ability_randomization_mode': 1, 'ability_gating': int(scenario != 'gating_off'),
+        'advanced_logic': int(scenario != 'advanced_off'), 'accessibility': 'minimal'})
     world = multiworld.worlds[1]
     if scenario == 'no_policy':
         world._enemy_copy_ability_policy = None
@@ -293,7 +296,7 @@ def test_normal_full_pool_seed12_fill_start_inventory_and_accessibility(
     player = tmp_path / 'player.yaml'
     player.write_text('name: Magic533\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
                       '  ability_randomization_mode: 1\n  ability_randomization_no_ability_weight: 0\n'
-                      '  minimum_health: 1\n  maximum_health: 1\n'
+                      '  minimum_health: 1\n  maximum_health: 1\n  advanced_logic: true\n'
                       f'  ability_gating: {gating}\n  area_keys: {area_keys}\n'
                       f'  enemy_health_multiplier: {health}\n  room_sanity: {room_sanity}\n'
                       f'  start_inventory:\n    Magic Ability: {count}\n  accessibility: full\n', encoding='utf-8')

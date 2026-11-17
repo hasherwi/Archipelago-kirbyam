@@ -236,7 +236,16 @@ def test_full_generation_accessibility_with_optional_supported_or_unsupported_so
         tmp_path, monkeypatch, mode, gating, area_keys, disabled):
     import Main
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
     generated, main = [], Main.main
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(mw, players):
+        validated.append(mw)
+        return validate(mw, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", capture_validation)
 
     def capture(*args, **kwargs):
         mw = main(*args, **kwargs)
@@ -250,11 +259,28 @@ def test_full_generation_accessibility_with_optional_supported_or_unsupported_so
                       f'  ability_randomization_mode: {mode}\n  ability_gating: {gating}\n'
                       f'  area_keys: {area_keys}\n  room_sanity: {int(not disabled)}\n'
                       '  minimum_health: 1\n  maximum_health: 1\n  accessibility: full\n', encoding='utf-8')
-    archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=538)
-    raw = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
-    mw, = generated
-    assert not mw.get_unfilled_locations()
-    assert mw.can_beat_game() and mw.fulfills_accessibility()
+    if mode == 1:
+        # This exact historical Beam fixture has no qualified Foley source.
+        # #1099 must reject RoomSanity output, independently of the Beam edge.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'out', seed=538)
+        mw, = validated
+        audit = audit_local_checks(mw, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not generated
+        assert not tuple((tmp_path / 'out').glob('*.zip'))
+        raw = mw.worlds[1]._enemy_copy_ability_policy
+        assert not mw.worlds[1].options.advanced_logic.value
+        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO'}
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=538)
+        raw = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
+        mw, = generated
+        assert not mw.get_unfilled_locations()
+        assert mw.can_beat_game() and mw.fulfills_accessibility()
     state = CollectionState(mw)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     supported = SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Beam'})

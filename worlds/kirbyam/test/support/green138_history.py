@@ -30,7 +30,19 @@ def before_green138(target: dict[str, Any]) -> dict[str, Any]:
 def catalog_before_green138(catalog: dict[str, Any]) -> dict[str, Any]:
     """Reverse only the exact current compiled Green addition, retaining hashes."""
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (146, 292)
+    assert (result['witnesses'], result['variants']) == (147, 294)
+    ice = [row for row in result['graphs'] if row['witness'] == 'hub4_ice_entry']
+    assert hashlib.sha256(json.dumps(ice, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
+        'ff40de76cee274afba23ef8c406ac6bfd44cacff958f43c1a5e5362c0b27162f')
+    assert result['sources'].pop('FOLEY@0x088C2714:camera_respawn1') == [{
+        'source_key': 'FOLEY', 'identity': '0x088C2714:camera_respawn1',
+        'renewable': False, 'documented_retry': False}]
+    result['graphs'] = [row for row in result['graphs'] if row['witness'] != 'hub4_ice_entry']
+    for row in result['graphs']:
+        if row['target'] == 'switch_533_room16':
+            assert row['target_source_condition'] == {
+                'source_key': 'FOLEY', 'abilities': ['Bomb', 'UFO', 'Crash', 'Magic', 'Ice']}
+            row['target_source_condition']['abilities'].remove('Ice')
     result['witnesses'], result['variants'] = 145, 290
     assert result['capability_providers'].pop('bomb_138_green_normal_lower_slide') == ['Normal']
     new = [row for row in result['graphs'] if row['witness'] == 'upper_left_normal_slide']
