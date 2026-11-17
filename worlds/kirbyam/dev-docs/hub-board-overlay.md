@@ -77,3 +77,50 @@ The full KirbyAM aggregate, packaging and exact-head CI results are recorded in
 the PR. Linked multiplayer, every route assignment and a complete playthrough
 are not claimed. Historical evidence in `area-key-object-reconciliation.md`
 predates this change; its gold-frame appearance limitation is superseded here.
+
+## In-flight Warp Star follow-up
+
+[Paired native evidence](hub-board-warp-star-flight-evidence.json) closes the
+previously unrun in-flight case for one Warp Star in native room 142, template
+`0x088B7A10`, on the merged boards implementation. The existing disclosed
+startup/mailbox fixture supplies the correct key. Controller input (70 frames
+Up, then 26 Up+Right) boards the star; native passenger mask becomes 1.
+
+An unedited boarded snapshot supplies two 1,200-frame continuations: ordinary
+control and controlled key-mask rollback immediately after boarding. Both
+retain the passenger for 513 frames, enter native room 195 at frame 503, and remove the
+original transport at frame 514. Recorded player position, room, star object fields
+and cleanup timing are identical when excluding the deliberately different
+key mask. This does not claim equality of every byte of emulator state.
+The rollback case finishes with keys absent and the human safely in native room 195;
+it verifies preservation of an already boarded transport, not permission for
+a new locked boarding attempt.
+
+The existing idle-star tests still cover suppression, receipt-driven respawn,
+duplicate prevention, relock and savestate reload. No production code or ROM
+patch changed for this follow-up. It remains a controlled lifecycle fixture,
+not natural route proof, Normal-only baseline evidence, every shuffled route
+or linked multiplayer coverage. ROMs, savestates and full native traces remain
+private; the committed record contains derived observations and hashes only.
+
+### Combined-main in-flight replay
+
+`hub-board-warp-star-main-successor.json` repeats the lifecycle test on merged
+main `73760a672d8d10fe457eaa1ec98d6b2df5988ee2`, including Phone and the exact-policy
+Cupid logic. The lawful source patch is now
+`c71f60b7b1649e1ae2566c1a6dc20ecc9208d1a034e629f83f531c13c761e73c`.
+The prior evidence above retains its original build and hashes.
+
+The successor fixture starts from a new blank battery and the same disclosed
+native142 startup records. Idle lock/delivery/rollback/redelivery and duplicate
+checks pass. Its saved starting and boarded states are created on the new ROM;
+no historical savestate is loaded across builds. Controller boarding again
+occurs at96. Both1200-frame continuation cases are identical to their historical
+recorded observations: destination195 at503, passenger retained through513,
+original star absent514. This compares the recorded fields, not all emulator
+RAM. The actual boarded screenshot was visually inspected at240×160.
+
+This remains a controlled one-template lifecycle test. It does not qualify
+natural route access, linked multiplayer, every shuffled mapping or the Normal
+baseline. No new artwork, progression rule, native source or patch change is
+introduced by this evidence follow-up.
