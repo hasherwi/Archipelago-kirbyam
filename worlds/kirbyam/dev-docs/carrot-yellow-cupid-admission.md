@@ -14,7 +14,7 @@ Only the complete production source policy with SHA256
 is admitted. It is the actual seed14 assignment in the retained fixtures and
 complete generation test, with original upper/lower Sparky granting Cupid.
 Another policy granting Cupid is not enough. Required settings are mode1,
-ungated abilities, statues off, minimum and maximum health6, enemy health100,
+gated or ungated abilities, statues off, minimum and maximum health6, enemy health100,
 no One-Hit preset, Area Keys off and Advanced Logic off. Room Sanity on and off
 were replayed separately. This is not native unshuffled ability assignment.
 
@@ -32,8 +32,10 @@ The route/profile signature is checked before final all-check validation, slot
 publication and ROM tokens. Changing an installed qualified profile, or turning
 an unqualified installed profile into a qualified one without reinstalling its
 rule, is rejected. Unsupported-to-unsupported changes do not gain this witness.
-Disabled minor chests do not receive a rule. No new Cupid permission promotion
-is needed because the only admitted profile has ability gating off.
+Disabled minor chests do not receive a rule. Gated acquisition additionally
+requires Cupid permission through the existing traversal evaluator. Cupid is
+already a progression item; no classification change is needed. Changing the
+gating setting after rule installation still invalidates the profile signature.
 
 ## Native route and health budget
 
@@ -76,6 +78,13 @@ admitted. No other health, gating, source assignment, Area Key setting, upstream
 The static ranged catalog remains its existing census; this separately guarded
 profile supplement is documented here rather than counted as a global witness.
 
+Missing or non-object source-policy data is a separate invalid installation
+state: the enabled Yellow Paint chest now receives a false access rule instead
+of inheriting room access. Permission items cannot bypass it. Disabled minor
+chests and the room's ordinary exits/Room Sanity check are unchanged. This does
+not qualify or close the historical fallback for real unsupported policies,
+and does not add native gameplay evidence or change ROM bytes.
+
 ## Combined main successor
 
 `carrot-yellow-cupid-successor.json` records the repeated five-case native
@@ -85,3 +94,40 @@ three positive runs (including Room Sanity off) and both no-shot controls.
 The source/profile, controlled startup and eight configuration writes are
 unchanged. This verifies the native successor without rewriting old evidence
 or broadening the admitted profile.
+
+## Gated successor qualification
+
+`carrot-yellow-cupid-gated.json` separately records the gated HP6 successor on
+source93b508112 and combined patchc71f60b7. The original ungated traces above
+remain unchanged. The full policy digest and every other profile requirement
+remain identical. Native Room Sanity on/off fixtures were generated separately.
+
+The gated positive cold replay acquires upper Cupid5450, loses it6479, then
+takes one additional hit during the lower descent. After30 additional Down
+frames, the human faces left and inhales the lower original Sparky, reacquiring
+Cupid7627 at HP2. It carries Cupid into733 at8256, opens both attack-dependent
+triggers and physically collects the chest9563. The real client reports3960501.
+There are no health increases, deaths, helper calls or restores in the positive
+runs. A second blank-battery replay is identical across the complete recorded
+trace. The separately prepared Room Sanity-off run also succeeds at HP2.
+
+These are controlled native719 startup fixtures. Eight production client
+configuration writes occur at1085; at2000 the permission cases submit Cupid
+item3860119 through three standard payload mailbox writes. The payload consumes
+it, increments the received counter to1 and sets only the Cupid permission bit
+in the recorded unlock mask. This is not an authenticated server delivery or
+receipt-restoration test. No human equipment, position, health, helper or object
+state is manually written during gameplay.
+
+Matched no-upper-shot and no-lower-shot inputs do not collect or report the
+chest. The missing-permission case never equips Cupid and reports no chest;
+its longer failed traversal includes death/respawn, disclosed in the packet,
+and is not a no-death positive or an impossibility proof. The production graph
+regressions independently require both distinct finite sources, independent
+source-room access and Cupid permission; Phone/UFO inventory cannot replace it.
+
+Earlier gated attempts facing right missed the lower source and later healed.
+Those remain excluded. Restored-state exploration found the corrected descent
+and facing; qualification uses only the subsequent cold runs. The native patch
+is unchanged, and this evidence does not establish full-seed beatability,
+other source assignments, other health settings or helper Bomb Block attacks.
