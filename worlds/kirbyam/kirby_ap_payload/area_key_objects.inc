@@ -1,5 +1,10 @@
 /* USA object lifecycle integration. No AP object registry or saved pointers:
  * native spawn slots remain authoritative for presence and consumption. */
+/* Patch builder fills this reserved ROM table from verified native metadata.
+ * Variant 11 adds only the four wood OAM pieces; retail variants stay intact. */
+const uint8_t gApHubBoardSpriteData[776]
+    __attribute__((used, aligned(4), section(".aphubboards"))) = "APBRD01";
+#define AP_HUB_BOARD_VARIANT 11u
 #define AREA_OBJECT_EXT __attribute__((used, noinline, long_call, section(".aphub")))
 #define OBJ_U8(p, o) (*(volatile uint8_t*)((uint32_t)(p) + (o)))
 #define OBJ_U16(p, o) (*(volatile uint16_t*)((uint32_t)(p) + (o)))
@@ -161,19 +166,19 @@ AREA_OBJECT_EXT void ap_area_hub_mirror_main(void) {
             uint32_t effect = OBJ_U32(slot, 0u);
             if (!ap_transition_allowed(source, dest)) {
                 if (!effect) {
-                    effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)((void*)obj, 0, 0x294, 6, 0);
+                    effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)((void*)obj, 0, 0x294, AP_HUB_BOARD_VARIANT, 0);
                     OBJ_U32(slot, 0u) = effect;
                 }
-                if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 6u) {
+                if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != AP_HUB_BOARD_VARIANT) {
                     OBJ_U16(effect, 0x18u) = 0x294u;
-                    OBJ_U8(effect, 0x26u) = 6u;
+                    OBJ_U8(effect, 0x26u) = AP_HUB_BOARD_VARIANT;
                     OBJ_U8(effect, 0x27u) = 0xFFu;
                 }
                 OBJ_U16(effect, 6u) &= ~1u;
                 OBJ_U32(effect, 0x34u) = OBJ_U32(obj, 0x40u);
                 OBJ_S32(effect, 0x38u) = board_y;
                 OBJ_U16(effect, 0x20u) = 0x780u;
-            } else if (effect && OBJ_U16(effect, 0x18u) == 0x294u && OBJ_U8(effect, 0x26u) == 6u) {
+            } else if (effect && OBJ_U16(effect, 0x18u) == 0x294u && OBJ_U8(effect, 0x26u) == AP_HUB_BOARD_VARIANT) {
                 OBJ_U16(effect, 6u) |= 0x1000u;
                 OBJ_U32(slot, 0u) = 0u;
             }
