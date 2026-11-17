@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- All sixteen Goal Games award a check when completed, including runs with no prizes. Checks persist per native save file and report on reconnect, independently of Room Sanity and chests.
+- All sixteen Goal Games award a check when completed, including runs with no prizes (PR #1026).
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
@@ -20,7 +20,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
-- Goal Game checks require matching protocol-2 seeds, client and ROM patch. Fresh emulator acceptance of the integrated three-file persistence remains pending; older single-save prototype evidence does not validate this payload. Preserve original saves and do not downgrade a payload after saving Goal Game flags (PR #1026).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
