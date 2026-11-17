@@ -8,16 +8,15 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
+## v0.5.2
 
 ### New Features
-- Added Phone a Friend as a standard progression item (PR #1086).
+- Added "Phone a Friend" as a standard progression item (PR #1086). This gates Kirby's ability to call other Kirbys to the player, but not to return to Central Circle.
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
-- Use the original in-game wooden boards over locked themed hub mirrors, preserving their native frames (issue #1027).
-- Include the reviewed guaranteed-Foley Ice route through Mustard Room 15 in normal logic (issue #1099).
-- Improved Logic for Item Placement and Accessible Locations (PR #1092, PR #1103).
+- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027).
+- Improved Logic for Item Placement and Accessible Locations (PR #1092, PR #1103, Issue #1099).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
@@ -26,11 +25,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
-- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
+
 
 ### Bug Fixes
 - Corrected the Chalk chest compartment (PR #1086).
-- Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (issue #1099). The ordinary Room 17 bypass remains available; RoomSanity accessibility is still validated.
+- Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (Issue #1099). The ordinary Room 17 bypass remains available.
 
 ### Internal Changes
 - Detailed Phone source and historical validation records remain in the [Phone documentation](dev-docs/phone-progression-admission.md) (PR #1086).
