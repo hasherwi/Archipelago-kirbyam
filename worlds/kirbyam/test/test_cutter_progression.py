@@ -161,14 +161,56 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
+    if seed == 20261107 and mode in (1, 2):
+        from .. import check_accessibility
+        from .support.check_accessibility import audit_local_checks
+        validated, validate = [], check_accessibility.validate_all_checks
+
+        def capture_validation(mw, players):
+            validated.append(mw)
+            return validate(mw, players)
+
+        monkeypatch.setattr(check_accessibility, "validate_all_checks", capture_validation)
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            _generate(monkeypatch, tmp_path, seed, [options])
+        mw, = validated
+        audit = audit_local_checks(mw, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        # Preserve exact Goal Game fill strands as well as the independent
+        # Room16 source refusal. Added feature slots change placed progression.
+        minimal_strands = {
+            (1, 0): ('Peppermint Palace 7-09 - Small Chest',
+                     'Peppermint Palace 7-10 - Small Chest #2', 'Room 4-16'),
+            (1, 1): ('Moonlight Mansion - Goal Game 1',
+                     'Moonlight Mansion 2-15 - Small Chest #1', 'Room 2-05',
+                     'Room 2-06', 'Room 2-13', 'Room 2-14', 'Room 2-15',
+                     'Room 2-GOAL_1', 'Room 2-WARP', 'Room 4-16'),
+            (2, 1): ('Carrot Castle 5-13 - Small Chest #2', 'Room 4-16'),
+        }
+        expected_placed = minimal_strands.get((mode, gating), ('Room 4-16',)) if (
+            accessibility == 'minimal') else ('Room 4-16',)
+        assert audit.progression_unreachable == expected_placed, repr(audit.progression_unreachable)
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        world = mw.worlds[1]
+        assert not world.options.advanced_logic.value
+        assert not SourcePolicy(world._enemy_copy_ability_policy).grant(
+            'FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO'}
+        assert not any(i.code == CUTTER for i in mw.precollected_items[1])
+        assert sum(loc.item.code == CUTTER for loc in mw.get_locations(1) if loc.item) == int(gating)
+        # Preserve archive/ROM-slot coverage with the unrelated rejected check disabled.
+        paired = tmp_path / "without_room_sanity"
+        paired.mkdir()
+        mw, decoded, archive = _generate(monkeypatch, paired, seed, [{**options, "room_sanity": 0, "accessibility": "full"}])
+        _assert_slot_contract(mw, decoded, _gate_words(archive), 1)
+        return
     # Beam+Ice starts and the sixteen Goal Game slots change fill order.
     # Preserve exact unsafe samples as refusals rather than replacing their seeds.
     refused_check = None
     if gating == 1 and accessibility == "minimal":
         if seed == 8675309 and mode == 0:
             refused_check = "Radish Ruins - Big Switch"
-        elif seed == 20261107 and mode == 1:
-            refused_check = "Moonlight Mansion - Goal Game 1"
     if refused_check is not None:
         from ..check_accessibility import KirbyAmCheckAccessibilityError
         with pytest.raises(KirbyAmCheckAccessibilityError) as caught:

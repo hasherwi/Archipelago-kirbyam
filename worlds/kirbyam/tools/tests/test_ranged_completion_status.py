@@ -137,8 +137,8 @@ class TestRangedCompletionContract(unittest.TestCase):
         target = TARGETS["bomb_138_green"]
         self.assertEqual(status_tool.source_conditions(target), [])
         self.assertNotIn(target["id"], CONTRACT["policy_fallback_targets"])
-        self.assertEqual(REPORT["counts"]["witnesses"], 146)
-        self.assertEqual(len(CONTRACT["policy_fallback_targets"]), 4)
+        self.assertEqual(REPORT["counts"]["witnesses"], 147)
+        self.assertEqual(len(CONTRACT["policy_fallback_targets"]), 3)
         access = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"})
         wrong = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27",
                            "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
@@ -192,6 +192,6 @@ class TestSyntheticProfileInstaller(unittest.TestCase):
         recorded = next(row for row in REPORT["targets"] if row["id"] == self.target_id)
         self.assertEqual(self.profile in recorded["synthetic_applicable_profiles"], expected)
         installed, base_true_result = installer_probe(row, resolver)
-        self.assertIs(installed, expected)
-        self.assertIs(base_true_result, not expected)
+        self.assertIs(installed, expected or bool(row.get("fail_closed")))
+        self.assertIs(base_true_result, not expected and not bool(row.get("fail_closed")))
         self.assertNotIn(self.profile, REPORT["public_profiles"])

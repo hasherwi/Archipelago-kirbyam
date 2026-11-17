@@ -18,6 +18,7 @@ def test_audit_runs_once_after_balance_and_every_finalizer(
     import Main
 
     events: list[tuple[str, int | None]] = []
+    audited: list[MultiWorld] = []
     from Fill import balance_multiworld_progression as original_balance
     original_validate = check_accessibility.validate_all_checks
 
@@ -31,14 +32,25 @@ def test_audit_runs_once_after_balance_and_every_finalizer(
     def validate(multiworld: MultiWorld, players: Iterable[int]) -> None:
         assert events == [("balance", None), ("finalize", 1), ("finalize", 2)]
         assert set(players) == {1, 2}
-        original_validate(multiworld, (1, 2))
+        audited.append(multiworld)
         events.append(("audit", None))
+        original_validate(multiworld, (1, 2))
 
     monkeypatch.setattr(Main, "balance_multiworld_progression", balance)
     monkeypatch.setattr(KirbyAmWorld, "finalize_multiworld", finalize)
     monkeypatch.setattr(check_accessibility, "validate_all_checks", validate)
     if skip_output:
-        replay_fuzz_case(monkeypatch, tmp_path, 95, companion="default")
+        # This exact historical fuzzer seed now rejects its unqualified Room16.
+        # The skip-output path must still call the final audit exactly once.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            replay_fuzz_case(monkeypatch, tmp_path, 95, companion="default")
+        from .support.check_accessibility import audit_local_checks
+        first = audit_local_checks(audited[0], 1)
+        second = audit_local_checks(audited[0], 2)
+        assert first.unfilled == second.unfilled == ()
+        assert first.inventory_unreachable == ('Room 4-16',)
+        assert second.inventory_unreachable == ()
         assert not tuple((tmp_path / "output").glob("*.zip"))
     else:
         _generate(  # type: ignore[no-untyped-call]
@@ -46,6 +58,7 @@ def test_audit_runs_once_after_balance_and_every_finalizer(
         )
         assert len(tuple((tmp_path / "output").glob("*.zip"))) == 1
     assert events[-1] == ("audit", None)
+    assert len(audited) == events.count(("audit", None)) == 1
 
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])

@@ -268,6 +268,7 @@ def replay_fuzz_case(
 
 def replay_rejected_fuzz_case(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, *, companion: str | int | None = None,
+    inventory_unreachable: tuple[str, ...] = (),
 ) -> MultiWorld:
     """Retain source diagnostics on the final world, but never suppress rejection."""
     from .. import check_accessibility
@@ -285,7 +286,7 @@ def replay_rejected_fuzz_case(
         replay_fuzz_case(
             monkeypatch, tmp_path, case, companion=companion,
         )
-    assert "unfilled=[]; unavailable even with all inventory=[]" in str(error.value)
+    assert f"unavailable even with all inventory={list(inventory_unreachable)!r}" in str(error.value)
     assert not tuple((tmp_path / "output").glob("*.zip"))
     multiworld, = captured
     return multiworld
@@ -323,9 +324,54 @@ def test_exact_fuzz_69_minimal_accepts_beam_ice_goal_game_fill_and_preserves_sou
     assert not multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1).access_rule(state)
 
 
-def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(
+def use_historical_room16_fallback(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Isolate pre-1099 behavior for prior Copy Room/placement regressions only.
+
+    Current production rejection is independently asserted below. No source,
+    graph, artifact, placement, or all-check validator is changed here.
+    """
+    original = traversal_rules.extra_traversal_targets
+    targets = []
+    for row in original():
+        if row['id'] == 'switch_533_room16':
+            row = deepcopy(row)
+            assert row.pop('fail_closed') is True
+            assert row.pop('required_for_generation') is False
+            assert row.pop('optional_route_evidence').startswith('dev-docs/mustard-room15-source-witness.md#')
+        targets.append(row)
+    monkeypatch.setattr(traversal_rules, 'extra_traversal_targets', lambda: tuple(targets))
+
+
+@pytest.mark.parametrize('case,companion,affected_player', [(95, None, 1), (69, 95, 2), (1, None, 1)])
+def test_current_fuzz_replays_reject_unqualified_room16(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, companion: int | None, affected_player: int,
+) -> None:
+    from .support.check_accessibility import audit_local_checks
+    multiworld = replay_rejected_fuzz_case(
+        monkeypatch, tmp_path, case, companion=companion, inventory_unreachable=('Room 4-16',),
+    )
+    for player in multiworld.player_ids:
+        audit = audit_local_checks(multiworld, player)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == (('Room 4-16',) if player == affected_player else ())
+        if case != 1:
+            assert audit.progression_unreachable == audit.inventory_unreachable
+        else:
+            # This placement was already rejected for actual progression strands;
+            # the new gate additionally establishes Room16 as source-infeasible.
+            assert 'Room 4-16' in audit.progression_unreachable
+    world = multiworld.worlds[affected_player]
+    resolver = SourcePolicy(world._enemy_copy_ability_policy, bool(world.options.ability_randomization_statues.value))
+    row = next(r for r in traversal_rules.extra_traversal_targets() if r['id'] == 'switch_533_room16')
+    assert not traversal_rules.target_applies(row, resolver)
+    assert not multiworld.get_entrance(f"{row['region']} -> {row['exit']}", affected_player).access_rule(
+        multiworld.get_all_state())
+
+
+def test_historical_fuzz_95_copy_room_route_before_room16_gate(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
+    use_historical_room16_fallback(monkeypatch)
     multiworld = replay_fuzz_case(monkeypatch, tmp_path, 95)
     world = multiworld.worlds[1]
     assert world.options.accessibility.value == Accessibility.option_full
@@ -343,6 +389,8 @@ def test_exact_fuzz_95_full_generates_with_proved_copy_room_route(
 def test_mixed_accessibility_enforces_checks_and_keeps_copy_room_per_player(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, companion: str | int,
 ) -> None:
+    if companion == 95:
+        use_historical_room16_fallback(monkeypatch)
     # Keep both exact companions. The default companion now exposes a safe
     # refusal; companion 95 still supplies accepted mixed-accessibility coverage.
     replay = replay_rejected_fuzz_case if companion == "default" else replay_fuzz_case
@@ -381,7 +429,7 @@ def test_mixed_accessibility_enforces_checks_and_keeps_copy_room_per_player(
     assert multiworld.get_entrance(wheel_traversal.RACE_ENTRANCE, 2).access_rule(state)
 
 
-def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
+def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     import json
@@ -391,6 +439,7 @@ def test_exact_ci_fuzz_1_rejects_only_actual_placement_strands(
     assert expected["master719_stranded_checks"] == sorted([
         *expected["beam_only_stranded_checks"], "Carrot Castle 5-13 - Small Chest #2",
     ])
+    use_historical_room16_fallback(monkeypatch)
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 1)
     assert multiworld.worlds[1].options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()

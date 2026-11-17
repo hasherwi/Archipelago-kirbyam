@@ -227,7 +227,7 @@ def test_current_counts_and_historical_404_record_are_distinct() -> None:
     status = build_status()
     coverage = build_coverage()
     assert status['completion'] == 'partial' and not status['declaration_errors']
-    assert status['counts']['witnesses'] == 146 and h['witnesses'] == 145
+    assert status['counts']['witnesses'] == 147 and h['witnesses'] == 145
     assert len(coverage['installed_targets']) == h['targets'] == 57
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
@@ -235,7 +235,9 @@ def test_current_counts_and_historical_404_record_are_distinct() -> None:
                   for row in coverage['installed_targets']]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
-    assert len(scope['policy_fallback_targets']) == 4 and h['conditional_policy_fallback_targets'] == 5
+    assert set(scope['policy_fallback_targets']) == {
+        'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
+    assert h['conditional_policy_fallback_targets'] == 5  # frozen historical record
     old = json.loads((ROOT / 'dev-docs/candy-normal404-acceptance.json').read_text(encoding='utf-8'))
     assert old['host_contract']['counts']['witnesses'] == 144
     assert digest(old) == 'dcc7aef5d96dd145428601050a8d5f495364e1f5d83c4a71f0aba4f9a3530ec9'

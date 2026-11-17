@@ -170,14 +170,17 @@ def test_no_copy_source_field_distinction_and_current_counts() -> None:
     assert e['independent_sha256']['layout-and-fresh-witness-review.md'] == (
         '1161b47ac401b9f0190bafcd19183a91b71f43214d41ec3a6ca2940163eb1713')
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text())
-    assert len(scope['policy_fallback_targets']) == e['host']['policy_fallback_count'] == 4
+    # The frozen native record predates #1099's Room16 fail-closed rule.
+    assert e['host']['policy_fallback_count'] == 4
+    assert set(scope['policy_fallback_targets']) == {
+        'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
     assert (e['host']['target_count'], e['host']['witness_count']) == (57, 146)
     counts = build_status()['counts']
-    assert counts['witnesses'] == e['host']['witness_count']
+    assert counts['witnesses'] == e['host']['witness_count'] + 1  # New Ice533 witness.
     assert len(data.regions) == 386  # two lever compartments and their visit sinks
     ledger = (ROOT / 'dev-docs/ranged-coverage-ledger.md').read_text()
-    assert 'the four current target-wide source-policy fallbacks' in ledger
-    assert 'definitions (146 witnesses)' in ledger
+    assert 'the three remaining permissive target-wide source-policy fallbacks' in ledger
+    assert 'definitions (147 witnesses)' in ledger
     assert 'the five current target-wide' not in ledger
 
 
