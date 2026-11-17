@@ -1,0 +1,732 @@
+{
+  "source_commit": "bc01fc0a653b2d1ac7d6d01c4e89e978e8426ca8",
+  "patch_sha256": "8dad83801073c2068aed8394c378cc0780579837b6ec898cfdeed6cd1530de11",
+  "scope": "Sixteen isolated native-file0 fixtures; physical source door, Goal completion, return and fresh-process native save reload. Not full-route Normal/no-Phone or live AP-server evidence.",
+  "setup": "Cold blank saves; each ROM changes only startup room/position to its source doorway vicinity and enables Phone configuration. No ownership granted, no Goal flags or position RAM written. mGBA0.10.5 resetcore. Native source1 uses preceding documented fixture.",
+  "failed_approaches": "First standard controller sequence missed raised source745 and leftward source224 entrances. Preserved failed traces; short jump/landing and leftward movement respectively entered the physical doors. No production changes required.",
+  "rows": [
+    {
+      "bit": 0,
+      "location_id": 3960700,
+      "source_room": 557,
+      "destination_room": 980,
+      "record": "0x43540004",
+      "cold_reload_record": "0x43540004",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "6ebb2b440f5e406f0d2e62d805a32bd4a4218e70a4b282b7db3a95649af024d1",
+      "fixture_rom_sha256": "cba9b7ca59b800c3c10a723c5a4a7e0329c0b4473799a631f89ce3b3585a5707",
+      "save_sha256": "53411c6f0789f65217dae83f2c7dbae2243c8e151485310fcfaa0c831993fed6",
+      "cold_reload_report_sha256": "33943e36764f6a029ae1ee1f26e945a8e64b1c616c1a49bacf997eba69caa695"
+    },
+    {
+      "bit": 1,
+      "source_room": 176,
+      "destination_room": 980,
+      "record": "0x43540008",
+      "cold_reload_record": "0x43540008",
+      "evidence": "goal-game-phone-successor.json",
+      "scope": "Existing native-file0 source1 fixture"
+    },
+    {
+      "bit": 2,
+      "location_id": 3960702,
+      "source_room": 177,
+      "destination_room": 980,
+      "record": "0x43540010",
+      "cold_reload_record": "0x43540010",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "b8ee8741379750f3df3ee9410b6f9aeedbbb9301f5ba733ec3cf51b83dcc46ad",
+      "fixture_rom_sha256": "b7466d473284605cffe046e1d3f79a960d0d7b6ab44ee64bd1367fac0c09f726",
+      "save_sha256": "44c9ea51db8cf3c13d492b99c8042ef12849ae7a29d58e5f4cdf0c3715f61968",
+      "cold_reload_report_sha256": "868e9a0b51e3304fdfa91f3fa019e4628fc9096c056f6d42a1fd75fe4c9f8e65"
+    },
+    {
+      "bit": 3,
+      "location_id": 3960703,
+      "source_room": 745,
+      "destination_room": 982,
+      "record": "0x43540020",
+      "cold_reload_record": "0x43540020",
+      "return_room": 801,
+      "inputs": [
+        [
+          10,
+          17
+        ],
+        [
+          55,
+          0
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "c6ad80b72566d434cda3fbd92a3469f28600666c606ab2a91356aef56313b6d8",
+      "fixture_rom_sha256": "b350af9d8eb563270c29e80247b4313d33a3ee2c0be73d4e1b089d830d5f53ec",
+      "save_sha256": "f2be141a13148a97e56bb72bfd392b15d631133580bd6bce96efbff485eb62a3",
+      "cold_reload_report_sha256": "161e33c4a937cce9414873a95ef60bc8c58e8387a2f5aa8d824907800b136f82"
+    },
+    {
+      "bit": 4,
+      "location_id": 3960704,
+      "source_room": 148,
+      "destination_room": 981,
+      "record": "0x43540040",
+      "cold_reload_record": "0x43540040",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "bec8fc5c5fff2e96206405c174093570d6168bdb096cc605c56e195ed55e352c",
+      "fixture_rom_sha256": "c544228148e8367670d795284d92b103b1e22eadc2134f1755fd09fef9845c67",
+      "save_sha256": "e2fafb157f35e34d60570095c8cbe5484bab9e3be59914a7cfdee3928385e8aa",
+      "cold_reload_report_sha256": "72a4bdd6ea7f1724f4c9a7c2f6f0fe3105084f5710759f2fbb1e5a143dbb08f1"
+    },
+    {
+      "bit": 5,
+      "location_id": 3960705,
+      "source_room": 531,
+      "destination_room": 981,
+      "record": "0x43540080",
+      "cold_reload_record": "0x43540080",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "c00f00f0a1b2a106b5be0a6ec168438c880b0834a4c14b083a106c31f549ee18",
+      "fixture_rom_sha256": "ada24987ee5fb0c62bd9e8c6406d3f7a007f51db2cdb8f27d48714aa483e3a53",
+      "save_sha256": "61da9c7c338ac9b22b14382efafc77a14b180bb4d89c999e51954f6dbc22a136",
+      "cold_reload_report_sha256": "63e49e759a4e64d03fd4767f83af92419087a528639050e19d853758ddea159c"
+    },
+    {
+      "bit": 6,
+      "location_id": 3960706,
+      "source_room": 547,
+      "destination_room": 981,
+      "record": "0x43540100",
+      "cold_reload_record": "0x43540100",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "81c643a143dbd2ad7f6cd2143b8da4d573173f627e7c010717338ca5078e6f0d",
+      "fixture_rom_sha256": "46911af1f17259c744ff98cfdf9485ed04e4d2100b4adeee859aaa9d3bf0703d",
+      "save_sha256": "7f97303fe9969399a6a7d106248e52fdc86e2572d5b6fc6ef235e360ea3bda01",
+      "cold_reload_report_sha256": "ab65af027d23e47b32e2b99d88e753360ffac2e74f5d2c35d7f1fec2784f186f"
+    },
+    {
+      "bit": 7,
+      "location_id": 3960707,
+      "source_room": 326,
+      "destination_room": 981,
+      "record": "0x43540200",
+      "cold_reload_record": "0x43540200",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "98da69eae8cfa8d3f76b9d3b41d00d59b52fd409364d49f8e307e641a0ab405d",
+      "fixture_rom_sha256": "dd0422da0ab658bca431f99c5285ffcdb635d7e97509f4a3773654b3efc78033",
+      "save_sha256": "5475924e099892d4d64f3f4347a8552a417843ff67df46fcb2c24e28fb2230c9",
+      "cold_reload_report_sha256": "40c2d29238de7495fb8a5d6f4cfcebf49ea91f3a54e6ffad2313b73fd1af01f3"
+    },
+    {
+      "bit": 8,
+      "location_id": 3960708,
+      "source_room": 135,
+      "destination_room": 981,
+      "record": "0x43540400",
+      "cold_reload_record": "0x43540400",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "2a45b1d7ef2ecf092680e61ace955ab4a7d6697189bf89f828f3e4e38a3983ac",
+      "fixture_rom_sha256": "2e4e11ad8652ff4544a0213aa69f281ae40e77da4864b6cbc58f50a3e9eb78dc",
+      "save_sha256": "2f8c3d36d818a310063453c9252d454d33740ed60f87338a331cdd29095942e7",
+      "cold_reload_report_sha256": "903445f87a74d44d93978daadd2337c8372d4f49c3bc39ee159ede25a02db854"
+    },
+    {
+      "bit": 9,
+      "location_id": 3960709,
+      "source_room": 825,
+      "destination_room": 982,
+      "record": "0x43540800",
+      "cold_reload_record": "0x43540800",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "cb9e484be4e86d2c490333786f2ecb2413efaf043b4cbc8e9db9695954a38476",
+      "fixture_rom_sha256": "2865140b7f01e0d2db6c3bbc549379b082ebffb20eec878d031e2d2856e546ac",
+      "save_sha256": "1c31bb7905108f7667802f1aca43a58cc7f61b03a873793dce99033bb8cb51bd",
+      "cold_reload_report_sha256": "e2df45731be7d068112b41b71de1ba180884a0d4d77e8d5bcd10b201026fe04d"
+    },
+    {
+      "bit": 10,
+      "location_id": 3960710,
+      "source_room": 214,
+      "destination_room": 981,
+      "record": "0x43541000",
+      "cold_reload_record": "0x43541000",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "9037c5eaaf9bc14a125a486c512942cbbeeb1df821c4040a442acc7f9fc649e5",
+      "fixture_rom_sha256": "f15d8e31ca57a7bdb67cefe812b911ba8175d57cacce8e66ede1a076145d59c4",
+      "save_sha256": "33df5c126479b601b41b8a4b40c092e91892e1bde6450147ea0c1fa44cb41d71",
+      "cold_reload_report_sha256": "e688d4dced35108207063a6a90df18d835df8489a245b83ceec5549a8a3a2065"
+    },
+    {
+      "bit": 11,
+      "location_id": 3960711,
+      "source_room": 224,
+      "destination_room": 982,
+      "record": "0x43542000",
+      "cold_reload_record": "0x43542000",
+      "return_room": 801,
+      "inputs": [
+        [
+          22,
+          32
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "fb643a6e590b9232b16f817c6c7e10d3ac1d4e0960e78b9b2dd92b22f895635a",
+      "fixture_rom_sha256": "0ad8c3ef351525f83713bc23d38e42e496efad627725625009c15df1c2c32a93",
+      "save_sha256": "5923cae923a0bad573d1220a89d482ff2c6d86b430a12e3aa868f1c46828e756",
+      "cold_reload_report_sha256": "86ecd8452b75314e80d548649d0778434cec73e8e8082612d327b057f031415f"
+    },
+    {
+      "bit": 12,
+      "location_id": 3960712,
+      "source_room": 622,
+      "destination_room": 981,
+      "record": "0x43544000",
+      "cold_reload_record": "0x43544000",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "07f95391c7a2cac292cecd093e6928fd978dd1bbce5596159a15ddfd6aa0212d",
+      "fixture_rom_sha256": "608dc2125e4cf116d465e638f1220424037c587a640f00d501efb52418fd23a8",
+      "save_sha256": "115780c5afa14b9f301fb90cced014e22b2a6112e49faa01c0b31b4641bf02ae",
+      "cold_reload_report_sha256": "49b4fc8e4efae38f1e3559191a312c376d5db426cf909d764132f1a6ac1b4b08"
+    },
+    {
+      "bit": 13,
+      "location_id": 3960713,
+      "source_room": 526,
+      "destination_room": 982,
+      "record": "0x43548000",
+      "cold_reload_record": "0x43548000",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "524f4d9d8305581315feb5f761e24cf66ab7f4a7bf79b7290d2649c42abcf9a0",
+      "fixture_rom_sha256": "e016cd192626293034e9ca61d830cb531a6f5bfbfffe0b4550cf9d2147a70209",
+      "save_sha256": "237d7ca5c5da840a9d944a375f37f6a22d5aad450f90b52b8e0de2d0ba68f461",
+      "cold_reload_report_sha256": "abaa0493e221326eb5d12bfba300316781f4181894679de985ad55121237e652"
+    },
+    {
+      "bit": 14,
+      "location_id": 3960714,
+      "source_room": 413,
+      "destination_room": 982,
+      "record": "0x43550000",
+      "cold_reload_record": "0x43550000",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "1a91ab1c9f28c535ca04383901e7718093c520514fa0a102c5e5e7ed6ac341cf",
+      "fixture_rom_sha256": "2bb9dc3a7183e37561f16adad7bde8fcc771589adea8bc0bb45a19ccfde2f9b0",
+      "save_sha256": "36d54d79f1b3d923aa025ba55bd839779d8bb2bdb537e1130e32d98e233416a0",
+      "cold_reload_report_sha256": "515e036b8470c765235cf2dd8582b48e411077309246040ff609b8e9cdbc5e9f"
+    },
+    {
+      "bit": 15,
+      "location_id": 3960715,
+      "source_room": 420,
+      "destination_room": 982,
+      "record": "0x43560000",
+      "cold_reload_record": "0x43560000",
+      "return_room": 801,
+      "inputs": [
+        [
+          20,
+          16
+        ],
+        [
+          30,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          45,
+          16
+        ],
+        [
+          75,
+          64
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1800,
+          0
+        ]
+      ],
+      "trace_sha256": "20b741ecc8476a786f66ee74a583a5d7cd0495e91e4f4e64968f74529480cc1d",
+      "fixture_rom_sha256": "0f5e62226b77f2636c0f6b23950dcc3a559a8437a8bcc98b35b98f74b8bd97cf",
+      "save_sha256": "cc9e804e40f8eef652a114c574b530199fa9ae946834736b11e670abe5fe0e70",
+      "cold_reload_report_sha256": "9d0894f937592df4c7db5c12df8dfb38aff056869de2a59585b5ec06a9259053"
+    }
+  ],
+  "limitations": [
+    "No zero-prize classification asserted.",
+    "Native files1/2 and real client/server reporting/reconnect still require acceptance.",
+    "Source fixtures do not establish natural route access, seed beatability or restricted ability feasibility."
+  ]
+}
