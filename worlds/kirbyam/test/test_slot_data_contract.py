@@ -39,6 +39,7 @@ def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict
 
     options = Mock()
     options.goal = Mock(value=goal)
+    options.exclude_locations.value = set()
     options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
         "goal": goal,

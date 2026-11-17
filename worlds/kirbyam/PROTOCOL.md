@@ -266,6 +266,8 @@ Server → Client: ConnectionRefused | Connected
                  (with items_received, checked_locations, slot_data)
 
 `slot_data` currently includes:
+
+- `tracker` (object): Universal Tracker schema version 1, resolved Kirby options and effective precollected item counts. See `docs/universal-tracker.md`.
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
 - `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`, `5=100% Game Completion`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 - `full_completion_version` (int): `1` for goal 5. Requires exact native room/chest/switch/shard/final-clear obligations, all 99 physical AP acknowledgements, and authenticated required unlock ownership. Vitality ownership is excluded. Missing/unknown versions disable this goal.

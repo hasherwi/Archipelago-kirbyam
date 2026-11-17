@@ -21,3 +21,16 @@ Validation: combined lawful-ROM ARM rebuild and APWorld packaging passed.
 by 64 projection, native save, Goal Game runtime and patch tests. Final aggregate
 and exact-head hosted CI remain pending. Positive full-completion gameplay
 acceptance is still incomplete.
+
+The follow-up integration includes main `b4bb477f2` (Universal Tracker).
+Both physical-save and tracker slot fields are retained. Full-completion goal
+reconstruction is exercised with and without RoomSanity/Area Keys. Native
+source and patch bytes are unchanged by this follow-up. The prior aggregate
+was intentionally stopped after 1,832 passes when main advanced; it is not a
+complete aggregate result.
+
+Follow-up validation: 42 UT/slot/snapshot/projection tests passed with four
+upstream/live skips; 680 full-completion and source-monotonicity tests passed.
+The expanded UT cases passed (18 tests, three upstream dependency skips).
+APWorld packaging passed. Native patch SHA-256 remains
+`068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82`.
