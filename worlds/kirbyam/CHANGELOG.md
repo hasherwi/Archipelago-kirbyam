@@ -14,7 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - All sixteen Goal Games award a check when completed, including runs with no prizes (PR #1026).
 
 ### Internal Changes
-- Keep Goal Game completion flags separate from Copy Room and Phone ownership in a versioned authenticated native save record (PR #1026).
+- Keep Goal Game completion flags separate from Copy Room and Phone ownership in a versioned authenticated native save record, with separate runtime storage (PR #1026).
 
 ## v0.5.2
 

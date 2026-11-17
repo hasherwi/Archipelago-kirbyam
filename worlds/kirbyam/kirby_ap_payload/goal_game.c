@@ -1,6 +1,11 @@
 #include "copy_room.h"
 #include "goal_game_runtime_logic.h"
-#define RUN ((volatile struct ApGoalRun *)0x0203B170u)
+#include "battery.h"
+#define RUN ((volatile struct ApGoalRun *)AP_GOAL_RUN_ADDRESS)
+_Static_assert(0x0203B190u + sizeof(struct ApBatteryContext) <= AP_GOAL_RUN_ADDRESS, "Goal state overlaps Phone battery state");
+_Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= 0x02040000u, "Goal state exceeds EWRAM");
+_Static_assert((AP_GOAL_FLAGS & AP_ACCESS_MASK) == 0u, "Goal flags overlap access permissions");
+_Static_assert((AP_COPY_TAG & (AP_GOAL_FLAGS | AP_ACCESS_MASK)) == 0u, "Record tag overlaps flags");
 #define KIRBY 0x02020EE0u
 #define U8(p) (*(volatile uint8_t *)(p))
 #define U16(p) (*(volatile uint16_t *)(p))

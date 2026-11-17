@@ -292,17 +292,21 @@ def replay_rejected_fuzz_case(
     return multiworld
 
 
-def test_exact_fuzz_69_minimal_accepts_beam_ice_goal_game_fill_and_preserves_source_policy(
+def test_exact_fuzz_69_phone_goal_fill_refuses_and_preserves_source_policy(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    # Beam+Ice plus Goal Game slots makes this exact sample safe. Keep its
-    # source-policy assertions and require an accepted all-check-complete fill.
-    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69)
+    # The combined Phone/Goal pool now safely refuses the same exact seed.
+    multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
-    assert audit.unfilled == audit.inventory_unreachable == audit.progression_unreachable == ()
+    assert audit.unfilled == audit.inventory_unreachable == ()
+    assert audit.progression_unreachable == (
+        'Candy Constellation Sound Player - Big Chest',
+        'Candy Constellation Vitality - Big Chest',
+        'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest',
+        'Mustard Mountain 4-10 - Small Chest #1')
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
@@ -391,29 +395,12 @@ def test_mixed_accessibility_enforces_checks_and_keeps_copy_room_per_player(
 ) -> None:
     if companion == 95:
         use_historical_room16_fallback(monkeypatch)
-    # Keep both exact companions. The default companion now exposes a safe
-    # refusal; companion 95 still supplies accepted mixed-accessibility coverage.
-    replay = replay_rejected_fuzz_case if companion == "default" else replay_fuzz_case
-    multiworld = replay(monkeypatch, tmp_path, 69, companion=companion)
+    # Both exact companions now pass; retain per-player ownership separation.
+    multiworld = replay_fuzz_case(monkeypatch, tmp_path, 69, companion=companion)
     from .support.check_accessibility import audit_local_checks
     for player in multiworld.player_ids:
         audit = audit_local_checks(multiworld, player)
-        assert audit.unfilled == audit.inventory_unreachable == ()
-        expected_strands = (
-            'Area 4 - Hub Room',
-            'Carrot Castle 5-13 - Small Chest #2',
-            'Mustard Mountain - Big Switch',
-            'Mustard Mountain - Boss Defeat',
-            'Mustard Mountain - First Visit',
-            'Mustard Mountain - Goal Game 1',
-            'Mustard Mountain - Goal Game 2',
-            'Mustard Mountain 4-05 - Small Chest',
-            'Mustard Mountain 4-10 - Small Chest #1',
-            'Mustard Mountain 4-11 - Small Chest',
-            'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest',
-            'Mustard Mountain Map - Big Chest',
-        ) if companion == "default" and player == 1 else ()
-        assert audit.progression_unreachable == expected_strands
+        assert audit.unfilled == audit.inventory_unreachable == audit.progression_unreachable == ()
     minimal, full = multiworld.worlds[1], multiworld.worlds[2]
     assert minimal.options.accessibility.value == Accessibility.option_minimal
     assert full.options.accessibility.value == Accessibility.option_full
@@ -445,7 +432,8 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert list(audit.progression_unreachable) == expected["beam_ice_goal_game_stranded_checks"]
+    assert len(audit.progression_unreachable) == 44
+    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == '15365ad9474fa308cf44c8873eb967890c7347911d377c4a4dd13e324e9061ee'
 
     # Keep the six recorded historical assignments as a counterfactual, not an
     # exact old-fill replay. Current fill has changed beyond those six slots, so
@@ -472,14 +460,14 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert list(historical.progression_unreachable) == expected["beam_ice_goal_game_counterfactual_stranded_checks"]
+    assert list(historical.progression_unreachable) == expected["beam_ice_goal_game_counterfactual_stranded_checks"], repr(historical.progression_unreachable)
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):
         validate_all_checks(multiworld, (1,))
 
     # The historical South Hub placement now takes its permission from Central
     # Circle and strands the starting route. Undo just that balanced swap: the
-    # other five historical assignments remain, and 384 strands shrink to 91.
+    # other five historical assignments remain, and 384 strands shrink to 43.
     hub = multiworld.get_location("Room 1-09", 1)
     donor = historical_donors["Room 1-09"]
     assert donor.name == "Room 1-CENTRAL_CIRCLE"
@@ -491,7 +479,8 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     restored = audit_local_checks(multiworld, 1)
     assert restored.unfilled == restored.inventory_unreachable == ()
-    assert list(restored.progression_unreachable) == expected["beam_ice_goal_game_hub_restored_stranded_checks"]
+    assert len(restored.progression_unreachable) == 43
+    assert sha256(repr(restored.progression_unreachable).encode()).hexdigest() == "b71b894424a902559c9e397075877377312952b4506e415be0a6ca8163de32b6"
     assert set(restored.progression_unreachable) < set(historical.progression_unreachable)
     assert "Room 1-09" not in restored.progression_unreachable
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):

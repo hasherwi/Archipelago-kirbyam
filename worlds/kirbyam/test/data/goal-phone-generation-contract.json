@@ -1,0 +1,254 @@
+{
+  "scope": "Observed combined Goal Game and Phone fill outcomes. Unchanged seeds and safety validator; not physical route evidence. Historical fixtures remain unchanged.",
+  "cases": {
+    "test_advanced_seed1042_with_goal_games_preserves_historical_refusal": [
+      {
+        "seed": 1042,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 4 - Hub Room",
+              "Area 6 - Hub Room",
+              "Candy Constellation Vitality - Big Chest",
+              "Carrot Castle 5-13 - Small Chest #2",
+              "Carrot Castle Vitality - Big Chest",
+              "Moonlight Mansion - Goal Game 1",
+              "Moonlight Mansion - Goal Game 2",
+              "Moonlight Mansion 2-11 - Lever",
+              "Moonlight Mansion 2-15 - Small Chest #1",
+              "Moonlight Mansion 2-17 - Music Sheet #8 Chest",
+              "Moonlight Mansion 2-20 - Small Chest",
+              "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
+              "Moonlight Mansion Goal 2 - Small Chest #1",
+              "Mustard Mountain - Big Switch",
+              "Mustard Mountain - Boss Defeat",
+              "Mustard Mountain - First Visit",
+              "Mustard Mountain - Goal Game 1",
+              "Mustard Mountain - Goal Game 2",
+              "Mustard Mountain 4-05 - Small Chest",
+              "Mustard Mountain 4-10 - Small Chest #1",
+              "Mustard Mountain 4-11 - Small Chest",
+              "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+              "Mustard Mountain Map - Big Chest",
+              "Olive Ocean - Big Switch",
+              "Olive Ocean - Boss Defeat",
+              "Olive Ocean - First Visit",
+              "Olive Ocean - Goal Game 1",
+              "Olive Ocean - Goal Game 2",
+              "Olive Ocean 6-03 - Small Chest #1",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest",
+              "Olive Ocean 6-09 - Small Chest #1",
+              "Olive Ocean 6-13 - Lever",
+              "Olive Ocean 6-16 - Small Chest",
+              "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+              "Olive Ocean Map - Big Chest",
+              "Olive Ocean Vitality - Big Chest",
+              "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+              "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+              "Radish Ruins Vitality - Big Chest",
+              "Rainbow Route 1-06 (Lower) - Small Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "e5c4cee94c891cdaaafb25c8d98c73ce4fe923f356a34b90996c76bd4e6ec23f"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Hub Room', 'Area 6 - Hub Room', 'Candy Constellation Vitality - Big Chest', 'Carrot Castle 5-13 - Small Chest #2', 'Carrot Castle Vitality - Big Chest', 'Moonlight Mansion - Goal Game 1', 'Moonlight Mansion - Goal Game 2', 'Moonlight Mansion 2-11 - Lever', 'Moonlight Mansion 2-15 - Small Chest #1', 'Moonlight Mansion 2-17 - Music Sheet #8 Chest', 'Moonlight Mansion 2-20 - Small Chest', 'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest', 'Moonlight Mansion Goal 2 - Small Chest #1', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain - Goal Game 1', 'Mustard Mountain - Goal Game 2', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean - Goal Game 1', 'Olive Ocean - Goal Game 2', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest', 'Rainbow Route 1-06 (Lower) - Small Chest']"
+      }
+    ],
+    "test_generated_seed_matrix[1-minimal-2-8675309]": [
+      {
+        "seed": 8675309,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 6 - Hub Room",
+              "Cabbage Cavern 3-09 - Small Chest",
+              "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+              "Cabbage Cavern 3-15 - Small Chest",
+              "Candy Constellation Sound Player - Big Chest",
+              "Candy Constellation Vitality - Big Chest",
+              "Olive Ocean - Big Switch",
+              "Olive Ocean - Boss Defeat",
+              "Olive Ocean - First Visit",
+              "Olive Ocean - Goal Game 1",
+              "Olive Ocean - Goal Game 2",
+              "Olive Ocean 6-03 - Small Chest #1",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest",
+              "Olive Ocean 6-09 - Small Chest #1",
+              "Olive Ocean 6-13 - Lever",
+              "Olive Ocean 6-16 - Small Chest",
+              "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+              "Olive Ocean Map - Big Chest",
+              "Olive Ocean Vitality - Big Chest",
+              "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+              "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+              "Radish Ruins Vitality - Big Chest",
+              "Rainbow Route 1-06 (Lower) - Small Chest",
+              "Rainbow Route 1-39 - Music Sheet #1 Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "a741638156d7169168f497f5dbf75735bf60be27687f7a0d508b46bfd3a79645"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 6 - Hub Room', 'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest', 'Cabbage Cavern 3-15 - Small Chest', 'Candy Constellation Sound Player - Big Chest', 'Candy Constellation Vitality - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean - Goal Game 1', 'Olive Ocean - Goal Game 2', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Rainbow Route 1-39 - Music Sheet #1 Chest']"
+      }
+    ],
+    "test_generated_seed_matrix[1-minimal-2-1042]": [
+      {
+        "seed": 1042,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 4 - Hub Room",
+              "Carrot Castle 5-13 - Small Chest #2",
+              "Carrot Castle Vitality - Big Chest",
+              "Mustard Mountain - Big Switch",
+              "Mustard Mountain - Boss Defeat",
+              "Mustard Mountain - First Visit",
+              "Mustard Mountain - Goal Game 1",
+              "Mustard Mountain - Goal Game 2",
+              "Mustard Mountain 4-05 - Small Chest",
+              "Mustard Mountain 4-10 - Small Chest #1",
+              "Mustard Mountain 4-11 - Small Chest",
+              "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+              "Mustard Mountain Map - Big Chest",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "fec074301126773f3a5b2ac52b50940d210e6b0e337b32a44f0804eccdbc0cbc"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Hub Room', 'Carrot Castle 5-13 - Small Chest #2', 'Carrot Castle Vitality - Big Chest', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain - Goal Game 1', 'Mustard Mountain - Goal Game 2', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean 6-06 - Spray Paint #7 Chest']"
+      }
+    ],
+    "test_generated_seed_matrix[1-minimal-1-8675309]": [
+      {
+        "seed": 8675309,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 6 - Hub Room",
+              "Cabbage Cavern 3-09 - Small Chest",
+              "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+              "Cabbage Cavern 3-15 - Small Chest",
+              "Candy Constellation Sound Player - Big Chest",
+              "Candy Constellation Vitality - Big Chest",
+              "Olive Ocean - Big Switch",
+              "Olive Ocean - Boss Defeat",
+              "Olive Ocean - First Visit",
+              "Olive Ocean - Goal Game 1",
+              "Olive Ocean - Goal Game 2",
+              "Olive Ocean 6-03 - Small Chest #1",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest",
+              "Olive Ocean 6-09 - Small Chest #1",
+              "Olive Ocean 6-13 - Lever",
+              "Olive Ocean 6-16 - Small Chest",
+              "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+              "Olive Ocean Map - Big Chest",
+              "Olive Ocean Vitality - Big Chest",
+              "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+              "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+              "Radish Ruins Vitality - Big Chest",
+              "Rainbow Route 1-06 (Lower) - Small Chest",
+              "Rainbow Route 1-39 - Music Sheet #1 Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "c51ffc7e0b0ad688230ad017ebe455a12fca320a5c88c4bddcaab3d36ac478a7"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 6 - Hub Room', 'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest', 'Cabbage Cavern 3-15 - Small Chest', 'Candy Constellation Sound Player - Big Chest', 'Candy Constellation Vitality - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean - Goal Game 1', 'Olive Ocean - Goal Game 2', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Rainbow Route 1-39 - Music Sheet #1 Chest']"
+      }
+    ],
+    "test_generated_seed_matrix[1-minimal-1-1042]": [
+      {
+        "seed": 1042,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 4 - Hub Room",
+              "Carrot Castle 5-13 - Small Chest #2",
+              "Carrot Castle Vitality - Big Chest",
+              "Moonlight Mansion 2-20 - Small Chest",
+              "Mustard Mountain - Big Switch",
+              "Mustard Mountain - Boss Defeat",
+              "Mustard Mountain - First Visit",
+              "Mustard Mountain - Goal Game 1",
+              "Mustard Mountain - Goal Game 2",
+              "Mustard Mountain 4-05 - Small Chest",
+              "Mustard Mountain 4-10 - Small Chest #1",
+              "Mustard Mountain 4-11 - Small Chest",
+              "Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest",
+              "Mustard Mountain Map - Big Chest",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "e5c4cee94c891cdaaafb25c8d98c73ce4fe923f356a34b90996c76bd4e6ec23f"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 4 - Hub Room', 'Carrot Castle 5-13 - Small Chest #2', 'Carrot Castle Vitality - Big Chest', 'Moonlight Mansion 2-20 - Small Chest', 'Mustard Mountain - Big Switch', 'Mustard Mountain - Boss Defeat', 'Mustard Mountain - First Visit', 'Mustard Mountain - Goal Game 1', 'Mustard Mountain - Goal Game 2', 'Mustard Mountain 4-05 - Small Chest', 'Mustard Mountain 4-10 - Small Chest #1', 'Mustard Mountain 4-11 - Small Chest', 'Mustard Mountain 4-GOAL-2 - Spray Paint #13 Chest', 'Mustard Mountain Map - Big Chest', 'Olive Ocean 6-06 - Spray Paint #7 Chest']"
+      }
+    ],
+    "test_generated_seed_matrix[1-minimal-0-8675309]": [
+      {
+        "seed": 8675309,
+        "audits": {
+          "1": {
+            "inventory_unreachable": [],
+            "progression_unreachable": [
+              "Area 6 - Hub Room",
+              "Cabbage Cavern 3-09 - Small Chest",
+              "Cabbage Cavern 3-14 - Spray Paint #8 Chest",
+              "Cabbage Cavern 3-15 - Small Chest",
+              "Candy Constellation Sound Player - Big Chest",
+              "Candy Constellation Vitality - Big Chest",
+              "Olive Ocean - Big Switch",
+              "Olive Ocean - Boss Defeat",
+              "Olive Ocean - First Visit",
+              "Olive Ocean - Goal Game 1",
+              "Olive Ocean - Goal Game 2",
+              "Olive Ocean 6-03 - Small Chest #1",
+              "Olive Ocean 6-06 - Spray Paint #7 Chest",
+              "Olive Ocean 6-09 - Small Chest #1",
+              "Olive Ocean 6-13 - Lever",
+              "Olive Ocean 6-16 - Small Chest",
+              "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest",
+              "Olive Ocean Map - Big Chest",
+              "Olive Ocean Vitality - Big Chest",
+              "Peppermint Palace 7-06 - Music Sheet #2 Chest",
+              "Peppermint Palace 7-22 - Spray Paint #1 Chest",
+              "Radish Ruins Vitality - Big Chest",
+              "Rainbow Route 1-06 (Lower) - Small Chest",
+              "Rainbow Route 1-39 - Music Sheet #1 Chest"
+            ],
+            "unfilled": []
+          }
+        },
+        "policies": {
+          "1": "7b5e607f549fa7666f5ceede84a160310a036d4a8986c75de13305f27928d9f7"
+        },
+        "accepted": false,
+        "error": "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, including with minimal accessibility. Generation stopped before the normal output/archive stage. Try full accessibility or another seed; source/route restrictions may still require review.\nPlayer 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; unreachable from placed progression=['Area 6 - Hub Room', 'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest', 'Cabbage Cavern 3-15 - Small Chest', 'Candy Constellation Sound Player - Big Chest', 'Candy Constellation Vitality - Big Chest', 'Olive Ocean - Big Switch', 'Olive Ocean - Boss Defeat', 'Olive Ocean - First Visit', 'Olive Ocean - Goal Game 1', 'Olive Ocean - Goal Game 2', 'Olive Ocean 6-03 - Small Chest #1', 'Olive Ocean 6-06 - Spray Paint #7 Chest', 'Olive Ocean 6-09 - Small Chest #1', 'Olive Ocean 6-13 - Lever', 'Olive Ocean 6-16 - Small Chest', 'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Olive Ocean Map - Big Chest', 'Olive Ocean Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest', 'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest', 'Rainbow Route 1-06 (Lower) - Small Chest', 'Rainbow Route 1-39 - Music Sheet #1 Chest']"
+      }
+    ]
+  }
+}

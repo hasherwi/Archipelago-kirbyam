@@ -1034,7 +1034,7 @@ saves and regenerate matching seeds, clients and patches. Old Goal Game progress
 is not imported. Do not load a new save in an older payload. Native WORLD size,
 three-file selection and checksums are unchanged.
 
-The transient run at `0x0203B170` records exact source-door identity, context
+The transient run at `0x0203B1A4` (after Phone/battery state) records exact source-door identity, context
 epoch, scene, participant star and phase. Entry alone, abort, death, another
 file/epoch, a wrong participant or another doorway cannot award completion.
 The native landing callback after the completion delay awards the bit, including

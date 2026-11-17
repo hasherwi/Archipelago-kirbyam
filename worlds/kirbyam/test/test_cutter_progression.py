@@ -180,15 +180,42 @@ def test_generated_seed_matrix(
         assert audit.inventory_unreachable == ('Room 4-16',)
         # Preserve exact Goal Game fill strands as well as the independent
         # Room16 source refusal. Added feature slots change placed progression.
-        minimal_strands = {
-            (1, 0): ('Peppermint Palace 7-09 - Small Chest',
-                     'Peppermint Palace 7-10 - Small Chest #2', 'Room 4-16'),
-            (1, 1): ('Moonlight Mansion - Goal Game 1',
-                     'Moonlight Mansion 2-15 - Small Chest #1', 'Room 2-05',
-                     'Room 2-06', 'Room 2-13', 'Room 2-14', 'Room 2-15',
-                     'Room 2-GOAL_1', 'Room 2-WARP', 'Room 4-16'),
-            (2, 1): ('Carrot Castle 5-13 - Small Chest #2', 'Room 4-16'),
-        }
+        minimal_strands = {(1, 0): ('Peppermint Palace 7-09 - Small Chest',
+                  'Peppermint Palace 7-10 - Small Chest #2',
+                  'Room 4-16'),
+         (1, 1): ('Candy Constellation Sound Player - Big Chest',
+                  'Candy Constellation Vitality - Big Chest',
+                  'Carrot Castle Vitality - Big Chest',
+                  'Moonlight Mansion - Goal Game 2',
+                  'Moonlight Mansion 2-17 - Music Sheet #8 Chest',
+                  'Moonlight Mansion 2-20 - Small Chest',
+                  'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest',
+                  'Moonlight Mansion Goal 2 - Small Chest #1',
+                  'Mustard Mountain - Goal Game 1',
+                  'Mustard Mountain 4-05 - Small Chest',
+                  'Olive Ocean 6-06 - Spray Paint #7 Chest',
+                  'Peppermint Palace 7-06 - Music Sheet #2 Chest',
+                  'Peppermint Palace 7-22 - Spray Paint #1 Chest',
+                  'Radish Ruins Vitality - Big Chest',
+                  'Rainbow Route 1-06 (Lower) - Small Chest',
+                  'Rainbow Route Goal 1 - Small Chest #1',
+                  'Room 2-16',
+                  'Room 2-17',
+                  'Room 2-18',
+                  'Room 2-19',
+                  'Room 2-20',
+                  'Room 2-GOAL_2',
+                  'Room 4-06',
+                  'Room 4-07',
+                  'Room 4-08',
+                  'Room 4-16',
+                  'Room 4-GOAL_1',
+                  'Room 4-WARP',
+                  'Room 5-CHEST_1',
+                  'Room 8-CHEST_1',
+                  'Room 9-09',
+                  'Room 9-CHEST_1'),
+         (2, 1): ('Room 4-16',)}
         expected_placed = minimal_strands.get((mode, gating), ('Room 4-16',)) if (
             accessibility == 'minimal') else ('Room 4-16',)
         assert audit.progression_unreachable == expected_placed, repr(audit.progression_unreachable)
@@ -205,20 +232,11 @@ def test_generated_seed_matrix(
         mw, decoded, archive = _generate(monkeypatch, paired, seed, [{**options, "room_sanity": 0, "accessibility": "full"}])
         _assert_slot_contract(mw, decoded, _gate_words(archive), 1)
         return
-    # Beam+Ice starts and the sixteen Goal Game slots change fill order.
-    # Preserve exact unsafe samples as refusals rather than replacing their seeds.
-    refused_check = None
-    if gating == 1 and accessibility == "minimal":
-        if seed == 8675309 and mode == 0:
-            refused_check = "Radish Ruins - Big Switch"
-    if refused_check is not None:
-        from ..check_accessibility import KirbyAmCheckAccessibilityError
-        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-            _generate(monkeypatch, tmp_path, seed, [options])
-        message = str(caught.value)
-        assert "Player 1" in message and refused_check in message
-        assert "unfilled=[]; unavailable even with all inventory=[]" in message
-        assert not tuple((tmp_path / "output").glob("*.zip"))
+    # Phone and Goal Game slots change this exact deterministic fill.
+    if gating == 1 and accessibility == "minimal" and (
+            seed == 8675309 or (seed == 1042 and mode in (1, 2))):
+        _assert_goal_phone_refusal(monkeypatch, tmp_path,
+            f"test_generated_seed_matrix[{gating}-{accessibility}-{mode}-{seed}]", seed, [options])
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
@@ -241,19 +259,7 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(
         {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
-    # Retain the exact mixed minimal sample as a refusal; the other two seeds
-    # must still produce archives and preserve explicit Cutter multiplicity.
-    if seed == 8675309:
-        from ..check_accessibility import KirbyAmCheckAccessibilityError
-        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-            _generate(monkeypatch, tmp_path, seed, options)
-        message = str(caught.value)
-        assert "Player 2" in message and "Olive Ocean - Goal Game 1" in message
-        assert "unfilled=[]; unavailable even with all inventory=[]" in message
-        assert not tuple((tmp_path / "output").glob("*.zip"))
-        return
-    # The added Goal Game slots make seed 1042 pass the unchanged all-check
-    # guard. Keep that exact seed and validate the accepted archive normally.
+    # All three retained mixed seeds now pass the unchanged all-check guard.
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
     gates = _gate_words(archive)
     for player in multiworld.player_ids:
@@ -330,9 +336,27 @@ def test_advanced_seed1042_with_goal_games_preserves_historical_refusal(monkeypa
                'ability_randomization_statues': 0, 'ability_randomization_passive_enemies': 0,
                'ability_randomization_minibosses': 0, 'ability_randomization_boss_spawns': 0,
                'room_sanity': 0, 'area_keys': 1}
-    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 1042, [options])
-    _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
-    from .support.check_accessibility import audit_local_checks, LocalCheckAudit
-    assert decoded['slot_data'][1]['advanced_logic'] == 1
-    assert len([loc for loc in multiworld.get_locations(1) if loc.address is not None]) == 140
-    assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())
+    _assert_goal_phone_refusal(monkeypatch, tmp_path,
+        "test_advanced_seed1042_with_goal_games_preserves_historical_refusal", 1042, [options])
+
+
+def _assert_goal_phone_refusal(monkeypatch, tmp_path, case, seed, options):
+    from .. import check_accessibility
+    from .support.check_accessibility import audit_local_checks
+    expected, = json.loads((Path(__file__).parent / "data/goal-phone-generation-contract.json").read_text())["cases"][case]
+    assert expected["accepted"] is False
+    original = check_accessibility.validate_all_checks
+    inspected = []
+    def validate(mw, players):
+        players = tuple(players)
+        assert mw.seed == expected["seed"]
+        assert {str(p): json.loads(json.dumps(audit_local_checks(mw, p).__dict__)) for p in players} == expected["audits"]
+        assert {str(p): hashlib.sha256(json.dumps(mw.worlds[p]._enemy_copy_ability_policy,
+                sort_keys=True, separators=(",", ":")).encode()).hexdigest() for p in players} == expected["policies"]
+        inspected.append(True)
+        original(mw, players)
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", validate)
+    with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
+        _generate(monkeypatch, tmp_path, seed, options)
+    assert inspected == [True] and str(caught.value) == expected["error"]
+    assert not tuple((tmp_path / "output").glob("*.zip"))

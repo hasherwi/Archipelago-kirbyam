@@ -12,7 +12,7 @@ def test_three_file_ownership_and_save_retries(tmp_path):
     if not cc or not sys.platform.startswith("linux"):
         pytest.skip("Linux mapped-memory host harness and C compiler required")
     payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
-    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text()
+    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text() + "\n" + (payload / "goal_game.c").read_text()
     for address, name in (("0x0800ACD5u", "fake_save"), ("0x0800A91Du", "fake_load"),
                           ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start")):
         source = source.replace(address, "&" + name)
@@ -132,6 +132,17 @@ int main(void) {
     FLAGS=0x10;uint32_t inactive_record=RECORD[4];
     ap_copy_room_complete_goal(0);CHECK(RECORD[4]==inactive_record && !CTX->epoch);
     FLAGS=0;
+    /* Execute both shipping pollers: Phone refresh must not erase a Goal run. */
+    SAVE_SLOT=0;ap_copy_room_clear(1);START();
+    const struct ApGoalDoor *door=&ap_goal_doors[0];
+    U16(KIRBY+0x60u)=door->destination;U8(KIRBY+0x100u)=6u;
+    ap_goal_enter(RUN,CTX->epoch,door->pointer,door->source,door->destination);
+    CHECK(RUN->phase==1u && RUN->epoch==CTX->epoch && RUN->bit==door->bit);
+    for(unsigned i=0;i<20;i++) { ap_phone_poll();ap_goal_poll(); }
+    CHECK(RUN->phase==1u && RUN->epoch==CTX->epoch && RUN->bit==door->bit);
+    ap_goal_start(RUN,CTX->epoch,door->destination,0x03002000u,1u);
+    for(unsigned i=0;i<20;i++) { ap_phone_poll();ap_goal_poll(); }
+    CHECK(RUN->phase==2u && RUN->star==0x03002000u);
     /* Each Goal Game bit is independent of both permission bits. */
     for(unsigned bit=0;bit<16;bit++) {
         SAVE_SLOT=0;ap_copy_room_clear(1);START();

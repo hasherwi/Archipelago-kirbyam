@@ -2,6 +2,9 @@
 #define KIRBYAM_GOAL_GAME_RUNTIME_LOGIC_H
 #include <stdint.h>
 
+/* Immediately after the Phone battery context; never alias Phone snapshot. */
+#define AP_GOAL_RUN_ADDRESS 0x0203B1A4u
+
 struct ApGoalDoor {
     uint32_t pointer;
     uint16_t source, destination;
