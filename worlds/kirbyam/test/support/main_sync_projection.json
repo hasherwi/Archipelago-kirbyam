@@ -109,6 +109,61 @@
           ]
         }
       ]
+    },
+    "data/minor_chest_manifest.json": {
+      "main_sha256": "aaf761f9941a23278e6654d71667a96857846ac2934eba8b7a68735800ad95c3",
+      "integrated_sha256": "3ad42bb0aa8fb97524f533f180578ce6cb8e8483b0fcd22e8d8fb0e1e29bee7f",
+      "reverse_slices": [
+        {
+          "start": 32,
+          "stop": 34,
+          "current": [
+            "    \"multi_chest_rooms_total\": 7,\n",
+            "    \"multi_chest_rooms_exact_source_offsets_unique\": 7,\n"
+          ],
+          "main": [
+            "    \"multi_chest_rooms_total\": 8,\n",
+            "    \"multi_chest_rooms_exact_source_offsets_unique\": 8,\n"
+          ]
+        },
+        {
+          "start": 519,
+          "stop": 522,
+          "current": [
+            "        \"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\"\n",
+            "      ],\n",
+            "      \"room_sanity_ap_room_keys\": [\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 523,
+          "stop": 525,
+          "current": [
+            "      ],\n",
+            "      \"ap_room_mapping_evidence\": \"dev-docs/phone-heave-ho-acceptance.md#qualified-retry-crossings-and-physical-collection\"\n"
+          ],
+          "main": [
+            "      ]\n"
+          ]
+        },
+        {
+          "start": 3382,
+          "stop": 3382,
+          "current": [],
+          "main": [
+            "      \"room_key\": \"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\n",
+            "      \"chest_count\": 2,\n",
+            "      \"source_rom_offsets\": [\n",
+            "        \"0x008BC018\",\n",
+            "        \"0x008BC114\"\n",
+            "      ],\n",
+            "      \"source_offsets_unique\": true\n",
+            "    },\n",
+            "    {\n"
+          ]
+        }
+      ]
     }
   },
   "surfaces": {
