@@ -175,19 +175,18 @@ def install_extra_traversal_rules(world: Any) -> None:
     yellow_cupid.validate_profile(world, install=True)
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
-        # Yellow Paint has no source-independent reviewed solution. A missing
-        # policy must not silently turn room access into chest access. Keep
-        # this separate from the historical fallback for real, unqualified
-        # policies, whose broader coverage is still tracked by issue #1087.
-        try:
-            yellow = world.multiworld.get_location(data.locations[yellow_cupid.LOCATION].label, world.player)
-        except KeyError:
-            pass  # Minor chests are disabled.
-        else:
-            add_rule(yellow, lambda state: False)
         # Preserve legacy fallbacks except for new optional connections and
         # existing exits explicitly migrated to fail-closed source-backed logic.
         for row in extra_traversal_targets():
+            if (row.get("id"), row.get("location")) == (yellow_cupid.TARGET, yellow_cupid.LOCATION):
+                # Missing policy data is not a source-independent solution.
+                # Real unsupported policies retain their documented fallback.
+                try:
+                    yellow = world.multiworld.get_location(data.locations[row["location"]].label, world.player)
+                except KeyError:
+                    pass  # Minor chests are disabled.
+                else:
+                    add_rule(yellow, lambda state: False)
             if row.get("new_connection") or row.get("fail_closed"):
                 target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
                 add_rule(target, lambda state: False)
