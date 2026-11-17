@@ -182,6 +182,15 @@ ap_copy_room_state_entry:
     bx r3
 1: .word ap_copy_room_state
 
+.section .text.ap_goal_entries,"ax",%progbits
+.balign 4
+.global ap_goal_transition_entry
+.type ap_goal_transition_entry, %function
+.thumb_func
+ap_goal_transition_entry:
+    ldr r3, 1f
+    bx r3
+1: .word ap_goal_transition
 // R entry only. L return to Central Circle enters 0x08056E40 separately.
 // The denied path returns before native call state, battery or animation writes.
 .section .aphub,"ax",%progbits

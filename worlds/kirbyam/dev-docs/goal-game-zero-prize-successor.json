@@ -1,0 +1,69 @@
+{
+  "source_commit": "dba42dbde46ca87dae13a6c0afc8d7bc8a4e3ff5",
+  "scope": "Controlled source0 native-file0 zero-prize completion; no route-access claim",
+  "method": "Same own-ROM cold savestate, controller-only replay. Read-only instruction stepping counts entry to native reward-collection function sub_0801AC98 (Thumb pipeline PC0801AC9C) and native landing sub_0800D2E0 (PC0800D2E4). No emulated memory writes or code changes.",
+  "native_source_reference": "katam/src/goal_game_bonus.c sub_0801AC98, revision7d969fb; collection handler applies all bonus subtype effects. Original and patched ROM bytes1AC98..1AE3F identical, SHA256d3c49ed02581b31c3732fa1bbf3d8a5e255b3d1a5dd438254d6d4e969e91a131",
+  "inputs": [
+    [
+      20,
+      16
+    ],
+    [
+      30,
+      64
+    ],
+    [
+      180,
+      0
+    ],
+    [
+      45,
+      16
+    ],
+    [
+      75,
+      64
+    ],
+    [
+      180,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1800,
+      16
+    ]
+  ],
+  "zero_prize": {
+    "frame": 2331,
+    "room": 801,
+    "record": "0x43540004",
+    "collection_callback_entries": 0,
+    "landing_callback_entries": 62
+  },
+  "positive_control": {
+    "input_difference": "Final1800frames use neutral instead of Right",
+    "result": {
+      "frame": 2331,
+      "room": 801,
+      "record": "0x43540004",
+      "collection_callback_entries": 2,
+      "landing_callback_entries": 62
+    }
+  },
+  "uninstrumented_control": "Every30-frame room/record sample agrees with uninstrumented resetcore replay, including Goal bit and hub return.",
+  "artifacts_sha256": {
+    "countcore.c": "f0142ba797a6b1f1eb77112b7edf65a48478f86426ec7430356eee7461d8bfe0",
+    "countcore.so": "aef1620355fcd03a232aca451ee6a31d7861e5a2c340f35f4bb26b2c8b5d19e6",
+    "avoid.py": "1c1942523e326e5d8647f3231312708057fc638b41b2b64c8c862ba1361f8f22",
+    "report.json": "f8d8ac3c25bfb7a75bebf5f6e1191e7642da2cb3569054cc14b7bfde06dd2d9e",
+    "positive-control.json": "3a3555c3ec38d656a8295f332b7bd1ed7157e660fcc36c47fb3e6ccfc2dbd50c"
+  },
+  "limitations": [
+    "One source/outcome/profile; does not exhaust every prize layout or multiplayer case.",
+    "Frame counts describe this isolated fixture, not a natural playthrough."
+  ]
+}

@@ -137,3 +137,23 @@ input to open UT, enter a slot name and view a new RoomSanity seed (0/379 checks
 Neither result is a native game-win claim or evidence for later merged logic.
 The PR description records newer acceptance results and outstanding limits.
 Other tasks' emulator sessions and checkpoints were not used.
+
+
+## Goal Game main integration
+
+After merging main `63e87438b057c9565cff6b1d246aceeb69cf5347` (Goal Game
+checks and the Docker manifest fix), seed 1054's real loopback acceptance has
+**140/140 checks, 148 received items and eight progression spheres**. All
+generated checks, including the sixteen Goal Games, match UT reachability;
+reconnect restores the exact ordered received-item history and checked set.
+The source/snapshot and Goal Game regression suites pass with the merged world.
+These counts supersede the older seed-1054 counts above for this merged logic.
+The patch and payload sources remain byte-identical to that main commit;
+this integration does not claim additional native gameplay validation.
+
+A separate real Kivy/SDL2 run on the same merged source, using the private Xvfb
+setup described above, rendered 0/140 and Go mode No initially, then 140/140,
+Go mode Yes and the all-checks-complete message after progression and reconnect.
+The run exited cleanly and shut down its owned display and sockets. Screen
+selection was programmatic and the game peer remained a protocol driver;
+this is native tracker rendering evidence, not emulator gameplay evidence.

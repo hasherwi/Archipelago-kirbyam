@@ -1,0 +1,105 @@
+{
+  "scope": "Controlled native mGBA 0.10.5 fixtures, one physical Goal Game source; not full playthrough, baseline, full acceptance, or live AP-server evidence.",
+  "patch_sha256": "8dad83801073c2068aed8394c378cc0780579837b6ec898cfdeed6cd1530de11",
+  "native_source_sha256": {
+    "kirby_ap_payload/goal_game.c": "f150ff5a59c22c00d4a148eb6281b687b35e9f29563169468e3fc64376bc85fa",
+    "kirby_ap_payload/goal_game_runtime_logic.h": "d01850514a59349ced6f55f7cc33c34942c2b41efcdb2fec53bdff157e7b7ac4",
+    "kirby_ap_payload/copy_room.c": "81ab1c0a5f3983ca5c14aa845958c36ca5a267e895c339ef4ad5c229d2d9ba2c",
+    "kirby_ap_payload/copy_room.h": "1ce9507474c46bb853a56f7f0ea114a45df80d0728590f245eac13182d28ad82"
+  },
+  "fixture_rom_sha256": "82741e7b3d9244c6b33915c1e4b2fa14de39f93ef63826e069057cbd99d6b9b9",
+  "setup": {
+    "cold_start": "Blank native save. ROM startup room/position replaced with source room176 doorway vicinity. Phone configuration enabled. No prior-build state reused.",
+    "native_file": 0,
+    "physical_entrance": {
+      "source_room": 176,
+      "destination_room": 980,
+      "goal_bit": 1,
+      "location_id": 3960701
+    },
+    "entry_inputs": [
+      [
+        20,
+        16
+      ],
+      [
+        30,
+        64
+      ],
+      [
+        180,
+        0
+      ]
+    ],
+    "goal_inputs": [
+      [
+        45,
+        16
+      ],
+      [
+        75,
+        64
+      ],
+      [
+        180,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1800,
+        0
+      ]
+    ],
+    "owned_control": "Copy Room and Phone ownership granted via their real epoch-fenced native request mailboxes; both ACKs checked. This is a controlled receipt fixture, not AP-server delivery. No Goal bits or runtime route/position writes."
+  },
+  "results": {
+    "board": {
+      "initial_record": "0x43540000",
+      "completion_frame": 713,
+      "completed_record": "0x43540008",
+      "return_to_801_frame": 1168,
+      "final_record": "0x43540008",
+      "trace_sha256": "f27e69a780ce2d53eb9f8f28332607e06241fbfb52626b191ee11f719707b8c6"
+    },
+    "owned-board": {
+      "initial_record": "0x43540003",
+      "completion_frame": 711,
+      "completed_record": "0x4354000b",
+      "return_to_801_frame": 1165,
+      "final_record": "0x4354000b",
+      "trace_sha256": "cd7d76fc5f5718603e66df5361149f2dac3152e5e1b8bd0eb4ab87f589690720"
+    }
+  },
+  "cold_reload": {
+    "unowned": {
+      "record": "0x43540008",
+      "epoch": 1,
+      "room": 176,
+      "save_sha256": "dc45c0e75aadf2b0e2cc22f8303a170fb5a59b638ba1ef812353d68c7b863b74"
+    },
+    "owned": {
+      "record": "0x4354000b",
+      "epoch": 1,
+      "room": 176,
+      "save_sha256": "b92ebd525e1b3505442f019293aedc0ea5e09a25b095b17b8779dc337c0f56ea"
+    }
+  },
+  "artifacts_sha256": {
+    "report.json": "354925e74ca04bb7b13da6d98bdd693b27482831a0642e1180aa4c46dcfd7647",
+    "enter.json": "b4505ab04aa719b21dffc71a4a0c3821eaa9a53ae1f09732211b1619d8cadf51",
+    "board.png": "dba8eeb13c5f67e01c1b9b0f55df07b7e57412769b8f75c1c68b4d006b9bf082",
+    "owned-board.png": "d288e92b0190eb03fca8efa46baf2689c66ed8cfae541291626879774dcc909a",
+    "cold-reload.png": "2d1575d322bb75ea9388813630ed52cf7d31427a1a9c869bb0f7a4ab42525737",
+    "owned-cold-reload.png": "9bb33737bbf186b01988888689b56b8eef65b811f4ae981fb6a028e000dc50d4"
+  },
+  "regression_discovered": "Initial integrated build shared 0x0203B170 between Goal run and Phone snapshot. Native poll erased Goal origin; fixed run storage is0x0203B1A4 after battery context. Initial failure retained privately, not relabeled as success.",
+  "limitations": [
+    "Other fifteen physical Goal Game sources untested on this successor.",
+    "Zero-prize outcome has not been independently qualified.",
+    "Native files1/2, live AP-server reporting and linked multiplayer not covered by this bounded fixture.",
+    "Old ambiguous records intentionally not migrated; preserve original saves and regenerate matching seed/client/patch."
+  ]
+}

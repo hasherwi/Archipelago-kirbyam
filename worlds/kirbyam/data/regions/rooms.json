@@ -845,7 +845,8 @@
         "included": true,
         "location_id": 3961033,
         "bit_index": 43
-      }
+      },
+      "GOAL_GAME_1_GOAL_1": "can_break_block"
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
@@ -1073,7 +1074,8 @@
         "included": true,
         "location_id": 3961046,
         "bit_index": 56
-      }
+      },
+      "GOAL_GAME_1_GOAL_2": "can_break_floating_block"
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_floating_block"
@@ -1291,7 +1293,8 @@
         "included": true,
         "location_id": 3961047,
         "bit_index": 57
-      }
+      },
+      "GOAL_GAME_1_GOAL_3": "can_break_block"
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
@@ -3576,7 +3579,7 @@
               "id": "0x088B78E8",
               "node": "metal_141:lower_source",
               "source_key": "FLAMER",
-              "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal\u2192Burning3, before either F5 bank. Actual source policy and permission still apply."
+              "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal→Burning3, before either F5 bank. Actual source policy and permission still apply."
             }
           ]
         },
@@ -4059,7 +4062,7 @@
         }
       ]
     },
-    "evidence": "Inner and upper-left pocket connect by ordinary flight/drop beside x10..11 cap. The existing floating-block/Bomb requirement toward the top-right Mustard side is retained: left-trigger reverse Bomb crossing is not controller-accepted. No top\u2192east downward-cap route is added."
+    "evidence": "Inner and upper-left pocket connect by ordinary flight/drop beside x10..11 cap. The existing floating-block/Bomb requirement toward the top-right Mustard side is retained: left-trigger reverse Bomb crossing is not controller-accepted. No top→east downward-cap route is added."
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42": {
     "locations": {
@@ -4397,7 +4400,8 @@
         "included": true,
         "location_id": 3961074,
         "bit_index": 84
-      }
+      },
+      "GOAL_GAME_2_GOAL_1": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
@@ -4410,7 +4414,13 @@
         "location_id": 3961055,
         "bit_index": 64
       },
-      "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": null
+      "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": null,
+      "GOAL_GAME_2_GOAL_2": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      }
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
@@ -6323,7 +6333,13 @@
           "can_break_block"
         ]
       },
-      "MINOR_CHEST_CABBAGE_CAVERN_3_GOAL_OBJECT_01": null
+      "MINOR_CHEST_CABBAGE_CAVERN_3_GOAL_OBJECT_01": null,
+      "GOAL_GAME_3_GOAL": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      }
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
@@ -8326,7 +8342,8 @@
         "included": true,
         "location_id": 3961103,
         "bit_index": 124
-      }
+      },
+      "GOAL_GAME_4_GOAL_1": "can_fly"
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_fly"
@@ -8339,7 +8356,8 @@
         "included": true,
         "location_id": 3961118,
         "bit_index": 140
-      }
+      },
+      "GOAL_GAME_4_GOAL_2": "can_break_block"
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": "can_break_block"
@@ -11282,6 +11300,12 @@
         "included": true,
         "location_id": 3961147,
         "bit_index": 195
+      },
+      "GOAL_GAME_6_GOAL_1": {
+        "any": [
+          "can_fly",
+          "can_swim"
+        ]
       }
     },
     "exits": {
@@ -11300,6 +11324,12 @@
         "included": true,
         "location_id": 3961155,
         "bit_index": 203
+      },
+      "GOAL_GAME_6_GOAL_2": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
       }
     },
     "exits": {
@@ -13002,6 +13032,12 @@
         "included": true,
         "location_id": 3961181,
         "bit_index": 95
+      },
+      "GOAL_GAME_7_GOAL_1": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
       }
     },
     "exits": {
@@ -13020,7 +13056,8 @@
         "included": true,
         "location_id": 3961198,
         "bit_index": 114
-      }
+      },
+      "GOAL_GAME_7_GOAL_2": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
@@ -15508,7 +15545,8 @@
         "included": true,
         "location_id": 3961210,
         "bit_index": 229
-      }
+      },
+      "GOAL_GAME_8_GOAL_1": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
@@ -15520,7 +15558,8 @@
         "included": true,
         "location_id": 3961225,
         "bit_index": 244
-      }
+      },
+      "GOAL_GAME_8_GOAL_2": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
@@ -16317,7 +16356,8 @@
         "included": true,
         "location_id": 3961241,
         "bit_index": 154
-      }
+      },
+      "GOAL_GAME_9_GOAL_1": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null
@@ -16329,7 +16369,8 @@
         "included": true,
         "location_id": 3961248,
         "bit_index": 161
-      }
+      },
+      "GOAL_GAME_9_GOAL_2": null
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": null

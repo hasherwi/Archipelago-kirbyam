@@ -168,6 +168,7 @@ def test_other_moonlight_checks_and_exits_are_unchanged() -> None:
         "locations": {
             "room_sanity": {"included": True, "location_id": 3961055, "bit_index": 64},
             MAIN_CHEST: None,
+            "GOAL_GAME_2_GOAL_2": {"all": ["can_fly", "can_break_floating_block"]},
         },
         "exits": {CENTRAL_CIRCLE: {"all": ["can_fly", "can_break_floating_block"]}},
     }
@@ -214,8 +215,8 @@ def test_built_regions_and_slot_data_keep_correct_compartments(
     assert sum(location.address == chalk.address for location in multiworld.get_locations(1)) == 1
     assert multiworld.get_location(data.locations[MAIN_CHEST].label, 1).parent_region is main
     assert {location.address for location in main.locations} == (
-        {data.locations[MAIN_CHEST].location_id, 3961055} if room_sanity
-        else {data.locations[MAIN_CHEST].location_id}
+        {data.locations[MAIN_CHEST].location_id, 3960704, 3961055} if room_sanity
+        else {data.locations[MAIN_CHEST].location_id, 3960704}
     )
     door = multiworld.get_entrance(f"{UPPER_LEFT} -> {BOTTOM_RIGHT}", 1)
     assert door.connected_region is multiworld.get_region(BOTTOM_RIGHT, 1)

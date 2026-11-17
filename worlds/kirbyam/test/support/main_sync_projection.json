@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
-  "integrated_commit": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
-  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Battery pending-delivery projection additionally reverses only the reviewed timeout-preservation delta; original main hash is unchanged.",
+  "integrated_commit": "6884876664a1cc8df34a4ae6527407f31746bcd6",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/Goal Game projection against unchanged historical main pins; no native evidence rebaseline.",
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "92fd8b86271a8ebfe028b260158299c43a6ca6cff1713bf19cba68f3d959230d",
+      "integrated_sha256": "7f4efa8ae8169fe0c43bbe2a0a99d75e2081ff0382c0ab97fd73607763e7432d",
       "reverse_slices": [
         {
           "start": 12,
@@ -29,8 +29,16 @@
           "main": []
         },
         {
-          "start": 2036,
-          "stop": 2037,
+          "start": 29,
+          "stop": 30,
+          "current": [
+            "from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2037,
+          "stop": 2038,
           "current": [
             "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
           ],
@@ -39,9 +47,15 @@
           ]
         },
         {
-          "start": 2070,
-          "stop": 2080,
+          "start": 2071,
+          "stop": 2087,
           "current": [
+            "            if goal_slot_version(slot):\n",
+            "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
+            "                if session_expired():\n",
+            "                    return False\n",
+            "                if bytes(marker) != GOAL_MARKER:\n",
+            "                    raise ValueError(\"ROM and slot Goal Game versions differ\")\n",
             "            # The GBA bus remains addressable for older, shorter ROMs. Their\n",
             "            # mirrored/open-bus bytes have no Phone marker and remain legacy.\n",
             "            # Probe on every poll so a ROM/config swap cannot reuse permission.\n",
@@ -56,16 +70,24 @@
           "main": []
         },
         {
-          "start": 2284,
-          "stop": 2285,
+          "start": 2291,
+          "stop": 2292,
           "current": [
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
         },
         {
-          "start": 4906,
-          "stop": 4909,
+          "start": 2322,
+          "stop": 2323,
+          "current": [
+            "            await poll_goal_games(ctx)\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 4914,
+          "stop": 4917,
           "current": [
             "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
             "            # through scripts, room transitions or a full/invalid battery epoch.\n",
@@ -77,8 +99,8 @@
           ]
         },
         {
-          "start": 4913,
-          "stop": 4914,
+          "start": 4921,
+          "stop": 4922,
           "current": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
           ],
@@ -146,19 +168,59 @@
   },
   "surfaces": {
     "main_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
-    "integrated_sha256": "143f27302e8d8802842a0581ac7618d965da994bf1cc42214da72ff0c6f3ff8b",
+    "integrated_sha256": "e1cf1e9f2930d4d6d8dede5fd93f735f3b78456304894c3fdc7dbb5decab426a",
     "reverse_slices": [
       {
+        "start": 91,
+        "stop": 92,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_GOAL\",\"requirement\":{\"all\":[\"can_break_block\",\"can_fly\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_3_GOAL\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 195,
+        "stop": 196,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_9_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 198,
+        "stop": 199,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_9_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
         "start": 414,
-        "stop": 414,
+        "stop": 415,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_2_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 417,
+        "stop": 418,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":{\"all\":[\"can_fly\",\"can_break_floating_block\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_2_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 419,
+        "stop": 419,
         "current": [],
         "main": [
           "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
         ]
       },
       {
-        "start": 416,
-        "stop": 418,
+        "start": 421,
+        "stop": 423,
         "current": [
           "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT\"}",
           "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
@@ -166,18 +228,114 @@
         "main": [
           "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18\"}"
         ]
+      },
+      {
+        "start": 504,
+        "stop": 505,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1\",\"requirement\":\"can_fly\",\"room_sanity\":false,\"target\":\"GOAL_GAME_4_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 507,
+        "stop": 508,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_4_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 616,
+        "stop": 617,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_GOAL_1\",\"requirement\":{\"any\":[\"can_fly\",\"can_swim\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_6_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 619,
+        "stop": 620,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_GOAL_2\",\"requirement\":{\"all\":[\"can_fly\",\"can_break_block\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_6_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 743,
+        "stop": 744,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1\",\"requirement\":{\"all\":[\"can_break_block\",\"can_fly\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_7_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 746,
+        "stop": 747,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_7_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 849,
+        "stop": 850,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RADISH_RUINS/ROOM_8_GOAL_1\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_8_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 853,
+        "stop": 854,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RADISH_RUINS/ROOM_8_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_GAME_8_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1058,
+        "stop": 1059,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_1\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1062,
+        "stop": 1063,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2\",\"requirement\":\"can_break_floating_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_2\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1066,
+        "stop": 1067,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_3\"}"
+        ],
+        "main": []
       }
     ]
   },
   "catalog_provenance": {
     "main": "727099d75aec8a70ea87cce88d7d69358e345426",
-    "feature_head": "1ff7610b40f747491eb17d33280c6f4c0690c66b",
+    "feature_head": "6884876664a1cc8df34a4ae6527407f31746bcd6",
     "source_hash_changes": {
+      "worlds/kirbyam/__init__.py": {
+        "previous": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
+        "integrated": "3bf65af2e7f9b535396cb2245fcd15678abd1278b566b29f721e60a5ec4cce64"
+      },
       "worlds/kirbyam/data/regions/rooms.json": {
         "previous": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
-        "integrated": "0e1c46f92ecd76f8c3f37c9d9c36d9fb3cb981388a8d755054b1bb2ed3603a4f"
+        "integrated": "f61dc67b511bf5f33ae5b70d072d8dab4b32b56e5acb60a8f77b3bfa686456e9"
       }
     },
     "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
+  },
+  "reviewed_parent_projection_sha256": {
+    "goal_games": "f96c8b64060ec84663fd1e2ac72aedcbe7d77286d638f1313e44435142b668de",
+    "phone": "e20c9c50965caba61ecc5bf1fb40c7939e1909ead3f9273968f7a44228c4dc9e"
   }
 }
