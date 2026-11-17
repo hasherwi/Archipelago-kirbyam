@@ -315,3 +315,224 @@ def test_classified_rejection_does_not_hide_other_failure_timeout_or_crash(
     errors["kirbyam"].pop("RuntimeError: unexpected")
     errors["kirbyam"]["TimeoutError"] = [2]
     assert launcher.report_result(args, report, 1) == 1
+
+
+def room16_artifact(launcher: ModuleType, root: Path, *, ability: str | None = None,
+                    advanced: int = 0, accessibility: int = 0, placed: list[str] | None = None,
+                    weight: int = 0) -> tuple[dict[str, object], dict[str, object]]:
+    from .test_traversal import policy
+    from ..traversal import SourcePolicy
+    raw = policy(2 if ability is None else 1, weight=weight).policy
+    if ability is not None:
+        for seed in range(1000):
+            raw['seed'] = seed
+            if SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed == {ability}:
+                break
+        else:
+            raise AssertionError('No assigned Foley test seed')
+    options = {'game': 'Kirby & The Amazing Mirror', 'accessibility': accessibility,
+               'room_sanity': 1, 'advanced_logic': advanced, 'ability_randomization_mode': raw['mode']}
+    for key in ('ability_randomization_boss_spawns', 'ability_randomization_minibosses',
+                'ability_randomization_passive_enemies', 'ability_randomization_no_ability_weight'):
+        options[key] = int(raw[key])
+    proof = {'schema': 1, 'player': 1, 'seed': 456, 'room_sanity': 1,
+             'advanced_logic': advanced, 'source_policy': raw}
+    message = (launcher.CHECK_ERROR_PREFIX + '\nPlayer 1 (1-0): unfilled=[]; '
+               "unavailable even with all inventory=['Room 4-16']; "
+               f'unreachable from placed progression={placed or []!r}')
+    log = ('Generating for 1 player, 123 Seed 456 with plando: items, connections, texts, bosses\n'
+           'P1 Rolled options (1-0/Kirby & The Amazing Mirror): ' + json.dumps(options) + '\n'
+           + launcher.ROOM16_EVIDENCE_PREFIX + json.dumps(proof) + '\n'
+           'Traceback (most recent call last):\n  File "world.py", line 1, in stage_pre_output\n'
+           '  File "check_accessibility.py", line 2, in validate_all_checks\n'
+           + launcher.CHECK_ERROR_TYPE + ': ' + message + '\n')
+    case = root / 'error/kirbyam/1'
+    case.mkdir(parents=True)
+    (case / '1.log').write_text(log)
+    (case / '1-0.yaml').write_text('game: Kirby & The Amazing Mirror\n')
+    return {'stats': {'total': 4, 'success': 3, 'failure': 1, 'timeout': 0, 'ignored': 0},
+            'errors': {'kirbyam': {message: [1]}}}, proof
+
+
+@pytest.mark.parametrize('ability,advanced,weight,accepted', [
+    (None, 0, 0, True), (None, 1, 50, True), (None, 0, 100, True),
+    ('Beam', 0, 0, True), ('Crash', 0, 0, True), ('Magic', 0, 0, True), ('Ice', 0, 0, False),
+    ('Bomb', 0, 0, False), ('UFO', 0, 0, False),
+    ('Crash', 1, 0, False), ('Magic', 1, 0, False), ('Ice', 1, 0, False),
+])
+@pytest.mark.parametrize('accessibility', [0, 2])
+def test_room16_proof_reconstructs_actual_source_and_advanced_exclusion(
+    tmp_path: Path, ability: str | None, advanced: int, weight: int, accepted: bool, accessibility: int,
+) -> None:
+    launcher = load_launcher()
+    report, _ = room16_artifact(launcher, tmp_path, ability=ability, advanced=advanced,
+                               weight=weight, accessibility=accessibility)
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path, minimal=False, room16=True)
+    assert bool(outcomes['unsafe_rejected']) is accepted
+    assert bool(outcomes['unclassified']) is not accepted
+    if accepted:
+        assert outcomes['unsafe_rejected'][0]['inventory_unreachable'] == ['Room 4-16']
+        assert outcomes['unsafe_rejected'][0]['source_policy_sha256']
+
+
+@pytest.mark.parametrize('accessibility,accepted', [(0, False), (2, True)])
+def test_room16_other_placement_failures_only_allowed_under_existing_minimal_contract(
+    tmp_path: Path, accessibility: int, accepted: bool,
+) -> None:
+    launcher = load_launcher()
+    report, _ = room16_artifact(launcher, tmp_path, accessibility=accessibility, placed=['A chest'])
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path, room16=True)
+    assert bool(outcomes['unsafe_rejected']) is accepted
+
+
+@pytest.mark.parametrize('change', [
+    'no_proof', 'duplicate_proof', 'after_traceback', 'schema', 'player', 'seed', 'seed_bool',
+    'room_sanity', 'advanced_logic', 'advanced_bool', 'no_policy', 'missing_mode', 'unknown_policy_field',
+    'mode', 'mode_bool', 'missing_seed', 'seed_range', 'mapping', 'bad_pool', 'duplicate_pool', 'narrow_pool',
+    'eligibility', 'eligibility_type', 'weight', 'minny', 'extra_check', 'unfilled',
+    'wrong_exception', 'trailing_error', 'missing_stack', 'missing_yaml', 'multiple_options',
+])
+def test_room16_source_proof_fails_closed_on_incomplete_or_mismatched_evidence(tmp_path: Path, change: str) -> None:
+    launcher = load_launcher()
+    report, proof = room16_artifact(launcher, tmp_path)
+    path = tmp_path / 'error/kirbyam/1/1.log'
+    log = path.read_text()
+    old = launcher.ROOM16_EVIDENCE_PREFIX + json.dumps(proof)
+    raw = proof['source_policy']
+    assert isinstance(raw, dict)
+    if change in ('schema', 'player', 'seed', 'room_sanity', 'advanced_logic'):
+        proof[change] = 9
+    elif change == 'seed_bool': proof['seed'] = True
+    elif change == 'advanced_bool': proof['advanced_logic'] = False
+    elif change == 'no_policy': proof['source_policy'] = None
+    elif change == 'missing_mode': raw.pop('mode')
+    elif change == 'unknown_policy_field': raw['unreviewed'] = True
+    elif change == 'mode': raw['mode'] = 1
+    elif change == 'mode_bool': raw['mode'] = True
+    elif change == 'missing_seed': raw.pop('seed')
+    elif change == 'seed_range': raw['seed'] = -1
+    elif change == 'mapping': raw['mapping_style'] = 'wrong'
+    elif change == 'bad_pool': raw['allowed_abilities'] = ['Invalid']
+    elif change == 'duplicate_pool': raw['allowed_abilities'].append(raw['allowed_abilities'][0])
+    elif change == 'narrow_pool': raw['allowed_abilities'] = ['Beam']
+    elif change == 'eligibility': raw['ability_randomization_boss_spawns'] = False
+    elif change == 'eligibility_type': raw['ability_randomization_boss_spawns'] = 1
+    elif change == 'weight': raw['ability_randomization_no_ability_weight'] = 100
+    elif change == 'minny': raw['ability_randomization_minny'] = True
+    log = log.replace(old, launcher.ROOM16_EVIDENCE_PREFIX + json.dumps(proof))
+    current = launcher.ROOM16_EVIDENCE_PREFIX + json.dumps(proof)
+    if change == 'no_proof': log = log.replace(current + '\n', '')
+    elif change == 'duplicate_proof': log = log.replace(current, current + '\n' + current)
+    elif change == 'after_traceback':
+        log = log.replace(current + '\n', '').replace('Traceback (most recent call last):',
+                                                      'Traceback (most recent call last):\n' + current)
+    elif change == 'trailing_error': log += 'RuntimeError: extra\n'
+    elif change == 'missing_yaml': (path.parent / '1-0.yaml').unlink()
+    elif change == 'multiple_options':
+        line = next(line for line in log.splitlines() if line.startswith('P1 Rolled options'))
+        log = line + '\n' + log
+    replacements = {
+        'extra_check': ("inventory=['Room 4-16']", "inventory=['Room 4-16', 'Another']"),
+        'unfilled': ('unfilled=[]', "unfilled=['Room 4-16']"),
+        'wrong_exception': (launcher.CHECK_ERROR_TYPE, 'RuntimeError'),
+        'missing_stack': ('in stage_pre_output', 'in generate_early'),
+    }
+    if change in replacements:
+        before, after = replacements[change]
+        log = log.replace(before, after)
+        report['errors']['kirbyam'] = {message.replace(before, after): cases
+                                       for message, cases in report['errors']['kirbyam'].items()}
+    path.write_text(log)
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path, room16=True)
+    assert not outcomes['unsafe_rejected']
+    assert len(outcomes['unclassified']) == 1
+
+
+@pytest.mark.parametrize('key,value', [
+    ('fail_closed', False), ('required_for_generation', True), ('advanced_graphs', ['hub4_crash_entry']),
+    ('requires_guaranteed_source', {'source_key': 'FOLEY', 'abilities': ['Beam']}),
+    ('graphs', {}), ('exit', 'OTHER'), ('requires_any_guaranteed_source', []),
+])
+def test_room16_classifier_rejects_changed_catalog_contract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, key: str, value: object,
+) -> None:
+    from copy import deepcopy
+    from .. import traversal_data
+    launcher = load_launcher()
+    report, _ = room16_artifact(launcher, tmp_path)
+    rows = deepcopy(traversal_data.room_traversal_targets('switch'))
+    row = next(row for row in rows if row['id'] == 'switch_533_room16')
+    row[key] = value
+    monkeypatch.setattr(traversal_data, 'room_traversal_targets', lambda kind: rows)
+    assert not launcher.classify_minimal_rejections(report, tmp_path, room16=True)['unsafe_rejected']
+
+
+def test_room16_opt_in_is_separate_and_preserves_raw_report_and_success_floor(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    launcher = load_launcher()
+    assert not launcher.parse_args([]).classify_room16_rejections
+    assert launcher.parse_args(['--classify-room16-rejections']).classify_room16_rejections
+    report, _ = room16_artifact(launcher, tmp_path)
+    before = json.dumps(report)
+    monkeypatch.setattr(launcher, 'OUTPUT_DIR', tmp_path)
+    args = launcher_args(runs=4, classify_minimal_rejections=True)
+    assert launcher.report_result(args, report, 1) == 1
+    args.classify_room16_rejections = True
+    args.classify_minimal_rejections = False
+    assert launcher.report_result(args, report, 1) == 0
+    assert json.dumps(report) == before
+    report['stats'].update(total=3, success=1, failure=2)
+    assert launcher.validate_report(report, expected_runs=3, allow_ignored=False,
+                                    unsafe_rejected=2) == ['fewer than 50% of attempts succeeded; safety rejections are not playable generations']
+
+
+def test_classifier_consumes_actual_validator_proof_schema(tmp_path: Path) -> None:
+    from ..check_accessibility import _room16_source_rejection_evidence
+    launcher = load_launcher()
+    report, expected = room16_artifact(launcher, tmp_path)
+    raw = expected['source_policy']
+    value = lambda n: SimpleNamespace(value=n)
+    options = SimpleNamespace(room_sanity=value(1), accessibility=value(0), advanced_logic=value(0),
+                              ability_randomization_mode=value(raw['mode']))
+    mw = SimpleNamespace(players=1, seed=456,
+                         worlds={1: SimpleNamespace(options=options, _enemy_copy_ability_policy=raw)})
+    actual = _room16_source_rejection_evidence(mw, 1, [], ['Room 4-16'], [])
+    assert actual == expected
+    path = tmp_path / 'error/kirbyam/1/1.log'
+    path.write_text(path.read_text().replace(json.dumps(expected),
+                                            json.dumps(actual, sort_keys=True, separators=(',', ':'))))
+    result = launcher.classify_minimal_rejections(report, tmp_path, minimal=False, room16=True)
+    assert len(result['unsafe_rejected']) == 1 and not result['unclassified']
+    assert result['unsafe_rejected'][0]['source_proof'] == actual
+
+
+def test_room16_flag_alone_does_not_enable_minimal_placement_classification(tmp_path: Path) -> None:
+    launcher = load_launcher()
+    report = rejection_artifact(launcher, tmp_path)
+    result = launcher.classify_minimal_rejections(report, tmp_path, minimal=False, room16=True)
+    assert not result['unsafe_rejected'] and len(result['unclassified']) == 1
+
+
+
+def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
+    """Exercise the script's import environment, without pytest/PYTHONPATH help."""
+    import subprocess
+    import sys
+    launcher = load_launcher()
+    report, _ = room16_artifact(launcher, tmp_path)
+    report_path = tmp_path / 'report.json'
+    report_path.write_text(json.dumps(report))
+    code = (
+        'import json, runpy, sys; from pathlib import Path; '
+        'assert str(Path(sys.argv[1]).resolve().parents[1]) not in sys.path; '
+        'module = runpy.run_path(sys.argv[1]); '
+        'root = Path(sys.argv[2]); '
+        'report = json.loads((root / "report.json").read_text()); '
+        'result = module["classify_minimal_rejections"](report, root, minimal=False, room16=True); '
+        'assert len(result["unsafe_rejected"]) == 1, result; '
+        'assert not result["unclassified"], result'
+    )
+    completed = subprocess.run([sys.executable, '-I', '-c', code, str(LAUNCHER_PATH), str(tmp_path)],
+                               cwd=tmp_path, capture_output=True, text=True, timeout=60)
+    assert completed.returncode == 0, completed.stdout + completed.stderr

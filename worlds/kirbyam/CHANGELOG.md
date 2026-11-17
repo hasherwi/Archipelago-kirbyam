@@ -11,13 +11,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash traversal routes (PR #1092).
+- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
+- Include the reviewed guaranteed-Foley Ice route through Mustard Room 15 in normal logic (issue #1099).
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
-- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
@@ -25,6 +26,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
 
 ### Bug Fixes
+- Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (issue #1099). The ordinary Room 17 bypass remains available; RoomSanity accessibility is still validated.
 
 ### Internal Changes
 

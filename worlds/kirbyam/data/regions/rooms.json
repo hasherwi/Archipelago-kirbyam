@@ -9194,15 +9194,19 @@
           "kind": "switch",
           "native_room": 533,
           "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+          "required_for_generation": false,
+          "fail_closed": true,
           "requires_guaranteed_source": {
             "source_key": "FOLEY",
             "abilities": [
               "Bomb",
               "UFO",
               "Crash",
-              "Magic"
+              "Magic",
+              "Ice"
             ]
           },
+          "optional_route_evidence": "dev-docs/mustard-room15-source-witness.md#all-policy-access-rule-issue-1099; Room15 -> Room17 -> Room18 bypasses Room16 for ordinary progression. Room16 itself is not granted by that bypass; its optional RoomSanity check remains subject to fill/accessibility.",
           "graphs": {
             "hub4_entry": {
               "version": 1,
@@ -9566,10 +9570,141 @@
                   "evidence": "dev-docs/mustard-room15-magic-source-witness.md; Actual 325 arrival at baseline frame 5221 as Normal, settling through frame 5269."
                 }
               ]
+            },
+            "hub4_ice_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "requires_guaranteed_source": {
+                "source_key": "FOLEY",
+                "ability": "Ice"
+              },
+              "nodes": [
+                {
+                  "id": "switch_533_room16:ice_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_533_room16:ice_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_533_room16:ice_arrival",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:ice_source",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:ice_pose",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:ice_crossed",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:ice_door",
+                  "native_room": 533
+                },
+                {
+                  "id": "switch_533_room16:ice_destination",
+                  "native_room": 325
+                }
+              ],
+              "starts": [
+                "switch_533_room16:ice_hub4"
+              ],
+              "required_targets": [
+                "switch_533_room16:ice_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2714",
+                  "node": "switch_533_room16:ice_source",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-ice-source-witness.md; Original finite Foley at (224,64), naturally inhaled and swallowed for guaranteed Ice after independent Hub4 ingress; no pre-equipped inventory."
+                },
+                {
+                  "id": "0x088C2714:camera_respawn1",
+                  "node": "switch_533_room16:ice_pose",
+                  "source_key": "FOLEY",
+                  "acquisition_evidence": "dev-docs/mustard-room15-ice-source-witness.md; Distinct second spawned instance of original Foley after finite Ice acquisition and witnessed crouch-camera reset. This is a single projectile target, not an unlimited grant or random-source retry. Swallowing it consumes the target and cannot also create a projectile."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_533_room16:ice_hub4",
+                  "to": "switch_533_room16:ice_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-ice-source-witness.md; Actual single-player room transition, not an in-room source retry.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Normal enters534 from independent590/Hub4 through the actual door."
+                },
+                {
+                  "from": "switch_533_room16:ice_rainbow34",
+                  "to": "switch_533_room16:ice_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-room15-ice-source-witness.md; Actual single-player room transition, not an in-room source retry.",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Normal clears lower barrier with native payload and upper barrier with air puff, then enters533 through actual534 door."
+                },
+                {
+                  "from": "switch_533_room16:ice_arrival",
+                  "to": "switch_533_room16:ice_source",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Normal flies through the observed viewport-reset approach to original Foley."
+                },
+                {
+                  "from": "switch_533_room16:ice_source",
+                  "to": "switch_533_room16:ice_pose",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Carry acquired Ice to the left-side setup pose, crouch to scroll camera down, then release to spawn the second original Foley instance. This establishes the freeze/kick setup; the following atomic edge includes the full breath and crossing sequence. No live-random retry or equipment injection."
+                },
+                {
+                  "from": "switch_533_room16:ice_pose",
+                  "to": "switch_533_room16:ice_crossed",
+                  "capability": "frozen_enemy_hit",
+                  "uses_object": "0x088C2714:camera_respawn1",
+                  "frozen_enemy_evidence": "dev-docs/mustard-room15-ice-source-witness.md; Freeze the second native Foley, kick right through the solid divider into the small switch, retreat left on the ground then jump left through the timed gate. Atomic complete crossing, no persistent switch credit.",
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Same fixed controller completes this sequence at100% and500% enemy-health endpoints."
+                },
+                {
+                  "from": "switch_533_room16:ice_crossed",
+                  "to": "switch_533_room16:ice_door",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Retain Ice while flying to actual325 door after crossing the timed gate."
+                },
+                {
+                  "from": "switch_533_room16:ice_door",
+                  "to": "switch_533_room16:ice_destination",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/mustard-room15-ice-source-witness.md; Actual325 transition retaining Ice; no RoomSanity or generic room access substitutes for the prefix."
+                }
+              ]
             }
           },
           "advanced_graphs": [
-            "hub4_crash_entry"
+            "hub4_crash_entry",
+            "hub4_magic_entry"
           ]
         }
       ]

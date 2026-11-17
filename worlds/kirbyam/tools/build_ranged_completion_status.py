@@ -81,16 +81,17 @@ def build_status() -> dict[str, Any]:
             "surface_kind": "exit" if row.get("exit") else "location",
             "surface": row.get("exit") or row["location"],
             "witnesses": list(row["graphs"]), "target_source_conditions": conditions,
-            "coverage": "partial_source_policy" if conditions else "bounded_installed",
-            "public_fallback_profiles": [name for name, policy in profiles.items() if not target_applies(row, policy)],
+            "coverage": "fail_closed_source_policy" if row.get("fail_closed") else
+                        "partial_source_policy" if conditions else "bounded_installed",
+            "public_fallback_profiles": [name for name, policy in profiles.items() if not row.get("fail_closed") and not target_applies(row, policy)],
             "synthetic_applicable_profiles": [name for name, policy in diagnostics.items()
                                               if target_applies(row, policy)],
         })
-    actual_conditional = sorted(row["id"] for row in targets if source_conditions(row))
+    actual_conditional = sorted(row["id"] for row in targets if source_conditions(row) and not row.get("fail_closed"))
     if actual_conditional != sorted(contract["policy_fallback_targets"]):
         errors.append("Conditional target inventory changed; review and update the declared coverage.")
     actual_fallbacks = {
-        name: sorted(row["id"] for row in targets if not target_applies(row, policy))
+        name: sorted(row["id"] for row in targets if not row.get("fail_closed") and not target_applies(row, policy))
         for name, policy in profiles.items()
     }
     if actual_fallbacks != contract["public_profile_fallbacks"]:

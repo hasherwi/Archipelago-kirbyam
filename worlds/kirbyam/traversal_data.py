@@ -232,6 +232,10 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     ):
         raise ValueError("Central Master belongs only to the reviewed Carrot entry")
     _validate_new_connection(row)
+    if not isinstance(row.get("fail_closed", False), bool):
+        raise ValueError("fail_closed must be a boolean")
+    if row.get("fail_closed") and not row.get("exit"):
+        raise ValueError("fail_closed requires an exit target")
     condition = row.get("requires_guaranteed_source")
     alternatives = row.get("requires_any_guaranteed_source")
     if "requires_any_guaranteed_source" in row:
@@ -290,7 +294,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
 
 
 def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
-    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic"]}:
+    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic", "Ice"]}:
         if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
             "switch_533_room16", "switch", 533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
             "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",

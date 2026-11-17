@@ -2,7 +2,7 @@
 
 This is the broad scope of PR #1052, not a claim that all ranged logic is
 implemented. [Reproducible completion status](ranged-completion-status.md) tracks
-the four current target-wide source-policy fallbacks and the remaining evidence boundaries.
+the three remaining permissive target-wide source-policy fallbacks and the remaining evidence boundaries.
 The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
@@ -41,7 +41,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (146 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (147 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -102,7 +102,7 @@ All anchors below refer to native1197474. Their category-mask compatibility is n
 
 Keep ordinary Bomb Block0xF1 and selective0xF6 filters separate. Small and big switches have different masks/player handling. Small switches also accept overlapping star-stone/large-star-stone objects (`big_small_switch.c:135–197`). Fuses admit categories0x100/0x10000 (`cannon_fuse.c:39–53,603–610`). Star-stone objects have strength4 resistance and physical behavior (`star_stone_block.c:14–37`); they are not background tiles. Destroyable rock blocks use Kirby position/state/delay (`destroyable_rock_block.c:13–64`), not an inferred attack from their name. Animated door opening is not completed traversal.
 
-Two raw `can_hit_far_switch` strings remain: Mustard Chest310 and Mustard15/native533→Mustard16/native325. Both receive installed source-aware constraints under their reviewed source policies; the strings alone are not missing implementations. Outside those policies the extra rule is skipped, preserving the permissive base rule. They must not become blanket ability gates:
+Two raw `can_hit_far_switch` strings remain: Mustard Chest310 and Mustard15/native533→Mustard16/native325. Both receive installed source-aware constraints under their reviewed source policies; the strings alone are not missing implementations. Outside those policies, Chest310 retains the permissive fallback. Issue #1099 changes the Room15→16 exit to fail closed without a reviewed source policy, while preserving the ordinary Room17 bypass; see [its source witness](mustard-room15-source-witness.md#all-policy-access-rule-issue-1099). They must not become blanket ability gates:
 
 - 310 has a solid intervening wall and near-zero release timer. The guaranteed
   TWISTER → UFO subset uses the complete Normal Hub4/native 590 → 534 approach,
@@ -410,6 +410,8 @@ for raw hashes, startup qualifications and native-versus-host coverage limits.
 ## Mustard Room15: bounded Magic Meta Knight alternative
 
 `switch_533_room16` adds one separate guaranteed FOLEY → Magic OR graph.
+This graph is enabled only with Advanced Logic; the default excludes Magic
+traversal and does not promote its permission item to progression.
 Normal enters through actual Hub4 → 534 → 533, acquires the finite source,
 carries Magic to the reviewed dry pose, selects Meta Knight using the visible
 roulette icon, consumes Magic to Normal and completes the timed crossing and
@@ -640,4 +642,16 @@ proposed fresh15/repeat16 are unrun.
 Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
 unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
 new target, source-policy binding or generic Normal ability gate is added.
-Current counts remain 57 targets/146 witnesses/four target-wide fallbacks.
+Current counts are 57 targets/147 witnesses/three target-wide fallbacks after the Ice533 extension and #1099 fail-closed rule.
+
+
+## Normal-logic Ice at Mustard Room15 (#1099)
+
+The fifth Room15-to-Room16 alternative requires raw guaranteed
+Foley→Ice. The complete Hub4 ingress, natural acquisition, crouch-camera respawn,
+freeze/kick, switch contact and timed crossing are recorded in
+[mustard-room15-ice-source-witness.md](mustard-room15-ice-source-witness.md).
+Eight cold production-fixture runs cover HP 1/6 × health 100%/500% with matched
+no-freeze controls. This is not arbitrary carried-Ice access or a mixed/failable
+source guarantee. The second spawned Foley is one finite projectile, not an
+unlimited source. The route is available at both logic levels; all unrelated targets are unchanged.

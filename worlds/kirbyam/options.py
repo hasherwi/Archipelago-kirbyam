@@ -406,9 +406,9 @@ class RoomSanity(Toggle):
 
 
 class AdvancedLogic(Toggle):
-    """Off by default. Enable reviewed Crash-dependent traversal routes, including
+    """Off by default. Enable reviewed Crash- and Magic-dependent traversal routes, including
     their physical source and one-use timing requirements. Disabled logic excludes
-    these routes, but does not remove Crash from the ability pool.
+    these routes, but does not remove Crash or Magic from the ability pool.
 
     This does not assume helper combat or enable unreviewed routes.
     """

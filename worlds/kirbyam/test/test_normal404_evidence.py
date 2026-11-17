@@ -209,10 +209,10 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 native provenance remains 144; Master719 and Green138 each add exactly one graph.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 146,
+    assert status['counts'] == {**contract['counts'], 'witnesses': 147,
                                 'regions': 386, 'mapped_native_definitions': 354, 'surfaces': 1091}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 384, 1091, 57, 146)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 384, 1091, 57, 147)
     from .support.lever_history import before_lever_compartments
     assert digest(before_lever_compartments(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green and exact Crash logic annotations off the Master-era pin.
@@ -229,7 +229,7 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
     assert set(scope['policy_fallback_targets']) == {
         'bomb_517_chocolate', 'bomb_733_yellow',
-        'switch_533_room16', 'switch_310_mustard_map',
+        'switch_310_mustard_map',  # Room16 is now fail-closed under #1099.
     }
     for key in (ROOM, PREFIX + 'ROOM_9_02', PREFIX + 'ROOM_9_07', OWNER):
         assert not data.regions[key].traversal

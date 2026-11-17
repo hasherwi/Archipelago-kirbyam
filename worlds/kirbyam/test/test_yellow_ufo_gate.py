@@ -197,7 +197,16 @@ def test_720_cycle_cannot_supply_its_own_independent_entry():
 def test_actual_full_generation_seed8_at_one_hp(
         tmp_path, monkeypatch, gating, area_keys, statues, room_sanity, mode, applies):
     import Main
-    from .. import build_enemy_copy_ability_policy
+    from .. import build_enemy_copy_ability_policy, check_accessibility
+    from .support.check_accessibility import audit_local_checks
+
+    validated, validate = [], check_accessibility.validate_all_checks
+
+    def capture_validation(mw, players):
+        validated.append(mw)
+        return validate(mw, players)
+
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', capture_validation)
 
     builder_calls = 0
 
@@ -224,9 +233,30 @@ def test_actual_full_generation_seed8_at_one_hp(
         f'  ability_randomization_statues: {statues}\n  room_sanity: {room_sanity}\n'
         '  ability_randomization_no_ability_weight: 0\n  minimum_health: 1\n  maximum_health: 1\n'
         '  accessibility: full\n', encoding='utf-8')
-    archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=8)
-    decoded = load_multidata_from_archive(archive)
-    raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+    if mode == 1 and room_sanity:
+        # Preserve seed8's reviewed Yellow source while rejecting its unrelated
+        # unqualified Room16 timed exit, rather than emitting an unsafe archive.
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            generate_archive_from_fixture(player, tmp_path / 'out', seed=8)
+        mw, = validated
+        audit = audit_local_checks(mw, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        assert audit.progression_unreachable == ('Room 4-16',)
+        assert not generated
+        assert not tuple((tmp_path / 'out').glob('*.zip'))
+        raw = mw.worlds[1]._enemy_copy_ability_policy
+        assert not mw.worlds[1].options.advanced_logic.value
+        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO'}
+        assert any(loc.address == 3960501 for loc in mw.get_locations(1))
+    else:
+        archive = generate_archive_from_fixture(player, tmp_path / 'out', seed=8)
+        decoded = load_multidata_from_archive(archive)
+        raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
+        assert decoded['locations'][1][3960501]
+        mw, = generated
+        assert not mw.get_unfilled_locations() and mw.can_beat_game() and mw.fulfills_accessibility()
     # Enabling statues rerolls seed8's source feasibility: the isolated ranged
     # catalog selected Cutter, while the merged catalog selects Smash. Neither
     # is supported here. Preserve the historical native UFO policy separately.
@@ -242,9 +272,6 @@ def test_actual_full_generation_seed8_at_one_hp(
             '91e4b21f2cdf460d94aa5623a25f2153878ac68ec1c0c748ae43e94bed85742c'
         )
     assert rules.target_applies(target_row(), SourcePolicy(raw)) is applies
-    assert decoded['locations'][1][3960501]
-    mw, = generated
-    assert not mw.get_unfilled_locations() and mw.can_beat_game() and mw.fulfills_accessibility()
     world = mw.worlds[1]
     state = CollectionState(mw)
     state.can_reach_region = lambda name, player: name == UPSTREAM
