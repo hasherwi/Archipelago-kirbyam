@@ -141,9 +141,7 @@ def mustard_magic_is_progression(world: Any) -> bool:
 
 
 def mustard_ice_is_progression(world: Any) -> bool:
-    """Only Advanced Logic with a guaranteed Foley needs this Ice route."""
-    if not advanced_traversal_enabled(world):
-        return False
+    """Guaranteed Foley Ice needs permission in both normal and Advanced Logic."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict) or not world._ability_gating_enabled():
         return False

@@ -11,7 +11,7 @@ import json
 from typing import Any
 
 MARKERS = {'fuse_126': ['lower_entry_crash'],
-           'switch_533_room16': ['hub4_crash_entry', 'hub4_magic_entry', 'hub4_ice_entry'],
+           'switch_533_room16': ['hub4_crash_entry', 'hub4_magic_entry'],
            'switch_310_mustard_map': ['hub4_crash_entry']}
 
 

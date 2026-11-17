@@ -1,12 +1,12 @@
-# Mustard Room15: Advanced Ice, respawned Foley, and timed crossing
+# Mustard Room15: Ice, respawned Foley, and timed crossing
 
 The proposed Ice alternative is physically possible. It is not merely permission
 ownership or an assumed repeatable source. The bounded witness starts at the
 independently accessible Rainbow Hub 4/native 590 approach, enters 534 and then 533,
 acquires Ice from the original guaranteed Foley source, resets the camera to
 respawn that Foley template, freezes the new enemy, kicks it through the wall,
-and crosses the timed gate into native 325. This unintuitive camera manipulation
-belongs only in **Advanced Logic**. No generic Ice far-switch capability or other
+and crosses the timed gate into native 325. This bounded route is included in normal logic, with the same source and
+physical traversal requirements at both logic levels. No generic Ice far-switch capability or other
 room/target is qualified by this evidence.
 
 ## Source, camera reset, and projectile
@@ -75,7 +75,9 @@ source substitutions after boot, or RNG manipulation. The committed manifest
 retains exact ROM/patch/script/trace hashes; ROMs, saves, screenshots, and raw
 traces remain private.
 
-Native fixtures disable ability gating and area keys and enable Advanced Logic.
+Historical native fixtures disable ability gating and area keys and enable Advanced Logic.
+That recorded option remains unchanged in the manifest; normal-logic eligibility
+is a subsequent host-logic change, covered by host tests at both logic levels.
 Permission checks, source-policy monotonicity, progression classification,
 RoomSanity, and access-rule negatives need separate host tests; this is not a
 native gate-on or full-new-game replay. Production fixture builds were made

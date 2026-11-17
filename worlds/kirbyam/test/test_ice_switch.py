@@ -60,7 +60,7 @@ def test_finite_acquisition_then_distinct_respawn_projectile(gating, keys):
 ])
 @pytest.mark.parametrize('advanced', [0, 1])
 @pytest.mark.parametrize('gating', [0, 1])
-def test_advanced_source_permission_and_entry_are_all_required(monkeypatch, mode, pool, weight, qualifies, advanced, gating):
+def test_source_permission_and_entry_required_at_both_logic_levels(monkeypatch, mode, pool, weight, qualifies, advanced, gating):
     raw = policy(mode, pool=pool, weight=weight).policy
     set_rule_test_policy(monkeypatch, lambda: raw)
     world = make_world(mode, gating, advanced_logic=advanced)
@@ -73,9 +73,9 @@ def test_advanced_source_permission_and_entry_are_all_required(monkeypatch, mode
     assert not edge.access_rule(state)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     # Native Bomb remains its independent ordinary alternative.
-    expected = bool(qualifies and advanced)
+    expected = bool(qualifies)
     assert edge.access_rule(state) is (expected or (mode == 0 and not gating))
-    assert rules.mustard_ice_is_progression(world) is bool(qualifies and advanced and gating)
+    assert rules.mustard_ice_is_progression(world) is bool(qualifies and gating)
     graph = room_traversal_graph(TARGET, WITNESS)
     assert graph.evaluate(SourcePolicy(raw), frozenset({'Ice Ability'}), bool(gating),
                           allow_documented_retries=True).reaches(PREFIX + 'door') is qualifies
@@ -84,12 +84,13 @@ def test_advanced_source_permission_and_entry_are_all_required(monkeypatch, mode
         assert edge.access_rule(state) is bool(expected and not gating)
 
 
-def test_ice_only_in_advanced_graphs_and_other_ice_classification_retained():
+def test_ice_in_normal_graphs_and_other_ice_classification_retained():
     row = target_row()
-    assert WITNESS in row['advanced_graphs']
-    assert WITNESS not in [g for g in row['graphs'] if g not in row['advanced_graphs']]
+    assert row['advanced_graphs'] == ['hub4_crash_entry', 'hub4_magic_entry']
+    assert WITNESS not in row['advanced_graphs']
+    assert WITNESS in [g for g in row['graphs'] if g not in row['advanced_graphs']]
     assert len(rules.target_graphs(row, False, advanced=True)) == 5
-    assert len(rules.target_graphs(row, False, advanced=False)) == 2
+    assert len(rules.target_graphs(row, False, advanced=False)) == 3
     world = make_world(0, 1, advanced_logic=0)
     assert not rules.mustard_ice_is_progression(world)
     assert rules.goal2_ice_is_progression(world)
@@ -99,9 +100,9 @@ def test_ice_only_in_advanced_graphs_and_other_ice_classification_retained():
 @pytest.mark.parametrize('gating,advanced,rooms,count,keys', [
     (1, 1, 1, 0, 0), (1, 1, 1, 2, 1), (0, 1, 1, 0, 0),
     (1, 0, 1, 1, 0), (0, 0, 1, 0, 0), (1, 0, 0, 1, 0),
+    (1, 0, 1, 0, 1), (1, 0, 1, 2, 1),
 ])
-def test_full_pool_seed43_archive_and_advanced_disabled_rejection(tmp_path, gating, advanced, rooms, count, keys):
-    from ..check_accessibility import KirbyAmCheckAccessibilityError
+def test_full_pool_seed43_archive_at_both_logic_levels(tmp_path, gating, advanced, rooms, count, keys):
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
     player = tmp_path / 'player.yaml'
     player.write_text('name: Ice533Proof\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n'
@@ -111,12 +112,6 @@ def test_full_pool_seed43_archive_and_advanced_disabled_rejection(tmp_path, gati
                       f'  area_keys: {keys}\n  room_sanity: {rooms}\n'
                       f'  start_inventory:\n    Ice Ability: {count}\n', encoding='utf-8')
     out = tmp_path / 'out'
-    if rooms and not advanced:
-        with pytest.raises(KirbyAmCheckAccessibilityError,
-                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
-            generate_archive_from_fixture(player, out, seed=43)
-        assert not tuple(out.glob('*.zip'))
-        return
     archive = generate_archive_from_fixture(player, out, seed=43)
     decoded = load_multidata_from_archive(archive)
     raw = decoded['slot_data'][1]['enemy_copy_ability_policy']

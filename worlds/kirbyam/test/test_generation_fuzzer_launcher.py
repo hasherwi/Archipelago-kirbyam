@@ -356,7 +356,7 @@ def room16_artifact(launcher: ModuleType, root: Path, *, ability: str | None = N
 
 @pytest.mark.parametrize('ability,advanced,weight,accepted', [
     (None, 0, 0, True), (None, 1, 50, True), (None, 0, 100, True),
-    ('Beam', 0, 0, True), ('Crash', 0, 0, True), ('Magic', 0, 0, True), ('Ice', 0, 0, True),
+    ('Beam', 0, 0, True), ('Crash', 0, 0, True), ('Magic', 0, 0, True), ('Ice', 0, 0, False),
     ('Bomb', 0, 0, False), ('UFO', 0, 0, False),
     ('Crash', 1, 0, False), ('Magic', 1, 0, False), ('Ice', 1, 0, False),
 ])

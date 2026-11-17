@@ -645,13 +645,13 @@ new target, source-policy binding or generic Normal ability gate is added.
 Current counts are 57 targets/147 witnesses/three target-wide fallbacks after the Ice533 extension and #1099 fail-closed rule.
 
 
-## Advanced Ice at Mustard Room15 (#1099)
+## Normal-logic Ice at Mustard Room15 (#1099)
 
-The fifth Room15-to-Room16 alternative requires Advanced Logic and raw guaranteed
+The fifth Room15-to-Room16 alternative requires raw guaranteed
 Foley→Ice. The complete Hub4 ingress, natural acquisition, crouch-camera respawn,
 freeze/kick, switch contact and timed crossing are recorded in
 [mustard-room15-ice-source-witness.md](mustard-room15-ice-source-witness.md).
 Eight cold production-fixture runs cover HP 1/6 × health 100%/500% with matched
 no-freeze controls. This is not arbitrary carried-Ice access or a mixed/failable
 source guarantee. The second spawned Foley is one finite projectile, not an
-unlimited source. Standard logic and all unrelated targets are unchanged.
+unlimited source. The route is available at both logic levels; all unrelated targets are unchanged.

@@ -77,7 +77,7 @@ def test_all_crash_capable_catalog_routes_explicitly_advanced(area_keys):
                 assert name in row.get('advanced_graphs', ())
                 assert graph not in rules.target_graphs(row, area_keys)
             if name in row.get('advanced_graphs', ()):
-                assert (row['id'], name) in ADVANCED | {('switch_533_room16', 'hub4_magic_entry'), ('switch_533_room16', 'hub4_ice_entry')}
+                assert (row['id'], name) in ADVANCED | {('switch_533_room16', 'hub4_magic_entry')}
     assert found == ADVANCED
 
 

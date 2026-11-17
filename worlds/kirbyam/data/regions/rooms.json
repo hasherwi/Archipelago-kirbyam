@@ -9704,8 +9704,7 @@
           },
           "advanced_graphs": [
             "hub4_crash_entry",
-            "hub4_magic_entry",
-            "hub4_ice_entry"
+            "hub4_magic_entry"
           ]
         }
       ]

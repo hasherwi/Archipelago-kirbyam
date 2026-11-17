@@ -43,7 +43,7 @@ def _room16_source_rejection_evidence(
             or row.get('native_room') != 533
             or row.get('region') != 'REGION_MUSTARD_MOUNTAIN/ROOM_4_15'
             or row.get('exit') != 'REGION_MUSTARD_MOUNTAIN/ROOM_4_16'
-            or row.get('advanced_graphs') != ['hub4_crash_entry', 'hub4_magic_entry', 'hub4_ice_entry']):
+            or row.get('advanced_graphs') != ['hub4_crash_entry', 'hub4_magic_entry']):
         return None
     advanced = options.advanced_logic.value
     if type(advanced) is not int or advanced not in (0, 1):
@@ -52,7 +52,7 @@ def _room16_source_rejection_evidence(
         guaranteed = SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed
     except (KeyError, TypeError, ValueError):
         return None
-    supported = {'Bomb', 'UFO'} | ({'Crash', 'Magic', 'Ice'} if advanced else set())
+    supported = {'Bomb', 'UFO', 'Ice'} | ({'Crash', 'Magic'} if advanced else set())
     if len(guaranteed) == 1 and guaranteed <= supported:
         return None  # Qualified source: access/graph failures must remain red.
     return {'schema': 1, 'player': player, 'seed': multiworld.seed,

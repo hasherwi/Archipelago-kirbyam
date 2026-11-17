@@ -62,7 +62,7 @@ restrictions or assume helper abilities provide a solution.
 
 Two raw `can_hit_far_switch` strings remain, at 310 and 533. The 310 rule acquires
 constraints under supported source assignments above. The 533 edge now fails
-closed for unsupported policies; reviewed Bomb/UFO and Advanced-only Crash/Magic/Ice
+closed for unsupported policies; reviewed Bomb/UFO/Ice and Advanced-only Crash/Magic
 keep their exact source and entry constraints. Main resolved 209
 through directed compartment/Normal/Snow-loop logic; it is not a third missing
 far-switch implementation. Preserve exact entry and historical native limits.
