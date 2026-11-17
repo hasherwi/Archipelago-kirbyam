@@ -27,7 +27,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
-- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027).
+- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027, PR #1105).
 - Improved Logic for Item Placement and Accessible Locations (PR #1092, PR #1103, Issue #1099).
 
 ### Known Limitations
