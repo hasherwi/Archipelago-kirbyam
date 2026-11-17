@@ -255,6 +255,11 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     catalog = catalog_scope_before_phone(catalog)
     catalog = catalog_before_green138(catalog)
     catalog.pop('source_sha256')
+    # Preserve and separately pin the pre-integration source provenance; it is
+    # metadata added by this branch, not part of the historical graph catalog.
+    prior_sources = catalog.pop('prior_main_sync_source_sha256')
+    assert hashlib.sha256(json.dumps(prior_sources, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
+        '6cbacd675eda529909818ba763a4c37df27350e90fbf6fd6b82443008c62cf25')
     assert catalog['witnesses'] == 145 and catalog['variants'] == 290
     catalog['witnesses'], catalog['variants'] = 144, 288
     assert catalog['capability_providers'].pop(MASTER719_CAPABILITY) == ['Master']
