@@ -33,31 +33,37 @@ helper Bomb Block attacks, ability attacks, copy sources or discarded stars.
 Consequently Phone inventory must not become a speculative OR branch here.
 The Chalk witness does not qualify this separate chest.
 
-## Cupid acquisition observed; complete route still missing
+## Bounded Cupid source-to-chest replay; admission pending
 
-An isolated mGBA 0.10.5 experiment on the combined Phone/main source used an
-actual production mode-1 policy from world seed 14, Room Sanity on, ability
-gating and Area Keys off, enemy health 100%, actual starting HP 6. It used the
-lawful USA base and combined patch SHA256
-`c3fca0d4b550130d6ff65e7679aca4950a88ae8d36a036d9371be918f79cd630`.
-Only player-zero startup was moved to the documented 719 door fixture at
-(232,56). Eight production client source-configuration writes occurred at
-frame 1085; no source objects, equipment, health or target geometry were edited.
-This world setup was not a filled seed or restricted-run beatability test.
+A later cold-start replay and matched controls are retained in
+`carrot-yellow-cupid-candidate.json`. On the current combined Phone/main ROM,
+production world setup seed 14 assigns Cupid to both original Sparky sources.
+Room Sanity is on, ability gating and Area Keys are off, actual initial/max HP
+is 6, and enemy health is 100%. This is a controlled startup beside the real
+719 door, not a filled seed or proof of every upstream compartment.
 
-A cold-start replay of the retained UFO input schedule reached the same
-719→720→734→720→730 ingress and acquired Cupid (native ability 19) from the
-upper original Sparky at frame 5450, HP 6. Reusing UFO movement timings then
-lost Cupid at frame 6004 and died before reaching 733. Separate restored-state
-controller exploration carried Cupid farther through the maze, but did not
-reach the chest. These are finite unsuccessful schedules, not an impossibility
-claim, and restored-state exploration is not accepted source-to-chest evidence.
-No Cupid attack, lower-chain activation or physical/AP chest receipt is admitted.
+The human acquires upper Cupid at frame 5450, loses it to damage, reaches the
+lower original source and reacquires Cupid at 7578. The route reaches native
+733 at 8240 with Cupid retained. An upward charged shot opens the upper trigger
+while Kirby remains below the one-way ledge; the opened lower corridor then
+permits a second upward shot at the lower trigger. The human flies around the
+remaining central obstacle and physically collects the chest at frame 9547.
+Native chest flag 80 and exact-source event counter 1 are observed, and the real
+client produces `LocationChecks [3960501]`. Minimum observed HP is 3; a native
+healing pickup restores HP 4. No health, equipment, source or geometry RAM edits,
+state restores, Phone calls or helpers occur in this cold replay.
 
-Next: establish a continuous cold-start Cupid source-to-chest route with exact
-entry and compartment coverage, target-order observations, matched controls,
-health qualifications and physical plus AP receipt. Then represent it as an OR
-alternative on this same target with its actual finite source requirements.
-Phone needs an independently qualifying permitted helper action; another
-human ability's success cannot qualify Phone. No progression rule changed in
-this follow-up, and #490's broader action-gate work remains outside scope.
+Removing the upper-shot input window leaves both triggers closed. Removing both
+lower-shot windows leaves only the upper trigger open. Neither matched control
+sets the chest flag or produces a client check. These finite controls do not
+prove that all other methods are impossible. The earlier unchanged UFO input
+schedule failed with Cupid; restored-state exploration found the revised inputs,
+then the entire successful sequence was replayed from a blank native battery.
+
+This is a bounded physical candidate, **not an installed Cupid access rule**.
+Health/source-profile coverage, independent entry qualifications and source-
+sensitive graph integration still require review. It does not qualify Phone,
+Normal + Phone, all Cupid sources, every health setting or arbitrary retries.
+The existing UFO witness remains intact. The unsupported-policy fallback and
+Phone/helper restriction above remain blockers to closing #1087; no progression
+rule changed here, and #490's broader action gates remain outside this scope.
