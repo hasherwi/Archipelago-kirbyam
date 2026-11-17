@@ -1,0 +1,1009 @@
+{
+  "schema_version": 1,
+  "status": "Qualified fixture diagnostics only. No production Phone traversal witness is accepted.",
+  "fixture_reference": "phone-heave-ho-evidence.json",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "identity": {
+    "rom_sha256": "fe2637692f84867375fdb49362ed09c72241951a507a0d12305d2f765860c3d6",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "initial_emulator_state": null
+  },
+  "method": [
+    "The configured room-145 start, natural Missile acquisition, two native Phone calls, real room-146 doorway entry and controller positioning precede the bounded observation.",
+    "Only the two logged guarded Phone-grant writes occur. No runtime pose, ability, CPU, block or save-state injection is used.",
+    "Pre-frame block eligibility is computed from sampled object slot/flags and room-freeze mask. It is not an instruction breakpoint or proof that the block update routine executed.",
+    "E0 and obstruction are end-frame samples. They do not exclude different within-frame values or identify each Kirby contribution.",
+    "Obstruction means bit 0x20 of block field E3. The whole byte does not clear; the control samples alternate 0x01 and 0x21.",
+    "Inputs are complete held-key segments, coalesced without changing any frame or crossing a logged grant-write boundary.",
+    "All hashes name source ledgers rather than providing private ROMs, native saves or emulator states."
+  ],
+  "continuous_B_control": {
+    "procedure": "Hold B continuously from the verified Normal pull-band setup, without repositioning.",
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 480,
+        "keys": 0
+      },
+      {
+        "start": 1325,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 1326,
+        "frames": 300,
+        "keys": 0
+      },
+      {
+        "start": 1626,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1627,
+        "frames": 500,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2128,
+        "frames": 9120,
+        "keys": 0
+      },
+      {
+        "start": 11248,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 11250,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 11310,
+        "frames": 600,
+        "keys": 0
+      },
+      {
+        "start": 11910,
+        "frames": 4,
+        "keys": 32
+      },
+      {
+        "start": 11914,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 11916,
+        "frames": 20,
+        "keys": 64
+      },
+      {
+        "start": 11936,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 12056,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 12116,
+        "frames": 840,
+        "keys": 0
+      },
+      {
+        "start": 12956,
+        "frames": 30,
+        "keys": 17
+      },
+      {
+        "start": 12986,
+        "frames": 20,
+        "keys": 16
+      },
+      {
+        "start": 13006,
+        "frames": 30,
+        "keys": 145
+      },
+      {
+        "start": 13036,
+        "frames": 50,
+        "keys": 0
+      },
+      {
+        "start": 13086,
+        "frames": 149,
+        "keys": 32
+      },
+      {
+        "start": 13235,
+        "frames": 17,
+        "keys": 16
+      },
+      {
+        "start": 13252,
+        "frames": 14,
+        "keys": 0
+      },
+      {
+        "start": 13266,
+        "frames": 1734,
+        "keys": 2
+      }
+    ],
+    "writes": [
+      {
+        "frame": 11248,
+        "address": "0x203b184",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      },
+      {
+        "frame": 11248,
+        "address": "0x203b180",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      }
+    ],
+    "observation": {
+      "first_after_frame": 13267,
+      "last_after_frame": 15000,
+      "video_frames": 1734,
+      "pre_frame_block_eligibility_samples": 1200,
+      "block_x_range": [
+        160,
+        160
+      ],
+      "block_y": 127.99609375,
+      "room_state_15_values": [
+        0
+      ],
+      "end_frame_E0_histogram": {
+        "2": 290,
+        "0": 1354,
+        "1": 90
+      },
+      "obstruction_bit_0x20_intervals_inclusive": [
+        [
+          13479,
+          13486
+        ],
+        [
+          13509,
+          13720
+        ],
+        [
+          13848,
+          13854
+        ],
+        [
+          13953,
+          13953
+        ]
+      ],
+      "inhale_state": "0x08054951",
+      "ordinary_movement_state": "0x0803FF65",
+      "first_ordinary_movement_frame": 13510,
+      "inhale_samples": 243,
+      "ordinary_movement_samples": 1491,
+      "controller_and_decoded_held_input": 2,
+      "final_local_position": [
+        94.4296875,
+        136.99609375
+      ],
+      "final_all_kirby_positions": [
+        [
+          94.4296875,
+          136.99609375
+        ],
+        [
+          57.75,
+          136.99609375
+        ],
+        [
+          82.0,
+          136.99609375
+        ],
+        [
+          69.84375,
+          136.99609375
+        ]
+      ],
+      "final_all_kirby_abilities": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_battery": 1,
+      "crossing_attempted": false
+    },
+    "source_ledger_sha256": {
+      "runtime.json": "4150ae2fd27bf679c64e641841a796364fdca962fd9c7313bd8a88b89d5b28ce",
+      "freeze-steering.json": "d3e831ba3728050d432c29cca4730bbbc140d5bce03ffd65924414a097401def",
+      "146-events.json": "da6c5ff15754b189e616690a05ca87df8de42f4017a346aa144eb5c575151e68",
+      "full_cycle.py": "4fd02ac2a3f4778de80869a34260fd9f4f8107dcb97dc0bfc203990835ec373b"
+    },
+    "conclusion": "This bounded continuous-B procedure did not move the block. It does not establish that Phone traversal is impossible or certify a real-start route."
+  },
+  "release_and_repress_variant": {
+    "procedure": "After the Normal inhale returns to ordinary movement, release B for an input-enabled update, then press and hold B again. Do not reposition during the bounded observation.",
+    "inputs": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 480,
+        "keys": 0
+      },
+      {
+        "start": 1325,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 1326,
+        "frames": 300,
+        "keys": 0
+      },
+      {
+        "start": 1626,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1627,
+        "frames": 500,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2128,
+        "frames": 9120,
+        "keys": 0
+      },
+      {
+        "start": 11248,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 11250,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 11310,
+        "frames": 600,
+        "keys": 0
+      },
+      {
+        "start": 11910,
+        "frames": 4,
+        "keys": 32
+      },
+      {
+        "start": 11914,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 11916,
+        "frames": 20,
+        "keys": 64
+      },
+      {
+        "start": 11936,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 12056,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 12116,
+        "frames": 840,
+        "keys": 0
+      },
+      {
+        "start": 12956,
+        "frames": 30,
+        "keys": 17
+      },
+      {
+        "start": 12986,
+        "frames": 20,
+        "keys": 16
+      },
+      {
+        "start": 13006,
+        "frames": 30,
+        "keys": 145
+      },
+      {
+        "start": 13036,
+        "frames": 50,
+        "keys": 0
+      },
+      {
+        "start": 13086,
+        "frames": 149,
+        "keys": 32
+      },
+      {
+        "start": 13235,
+        "frames": 17,
+        "keys": 16
+      },
+      {
+        "start": 13252,
+        "frames": 14,
+        "keys": 0
+      },
+      {
+        "start": 13266,
+        "frames": 244,
+        "keys": 2
+      },
+      {
+        "start": 13510,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 13511,
+        "frames": 195,
+        "keys": 2
+      },
+      {
+        "start": 13706,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 13707,
+        "frames": 243,
+        "keys": 2
+      },
+      {
+        "start": 13950,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 13951,
+        "frames": 196,
+        "keys": 2
+      },
+      {
+        "start": 14147,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 14148,
+        "frames": 194,
+        "keys": 2
+      },
+      {
+        "start": 14342,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 14343,
+        "frames": 194,
+        "keys": 2
+      },
+      {
+        "start": 14537,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 14538,
+        "frames": 243,
+        "keys": 2
+      },
+      {
+        "start": 14781,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 14782,
+        "frames": 195,
+        "keys": 2
+      },
+      {
+        "start": 14977,
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "start": 14978,
+        "frames": 23,
+        "keys": 2
+      }
+    ],
+    "writes": [
+      {
+        "frame": 11248,
+        "address": "0x203b184",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      },
+      {
+        "frame": 11248,
+        "address": "0x203b180",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      }
+    ],
+    "observation": {
+      "first_after_frame": 13267,
+      "last_after_frame": 15001,
+      "video_frames": 1735,
+      "pre_frame_block_eligibility_samples": 1200,
+      "release_repress_cycles": 8,
+      "inhale_samples": 1719,
+      "ordinary_movement_samples": 16,
+      "block_x_range": [
+        160,
+        160
+      ],
+      "room_state_15_values": [
+        0
+      ],
+      "end_frame_E0_histogram": {
+        "2": 499,
+        "0": 839,
+        "1": 324,
+        "3": 4,
+        "4": 69
+      },
+      "E0_threshold4_interval_inclusive": [
+        13613,
+        13681
+      ],
+      "E3_for_every_threshold4_sample": 33,
+      "terrain62_for_every_threshold4_sample": 6,
+      "final_local_position": [
+        78.9296875,
+        136.99609375
+      ],
+      "final_all_kirby_positions": [
+        [
+          78.9296875,
+          136.99609375
+        ],
+        [
+          54.25,
+          136.99609375
+        ],
+        [
+          66.75,
+          136.99609375
+        ],
+        [
+          139.0,
+          136.99609375
+        ]
+      ],
+      "final_all_kirby_abilities": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "final_battery": 1,
+      "crossing_attempted": false
+    },
+    "release_repress_events": [
+      {
+        "frame": 13510,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 13511,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 13512,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 13706,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 13707,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 13708,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 13950,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 13951,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 13952,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 14147,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 14148,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 14149,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 14342,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 14343,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 14344,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 14537,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 14538,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 14539,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 14781,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 14782,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 14783,
+        "event": "press-active",
+        "held": 2
+      },
+      {
+        "frame": 14977,
+        "event": "expired-idle"
+      },
+      {
+        "frame": 14978,
+        "event": "release-active",
+        "held": 0
+      },
+      {
+        "frame": 14979,
+        "event": "press-active",
+        "held": 2
+      }
+    ],
+    "inhale_start_geometry": [
+      {
+        "frame": 13267,
+        "positions": [
+          [
+            88.4296875,
+            136.99609375
+          ],
+          [
+            64.25,
+            136.99609375
+          ],
+          [
+            76.75,
+            136.99609375
+          ],
+          [
+            101.0,
+            136.99609375
+          ]
+        ],
+        "E0": 2,
+        "E3": 1,
+        "noncontact_horizontal_band_candidates": [
+          0,
+          3
+        ],
+        "within_conservative_max_horizontal_reach": [
+          0,
+          3
+        ]
+      },
+      {
+        "frame": 13512,
+        "positions": [
+          [
+            88.9296875,
+            136.99609375
+          ],
+          [
+            64.25,
+            136.99609375
+          ],
+          [
+            76.5,
+            136.99609375
+          ],
+          [
+            139.0,
+            119.00390625
+          ]
+        ],
+        "E0": 0,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [
+          0
+        ],
+        "within_conservative_max_horizontal_reach": [
+          0,
+          3
+        ]
+      },
+      {
+        "frame": 13708,
+        "positions": [
+          [
+            88.9296875,
+            136.99609375
+          ],
+          [
+            64.25,
+            136.99609375
+          ],
+          [
+            76.5,
+            136.99609375
+          ],
+          [
+            139.0,
+            136.99609375
+          ]
+        ],
+        "E0": 0,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [
+          0
+        ],
+        "within_conservative_max_horizontal_reach": [
+          0,
+          3
+        ]
+      },
+      {
+        "frame": 13952,
+        "positions": [
+          [
+            85.9296875,
+            136.99609375
+          ],
+          [
+            60.75,
+            136.99609375
+          ],
+          [
+            73.25,
+            136.99609375
+          ],
+          [
+            139.0,
+            136.99609375
+          ]
+        ],
+        "E0": 1,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      },
+      {
+        "frame": 14149,
+        "positions": [
+          [
+            85.9296875,
+            136.99609375
+          ],
+          [
+            60.75,
+            136.99609375
+          ],
+          [
+            73.25,
+            136.99609375
+          ],
+          [
+            110.203125,
+            136.99609375
+          ]
+        ],
+        "E0": 0,
+        "E3": 1,
+        "noncontact_horizontal_band_candidates": [
+          3
+        ],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      },
+      {
+        "frame": 14344,
+        "positions": [
+          [
+            82.9296875,
+            136.99609375
+          ],
+          [
+            58.25,
+            136.99609375
+          ],
+          [
+            70.5,
+            136.99609375
+          ],
+          [
+            139.0,
+            136.99609375
+          ]
+        ],
+        "E0": 2,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      },
+      {
+        "frame": 14539,
+        "positions": [
+          [
+            80.4296875,
+            136.99609375
+          ],
+          [
+            55.75,
+            136.99609375
+          ],
+          [
+            68.25,
+            136.99609375
+          ],
+          [
+            102.71875,
+            136.99609375
+          ]
+        ],
+        "E0": 0,
+        "E3": 1,
+        "noncontact_horizontal_band_candidates": [
+          3
+        ],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      },
+      {
+        "frame": 14783,
+        "positions": [
+          [
+            80.4296875,
+            136.99609375
+          ],
+          [
+            55.75,
+            136.99609375
+          ],
+          [
+            68.25,
+            136.99609375
+          ],
+          [
+            139.0,
+            136.99609375
+          ]
+        ],
+        "E0": 2,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      },
+      {
+        "frame": 14979,
+        "positions": [
+          [
+            78.9296875,
+            136.99609375
+          ],
+          [
+            54.25,
+            136.99609375
+          ],
+          [
+            66.75,
+            136.99609375
+          ],
+          [
+            139.0,
+            133.95703125
+          ]
+        ],
+        "E0": 0,
+        "E3": 33,
+        "noncontact_horizontal_band_candidates": [],
+        "within_conservative_max_horizontal_reach": [
+          3
+        ]
+      }
+    ],
+    "geometry_caveat": "Slot 0 is the human. Maximum conservative horizontal reach is 73 pixels; the noncontact band is 27 to 73 pixels left of the block. These horizontal candidates do not establish facing, vertical overlap, mature inhale or a particular same-frame contribution.",
+    "source_ledger_sha256": {
+      "runtime.json": "1257dcf3b1b1e7a95d30d3135c302a9f5fce6679b2fdf55e1695c93f646255e5",
+      "freeze-steering.json": "e5d719372d037ba651c3ab5145334c26eead12816c1bc2ffca765119e0ed8f6d",
+      "146-events.json": "49de9e0d6b82d6f5afa6cf7f8502cde91283e722377c11f8b792f6d09c5fe2b6",
+      "repress-events.json": "bebeeb77556304a81bf546987bdca2122c56adae9517cb3d5f60ea0d9ad29ed5",
+      "inhale-starts.json": "02207f9f6b23123232bdf7021ba18dfbee76065e9d6b85e9b670a46aaa1d073c",
+      "repress_cycle.py": "44a28aa8cee230db43e71a8816559c5e203368b27ba35c0664ef75cb61772aa3"
+    },
+    "conclusion": "Release/re-press restarts the human inhale, but all 69 sampled threshold-4 aggregates coincide with obstruction. The block does not move. This starting arrangement does not certify reliable collective pulling."
+  }
+}

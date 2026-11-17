@@ -196,7 +196,7 @@ def test_generated_seed_matrix(
         world = mw.worlds[1]
         assert not world.options.advanced_logic.value
         assert not SourcePolicy(world._enemy_copy_ability_policy).grant(
-            'FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO'}
+            'FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO', 'Ice'}
         assert not any(i.code == CUTTER for i in mw.precollected_items[1])
         assert sum(loc.item.code == CUTTER for loc in mw.get_locations(1) if loc.item) == int(gating)
         # Preserve archive/ROM-slot coverage with the unrelated rejected check disabled.

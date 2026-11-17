@@ -22,6 +22,8 @@ def test_shard_paths_preserve_all_save_bytes(tmp_path):
     source += "\n" + (WORLD / "kirby_ap_payload/copy_room.c").read_text()
     # Link the shipping Goal Game poll called by the real mailbox.
     source += "\n" + (WORLD / "kirby_ap_payload/goal_game.c").read_text()
+    source += "\n" + (WORLD / "kirby_ap_payload/phone.c").read_text()
+    source += "\n" + (WORLD / "kirby_ap_payload/battery.c").read_text()
     source = re.sub(r'register uint32_t (\w+) asm\("r[458]"\);', r'uint32_t \1 = 0;', source)
     source = source.replace('__asm__ volatile("mov %0, lr" : "=r"(caller_lr_snapshot));',
                             'caller_lr_snapshot = 0;')
@@ -47,6 +49,7 @@ static void reset(unsigned flags) {
     AI_KIRBY_STATE = AI_STATE_NORMAL;
 }
 int main(void) {
+    CHECK(mmap((void*)0x09000000u,0x10000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x09000000u);
     CHECK(mmap((void*)0x02000000u,0x40000,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==(void*)0x02000000u);
     CHECK(mmap(SAVE,0x8000,PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)==SAVE);

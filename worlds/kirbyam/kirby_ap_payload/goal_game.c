@@ -6,7 +6,7 @@
 #define U16(p) (*(volatile uint16_t *)(p))
 #define U32(p) (*(volatile uint32_t *)(p))
 __attribute__((used, section(".apgoalinfo")))
-const uint8_t gApGoalInfo[8] = {'A','P','G','O','A','L','2',0};
+const uint8_t gApGoalInfo[8] = {'A','P','G','O','A','L','3',0};
 
 AP_COPY_EXT void ap_goal_poll(void) {
     ap_goal_validate(RUN, ap_copy_room_epoch(), U16(KIRBY + 0x60u), U8(KIRBY + 0x100u) != 0u);

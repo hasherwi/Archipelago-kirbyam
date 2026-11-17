@@ -189,7 +189,7 @@ generation preserves these relative weights across the remaining labels.
 | `Small Food` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 1, capped at `max_hp`; no effect for `hp <= 0` |
 | `Energy Drink` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 2, capped at `max_hp`; no effect for `hp <= 0` |
 | `Hunk of Meat` | If Kirby is alive (`hp > 0`), normalizes `hp > max_hp` down to `max_hp` and then increments active Kirby HP by 3, capped at `max_hp`; no effect for `hp <= 0` |
-| `Cell Phone Battery` | Increments active Kirby battery by 1 if below 3 |
+| `Cell Phone Battery` | Adds one live charge, including above three; defers without ACK at the checked uint32 limit or outside an authenticated live context |
 | `Max Tomato` | Sets active Kirby HP to max HP if Kirby is alive (`hp > 0`); no effect for `hp <= 0` |
 | `Invincibility Candy` | Applies the native invincibility state using the decomp-backed 1000-tick helper path |
 
@@ -277,7 +277,7 @@ Server → Client: ConnectionRefused | Connected
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
 - `starting_kirby_color_randomize_on_room_transition` (bool): true when `starting_kirby_color` was configured as `random_color_per_room`. The connected BizHawk client keeps the first observed room as a baseline; each later native room-ID change chooses a different supported color, writes it to `starting_kirby_color_id`, and clears `starting_kirby_color_applied` so the payload refreshes Kirby's live OBJ and matching HUD BG palettes, including Pink. Reconnect alone does not reroll the color.
 - `no_extra_lives` (bool): when true, exclude `1 Up` filler generation and have the BizHawk client clamp the native life counter to `0` during gameplay.
-- `goal_game_protocol_version` (int): `2` enables sixteen Goal Game checks with `APGOAL2\0` at ROM offset `0x1000010`; version 1 single-save prototypes must regenerate.
+- `goal_game_protocol_version` (int): `2` enables sixteen Goal Game checks with `APGOAL3\0` at ROM offset `0x1000010`; version 1 single-save prototypes must regenerate.
 - `copy_ability_room_protocol_version` (int): `2` requires the native three-file Copy Room ROM capability and authenticated ownership mailbox; prototype version `1` must regenerate.
 - `starting_copy_ability_room_access` (bool): true only when the access item was explicitly precollected; false by default.
 - `health_protocol_version` (int): `2` for newly generated ROMs; requires the format-2 client and `KIRBYAM APV2` ROM header. Missing version identifies the legacy four-counter contract.
@@ -298,6 +298,8 @@ Server → Client: ConnectionRefused | Connected
 - `area_keys` (bool): default-on Area Key destination gates. Off removes all eight keys from the generated pool and rebalances filler while retaining Hub, lever, ability and Dimension Mirror rules. Missing means enabled for older Area Key seeds.
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory and the automatic early-start fallback. Bits `2..9` correspond to Areas `2..9`; this value is zero when `area_keys` is false.
 - `core_landmark_location_ids` (list[int]): the eight always-active keyed-area hub landmark checks. The client polls only these room-visit bits when full Room Sanity is off; absence of this field preserves old-seed behavior.
+- `phone_protocol_version` (int): Phone ownership protocol version, currently 1 for all new seeds.
+- `starting_phone_access` (bool): whether precollected inventory grants Phone ownership.
 - `advanced_logic` (int): `0` off (default), `1` on. Enabling Advanced Logic allows only reviewed Crash-dependent traversal witnesses; it does not change physical ability sources or client permissions.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
@@ -1005,28 +1007,32 @@ acceptance. See [native acceptance and limits](dev-docs/copy-room-native-save-ac
 for the tested patch identity and actual replay coverage.
 
 
-## Goal Game completion checks (issue #1000, protocol 2)
+## Goal Game completion checks (issue #1000, protocol 3)
 
 All sixteen physical Goal Games are default item checks, including zero-prize
 completions. Checks are independent of Room Sanity and chests; they add no new
 100% goal condition. Exact source doors and exit-route rules identify each game.
 Native `gVisitedDoors` indices are not completion evidence.
 
-The capability is `APGOAL2\0` at ROM offset `0x1000010` and
-`goal_game_protocol_version: 2`. The former protocol-1 APSHR02 single-save
+The capability is `APGOAL3\0` at ROM offset `0x1000010` and
+`goal_game_protocol_version: 3`. The former protocol-1 APSHR02 single-save
 prototype is rejected. Regenerate matching seeds, clients and ROM patches.
 The native three-file selector, 788-byte WORLD copies, checksums and layout are
 unchanged. No 4 KiB save extension or File 1 bypass is restored.
 
-Goal flags occupy bits 1–16 of WORLD word 26 alongside Copy Room ownership at
-bit 0 and tag `0x43500000`. Both use the existing full seed authentication in
-words 22–25 and the Copy Room active native-file context. Goal completions OR
-only their flag, and Copy Room grants OR only ownership. Neither clears the
-other feature. A fresh or mismatched-seed record starts with all flags clear.
-Existing current-main records are valid and have zero goal flags. Do not
-use an older payload after saving Goal Game flags: its stricter record validator
-would reinitialize the record and lose those flags and cached Copy Room access.
-Preserve original saves. Expanded single-save prototype saves are not migrated.
+Goal flags occupy bits 2–17 of WORLD word 26, with Copy Room ownership at
+bit 0, Phone ownership at bit 1 and layout tag `0x43540000`. All share full
+seed authentication in words 22–25 and the Copy Room active native-file
+context. Each grant ORs only its own bits; no Goal Game grants Phone access.
+
+Protocol 2 used bit 1 for its first Goal Game, which is ambiguous with main's
+Phone permission. This layout deliberately rejects both older record tags;
+it does not infer ownership or migrate Goal Game flags. On Adventure startup,
+an incompatible record is reinitialized with all flags clear. The connected
+client can redeliver authenticated Copy Room and Phone ownership. Preserve old
+saves and regenerate matching seeds, clients and patches. Old Goal Game progress
+is not imported. Do not load a new save in an older payload. Native WORLD size,
+three-file selection and checksums are unchanged.
 
 The transient run at `0x0203B170` records exact source-door identity, context
 epoch, scene, participant star and phase. Entry alone, abort, death, another
@@ -1047,3 +1053,38 @@ prototype, not acceptance of this three-file integration. Current host tests
 cover all sixteen completion events, three-file save/reload, grant preservation,
 failed-save retries, seed isolation and reconnect fencing. Fresh emulator
 acceptance of the integrated three-file payload remains outstanding.
+
+### Phone progression capability
+
+All newly generated slots carry `phone_protocol_version: 1` and
+`starting_phone_access` as an exact boolean from actual precollected ownership.
+They require authenticated Copy Room protocol 2 and matching `APPHN01` enabled ROM
+configuration. Historical disabled slots omit both fields and the Phone tracker label.
+New patch archives retain the disabled base guard, then compare the final Phone
+configuration with the exact 12-byte enabled `phone_config.bin` seed intent after every
+token/header write. Historical archives retain their saved procedure.
+Ownership gates new local single-player R calls only; L return and tutorial calls
+remain native. Complete-history, pairing and three-file persistence fences are unchanged.
+
+### Live Phone charges and HUD
+
+New payloads keep a live uint32 charge count in the AP-reserved EWRAM interval
+`0x0203B190..0x0203B1A4`, bound to the authenticated Adventure task and epoch.
+The native byte is a saturating proxy for native availability checks, not the
+bank. All selected native spend/refill/pickup writers update the wide count.
+Native pickups retain their native below-three limit; AP Battery grants do not.
+Before current-file Phone ownership, the eligible single-player HUD displays
+empty without modifying charges. Owned HUD counts zero, one, two, then full
+for three or more. Its cached comparisons use the same displayed value, so
+ownership alone refreshes the display. Excluded/invalid contexts retain native
+HUD behavior and cannot resurrect a stale bank.
+
+There is no new save format or lifetime-receipt reconstruction. Cold reload
+and game-over retain native refill-to-three behavior, intentionally discarding
+live surplus; the ordinary-death zero-to-one refill and battery drain remain.
+Same-epoch reconnect/ownership polling never resets or replays charges. A grant
+at `UINT32_MAX` or without a valid live context remains pending, with no mailbox
+ACK/counter advancement. The client preserves that in-flight command on timeout
+rather than clearing/reoffering it; Phone ownership has its separate queue.
+This can delay later consumables until delivery is possible. Already-ACKed
+batteries are not replayed after reload. Three is initial, not an AP charge cap.

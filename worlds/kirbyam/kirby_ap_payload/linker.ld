@@ -40,6 +40,8 @@ SECTIONS
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
     ap_extension_code_end = .;
+    . = 0xFFC8;
+    KEEP(*(.apphoneinfo))
     . = 0xFFD4;
     KEEP(*(.apcopyinfo))
     . = 0xFFDC;
@@ -54,9 +56,10 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
 
-ASSERT(ap_extension_code_end <= 0x0900FFD4, "Enemy source config overlaps extension code")
+ASSERT(ap_extension_code_end <= 0x0900FFC8, "Enemy source config overlaps extension code")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
 ASSERT(ap_copy_room_marker == 0x0900FFD4, "Copy Room marker address changed")
 
 ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")
+ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")

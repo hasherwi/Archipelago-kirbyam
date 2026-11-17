@@ -4415,7 +4415,6 @@
         "bit_index": 64
       },
       "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01": null,
-      "MINOR_CHEST_SPRAY_PAINT_14": null,
       "GOAL_GAME_2_GOAL_2": {
         "all": [
           "can_fly",
@@ -4433,9 +4432,11 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT": {
-    "locations": {},
+    "locations": {
+      "MINOR_CHEST_SPRAY_PAINT_14": null
+    },
     "exits": {
-      "REGION_MOONLIGHT_MANSION/ROOM_2_18": null
+      "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT": null
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT": {

@@ -88,7 +88,7 @@
   "enemy_health_multiplier": 100,
   "goal": 0,
   "goal_configured_area_boss_key": "BOSS_DEFEAT_3",
-  "goal_game_protocol_version": 2,
+  "goal_game_protocol_version": 3,
   "health_protocol_version": 2,
   "hub_connection_protocol_version": 2,
   "locations": {
@@ -3517,6 +3517,7 @@
   "maximum_health": 10,
   "minimum_health": 6,
   "no_extra_lives": false,
+  "phone_protocol_version": 1,
   "required_area_bosses": 3,
   "room_sanity": false,
   "rooms": {
@@ -4668,7 +4669,7 @@
     },
     "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT": {
       "exits": [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_18"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -6394,6 +6395,7 @@
   "starting_kirby_color": 0,
   "starting_kirby_color_name": "Pink",
   "starting_kirby_color_randomize_on_room_transition": false,
+  "starting_phone_access": false,
   "trap_fill_percentage": 25,
   "unique_items": [
     "Cabbage Cavern - Area Key",
@@ -6443,6 +6445,7 @@
     "Peppermint Palace - Mirror Shard",
     "Peppermint Palace East - Hub Connection",
     "Peppermint Palace West - Hub Connection",
+    "Phone a Friend",
     "Radish Ruins - Area Key",
     "Radish Ruins - Hub Connection",
     "Radish Ruins - Map",

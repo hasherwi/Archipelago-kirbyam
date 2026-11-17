@@ -242,7 +242,8 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'regions': 386, 'mapped_native_definitions': 354, 'locations': 400,
         'surfaces': 1107, 'room_sanity_locations': 263, 'installed_target_definitions': 57}
     assert set(snapshot['input_sha256']) | {
-        'data/goal_game_doors.json', 'data/locations_goal_games.json'} == set(current['input_sha256'])
+        'data/goal_game_doors.json', 'data/locations_goal_games.json',
+        'data/yellow_cupid_witness.json'} == set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
     assert snapshot['new_surface'] == {

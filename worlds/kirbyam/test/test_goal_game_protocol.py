@@ -10,12 +10,12 @@ from .. import goal_game_protocol as goals
 
 def test_goal_protocol_requires_native_context_and_explicit_capability():
     assert goals.goal_slot_version({}) == 0
-    assert goals.goal_slot_version({'goal_game_protocol_version': 2, 'copy_ability_room_protocol_version': 2}) == 2
-    for value in (True, '2', 1, 3, None):
+    assert goals.goal_slot_version({'goal_game_protocol_version': 3, 'copy_ability_room_protocol_version': 2}) == 3
+    for value in (True, '3', 1, 2, 4, None):
         with pytest.raises(ValueError):
             goals.goal_slot_version({'goal_game_protocol_version': value, 'copy_ability_room_protocol_version': 2})
     with pytest.raises(ValueError):
-        goals.goal_slot_version({'goal_game_protocol_version': 2})
+        goals.goal_slot_version({'goal_game_protocol_version': 3})
 
 
 @pytest.mark.parametrize('mutation', ['none', 'epoch', 'auth', 'slot', 'socket', 'disconnect', 'slot_data', 'record_change', 'saved_auth', 'tag', 'native_slot'])
@@ -23,7 +23,7 @@ def test_checks_offline_reconnect_and_fenced_identity(monkeypatch, mutation):
     auth = bytes(range(16))
     ctx = SimpleNamespace(auth=base64.b64encode(auth).decode(), team=0, slot=1,
         server_seed_name='seed', server=SimpleNamespace(socket=SimpleNamespace(closed=False)),
-        bizhawk_ctx=object(), slot_data={'goal_game_protocol_version': 2, 'copy_ability_room_protocol_version': 2},
+        bizhawk_ctx=object(), slot_data={'goal_game_protocol_version': 3, 'copy_ability_room_protocol_version': 2},
         missing_locations=set(range(3960700, 3960716)), checked_locations=set())
     messages = []
     async def send(values):
@@ -31,7 +31,7 @@ def test_checks_offline_reconnect_and_fenced_identity(monkeypatch, mutation):
     ctx.send_msgs = send
     raw = struct.pack('<9I', 4, 4, 0, 0, 0, 0x03001000, 1, 0x43504332, 0)
     record_auth = bytes(16) if mutation == 'saved_auth' else auth
-    tag = 0x4151ffff if mutation == 'tag' else 0x4351ffff
+    tag = 0x4151ffff if mutation == 'tag' else 0x4357ffff
     record = record_auth + struct.pack('<I', tag)
     if mutation == 'native_slot':
         raw = struct.pack('<9I', 4, 4, 3, 0, 3, 0x03001000, 1, 0x43504332, 0)
@@ -71,7 +71,7 @@ def test_each_completion_reports_exact_location_without_copy_room_ownership(monk
     auth = bytes(range(16))
     ctx = SimpleNamespace(auth=base64.b64encode(auth).decode(), team=0, slot=1,
         server_seed_name='seed', server=SimpleNamespace(socket=SimpleNamespace(closed=False)),
-        bizhawk_ctx=object(), slot_data={'goal_game_protocol_version': 2, 'copy_ability_room_protocol_version': 2},
+        bizhawk_ctx=object(), slot_data={'goal_game_protocol_version': 3, 'copy_ability_room_protocol_version': 2},
         missing_locations=set(range(3960700, 3960716)), checked_locations=set())
     messages = []
 
@@ -80,7 +80,7 @@ def test_each_completion_reports_exact_location_without_copy_room_ownership(monk
 
     ctx.send_msgs = send
     raw = struct.pack('<9I', 4, 4, 2, 0, 2, 0x03001000, 0, 0x43504332, 0)
-    record = auth + struct.pack('<I', 0x43500000 | (1 << (bit + 1)))
+    record = auth + struct.pack('<I', 0x43540000 | (1 << (bit + 2)))
 
     async def read(_ctx, requests):
         return [raw if requests[0][1] == 36 else raw[:12], record, auth]
@@ -88,3 +88,24 @@ def test_each_completion_reports_exact_location_without_copy_room_ownership(monk
     monkeypatch.setattr(goals.bizhawk, 'read', read)
     asyncio.run(goals.poll_goal_games(ctx))
     assert messages == [{'cmd': 'LocationChecks', 'locations': [3960700 + bit]}]
+
+
+@pytest.mark.parametrize("flags", [0x43500000, 0x43500002, 0x4351ffff,
+                                   0x43540000, 0x43540001, 0x43540002, 0x43540003])
+def test_old_layout_and_permission_only_records_never_report_goals(monkeypatch, flags):
+    auth = bytes(range(16))
+    ctx = SimpleNamespace(auth=base64.b64encode(auth).decode(), team=0, slot=1,
+        server_seed_name='seed', server=SimpleNamespace(socket=SimpleNamespace(closed=False)),
+        bizhawk_ctx=object(), slot_data={'goal_game_protocol_version': 3, 'copy_ability_room_protocol_version': 2},
+        missing_locations=set(range(3960700, 3960716)), checked_locations=set())
+    messages = []
+    async def send(values):
+        messages.extend(values)
+    ctx.send_msgs = send
+    raw = struct.pack('<9I', 4, 4, 0, 0, 0, 0x03001000, flags & 1, 0x43504332, 0)
+    record = auth + struct.pack('<I', flags)
+    async def read(_ctx, requests):
+        return [raw if requests[0][1] == 36 else raw[:12], record, auth]
+    monkeypatch.setattr(goals.bizhawk, 'read', read)
+    asyncio.run(goals.poll_goal_games(ctx))
+    assert messages == []

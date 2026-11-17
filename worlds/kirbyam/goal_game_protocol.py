@@ -7,14 +7,14 @@ from .copy_room_protocol import (
 )
 
 GOAL_MARKER_OFFSET = 0x1000010
-GOAL_MARKER = b'APGOAL2\0'
+GOAL_MARKER = b'APGOAL3\0'
 GOAL_LOCATION_BASE = 3960700
 GOAL_RECORD_ADDRESS = 0x02028C68
 
 
 def goal_slot_version(slot: dict) -> int:
     version = slot.get('goal_game_protocol_version', 0)
-    if type(version) is not int or version not in (0, 2):
+    if type(version) is not int or version not in (0, 3):
         raise ValueError('unsupported Goal Game protocol; regenerate seed and patch')
     if version and copy_room_slot_version(slot) != 2:
         raise ValueError('Goal Games require the authenticated native save context')
@@ -56,9 +56,9 @@ async def poll_goal_games(ctx) -> None:
     if snapshot is None or len(record) != 20 or record[:16] != auth:
         return
     flags = int.from_bytes(record[16:], 'little')
-    if flags & ~0x1FFFF != 0x43500000:
+    if flags & ~0x3FFFF != 0x43540000:
         return
-    bits = (flags >> 1) & 0xFFFF
+    bits = (flags >> 2) & 0xFFFF
     # Re-read persistent flags on each connection; never retain a RAM-derived queue.
     checks = {GOAL_LOCATION_BASE + bit for bit in range(16) if bits & (1 << bit)}
     missing = sorted(checks & set(ctx.missing_locations) - set(ctx.checked_locations))

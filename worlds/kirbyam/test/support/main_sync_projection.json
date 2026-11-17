@@ -2,47 +2,118 @@
   "schema": 1,
   "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
   "integrated_commit": "6884876664a1cc8df34a4ae6527407f31746bcd6",
-  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable.",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/Goal Game projection against unchanged historical main pins; no native evidence rebaseline.",
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "ba7a724bc30994eb6dc10c3ce443463ed04dd3663b3acc51d33d93ae5171826b",
+      "integrated_sha256": "7f4efa8ae8169fe0c43bbe2a0a99d75e2081ff0382c0ab97fd73607763e7432d",
       "reverse_slices": [
         {
-          "start": 26,
-          "stop": 27,
+          "start": 12,
+          "stop": 13,
+          "current": [
+            "from typing import TYPE_CHECKING, Any, Callable, Optional\n"
+          ],
+          "main": [
+            "from typing import TYPE_CHECKING, Callable, Optional\n"
+          ]
+        },
+        {
+          "start": 22,
+          "stop": 25,
+          "current": [
+            "from .phone_protocol import (\n",
+            "    PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,\n",
+            ")\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 29,
+          "stop": 30,
           "current": [
             "from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games\n"
           ],
           "main": []
         },
         {
-          "start": 2068,
-          "stop": 2074,
+          "start": 2037,
+          "stop": 2038,
+          "current": [
+            "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
+          ],
+          "main": [
+            "    async def _health_protocol_ready(self, ctx, *, require_identity: bool = True) -> bool:\n"
+          ]
+        },
+        {
+          "start": 2071,
+          "stop": 2087,
           "current": [
             "            if goal_slot_version(slot):\n",
             "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
             "                if session_expired():\n",
             "                    return False\n",
             "                if bytes(marker) != GOAL_MARKER:\n",
-            "                    raise ValueError(\"ROM and slot Goal Game versions differ\")\n"
+            "                    raise ValueError(\"ROM and slot Goal Game versions differ\")\n",
+            "            # The GBA bus remains addressable for older, shorter ROMs. Their\n",
+            "            # mirrored/open-bus bytes have no Phone marker and remain legacy.\n",
+            "            # Probe on every poll so a ROM/config swap cannot reuse permission.\n",
+            "            config = (await bizhawk.read(ctx.bizhawk_ctx, [(PHONE_CONFIG_BUS_ADDRESS, 12, \"System Bus\")]))[0]\n",
+            "            if session_expired():\n",
+            "                return False\n",
+            "            phone_version = validate_phone_pairing(slot, bytes(config))\n",
+            "            if not phone_version and any(getattr(item, \"item\", 0) == PHONE_ITEM_ID\n",
+            "                                         for item in getattr(ctx, \"items_received\", ())):\n",
+            "                raise ValueError(\"Phone item received without a compatible slot\")\n"
           ],
           "main": []
         },
         {
-          "start": 2308,
-          "stop": 2309,
+          "start": 2291,
+          "stop": 2292,
+          "current": [
+            "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2322,
+          "stop": 2323,
           "current": [
             "            await poll_goal_games(ctx)\n"
           ],
           "main": []
+        },
+        {
+          "start": 4914,
+          "stop": 4917,
+          "current": [
+            "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
+            "            # through scripts, room transitions or a full/invalid battery epoch.\n",
+            "            # Clearing/reoffering it on a timer\n"
+          ],
+          "main": [
+            "            # Hub teleport and Candy deliberately leave the mailbox pending through scripts,\n",
+            "            # pause and native room transitions. Clearing/reoffering it on a timer\n"
+          ]
+        },
+        {
+          "start": 4921,
+          "stop": 4922,
+          "current": [
+            "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
+          ],
+          "main": [
+            "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID)):\n"
+          ]
         }
       ]
     }
   },
   "surfaces": {
     "main_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
-    "integrated_sha256": "a5325ef4b8d457369841faf8f64ac898edcb0231926102913c32256b3325e3c8",
+    "integrated_sha256": "e1cf1e9f2930d4d6d8dede5fd93f735f3b78456304894c3fdc7dbb5decab426a",
     "reverse_slices": [
       {
         "start": 91,
@@ -83,6 +154,25 @@
           "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":{\"all\":[\"can_fly\",\"can_break_floating_block\"]},\"room_sanity\":false,\"target\":\"GOAL_GAME_2_GOAL_2\"}"
         ],
         "main": []
+      },
+      {
+        "start": 419,
+        "stop": 419,
+        "current": [],
+        "main": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
+        ]
+      },
+      {
+        "start": 421,
+        "stop": 423,
+        "current": [
+          "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT\"}",
+          "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_14\"}"
+        ],
+        "main": [
+          "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18\"}"
+        ]
       },
       {
         "start": 504,
@@ -188,5 +278,9 @@
       }
     },
     "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
+  },
+  "reviewed_parent_projection_sha256": {
+    "goal_games": "f96c8b64060ec84663fd1e2ac72aedcbe7d77286d638f1313e44435142b668de",
+    "phone": "e20c9c50965caba61ecc5bf1fb40c7939e1909ead3f9273968f7a44228c4dc9e"
   }
 }

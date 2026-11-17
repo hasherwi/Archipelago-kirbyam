@@ -146,6 +146,9 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
     monkeypatch.setattr(patch_rom, "build_goal_game_writes", lambda *args: {})
     monkeypatch.setattr(patch_rom, "build_copy_room_native_grant_writes", lambda *args: {})
     rom = bytearray(b"\xA5" * 0x200000)
+    rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
+    for offset, native_bytes in patch_rom.BATTERY_SITES.values():
+        rom[offset:offset + 4] = bytes.fromhex(native_bytes)
     # RC4 rolls back the coupled File 1/menu and WORLD-layout changes (#1037).
     # The native selector, Back route and all three files must remain untouched.
     native_file_selection = {
@@ -192,7 +195,8 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
          "starting_color_start_game_hook_target": 0x08100000,
          "treasure_paint_hook_target": 0x08100400,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
-         "vitality_menu_hook_target": 0x08100300},
+         "vitality_menu_hook_target": 0x08100300, "phone_call_extension_target": 0x09001234,
+         **dict.fromkeys(patch_rom.BATTERY_SITES, 0x0815F600)},
         0x08000000,
     )
 
@@ -254,6 +258,9 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
     native_target = patch_rom.ORIGINAL_WORLD_PROPS_ENTRY_FN_ADDR
     switch_hook_target = 0x08100000
     rom = bytearray(0x200000)
+    rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
+    for offset, native_bytes in patch_rom.BATTERY_SITES.values():
+        rom[offset:offset + 4] = bytes.fromhex(native_bytes)
     rom[0x14380A:0x14380E] = patch_rom.thumb_bl_bytes(0x0814380A, 0x08019F0C)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)
     door_call = patch_rom.thumb_bl_bytes(0x08000000 + door_offset, native_target)
@@ -290,7 +297,9 @@ def test_door_to_hub_init_state_lookup_is_separate_and_left_native(monkeypatch) 
         {"unknown83_transition_hook_target": 0x08100600, "starting_color_start_game_hook_target": 0x08100000,
          "health_hud_hook_target": 0x08100100, "initial_health_hook_target": 0x08100200,
          "vitality_menu_hook_target": 0x08100300,
-         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500},
+         "treasure_paint_hook_target": 0x08100400, "hub_trap_hook_target": 0x08100500,
+         "phone_call_extension_target": 0x09001234,
+         **dict.fromkeys(patch_rom.BATTERY_SITES, 0x0815F600)},
         0x08000000,
     )
 

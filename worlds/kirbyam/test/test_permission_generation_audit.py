@@ -50,6 +50,7 @@ assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} == {
 ROOM16_SOURCE_REFUSALS = frozenset({(1, 2), (2, 1), (2, 2)})
 
 
+
 def assert_generation_contract(
     multiworld: MultiWorld, decoded: dict[str, Any], archive: Path, player: int,
 ) -> tuple[LocalCheckAudit, float]:
@@ -65,6 +66,11 @@ def assert_generation_contract(
     placed = Counter(item[0] for locations in decoded["locations"].values()
                      for item in locations.values() if item[1] == player)
     assert not automatic.intersection(placed)
+    # The new progression item is real, balanced and not an automatic grant.
+    assert placed[3860501] == 1 and inventory[3860501] == 0
+    assert decoded["slot_data"][player]["phone_protocol_version"] == 1
+    assert decoded["slot_data"][player]["starting_phone_access"] is False
+    assert "phone_progression" not in decoded["slot_data"][player]
     assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
     assert _gate_words(archive)[player] == expected_gate
@@ -186,11 +192,41 @@ def test_seed105103_refuses_new_goal_game_fill_lock(
     # Keep the formerly accepted exact sample: Goal Game slots change its fill
     # into a progression lock, which the unchanged guard must refuse.
     options = {
-        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105103, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+
+
+@pytest.mark.parametrize("mode", [1, 2])
+def test_seed105100_phone_pool_refuses_exact_placed_strand(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int,
+) -> None:
+    # Pre-Phone Beam+Ice mode1 accepted with Smash at Carrot Boss. Phone changes
+    # fill ordering: Radish Hub now lies behind its own check. The unchanged
+    # production guard must refuse this placement, despite all-inventory access.
+    options = {
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
+    }
+    original = check_accessibility.validate_all_checks
+    inspected = []
+
+    def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
+        audit = audit_local_checks(multiworld, 1)
+        assert audit == LocalCheckAudit((), ("Radish Ruins Vitality - Big Chest",), ())
+        location = multiworld.get_location("Radish Ruins Vitality - Big Chest", 1)
+        assert location.item and location.item.name == "Radish Ruins - Hub Connection"
+        inspected.append(True)
+        original(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
     with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
         _generate(monkeypatch, tmp_path, 105103, [options])
     message = str(caught.value)

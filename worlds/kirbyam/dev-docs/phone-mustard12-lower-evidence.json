@@ -1,0 +1,667 @@
+{
+  "schema_version": 1,
+  "scope": "Bounded native ordinary lower-door solo traversal, not full hub approach or upper secret route",
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "fixtures": [
+    {
+      "name": "production",
+      "production_commit": "333013402704496befad41698d57676fc4b833af",
+      "seed": 1086,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "ability_randomization_statues": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 6,
+        "maximum_health": 10
+      },
+      "source_assignment": "Production mode off: fixed native enemy grants; source ABI explicitly versioned",
+      "production_rom_sha256": "78b58fa147253e4a5ee57d971fbfd7986da014704dcedf828e34b47993fb8fd9",
+      "fixture_rom_sha256": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+      "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+      "preboot_differences": [
+        "Declared native startup rooms 316/801/801/801",
+        "Declared native startup positions: local (80,128), CPUs (232,232)",
+        "Experimental Phone gate enabled; ownership remains unowned"
+      ],
+      "byte_difference_count": 14,
+      "runtime_injections": false,
+      "save_state_loads": false
+    },
+    {
+      "name": "production-hp1",
+      "production_commit": "51baf87e27ebed64c14dd18f502bcd221d6c2928",
+      "seed": 1086,
+      "options": {
+        "ability_randomization_mode": 0,
+        "ability_gating": 0,
+        "ability_randomization_statues": 0,
+        "area_keys": 1,
+        "enemy_health_multiplier": 100,
+        "minimum_health": 1,
+        "maximum_health": 1
+      },
+      "source_assignment": "Production mode off: fixed native enemy grants; source ABI explicitly versioned",
+      "production_rom_sha256": "f6a34bd88f4f04ff8b1981d1093c646e756f7dfa0826c5236e536f4907e6dd53",
+      "fixture_rom_sha256": "0efa4f698212f2317100ebb240ba228f44af8b7f8f12edb7cbaa72f2f1429d99",
+      "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+      "preboot_differences": [
+        "Declared native startup rooms 316/801/801/801",
+        "Declared native startup positions: local (80,128), CPUs (232,232)",
+        "Experimental Phone gate enabled; ownership remains unowned"
+      ],
+      "byte_difference_count": 14,
+      "runtime_injections": false,
+      "save_state_loads": false
+    }
+  ],
+  "runs": [
+    {
+      "name": "lower-calibration-06",
+      "accepted": true,
+      "health": 6,
+      "last_frame": 6031,
+      "transitions": [
+        {
+          "frame": 2381,
+          "room": 322,
+          "x": 520.0,
+          "y": 56.99609375,
+          "hp": 6
+        },
+        {
+          "frame": 3555,
+          "room": 315,
+          "x": 696.0,
+          "y": 280.99609375,
+          "hp": 6
+        },
+        {
+          "frame": 5842,
+          "room": 323,
+          "x": 472.0,
+          "y": 616.99609375,
+          "hp": 6
+        }
+      ],
+      "bomb_tile_first_air_frame": 5185,
+      "all_chain_tiles_air_frame": 5215,
+      "normal_throughout": true,
+      "phone_unowned": true,
+      "cpu_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "r_input_frames": 0,
+      "runtime_writes": 0,
+      "upper_block_triggered": false,
+      "upper_exit_tested": false,
+      "trace_sha256": "138e8d7c93740b097de3c07d9c7810f73bc4219ba71eb2c831dea8aeb7cdc40d",
+      "commands_sha256": "65eae7a9109e1efeb03547857952b245c59a76b0ae4ed6e9ac62e25f8e61c472",
+      "runtime_sha256": "7b8e75d786956d22123b41279d4f926acd0bc46b5cbf816767479a6af846551d",
+      "rom_sha256": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+      "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+      "final_control": {
+        "room": 323,
+        "x": 450.984375,
+        "y": 616.99609375,
+        "hp": 6
+      },
+      "invariant_start_frame": 2248
+    },
+    {
+      "name": "lower-hp6-repeat",
+      "accepted": true,
+      "health": 6,
+      "last_frame": 6031,
+      "transitions": [
+        {
+          "frame": 2381,
+          "room": 322,
+          "x": 520.0,
+          "y": 56.99609375,
+          "hp": 6
+        },
+        {
+          "frame": 3555,
+          "room": 315,
+          "x": 696.0,
+          "y": 280.99609375,
+          "hp": 6
+        },
+        {
+          "frame": 5842,
+          "room": 323,
+          "x": 472.0,
+          "y": 616.99609375,
+          "hp": 6
+        }
+      ],
+      "bomb_tile_first_air_frame": 5185,
+      "all_chain_tiles_air_frame": 5215,
+      "normal_throughout": true,
+      "phone_unowned": true,
+      "cpu_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "r_input_frames": 0,
+      "runtime_writes": 0,
+      "upper_block_triggered": false,
+      "upper_exit_tested": false,
+      "trace_sha256": "b77a91fe07f620f925678029ccf4d0713da2e6009aba3d743e7f909d9b7e4fe4",
+      "commands_sha256": "65eae7a9109e1efeb03547857952b245c59a76b0ae4ed6e9ac62e25f8e61c472",
+      "runtime_sha256": "181fe870ad08eec3e316ce542283d97799c1d9183b464fe4a96e407444a4ed8d",
+      "rom_sha256": "8f66da18f73ae44fb79a9fa0fef3716152581d67cacec321bc32cd52edd26078",
+      "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+      "final_control": {
+        "room": 323,
+        "x": 450.984375,
+        "y": 616.99609375,
+        "hp": 6
+      },
+      "invariant_start_frame": 2248
+    },
+    {
+      "name": "lower-hp1",
+      "accepted": true,
+      "health": 1,
+      "last_frame": 6031,
+      "transitions": [
+        {
+          "frame": 2381,
+          "room": 322,
+          "x": 520.0,
+          "y": 56.99609375,
+          "hp": 1
+        },
+        {
+          "frame": 3555,
+          "room": 315,
+          "x": 696.0,
+          "y": 280.99609375,
+          "hp": 1
+        },
+        {
+          "frame": 5842,
+          "room": 323,
+          "x": 472.0,
+          "y": 616.99609375,
+          "hp": 1
+        }
+      ],
+      "bomb_tile_first_air_frame": 5185,
+      "all_chain_tiles_air_frame": 5215,
+      "normal_throughout": true,
+      "phone_unowned": true,
+      "cpu_rooms": [
+        801,
+        801,
+        801
+      ],
+      "battery": 3,
+      "caller": 255,
+      "r_input_frames": 0,
+      "runtime_writes": 0,
+      "upper_block_triggered": false,
+      "upper_exit_tested": false,
+      "trace_sha256": "ad970dfc04d862ab5719dab5522cc037479d7df060bb4f751d6bb26c9178a419",
+      "commands_sha256": "65eae7a9109e1efeb03547857952b245c59a76b0ae4ed6e9ac62e25f8e61c472",
+      "runtime_sha256": "b0391ababba5e8e408ff2c8e1ca479135c35c6899f76ff4b68328031b6d2aadf",
+      "rom_sha256": "0efa4f698212f2317100ebb240ba228f44af8b7f8f12edb7cbaa72f2f1429d99",
+      "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+      "final_control": {
+        "room": 323,
+        "x": 450.984375,
+        "y": 616.99609375,
+        "hp": 1
+      },
+      "invariant_start_frame": 2248
+    }
+  ],
+  "excluded": [
+    {
+      "name": "lower-calibration-01",
+      "status": "excluded first HP loss",
+      "final": {
+        "frame": 4218,
+        "room": 315,
+        "x": 590.4453125,
+        "y": 233.609375,
+        "hp": 5,
+        "attacker_template": "0x88c45bc"
+      },
+      "trace_sha256": "a34b990a870bced52b0366529d64ce115d9209ff43293f18073edee6d9f7739d"
+    },
+    {
+      "name": "lower-calibration-02",
+      "status": "excluded first HP loss",
+      "final": {
+        "frame": 4762,
+        "room": 315,
+        "x": 602.5859375,
+        "y": 111.66015625,
+        "hp": 5,
+        "attacker_template": "0x88c46b8"
+      },
+      "trace_sha256": "e13feaf86c1f0dc5fd36693c6d986e0ce254ac8d3a7e97bd2cae3d49fa4c4519"
+    },
+    {
+      "name": "lower-calibration-03",
+      "status": "excluded first HP loss",
+      "final": {
+        "frame": 4768,
+        "room": 315,
+        "x": 609.3125,
+        "y": 125.015625,
+        "hp": 5,
+        "attacker_template": "0x88c46b8"
+      },
+      "trace_sha256": "79bc4d56c93d09f27e8adeb7a1ac6a31869aefbc0ca76ed0e049bd76eb53a596"
+    },
+    {
+      "name": "lower-calibration-04",
+      "status": "excluded first HP loss",
+      "final": {
+        "frame": 4852,
+        "room": 315,
+        "x": 592.3125,
+        "y": 117.03125,
+        "hp": 5,
+        "attacker_template": "0x88c46dc"
+      },
+      "trace_sha256": "b76e63e28519b0506517e98d70f270b2dcc9af210c6dc7d7be1789bd13a6f22d"
+    },
+    {
+      "name": "lower-calibration-05",
+      "status": "excluded first HP loss",
+      "final": {
+        "frame": 5471,
+        "room": 315,
+        "x": 319.12890625,
+        "y": 84.99609375,
+        "hp": 5,
+        "attacker_template": null
+      },
+      "trace_sha256": "43e9717967a2eaee63cd39dba263a60c1d19296630a1c3d0e9d90dc989111354"
+    }
+  ],
+  "controller_actions": [
+    [
+      1,
+      32,
+      "face-left"
+    ],
+    [
+      100,
+      2,
+      "inhale-left"
+    ],
+    [
+      12,
+      32,
+      "onto-door"
+    ],
+    [
+      60,
+      64,
+      "enter-322"
+    ],
+    [
+      180,
+      0,
+      "settle-322"
+    ],
+    [
+      20,
+      2,
+      "exhale-start"
+    ],
+    [
+      100,
+      32,
+      "approach-left-bomb"
+    ],
+    [
+      100,
+      2,
+      "inhale-left-bomb"
+    ],
+    [
+      120,
+      96,
+      "fly-left"
+    ],
+    [
+      40,
+      0,
+      "settle-left"
+    ],
+    [
+      15,
+      2,
+      "exhale-left"
+    ],
+    [
+      60,
+      0,
+      "land-left"
+    ],
+    [
+      15,
+      64,
+      "enter-left-door"
+    ],
+    [
+      150,
+      0,
+      "settle-destination"
+    ],
+    [
+      60,
+      64,
+      "rise-left"
+    ],
+    [
+      120,
+      33,
+      "float-cross-left"
+    ],
+    [
+      20,
+      2,
+      "exhale-at-door"
+    ],
+    [
+      90,
+      0,
+      "drop-at-door"
+    ],
+    [
+      32,
+      32,
+      "onto-exit"
+    ],
+    [
+      60,
+      64,
+      "enter-315"
+    ],
+    [
+      180,
+      0,
+      "settle-315"
+    ],
+    [
+      30,
+      16,
+      "destination-control"
+    ],
+    [
+      80,
+      64,
+      "rise-315"
+    ],
+    [
+      300,
+      96,
+      "fly-left-315-a"
+    ],
+    [
+      150,
+      96,
+      "fly-left-315-b"
+    ],
+    [
+      30,
+      0,
+      "inspect-left-315"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-0"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-0"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-1"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-1"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-2"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-2"
+    ],
+    [
+      20,
+      32,
+      "lower-flight-3"
+    ],
+    [
+      20,
+      96,
+      "raise-flight-3"
+    ],
+    [
+      10,
+      32,
+      "approach-shaft"
+    ],
+    [
+      90,
+      64,
+      "rise-shaft"
+    ],
+    [
+      110,
+      80,
+      "middle-right-observe-hazards"
+    ],
+    [
+      10,
+      96,
+      "brake-left-below-RolyPoly"
+    ],
+    [
+      10,
+      64,
+      "let-RolyPoly-pass-right"
+    ],
+    [
+      20,
+      80,
+      "rise-behind-RolyPoly"
+    ],
+    [
+      85,
+      64,
+      "reach-upper-air-corridor"
+    ],
+    [
+      240,
+      96,
+      "fly-above-main-platform-and-isolated-plume"
+    ],
+    [
+      10,
+      16,
+      "brake-above-bomb-passage"
+    ],
+    [
+      50,
+      0,
+      "drop-right-of-bomb"
+    ],
+    [
+      1,
+      32,
+      "face-bomb"
+    ],
+    [
+      15,
+      0,
+      "settle-inflated-at-bomb-height"
+    ],
+    [
+      20,
+      2,
+      "air-puff-bomb-at-height"
+    ],
+    [
+      45,
+      0,
+      "descend-chain-passage"
+    ],
+    [
+      70,
+      32,
+      "cross-central-lower-corridor-left"
+    ],
+    [
+      120,
+      32,
+      "approach-lower-door"
+    ],
+    [
+      10,
+      32,
+      "align-lower-door"
+    ],
+    [
+      1,
+      64,
+      "enter-lower-door"
+    ],
+    [
+      180,
+      0,
+      "settle-323-right"
+    ],
+    [
+      35,
+      16,
+      "approach-ShadowKirby-from-left"
+    ],
+    [
+      1,
+      64,
+      "inflate-facing-ShadowKirby"
+    ],
+    [
+      12,
+      0,
+      "low-inflation"
+    ],
+    [
+      20,
+      2,
+      "air-puff-ShadowKirby"
+    ],
+    [
+      120,
+      32,
+      "walk-left-after-encounter-release"
+    ],
+    [
+      12,
+      32,
+      "align-ordinary-lower-door"
+    ],
+    [
+      1,
+      64,
+      "take-ordinary-lower-door"
+    ],
+    [
+      180,
+      0,
+      "settle-native323-right"
+    ],
+    [
+      20,
+      32,
+      "323-right-native-control"
+    ]
+  ],
+  "shadow_encounter": {
+    "outcome": "Native escape without damage to Shadow Kirby",
+    "shadow_hp": 4,
+    "escape_callback_frame": 5672,
+    "room_slot2_increment_frame": 5674,
+    "scroll_lock_consumption_frame": 5675
+  },
+  "limits": [
+    "No Phone necessity claim",
+    "No upper block movement or upper323 LEFT entry",
+    "No full hub approach",
+    "Ability gating OFF only",
+    "Only HP6-10 and HP1-1 production health settings tested",
+    "Historical calibration labels describe intentions, not asserted achievements; per-frame observations decide outcomes",
+    "Original blank native files and qualified startup in316, not a post-tutorial full hub approach",
+    "Fixed source assignments, Area Keys ON and enemy health100% only",
+    "Same-room movement remains bounded to this controller schedule and native hazard timing",
+    "No live server or native BizHawk transport",
+    "No production Phone activation or traversal binding change"
+  ],
+  "private_trace_field_correction": "The early calibration invulnerability field was misnamed and actually read the high half of base.unk58. No invulnerability conclusions are drawn from it.",
+  "artifact_hashes": {
+    "build.py": "71f1f1f49708a25e5398fea1d5b1d08a9b94a7563d4d9bc3adbb006577e8d138",
+    "build_hp1.py": "804391cb7c4fc9c7d6f9b726e8c22c9c56a15af792d0dea9e9d65a3a07f73c8f",
+    "replay-v3.py": "c93238798f995062126109de6f1e8683fc912041c497e9ba50ec30d370e15a1e",
+    "replay-v4.py": "42993bed9f1cae4fda21159dc8770d5a7f3f24b49641f7d7703a4a058008570b",
+    "SOURCE-CORRECTION.md": "aa74eaac7896d6dd554dc2c0827775b4fcabe3995cea853744a47b09959f689d",
+    "object-list-correction.json": "98172ae3c0c79b42857209edd0d092ea7ea7973fdcf2c456a9dbd2136c56ed0e",
+    "correction-patch-comparison.json": "8d49be4f7704573e28cbe114726eb26d13d9ac60b20765cd76864cc2346881b3"
+  },
+  "reviewed_head": "51baf87e27ebed64c14dd18f502bcd221d6c2928",
+  "production_activation": false,
+  "trace_scope": {
+    "recorded_frames_per_run": 6031,
+    "settled_gameplay_start_frame": 2248,
+    "settled_gameplay_frames_per_run": 3784,
+    "accepted_runs": 3,
+    "recorded_frames_total": 18093,
+    "settled_gameplay_frames_total": 11352,
+    "invariants": "Health, Normal ability, unowned Phone, CPU rooms, battery and caller invariants are checked from frame2248 onward; no R input and no runtime writes apply to the complete runs."
+  },
+  "repeat_comparison": {
+    "scope": "Selected frame-by-frame input and native telemetry, not byte-identical full traces or save files",
+    "fields": [
+      "frame",
+      "keys",
+      "room",
+      "x",
+      "y",
+      "ability",
+      "phone_owned",
+      "cpu_rooms",
+      "caller",
+      "battery",
+      "tiles315"
+    ],
+    "health": "Each run retains its separately configured initial HP; HP/max HP are not required to equal across health variants."
+  }
+}

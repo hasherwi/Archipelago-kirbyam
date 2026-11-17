@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 import pytest
 from ..client import KirbyAmClient
+from ..phone_protocol import PHONE_CONFIG_BUS_ADDRESS
 
 RANGES = [(low, high) for low in range(1, 11) for high in range(low, min(10, low+4)+1)]
 
@@ -22,6 +23,7 @@ async def test_history_repairs_inflated_save_without_replay_heal(mock_bizhawk_co
         client._native_addr('kirby_hp_native'), client._native_addr('kirby_max_hp_native'),
     ]
     memory = dict(zip(addresses, [bytes(4), (4).to_bytes(2, 'little'), bytes([hp]), bytes([10])]))
+    memory[PHONE_CONFIG_BUS_ADDRESS] = bytes(12)  # marker-free legacy ROM
 
     async def read(_ctx, reads):
         return [memory[a] for a, _, _ in reads]
@@ -94,6 +96,8 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
 #include "minor_chest_runtime_logic.h"
 #include "vitality_runtime_logic.h"
 #define AP_COPY_ROOM_ITEM 3860500u
+#define AP_PHONE_ITEM 3860501u
+static uint32_t ap_phone_owned(void) { return 0; }
 static uint32_t ap_copy_room_owned(void) { return 0; }
 #define KIRBY_ITEM_ID_BASE_OFFSET 3860000u
 #define KIRBY_MAX_VITALITY_COUNTERS 4u
@@ -122,11 +126,13 @@ static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
                  'ap_collect_small_chest_native']:
         source += f'static void {name}(uint32_t x) {{(void)x;}}\n'
     for name in [
-        'ap_grant_small_food', 'ap_grant_battery', 'ap_grant_max_tomato', 'ap_grant_invincibility_candy',
+        'ap_grant_small_food', 'ap_grant_max_tomato', 'ap_grant_invincibility_candy',
         'ap_grant_energy_drink', 'ap_grant_hunk_of_meat', 'ap_trap_health_down', 'ap_trap_life_down',
         'ap_trap_bomb', 'ap_trap_battery_drain', 'ap_trap_lives_wipeout',
     ]:
         source += f'static void {name}(void) {{}}\n'
+    # Battery delivery now returns whether the mailbox command was accepted.
+    source += 'static uint8_t ap_grant_battery(void) {return 1;}\n'
     source += '\n'.join(functions)+'''
 int main(void) {
     CHECK(mmap((void*)0x02020000,0x2000,PROT_READ|PROT_WRITE,
@@ -241,7 +247,7 @@ async def test_new_vitality_heals_once_with_atomic_death_guard(mock_bizhawk_cont
     ctx.items_received = [SimpleNamespace(item=3860018), SimpleNamespace(item=3860019)]
     client.on_package(ctx, 'ReceivedItems', {'index': 0})
     before = [(1).to_bytes(4, 'little'), (1).to_bytes(2, 'little'), bytes([2]), bytes([7])]
-    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, return_value=before), \
+    with patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock, side_effect=[[bytes(12)], before]), \
          patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock,
                return_value=guard_succeeds) as write:
         await client._reconcile_vitality_ownership(ctx)
