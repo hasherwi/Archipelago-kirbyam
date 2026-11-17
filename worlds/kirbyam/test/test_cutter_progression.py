@@ -161,6 +161,40 @@ def test_generated_seed_matrix(
         "ability_randomization_boss_spawns": variant % 2,
         "room_sanity": variant % 2, "area_keys": (variant + 1) % 2,
     }
+    if seed == 20261107 and mode in (1, 2):
+        from .. import check_accessibility
+        from .support.check_accessibility import audit_local_checks
+        validated, validate = [], check_accessibility.validate_all_checks
+
+        def capture_validation(mw, players):
+            validated.append(mw)
+            return validate(mw, players)
+
+        monkeypatch.setattr(check_accessibility, "validate_all_checks", capture_validation)
+        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
+                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+            _generate(monkeypatch, tmp_path, seed, [options])
+        mw, = validated
+        audit = audit_local_checks(mw, 1)
+        assert audit.unfilled == ()
+        assert audit.inventory_unreachable == ('Room 4-16',)
+        expected_placed = ('Peppermint Palace 7-09 - Small Chest',
+                           'Peppermint Palace 7-10 - Small Chest #2', 'Room 4-16') if (
+                               mode == 1 and accessibility == 'minimal') else ('Room 4-16',)
+        assert audit.progression_unreachable == expected_placed
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        world = mw.worlds[1]
+        assert not world.options.advanced_logic.value
+        assert not SourcePolicy(world._enemy_copy_ability_policy).grant(
+            'FOLEY', lambda _: True).guaranteed & {'Bomb', 'UFO', 'Ice'}
+        assert not any(i.code == CUTTER for i in mw.precollected_items[1])
+        assert sum(loc.item.code == CUTTER for loc in mw.get_locations(1) if loc.item) == int(gating)
+        # Preserve archive/ROM-slot coverage with the unrelated rejected check disabled.
+        paired = tmp_path / "without_room_sanity"
+        paired.mkdir()
+        mw, decoded, archive = _generate(monkeypatch, paired, seed, [{**options, "room_sanity": 0, "accessibility": "full"}])
+        _assert_slot_contract(mw, decoded, _gate_words(archive), 1)
+        return
     # Retain the previous Beam+Ice refusal bytes; Phone changes deterministic fill.
     historical = json.loads((Path(__file__).parent / "data/green138-generation-contract.json").read_text())["current_native8675309"]
     assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == "2ff594b5140dcd8a77c23b9f772bfd995e6d6cc07cad4a33a11e5399d06e49d5"
