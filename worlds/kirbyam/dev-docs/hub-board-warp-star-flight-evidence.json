@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "issue": 1027,
+  "source_commit": "104cbb647173bcd91b0212ed299c3597bafa4170",
+  "merged_main": "7de658cab6fb822fb66bbebb000bb5aa09f78554",
+  "patch_sha256": "1ef550080f039ecec92a169e06f956111a5accdd7d102afdcadca3993cc530f5",
+  "emulator": "mGBA0.10.5 via isolated resetcore wrapper",
+  "scope": "Controlled lifecycle fixture, not natural route or Normal-only acceptance",
+  "provenance": {
+    "rom_sha256": "827560b92fd737fb822c2150d8f7f93d06fa683996a194553b7832100b23a6cd",
+    "initial_state_sha256": "c2fc6cf45faef5b36a295dcb63960d3df99cdefaba39edd597162eec3f3b44d6",
+    "source_head": "104cbb647173bcd91b0212ed299c3597bafa4170",
+    "setup": "Existing disclosed room142 startup/mailbox fixture. Controller approach, unedited boarded snapshot paired controls. Only rollback branch clears Area Key mask; no player/helper/object writes. Not route or Normal baseline evidence."
+  },
+  "approach_inputs": [
+    [
+      70,
+      64
+    ],
+    [
+      26,
+      80
+    ]
+  ],
+  "boarding_frame": 96,
+  "boarded_state": {
+    "room": 142,
+    "x": 400.0,
+    "y": 176.875,
+    "keys": 4,
+    "star": {
+      "address": 50347568,
+      "flags": 320980292,
+      "passengers": 1,
+      "x": 400.0,
+      "y": 176.875,
+      "function": "0x800dc79"
+    }
+  },
+  "cases": {
+    "control": {
+      "frames": 1200,
+      "first_destination_room_frame": 503,
+      "passenger_frames_before_cleanup": 513,
+      "first_frame_original_star_absent": 514,
+      "final_state": {
+        "room": 195,
+        "x": 118.59765625,
+        "y": 136.99609375,
+        "keys": 4,
+        "star": null
+      }
+    },
+    "rollback": {
+      "frames": 1200,
+      "first_destination_room_frame": 503,
+      "passenger_frames_before_cleanup": 513,
+      "first_frame_original_star_absent": 514,
+      "final_state": {
+        "room": 195,
+        "x": 118.59765625,
+        "y": 136.99609375,
+        "keys": 0,
+        "star": null
+      }
+    }
+  },
+  "recorded_states_equal_excluding_key_mask": true,
+  "unrecorded_state_equality_claimed": false,
+  "manual_writes_after_boarding": {
+    "control": [],
+    "rollback": [
+      {
+        "address": "0x0203b0c0",
+        "value": 0,
+        "purpose": "Controlled Area Key revocation after native passenger bit is set"
+      }
+    ]
+  },
+  "limitations": [
+    "One native142 Warp Star template0x088b7a10 to195",
+    "Same unedited boarded savestate supplies paired cases",
+    "Not every shuffled destination or linked multiplayer",
+    "No full-playthrough or Normal-baseline credit"
+  ],
+  "evidence_sha256": {
+    "provenance.json": "60e21d07e5a5bf20648207128e91e8b729f7be953af3c8dee1c0c6c1f000e788",
+    "rollback.png": "4312506cfd8ef2eee27fb0d899631b47f9f2d7b5ce0a8531c74a70f21481b6df",
+    "rollback.json": "df90f57eb149a6ca90a7b4e3010ccd4053a8c4daa6ff19ed0391c71532817fd1",
+    "control.png": "4312506cfd8ef2eee27fb0d899631b47f9f2d7b5ce0a8531c74a70f21481b6df",
+    "control.json": "c6264055406e1017aeb961eaab79ba64d34881f608fd8d6210b2e7abb405d68d",
+    "approach.json": "23b74003097442f9e6df1147a6b8ddd971354b0ee48f5dfdb27e1f054eb48ff7",
+    "boarded.png": "41265b57b1729cb0b7e43ecab5955778ca2b6207c23d304e45c719ceb62905d9",
+    "initial.png": "bea22cde25d58a97d4b7d03208614db1287b1892bf855b3bc01acee638b308f1",
+    "run.py": "1a51d8f2428dffb3dbf759bb7a684e817851793d89faaec7e0849843f34bc22d"
+  }
+}
