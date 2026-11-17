@@ -107,7 +107,7 @@ def test_carrot_physical_compartments(entry: str, lower: bool, upper: bool) -> N
 
 
 def test_all_65_chests_are_reachable_with_route_items() -> None:
-    """All chests are reachable after destination Area Keys are received."""
+    """All 65 chests have graph routes with ownership and resolved source permissions."""
     from argparse import Namespace
     multiworld = MultiWorld(1)
     multiworld.game[1] = KirbyAmWorld.game
@@ -118,6 +118,8 @@ def test_all_65_chests_are_reachable_with_route_items() -> None:
         setattr(args, name, {1: option.from_any(option.default)})
     multiworld.set_options(args)
     world = multiworld.worlds[1]
+    multiworld.state = CollectionState(multiworld)
+    world.generate_early()  # Resolve the actual source policy before installing Phone rules.
     world.create_regions()
     world.set_rules()
     state = CollectionState(multiworld)
@@ -127,10 +129,17 @@ def test_all_65_chests_are_reachable_with_route_items() -> None:
     assert len(rows) == 65
     assert any(not multiworld.get_location(row.label, 1).can_reach(state) for row in rows)
     route_items = [item for item in data.items.values()
-                   if {"AreaKeys", "HubConnections", "Levers"}.intersection(item.tags)]
-    assert len(route_items) == 27
+                   if {"AreaKeys", "HubConnections", "Levers", "Phone"}.intersection(item.tags)]
+    assert len(route_items) == 28  # Historical 27 route items plus always-on Phone.
     for item in route_items:
         state.collect(world.create_item(item.label), prevent_sweep=True)
+    state.sweep_for_advancements()
+    # Unlike the historical policy-free graph, actual source rules also need
+    # ability permissions and the independently qualified Copy Room access.
+    assert any(not multiworld.get_location(row.label, 1).can_reach(state) for row in rows)
+    for item in data.items.values():
+        if {"Abilities", "RoomAccess"}.intersection(item.tags):
+            state.collect(world.create_item(item.label), prevent_sweep=True)
     state.sweep_for_advancements()
     assert not [row.name for row in rows
                 if not multiworld.get_location(row.label, 1).can_reach(state)]

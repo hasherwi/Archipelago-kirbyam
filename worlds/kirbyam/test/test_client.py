@@ -4299,6 +4299,9 @@ async def test_enforce_one_hit_mode_clamps_max_hp_and_current_hp(mock_bizhawk_co
             (6).to_bytes(1, 'little', signed=True),
         ]
 
+        mock_read.side_effect = lambda _ctx, requests: (
+            [bytes(12)] if requests == [(0x0900FFC8, 12, "System Bus")] else mock_read.return_value)
+
         await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
@@ -4337,6 +4340,9 @@ async def test_enforce_one_hit_mode_exclude_scrubs_native_vitality_counter(mock_
             (1).to_bytes(1, 'little', signed=True),
         ]
 
+        mock_read.side_effect = lambda _ctx, requests: (
+            [bytes(12)] if requests == [(0x0900FFC8, 12, "System Bus")] else mock_read.return_value)
+
         await client._enforce_health_range(mock_bizhawk_context)
 
     mock_write.assert_awaited_once_with(
@@ -4373,6 +4379,9 @@ async def test_enforce_one_hit_mode_preserves_dead_hp_state(mock_bizhawk_context
             (-1).to_bytes(1, 'little', signed=True),
             (6).to_bytes(1, 'little', signed=True),
         ]
+
+        mock_read.side_effect = lambda _ctx, requests: (
+            [bytes(12)] if requests == [(0x0900FFC8, 12, "System Bus")] else mock_read.return_value)
 
         await client._enforce_health_range(mock_bizhawk_context)
 

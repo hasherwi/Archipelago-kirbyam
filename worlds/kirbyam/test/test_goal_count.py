@@ -51,7 +51,7 @@ def test_count_option_rejects_out_of_range(count: int) -> None:
 @pytest.mark.parametrize("count", range(1, 9))
 def test_count_rule_and_client_agree_for_every_boss_subset(count: int) -> None:
     world: Any = _FakeWorld(Goal.option_defeat_area_boss_count)
-    world.options = SimpleNamespace(goal=Goal(4), required_area_bosses=RequiredAreaBosses(count))
+    world.options.required_area_bosses = RequiredAreaBosses(count)
     set_rules(world)
     goal = world.multiworld.get_location(GOAL_LABEL, world.player)
     completion = _get_completion_fn(world)

@@ -88,6 +88,9 @@ def _build_representative_slot_data() -> dict[str, object]:
         "room_sanity": False,
     }
 
+    for key in ("ability_randomization_mode", "ability_gating", "minimum_health", "maximum_health", "enemy_health_multiplier", "room_sanity"):
+        setattr(options, key, Mock(value=int(options.as_dict.return_value[key])))
+    options.one_hit_mode = Mock(value=0)
     world.options = options
     world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
         random.Random(20260322),

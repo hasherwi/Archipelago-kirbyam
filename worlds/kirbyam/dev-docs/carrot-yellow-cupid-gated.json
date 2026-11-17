@@ -1,0 +1,1630 @@
+{
+  "schema_version": 1,
+  "scope": "Exact-policy gated HP6 native witness; controlled startup719 and explicit permission mailbox fixture, not authenticated server receipt restoration or full-playthrough evidence.",
+  "source_head": "93b5081123778c006fb9e0915d7362fd8f828122",
+  "patch_sha256": "c71f60b7b1649e1ae2566c1a6dc20ecc9208d1a034e629f83f531c13c761e73c",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "emulator": "mGBA0.10.5 resetcore",
+  "bridge_sha256": "38098b8ade534c87c33ed6cd65b0cab42f1a003a96e163413f57ebc32a0254c6",
+  "policy_sha256": "1b5321f57d0ed75ed938aaeda8889ab5c9d5439a3cac7c6df5a5b634bdb21ac0",
+  "profile": {
+    "ability_randomization_mode": 1,
+    "ability_gating": 1,
+    "ability_randomization_statues": 0,
+    "minimum_health": 6,
+    "maximum_health": 6,
+    "enemy_health_multiplier": 100,
+    "one_hit_mode": 0,
+    "area_keys": 0,
+    "advanced_logic": 0,
+    "room_sanity_values": [
+      0,
+      1
+    ]
+  },
+  "controlled_startup": {
+    "native_room": 719,
+    "x": 232,
+    "y": 56,
+    "rom_offsets": [
+      "0x2d8cb8",
+      "0x2d8cd0"
+    ]
+  },
+  "writes": "Eight real-client source configuration writes at1085; three mailbox writes at2000 in permission cases. No health/position/equipment/helper/object writes during gameplay. No R inputs or restores in cold evidence.",
+  "schedule": [
+    [
+      0,
+      180,
+      0
+    ],
+    [
+      180,
+      1,
+      8
+    ],
+    [
+      181,
+      120,
+      0
+    ],
+    [
+      301,
+      1,
+      8
+    ],
+    [
+      302,
+      120,
+      0
+    ],
+    [
+      422,
+      1,
+      1
+    ],
+    [
+      423,
+      240,
+      0
+    ],
+    [
+      663,
+      1,
+      1
+    ],
+    [
+      664,
+      180,
+      0
+    ],
+    [
+      844,
+      1,
+      1
+    ],
+    [
+      845,
+      240,
+      0
+    ],
+    [
+      1085,
+      40,
+      0
+    ],
+    [
+      1125,
+      10,
+      16
+    ],
+    [
+      1135,
+      25,
+      0
+    ],
+    [
+      1160,
+      1,
+      64
+    ],
+    [
+      1161,
+      60,
+      0
+    ],
+    [
+      1221,
+      100,
+      64
+    ],
+    [
+      1321,
+      235,
+      96
+    ],
+    [
+      1556,
+      25,
+      32
+    ],
+    [
+      1581,
+      50,
+      32
+    ],
+    [
+      1631,
+      5,
+      96
+    ],
+    [
+      1636,
+      20,
+      80
+    ],
+    [
+      1656,
+      50,
+      64
+    ],
+    [
+      1706,
+      87,
+      96
+    ],
+    [
+      1793,
+      20,
+      80
+    ],
+    [
+      1813,
+      50,
+      64
+    ],
+    [
+      1863,
+      80,
+      96
+    ],
+    [
+      1943,
+      20,
+      80
+    ],
+    [
+      1963,
+      50,
+      64
+    ],
+    [
+      2013,
+      61,
+      96
+    ],
+    [
+      2074,
+      20,
+      80
+    ],
+    [
+      2094,
+      50,
+      64
+    ],
+    [
+      2144,
+      61,
+      96
+    ],
+    [
+      2205,
+      20,
+      80
+    ],
+    [
+      2225,
+      50,
+      64
+    ],
+    [
+      2275,
+      1,
+      2
+    ],
+    [
+      2276,
+      70,
+      0
+    ],
+    [
+      2346,
+      90,
+      32
+    ],
+    [
+      2436,
+      100,
+      0
+    ],
+    [
+      2536,
+      40,
+      64
+    ],
+    [
+      2576,
+      50,
+      32
+    ],
+    [
+      2626,
+      45,
+      64
+    ],
+    [
+      2671,
+      100,
+      96
+    ],
+    [
+      2771,
+      180,
+      96
+    ],
+    [
+      2951,
+      20,
+      32
+    ],
+    [
+      2971,
+      1,
+      2
+    ],
+    [
+      2972,
+      25,
+      0
+    ],
+    [
+      2997,
+      80,
+      2
+    ],
+    [
+      3077,
+      1,
+      0
+    ],
+    [
+      3078,
+      1,
+      2
+    ],
+    [
+      3079,
+      20,
+      0
+    ],
+    [
+      3099,
+      80,
+      2
+    ],
+    [
+      3179,
+      10,
+      0
+    ],
+    [
+      3189,
+      50,
+      64
+    ],
+    [
+      3239,
+      180,
+      96
+    ],
+    [
+      3419,
+      14,
+      32
+    ],
+    [
+      3433,
+      1,
+      2
+    ],
+    [
+      3434,
+      80,
+      0
+    ],
+    [
+      3514,
+      30,
+      128
+    ],
+    [
+      3544,
+      60,
+      0
+    ],
+    [
+      3604,
+      90,
+      32
+    ],
+    [
+      3694,
+      40,
+      64
+    ],
+    [
+      3734,
+      42,
+      96
+    ],
+    [
+      3776,
+      12,
+      80
+    ],
+    [
+      3788,
+      1,
+      2
+    ],
+    [
+      3789,
+      90,
+      0
+    ],
+    [
+      3879,
+      140,
+      96
+    ],
+    [
+      4019,
+      22,
+      96
+    ],
+    [
+      4041,
+      12,
+      80
+    ],
+    [
+      4053,
+      1,
+      2
+    ],
+    [
+      4054,
+      70,
+      0
+    ],
+    [
+      4124,
+      1,
+      64
+    ],
+    [
+      4125,
+      60,
+      0
+    ],
+    [
+      4185,
+      86,
+      32
+    ],
+    [
+      4271,
+      30,
+      0
+    ],
+    [
+      4301,
+      1,
+      64
+    ],
+    [
+      4302,
+      55,
+      0
+    ],
+    [
+      4357,
+      200,
+      32
+    ],
+    [
+      4557,
+      30,
+      0
+    ],
+    [
+      4587,
+      120,
+      2
+    ],
+    [
+      4707,
+      40,
+      0
+    ],
+    [
+      4747,
+      3,
+      16
+    ],
+    [
+      4750,
+      120,
+      2
+    ],
+    [
+      4870,
+      40,
+      0
+    ],
+    [
+      4910,
+      8,
+      16
+    ],
+    [
+      4918,
+      30,
+      0
+    ],
+    [
+      4948,
+      100,
+      2
+    ],
+    [
+      5048,
+      50,
+      0
+    ],
+    [
+      5098,
+      20,
+      128
+    ],
+    [
+      5118,
+      1,
+      32
+    ],
+    [
+      5119,
+      80,
+      2
+    ],
+    [
+      5199,
+      3,
+      16
+    ],
+    [
+      5202,
+      120,
+      0
+    ],
+    [
+      5322,
+      25,
+      16
+    ],
+    [
+      5347,
+      80,
+      2
+    ],
+    [
+      5427,
+      30,
+      128
+    ],
+    [
+      5457,
+      30,
+      64
+    ],
+    [
+      5487,
+      13,
+      16
+    ],
+    [
+      5500,
+      130,
+      16
+    ],
+    [
+      5630,
+      160,
+      128
+    ],
+    [
+      5790,
+      200,
+      128
+    ],
+    [
+      5990,
+      25,
+      64
+    ],
+    [
+      6015,
+      50,
+      32
+    ],
+    [
+      6065,
+      80,
+      128
+    ],
+    [
+      6145,
+      25,
+      64
+    ],
+    [
+      6170,
+      100,
+      32
+    ],
+    [
+      6270,
+      50,
+      128
+    ],
+    [
+      6320,
+      22,
+      16
+    ],
+    [
+      6342,
+      30,
+      0
+    ],
+    [
+      6372,
+      1,
+      64
+    ],
+    [
+      6373,
+      60,
+      0
+    ],
+    [
+      6433,
+      1,
+      2
+    ],
+    [
+      6434,
+      60,
+      0
+    ],
+    [
+      6494,
+      14,
+      16
+    ],
+    [
+      6508,
+      15,
+      0
+    ],
+    [
+      6523,
+      1,
+      64
+    ],
+    [
+      6524,
+      60,
+      0
+    ],
+    [
+      6584,
+      180,
+      0
+    ],
+    [
+      6764,
+      20,
+      64
+    ],
+    [
+      6784,
+      64,
+      32
+    ],
+    [
+      6848,
+      25,
+      128
+    ],
+    [
+      6873,
+      20,
+      0
+    ],
+    [
+      6893,
+      60,
+      128
+    ],
+    [
+      6953,
+      1,
+      16
+    ],
+    [
+      6954,
+      80,
+      2
+    ],
+    [
+      7034,
+      30,
+      128
+    ],
+    [
+      7064,
+      70,
+      32
+    ],
+    [
+      7134,
+      60,
+      128
+    ],
+    [
+      7194,
+      1,
+      16
+    ],
+    [
+      7195,
+      100,
+      2
+    ],
+    [
+      7295,
+      30,
+      128
+    ],
+    [
+      7325,
+      28,
+      32
+    ],
+    [
+      7353,
+      100,
+      128
+    ],
+    [
+      7453,
+      30,
+      128
+    ],
+    [
+      7483,
+      1,
+      32
+    ],
+    [
+      7484,
+      120,
+      2
+    ],
+    [
+      7604,
+      30,
+      128
+    ],
+    [
+      7634,
+      110,
+      16
+    ],
+    [
+      7744,
+      1,
+      2
+    ],
+    [
+      7745,
+      50,
+      0
+    ],
+    [
+      7795,
+      15,
+      16
+    ],
+    [
+      7810,
+      15,
+      0
+    ],
+    [
+      7825,
+      1,
+      64
+    ],
+    [
+      7826,
+      55,
+      0
+    ],
+    [
+      7881,
+      10,
+      32
+    ],
+    [
+      7891,
+      25,
+      0
+    ],
+    [
+      7916,
+      1,
+      64
+    ],
+    [
+      7917,
+      55,
+      0
+    ],
+    [
+      7972,
+      60,
+      128
+    ],
+    [
+      8032,
+      12,
+      64
+    ],
+    [
+      8044,
+      130,
+      16
+    ],
+    [
+      8174,
+      35,
+      128
+    ],
+    [
+      8209,
+      10,
+      32
+    ],
+    [
+      8219,
+      25,
+      0
+    ],
+    [
+      8244,
+      1,
+      64
+    ],
+    [
+      8245,
+      55,
+      0
+    ],
+    [
+      8300,
+      72,
+      16
+    ],
+    [
+      8372,
+      30,
+      0
+    ],
+    [
+      8402,
+      30,
+      64
+    ],
+    [
+      8432,
+      1,
+      2
+    ],
+    [
+      8433,
+      80,
+      66
+    ],
+    [
+      8513,
+      1,
+      64
+    ],
+    [
+      8514,
+      120,
+      0
+    ],
+    [
+      8634,
+      95,
+      16
+    ],
+    [
+      8729,
+      15,
+      128
+    ],
+    [
+      8744,
+      15,
+      16
+    ],
+    [
+      8759,
+      1,
+      2
+    ],
+    [
+      8760,
+      80,
+      66
+    ],
+    [
+      8840,
+      1,
+      64
+    ],
+    [
+      8841,
+      100,
+      0
+    ],
+    [
+      8941,
+      12,
+      32
+    ],
+    [
+      8953,
+      25,
+      0
+    ],
+    [
+      8978,
+      1,
+      16
+    ],
+    [
+      8979,
+      1,
+      2
+    ],
+    [
+      8980,
+      80,
+      66
+    ],
+    [
+      9060,
+      1,
+      64
+    ],
+    [
+      9061,
+      90,
+      0
+    ],
+    [
+      9151,
+      28,
+      32
+    ],
+    [
+      9179,
+      90,
+      64
+    ],
+    [
+      9269,
+      40,
+      16
+    ],
+    [
+      9309,
+      35,
+      128
+    ],
+    [
+      9344,
+      1,
+      64
+    ],
+    [
+      9345,
+      60,
+      0
+    ],
+    [
+      9405,
+      90,
+      64
+    ],
+    [
+      9495,
+      15,
+      32
+    ],
+    [
+      9510,
+      30,
+      128
+    ],
+    [
+      9540,
+      20,
+      0
+    ],
+    [
+      9560,
+      1,
+      64
+    ],
+    [
+      9561,
+      60,
+      0
+    ],
+    [
+      9621,
+      4,
+      32
+    ],
+    [
+      9625,
+      20,
+      0
+    ],
+    [
+      9645,
+      1,
+      64
+    ],
+    [
+      9646,
+      60,
+      0
+    ]
+  ],
+  "controls": {
+    "left-no-permission": "Omit the three mailbox writes; otherwise same controller schedule.",
+    "left-no-upper-shot": "Replace keys with neutral for schedule entries starting8432 through8513.",
+    "left-no-lower-shot": "Replace keys with neutral for schedule entries starting8759 through9060."
+  },
+  "cases": {
+    "left-reacquire": {
+      "room_sanity": true,
+      "fixture_sha256": "c5fa8a3d7beee0d70da696593f5827494c3d1233923d8c215e4b94c10f05fda9",
+      "trace_sha256": "b4ff9c7c6dcea0b5f0d70c69db51a51bc66faa6c4c153bef96ed9d926807d44f",
+      "script_sha256": "520db38b5ea9dac1213002231726bb3116ea487e827687d011c90a1e02ddfbd4",
+      "screenshot_sha256": "078bb64e0c461025474ac483ef365b7c52dda408670b7899b201298ae7e98375",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [
+        [
+          33796104,
+          "97e63a00",
+          "System Bus"
+        ],
+        [
+          33796108,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796100,
+          "01000000",
+          "System Bus"
+        ]
+      ],
+      "ability_transitions": [
+        [
+          5450,
+          19,
+          6
+        ],
+        [
+          6479,
+          0,
+          5
+        ],
+        [
+          7627,
+          19,
+          2
+        ]
+      ],
+      "room733_first_frame": 8256,
+      "first_chest_frame": 9563,
+      "final": {
+        "frame": 9706,
+        "room": 733,
+        "ability": 19,
+        "hp": 2,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 524288,
+        "mailbox_flag": 0,
+        "item_count": 1,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "health_increases_after_730_entry": [],
+      "zero_hp_frames": 0
+    },
+    "left-repeat": {
+      "room_sanity": true,
+      "fixture_sha256": "c5fa8a3d7beee0d70da696593f5827494c3d1233923d8c215e4b94c10f05fda9",
+      "trace_sha256": "b4ff9c7c6dcea0b5f0d70c69db51a51bc66faa6c4c153bef96ed9d926807d44f",
+      "script_sha256": "65bffce71b539f10f9b619331830c2beaf79a025d01a86379006dd06d82ab8bf",
+      "screenshot_sha256": "078bb64e0c461025474ac483ef365b7c52dda408670b7899b201298ae7e98375",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [
+        [
+          33796104,
+          "97e63a00",
+          "System Bus"
+        ],
+        [
+          33796108,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796100,
+          "01000000",
+          "System Bus"
+        ]
+      ],
+      "ability_transitions": [
+        [
+          5450,
+          19,
+          6
+        ],
+        [
+          6479,
+          0,
+          5
+        ],
+        [
+          7627,
+          19,
+          2
+        ]
+      ],
+      "room733_first_frame": 8256,
+      "first_chest_frame": 9563,
+      "final": {
+        "frame": 9706,
+        "room": 733,
+        "ability": 19,
+        "hp": 2,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 524288,
+        "mailbox_flag": 0,
+        "item_count": 1,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "health_increases_after_730_entry": [],
+      "zero_hp_frames": 0
+    },
+    "left-room-off": {
+      "room_sanity": false,
+      "fixture_sha256": "78e6ad2790cd74eb3b3f65297c815fa2e887f17bc167d8d622c04624a58063c9",
+      "trace_sha256": "b4ff9c7c6dcea0b5f0d70c69db51a51bc66faa6c4c153bef96ed9d926807d44f",
+      "script_sha256": "8e18f56b453db6507bb02739f88388e9573e7d2d7052e46bf0f8f19219241afb",
+      "screenshot_sha256": "078bb64e0c461025474ac483ef365b7c52dda408670b7899b201298ae7e98375",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [
+        [
+          33796104,
+          "97e63a00",
+          "System Bus"
+        ],
+        [
+          33796108,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796100,
+          "01000000",
+          "System Bus"
+        ]
+      ],
+      "ability_transitions": [
+        [
+          5450,
+          19,
+          6
+        ],
+        [
+          6479,
+          0,
+          5
+        ],
+        [
+          7627,
+          19,
+          2
+        ]
+      ],
+      "room733_first_frame": 8256,
+      "first_chest_frame": 9563,
+      "final": {
+        "frame": 9706,
+        "room": 733,
+        "ability": 19,
+        "hp": 2,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 524288,
+        "mailbox_flag": 0,
+        "item_count": 1,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "health_increases_after_730_entry": [],
+      "zero_hp_frames": 0
+    },
+    "left-no-permission": {
+      "room_sanity": true,
+      "fixture_sha256": "c5fa8a3d7beee0d70da696593f5827494c3d1233923d8c215e4b94c10f05fda9",
+      "trace_sha256": "6ae2f2eb464268b44e9e577f239cd441c3a618be9dbbd43c1ed980e70c157e54",
+      "script_sha256": "a435e631f28f37db532eadddba84e45a2dd3b94afd61f44ebff6fc26b6d5c756",
+      "screenshot_sha256": "b4ca4de0abe17f8c346a05c3f6488cb1272618e5e37851a0f2f63b4baf3be55a",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [],
+      "ability_transitions": [],
+      "room733_first_frame": null,
+      "first_chest_frame": null,
+      "final": {
+        "frame": 9706,
+        "room": 730,
+        "ability": 0,
+        "hp": 6,
+        "x": 421.92578125,
+        "y": 584.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 0,
+        "mailbox_flag": 0,
+        "item_count": 0,
+        "upper": 82,
+        "lower": 13,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "health_increases_after_730_entry": [
+        [
+          7917,
+          0,
+          6
+        ]
+      ],
+      "zero_hp_frames": 246
+    },
+    "left-no-upper-shot": {
+      "room_sanity": true,
+      "fixture_sha256": "c5fa8a3d7beee0d70da696593f5827494c3d1233923d8c215e4b94c10f05fda9",
+      "trace_sha256": "479e030c20d09308e38da8848c113f432688b872d929b1ce715f5e7da39c9143",
+      "script_sha256": "28b76886e7157cefdb34780558d04f6ea9fba347456d6bab617847e4e51e247c",
+      "screenshot_sha256": "6c5d4173c5d07c3950d8523d13f3a8c1d1f3d04e0085b04a2bd258d103d5bccc",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [
+        [
+          33796104,
+          "97e63a00",
+          "System Bus"
+        ],
+        [
+          33796108,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796100,
+          "01000000",
+          "System Bus"
+        ]
+      ],
+      "ability_transitions": [
+        [
+          5450,
+          19,
+          6
+        ],
+        [
+          6479,
+          0,
+          5
+        ],
+        [
+          7627,
+          19,
+          2
+        ]
+      ],
+      "room733_first_frame": 8256,
+      "first_chest_frame": null,
+      "final": {
+        "frame": 9706,
+        "room": 733,
+        "ability": 19,
+        "hp": 2,
+        "x": 166.0,
+        "y": 40.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 524288,
+        "mailbox_flag": 0,
+        "item_count": 1,
+        "upper": 241,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "health_increases_after_730_entry": [],
+      "zero_hp_frames": 0
+    },
+    "left-no-lower-shot": {
+      "room_sanity": true,
+      "fixture_sha256": "c5fa8a3d7beee0d70da696593f5827494c3d1233923d8c215e4b94c10f05fda9",
+      "trace_sha256": "c5779977af72879eb05056d232cdc961b1f2929bdf8addf907cc475a2e91a341",
+      "script_sha256": "4292fae40819cf12ffeca029952a7164fbeb8bf255598ebbac09712edcb87f7f",
+      "screenshot_sha256": "e5a2696ab5e1dc72f9b18735199b0a56c37768ee35fb3005f48d5f90dcc74e1e",
+      "runtime_config_writes": [
+        [
+          33796196,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796200,
+          "da998625",
+          "System Bus"
+        ],
+        [
+          33796204,
+          "db490a4a",
+          "System Bus"
+        ],
+        [
+          33796208,
+          "37000000",
+          "System Bus"
+        ],
+        [
+          33796212,
+          "feffff03",
+          "System Bus"
+        ],
+        [
+          33796272,
+          "7effff03",
+          "System Bus"
+        ],
+        [
+          33796276,
+          "00000000",
+          "System Bus"
+        ],
+        [
+          33796216,
+          "00000000",
+          "System Bus"
+        ]
+      ],
+      "mailbox_writes": [
+        [
+          33796104,
+          "97e63a00",
+          "System Bus"
+        ],
+        [
+          33796108,
+          "01000000",
+          "System Bus"
+        ],
+        [
+          33796100,
+          "01000000",
+          "System Bus"
+        ]
+      ],
+      "ability_transitions": [
+        [
+          5450,
+          19,
+          6
+        ],
+        [
+          6479,
+          0,
+          5
+        ],
+        [
+          7627,
+          19,
+          2
+        ]
+      ],
+      "room733_first_frame": 8256,
+      "first_chest_frame": null,
+      "final": {
+        "frame": 9706,
+        "room": 733,
+        "ability": 19,
+        "hp": 2,
+        "x": 296.58984375,
+        "y": 120.99609375,
+        "gate_mask": 67108734,
+        "unlock_mask": 524288,
+        "mailbox_flag": 0,
+        "item_count": 1,
+        "upper": 0,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "health_increases_after_730_entry": [],
+      "zero_hp_frames": 0
+    }
+  },
+  "earlier_failures": "Original right-facing lower input and an added left/recovery delay failed reacquisition and later healed. Those traces remain excluded. A restored-state exploration discovered descending30 frames and facing left; only subsequent blank-battery cold replays appear as positives here.",
+  "limits": "No other source policy, health, Area Key, enemy multiplier, helper capability, authenticated delivery history or full-seed reachability is qualified."
+}

@@ -82,6 +82,7 @@ def fixture(  # noqa: C901 - one explicit isolated-world dependency matrix
     # Synthetic branch controls without bounded assignment-search or generation.
     resolver = policy(1, pool=[early]) if early else policy(source_mode, statues=statues, weight=100, pool=['Ice'])
     world._enemy_copy_ability_policy = resolver.policy
+    world.options.ability_randomization_mode.value = resolver.policy["mode"]
     world.options.ability_randomization_statues.value = int(statues)
     world.create_regions()
     world.create_items()

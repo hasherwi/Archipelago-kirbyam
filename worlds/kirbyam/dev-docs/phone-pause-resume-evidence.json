@@ -1,0 +1,2391 @@
+{
+  "schema": "kirbyam-phone-pause-resume-evidence-v1",
+  "date": "2026-11-11",
+  "ai_assisted": true,
+  "implementation_head": "c11f5876eb267137b64f50a0bc5d006bae16723b",
+  "native_source_head": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "result": "Two fixed cold native runs passed. Pausing pre-debit startup preserves the pending owned call; resuming spends exactly one battery and restores ordinary control.",
+  "total_native_frames": 14438,
+  "native_runs": 2,
+  "native_retries_or_calibration_runs": 0,
+  "observed_debit_delay_frames": 214,
+  "fixture": {
+    "initial_native_file": 0,
+    "health_config": [
+      6,
+      10
+    ],
+    "actual_call_hp": 5,
+    "actual_call_ability": "Cutter (6)",
+    "initial_room": 143,
+    "fixed_finite_source": true,
+    "retail_startup": true,
+    "ability_gating": true,
+    "area_keys": true,
+    "phone_configuration": "isolated experimental enablement",
+    "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+    "configured_rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+    "base_patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "frozen_manifest_sha256": "63976271efaf9622d343090b8bf7365ae4e2b3bb3c3408c276f95d86666cf242",
+    "runner_sha256": "52d110768b080b65950de41347f66569a07208cdf0d69f865826bb3369ffe5ff",
+    "construction": "Reconstructed native fixture with synthetic complete item history and slot data, not a full generated seed."
+  },
+  "method": {
+    "production_python": "Unchanged current KirbyAmClient validation, pairing, complete-history receipts, runtime configuration and sync_phone_ownership.",
+    "adapter": "Synthetic complete item history, slot data and authenticated server context with a local native-memory adapter. This reconstructed native fixture is not a full generated seed, live server or BizHawk transport. Every adapter request, response, guard and write is privately journaled.",
+    "write_contract": "Current production requests generated all client/adapter writes. Frozen accepted write records were comparison assertions only, never replayed. The two Phone queue writes used four actual successful guards. Other legacy prefix configuration/mailbox methods retain their production behavior, including unguarded writes.",
+    "memory_policy": "Initial battery save loaded before frame zero only. No save-state load, gameplay-field injection, or client/adapter memory write after frame 4478. Per-frame suffix observations are read-only; native game memory updates continue normally.",
+    "stop_policy": "First violated invariant stops the experiment. Neither run violated an invariant; full declared schedules completed.",
+    "native_identity": "Local task main 0x0803EE19, priority 0x3000, active flags, reciprocal linked neighbors and payload index 0 checked throughout; no task invocation or edits."
+  },
+  "exact_inputs": {
+    "prefix": [
+      {
+        "start": 0,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 180,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 181,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 301,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 302,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 422,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 423,
+        "frames": 240,
+        "keys": 0
+      },
+      {
+        "start": 663,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 664,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 844,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 845,
+        "frames": 480,
+        "keys": 0
+      },
+      {
+        "start": 1325,
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "start": 1326,
+        "frames": 300,
+        "keys": 0
+      },
+      {
+        "start": 1626,
+        "frames": 1,
+        "keys": 1
+      },
+      {
+        "start": 1627,
+        "frames": 500,
+        "keys": 0
+      },
+      {
+        "start": 2127,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2128,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 2248,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2250,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2252,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2254,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2256,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2258,
+        "frames": 2,
+        "keys": 0
+      },
+      {
+        "start": 2260,
+        "frames": 170,
+        "keys": 0
+      },
+      {
+        "start": 2430,
+        "frames": 140,
+        "keys": 80
+      },
+      {
+        "start": 2570,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 2571,
+        "frames": 160,
+        "keys": 0
+      },
+      {
+        "start": 2731,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 2732,
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "start": 2912,
+        "frames": 70,
+        "keys": 16
+      },
+      {
+        "start": 2982,
+        "frames": 30,
+        "keys": 0
+      },
+      {
+        "start": 3012,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3013,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3133,
+        "frames": 6,
+        "keys": 32
+      },
+      {
+        "start": 3139,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3159,
+        "frames": 1,
+        "keys": 64
+      },
+      {
+        "start": 3160,
+        "frames": 120,
+        "keys": 0
+      },
+      {
+        "start": 3280,
+        "frames": 30,
+        "keys": 16
+      },
+      {
+        "start": 3310,
+        "frames": 10,
+        "keys": 0
+      },
+      {
+        "start": 3320,
+        "frames": 100,
+        "keys": 64
+      },
+      {
+        "start": 3420,
+        "frames": 130,
+        "keys": 16
+      },
+      {
+        "start": 3550,
+        "frames": 60,
+        "keys": 64
+      },
+      {
+        "start": 3610,
+        "frames": 60,
+        "keys": 96
+      },
+      {
+        "start": 3670,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3671,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3672,
+        "frames": 25,
+        "keys": 0
+      },
+      {
+        "start": 3697,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3712,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3713,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 3758,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 3759,
+        "frames": 60,
+        "keys": 0
+      },
+      {
+        "start": 3819,
+        "frames": 13,
+        "keys": 16
+      },
+      {
+        "start": 3832,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3852,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 3867,
+        "frames": 8,
+        "keys": 32
+      },
+      {
+        "start": 3875,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 3895,
+        "frames": 65,
+        "keys": 64
+      },
+      {
+        "start": 3960,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 3961,
+        "frames": 1,
+        "keys": 2
+      },
+      {
+        "start": 3962,
+        "frames": 1,
+        "keys": 32
+      },
+      {
+        "start": 3963,
+        "frames": 45,
+        "keys": 2
+      },
+      {
+        "start": 4008,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4009,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4099,
+        "frames": 35,
+        "keys": 32
+      },
+      {
+        "start": 4134,
+        "frames": 20,
+        "keys": 0
+      },
+      {
+        "start": 4154,
+        "frames": 35,
+        "keys": 33
+      },
+      {
+        "start": 4189,
+        "frames": 50,
+        "keys": 0
+      },
+      {
+        "start": 4239,
+        "frames": 15,
+        "keys": 1
+      },
+      {
+        "start": 4254,
+        "frames": 1,
+        "keys": 16
+      },
+      {
+        "start": 4255,
+        "frames": 70,
+        "keys": 2
+      },
+      {
+        "start": 4325,
+        "frames": 1,
+        "keys": 128
+      },
+      {
+        "start": 4326,
+        "frames": 90,
+        "keys": 0
+      },
+      {
+        "start": 4416,
+        "frames": 60,
+        "keys": 256
+      },
+      {
+        "start": 4476,
+        "frames": 2,
+        "keys": 0
+      }
+    ],
+    "prefix_end": 4478,
+    "pause_suffix": [
+      {
+        "frames": 8,
+        "keys": 256
+      },
+      {
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "frames": 1,
+        "keys": 8
+      },
+      {
+        "frames": 900,
+        "keys": 0
+      },
+      {
+        "frames": 120,
+        "keys": 512
+      },
+      {
+        "frames": 1500,
+        "keys": 0
+      },
+      {
+        "frames": 30,
+        "keys": 16
+      }
+    ],
+    "control_suffix": [
+      {
+        "frames": 8,
+        "keys": 256
+      },
+      {
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "frames": 180,
+        "keys": 0
+      },
+      {
+        "frames": 1,
+        "keys": 0
+      },
+      {
+        "frames": 900,
+        "keys": 0
+      },
+      {
+        "frames": 120,
+        "keys": 512
+      },
+      {
+        "frames": 1500,
+        "keys": 0
+      },
+      {
+        "frames": 30,
+        "keys": 16
+      }
+    ]
+  },
+  "runs": {
+    "pause": {
+      "status": "passed",
+      "cold_run_frames": 7219,
+      "suffix_samples_including_boundary": 2742,
+      "battery_transitions": [
+        {
+          "frame": 4723,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "pause": {
+        "suspension_frames_inclusive": [
+          4489,
+          4700
+        ],
+        "suspended_frame_count": 212,
+        "startup_counter": 9,
+        "both_pause_flags_clear_frame": 4701,
+        "pause_task_pointer_cleared_frame": 4706,
+        "all_required_stable_fields_verified_each_frame": true,
+        "all_sampled_cpu_fields_stable_during_suspension": true
+      },
+      "ordinary_idle_after_call_frame": 4909,
+      "helper_first_room143": {
+        "3": 4837,
+        "2": 4897,
+        "1": 4908
+      },
+      "first_return_to801_frame": 5773,
+      "first_hub_idle_frame": 5943,
+      "right_segment_delta_pixels": 33.984375,
+      "prefix_transport": {
+        "writes": 24,
+        "guard_evaluations": 6,
+        "guard_failures": 0,
+        "guarded_writes": 5,
+        "unguarded_legacy_config_or_mailbox_writes": 19,
+        "phone_writes": 2,
+        "phone_guards": 4,
+        "last_write_frame": 4476,
+        "writes_after_prefix": 0
+      },
+      "continuous_checks": {
+        "same_native_kirby_task": true,
+        "world_identity_and_saved_ownership_stable": true,
+        "phone_snapshot_owned": true,
+        "shared_dirty_zero": true,
+        "selected_loaded_file_zero": true,
+        "cutter_retained": true,
+        "native_death_absent": true
+      },
+      "hp_min_max": [
+        5,
+        6
+      ],
+      "private_artifact_sha256": {
+        "telemetry.jsonl": "39f70e8ac601cb232826d1ef3e8c53f66e7d37e458bf36eebb2a616a017b7344",
+        "transport.jsonl": "54d39b36dad47646acf3d7bb294e29f17fee94714cf08072936414afd3862e14",
+        "inputs.jsonl": "861574cce590b99cc89ccd6af574589655535ae427750658797fd1a2e2cafa71",
+        "events.jsonl": "333cd813eafab95c7cc1e5db8499fc251bb81829d8f0bcd4b1ebe59e55057806",
+        "runtime.json": "5d72c34c6533fd789daa8e53468add2a6a84407c58cc50abf77be0bdeb8f14e5",
+        "result.json": "16b115bf13cdbe05fa4df9bdeb82fb5530a42bac7661544239b2124802059374",
+        "end.sav": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a"
+      },
+      "selected_snapshots": [
+        {
+          "frame": 4478,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4486,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 7,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4487,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 8,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4488,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": true,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4489,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": true,
+          "ordinary_tasks_suspended": true,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4668,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": true,
+          "ordinary_tasks_suspended": true,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4669,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": true,
+          "ordinary_tasks_suspended": true,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4700,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": true,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4701,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 10,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": true,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4723,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x08057AD1",
+          "counter": 1,
+          "battery": 2,
+          "caller": 0,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x08044FD5",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4909,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08055D9D",
+            "0x08056129",
+            "0x08049A61"
+          ],
+          "cpu_ai_states": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "frame": 5569,
+          "room": 143,
+          "position_pixels": [
+            86.0,
+            136.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x0803FF65",
+            "0x0803FF65",
+            "0x080412AD"
+          ],
+          "cpu_ai_states": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5689,
+          "room": 143,
+          "position_pixels": [
+            81.0,
+            145.49609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x08057775",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x0803FF65",
+            "0x0803FF65",
+            "0x0803FF65"
+          ],
+          "cpu_ai_states": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5773,
+          "room": 801,
+          "position_pixels": [
+            -8.0,
+            -39.00390625
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x08055D9D",
+          "counter": 1,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080435F9",
+            "0x08041C51",
+            "0x080412AD"
+          ],
+          "cpu_ai_states": [
+            7,
+            4,
+            4
+          ]
+        },
+        {
+          "frame": 5943,
+          "room": 801,
+          "position_pixels": [
+            236.7421875,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08049A61",
+            "0x08041C51",
+            "0x080566E1"
+          ],
+          "cpu_ai_states": [
+            3,
+            4,
+            6
+          ]
+        },
+        {
+          "frame": 7189,
+          "room": 801,
+          "position_pixels": [
+            236.7421875,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080425F1",
+            "0x0803FF65",
+            "0x08041C51"
+          ],
+          "cpu_ai_states": [
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "frame": 7219,
+          "room": 801,
+          "position_pixels": [
+            270.7265625,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x080412AD",
+          "counter": 17,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080566E1",
+            "0x08047815",
+            "0x080412AD"
+          ],
+          "cpu_ai_states": [
+            6,
+            8,
+            4
+          ]
+        }
+      ],
+      "observed_hp_transitions": [
+        {
+          "frame": 4927,
+          "from": 5,
+          "to": 6,
+          "room": 143,
+          "state_function": "0x080546A5"
+        }
+      ]
+    },
+    "control": {
+      "status": "passed",
+      "cold_run_frames": 7219,
+      "suffix_samples_including_boundary": 2742,
+      "battery_transitions": [
+        {
+          "frame": 4509,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "pause": null,
+      "ordinary_idle_after_call_frame": 4695,
+      "helper_first_room143": {
+        "3": 4623,
+        "2": 4683,
+        "1": 4694
+      },
+      "first_return_to801_frame": 5775,
+      "first_hub_idle_frame": 5943,
+      "right_segment_delta_pixels": 33.984375,
+      "prefix_transport": {
+        "writes": 24,
+        "guard_evaluations": 6,
+        "guard_failures": 0,
+        "guarded_writes": 5,
+        "unguarded_legacy_config_or_mailbox_writes": 19,
+        "phone_writes": 2,
+        "phone_guards": 4,
+        "last_write_frame": 4476,
+        "writes_after_prefix": 0
+      },
+      "continuous_checks": {
+        "same_native_kirby_task": true,
+        "world_identity_and_saved_ownership_stable": true,
+        "phone_snapshot_owned": true,
+        "shared_dirty_zero": true,
+        "selected_loaded_file_zero": true,
+        "cutter_retained": true,
+        "native_death_absent": true
+      },
+      "hp_min_max": [
+        5,
+        6
+      ],
+      "private_artifact_sha256": {
+        "telemetry.jsonl": "04a225cc4c2b81fe0e89042ce095899a983222931cbb0974282cebb5c83afdc6",
+        "transport.jsonl": "54d39b36dad47646acf3d7bb294e29f17fee94714cf08072936414afd3862e14",
+        "inputs.jsonl": "1b4fa6da7a60e73f2118f7c98ff8dd26b5b42e4a77554c0e9e64c58ee7336056",
+        "events.jsonl": "ddc90186ac3ae96f4b9ccfd4a6a2f3043d09cedd90d01ce99f8599463ae14e00",
+        "runtime.json": "747149518a96ea6fed7e4a878a5e2bce368c8f071ffaeeb73a9d1bbe527509bf",
+        "result.json": "b4a316f1660e980aa14ca8a890c99189e73fb5cfc516f5b0b33fa28a9589aaf9",
+        "end.sav": "361bc4ef11bf8a66ea0b3c5041510f1c59368e1f8fef4021c4420a6809cff10a"
+      },
+      "selected_snapshots": [
+        {
+          "frame": 4478,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4486,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 7,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4487,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 8,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4488,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 9,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4489,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0805701D",
+          "counter": 10,
+          "battery": 3,
+          "caller": 255,
+          "pending_start": true,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            0,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 1,
+          "local_level_call_bit": true,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4509,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x08057AD1",
+          "counter": 1,
+          "battery": 2,
+          "caller": 0,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            801
+          ],
+          "cpu_state_functions": [
+            "0x08044FD5",
+            "0x08045A35",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 4668,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x08057AD1",
+          "counter": 154,
+          "battery": 2,
+          "caller": 0,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08058159",
+            "0x08058159",
+            "0x08044FD5"
+          ],
+          "cpu_ai_states": [
+            2,
+            0,
+            8
+          ]
+        },
+        {
+          "frame": 4669,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x08057AD1",
+          "counter": 155,
+          "battery": 2,
+          "caller": 0,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            801,
+            801,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08058159",
+            "0x08058159",
+            "0x08044FD5"
+          ],
+          "cpu_ai_states": [
+            2,
+            0,
+            8
+          ]
+        },
+        {
+          "frame": 4695,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08055D9D",
+            "0x08056129",
+            "0x08049A61"
+          ],
+          "cpu_ai_states": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "frame": 4700,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08056129",
+            "0x080412AD",
+            "0x08049A61"
+          ],
+          "cpu_ai_states": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "frame": 4701,
+          "room": 143,
+          "position_pixels": [
+            105.46875,
+            136.99609375
+          ],
+          "hp": 5,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08056129",
+            "0x080412AD",
+            "0x08049A61"
+          ],
+          "cpu_ai_states": [
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "frame": 5569,
+          "room": 143,
+          "position_pixels": [
+            86.0,
+            136.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x0803FF65",
+            "0x0803FF65"
+          ],
+          "cpu_ai_states": [
+            8,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5689,
+          "room": 143,
+          "position_pixels": [
+            81.0,
+            145.49609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x08057775",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080412AD",
+            "0x0803FF65",
+            "0x0803FF65"
+          ],
+          "cpu_ai_states": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 5775,
+          "room": 801,
+          "position_pixels": [
+            -8.0,
+            -39.00390625
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x08055D9D",
+          "counter": 1,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08041C51",
+            "0x08041C51",
+            "0x080412AD"
+          ],
+          "cpu_ai_states": [
+            7,
+            4,
+            4
+          ]
+        },
+        {
+          "frame": 5943,
+          "room": 801,
+          "position_pixels": [
+            236.7421875,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080412AD",
+            "0x080566E1",
+            "0x080425F1"
+          ],
+          "cpu_ai_states": [
+            4,
+            6,
+            4
+          ]
+        },
+        {
+          "frame": 7189,
+          "room": 801,
+          "position_pixels": [
+            236.7421875,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x0803FF65",
+          "counter": 0,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x08047815",
+            "0x080412AD",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        },
+        {
+          "frame": 7219,
+          "room": 801,
+          "position_pixels": [
+            270.7265625,
+            232.99609375
+          ],
+          "hp": 6,
+          "ability_id": 6,
+          "state_function": "0x080412AD",
+          "counter": 17,
+          "battery": 2,
+          "caller": 255,
+          "pending_start": false,
+          "main_pause_requested": false,
+          "ordinary_tasks_suspended": false,
+          "pause_task_present": false,
+          "room_freeze_owners": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "room_freeze_mask": 0,
+          "local_level_call_bit": false,
+          "phone_owned_snapshot": true,
+          "saved_access_tag": "0x43500002",
+          "selected_file": 0,
+          "loaded_file": 0,
+          "shared_dirty": false,
+          "shared_epoch": 1,
+          "native_task_live": true,
+          "native_task_main": "0x0803EE19",
+          "native_task_priority": 12288,
+          "native_task_index": 0,
+          "cpu_room_ids": [
+            143,
+            143,
+            143
+          ],
+          "cpu_state_functions": [
+            "0x080488E1",
+            "0x080412AD",
+            "0x080488E1"
+          ],
+          "cpu_ai_states": [
+            8,
+            4,
+            8
+          ]
+        }
+      ],
+      "observed_hp_transitions": [
+        {
+          "frame": 4713,
+          "from": 5,
+          "to": 6,
+          "room": 143,
+          "state_function": "0x080546A5"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Reconstructed native fixture with synthetic complete item history and slot data, not a full generated seed.",
+    "One fixed source, health configuration and native file; not a general interruption matrix.",
+    "No new death, door, low-health, source-randomization, linked-play or other ability acceptance.",
+    "No actual BizHawk Lua or live-server acceptance; current Python production methods use a synthetic adapter.",
+    "Helpers' actual arrivals are recorded, not presumed equivalent across cases or evidence for any solo/helper traversal target.",
+    "HP increased from 5 to 6 in room 143 at frame 4927 (pause) and 4713 (control), before L, in state 0x080546A5. No injected health changes occurred; this observation does not attribute the healing cause.",
+    "No catalog/pool/options/routes activation, source changes, publication, merge or deployment was performed by this experiment."
+  ],
+  "source_anchors": [
+    "src/kirby.c:6337-6345",
+    "src/kirby.c:13071-13262",
+    "src/kirby.c:13364-13500",
+    "src/main.c:265-269",
+    "src/task.c:174-207",
+    "src/pause_help.c:491-547",
+    "asm/code_08032E98.s:12178-12363",
+    "asm/code_08032E98.s:13468-13492"
+  ]
+}

@@ -171,6 +171,8 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
         "bomb_538_beam_left_crossover": frozenset({"Beam"}),
         "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
+        "bomb_733_cupid_upper_from_below": frozenset({"Cupid"}),
+        "bomb_733_cupid_lower_from_corridor": frozenset({"Cupid"}),
         "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
         "bomb_517_fire_breath": frozenset({"Fire"}),
         "bomb_517_missile_blast": frozenset({"Missile"}),

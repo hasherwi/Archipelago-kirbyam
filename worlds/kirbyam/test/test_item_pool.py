@@ -560,7 +560,7 @@ def test_payload_supports_consumable_and_life_fillers() -> None:
     assert "static void ap_grant_small_food(void)" in payload
     assert "static void ap_grant_energy_drink(void)" in payload
     assert "static void ap_grant_hunk_of_meat(void)" in payload
-    assert "static void ap_grant_battery(void)" in payload
+    assert "static uint32_t ap_grant_battery(void)" in payload
     assert "static void ap_grant_max_tomato(void)" in payload
     assert "static void ap_grant_invincibility_candy(void)" in payload
     assert "static void ap_trap_lives_wipeout(void)" in payload
@@ -711,6 +711,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
+    assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
@@ -737,6 +738,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
+    assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
     pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
 
