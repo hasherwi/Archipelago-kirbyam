@@ -337,3 +337,16 @@ source/patch hashes and limitations. This establishes current physical-save and
 reporting behavior for this source/file only. It does not establish natural
 route feasibility, positive full completion or the remaining native matrix.
 The existing feature changelog entry remains applicable.
+
+A later normal-start successor removes the startup-fixture limitation for this
+route: fresh blank SRAM and the unmodified current generated ROM reached the
+Moonlight lever with controller input only. The first 113 historical input
+checkpoints matched exactly; a changed approach position was inspected before
+continuing on the new run's own state. No historical savestate or HP writes
+were used. Burning was acquired, so this is not Normal-only feasibility.
+
+The physical record survived a separate cold boot. The real server acknowledged
+14 checks, and reconnect retained identical history without duplicates. Native
+progress before AP receipts was 1/84 chests and 9/272 rooms; the full-completion
+positive case remains outstanding. Exact results and provenance are in the
+`normal_start_successor` section of the same evidence file.

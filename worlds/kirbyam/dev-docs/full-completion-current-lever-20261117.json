@@ -88,5 +88,76 @@
     "No full ROM, save, placements, auth bytes or screenshot published",
     "Earlier harness teardown waited on an open bridge client and required interruption; final repeat explicitly closes bridge clients. Earlier evidence is preserved and not counted as a clean exit.",
     "Clean reruns emitted a subprocess pipe ResourceWarning at shutdown; native/client scripts exited0 and server logs confirm closure."
-  ]
+  ],
+  "normal_start_successor": {
+    "source_head": "e2b07b228cb684e1fa1d282d4cb4a9a93b800bc9",
+    "generation_seed": 1016001,
+    "rom_sha256": "7f5f43fb978e60a22aeb13e1860ac855456f18f535afdefcdad94ce31609f958",
+    "startup_override": false,
+    "initial_state": "fresh blank SRAM; ordinary generated ROM",
+    "historical_artifacts_used": "controller inputs only, each input-record digest checked; no historical ROM/save/state imported",
+    "exact_matching_checkpoints": 113,
+    "first_divergence": {
+      "checkpoint": "route-151",
+      "field": "approach position",
+      "action": "stopped and visually inspected; continued on its own current-ROM state; physical Up pull then reached the expected lever endpoint"
+    },
+    "controller_frames_to_lever": 41104,
+    "manual_memory_writes": 0,
+    "hp_assistance_writes": 0,
+    "ability_scope": "Burning acquired during route; not Normal-only feasibility",
+    "native_progress_before_AP_receipts": {
+      "chests": 1,
+      "rooms": 9,
+      "switches": 0,
+      "shards": 0,
+      "ai": 300
+    },
+    "physical_mask": "0x48408000",
+    "native_chest18": 0,
+    "cold_reload_exit": 0,
+    "full_auth_and_record_survived_cold_reload": true,
+    "native_route_exit": 0,
+    "live_client_server_exit": 0,
+    "actual_AP_checks": [
+      3960209,
+      3960415,
+      3960451,
+      3960452,
+      3961000,
+      3961012,
+      3961013,
+      3961014,
+      3961015,
+      3961016,
+      3961057,
+      3961062,
+      3961072,
+      3961257
+    ],
+    "received_history_count": 16,
+    "reconnect_history_identical": true,
+    "reconnect_new_checks": [],
+    "limits": [
+      "Not positive full completion; all remaining obligations and matrix cases remain open",
+      "Separate own-state reconnect after offline route; not one continuously connected playthrough",
+      "Unmapped-minor warning identifies tutorial major chest source0x008B5080, which chest_recovery.json maps separately; actual tutorial check3960209 was acknowledged",
+      "Bridge emitted a pipe ResourceWarning at shutdown but exited0"
+    ],
+    "artifact_sha256": {
+      "route/replay.py": "b8569ab27c8423159274b69d6732628c0d6f7a1f1ce50be0381277cc642dde2b",
+      "route/lever.py": "7657f259e7e44ae46e2c9f79f87c20420e0c50447e25f9342171ab3a672fe51a",
+      "route/replay-result.json": "ce52fc7c2dd22612b81b8c59f9c5e245ec3216bfbd30ed33dc065e312f04a4aa",
+      "route/replay/runtime.json": "160bb9f1d6f365815a9541d978129a72b9fd28dd67ea03a27051ef919ec5d701",
+      "route/lever/runtime.json": "9ec10327b1b00c28cdd6a56bbfdddbb8532e0b72894f0ff52365c09fc89a8bcf",
+      "route/native-progress.json": "21a6f5280c64f2ecb310cd8716b4968ff1e0930837a9771f172022499821142b",
+      "route/lever/continue.ss1": "f90e8620d5c24d4136b2c8f2e846306fdecfb6619e5b2433a2da53173ecec979",
+      "live/run.py": "bfa000a8c582430a4beec791b70d3d87f61e630e96ad98b839745cb3c0dc51e5",
+      "live/cold.py": "cc07c876f54714b8317804ef7f7dd7c24331ab96160ceef23e0cbe5ea97f6cb4",
+      "live/cold-result.json": "afd3c74d61f4616ed3e3cab4385bd575c85a763dddee1a7416778047042f18cf",
+      "live/evidence/reports.json": "dc55a6f2e1fe46e4840ed74bbda89ffc687005f3b3e4a50aa79230b5de9773bc",
+      "live/private/client-writes.jsonl": "ea67a0312f432d9cfc497b4824d84b9eb56eab05f81772c397eae61829b7c4d3",
+      "live/private/server.log": "00d8811ee34ce231b976ff5886725da3955e06e53968e8cdb32193cb373e80dc"
+    }
+  }
 }
