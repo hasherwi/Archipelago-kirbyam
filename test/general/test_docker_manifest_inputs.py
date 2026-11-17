@@ -2,12 +2,14 @@
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 
 import yaml
 
 
+@unittest.skipUnless(sys.platform == "linux", "Publication jobs use Linux bash with readarray support")
 class TestDockerManifestInputs(unittest.TestCase):
     def test_interleaved_builds_keep_each_manifest_in_one_run(self):
         workflow = yaml.safe_load((Path(__file__).parents[2] / ".github/workflows/docker.yml").read_text())
