@@ -75,3 +75,13 @@ admitted. No other health, gating, source assignment, Area Key setting, upstream
 719 compartment or Normal+Phone result is inferred. #1087 and #1097 remain open.
 The static ranged catalog remains its existing census; this separately guarded
 profile supplement is documented here rather than counted as a global witness.
+
+## Combined main successor
+
+`carrot-yellow-cupid-successor.json` records the repeated five-case native
+qualification on Phone integration648c8825e, including main's boards overlay.
+All five complete per-frame traces are byte-identical to the original admission:
+three positive runs (including Room Sanity off) and both no-shot controls.
+The source/profile, controlled startup and eight configuration writes are
+unchanged. This verifies the native successor without rewriting old evidence
+or broadening the admitted profile.

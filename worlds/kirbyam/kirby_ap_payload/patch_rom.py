@@ -2035,6 +2035,59 @@ def print_patch_summary(
     )
 
 
+# USA animation 0x294/6: static frame 32 has four wood pieces, then two
+# mirror pieces. Copy metadata only; graphics/palette remain in the user's ROM.
+HUB_BOARD_TABLE_SIZE = 776
+HUB_BOARD_MARKER = b"APBRD01\0"
+HUB_BOARD_ANIM_POINTER = 0x448FC4
+HUB_BOARD_ATTR_POINTER = 0x479414
+HUB_BOARD_NATIVE_VARIANTS = 0x41E494
+HUB_BOARD_NATIVE_ATTRS = 0x46A744
+HUB_BOARD_NATIVE_SCRIPT = 0x41E348
+HUB_BOARD_FRAME = 32
+HUB_BOARD_SCRIPT = struct.pack("<9I", 0xFFFFFFFE, 0xAF, 16,
+                               0xFFFFFFFF, 0xA8E2, 0x100, 1, 32, 0xFFFFFFFC)
+HUB_BOARD_FRAME_ATTRS = struct.pack("<6H", 137, 6, 0, 0, 0, 0)
+HUB_BOARD_OAM_OFFSET = 0x4A108C + 137 * 6
+HUB_BOARD_OAM = struct.pack("<18H",
+    0x00F9, 0x0004, 0x003F, 0x80E9, 0x0004, 0x003D,
+    0x40F9, 0x01F4, 0x003B, 0x00E9, 0x41F4, 0x0037,
+    0x00E8, 0x41F8, 0x00F0, 0x40F8, 0x01F8, 0x00F4)
+
+
+def build_hub_board_sprite_writes(rom: bytes | bytearray, address: int,
+                                  reserved: bytes) -> dict[int, bytes]:
+    """Add variant 11/frame 56 without changing any native frame or tile."""
+    if (address & 3 or not 0x09000008 <= address
+            or address + HUB_BOARD_TABLE_SIZE > 0x0900FFD4):
+        raise SystemExit("Hub board metadata is outside the reserved extension")
+    if reserved != HUB_BOARD_MARKER + bytes(HUB_BOARD_TABLE_SIZE - 8):
+        raise SystemExit("Hub board metadata reservation mismatch")
+    contracts = {
+        HUB_BOARD_ANIM_POINTER: struct.pack("<I", 0x0841E494),
+        HUB_BOARD_ATTR_POINTER: struct.pack("<I", 0x0846A744),
+        HUB_BOARD_NATIVE_VARIANTS + 6 * 4: struct.pack("<I", 0x0841E348),
+        HUB_BOARD_NATIVE_SCRIPT: HUB_BOARD_SCRIPT,
+        HUB_BOARD_NATIVE_ATTRS + HUB_BOARD_FRAME * 12: HUB_BOARD_FRAME_ATTRS,
+        HUB_BOARD_OAM_OFFSET: HUB_BOARD_OAM,
+    }
+    for offset, expected in contracts.items():
+        if rom[offset:offset + len(expected)] != expected:
+            raise SystemExit(f"Unexpected native hub board sprite contract at {offset:#x}")
+    script = bytearray(HUB_BOARD_SCRIPT)
+    struct.pack_into("<I", script, 28, 56)
+    variants = bytes(rom[HUB_BOARD_NATIVE_VARIANTS:HUB_BOARD_NATIVE_VARIANTS + 44])
+    attrs = bytes(rom[HUB_BOARD_NATIVE_ATTRS:HUB_BOARD_NATIVE_ATTRS + 672])
+    wood = bytearray(HUB_BOARD_FRAME_ATTRS)
+    struct.pack_into("<H", wood, 2, 4)
+    metadata = (HUB_BOARD_MARKER + script + variants + struct.pack("<I", address + 8)
+                + attrs + wood)
+    assert len(metadata) == HUB_BOARD_TABLE_SIZE
+    return {address - 0x08000000: metadata,
+            HUB_BOARD_ANIM_POINTER: struct.pack("<I", address + 44),
+            HUB_BOARD_ATTR_POINTER: struct.pack("<I", address + 92)}
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2045,6 +2098,10 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     spec.loader.exec_module(module)
     validate_candy_room_table(rom)
     extension = elf_path.with_name("color_payload.bin").read_bytes()
+    board_address = resolve_elf_symbol_address(elf_path, "gApHubBoardSpriteData")
+    board_offset = board_address - 0x09000000
+    board_writes = build_hub_board_sprite_writes(
+        rom, board_address, extension[board_offset:board_offset + HUB_BOARD_TABLE_SIZE])
     if (resolve_elf_symbol_address(elf_path, "gApEnemySourceConfig") != 0x0900FFDC
             or extension[0xFFDC:0x10000] != (0x41534500).to_bytes(4, "little") + bytes(32)):
         raise SystemExit("Error: missing versioned enemy source policy config")
@@ -2052,7 +2109,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, extension,
         resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
         resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
-    for offset, replacement in writes.items():
+    for offset, replacement in {**writes, **board_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 
