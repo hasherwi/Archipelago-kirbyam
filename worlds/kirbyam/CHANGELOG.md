@@ -8,21 +8,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - `### Bug Fixes`
 - `### Internal Changes`
 
-## Unreleased
-
-### New Features
-- Add 100% Game Completion Goal: all rooms, chests, levers, Big Switches, and Dark Mind clear. Health upgrades do not add completion requirements since there can be a variable amount (Issue #204).
-
-
-### Internal Changes
-- Record bounded Rainbow Route East Map Chest acquisition, independent native cold persistence and real-server delivery evidence; full-goal acceptance remains pending.
-- Validate receipt-first Carrot Castle physical save/cold-load in all three native files using real starting-item delivery; full-goal acceptance remains pending.
-- Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
-- Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
-
 ## v0.5.2
 
 ### New Features
+- Add 100% Game Completion Goal: all rooms, chests, levers, Big Switches, and Dark Mind clear. Health upgrades do not add completion requirements since there can be a variable amount (Issue #204).
 - Added "Phone a Friend" as a standard progression item (PR #1086). This gates Kirby's ability to call other Kirbys to the player, but not to return to Central Circle.
 - All sixteen Goal Games award a check when completed, including runs with no prizes (PR #1026).
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
@@ -40,14 +29,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
-
 ### Bug Fixes
 - Corrected the Chalk chest compartment (PR #1086).
 - Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (Issue #1099). The ordinary Room 17 bypass remains available.
 
 ### Internal Changes
 - Detailed Phone source and historical validation records remain in the [Phone documentation](dev-docs/phone-progression-admission.md) (PR #1086).
-
+- Record bounded Rainbow Route East Map Chest acquisition, independent native cold persistence and real-server delivery evidence; full-goal acceptance remains pending.
+- Validate receipt-first Carrot Castle physical save/cold-load in all three native files using real starting-item delivery; full-goal acceptance remains pending.
+- Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
+- Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
 
 ## v0.5.1
 
