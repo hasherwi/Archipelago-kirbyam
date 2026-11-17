@@ -207,7 +207,7 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     coverage = build_coverage()
     status = build_status()
     contract = evidence()['host_contract']
-    # Frozen404 native provenance remains 144; Master719 and Green138 each add exactly one graph.
+    # Frozen404 remains 144; Master719, Green138 and the reviewed Ice route each add one graph.
     assert contract['counts']['witnesses'] == 144
     assert status['counts'] == {**contract['counts'], 'witnesses': 147,
                                 'locations': 385, 'surfaces': 1092,

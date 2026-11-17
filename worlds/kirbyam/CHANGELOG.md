@@ -12,30 +12,42 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Add 100% Game Completion: all native completion rooms, physical chests, levers and Big Switches, required native unlocks and Dark Mind clear. Health upgrades do not add completion requirements (Issue #204).
-- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
-
-### Improvements
-- Use the original in-game wooden boards over locked themed hub mirrors, preserving their native frames (issue #1027).
-- Include the reviewed guaranteed-Foley Ice route through Mustard Room 15 in normal logic (issue #1099).
-- Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
 ### Known Limitations
 - 100% Game Completion still requires real BizHawk acceptance. Use the updated client and regenerated patch; do not load new physical-check saves in an older payload.
-- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
-- Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
-- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
-- Generation rejects unsafe minimal-accessibility placements before archive output. Finite test matrices do not prove every seed or option combination.
-
-### Bug Fixes
-- Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (issue #1099). The ordinary Room 17 bypass remains available; RoomSanity accessibility is still validated.
 
 ### Internal Changes
 - Record bounded Rainbow Route East Map Chest acquisition, independent native cold persistence and real-server delivery evidence; full-goal acceptance remains pending.
 - Validate receipt-first Carrot Castle physical save/cold-load in all three native files using real starting-item delivery; full-goal acceptance remains pending.
 - Extend bounded Moonlight physical-first real-server reconnect validation to all three native files; this is not full-completion acceptance.
 - Persist physical lever pulls alongside seed-bound Hub checks without granting wall ownership or changing the native save layout.
+
+## v0.5.2
+
+### New Features
+- Added "Phone a Friend" as a standard progression item (PR #1086). This gates Kirby's ability to call other Kirbys to the player, but not to return to Central Circle.
+- Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
+
+### Improvements
+- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027).
+- Improved Logic for Item Placement and Accessible Locations (PR #1092, PR #1103, Issue #1099).
+
+### Known Limitations
+- Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
+- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+
+
+### Bug Fixes
+- Corrected the Chalk chest compartment (PR #1086).
+- Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (Issue #1099). The ordinary Room 17 bypass remains available.
+
+### Internal Changes
+- Detailed Phone source and historical validation records remain in the [Phone documentation](dev-docs/phone-progression-admission.md) (PR #1086).
+
 
 ## v0.5.1
 

@@ -1,16 +1,18 @@
 {
   "schema": 2,
-  "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes.",
+  "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "494ef0e8eceb70b7678390645ddb6210d0da8558597d50f9b64e293005234267",
+    "worlds/kirbyam/__init__.py": "b54b47fc64f67727ec57bb479bb0eec70e9ae4e30cc7b05ada3425291f11f633",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/data/regions/rooms.json": "41c61ae2a8d9921c017078df531bb7cea0de42b93446807a419afb043d277a5a",
-    "worlds/kirbyam/traversal.py": "88316aafca98d2791cf7fc874aafc4d1b95cf30a9f9d64c5038fb7a6f9564b1b",
+    "worlds/kirbyam/data/regions/rooms.json": "1ddc424652124f7d877fe744a8c9502585d5472f68b7ca17ae7a2eda248fadf4",
+    "worlds/kirbyam/traversal.py": "eae58b5e6b717efc25d0ac827ecc7eb2265afdc2899855c5f2433c78bec83b01",
     "worlds/kirbyam/traversal_data.py": "dbd3eacc0decf9dbae3696b041c5a55f55cb2ade37d3236ebe5be9ee572a7f6b",
-    "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e"
+    "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
+    "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
+    "worlds/kirbyam/rules.py": "af2187f2537516594d59f6168ce8df191e230a3708c5c7afbb6f5d019955f952"
   },
   "witnesses": 147,
   "variants": 294,
@@ -122,6 +124,12 @@
     ],
     "bomb_733_yellow_ufo_top_charge": [
       "UFO"
+    ],
+    "bomb_733_cupid_upper_from_below": [
+      "Cupid"
+    ],
+    "bomb_733_cupid_lower_from_corridor": [
+      "Cupid"
     ],
     "bomb_517_chocolate": [
       "Beam",
@@ -13907,5 +13915,18 @@
   "integration_inputs": {
     "main": "a58d79223214d4e274b57afda5845a491e7c9e71",
     "reviewed_ranged_ufo_tree": "65ec012ad7762a31574b11f7b41b00c356446513"
+  },
+  "prior_main_sync_source_sha256": {
+    "worlds/kirbyam/__init__.py": "494ef0e8eceb70b7678390645ddb6210d0da8558597d50f9b64e293005234267",
+    "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
+    "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
+    "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
+    "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
+    "worlds/kirbyam/data/regions/rooms.json": "1ddc424652124f7d877fe744a8c9502585d5472f68b7ca17ae7a2eda248fadf4",
+    "worlds/kirbyam/traversal.py": "eae58b5e6b717efc25d0ac827ecc7eb2265afdc2899855c5f2433c78bec83b01",
+    "worlds/kirbyam/traversal_data.py": "dbd3eacc0decf9dbae3696b041c5a55f55cb2ade37d3236ebe5be9ee572a7f6b",
+    "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
+    "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
+    "worlds/kirbyam/rules.py": "255c7070ef275b5142a8ee0a2013f4ef09b06d49a201d376e5ec2be731e46ec5"
   }
 }

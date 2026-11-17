@@ -65,21 +65,19 @@ def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict
         "room_sanity": False,
     }
 
+    for key in ("ability_randomization_mode", "ability_gating", "minimum_health", "maximum_health", "enemy_health_multiplier", "room_sanity"):
+        setattr(options, key, Mock(value=int(options.as_dict.return_value[key])))
+    options.one_hit_mode = Mock(value=0)
     world.options = options
     world._resolved_starting_kirby_color_id = 7
     world._resolved_starting_kirby_color_name = "Sapphire"
     world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
-    world._enemy_copy_ability_policy = {
-        "mode": "shuffled",
-        "allowed_abilities": ["Sword", "Beam", "Burning"],
-        "identity_map": {"Sword": "Beam", "Beam": "Burning", "Burning": "Sword"},
-        "ability_randomization_boss_spawns": True,
-        "ability_randomization_minibosses": False,
-        "ability_randomization_minny": False,
-        "ability_randomization_passive_enemies": False,
-        "ability_randomization_no_ability_weight": 55,
-        "ability_randomization_statues": False,
-    }
+    import random
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+        random.Random(1086), 1, True, False, include_minny=False,
+        include_passive_enemies=False, no_ability_weight=55)
+
 
     slot_data = KirbyAmWorld.fill_slot_data(world)
     options.as_dict.assert_called_once_with(

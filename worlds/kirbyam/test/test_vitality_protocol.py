@@ -1,6 +1,7 @@
 """Shipping ROM identity, fail-closed watcher and nine-counter authority tests."""
 import base64
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -11,13 +12,15 @@ from ..rom import KirbyAmPatchExtension
 from ..vitality import HEALTH_ROM_TITLE, LEGACY_ROM_TITLE, VitalityPlan, VITALITY_ITEM_IDS
 
 
-def _identity(client, ctx, version=2, minimum=1, maximum=10):
+def _identity(client: Any, ctx: Any, version: int = 2, minimum: int = 1,
+              maximum: int = 10) -> dict[tuple[Any, str], bytes]:
     auth = bytes(range(1, 17))
     client._health_protocol_version = version
     client._health_rom_auth = auth
     ctx.auth = base64.b64encode(auth).decode()
     ctx.slot_data.update(health_protocol_version=version, minimum_health=minimum, maximum_health=maximum)
     return {
+        (0x0900FFC8, 'System Bus'): bytes(12),  # pre-Phone ROM bus probe
         (0x100FFD4, 'ROM'): bytes(8),  # legacy main has no Copy Room marker
         (0x1000008, 'ROM'): bytes(8),  # legacy main has no Hub marker
         (0xA0, 'ROM'): HEALTH_ROM_TITLE if version == 2 else LEGACY_ROM_TITLE,

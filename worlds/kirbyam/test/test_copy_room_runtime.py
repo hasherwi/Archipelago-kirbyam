@@ -12,7 +12,7 @@ def test_three_file_ownership_and_save_retries(tmp_path):
     if not cc or not sys.platform.startswith("linux"):
         pytest.skip("Linux mapped-memory host harness and C compiler required")
     payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
-    source = (payload / "copy_room.c").read_text()
+    source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text()
     for address, name in (("0x0800ACD5u", "fake_save"), ("0x0800A91Du", "fake_load"),
                           ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start")):
         source = source.replace(address, "&" + name)
@@ -54,6 +54,7 @@ int main(void) {
     CHECK(mmap((void*)0x02000000,0x40000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
     CHECK(mmap((void*)0x03000000,0x8000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
     CHECK(mmap((void*)0x08F00000,0x1000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
+    CHECK(mmap((void*)0x09000000,0x10000,3,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED,-1,0)!=(void*)-1);
     memcpy((void*)AUTH,"0123456789abcdef",16);
     for(unsigned slot=0;slot<3;slot++) {
         for(unsigned i=0;i<32;i++) files[slot][i]=0xA5000000+slot*256+i;

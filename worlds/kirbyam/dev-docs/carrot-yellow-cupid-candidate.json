@@ -1,0 +1,1214 @@
+{
+  "schema_version": 1,
+  "status": "Bounded native source-to-chest candidate; not installed as a progression witness",
+  "issue": 1087,
+  "target": {
+    "location": "MINOR_CHEST_SPRAY_PAINT_02",
+    "id": 3960501,
+    "native_room": 733,
+    "chest_template": "0x088D3DD0",
+    "chest_flag": 80,
+    "upper_tile": [
+      18,
+      2
+    ],
+    "lower_tile": [
+      21,
+      6
+    ]
+  },
+  "provenance": {
+    "source_head": "1b7fed633189c62d734a1bab6859bdad76ede7b0",
+    "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_sha256": "c3fca0d4b550130d6ff65e7679aca4950a88ae8d36a036d9371be918f79cd630",
+    "fixture_rom_sha256": "f0e049dea84b683e79ca82b0bb838b8d6a27d5902afb896172fefaf0f28a5545",
+    "emulator": "mGBA 0.10.5",
+    "bridge_sha256": "38098b8ade534c87c33ed6cd65b0cab42f1a003a96e163413f57ebc32a0254c6"
+  },
+  "setup": {
+    "world_setup_seed": 14,
+    "options": {
+      "ability_randomization_mode": 1,
+      "ability_gating": 0,
+      "area_keys": 0,
+      "room_sanity": 1,
+      "enemy_health_multiplier": 100
+    },
+    "source_policy": {
+      "mode": 1,
+      "allowed_abilities": [
+        "Beam",
+        "Bomb",
+        "Burning",
+        "Cook",
+        "Crash",
+        "Cupid",
+        "Cutter",
+        "Fighter",
+        "Fire",
+        "Hammer",
+        "Ice",
+        "Laser",
+        "Magic",
+        "Mini",
+        "Missile",
+        "Parasol",
+        "Sleep",
+        "Smash",
+        "Spark",
+        "Stone",
+        "Sword",
+        "Throw",
+        "Tornado",
+        "UFO",
+        "Wheel"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 55,
+      "seed": 5335157914150017498,
+      "mapping_style": "per_enemy_type"
+    },
+    "actual_start_hp": 6,
+    "maximum_hp": 6,
+    "fixture_start": [
+      719,
+      232,
+      56
+    ],
+    "source_instances": [
+      {
+        "template": "0x088D4FC0",
+        "type": "SPARKY",
+        "position": [
+          344,
+          296
+        ],
+        "grant": "Cupid",
+        "acquired_frame": 5450
+      },
+      {
+        "template": "0x088D4F9C",
+        "type": "SPARKY",
+        "position": [
+          344,
+          664
+        ],
+        "grant": "Cupid",
+        "acquired_frame": 7578
+      }
+    ],
+    "qualification": "Production world setup and token/procedure patch, not filled multiworld. Only player0 startup changed to the documented 719 door fixture. No progression or complete-seed acceptance claim.",
+    "writes": "Only eight production client source-configuration writes at frame1085; no subsequent external writes, helper calls or state restores."
+  },
+  "controller_inputs": {
+    "full_positive": [
+      [
+        0,
+        180,
+        0
+      ],
+      [
+        180,
+        1,
+        8
+      ],
+      [
+        181,
+        120,
+        0
+      ],
+      [
+        301,
+        1,
+        8
+      ],
+      [
+        302,
+        120,
+        0
+      ],
+      [
+        422,
+        1,
+        1
+      ],
+      [
+        423,
+        240,
+        0
+      ],
+      [
+        663,
+        1,
+        1
+      ],
+      [
+        664,
+        180,
+        0
+      ],
+      [
+        844,
+        1,
+        1
+      ],
+      [
+        845,
+        240,
+        0
+      ],
+      [
+        1085,
+        40,
+        0
+      ],
+      [
+        1125,
+        10,
+        16
+      ],
+      [
+        1135,
+        25,
+        0
+      ],
+      [
+        1160,
+        1,
+        64
+      ],
+      [
+        1161,
+        60,
+        0
+      ],
+      [
+        1221,
+        100,
+        64
+      ],
+      [
+        1321,
+        235,
+        96
+      ],
+      [
+        1556,
+        25,
+        32
+      ],
+      [
+        1581,
+        50,
+        32
+      ],
+      [
+        1631,
+        5,
+        96
+      ],
+      [
+        1636,
+        20,
+        80
+      ],
+      [
+        1656,
+        50,
+        64
+      ],
+      [
+        1706,
+        87,
+        96
+      ],
+      [
+        1793,
+        20,
+        80
+      ],
+      [
+        1813,
+        50,
+        64
+      ],
+      [
+        1863,
+        80,
+        96
+      ],
+      [
+        1943,
+        20,
+        80
+      ],
+      [
+        1963,
+        50,
+        64
+      ],
+      [
+        2013,
+        61,
+        96
+      ],
+      [
+        2074,
+        20,
+        80
+      ],
+      [
+        2094,
+        50,
+        64
+      ],
+      [
+        2144,
+        61,
+        96
+      ],
+      [
+        2205,
+        20,
+        80
+      ],
+      [
+        2225,
+        50,
+        64
+      ],
+      [
+        2275,
+        1,
+        2
+      ],
+      [
+        2276,
+        70,
+        0
+      ],
+      [
+        2346,
+        90,
+        32
+      ],
+      [
+        2436,
+        100,
+        0
+      ],
+      [
+        2536,
+        40,
+        64
+      ],
+      [
+        2576,
+        50,
+        32
+      ],
+      [
+        2626,
+        45,
+        64
+      ],
+      [
+        2671,
+        100,
+        96
+      ],
+      [
+        2771,
+        180,
+        96
+      ],
+      [
+        2951,
+        20,
+        32
+      ],
+      [
+        2971,
+        1,
+        2
+      ],
+      [
+        2972,
+        25,
+        0
+      ],
+      [
+        2997,
+        80,
+        2
+      ],
+      [
+        3077,
+        1,
+        0
+      ],
+      [
+        3078,
+        1,
+        2
+      ],
+      [
+        3079,
+        20,
+        0
+      ],
+      [
+        3099,
+        80,
+        2
+      ],
+      [
+        3179,
+        10,
+        0
+      ],
+      [
+        3189,
+        50,
+        64
+      ],
+      [
+        3239,
+        180,
+        96
+      ],
+      [
+        3419,
+        14,
+        32
+      ],
+      [
+        3433,
+        1,
+        2
+      ],
+      [
+        3434,
+        80,
+        0
+      ],
+      [
+        3514,
+        30,
+        128
+      ],
+      [
+        3544,
+        60,
+        0
+      ],
+      [
+        3604,
+        90,
+        32
+      ],
+      [
+        3694,
+        40,
+        64
+      ],
+      [
+        3734,
+        42,
+        96
+      ],
+      [
+        3776,
+        12,
+        80
+      ],
+      [
+        3788,
+        1,
+        2
+      ],
+      [
+        3789,
+        90,
+        0
+      ],
+      [
+        3879,
+        140,
+        96
+      ],
+      [
+        4019,
+        22,
+        96
+      ],
+      [
+        4041,
+        12,
+        80
+      ],
+      [
+        4053,
+        1,
+        2
+      ],
+      [
+        4054,
+        70,
+        0
+      ],
+      [
+        4124,
+        1,
+        64
+      ],
+      [
+        4125,
+        60,
+        0
+      ],
+      [
+        4185,
+        86,
+        32
+      ],
+      [
+        4271,
+        30,
+        0
+      ],
+      [
+        4301,
+        1,
+        64
+      ],
+      [
+        4302,
+        55,
+        0
+      ],
+      [
+        4357,
+        200,
+        32
+      ],
+      [
+        4557,
+        30,
+        0
+      ],
+      [
+        4587,
+        120,
+        2
+      ],
+      [
+        4707,
+        40,
+        0
+      ],
+      [
+        4747,
+        3,
+        16
+      ],
+      [
+        4750,
+        120,
+        2
+      ],
+      [
+        4870,
+        40,
+        0
+      ],
+      [
+        4910,
+        8,
+        16
+      ],
+      [
+        4918,
+        30,
+        0
+      ],
+      [
+        4948,
+        100,
+        2
+      ],
+      [
+        5048,
+        50,
+        0
+      ],
+      [
+        5098,
+        20,
+        128
+      ],
+      [
+        5118,
+        1,
+        32
+      ],
+      [
+        5119,
+        80,
+        2
+      ],
+      [
+        5199,
+        3,
+        16
+      ],
+      [
+        5202,
+        120,
+        0
+      ],
+      [
+        5322,
+        25,
+        16
+      ],
+      [
+        5347,
+        80,
+        2
+      ],
+      [
+        5427,
+        30,
+        128
+      ],
+      [
+        5457,
+        30,
+        64
+      ],
+      [
+        5487,
+        13,
+        16
+      ],
+      [
+        5500,
+        130,
+        16
+      ],
+      [
+        5630,
+        160,
+        128
+      ],
+      [
+        5790,
+        200,
+        128
+      ],
+      [
+        5990,
+        25,
+        64
+      ],
+      [
+        6015,
+        50,
+        32
+      ],
+      [
+        6065,
+        80,
+        128
+      ],
+      [
+        6145,
+        25,
+        64
+      ],
+      [
+        6170,
+        100,
+        32
+      ],
+      [
+        6270,
+        50,
+        128
+      ],
+      [
+        6320,
+        22,
+        16
+      ],
+      [
+        6342,
+        30,
+        0
+      ],
+      [
+        6372,
+        1,
+        64
+      ],
+      [
+        6373,
+        60,
+        0
+      ],
+      [
+        6433,
+        1,
+        2
+      ],
+      [
+        6434,
+        60,
+        0
+      ],
+      [
+        6494,
+        14,
+        16
+      ],
+      [
+        6508,
+        15,
+        0
+      ],
+      [
+        6523,
+        1,
+        64
+      ],
+      [
+        6524,
+        60,
+        0
+      ],
+      [
+        6584,
+        180,
+        0
+      ],
+      [
+        6764,
+        20,
+        64
+      ],
+      [
+        6784,
+        64,
+        32
+      ],
+      [
+        6848,
+        25,
+        128
+      ],
+      [
+        6873,
+        20,
+        0
+      ],
+      [
+        6893,
+        60,
+        128
+      ],
+      [
+        6953,
+        1,
+        16
+      ],
+      [
+        6954,
+        80,
+        2
+      ],
+      [
+        7034,
+        30,
+        128
+      ],
+      [
+        7064,
+        70,
+        32
+      ],
+      [
+        7134,
+        60,
+        128
+      ],
+      [
+        7194,
+        1,
+        16
+      ],
+      [
+        7195,
+        100,
+        2
+      ],
+      [
+        7295,
+        30,
+        128
+      ],
+      [
+        7325,
+        28,
+        32
+      ],
+      [
+        7353,
+        100,
+        128
+      ],
+      [
+        7453,
+        1,
+        16
+      ],
+      [
+        7454,
+        100,
+        2
+      ],
+      [
+        7554,
+        30,
+        128
+      ],
+      [
+        7584,
+        110,
+        16
+      ],
+      [
+        7694,
+        1,
+        2
+      ],
+      [
+        7695,
+        50,
+        0
+      ],
+      [
+        7745,
+        15,
+        16
+      ],
+      [
+        7760,
+        15,
+        0
+      ],
+      [
+        7775,
+        1,
+        64
+      ],
+      [
+        7776,
+        55,
+        0
+      ],
+      [
+        7831,
+        10,
+        32
+      ],
+      [
+        7841,
+        25,
+        0
+      ],
+      [
+        7866,
+        1,
+        64
+      ],
+      [
+        7867,
+        55,
+        0
+      ],
+      [
+        7922,
+        60,
+        128
+      ],
+      [
+        7982,
+        130,
+        16
+      ],
+      [
+        8112,
+        20,
+        64
+      ],
+      [
+        8132,
+        1,
+        2
+      ],
+      [
+        8133,
+        60,
+        0
+      ],
+      [
+        8193,
+        10,
+        32
+      ],
+      [
+        8203,
+        25,
+        128
+      ],
+      [
+        8228,
+        1,
+        64
+      ],
+      [
+        8229,
+        55,
+        0
+      ],
+      [
+        8284,
+        72,
+        16
+      ],
+      [
+        8356,
+        30,
+        0
+      ],
+      [
+        8386,
+        30,
+        64
+      ],
+      [
+        8416,
+        1,
+        2
+      ],
+      [
+        8417,
+        80,
+        66
+      ],
+      [
+        8497,
+        1,
+        64
+      ],
+      [
+        8498,
+        120,
+        0
+      ],
+      [
+        8618,
+        95,
+        16
+      ],
+      [
+        8713,
+        15,
+        128
+      ],
+      [
+        8728,
+        15,
+        16
+      ],
+      [
+        8743,
+        1,
+        2
+      ],
+      [
+        8744,
+        80,
+        66
+      ],
+      [
+        8824,
+        1,
+        64
+      ],
+      [
+        8825,
+        100,
+        0
+      ],
+      [
+        8925,
+        12,
+        32
+      ],
+      [
+        8937,
+        25,
+        0
+      ],
+      [
+        8962,
+        1,
+        16
+      ],
+      [
+        8963,
+        1,
+        2
+      ],
+      [
+        8964,
+        80,
+        66
+      ],
+      [
+        9044,
+        1,
+        64
+      ],
+      [
+        9045,
+        90,
+        0
+      ],
+      [
+        9135,
+        28,
+        32
+      ],
+      [
+        9163,
+        90,
+        64
+      ],
+      [
+        9253,
+        40,
+        16
+      ],
+      [
+        9293,
+        35,
+        128
+      ],
+      [
+        9328,
+        1,
+        64
+      ],
+      [
+        9329,
+        60,
+        0
+      ],
+      [
+        9389,
+        90,
+        64
+      ],
+      [
+        9479,
+        15,
+        32
+      ],
+      [
+        9494,
+        30,
+        128
+      ],
+      [
+        9524,
+        20,
+        0
+      ],
+      [
+        9544,
+        1,
+        64
+      ],
+      [
+        9545,
+        60,
+        0
+      ],
+      [
+        9605,
+        4,
+        32
+      ],
+      [
+        9609,
+        20,
+        0
+      ],
+      [
+        9629,
+        1,
+        64
+      ],
+      [
+        9630,
+        60,
+        0
+      ]
+    ],
+    "no_upper_shot_zero_key_windows": [
+      [
+        8416,
+        8497
+      ]
+    ],
+    "no_lower_shots_zero_key_windows": [
+      [
+        8743,
+        8824
+      ],
+      [
+        8963,
+        9044
+      ]
+    ],
+    "end_frame": 9690,
+    "key_masks": {
+      "A": 1,
+      "B": 2,
+      "Select": 4,
+      "Start": 8,
+      "Right": 16,
+      "Left": 32,
+      "Up": 64,
+      "Down": 128,
+      "R": 256,
+      "L": 512
+    }
+  },
+  "cases": {
+    "positive": {
+      "trace_sha256": "775db90e03ec188c47f9942c377a5a1a72c67a6fa821c04df13a6356777f04ed",
+      "final": {
+        "frame": 9690,
+        "room": 733,
+        "ability": 19,
+        "hp": 4,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "minimum_observed_hp": 3,
+      "first_upper_open_frame": 8556,
+      "first_lower_open_frame": 9051,
+      "first_chest_frame": 9547
+    },
+    "no_upper_shot": {
+      "trace_sha256": "79aae8e05c12003b759674ca7d2b9a2fb3ef5051c809630028136e5d2cf96da5",
+      "final": {
+        "frame": 9690,
+        "room": 733,
+        "ability": 19,
+        "hp": 4,
+        "x": 166.0,
+        "y": 40.99609375,
+        "upper": 241,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "configuration_writes": 8,
+      "minimum_observed_hp": 3,
+      "first_upper_open_frame": null,
+      "first_lower_open_frame": null,
+      "first_chest_frame": null
+    },
+    "no_lower_shots": {
+      "trace_sha256": "875ab6fd269876d437a831e04ee1b2a28e5d7d49c03774474c2a0a7b1251eefe",
+      "final": {
+        "frame": 9690,
+        "room": 733,
+        "ability": 19,
+        "hp": 4,
+        "x": 296.58984375,
+        "y": 120.99609375,
+        "upper": 0,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "configuration_writes": 8,
+      "minimum_observed_hp": 3,
+      "first_upper_open_frame": 8556,
+      "first_lower_open_frame": null,
+      "first_chest_frame": null
+    },
+    "positive_repeat": {
+      "trace_sha256": "775db90e03ec188c47f9942c377a5a1a72c67a6fa821c04df13a6356777f04ed",
+      "final": {
+        "frame": 9690,
+        "room": 733,
+        "ability": 19,
+        "hp": 4,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "minimum_observed_hp": 3,
+      "first_upper_open_frame": 8556,
+      "first_lower_open_frame": 9051,
+      "first_chest_frame": 9547,
+      "qualification": "Independent blank-battery cold start, identical complete per-frame trace."
+    }
+  },
+  "limits": [
+    "One production source policy and actual initial/max HP6, enemy health100%; no other health/profile qualification.",
+    "Controlled startup at719 real door, not a filled seed or all upstream719 compartments.",
+    "Upper Cupid is lost to damage; lower original source supplies the retained chest-route Cupid. Minimum HP3; native healing pickup later restores HP4.",
+    "No Phone/helper alternative, Normal+Phone acceptance, room-wide unlock, source retry or source-less inventory permission is established.",
+    "Source-to-chest candidate is not yet admitted in traversal rules. Unsupported-policy legacy fallback remains unresolved.",
+    "No full ROM, save, raw trace or private connection identity is distributed. Hashes alone are not an independent replay."
+  ]
+}

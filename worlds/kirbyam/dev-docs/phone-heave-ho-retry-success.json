@@ -1,0 +1,2569 @@
+{
+  "schema_version": 1,
+  "status": "Repeated qualified room-145 fixture crossings and native Chalk collections. No production Phone traversal witness is activated.",
+  "fixture_reference": "phone-heave-ho-evidence.json",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "identity": {
+    "rom_sha256": "fe2637692f84867375fdb49362ed09c72241951a507a0d12305d2f765860c3d6",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "initial_save_sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "initial_emulator_state": null
+  },
+  "method": [
+    "Initial rooms/positions and synthetic authentication are the qualified preboot fixture described in the referenced ledger. These trials do not establish a route from the restart hub.",
+    "Natural waiting produces the recorded CPU abilities without ability injection or source rerolls. Native calls and the room script normalize helpers; native reacquisition and freezes remain possible.",
+    "The broad-band controller walks toward a 45-to-60-pixel gap left of the block, starts grounded Normal inhale with Right+B, and repositions outside a 35-to-65-pixel gap. Release/re-press restarts an expired inhale. Native sharing animations have bounded neutral pauses.",
+    "Eligibility counts are computed from pre-frame sampled flags and room-freeze masks, not instruction breakpoints. State15=10 is a native helper-script event; actual doorway arrival separately establishes the crossing.",
+    "Only the logged ordinary client Phone-grant and epoch-publication writes occur. No runtime pose, ability, CPU, room-state or emulator-state injection is used.",
+    "Chalk evidence is native physical collection plus the local event ring and repository mapping. No Archipelago server acknowledgment or post-collection save/reload is claimed."
+  ],
+  "chest_mapping": {
+    "native_room": 148,
+    "compartment": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
+    "native_flag": 13,
+    "runtime_source_pointer": "0x088BC114",
+    "location_key": "MINOR_CHEST_SPRAY_PAINT_14",
+    "ap_location_id": 3960513,
+    "flag_bytes_address": "0x02038960",
+    "flag_bytes_length": 16,
+    "counter_address": "0x0203B08C",
+    "ring_address": "0x0203B090",
+    "ring_slots": 8
+  },
+  "missile_feedback": {
+    "schedule": {
+      "total_frames": 14123,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 9120,
+          "keys": 0
+        },
+        {
+          "start": 11248,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 11250,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 11310,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 11910,
+          "frames": 4,
+          "keys": 32
+        },
+        {
+          "start": 11914,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 11916,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 11936,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 12056,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 12116,
+          "frames": 840,
+          "keys": 0
+        },
+        {
+          "start": 12956,
+          "frames": 30,
+          "keys": 17
+        },
+        {
+          "start": 12986,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 13006,
+          "frames": 30,
+          "keys": 145
+        },
+        {
+          "start": 13036,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 13086,
+          "frames": 121,
+          "keys": 32
+        },
+        {
+          "start": 13207,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 13208,
+          "frames": 241,
+          "keys": 2
+        },
+        {
+          "start": 13449,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 13450,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 13451,
+          "frames": 68,
+          "keys": 2
+        },
+        {
+          "start": 13519,
+          "frames": 27,
+          "keys": 32
+        },
+        {
+          "start": 13546,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 13547,
+          "frames": 243,
+          "keys": 2
+        },
+        {
+          "start": 13790,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 13791,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 13792,
+          "frames": 11,
+          "keys": 2
+        },
+        {
+          "start": 13803,
+          "frames": 4,
+          "keys": 0
+        },
+        {
+          "start": 13807,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 13808,
+          "frames": 16,
+          "keys": 0
+        },
+        {
+          "start": 13824,
+          "frames": 21,
+          "keys": 16
+        },
+        {
+          "start": 13845,
+          "frames": 30,
+          "keys": 1
+        },
+        {
+          "start": 13875,
+          "frames": 141,
+          "keys": 16
+        },
+        {
+          "start": 14016,
+          "frames": 12,
+          "keys": 64
+        },
+        {
+          "start": 14028,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 14058,
+          "frames": 62,
+          "keys": 16
+        },
+        {
+          "start": 14120,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 14121,
+          "frames": 2,
+          "keys": 0
+        }
+      ],
+      "writes": [
+        {
+          "frame": 11248,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 11248,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "source_runtime_sha256": "b21907f9ab6d1a2bc3792229d3b6cadb9143a709b6f765487923269a2d0f1046"
+    },
+    "strategy_pre_frame_block_eligible": 423,
+    "strategy_video_frames": 717,
+    "tail_pre_frame_human_eligible": 271,
+    "tail_video_frames": 320,
+    "tail_phases": {
+      "exit-release": {
+        "wall": 4,
+        "eligible": 4,
+        "first": 13804,
+        "last": 13807
+      },
+      "exit-approach": {
+        "wall": 38,
+        "eligible": 38,
+        "first": 13808,
+        "last": 13845
+      },
+      "exit-jump": {
+        "wall": 30,
+        "eligible": 30,
+        "first": 13846,
+        "last": 13875
+      },
+      "exit-across": {
+        "wall": 141,
+        "eligible": 92,
+        "first": 13876,
+        "last": 14016
+      },
+      "exit-door": {
+        "wall": 12,
+        "eligible": 12,
+        "first": 14017,
+        "last": 14028
+      },
+      "arrival-settle": {
+        "wall": 30,
+        "eligible": 30,
+        "first": 14029,
+        "last": 14058
+      },
+      "collection-center": {
+        "wall": 62,
+        "eligible": 62,
+        "first": 14059,
+        "last": 14120
+      },
+      "collection-up-once": {
+        "wall": 1,
+        "eligible": 1,
+        "first": 14121,
+        "last": 14121
+      },
+      "collection-settle": {
+        "wall": 2,
+        "eligible": 2,
+        "first": 14122,
+        "last": 14123
+      }
+    },
+    "helper_script_event": {
+      "frame": 13803,
+      "state15": 10,
+      "block": {
+        "address": "0x3004030",
+        "x": 120.75,
+        "y": 127.99609375,
+        "interaction": 37,
+        "sum": 4,
+        "threshold": 4,
+        "contactE3": 1,
+        "terrain62": 4,
+        "flags": 2462089218,
+        "speedX": 65472,
+        "speedY": 0,
+        "bounds": [
+          -15,
+          -16,
+          15,
+          16
+        ]
+      },
+      "xs": [
+        85.015625,
+        60.25,
+        72.5,
+        97.25
+      ],
+      "abilities": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "kirbyBounds": [
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ]
+      ],
+      "ys": [
+        136.99609375,
+        136.99609375,
+        136.99609375,
+        136.99609375
+      ]
+    },
+    "chest_observations": [
+      {
+        "label": "initial-before-route",
+        "frame": 2248,
+        "room": 145,
+        "x": 1160.0,
+        "y": 136.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "after-exit-attempt",
+        "frame": 14028,
+        "room": 148,
+        "x": 40.0,
+        "y": 88.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "before-collection-attempt",
+        "frame": 14058,
+        "room": 148,
+        "x": 40.0,
+        "y": 88.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "after-collection-attempt",
+        "frame": 14123,
+        "room": 148,
+        "x": 110.2421875,
+        "y": 72.99609375,
+        "chest_flag_bytes": [
+          0,
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 1,
+        "ring": [
+          143376660,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": true
+      }
+    ],
+    "source_artifact_sha256": {
+      "runtime.json": "b21907f9ab6d1a2bc3792229d3b6cadb9143a709b6f765487923269a2d0f1046",
+      "strategy.json": "cf623fbf14538febe9eab3766be8c0fc8ce45c3961b1b3c9efec838e93d11426",
+      "146-events.json": "7046d879eaf288dc17bd5e5e2a708e4bd69708e5af861607edf745e901133b0d",
+      "audit.jsonl": "e74b75d0393e5bbdc451a96fd2c2e3fcb6503a6f6cb3ca17e96e9237bea7d96c",
+      "exit-tail.json": "8f6db9d7a29544073b8dd56c3c579343f277a06d2b473aa74cda6268d4c595c0",
+      "chest-samples.json": "541928fab556b9ec3307d062973c397aa0cb04ec4fbcd2b5d31386decaf67153",
+      "feedback_exit.py": "6e2493ba1702993cf8335b079b11c191554ddd175a2b14a8682bfd5993f3521e",
+      "base_patch": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+      "bridge": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "feedback-exit-exact-inputs.json": "88f069aec9c965c73c038117e628be89bead251530c35953b5a3e6e307bcb78c"
+    }
+  },
+  "cold_replays": {
+    "cold-exact-owned": {
+      "schedule_reference": "missile_feedback.schedule.inputs",
+      "total_frames": 14123,
+      "writes": [
+        {
+          "frame": 11248,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 11248,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "final": {
+        "label": "final",
+        "frame": 14123,
+        "room": 148,
+        "x": 110.2421875,
+        "y": 72.99609375,
+        "hp": 6,
+        "ability": 0,
+        "battery": 1,
+        "state": "0x804ba11",
+        "cpu_abilities": [
+          0,
+          0,
+          13,
+          0
+        ],
+        "cpu_positions": [
+          [
+            110.2421875,
+            72.99609375
+          ],
+          [
+            67.7265625,
+            109.15234375
+          ],
+          [
+            108.1328125,
+            97.62109375
+          ],
+          [
+            100.0625,
+            101.16015625
+          ]
+        ],
+        "cpu_rooms": [
+          148,
+          146,
+          146,
+          146
+        ]
+      },
+      "result": {
+        "mode": "owned",
+        "total_frames": 14123,
+        "final_room": 148,
+        "final_position": [
+          110.2421875,
+          72.99609375
+        ],
+        "battery": 1,
+        "helper_rooms": [
+          148,
+          146,
+          146,
+          146
+        ],
+        "arrivals148": [
+          {
+            "label": "after-run-14028",
+            "frame": 14028,
+            "room": 148,
+            "x": 40.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x8055d9d",
+            "kirby_unkC": "0x200000",
+            "kirby_flags": "0xf02",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 4,
+                "keys": 16
+              },
+              {
+                "flags": "0xd",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 8,
+                "keys": 32
+              },
+              {
+                "flags": "0xb",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 14,
+                "keys": 2
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "cpu_positions": [
+              [
+                40.0,
+                88.99609375
+              ],
+              [
+                28.75,
+                136.99609375
+              ],
+              [
+                136.58984375,
+                70.48046875
+              ],
+              [
+                99.5,
+                136.99609375
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 0,
+            "chest_ring": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": false
+          },
+          {
+            "label": "after-run-14058",
+            "frame": 14058,
+            "room": 148,
+            "x": 40.0,
+            "y": 88.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x803ff65",
+            "kirby_unkC": "0x1010",
+            "kirby_flags": "0x4",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 4,
+                "keys": 16
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 8,
+                "keys": 32
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 4,
+                "keys": 0
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "cpu_positions": [
+              [
+                40.0,
+                88.99609375
+              ],
+              [
+                45.609375,
+                136.99609375
+              ],
+              [
+                122.77734375,
+                85.07421875
+              ],
+              [
+                99.5,
+                136.99609375
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 0,
+            "chest_ring": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": false
+          },
+          {
+            "label": "after-run-14120",
+            "frame": 14120,
+            "room": 148,
+            "x": 109.0,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x80412ad",
+            "kirby_unkC": "0x1010",
+            "kirby_flags": "0x4",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 7,
+                "keys": 17
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 1,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 7,
+                "keys": 17
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              13,
+              0
+            ],
+            "cpu_positions": [
+              [
+                109.0,
+                72.99609375
+              ],
+              [
+                67.7265625,
+                109.15234375
+              ],
+              [
+                108.1328125,
+                97.62109375
+              ],
+              [
+                100.0625,
+                101.16015625
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 0,
+            "chest_ring": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": false
+          },
+          {
+            "label": "after-run-14121",
+            "frame": 14121,
+            "room": 148,
+            "x": 110.2421875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x80412ad",
+            "kirby_unkC": "0x1010",
+            "kirby_flags": "0x4",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 7,
+                "keys": 17
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 0,
+                "keys": 4
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 7,
+                "keys": 17
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              13,
+              0
+            ],
+            "cpu_positions": [
+              [
+                110.2421875,
+                72.99609375
+              ],
+              [
+                67.7265625,
+                109.15234375
+              ],
+              [
+                108.1328125,
+                97.62109375
+              ],
+              [
+                100.0625,
+                101.16015625
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 0,
+            "chest_ring": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": false
+          },
+          {
+            "label": "after-run-14123",
+            "frame": 14123,
+            "room": 148,
+            "x": 110.2421875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x804ba11",
+            "kirby_unkC": "0x0",
+            "kirby_flags": "0xa00",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 7,
+                "keys": 17
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 7,
+                "keys": 17
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              13,
+              0
+            ],
+            "cpu_positions": [
+              [
+                110.2421875,
+                72.99609375
+              ],
+              [
+                67.7265625,
+                109.15234375
+              ],
+              [
+                108.1328125,
+                97.62109375
+              ],
+              [
+                100.0625,
+                101.16015625
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              32,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 1,
+            "chest_ring": [
+              143376660,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": true
+          },
+          {
+            "label": "final",
+            "frame": 14123,
+            "room": 148,
+            "x": 110.2421875,
+            "y": 72.99609375,
+            "hp": 6,
+            "ability": 0,
+            "flags": 0,
+            "ai": 0,
+            "humans": 1,
+            "slot": 0,
+            "world18": 0,
+            "ability_gate": 0,
+            "ability_unlocks": 0,
+            "copy_context": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              50338348,
+              0,
+              1129333554,
+              0
+            ],
+            "copy_request": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "world22_31": [
+              67305985,
+              134678021,
+              202050057,
+              269422093,
+              1129316354,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "phone_context": [
+              1,
+              0,
+              1,
+              1346915889
+            ],
+            "phone_request": [
+              0,
+              1,
+              1,
+              1
+            ],
+            "battery": 1,
+            "caller": 255,
+            "num": 4,
+            "state": "0x804ba11",
+            "kirby_unkC": "0x0",
+            "kirby_flags": "0xa00",
+            "cpu_ai": [
+              {
+                "flags": "0x0",
+                "desired": 0,
+                "pc": 0,
+                "script": "0x0",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9720",
+                "state": 7,
+                "keys": 17
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 17,
+                "script": "0x88e9768",
+                "state": 0,
+                "keys": 0
+              },
+              {
+                "flags": "0xc",
+                "desired": 255,
+                "pc": 14,
+                "script": "0x88e97b0",
+                "state": 7,
+                "keys": 17
+              }
+            ],
+            "cpu_abilities": [
+              0,
+              0,
+              13,
+              0
+            ],
+            "cpu_positions": [
+              [
+                110.2421875,
+                72.99609375
+              ],
+              [
+                67.7265625,
+                109.15234375
+              ],
+              [
+                108.1328125,
+                97.62109375
+              ],
+              [
+                100.0625,
+                101.16015625
+              ]
+            ],
+            "cpu_rooms": [
+              148,
+              146,
+              146,
+              146
+            ],
+            "chalk_flags": [
+              0,
+              32,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chest_counter": 1,
+            "chest_ring": [
+              143376660,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "chalk_flag13": true
+          }
+        ],
+        "flag13": true,
+        "counter": 1,
+        "ring": [
+          143376660,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "writes": [
+          {
+            "frame": 11248,
+            "address": "0x203b184",
+            "size": 4,
+            "value": "01000000",
+            "guard_failed": false,
+            "origin": "phone_protocol.sync_phone_ownership"
+          },
+          {
+            "frame": 11248,
+            "address": "0x203b180",
+            "size": 4,
+            "value": "01000000",
+            "guard_failed": false,
+            "origin": "phone_protocol.sync_phone_ownership"
+          }
+        ]
+      },
+      "source_artifact_sha256": {
+        "observations.json": "de9688aa48fdfff4080fb8c2c911312ddb45dc07808138877f3020fd0aa936d0",
+        "audit.jsonl": "83f8460e6e7209688eeca731f39a37cec5199f63d03f90aa342284dbb2295e06",
+        "result.json": "7f19b9db0fed275d2e43d26df0e219b5b5a3b2ec348c478bd27680337855371f",
+        "runtime.json": "4a4d1e2b54fa5809144f0cc4add5d4cb6fe8969fa8897afad155676e0bdf26d1"
+      }
+    },
+    "cold-exact-unowned": {
+      "schedule_reference": "missile_feedback.schedule.inputs",
+      "total_frames": 14123,
+      "writes": [],
+      "final": {
+        "label": "final",
+        "frame": 14123,
+        "room": 145,
+        "x": 1200.0,
+        "y": 135.84765625,
+        "hp": 6,
+        "ability": 0,
+        "battery": 3,
+        "state": "0x80488e1",
+        "cpu_abilities": [
+          0,
+          25,
+          0,
+          0
+        ],
+        "cpu_positions": [
+          [
+            1200.0,
+            135.84765625
+          ],
+          [
+            201.99609375,
+            178.40234375
+          ],
+          [
+            200.99609375,
+            193.14453125
+          ],
+          [
+            201.99609375,
+            200.99609375
+          ]
+        ],
+        "cpu_rooms": [
+          145,
+          148,
+          148,
+          148
+        ]
+      },
+      "result": {
+        "mode": "unowned",
+        "total_frames": 14123,
+        "final_room": 145,
+        "final_position": [
+          1200.0,
+          135.84765625
+        ],
+        "battery": 3,
+        "helper_rooms": [
+          145,
+          148,
+          148,
+          148
+        ],
+        "arrivals148": [],
+        "flag13": false,
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "writes": []
+      },
+      "source_artifact_sha256": {
+        "observations.json": "8a94894d658eb5a7b83322dc2f049aad42c4fda5c078102f9ec7ac95bb8e444f",
+        "audit.jsonl": "937bb32be44c2732eaba66b58965fd483a97038bbfce9393df1df6d0e74ba9a3",
+        "result.json": "7a999b954cb30b0a65deb3d3a02d5068bde94633bc68bb004b5265f6b8d93bb0",
+        "runtime.json": "3a320ed5c4a57a515c2eaafb77582a1321356a30556b3a8b983fa5706bb4a819"
+      },
+      "qualification": "This control records no room146 entry at its segment-boundary checkpoints and ends in145. It is an overall negative schedule, not a block-isolating control or proof that Phone is necessary. Natural companions remain a separate possible case."
+    }
+  },
+  "fire_beam_initial_prefix_stop": {
+    "natural_contrast": {
+      "label": "natural-contrast",
+      "frame": 26248,
+      "room": 145,
+      "x": 1160.0,
+      "y": 136.99609375,
+      "hp": 6,
+      "ability": 0,
+      "battery": 3,
+      "state": "0x803ff65",
+      "cpu_abilities": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "cpu_positions": [
+        [
+          1160.0,
+          136.99609375
+        ],
+        [
+          345.1171875,
+          136.99609375
+        ],
+        [
+          85.2265625,
+          136.99609375
+        ],
+        [
+          28.13671875,
+          136.99609375
+        ]
+      ],
+      "cpu_rooms": [
+        145,
+        195,
+        195,
+        146
+      ]
+    },
+    "final": {
+      "label": "land-at112",
+      "frame": 28086,
+      "room": 146,
+      "x": 141.04296875,
+      "y": 99.75390625,
+      "hp": 6,
+      "ability": 0,
+      "battery": 1,
+      "state": "0x80488e1",
+      "cpu_abilities": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "cpu_positions": [
+        [
+          141.04296875,
+          99.75390625
+        ],
+        [
+          86.5,
+          136.99609375
+        ],
+        [
+          74.25,
+          136.99609375
+        ],
+        [
+          98.75,
+          136.99609375
+        ]
+      ],
+      "cpu_rooms": [
+        146,
+        146,
+        146,
+        146
+      ]
+    },
+    "writes": [
+      {
+        "frame": 26248,
+        "address": "0x203b184",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      },
+      {
+        "frame": 26248,
+        "address": "0x203b180",
+        "size": 4,
+        "value": "01000000",
+        "guard_failed": false,
+        "origin": "phone_protocol.sync_phone_ownership"
+      }
+    ],
+    "source_artifact_sha256": {
+      "strategy.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "exit-tail.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "146-events.json": "9d0ecd66f31e9c569ef33bd90fbe7fb127b23bdc537e39cfd519a5e7bea63021",
+      "chest-samples.json": "da54fe52e7828a069a6bc7a278ac1af28990b8736318c65b21d72011175f98cb",
+      "audit.jsonl": "3f6e17cda8d4d43681615b4ba19028f3d3f3eeabaad59b324e5f15cd262db423",
+      "pause-events.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "runtime.json": "b03936baf047edb19d08be811766821d3e1a32a2c8046d4a937222882a766726"
+    },
+    "conclusion": "The fixed positioning prefix leaves the human inflated, so the ordinary-inhale guard stops before the adaptive strategy. This is not a failure of helper normalization or of the later conditioned policy."
+  },
+  "fire_beam_conditioned": {
+    "schedule": {
+      "total_frames": 29341,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 24120,
+          "keys": 0
+        },
+        {
+          "start": 26248,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 26250,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 26310,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 26910,
+          "frames": 4,
+          "keys": 32
+        },
+        {
+          "start": 26914,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 26916,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 26936,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 27056,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 27116,
+          "frames": 840,
+          "keys": 0
+        },
+        {
+          "start": 27956,
+          "frames": 30,
+          "keys": 17
+        },
+        {
+          "start": 27986,
+          "frames": 20,
+          "keys": 16
+        },
+        {
+          "start": 28006,
+          "frames": 30,
+          "keys": 145
+        },
+        {
+          "start": 28036,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 28086,
+          "frames": 2,
+          "keys": 32
+        },
+        {
+          "start": 28088,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 28089,
+          "frames": 10,
+          "keys": 32
+        },
+        {
+          "start": 28099,
+          "frames": 84,
+          "keys": 0
+        },
+        {
+          "start": 28183,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 28184,
+          "frames": 246,
+          "keys": 2
+        },
+        {
+          "start": 28430,
+          "frames": 36,
+          "keys": 32
+        },
+        {
+          "start": 28466,
+          "frames": 129,
+          "keys": 0
+        },
+        {
+          "start": 28595,
+          "frames": 7,
+          "keys": 32
+        },
+        {
+          "start": 28602,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 28603,
+          "frames": 152,
+          "keys": 2
+        },
+        {
+          "start": 28755,
+          "frames": 22,
+          "keys": 32
+        },
+        {
+          "start": 28777,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 28778,
+          "frames": 34,
+          "keys": 2
+        },
+        {
+          "start": 28812,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 28842,
+          "frames": 1,
+          "keys": 18
+        },
+        {
+          "start": 28843,
+          "frames": 141,
+          "keys": 2
+        },
+        {
+          "start": 28984,
+          "frames": 4,
+          "keys": 0
+        },
+        {
+          "start": 28988,
+          "frames": 77,
+          "keys": 16
+        },
+        {
+          "start": 29065,
+          "frames": 30,
+          "keys": 1
+        },
+        {
+          "start": 29095,
+          "frames": 88,
+          "keys": 16
+        },
+        {
+          "start": 29183,
+          "frames": 63,
+          "keys": 64
+        },
+        {
+          "start": 29246,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 29276,
+          "frames": 62,
+          "keys": 16
+        },
+        {
+          "start": 29338,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 29339,
+          "frames": 2,
+          "keys": 0
+        }
+      ],
+      "writes": [
+        {
+          "frame": 26248,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 26248,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "source_runtime_sha256": "cc980cf545c5e8a11e25144c9dc0e899ba786c73290330fffa31dbb43de570ab"
+    },
+    "natural_contrast": {
+      "label": "natural-contrast",
+      "frame": 26248,
+      "room": 145,
+      "x": 1160.0,
+      "y": 136.99609375,
+      "hp": 6,
+      "ability": 0,
+      "battery": 3,
+      "state": "0x803ff65",
+      "cpu_abilities": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "cpu_positions": [
+        [
+          1160.0,
+          136.99609375
+        ],
+        [
+          345.1171875,
+          136.99609375
+        ],
+        [
+          85.2265625,
+          136.99609375
+        ],
+        [
+          28.13671875,
+          136.99609375
+        ]
+      ],
+      "cpu_rooms": [
+        145,
+        195,
+        195,
+        146
+      ]
+    },
+    "conditioning_pre_frame_human_eligible": 47,
+    "conditioning_video_frames": 97,
+    "conditioning_final": {
+      "frame": 28183,
+      "owners": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "mask": 0,
+      "flags": 1,
+      "unkC": 16781328,
+      "held": 0,
+      "pressed": 0,
+      "vx": 0,
+      "vy": 0,
+      "collision": 4,
+      "state": 134479717,
+      "counter": 1,
+      "idle": 1,
+      "transition": 0,
+      "ability": 0,
+      "slot": 0,
+      "x": 106.2421875,
+      "y": 136.99609375
+    },
+    "conditioning_first_projectile": {
+      "before": {
+        "frame": 28088,
+        "owners": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "mask": 0,
+        "flags": 69,
+        "unkC": 16781328,
+        "held": 32,
+        "pressed": 32,
+        "vx": 70,
+        "vy": 270,
+        "collision": 0,
+        "state": 134514913,
+        "counter": 6,
+        "idle": 0,
+        "transition": 0,
+        "ability": 0,
+        "slot": 0,
+        "x": 141.31640625,
+        "y": 98.69921875
+      },
+      "after": {
+        "frame": 28089,
+        "owners": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "mask": 0,
+        "flags": 33,
+        "unkC": 16781328,
+        "held": 2,
+        "pressed": 0,
+        "vx": 62,
+        "vy": 232,
+        "collision": 0,
+        "state": 134519393,
+        "counter": 0,
+        "idle": 0,
+        "transition": 0,
+        "ability": 0,
+        "slot": 0,
+        "x": 141.55859375,
+        "y": 97.79296875
+      },
+      "phase": "land-away",
+      "keys": 2,
+      "eligible": true,
+      "active": 2,
+      "projectile": {
+        "address": "0x3003ccc",
+        "x": 129.69140625,
+        "y": 98.69921875,
+        "vx": 64608,
+        "flags": 2684370949,
+        "collision": 0,
+        "parent": "0x2020ee0"
+      },
+      "block": {
+        "address": "0x3004120",
+        "x": 160.0,
+        "y": 127.99609375,
+        "interaction": 0,
+        "sum": 0,
+        "threshold": 4,
+        "contactE3": 1,
+        "terrain62": 4,
+        "flags": 2462089218,
+        "speedX": 0,
+        "speedY": 0,
+        "bounds": [
+          -15,
+          -16,
+          15,
+          16
+        ]
+      },
+      "state15": 0
+    },
+    "conditioning_block_x_values": [
+      160.0
+    ],
+    "strategy_pre_frame_block_eligible": 504,
+    "strategy_video_frames": 801,
+    "helper_script_event": {
+      "frame": 28984,
+      "state15": 10,
+      "block": {
+        "address": "0x3004120",
+        "x": 120.75,
+        "y": 127.99609375,
+        "interaction": 34,
+        "sum": 4,
+        "threshold": 4,
+        "contactE3": 1,
+        "terrain62": 4,
+        "flags": 2462089218,
+        "speedX": 65472,
+        "speedY": 0,
+        "bounds": [
+          -15,
+          -16,
+          15,
+          16
+        ]
+      },
+      "xs": [
+        79.3203125,
+        67.0,
+        54.75,
+        91.5
+      ],
+      "abilities": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "kirbyBounds": [
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ],
+        [
+          -6,
+          -5,
+          6,
+          7
+        ]
+      ],
+      "ys": [
+        136.99609375,
+        136.99609375,
+        136.99609375,
+        136.99609375
+      ]
+    },
+    "tail_pre_frame_human_eligible": 258,
+    "tail_video_frames": 357,
+    "chest_observations": [
+      {
+        "label": "initial-before-route",
+        "frame": 2248,
+        "room": 145,
+        "x": 1160.0,
+        "y": 136.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "after-exit-attempt",
+        "frame": 29246,
+        "room": 148,
+        "x": 40.0,
+        "y": 88.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "before-collection-attempt",
+        "frame": 29276,
+        "room": 148,
+        "x": 40.0,
+        "y": 88.99609375,
+        "chest_flag_bytes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 0,
+        "ring": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": false
+      },
+      {
+        "label": "after-collection-attempt",
+        "frame": 29341,
+        "room": 148,
+        "x": 110.2421875,
+        "y": 72.99609375,
+        "chest_flag_bytes": [
+          0,
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "counter": 1,
+        "ring": [
+          143376660,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "chalk_flag13": true
+      }
+    ],
+    "source_artifact_sha256": {
+      "runtime.json": "cc980cf545c5e8a11e25144c9dc0e899ba786c73290330fffa31dbb43de570ab",
+      "audit.jsonl": "4375000ec9a1efc818eacb9dc14770dcd0d6bc26b4b679a6ca2f523c19b25cb7",
+      "conditioning.json": "1555d77cff9234d2d8721867096d076bf63ae4a12fac05fcea9c69529b7a2d15",
+      "strategy.json": "8e69877a59232252da40fa20f5a87451c42d944413939401e500b2681e9d397b",
+      "146-events.json": "a14093ee6d7739ade2320b843b3420b038c19b2aea1726151b418fe7476fbc3f",
+      "exit-tail.json": "8012e2ed929d249db61e75a4c713827e248906ccfb8ec4a8f5028ae57ee33ab0",
+      "chest-samples.json": "6f47cca3d4e0fe20f3fc00c59783e29b979c99a83f6965d177fa0d4a28e4c4f2",
+      "condition_fire_beam.py": "4023c631410250e051763cfaa59292d66cd5b3d1dc70e8f5a87d1252c1813c20",
+      "fire-beam-conditioned-exact-inputs.json": "fd8f0c36f82c7f02f064d32db291274a359bb46ea1c3a3336c3f33c69996ab83"
+    },
+    "conditioning_caveat": "One eligible B input expels air while facing away from the block. A left-moving projectile is observed; later stale object-array entries are not evidence that it remains alive. Sampled block position and state remain unchanged during conditioning."
+  },
+  "cold_replay_script_sha256": {
+    "cold_exact.py": "a0e44dbe98ab65fa4fadfdbd06d6189e8c5b6b1d7f9ed9db8ba9b138a5e0f715",
+    "fire_beam_contrast.py": "aa43e03a4d3cacec1c51bbfb196a14105a8ca6edf5c0a2cedb2cc85c8c3a716d",
+    "feedback-exit-exact-inputs.json": "88f069aec9c965c73c038117e628be89bead251530c35953b5a3e6e307bcb78c"
+  }
+}
