@@ -11,10 +11,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add 100% Game Completion: all native completion rooms, physical chests, levers and Big Switches, required native unlocks and Dark Mind clear. Health upgrades do not add completion requirements (Issue #204).
+- Add 100% Game Completion Goal: all rooms, chests, levers, Big Switches, and Dark Mind clear. Health upgrades do not add completion requirements since there can be a variable amount (Issue #204).
 
-### Known Limitations
-- 100% Game Completion still requires real BizHawk acceptance. Use the updated client and regenerated patch; do not load new physical-check saves in an older payload.
 
 ### Internal Changes
 - Record bounded Rainbow Route East Map Chest acquisition, independent native cold persistence and real-server delivery evidence; full-goal acceptance remains pending.
