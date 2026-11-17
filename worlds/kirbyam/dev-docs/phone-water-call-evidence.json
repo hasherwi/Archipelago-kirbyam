@@ -1,0 +1,6272 @@
+{
+  "schema_version": 1,
+  "status": "Qualified underwater Normal R/L controls; no broader layout, ability or health-option claim.",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "tested_implementation_commit": "ae359ff3a16e524dd5476909b045924b77bf52e0",
+  "fixture": "Original retail initial rooms/positions; genuine post-tutorial native save; complete production history initially Hub, AreaKey, Cutter permission, excluding Phone; normal human ability. Guarded Phone grant only when specified by writes.",
+  "native_route": [
+    801,
+    190,
+    140,
+    108
+  ],
+  "route_note": "Ordinary inputs via source-backed left doors; native damage HP6 to1. Actual air puffs open bombs(44,17) and(36,18). Water proven by base.unk58 bit2 and native water state functions; no initial room/pose/ability/water/HP injection.",
+  "source_references": [
+    "tools/extract_room_evidence.py validated USA transitions, retained water-candidate-transitions.json",
+    "docs/traversal-logic.md Wheel evidence: Rainbow108 race and source carry",
+    "https://wikirby.com/wiki/Rainbow_Route_-_Room_6",
+    "src/kirby.c:13743-13925 native water R/L eligibility"
+  ],
+  "runs": [
+    {
+      "name": "water-r-onset",
+      "identity": {
+        "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "preboot_gate_mask": 67108470,
+        "area_keys_config": "0x414b0101",
+        "source_assignment": 6,
+        "slot_data": {
+          "copy_ability_room_protocol_version": 2,
+          "phone_protocol_version": 1,
+          "hub_connection_protocol_version": 2,
+          "starting_phone_access": false,
+          "health_protocol_version": 2,
+          "minimum_health": 6,
+          "maximum_health": 10,
+          "area_keys": true,
+          "starting_area_key_bitfield": 0,
+          "ability_gating": true,
+          "enemy_copy_ability_policy": {
+            "mode": 0,
+            "seed": 0,
+            "ability_randomization_no_ability_weight": 0,
+            "allowed_abilities": []
+          }
+        },
+        "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+        "initial_emulator_state": null
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2250,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2252,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2254,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2256,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2258,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2260,
+          "frames": 170,
+          "keys": 0
+        },
+        {
+          "start": 2430,
+          "frames": 140,
+          "keys": 80
+        },
+        {
+          "start": 2570,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2571,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 2731,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2732,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 2912,
+          "frames": 70,
+          "keys": 32
+        },
+        {
+          "start": 2982,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 2997,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2998,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 3148,
+          "frames": 700,
+          "keys": 32
+        },
+        {
+          "start": 3848,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3868,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3869,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 4019,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4159,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 4199,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 4229,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4239,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4329,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4330,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4390,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4530,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4590,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4600,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4690,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4691,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4751,
+          "frames": 160,
+          "keys": 32
+        },
+        {
+          "start": 4911,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4913,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4914,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4915,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4916,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4917,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4918,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4919,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4920,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4921,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4922,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4923,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4924,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4925,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4926,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4927,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4928,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4929,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4930,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4931,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4932,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4933,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4934,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4935,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4936,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4937,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4938,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4939,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4940,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4941,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4942,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4943,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4944,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4945,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4946,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4947,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4948,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4949,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4950,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4951,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4952,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4953,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4954,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4955,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4956,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4957,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4958,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4959,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4960,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4961,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4962,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4963,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4964,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4965,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4966,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4967,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4968,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4969,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4970,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4971,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4972,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4973,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4975,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4977,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4978,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4979,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4980,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4981,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4982,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4983,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4984,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4985,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4986,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4987,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4988,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4989,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4990,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4991,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4992,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4993,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4994,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4995,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4996,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4997,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4998,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4999,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5000,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5001,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5002,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5003,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5004,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5005,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5006,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5007,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5008,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5009,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5010,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5011,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5012,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5013,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5014,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5015,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5016,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5017,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5018,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5019,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5020,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5021,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5022,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5023,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5024,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5025,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5026,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5027,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5028,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5029,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5030,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5031,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5032,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5033,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5034,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5035,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5036,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 5037,
+          "frames": 600,
+          "keys": 0
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-hub-complete-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "b1e73a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "49e63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "8ae63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2256,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "03000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "40000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 4975,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 4975,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "108-final-check",
+          "frame": 4913,
+          "room": 108,
+          "x": 390.0,
+          "y": 284.97265625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-0",
+          "frame": 4914,
+          "room": 108,
+          "x": 390.0,
+          "y": 285.81640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 256
+        },
+        {
+          "label": "water-locked-r-1",
+          "frame": 4915,
+          "room": 108,
+          "x": 390.0,
+          "y": 286.69140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-2",
+          "frame": 4916,
+          "room": 108,
+          "x": 390.0,
+          "y": 287.56640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-3",
+          "frame": 4917,
+          "room": 108,
+          "x": 390.0,
+          "y": 288.44140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-4",
+          "frame": 4918,
+          "room": 108,
+          "x": 391.5,
+          "y": 289.31640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-5",
+          "frame": 4919,
+          "room": 108,
+          "x": 393.0,
+          "y": 290.19140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-6",
+          "frame": 4920,
+          "room": 108,
+          "x": 394.5,
+          "y": 291.06640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-7",
+          "frame": 4921,
+          "room": 108,
+          "x": 396.0,
+          "y": 291.94140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-8",
+          "frame": 4922,
+          "room": 108,
+          "x": 397.5,
+          "y": 292.81640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-9",
+          "frame": 4923,
+          "room": 108,
+          "x": 399.0,
+          "y": 293.69140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-10",
+          "frame": 4924,
+          "room": 108,
+          "x": 400.5,
+          "y": 294.56640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-11",
+          "frame": 4925,
+          "room": 108,
+          "x": 402.0,
+          "y": 295.44140625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-12",
+          "frame": 4926,
+          "room": 108,
+          "x": 403.5,
+          "y": 296.31640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-13",
+          "frame": 4927,
+          "room": 108,
+          "x": 405.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-14",
+          "frame": 4928,
+          "room": 108,
+          "x": 406.5,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x1",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-15",
+          "frame": 4929,
+          "room": 108,
+          "x": 408.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-16",
+          "frame": 4930,
+          "room": 108,
+          "x": 409.5,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-17",
+          "frame": 4931,
+          "room": 108,
+          "x": 411.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-18",
+          "frame": 4932,
+          "room": 108,
+          "x": 412.5,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-19",
+          "frame": 4933,
+          "room": 108,
+          "x": 414.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-20",
+          "frame": 4934,
+          "room": 108,
+          "x": 415.5,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-21",
+          "frame": 4935,
+          "room": 108,
+          "x": 417.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-22",
+          "frame": 4936,
+          "room": 108,
+          "x": 418.4375,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-23",
+          "frame": 4937,
+          "room": 108,
+          "x": 419.8125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-24",
+          "frame": 4938,
+          "room": 108,
+          "x": 421.125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-25",
+          "frame": 4939,
+          "room": 108,
+          "x": 422.375,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-26",
+          "frame": 4940,
+          "room": 108,
+          "x": 423.5625,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-27",
+          "frame": 4941,
+          "room": 108,
+          "x": 424.6875,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-28",
+          "frame": 4942,
+          "room": 108,
+          "x": 425.75,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-29",
+          "frame": 4943,
+          "room": 108,
+          "x": 426.75,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-30",
+          "frame": 4944,
+          "room": 108,
+          "x": 427.6875,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-31",
+          "frame": 4945,
+          "room": 108,
+          "x": 428.5625,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-32",
+          "frame": 4946,
+          "room": 108,
+          "x": 429.375,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-33",
+          "frame": 4947,
+          "room": 108,
+          "x": 430.125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-34",
+          "frame": 4948,
+          "room": 108,
+          "x": 430.8125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-35",
+          "frame": 4949,
+          "room": 108,
+          "x": 431.4375,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-36",
+          "frame": 4950,
+          "room": 108,
+          "x": 432.0,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-37",
+          "frame": 4951,
+          "room": 108,
+          "x": 432.5,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-38",
+          "frame": 4952,
+          "room": 108,
+          "x": 432.9375,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-39",
+          "frame": 4953,
+          "room": 108,
+          "x": 433.3125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-40",
+          "frame": 4954,
+          "room": 108,
+          "x": 433.625,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-41",
+          "frame": 4955,
+          "room": 108,
+          "x": 433.875,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-42",
+          "frame": 4956,
+          "room": 108,
+          "x": 434.0625,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-43",
+          "frame": 4957,
+          "room": 108,
+          "x": 434.1875,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-44",
+          "frame": 4958,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-45",
+          "frame": 4959,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-46",
+          "frame": 4960,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-47",
+          "frame": 4961,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-48",
+          "frame": 4962,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-49",
+          "frame": 4963,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-50",
+          "frame": 4964,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-51",
+          "frame": 4965,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-52",
+          "frame": 4966,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-53",
+          "frame": 4967,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-54",
+          "frame": 4968,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-55",
+          "frame": 4969,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-56",
+          "frame": 4970,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-57",
+          "frame": 4971,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-58",
+          "frame": 4972,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-59",
+          "frame": 4973,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-release",
+          "frame": 4975,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-guarded-grant",
+          "frame": 4977,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-0",
+          "frame": 4978,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-1",
+          "frame": 4979,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-2",
+          "frame": 4980,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-3",
+          "frame": 4981,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-4",
+          "frame": 4982,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-5",
+          "frame": 4983,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-6",
+          "frame": 4984,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-7",
+          "frame": 4985,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2301",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-8",
+          "frame": 4986,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-9",
+          "frame": 4987,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-10",
+          "frame": 4988,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-11",
+          "frame": 4989,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-12",
+          "frame": 4990,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-13",
+          "frame": 4991,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-14",
+          "frame": 4992,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-15",
+          "frame": 4993,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-16",
+          "frame": 4994,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-17",
+          "frame": 4995,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-18",
+          "frame": 4996,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-19",
+          "frame": 4997,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-20",
+          "frame": 4998,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-21",
+          "frame": 4999,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-22",
+          "frame": 5000,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-23",
+          "frame": 5001,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-24",
+          "frame": 5002,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-25",
+          "frame": 5003,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-26",
+          "frame": 5004,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-27",
+          "frame": 5005,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-28",
+          "frame": 5006,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-29",
+          "frame": 5007,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-30",
+          "frame": 5008,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x1",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-31",
+          "frame": 5009,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-32",
+          "frame": 5010,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-33",
+          "frame": 5011,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-34",
+          "frame": 5012,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-35",
+          "frame": 5013,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x1",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-36",
+          "frame": 5014,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-37",
+          "frame": 5015,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-38",
+          "frame": 5016,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-39",
+          "frame": 5017,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-40",
+          "frame": 5018,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-41",
+          "frame": 5019,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-42",
+          "frame": 5020,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-43",
+          "frame": 5021,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-44",
+          "frame": 5022,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-45",
+          "frame": 5023,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-46",
+          "frame": 5024,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-47",
+          "frame": 5025,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-48",
+          "frame": 5026,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-49",
+          "frame": 5027,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-50",
+          "frame": 5028,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-51",
+          "frame": 5029,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-52",
+          "frame": 5030,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-53",
+          "frame": 5031,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-54",
+          "frame": 5032,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-55",
+          "frame": 5033,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-56",
+          "frame": 5034,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-57",
+          "frame": 5035,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-58",
+          "frame": 5036,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-59",
+          "frame": 5037,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x4800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-call-settle",
+          "frame": 5637,
+          "room": 108,
+          "x": 429.75,
+          "y": 296.99609375,
+          "hp": 3,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x1001800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            108,
+            108,
+            108
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        }
+      ]
+    },
+    {
+      "name": "water-r-l-final",
+      "identity": {
+        "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "preboot_gate_mask": 67108470,
+        "area_keys_config": "0x414b0101",
+        "source_assignment": 6,
+        "slot_data": {
+          "copy_ability_room_protocol_version": 2,
+          "phone_protocol_version": 1,
+          "hub_connection_protocol_version": 2,
+          "starting_phone_access": false,
+          "health_protocol_version": 2,
+          "minimum_health": 6,
+          "maximum_health": 10,
+          "area_keys": true,
+          "starting_area_key_bitfield": 0,
+          "ability_gating": true,
+          "enemy_copy_ability_policy": {
+            "mode": 0,
+            "seed": 0,
+            "ability_randomization_no_ability_weight": 0,
+            "allowed_abilities": []
+          }
+        },
+        "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+        "initial_emulator_state": null
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2250,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2252,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2254,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2256,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2258,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2260,
+          "frames": 170,
+          "keys": 0
+        },
+        {
+          "start": 2430,
+          "frames": 140,
+          "keys": 80
+        },
+        {
+          "start": 2570,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2571,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 2731,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2732,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 2912,
+          "frames": 70,
+          "keys": 32
+        },
+        {
+          "start": 2982,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 2997,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2998,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 3148,
+          "frames": 700,
+          "keys": 32
+        },
+        {
+          "start": 3848,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3868,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3869,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 4019,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4159,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 4199,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 4229,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4239,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4329,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4330,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4390,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4530,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4590,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4600,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4690,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4691,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4751,
+          "frames": 160,
+          "keys": 32
+        },
+        {
+          "start": 4911,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4913,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4914,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4916,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4918,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 4919,
+          "frames": 59,
+          "keys": 256
+        },
+        {
+          "start": 4978,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 5578,
+          "frames": 1,
+          "keys": 512
+        },
+        {
+          "start": 5579,
+          "frames": 119,
+          "keys": 512
+        },
+        {
+          "start": 5698,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 7198,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-hub-complete-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "b1e73a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "49e63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "8ae63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2256,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "03000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "40000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 4916,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 4916,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "108-final-check",
+          "frame": 4913,
+          "room": 108,
+          "x": 390.0,
+          "y": 284.97265625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-locked-r-first",
+          "frame": 4914,
+          "room": 108,
+          "x": 390.0,
+          "y": 285.81640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 256
+        },
+        {
+          "label": "water-locked-release",
+          "frame": 4916,
+          "room": 108,
+          "x": 390.0,
+          "y": 287.56640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-guarded-grant",
+          "frame": 4918,
+          "room": 108,
+          "x": 391.5,
+          "y": 289.31640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8025800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-first",
+          "frame": 4919,
+          "room": 108,
+          "x": 391.5,
+          "y": 289.31640625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x8005800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-r-held",
+          "frame": 4978,
+          "room": 108,
+          "x": 430.125,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 0,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x8004800",
+          "kirby_flags": "0x5",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 256,
+          "pressed": 0
+        },
+        {
+          "label": "water-call-settle",
+          "frame": 5578,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x8058715",
+          "kirby_unkC": "0x1005800",
+          "kirby_flags": "0x3",
+          "cpu_rooms": [
+            108,
+            108,
+            108,
+            108
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-l-first",
+          "frame": 5579,
+          "room": 108,
+          "x": 434.25,
+          "y": 296.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x1045800",
+          "kirby_flags": "0x2303",
+          "cpu_rooms": [
+            108,
+            108,
+            108,
+            108
+          ],
+          "unk58": 3,
+          "held": 512,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-l-held",
+          "frame": 5698,
+          "room": 108,
+          "x": 430.25,
+          "y": 304.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x8057775",
+          "kirby_unkC": "0x104c800",
+          "kirby_flags": "0x344",
+          "cpu_rooms": [
+            108,
+            108,
+            108,
+            108
+          ],
+          "unk58": 3,
+          "held": 512,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-l-arrival",
+          "frame": 7198,
+          "room": 801,
+          "x": 239.7421875,
+          "y": 232.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x5010",
+          "kirby_flags": "0x4",
+          "cpu_rooms": [
+            801,
+            108,
+            108,
+            108
+          ],
+          "unk58": 5,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-owned-l-control",
+          "frame": 7228,
+          "room": 801,
+          "x": 273.7265625,
+          "y": 232.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "battery": 2,
+          "caller": 255,
+          "state": "0x80412ad",
+          "kirby_unkC": "0x5010",
+          "kirby_flags": "0x4",
+          "cpu_rooms": [
+            801,
+            108,
+            108,
+            108
+          ],
+          "unk58": 5,
+          "held": 16,
+          "pressed": 0
+        }
+      ]
+    },
+    {
+      "name": "water-unowned-l",
+      "identity": {
+        "rom_sha256": "724b77ffe330d39db82977017c4e38a1d376f9ece8e24514146c0070cdb0fe03",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+        "preboot_gate_mask": 67108470,
+        "area_keys_config": "0x414b0101",
+        "source_assignment": 6,
+        "slot_data": {
+          "copy_ability_room_protocol_version": 2,
+          "phone_protocol_version": 1,
+          "hub_connection_protocol_version": 2,
+          "starting_phone_access": false,
+          "health_protocol_version": 2,
+          "minimum_health": 6,
+          "maximum_health": 10,
+          "area_keys": true,
+          "starting_area_key_bitfield": 0,
+          "ability_gating": true,
+          "enemy_copy_ability_policy": {
+            "mode": 0,
+            "seed": 0,
+            "ability_randomization_no_ability_weight": 0,
+            "allowed_abilities": []
+          }
+        },
+        "initial_save_sha256": "3af02e4d2e2a17ba91ee0ec9602130661462812460ed50a188433935a60c048d",
+        "initial_emulator_state": null
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 480,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2250,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2252,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2254,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2256,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2258,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2260,
+          "frames": 170,
+          "keys": 0
+        },
+        {
+          "start": 2430,
+          "frames": 140,
+          "keys": 80
+        },
+        {
+          "start": 2570,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2571,
+          "frames": 160,
+          "keys": 0
+        },
+        {
+          "start": 2731,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2732,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 2912,
+          "frames": 70,
+          "keys": 32
+        },
+        {
+          "start": 2982,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 2997,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 2998,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 3148,
+          "frames": 700,
+          "keys": 32
+        },
+        {
+          "start": 3848,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 3868,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 3869,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 4019,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4159,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 4199,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 4229,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4239,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4329,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4330,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4390,
+          "frames": 140,
+          "keys": 32
+        },
+        {
+          "start": 4530,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4590,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4600,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 4690,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 4691,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 4751,
+          "frames": 160,
+          "keys": 32
+        },
+        {
+          "start": 4911,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 4913,
+          "frames": 1,
+          "keys": 512
+        },
+        {
+          "start": 4914,
+          "frames": 119,
+          "keys": 512
+        },
+        {
+          "start": 5033,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 6533,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-hub-complete-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b134",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "b1e73a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2250,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "49e63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2252,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b008",
+          "size": 4,
+          "value": "8ae63a00",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b00c",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2254,
+          "address": "0x203b004",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2256,
+          "address": "0x203b020",
+          "size": 4,
+          "value": "03000000",
+          "guard_failed": false,
+          "origin": "production-mailbox-four-item-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "76feff03",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "40000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        },
+        {
+          "frame": 2260,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "production-enemy-copy-config-complete-history"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "108-final-check",
+          "frame": 4913,
+          "room": 108,
+          "x": 390.0,
+          "y": 284.97265625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80598e9",
+          "kirby_unkC": "0x5800",
+          "kirby_flags": "0x23",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-unowned-l-first",
+          "frame": 4914,
+          "room": 108,
+          "x": 390.0,
+          "y": 284.97265625,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x805701d",
+          "kirby_unkC": "0x45800",
+          "kirby_flags": "0x2321",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 512,
+          "pressed": 0
+        },
+        {
+          "label": "water-unowned-l-held",
+          "frame": 5033,
+          "room": 108,
+          "x": 430.25,
+          "y": 304.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x8057775",
+          "kirby_unkC": "0x4c800",
+          "kirby_flags": "0x344",
+          "cpu_rooms": [
+            108,
+            801,
+            801,
+            801
+          ],
+          "unk58": 3,
+          "held": 512,
+          "pressed": 0
+        },
+        {
+          "label": "water-unowned-l-arrival",
+          "frame": 6533,
+          "room": 801,
+          "x": 248.7421875,
+          "y": 232.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x5010",
+          "kirby_flags": "0x4",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "unk58": 5,
+          "held": 0,
+          "pressed": 0
+        },
+        {
+          "label": "water-unowned-l-control",
+          "frame": 6563,
+          "room": 801,
+          "x": 260.7265625,
+          "y": 232.99609375,
+          "hp": 1,
+          "ability": 0,
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "battery": 3,
+          "caller": 255,
+          "state": "0x80412ad",
+          "kirby_unkC": "0x5010",
+          "kirby_flags": "0x4",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "unk58": 5,
+          "held": 16,
+          "pressed": 0
+        }
+      ]
+    }
+  ],
+  "field_semantics": {
+    "unk58": "Raw native base.unk58 byte; mask0x2 identifies water, not a boolean.",
+    "kirby_flags": "base.flags at+8",
+    "kirby_unkC": "base.unkC at+12"
+  },
+  "write_origin_note": "Inherited production-mailbox-four-item-history labels name the reused helper, not the initial three-item history. Phone is initially excluded; actual item values and native acknowledgment determine delivery. The guarded Phone queue writes establish ownership later.",
+  "source_artifacts": [
+    {
+      "artifact": "water-native-matrix-evidence.json",
+      "sha256": "be782541684edf9e6f1de13e0259942c06868ebb425f9e12b427296876cf03a8"
+    },
+    {
+      "artifact": "water-candidate-transitions.json",
+      "sha256": "7338c479a2ba6b524c266dd666303bd213c20442897fd794932c127abbc967e8"
+    },
+    {
+      "artifact": "water_r_onset.py",
+      "sha256": "f7b01c85f047a5c6cf0a589e8c45c0e1fbfcb322031d21bd162047e6dd226b3c"
+    },
+    {
+      "artifact": "water_r_l_final.py",
+      "sha256": "306a0ebf62c12e9b8dc97a4b04370e6bd9a73fdda2cd42a4b6835fad0b6dc9d6"
+    },
+    {
+      "artifact": "water_unowned_l.py",
+      "sha256": "81827cd3b6bda59102895071c3ba89b3c6e139312b8cc278045e1b97f2a867c8"
+    },
+    {
+      "artifact": "water-r-onset : runtime.json",
+      "sha256": "bd62e6bc7f66c70418be4a9ce560811b82fb4b9949a6fd040cda04a2db0b01e8"
+    },
+    {
+      "artifact": "water-r-onset : audit.jsonl",
+      "sha256": "9663e450c16197c82142d087a5d4cad782a413b0f656c2a75c8abefc1c199b32"
+    },
+    {
+      "artifact": "water-r-l-final : runtime.json",
+      "sha256": "8d1521df8939a52567f4773d2c4c34102168e4da477b8ac9de2a6efb39dbbf43"
+    },
+    {
+      "artifact": "water-r-l-final : audit.jsonl",
+      "sha256": "7e292aaf8acbada0fd00d18c6f6ce1b702fdbe42b7b814adfb37f9a8e90e60d1"
+    },
+    {
+      "artifact": "water-unowned-l : runtime.json",
+      "sha256": "6207a4c98723ff4c3e424f42b6159f7543fae45995e2d1e65ad80bd55d3407d7"
+    },
+    {
+      "artifact": "water-unowned-l : audit.jsonl",
+      "sha256": "fdd5c21b51f5da4146ffb0a05e66a6b1daf26660e5d22c8430e11b7bea5615fc"
+    }
+  ],
+  "limits": [
+    "One naturally reached native108 water compartment, Normal ability. The route takes ordinary damage fromHP6 to1; no health configuration or no-damage claim.",
+    "All60 locked-R samples are underwater with battery3 and caller255. The guarded grant precedes unlocked native call entry and one battery use. L controls begin underwater and return to settled hub control.",
+    "Primary R settle at5637 showsHP3 after pre-callHP1. This native increase is observed; its precise mechanism is not established. No pose, equipment, HP, room or water-state injection, or broader ability/geometry/zero-battery/interruption/multiplayer/helper-traversal/activation claim."
+  ]
+}

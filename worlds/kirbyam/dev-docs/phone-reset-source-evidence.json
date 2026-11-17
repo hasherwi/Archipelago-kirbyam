@@ -1,0 +1,635 @@
+{
+  "schema_version": 1,
+  "status": "Independently reviewed source/reset contract, not universal helper gameplay acceptance.",
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "rooms": [
+    {
+      "native_room": 143,
+      "object_list_index": 31,
+      "ai_table_index": 31,
+      "script_pointers": [
+        "0x088DEC88",
+        "0x088DEC90",
+        "0x088DEC98",
+        "0x088DECA0"
+      ],
+      "objects": [
+        {
+          "template_pointer": "0x088B7AA4",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 0,
+          "object_type": "0x99",
+          "position_pixels": [
+            440,
+            80
+          ]
+        },
+        {
+          "template_pointer": "0x088B7AC8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 1,
+          "object_type": "0x32",
+          "position_pixels": [
+            344,
+            216
+          ]
+        },
+        {
+          "template_pointer": "0x088B7AEC",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 2,
+          "object_type": "0x6F",
+          "position_pixels": [
+            24,
+            296
+          ]
+        },
+        {
+          "template_pointer": "0x088B7B10",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 3,
+          "object_type": "0x6F",
+          "position_pixels": [
+            24,
+            40
+          ]
+        },
+        {
+          "template_pointer": "0x088B7B34",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 4,
+          "object_type": "0x7B",
+          "position_pixels": [
+            368,
+            224
+          ]
+        },
+        {
+          "template_pointer": "0x088B7B58",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 5,
+          "object_type": "0x29",
+          "position_pixels": [
+            432,
+            288
+          ]
+        },
+        {
+          "template_pointer": "0x088B7B7C",
+          "spawn_table": 1,
+          "flag_scope": 1,
+          "flag_index": 30,
+          "object_type": "0x5F",
+          "position_pixels": [
+            456,
+            296
+          ]
+        },
+        {
+          "template_pointer": "0x088B7BA0",
+          "spawn_table": 1,
+          "flag_scope": 1,
+          "flag_index": 31,
+          "object_type": "0x61",
+          "position_pixels": [
+            232,
+            296
+          ]
+        },
+        {
+          "template_pointer": "0x088B7BC4",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 6,
+          "object_type": "0x7B",
+          "position_pixels": [
+            176,
+            224
+          ]
+        },
+        {
+          "template_pointer": "0x088B7BE8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 7,
+          "object_type": "0x00",
+          "position_pixels": [
+            192,
+            40
+          ]
+        },
+        {
+          "template_pointer": "0x088B7C0C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 8,
+          "object_type": "0x18",
+          "position_pixels": [
+            152,
+            88
+          ]
+        },
+        {
+          "template_pointer": "0x088B7C30",
+          "spawn_table": 1,
+          "flag_scope": 1,
+          "flag_index": 32,
+          "object_type": "0x5F",
+          "position_pixels": [
+            24,
+            120
+          ]
+        },
+        {
+          "template_pointer": "0x088B7C54",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 9,
+          "object_type": "0x00",
+          "position_pixels": [
+            48,
+            120
+          ]
+        },
+        {
+          "template_pointer": "0x088B7C78",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 10,
+          "object_type": "0x00",
+          "position_pixels": [
+            112,
+            216
+          ]
+        },
+        {
+          "template_pointer": "0x088B7C9C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 11,
+          "object_type": "0x00",
+          "position_pixels": [
+            392,
+            216
+          ]
+        }
+      ],
+      "world_scope_object_count": 0,
+      "script_summary": "All four entries select native wandering callback via opcode10, then suspend script dispatch; no room-script WORLD predicate."
+    },
+    {
+      "native_room": 145,
+      "object_list_index": 61,
+      "ai_table_index": 61,
+      "script_pointers": [
+        "0x088E9504",
+        "0x088E950C",
+        "0x088E9514",
+        "0x088E951C"
+      ],
+      "objects": [
+        {
+          "template_pointer": "0x088BB72C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 0,
+          "object_type": "0x99",
+          "position_pixels": [
+            24,
+            112
+          ]
+        },
+        {
+          "template_pointer": "0x088BB750",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 1,
+          "object_type": "0x04",
+          "position_pixels": [
+            696,
+            336
+          ]
+        },
+        {
+          "template_pointer": "0x088BB774",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 2,
+          "object_type": "0x01",
+          "position_pixels": [
+            1032,
+            56
+          ]
+        },
+        {
+          "template_pointer": "0x088BB798",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 3,
+          "object_type": "0x01",
+          "position_pixels": [
+            984,
+            72
+          ]
+        },
+        {
+          "template_pointer": "0x088BB7BC",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 4,
+          "object_type": "0x02",
+          "position_pixels": [
+            896,
+            136
+          ]
+        },
+        {
+          "template_pointer": "0x088BB7E0",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 5,
+          "object_type": "0x02",
+          "position_pixels": [
+            848,
+            136
+          ]
+        },
+        {
+          "template_pointer": "0x088BB804",
+          "spawn_table": 1,
+          "flag_scope": 1,
+          "flag_index": 94,
+          "object_type": "0x62",
+          "position_pixels": [
+            656,
+            184
+          ]
+        },
+        {
+          "template_pointer": "0x088BB828",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 6,
+          "object_type": "0x01",
+          "position_pixels": [
+            616,
+            48
+          ]
+        },
+        {
+          "template_pointer": "0x088BB84C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 7,
+          "object_type": "0x01",
+          "position_pixels": [
+            1200,
+            40
+          ]
+        },
+        {
+          "template_pointer": "0x088BB870",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 8,
+          "object_type": "0x02",
+          "position_pixels": [
+            800,
+            280
+          ]
+        },
+        {
+          "template_pointer": "0x088BB894",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 9,
+          "object_type": "0x02",
+          "position_pixels": [
+            760,
+            296
+          ]
+        },
+        {
+          "template_pointer": "0x088BB8B8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 10,
+          "object_type": "0x19",
+          "position_pixels": [
+            344,
+            72
+          ]
+        },
+        {
+          "template_pointer": "0x088BB8DC",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 11,
+          "object_type": "0x00",
+          "position_pixels": [
+            704,
+            32
+          ]
+        },
+        {
+          "template_pointer": "0x088BB900",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 12,
+          "object_type": "0x74",
+          "position_pixels": [
+            712,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB924",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 13,
+          "object_type": "0x74",
+          "position_pixels": [
+            616,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB948",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 14,
+          "object_type": "0x74",
+          "position_pixels": [
+            648,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB96C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 15,
+          "object_type": "0x74",
+          "position_pixels": [
+            680,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB990",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 16,
+          "object_type": "0x74",
+          "position_pixels": [
+            696,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB9B4",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 17,
+          "object_type": "0x74",
+          "position_pixels": [
+            664,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB9D8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 18,
+          "object_type": "0x74",
+          "position_pixels": [
+            632,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BB9FC",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 19,
+          "object_type": "0x74",
+          "position_pixels": [
+            600,
+            104
+          ]
+        },
+        {
+          "template_pointer": "0x088BBA20",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 20,
+          "object_type": "0x01",
+          "position_pixels": [
+            472,
+            40
+          ]
+        },
+        {
+          "template_pointer": "0x088BBA44",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 21,
+          "object_type": "0x6F",
+          "position_pixels": [
+            1192,
+            136
+          ]
+        },
+        {
+          "template_pointer": "0x088BBA68",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 22,
+          "object_type": "0x02",
+          "position_pixels": [
+            320,
+            240
+          ]
+        },
+        {
+          "template_pointer": "0x088BBA8C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 23,
+          "object_type": "0x02",
+          "position_pixels": [
+            392,
+            224
+          ]
+        },
+        {
+          "template_pointer": "0x088BBAB0",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 24,
+          "object_type": "0x02",
+          "position_pixels": [
+            584,
+            288
+          ]
+        },
+        {
+          "template_pointer": "0x088BBAD4",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 25,
+          "object_type": "0x02",
+          "position_pixels": [
+            1088,
+            248
+          ]
+        },
+        {
+          "template_pointer": "0x088BBAF8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 26,
+          "object_type": "0x80",
+          "position_pixels": [
+            1120,
+            248
+          ]
+        }
+      ],
+      "world_scope_object_count": 0,
+      "script_summary": "All four entries select native wandering callback via opcode10, then suspend script dispatch; no room-script WORLD predicate."
+    },
+    {
+      "native_room": 146,
+      "object_list_index": 62,
+      "ai_table_index": 62,
+      "script_pointers": [
+        "0x088E96D8",
+        "0x088E9720",
+        "0x088E9768",
+        "0x088E97B0"
+      ],
+      "objects": [
+        {
+          "template_pointer": "0x088BBB48",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 0,
+          "object_type": "0x7F",
+          "position_pixels": [
+            200,
+            120
+          ]
+        },
+        {
+          "template_pointer": "0x088BBB6C",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 1,
+          "object_type": "0x7F",
+          "position_pixels": [
+            112,
+            128
+          ]
+        },
+        {
+          "template_pointer": "0x088BBB90",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 2,
+          "object_type": "0x7D",
+          "position_pixels": [
+            160,
+            128
+          ]
+        },
+        {
+          "template_pointer": "0x088BBBB4",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 3,
+          "object_type": "0x6F",
+          "position_pixels": [
+            40,
+            72
+          ]
+        },
+        {
+          "template_pointer": "0x088BBBD8",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 4,
+          "object_type": "0x6F",
+          "position_pixels": [
+            216,
+            72
+          ]
+        },
+        {
+          "template_pointer": "0x088BBBFC",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 5,
+          "object_type": "0x6F",
+          "position_pixels": [
+            216,
+            136
+          ]
+        },
+        {
+          "template_pointer": "0x088BBC20",
+          "spawn_table": 1,
+          "flag_scope": 0,
+          "flag_index": 6,
+          "object_type": "0x6F",
+          "position_pixels": [
+            40,
+            136
+          ]
+        }
+      ],
+      "world_scope_object_count": 0,
+      "script_summary": "All four scripts branch on ROOM state slot15 >=10 to native wandering. Otherwise request desired ability 0xFF (Normal policy), navigate waypoint2, wait60 update ticks, execute action0, run timed action for180 update ticks, and jump back. State predicate is ROOM, not WORLD. See handlers before interpreting exact action/timing."
+    }
+  ],
+  "sir_kibble_conclusion": "0x088B7C0C is spawn table1, type0x18, ROOM-scope flag index8 at (152,88). Fresh room initialization clears this flag; prior consumption does not persist across Adventure restart.",
+  "reset_contract": [
+    "Successfully persist Phone in the same authenticated native file and use the same seed/ROM identity.",
+    "Cold restart and load single-player Adventure with post-tutorial gAIKirbyState>=300. Native startup recreates all four Kirbys in room801, Normal, battery3 and full configured health capacity.",
+    "Fresh CPU tasks and room/session flags/state are created; fixed source policy is unchanged by reload. On entering143 the finite Sir Kibble becomes eligible for native viewport spawning again.",
+    "Use the separately accepted route controller procedure; reset does not guarantee an exact RNG trajectory or universally reliable helper cooperation."
+  ],
+  "references": [
+    "src/code_08123950.c:sub_08123FD4",
+    "src/code_080332BC.c:sub_080332BC",
+    "src/kirby.c:CreateKirby/sub_0803EA90",
+    "src/code_080023A4.c:sub_08002C98/sub_080027A8/sub_080027E8/sub_08002848/CreateLevelObjects/CreateObject",
+    "src/level.c:InitLevelTasks/FillLevelInfo",
+    "src/code_0800ECAC.c:sub_0800ECAC",
+    "src/code_0800ECAC_2.c:sub_08013804/sub_0801399C/sub_08018388 through sub_080184C4/sub_08019734 through sub_080199CC",
+    "asm/large_star_stone_block.s:CreateCPUKirbyTrigger/sub_08120670/sub_08120788",
+    "src/sir_kibble.c:CreateSirKibble",
+    "src/object.c:InitObject",
+    "src/save.c:gWorldProps",
+    "patch kirby_ap_payload/patch_rom.py:build_initial_health_writes/build_phone_gate_writes",
+    "patch kirby_ap_payload/ap_payload.c:ap_initial_health_capacity",
+    "patch kirby_ap_payload/vitality_runtime_logic.h:ap_vitality_capacity",
+    "patch kirby_ap_payload/copy_room.c:ap_copy_room_load/ap_copy_room_start/ap_copy_room_poll"
+  ],
+  "limits": [
+    "All static objects in143/145/146 have ROOM or SESSION scope, none WORLD. Constructors and broader engine can consult other state; this census alone is not a universal constructor callgraph proof.",
+    "Direct AI script dispatcher and its state conditional use ROOM slot15; generic AI navigation contains SESSION prerequisites, cleared on restart. Both code_0800ECAC C files contain no GetStateSlot WORLD request.",
+    "Saved WORLD progress, treasures, visited doors and gAIKirbyState persist. The reset contract does not erase them or force post-tutorial state.",
+    "RNG-dependent wandering/timing is not claimed bit-identical across different saved progress or arbitrary waits. No new emulator run, generated-seed acceptance or solo Final Cutter proof.",
+    "Decoded semantic fields only; no ROM image or raw ROM byte arrays retained in this artifact."
+  ],
+  "source_artifact_sha256": "8cc8603c106772359d73473edfbd4e951d0248a1f00783ffec686bde7b51b9f9"
+}

@@ -812,7 +812,7 @@
   },
   "MINOR_CHEST_SPRAY_PAINT_14": {
     "label": "Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest",
-    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+    "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
     "default_item": "SPRAY_PAINT_14",
     "tags": [
       "SmallChest",

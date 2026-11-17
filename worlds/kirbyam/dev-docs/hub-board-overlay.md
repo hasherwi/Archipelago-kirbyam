@@ -102,3 +102,25 @@ patch changed for this follow-up. It remains a controlled lifecycle fixture,
 not natural route proof, Normal-only baseline evidence, every shuffled route
 or linked multiplayer coverage. ROMs, savestates and full native traces remain
 private; the committed record contains derived observations and hashes only.
+
+### Combined-main in-flight replay
+
+`hub-board-warp-star-main-successor.json` repeats the lifecycle test on merged
+main `73760a672d8d10fe457eaa1ec98d6b2df5988ee2`, including Phone and the exact-policy
+Cupid logic. The lawful source patch is now
+`c71f60b7b1649e1ae2566c1a6dc20ecc9208d1a034e629f83f531c13c761e73c`.
+The prior evidence above retains its original build and hashes.
+
+The successor fixture starts from a new blank battery and the same disclosed
+native142 startup records. Idle lock/delivery/rollback/redelivery and duplicate
+checks pass. Its saved starting and boarded states are created on the new ROM;
+no historical savestate is loaded across builds. Controller boarding again
+occurs at96. Both1200-frame continuation cases are identical to their historical
+recorded observations: destination195 at503, passenger retained through513,
+original star absent514. This compares the recorded fields, not all emulator
+RAM. The actual boarded screenshot was visually inspected at240×160.
+
+This remains a controlled one-template lifecycle test. It does not qualify
+natural route access, linked multiplayer, every shuffled mapping or the Normal
+baseline. No new artwork, progression rule, native source or patch change is
+introduced by this evidence follow-up.

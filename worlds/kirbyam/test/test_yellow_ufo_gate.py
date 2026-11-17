@@ -279,3 +279,32 @@ def test_actual_full_generation_seed8_at_one_hp(
     assert target.access_rule(state) is (not applies or not gating)
     state.collect(world.create_item('UFO Ability'), prevent_sweep=True)
     assert target.access_rule(state)
+
+
+@pytest.mark.parametrize('raw', [None, [], 'missing-policy'])
+@pytest.mark.parametrize('gating', [0, 1])
+def test_missing_policy_cannot_grant_yellow_chest(monkeypatch, raw, gating):
+    world = make_world(0, gating, room_sanity=1)
+    target = world.multiworld.get_location(data.locations[CHEST].label, 1)
+    state = CollectionState(world.multiworld)
+    state.can_reach_region = lambda *args: True
+    # Native, unqualified policies retain the separately documented fallback.
+    assert target.access_rule(state)
+    owner = world.multiworld.get_region(OWNER, 1)
+    other_rules = [(node, node.access_rule) for node in (*owner.exits, *owner.locations)
+                   if node is not target]
+    monkeypatch.setattr(world, '_enemy_copy_ability_policy', raw)
+    rules.install_extra_traversal_rules(world)
+    for item in ('UFO Ability', 'Cupid Ability', 'Phone a Friend'):
+        state.collect(world.create_item(item), prevent_sweep=True)
+    assert not target.access_rule(state)
+    assert all(node.access_rule is previous for node, previous in other_rules)
+
+
+def test_missing_policy_with_minor_chests_disabled(monkeypatch):
+    monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', False)
+    world = make_world(0, 0)
+    monkeypatch.delattr(world, '_enemy_copy_ability_policy')
+    rules.install_extra_traversal_rules(world)
+    with pytest.raises(KeyError):
+        world.multiworld.get_location(data.locations[CHEST].label, 1)

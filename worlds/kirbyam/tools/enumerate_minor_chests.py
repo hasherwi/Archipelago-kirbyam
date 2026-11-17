@@ -7,7 +7,8 @@ directly from the authorized USA Kirby & The Amazing Mirror ROM to extract:
 - chest flag index at ObjectTemplate + 0x11 (AMR fragment byte 5)
 
 It also resolves AMR room slots through native gRoomProps metadata to capture
-candidate native room IDs, doorsIdx values, and AP room-sanity keys.
+candidate native room IDs, doorsIdx values, and AP room-sanity keys. Reviewed
+source-specific compartment corrections retain that coarse mapping as provenance.
 
 Usage:
     python worlds/kirbyam/tools/enumerate_minor_chests.py \
@@ -182,6 +183,35 @@ def summarize_duplicate_room_sources(entries: list[dict[str, Any]]) -> list[dict
         for room_key, room_entries in sorted(room_to_entries.items())
         if len(room_entries) > 1
     ]
+
+
+def apply_reviewed_chest_compartment(entry: dict[str, Any], rooms: dict[str, Any]) -> None:
+    """Refine only the independently reviewed Chalk source, never its native identity."""
+    if entry["rom_offset"] != "0x008BC114":
+        return
+
+    room = "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2"
+    compartment = room + "_UPPER_LEFT"
+    location_key = "MINOR_CHEST_SPRAY_PAINT_14"
+    expected = {
+        "native_reward_id": 33,
+        "native_chest_flag_index": 13,
+        "candidate_native_room_ids": [148],
+        "candidate_doors_idx": [64],
+        "candidate_ap_room_keys": [room],
+    }
+    for field, value in expected.items():
+        if entry.get(field) != value:
+            raise ValueError(f"Reviewed Chalk compartment identity mismatch: {field}={entry.get(field)!r}")
+    owners = [key for key, definition in rooms.items() if location_key in (definition.get("locations") or {})]
+    if owners != [compartment]:
+        raise ValueError(f"Reviewed Chalk compartment must uniquely own {location_key}: {owners}")
+
+    entry["room_sanity_ap_room_keys"] = entry["candidate_ap_room_keys"]
+    entry["candidate_ap_room_keys"] = [compartment]
+    entry["ap_room_mapping_evidence"] = (
+        "dev-docs/phone-heave-ho-acceptance.md#qualified-retry-crossings-and-physical-collection"
+    )
 
 
 def metadata_path(path: Path, repo_root: Path) -> str:
@@ -396,6 +426,8 @@ def main() -> int:  # noqa: C901
             }
         )
 
+    for manifest_entry in manifest_entries:
+        apply_reviewed_chest_compartment(manifest_entry, rooms)
     multi_chest_room_disambiguation = summarize_duplicate_room_sources(manifest_entries)
 
     consumable_chest_flags = tuple(

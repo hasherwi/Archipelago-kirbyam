@@ -227,6 +227,10 @@ class KirbyAmWorld(World):
         # progression balancing, including skip-output generation.
         from .check_accessibility import validate_all_checks
         players = (player for player in multiworld.player_ids if isinstance(multiworld.worlds[player], cls))
+        from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
+        players = tuple(players)
+        for player in players:
+            validate_yellow_cupid_profile(multiworld.worlds[player])
         validate_all_checks(multiworld, players)
 
     def _no_extra_lives_enabled(self) -> bool:
@@ -441,6 +445,8 @@ class KirbyAmWorld(World):
 
     # Pre-generation adjustments
     def generate_early(self) -> None:
+        from .phone_traversal import validate_phone_profile
+        validate_phone_profile(self)
         # Reject unsupported health pairs before producing regions/items or a patch.
         health_range = self._health_range()
         if self._one_hit_mode_value():
@@ -508,6 +514,7 @@ class KirbyAmWorld(World):
                 ), randomize_statues, require_all_witnesses=True,
                 advanced=self.options.advanced_logic.value == 1,
             )
+            validate_phone_profile(self)
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):
                 logger.warning(
@@ -1186,6 +1193,10 @@ class KirbyAmWorld(World):
 
     # Helper method to fill slot data
     def fill_slot_data(self) -> dict[str, Any]:
+        from .phone_traversal import validate_phone_profile
+        validate_phone_profile(self, require_policy=True)
+        from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
+        validate_yellow_cupid_profile(self)
         # Slot data needed by client.
         # Pre-v0.1.0 policy: emit only canonical ability_randomization_* keys.
         # Legacy key aliases are intentionally not emitted before first public release.
@@ -1233,6 +1244,10 @@ class KirbyAmWorld(World):
             precollected_items = precollected_by_player.get(getattr(self, "player", 1), ())
         slot_data["starting_copy_ability_room_access"] = any(
             item.name == "Copy Ability Room Access" for item in precollected_items
+        )
+        slot_data["phone_protocol_version"] = 1
+        slot_data["starting_phone_access"] = any(
+            item.name == "Phone a Friend" for item in precollected_items
         )
         slot_data["area_keys"] = self._area_keys_enabled()
         slot_data["starting_area_key_bitfield"] = (

@@ -470,6 +470,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     install_wheel_rules(world)
     from .traversal_rules import install_extra_traversal_rules
     install_extra_traversal_rules(world)
+    from .phone_traversal import install_phone_rules
+    install_phone_rules(world)
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
         try:
