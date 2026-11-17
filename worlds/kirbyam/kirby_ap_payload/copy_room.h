@@ -5,9 +5,13 @@
 #define AP_COPY_ROOM_ITEM 3860500u
 #define AP_COPY_INVALID_SLOT 0xFFFFFFFFu
 /* Native WORLD words 22..26; Hub checks remain independent in 27..31. */
-#define AP_COPY_TAG 0x43500000u
+/* Layout 3 separates Copy/Phone bits 0..1 from Goal Game bits 2..17.
+ * The distinct tag rejects ambiguous pre-Phone Goal Game records. */
+#define AP_COPY_TAG 0x43540000u
 #define AP_COPY_OWNED 1u
+#define AP_GOAL_FLAGS 0x0003FFFCu
 #define AP_ACCESS_MASK 3u
+AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit);
 struct ApCopyContext {
     uint32_t epoch, serial, slot, dirty, loaded_slot, task, owned, cookie, retry;
 };

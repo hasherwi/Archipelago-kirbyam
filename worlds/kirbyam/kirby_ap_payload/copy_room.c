@@ -20,7 +20,7 @@ __attribute__((used,section(".apcopyinfo")))
 const char ap_copy_room_marker[8] = "APCPY02";
 
 static AP_COPY_EXT uint8_t record_valid(void) {
-    if ((RECORD[4] & ~AP_ACCESS_MASK) != AP_COPY_TAG) return 0u;
+    if ((RECORD[4] & ~(AP_ACCESS_MASK | AP_GOAL_FLAGS)) != AP_COPY_TAG) return 0u;
     for (uint32_t i=0u; i<4u; ++i) if (RECORD[i] != AUTH[i]) return 0u;
     return 1u;
 }
@@ -139,4 +139,16 @@ AP_COPY_EXT uint32_t *ap_copy_room_state(uint32_t kind, uint32_t index, uint32_t
         return (uint32_t *)0x02028C58u;
     }
     return ((uint32_t *(*)(uint32_t,uint32_t,uint32_t))0x08002889u)(kind,index,player);
+}
+
+/* Goal flags share authentication and native-file lifecycle with ownership. */
+AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit) {
+    uint32_t flag;
+    if (bit >= 16u || !ap_copy_room_epoch()) return;
+    flag = 1u << (bit + 2u);
+    if (!(RECORD[4] & flag)) {
+        RECORD[4] |= flag;
+        CTX->dirty = 1u;
+        CTX->retry = 0u;
+    }
 }
