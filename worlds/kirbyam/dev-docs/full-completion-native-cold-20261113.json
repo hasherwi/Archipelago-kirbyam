@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "scope": "current-client acknowledgement restoration through actual native save and cold reload",
+  "status": "partial-native-validation-not-full-completion-acceptance",
+  "source_head": "6c86bd6d9b7ecd9d3d87c5d43885ef2eab7afc9d",
+  "emulator": "mGBA 0.10.5",
+  "acknowledgement_origin": "simulated server context, not a real AP server or physical lever pull",
+  "source": {
+    "scope": "native cold startup only, not full-completion acceptance",
+    "head": "6c86bd6d9b7ecd9d3d87c5d43885ef2eab7afc9d",
+    "base_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "patch_sha256": "fe3b29b67e0e044527063b41777c9d4c3b3cc7e41cb5c65b24aa873c3d7e5d44",
+    "rom_sha256": "c6324e3202285a98f1c7566b2aaa400e35f6e72d4627d37060f002f346d3c6b0"
+  },
+  "runs": [
+    {
+      "native_file": 0,
+      "fresh_create_exit": 0,
+      "fresh_reload_exit": 0,
+      "client_restore_exit": 0,
+      "restored_cold_reload_exit": 0,
+      "loaded_file": 0,
+      "physical_record_word": "0x48478000",
+      "auth_roundtrip": true,
+      "native_world_checksums_all_six_valid": true,
+      "client_runtime_sha256": "ad5fb2e243cf22dee81621ca8603e44751123405be0d1936438195867f7a4c91",
+      "cold_runtime_sha256": "5cf4469c4285eded0db6fd294924c5862074fb47f3743798f20d02605bbecf00",
+      "battery_sha256": "887589a2046ff876dcae98b391f0edae7cd79c943a5f810e45d80599a6adb33c",
+      "cold_observation_sha256": "fd7ff06dbd47c579bf52ba4f83b1421527bcfb1571afa4b7e8f61215b63ff5ce"
+    },
+    {
+      "native_file": 1,
+      "fresh_create_exit": 0,
+      "fresh_reload_exit": 0,
+      "client_restore_exit": 0,
+      "restored_cold_reload_exit": 0,
+      "loaded_file": 1,
+      "physical_record_word": "0x48478000",
+      "auth_roundtrip": true,
+      "native_world_checksums_all_six_valid": true,
+      "client_runtime_sha256": "1330c64c0080ef744863ea8d0409ddf5ecfaddb0f5b05f3cac2068d9a0582e25",
+      "cold_runtime_sha256": "4f974aa0012d5df82259b30138d424d547c1484820cf276ce4a83c1668656745",
+      "battery_sha256": "e131de96be3a0cd39834fac00413f773292c066a3407f1bd00a032ab75b84ad7",
+      "cold_observation_sha256": "4dd11948b4feb414a85d9bd65e0c630b7e7448945550e5bae3e6e7685671f8fa"
+    },
+    {
+      "native_file": 2,
+      "fresh_create_exit": 0,
+      "fresh_reload_exit": 0,
+      "client_restore_exit": 0,
+      "restored_cold_reload_exit": 0,
+      "loaded_file": 2,
+      "physical_record_word": "0x48478000",
+      "auth_roundtrip": true,
+      "native_world_checksums_all_six_valid": true,
+      "client_runtime_sha256": "a3b612af06266d8ab026535c5123a6656389145672124df442a9ae443caa3cb5",
+      "cold_runtime_sha256": "a8628873cd6e5ae88d493707465e60ea5d43c09d2c2dc1d08ae2270c9d4fae5a",
+      "battery_sha256": "1957b445b6c15c3dcb06766923dc2fc9b5350787b0a8e776751b4fb39674137a",
+      "cold_observation_sha256": "8ee46584653dcefee580a3b8412951498c8e08e4562ab41830f9d50200ae100f"
+    }
+  ],
+  "non_claims": [
+    "offline physical lever pulls",
+    "receipt-before-pull/pull-before-receipt ordering",
+    "final clear/credits transitions",
+    "loaded fully completed save",
+    "health option matrix",
+    "real AP server reconnect/reset/rewind while completion pending",
+    "BizHawk connector acceptance"
+  ],
+  "artifacts": {
+    "ack_reload.py": "1827da9e206dcabeab09ac717ced2d69b58a7db4f084f45bbb32d4f1d7df3298",
+    "run_slot.py": "12871163c545a6a988f7294718612ad809ba2712953f4753a6ed7ee2fbd465eb",
+    "ack_save_other_slots.py": "631ad3c241eb903e61d1fb400d2bad2b090384f37d00ece34600f630f48958a8",
+    "ack_save.py": "9ff23149cf45f0aca2a858234c5ee5b970ce2c4ef8f6ce64b033462083bb50f6"
+  },
+  "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+  "mgba_library_sha256": "6a74d94811fc418ccb47c101aa3cdaa5a639a0484368d46d966b0fee87b5ae5c"
+}

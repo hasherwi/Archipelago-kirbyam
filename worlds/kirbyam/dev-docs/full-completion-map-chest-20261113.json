@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "scope": "Bounded genuine Rainbow Route East Map Chest: ordinary input acquisition, native-save cold persistence, real server acceptance and separately resumed eligible-room delivery; not full-goal acceptance",
+  "source_head": "9c6f0477631a4ee091f24bedfbe97131dc4a673f",
+  "source_tree": "d25e907d7312a8b2ed130f70e84ca2bc6fd1ab0a",
+  "seed": 101615,
+  "native_file": 0,
+  "rom_sha256": "c1a2f6fee58c46e127445a2c50e54e5b0a7a88b1e340b7c4d6bb9826394bccdf",
+  "native_bridge": "mGBA-backed real native runtime, shipping AP server/client transport",
+  "manual_gameplay_writes": 0,
+  "sequence": [
+    "Ordinary controller route from own earned post-ending save through hub East mirror into room190",
+    "Actual UP at source-verified chest actor; native flag5 and room190 completion bit0 added",
+    "96 neutral frames completed native chest animation; native battery exported",
+    "Separate-process cold load preserved six chest bits and eleven visited rooms before client writes",
+    "Real server accepted location3960203 and appended Cell Phone Battery receipt",
+    "Hub replay deferred existing Candy at history index33 because room801 is intentionally excluded",
+    "Fresh packet resumed accepted own room190 continuation and existing server history; all36 items converged without new LocationChecks"
+  ],
+  "native_progress": {
+    "chests": 6,
+    "rooms": 11,
+    "switches": 15,
+    "shards": 8,
+    "final_clear": true
+  },
+  "new_physical_chest": {
+    "location": 3960203,
+    "native_chest_flag": 5,
+    "native_room": 190,
+    "room_word_index": 32,
+    "room_word_after": "0x8001"
+  },
+  "cold_persistence": {
+    "passed_before_any_client_writes": true,
+    "battery_sha256": "f6d35d5b71baa3a6e1c11b8512cb883edba46c77aeca524d870f5d7552ca55a0",
+    "not_same_process_state_load": true
+  },
+  "server_acceptance": {
+    "checked_locations": [
+      3960203,
+      3960209,
+      3960451
+    ],
+    "new_item_receipt": [
+      3860027,
+      3960203,
+      1,
+      0
+    ],
+    "evidence": "Original real server log plus persisted server save; not inferred from replay"
+  },
+  "eligible_room_delivery": {
+    "room": 190,
+    "total_history": 36,
+    "precollected_items": 33,
+    "earned_receipts": 3,
+    "raw_counter": 36,
+    "client_history_index": 36,
+    "offset": 0,
+    "mailbox_empty": true,
+    "receipt_unblocked": true,
+    "receipt_error_clear": true,
+    "shipping_writes": 113,
+    "guard_failures": 0,
+    "location_check_packets": 0,
+    "goal_reported": false,
+    "wrapper_actual_exit": 0,
+    "stage_actual_exit": 0,
+    "server_actual_exit": 0,
+    "owned_live_descendants": 0,
+    "immutable_pins_verified": 2991
+  },
+  "retained_partial_failures": [
+    "Two mirror transition probes stopped on overly strict timing/bit assertions; a fresh source-proven transition-settle packet passed without blanket bitmask allowances.",
+    "Two hub delivery packets verified cold persistence/server state but did not converge past Candy index33; their failures remain failures. No receipt resets or eligibility bypass."
+  ],
+  "limits": [
+    "Only6/84 native chests and11/272 native rooms; not99 physical-check or positive full-goal acceptance.",
+    "Room190 delivery resumes the accepted earned continuation; independent cold proof is a separate earlier process.",
+    "No pending-positive-goal race or native BizHawk coverage."
+  ],
+  "artifact_sha256": {
+    "physical_chest": "bc04d3c6b04711c4a2c93042ecda0dda7c59d2314de0573654b4a0114dad9ef8",
+    "settle": "ac518af385c900b8191981fd57c087733d2239910f9465152e11278e0657389b",
+    "cold_observation": "b6bf78883e540151bafef37ce897874d06c9b5d8e0395d6620ab4ce456522bd5",
+    "original_acceptance_log": "5bb1aefb6c3ce19506de039ce7c3df87fe53a455e2f6c19748e9af6736e62a36",
+    "original_accepted_server_save": "b2b09fb2768b06282eea20c0a55ad5806e4439b1193d4782e04aefe176a25098",
+    "room190_observation": "bbf57edc1459e606d533a206cfbbe51e6767993e39ad25b478299b246c23b140",
+    "room190_runtime": "acda526517097cd86ac73b8bab8140d5925be0505e37cdc583bf6f47567ecb5e",
+    "room190_diagnostics": "8995a790e839cc60209d4bdbab94dbc3d05e61d9a98946db63c026aae1f62f01",
+    "room190_network": "876fba31386c49e7cc476c39062a2e337a8bb54baf31bb4f5352cb98ab748e01",
+    "room190_script": "ced57693ff7143ef3da417f5c9c86ab58db8751a076b8f609b77b831ad714d63",
+    "room190_manifest": "7c81dc4f21bd7ef95a73c937867ed607760addee81956868d4f3815293bf3d4f",
+    "room190_wrapper_wait": "441ac3632b9b510ccd079f8da95f2157d0cb51d635e181e3154bb8cec0d53666",
+    "room190_stage_wait": "5983a3aedf8d022396dea3f732b9886dfa95203cf6a2f2bcb3d2a33329c4ef61",
+    "room190_server_wait": "4fae71b7d4ae8293b982a4e510c88b65e1b2be7ffc3a3d9716bbd05513bcfc26"
+  },
+  "required_physical_checks": {
+    "acknowledged": 2,
+    "required": 99,
+    "ids": [
+      3960203,
+      3960209
+    ],
+    "excluded_nonphysical_area_check": 3960451
+  },
+  "native_chest_count_note": "Six native chest flags include ownership-derived flags; not six physically opened chests."
+}

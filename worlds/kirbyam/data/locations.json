@@ -49,6 +49,16 @@
     "location_id": 3960012,
     "category": "GOAL"
   },
+  "GOAL_100_PERCENT": {
+    "label": "100% Game Completion",
+    "parent_region": "REGION_RAINBOW_ROUTE/MAIN",
+    "tags": [
+      "Goal",
+      "MAP_RAINBOW_ROUTE"
+    ],
+    "location_id": 3960013,
+    "category": "GOAL"
+  },
   "BOSS_DEFEAT_1": {
     "label": "Mustard Mountain - Boss Defeat",
     "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",

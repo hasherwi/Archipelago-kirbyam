@@ -11,6 +11,9 @@ const char ap_color_catalog_marker[8] = "APCOL03";
 __attribute__((used, section(".aphubinfo")))
 const char ap_hub_protocol_marker[8] = "APHUB02";
 
+__attribute__((used, section(".apfullinfo")))
+const char ap_full_completion_marker[8] = "APFULL01";
+
 #define U32(addr) (*(volatile uint32_t *)(addr))
 #define U16(addr) (*(volatile uint16_t *)(addr))
 #define U8(addr) (*(volatile uint8_t *)(addr))

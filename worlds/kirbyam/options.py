@@ -32,6 +32,9 @@ class Goal(Choice):
     Determines what your goal is to consider the game beaten.
 
     - Dark Mind: Defeat Dark Mind and beat the game.
+    - 100% Game Completion: Explore all native completion rooms, open every chest,
+      activate every lever and Big Switch, obtain all shards and native unlocks,
+      and finish Dark Mind. Vitality ownership and Goal Games are not required.
     - Defeat Any Area Boss: Defeat any one eligible area boss.
     - Defeat Area Boss: Defeat the area boss selected by `configured_area_boss`.
       Set `configured_area_boss` to `random` to choose one boss at generation.
@@ -44,6 +47,7 @@ class Goal(Choice):
     option_defeat_area_boss = 2
     # Value 3 remains reserved for legacy hidden-area-boss seeds.
     option_defeat_area_boss_count = 4
+    option_full_completion = 5
 
     # Issue #872 rename compatibility: the old configured-goal name had the
     # same semantics, so accepting it as an alias is safe. The old hidden-random
@@ -53,6 +57,8 @@ class Goal(Choice):
 
     @classmethod
     def get_option_name(cls, value: int) -> str:
+        if value == cls.option_full_completion:
+            return "100% Game Completion"
         if value == cls.option_defeat_area_boss_count:
             return "Defeat a Number of Area Bosses"
         return super().get_option_name(value)

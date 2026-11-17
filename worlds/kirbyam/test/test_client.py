@@ -132,7 +132,7 @@ def test_goal_command_missing_slot_data(slot_data):
     ]
 
 
-@pytest.mark.parametrize("goal", [None, True, False, 0.0, 2.5, "0", "random", [], {}, -1, 5, 999])
+@pytest.mark.parametrize("goal", [None, True, False, 0.0, 2.5, "0", "random", [], {}, -1, 6, 999])
 def test_goal_command_rejects_malformed_or_unsupported_goal(goal):
     assert _run_goal_command({"goal": goal}, expected=False) == [
         "Goal unavailable: unsupported or malformed KirbyAM goal data.",

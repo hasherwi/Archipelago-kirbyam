@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "main_commit": "727099d75aec8a70ea87cce88d7d69358e345426",
-  "integrated_commit": "6884876664a1cc8df34a4ae6527407f31746bcd6",
-  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/Goal Game projection against unchanged historical main pins; no native evidence rebaseline.",
+  "integrated_commit": "089b08129a19b3e5bb94703e589b74c043dddc41",
+  "scope": "Exact feature/main integration projections for historical tests only. Not new native gameplay evidence. Original acceptance files remain immutable. Combined Phone/full-completion projection against unchanged historical main pins; no native evidence rebaseline. Combined Goal Game/full-completion projection; historical hashes remain unchanged.",
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "7f4efa8ae8169fe0c43bbe2a0a99d75e2081ff0382c0ab97fd73607763e7432d",
+      "integrated_sha256": "06bf653c6ab21240d23fe09af81bea8302ca528f25ca264dc83af731262f9489",
       "reverse_slices": [
         {
           "start": 12,
@@ -37,8 +37,36 @@
           "main": []
         },
         {
-          "start": 2037,
-          "stop": 2038,
+          "start": 309,
+          "stop": 313,
+          "current": [
+            "        elif goal == Goal.option_full_completion:\n",
+            "            description = (\"100% Game Completion: explore all 272 native rooms, open every chest, \"\n",
+            "                           \"activate all levers and Big Switches, obtain all shards and native unlocks, \"\n",
+            "                           \"and finish Dark Mind. Vitality ownership and Goal Games are not required.\")\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 522,
+          "stop": 523,
+          "current": [
+            "        self._full_completion_reported_scope = None\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 552,
+          "stop": 554,
+          "current": [
+            "                elif loc.name == \"GOAL_100_PERCENT\":\n",
+            "                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2044,
+          "stop": 2045,
           "current": [
             "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
           ],
@@ -47,8 +75,8 @@
           ]
         },
         {
-          "start": 2071,
-          "stop": 2087,
+          "start": 2078,
+          "stop": 2104,
           "current": [
             "            if goal_slot_version(slot):\n",
             "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
@@ -65,29 +93,130 @@
             "            phone_version = validate_phone_pairing(slot, bytes(config))\n",
             "            if not phone_version and any(getattr(item, \"item\", 0) == PHONE_ITEM_ID\n",
             "                                         for item in getattr(ctx, \"items_received\", ())):\n",
-            "                raise ValueError(\"Phone item received without a compatible slot\")\n"
+            "                raise ValueError(\"Phone item received without a compatible slot\")\n",
+            "            physical_version = slot.get(\"physical_check_save_version\")\n",
+            "            if physical_version is not None or slot.get(\"goal\") == Goal.option_full_completion:\n",
+            "                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET\n",
+            "                if type(physical_version) is not int or physical_version != 1:\n",
+            "                    raise ValueError(\"unsupported physical check save protocol\")\n",
+            "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
+            "                if session_expired():\n",
+            "                    return False\n",
+            "                if bytes(marker) != FULL_COMPLETION_MARKER:\n",
+            "                    raise ValueError(\"physical check persistence requires a regenerated ROM patch\")\n"
           ],
           "main": []
         },
         {
-          "start": 2291,
-          "stop": 2292,
+          "start": 2308,
+          "stop": 2309,
           "current": [
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
         },
         {
-          "start": 2322,
-          "stop": 2323,
+          "start": 2339,
+          "stop": 2340,
           "current": [
             "            await poll_goal_games(ctx)\n"
           ],
           "main": []
         },
         {
-          "start": 4914,
-          "stop": 4917,
+          "start": 3140,
+          "stop": 3142,
+          "current": [
+            "    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int,\n",
+            "                                             *, evidence_guards: list | None = None) -> bool:\n"
+          ],
+          "main": [
+            "    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int) -> bool:\n"
+          ]
+        },
+        {
+          "start": 3181,
+          "stop": 3182,
+          "current": [
+            "        final_reads = [\n"
+          ],
+          "main": [
+            "        final = await bizhawk.read(ctx.bizhawk_ctx, [\n"
+          ]
+        },
+        {
+          "start": 3185,
+          "stop": 3195,
+          "current": [
+            "        ]\n",
+            "        final = await bizhawk.read(ctx.bizhawk_ctx, final_reads)\n",
+            "        valid = (len(final) == 7 and final[0] == b\"\\0\" and final[1] == values[0] and final[2] == header\n",
+            "                 and len(final[3]) == 4 and not self._u32_le(final[3]) & _POST_CLEAR_NON_GAMEPLAY_FLAGS\n",
+            "                 and len(final[4]) == 1 and self._s8(final[4]) == expected_hp\n",
+            "                 and final[5] == values[1] and final[6] == values[2])\n",
+            "        if valid and evidence_guards is not None:\n",
+            "            evidence_guards.extend((address, value, domain)\n",
+            "                                   for (address, _size, domain), value in zip(final_reads, final))\n",
+            "        return valid\n"
+          ],
+          "main": [
+            "        ])\n",
+            "        return (len(final) == 7 and final[0] == b\"\\0\" and final[1] == values[0] and final[2] == header\n",
+            "                and len(final[3]) == 4 and not self._u32_le(final[3]) & _POST_CLEAR_NON_GAMEPLAY_FLAGS\n",
+            "                and len(final[4]) == 1 and self._s8(final[4]) == expected_hp\n",
+            "                and final[5] == values[1] and final[6] == values[2])\n"
+          ]
+        },
+        {
+          "start": 4092,
+          "stop": 4093,
+          "current": [
+            "        use received wall items. New patches save physical pulls independently.\n"
+          ],
+          "main": [
+            "        use received wall items. Offline/unacknowledged pulls remain volatile.\n"
+          ]
+        },
+        {
+          "start": 4115,
+          "stop": 4145,
+          "current": [
+            "        save_version = ctx.slot_data.get(\"physical_check_save_version\")\n",
+            "        if save_version is not None:\n",
+            "            if type(save_version) is not int or save_version != 1:\n",
+            "                return\n",
+            "            from .completion import (\n",
+            "                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,\n",
+            "                SAVE_ID_ADDRESS, merge_acknowledged_levers,\n",
+            "            )\n",
+            "            socket = server.socket\n",
+            "            slot_data = ctx.slot_data\n",
+            "            auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+            "            guards = [(auth_addr, auth, \"ROM\"),\n",
+            "                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n",
+            "                      (cookie_addr, (0x4B41504D).to_bytes(4, \"little\"), \"System Bus\")]\n",
+            "            reads = [(PHYSICAL_SAVE_ADDRESS, 20, \"System Bus\"), (SAVE_ID_ADDRESS, 2, \"System Bus\")]\n",
+            "            saved = await bizhawk.guarded_read(connector, reads, guards)\n",
+            "            if (saved is None or len(saved) != 2 or len(saved[0]) != 20 or len(saved[1]) != 2\n",
+            "                    or int.from_bytes(saved[1], \"little\") > 2 or not self._server_session_ready(ctx)\n",
+            "                    or ctx.server is not server or server.socket is not socket or ctx.bizhawk_ctx is not connector\n",
+            "                    or ctx.slot_data is not slot_data or session != self._authenticated_session_key(ctx)\n",
+            "                    or self._lever_checked_session != session):\n",
+            "                return\n",
+            "            updated = merge_acknowledged_levers(saved[0], auth, mask)\n",
+            "            if updated != saved[0]:\n",
+            "                # Update the existing native RAM save buffer, never SRAM/checksums.\n",
+            "                # The payload restores its volatile latches from this record.\n",
+            "                await bizhawk.guarded_write(connector, [(PHYSICAL_SAVE_ADDRESS, updated, \"System Bus\")],\n",
+            "                                            guards + [(PHYSICAL_SAVE_ADDRESS, saved[0], \"System Bus\"),\n",
+            "                                                      (SAVE_ID_ADDRESS, saved[1], \"System Bus\")])\n",
+            "            return\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 4967,
+          "stop": 4970,
           "current": [
             "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
             "            # through scripts, room transitions or a full/invalid battery epoch.\n",
@@ -99,14 +228,113 @@
           ]
         },
         {
-          "start": 4921,
-          "stop": 4922,
+          "start": 4974,
+          "stop": 4975,
           "current": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
           ],
           "main": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID)):\n"
           ]
+        },
+        {
+          "start": 5271,
+          "stop": 5351,
+          "current": [
+            "    async def _maybe_report_full_completion(self, ctx) -> None:\n",
+            "        \"\"\"Recompute this goal from one authenticated native-save snapshot.\n",
+            "\n",
+            "        Do not reuse the generic AI latch: a loaded older save must not inherit it.\n",
+            "        Physical AP acknowledgements and received ownership are separate evidence.\n",
+            "        \"\"\"\n",
+            "        import base64\n",
+            "        from .completion import (\n",
+            "            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,\n",
+            "            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,\n",
+            "            native_progress, ownership_complete, saved_physical_mask,\n",
+            "        )\n",
+            "        from NetUtils import ClientStatus\n",
+            "\n",
+            "        slot_data = getattr(ctx, \"slot_data\", None)\n",
+            "        version = slot_data.get(\"full_completion_version\") if isinstance(slot_data, dict) else None\n",
+            "        if (type(version) is not int or version != FULL_COMPLETION_VERSION\n",
+            "                or not self._server_session_ready(ctx) or not self._hub_connection_item_history_ready(ctx)):\n",
+            "            return\n",
+            "        auth = self._health_rom_auth\n",
+            "        if not isinstance(auth, bytes) or len(auth) != 16 or base64.b64encode(auth).decode() != ctx.auth:\n",
+            "            return\n",
+            "        session = self._authenticated_session_key(ctx)\n",
+            "        connector, server, socket = ctx.bizhawk_ctx, ctx.server, ctx.server.socket\n",
+            "        checked = getattr(ctx, \"checked_locations\", None)\n",
+            "        active = self._active_location_id_set(ctx)\n",
+            "        if not isinstance(checked, set) or not active or not PHYSICAL_IDS <= checked or not PHYSICAL_IDS <= active:\n",
+            "            return\n",
+            "        history = tuple(ctx.items_received)\n",
+            "        item_ids = [fields[0] for item in history if (fields := self._extract_delivery_item_fields(item)) is not None]\n",
+            "        if not ownership_complete(item_ids):\n",
+            "            return\n",
+            "\n",
+            "        def session_valid():\n",
+            "            return (self._server_session_ready(ctx) and ctx.server is server and ctx.server.socket is socket\n",
+            "                    and ctx.bizhawk_ctx is connector and ctx.slot_data is slot_data\n",
+            "                    and self._authenticated_session_key(ctx) == session\n",
+            "                    and self._hub_connection_item_history_ready(ctx)\n",
+            "                    and tuple(ctx.items_received) == history and PHYSICAL_IDS <= ctx.checked_locations)\n",
+            "\n",
+            "        auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+            "        cookie_addr = self._transport_addr(\"mailbox_init_cookie\")\n",
+            "        if cookie_addr is None:\n",
+            "            return\n",
+            "        guards = [(auth_addr, auth, \"ROM\"),\n",
+            "                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n",
+            "                  (cookie_addr, (0x4B41504D).to_bytes(4, \"little\"), \"System Bus\")]\n",
+            "        hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)\n",
+            "        if hp_addr is None:\n",
+            "            return\n",
+            "        reads = [*NATIVE_READS, (PHYSICAL_SAVE_ADDRESS, 20, \"System Bus\"), (hp_addr, 1, \"System Bus\")]\n",
+            "        raw = await bizhawk.guarded_read(connector, reads, guards)\n",
+            "        if raw is None or len(raw) != len(reads) or not session_valid():\n",
+            "            return\n",
+            "        progress = native_progress(raw[:len(NATIVE_READS)])\n",
+            "        if (progress is None or not progress.complete\n",
+            "                or saved_physical_mask(raw[7], auth) != PHYSICAL_SAVE_MASK\n",
+            "                or len(raw[8]) != 1 or self._s8(raw[8]) <= 0):\n",
+            "            return\n",
+            "        save_id = int.from_bytes(raw[4], \"little\")\n",
+            "        scope = (session, socket, connector, save_id)\n",
+            "        if self._full_completion_reported_scope == scope:\n",
+            "            return\n",
+            "        player_guards = []\n",
+            "        if not await self._post_clear_player_task_active(ctx, self._s8(raw[8]), evidence_guards=player_guards):\n",
+            "            return\n",
+            "        # Guard every observed byte again before reporting. No stale snapshot can\n",
+            "        # bridge a reset, slot change, concurrent receipt or savestate rewind.\n",
+            "        snapshot_guards = [(address, value, domain) for (address, _size, domain), value in zip(reads, raw)]\n",
+            "        verified = await bizhawk.guarded_read(connector, [], guards + snapshot_guards + player_guards)\n",
+            "        if verified is None or not session_valid():\n",
+            "            return\n",
+            "        if getattr(ctx, \"finished_game\", False) is not True:\n",
+            "            await ctx.send_msgs([{\"cmd\": \"StatusUpdate\", \"status\": ClientStatus.CLIENT_GOAL}])\n",
+            "            if not session_valid():\n",
+            "                return\n",
+            "            ctx.finished_game = True\n",
+            "        self._full_completion_reported_scope = scope\n",
+            "        await self._display_client_message(ctx, \"Goal complete\")\n",
+            "\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 5365,
+          "stop": 5370,
+          "current": [
+            "        slot_data = getattr(ctx, \"slot_data\", None)\n",
+            "        if isinstance(slot_data, dict) and type(slot_data.get(\"goal\")) is int and slot_data[\"goal\"] == Goal.option_full_completion:\n",
+            "            await self._maybe_report_full_completion(ctx)\n",
+            "            return\n",
+            "        self._full_completion_reported_scope = None\n"
+          ],
+          "main": []
         }
       ]
     },
@@ -168,7 +396,7 @@
   },
   "surfaces": {
     "main_sha256": "9abe2a57e445b5218b02f11062152b44bb8058c43f196ff8ae9b307845855aa1",
-    "integrated_sha256": "e1cf1e9f2930d4d6d8dede5fd93f735f3b78456304894c3fdc7dbb5decab426a",
+    "integrated_sha256": "134f4f783779c0de4926200b408798d4426508b131acbfdbf29ef8db7ee6ba8b",
     "reverse_slices": [
       {
         "start": 91,
@@ -294,24 +522,32 @@
         "main": []
       },
       {
-        "start": 1058,
-        "stop": 1059,
+        "start": 863,
+        "stop": 864,
+        "current": [
+          "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/MAIN\",\"requirement\":null,\"room_sanity\":false,\"target\":\"GOAL_100_PERCENT\"}"
+        ],
+        "main": []
+      },
+      {
+        "start": 1059,
+        "stop": 1060,
         "current": [
           "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_1\"}"
         ],
         "main": []
       },
       {
-        "start": 1062,
-        "stop": 1063,
+        "start": 1063,
+        "stop": 1064,
         "current": [
           "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2\",\"requirement\":\"can_break_floating_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_2\"}"
         ],
         "main": []
       },
       {
-        "start": 1066,
-        "stop": 1067,
+        "start": 1067,
+        "stop": 1068,
         "current": [
           "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_3\"}"
         ],
@@ -321,21 +557,17 @@
   },
   "catalog_provenance": {
     "main": "727099d75aec8a70ea87cce88d7d69358e345426",
-    "feature_head": "6884876664a1cc8df34a4ae6527407f31746bcd6",
+    "feature_head": "089b08129a19b3e5bb94703e589b74c043dddc41",
     "source_hash_changes": {
       "worlds/kirbyam/__init__.py": {
         "previous": "f0353d5ef3b0e19c228b73f4fb7e7cafaccf4061f28f36bcfce27bf206a6e9db",
-        "integrated": "3bf65af2e7f9b535396cb2245fcd15678abd1278b566b29f721e60a5ec4cce64"
-      },
-      "worlds/kirbyam/data/regions/rooms.json": {
-        "previous": "f638ec4906caf85a5e20331df801b11c6c1dd2dd6f9654039a069135eaefc58e",
-        "integrated": "f61dc67b511bf5f33ae5b70d072d8dab4b32b56e5acb60a8f77b3bfa686456e9"
+        "integrated": "c9a224310a34c402e3ba411c90258f6bb3399d32609ca755cff30cb8598e5050"
       }
     },
     "scope": "Current host source/catalog identity only; prior integration_inputs and native evidence remain historical."
   },
   "reviewed_parent_projection_sha256": {
-    "goal_games": "f96c8b64060ec84663fd1e2ac72aedcbe7d77286d638f1313e44435142b668de",
-    "phone": "e20c9c50965caba61ecc5bf1fb40c7939e1909ead3f9273968f7a44228c4dc9e"
+    "full_completion": "8ed93660ac4e98354242dd88fcf11d0c6c54fd78d2e2c0193c9c450c31bd6ed4",
+    "goal_games": "a3844498a5ea672634fe63b9699b310765cc202ee1da3089a480fde9781ed356"
   }
 }

@@ -32,7 +32,8 @@ def snapshot(mw, names):
             mw.completion_condition[1](state))
 
 
-@pytest.mark.parametrize('mode,rooms,keys,goal', [(0, 0, 1, 0), (1, 1, 1, 1), (2, 0, 0, 2), (1, 0, 0, 4)])
+@pytest.mark.parametrize('mode,rooms,keys,goal', [(0, 0, 1, 0), (1, 1, 1, 1), (2, 0, 0, 2), (1, 0, 0, 4),
+                                                        (0, 1, 1, 5), (1, 0, 0, 5)])
 def test_roundtrip_resolved_options_graph_inventory_and_progression(mode, rooms, keys, goal):
     original = setup_multiworld(KirbyAmWorld, seed=1054, options={
         'ability_randomization_mode': mode, 'room_sanity': rooms, 'area_keys': keys,

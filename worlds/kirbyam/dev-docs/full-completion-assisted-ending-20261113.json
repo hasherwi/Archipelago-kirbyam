@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "scope": "User-authorized HP-assisted ending, actual final-clear persistence and no-false-goal reconnect; not unassisted gameplay or positive full-completion acceptance",
+  "validated_head": "66bd44484d3316ad014955c7dc45dd83dd51a9c1",
+  "generated_source_head": "dc515b3895bbea9c2c04d879ecdf65911d405b25",
+  "source_relation": "Documentation-only later heads; production ROM/source unchanged",
+  "generation_seed": 101615,
+  "rom_sha256": "c1a2f6fee58c46e127445a2c50e54e5b0a7a88b1e340b7c4d6bb9826394bccdf",
+  "post_patch_rom_edits": [],
+  "assistance": {
+    "human_current_hp_address": "0x02020fe0",
+    "frozen_value": 10,
+    "actual_ending_branch_write_count": 34,
+    "completion_boss_capacity_item_ability_writes": 0,
+    "disabled_after": "route-210",
+    "reason": "Owner explicitly requested health freezing to expedite boss/ending validation",
+    "limitations": [
+      "HP-assisted, not unassisted acceptance",
+      "Own checkpoint branches, not one uninterrupted run",
+      "Historical executed script hashes were not pre-pinned; current scripts and complete write logs were reviewed, not a tamper-proof execution attestation"
+    ]
+  },
+  "ending_branch": [
+    {
+      "name": "route-193",
+      "parent": "route-163",
+      "frames": 240,
+      "hp_only_write_count": 1,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "2d473ec0aa8c93f0b57ca3e2c8cc92e42d0f035b1eb8d956addac1b5848d60ab",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-194",
+      "parent": "route-193",
+      "frames": 610,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "9d979d6559a4b95885818f2a73705d21f067d0103d68c436e307108501c1e0b7",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-196",
+      "parent": "route-194",
+      "frames": 244,
+      "hp_only_write_count": 2,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "e9200965719012e7ea2d90e88b59f41da6f47899b5bb41ad97b3e4ba68de5143",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-200",
+      "parent": "route-196",
+      "frames": 37,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "13fd24d48a50be733de1d65eb47979a7cb05229f66fdf990db4481d716a93770",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-201",
+      "parent": "route-200",
+      "frames": 110,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "b0c60f6e53299f1bc3c937719c1c50499915158f0395bdd0f2b72f50127df721",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-202",
+      "parent": "route-201",
+      "frames": 61,
+      "hp_only_write_count": 1,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "434a0cad0483f491073a08c2904777884ec112ffbe2750db774fc274deae15c0",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-203",
+      "parent": "route-202",
+      "frames": 32,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "09de371d9af859f821e3bd59f246167aa181d8ce0f50042d33191590589c1818",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-204",
+      "parent": "route-203",
+      "frames": 69,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "e843de3ff41f497fb0a52df2a069071a22f122e2e23c9a6c9fa06c8d61977c5a",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-205",
+      "parent": "route-204",
+      "frames": 195,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "3c6c298d438b18d70015eee69d141bc57d7cb7e8513d35d9be029cc1b7bd7cff",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-206",
+      "parent": "route-205",
+      "frames": 0,
+      "hp_only_write_count": 0,
+      "last_room": 918,
+      "last_ai": 300,
+      "runtime_sha256": "9b7d39c1407c8fe3d72abb8a04704c970c594e72409069c2e3e0afa8319f6624",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-207",
+      "parent": "route-206",
+      "frames": 3600,
+      "hp_only_write_count": 9,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "5193438d4d6bcac482010ec5451b6d29912dec353182965d29ad91151078d225",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-208",
+      "parent": "route-207",
+      "frames": 3600,
+      "hp_only_write_count": 19,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "a16f46c60f7417f36cab058dbcaf4dc3341ba0c675f6f97f0fa0ba9c56366f06",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-209",
+      "parent": "route-208",
+      "frames": 260,
+      "hp_only_write_count": 1,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "b8d45d237d0c98ce4a85fa61906d7b4f4a6266c0f10cac756ac67f9a7fb0a73a",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-210",
+      "parent": "route-209",
+      "frames": 260,
+      "hp_only_write_count": 1,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "214e025792c36d7ac559a1eb2c81083053315e21ebf0fee450564e59dfa16e3f",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-211",
+      "parent": "route-210",
+      "frames": 3600,
+      "hp_only_write_count": 0,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "ba1a0da497bef0b58441bf4a134864bc57551e443125ce8cf659683cbf6a416e",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-212",
+      "parent": "route-211",
+      "frames": 3600,
+      "hp_only_write_count": 0,
+      "last_room": 919,
+      "last_ai": 300,
+      "runtime_sha256": "cfa7df82d808310eb2a82d3ab72a6f54e2f5e287a8902073e5804225f8808fbe",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-213",
+      "parent": "route-212",
+      "frames": 6000,
+      "hp_only_write_count": 0,
+      "last_room": 919,
+      "last_ai": 9999,
+      "runtime_sha256": "ebeb979618a8667652b60688618da55ce9cca28bd976af690592fedffe548c78",
+      "actual_exit": 0
+    },
+    {
+      "name": "route-214",
+      "parent": "route-213",
+      "frames": 6000,
+      "hp_only_write_count": 0,
+      "last_room": 147,
+      "last_ai": 300,
+      "runtime_sha256": "779d2773c56496258a26934de0abf132d5b2de4560f07bc82fcc5135793d95b0",
+      "actual_exit": 0
+    }
+  ],
+  "native_milestones": {
+    "eye_native_defeat": "route-205 recorded native boss death state -10010 during controller-input progression; no boss HP writes",
+    "shooting_stage": "route-209 through route-210 ordinary repeated B inputs",
+    "ending": "The End visually verified at route-213 checkpoint3",
+    "final_clear": "Native AI9999 at route-213; returned to title",
+    "images_sha256": {
+      "the_end": "237d2c58a199cb7aa9af751ec2ffbacf09e4a83cc9c45ff10ef5cd71bba4badd",
+      "title": "27eb2839ecf949cc34c7b74e781e18e0721ce968f292c05c9719490cb7c1262e"
+    }
+  },
+  "cold_load": {
+    "source": "own route-214 battery, new process, ordinary menus, no state load or refight",
+    "battery_sha256": "5dd50182f1b281e77664604c8c530cee71b2093ddb3c92738245687f3c62d32f",
+    "runtime_sha256": "4aee0b717f6efda9d37e86844f559542ff1adbba119f794e277bb4d4b005e659",
+    "owning_exit": 0,
+    "memory_writes": 0,
+    "native_result": {
+      "room": 801,
+      "ai": 9999,
+      "hp": 10,
+      "slot": 0,
+      "flags": 0
+    }
+  },
+  "real_server_reconnect": {
+    "observation_sha256": "1ca0089dea0e84bd994df32c75836470073b31db5a54dca304b2f3f6d3278e59",
+    "runtime_sha256": "8ea634704316d5caa29aa80ba78a3bb32749801e80962efeaad53d632e06796d",
+    "owning_exit": 0,
+    "server_wait": 0,
+    "item_history_count": 35,
+    "checked_locations": [
+      3960209,
+      3960451
+    ],
+    "native_progress": {
+      "chests": 5,
+      "rooms": 10,
+      "switches": 15,
+      "shards": 8,
+      "final_clear": true
+    },
+    "progress_caution": "Native ownership-related counters are not evidence of physical AP acknowledgements; the actual server still has only two checks",
+    "shipping_client_memory_writes": 470,
+    "goal_reported": false,
+    "original_server_save_unchanged": true,
+    "original_server_save_sha256": "eb08c8871bee7726a555791608d61c2b9a3c9f3076578d55157c7258648a8951",
+    "limitation": "Websocket keepalive timeout/closure warning retained in log; completed assertions, observation and actual native/server exits independently reviewed"
+  },
+  "still_unverified": [
+    "Positive full goal with all99 physical acknowledgements,84 native chest bits and272 rooms",
+    "Unassisted final completion",
+    "All remaining physical ordering/file combinations",
+    "Reset or rewind during the pending full-completion native-read window",
+    "Universal BizHawk or multiplayer behavior"
+  ],
+  "native_snapshot_rewind_guard": {
+    "scope": "Actual shipping guarded_read over mGBA adapter: unchanged snapshot passes, own-state rewind rejects stale native bytes. Not end-to-end pending full-goal report; physical preconditions are incomplete. No server or Goal report attempted.",
+    "initial_parent": "completed-reconnect-001",
+    "rewind_target": "route-005",
+    "state_sha256": [
+      "3c66da92ab264a6c5649e8384f72a40ebe68ed343e267f0bc88006024a7ae671",
+      "b92a8536f67516ad3f444b690cfe3bfac93839eb6f47d31aecfec05fc54b6d96"
+    ],
+    "native_before": {
+      "chests": 5,
+      "rooms": 10,
+      "switches": 15,
+      "shards": 8,
+      "final_clear": true
+    },
+    "native_after": {
+      "chests": 1,
+      "rooms": 0,
+      "switches": 0,
+      "shards": 0,
+      "final_clear": false
+    },
+    "unchanged_control_passed": true,
+    "stale_guard_rejected": true,
+    "manual_memory_writes": 0,
+    "owning_exit": 0,
+    "sha256": {
+      "observation": "5025b659a43d81b9a705c95b0cceb9904274cc3383238617b05bfbf119c9b3ba",
+      "runtime": "3ef1b558e9083c1b12af292eca15a1adfcc451d9febe67c398cb7880ed8239a0",
+      "preexecution_source_manifest": "bd4f9b87bd53faf61185502e87ce678fbe1771c4c3a9cbc6d51d8fde53004399"
+    },
+    "limitation": "Tests guarded-read mechanism with genuine own states, not end-to-end positive full-completion preconditions or an actual network pending-goal race"
+  }
+}
