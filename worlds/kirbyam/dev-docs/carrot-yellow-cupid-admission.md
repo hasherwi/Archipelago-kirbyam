@@ -76,6 +76,13 @@ admitted. No other health, gating, source assignment, Area Key setting, upstream
 The static ranged catalog remains its existing census; this separately guarded
 profile supplement is documented here rather than counted as a global witness.
 
+Missing or non-object source-policy data is a separate invalid installation
+state: the enabled Yellow Paint chest now receives a false access rule instead
+of inheriting room access. Permission items cannot bypass it. Disabled minor
+chests and the room's ordinary exits/Room Sanity check are unchanged. This does
+not qualify or close the historical fallback for real unsupported policies,
+and does not add native gameplay evidence or change ROM bytes.
+
 ## Combined main successor
 
 `carrot-yellow-cupid-successor.json` records the repeated five-case native
