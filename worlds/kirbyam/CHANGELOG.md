@@ -16,7 +16,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Support YAML-less Universal Tracker tracking for newly generated seeds by restoring their resolved settings, enemy ability assignments, starting inventory and excluded locations (PR #1102).
-- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027).
+- Improve in-game wooden boards over locked area transition mirrors, preserving their original frames (Issue #1027, PR #1105).
 - Improved Logic for Item Placement and Accessible Locations (PR #1092, PR #1103, Issue #1099).
 
 ### Known Limitations
