@@ -35,6 +35,7 @@ def _emit_slot_data_for_contract_test() -> dict[str, object]:
     world = KirbyAmWorld.__new__(KirbyAmWorld)
 
     options = Mock()
+    options.exclude_locations.value = set()
     options.starting_kirby_color = Mock(value=0, current_key="pink")
     options.as_dict.return_value = {
         "goal": 0,
