@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add 100% Game Completion: all native completion rooms, physical chests, levers and Big Switches, required native unlocks and Dark Mind clear. Health upgrades do not add completion requirements (Issue #204).
+- Add 100% Game Completion Goal: all rooms, chests, levers, Big Switches, and Dark Mind clear. Health upgrades do not add completion requirements since there can be a variable amount (Issue #204).
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
