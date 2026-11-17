@@ -69,9 +69,11 @@ A RoomSanity + shuffled-source seed can be rejected by Kirby's existing all-chec
 validation because Room 4-16 has no qualifying source. That is a world-generation
 restriction, not a UT reconstruction failure; these tests do not bypass it.
 
-Phone coverage here concerns current main's `Cell Phone Battery` item and its
-starting/received counts. The separate Phone PR #1086 is not included or modified;
-its future item/logic changes require their own integration test after rebasing.
+The integration includes main's merged Phone progression. Reconstruction tests
+cover starting and received `Phone a Friend` ownership, both qualified and
+unqualified Phone route profiles, and exact profile signatures/edge access.
+Actual upstream UT generation also covers the qualified profile and starting
+Phone inventory; Cell Phone Battery multiplicity remains covered.
 
 PopTracker is a separate product and pack/workflow. This document neither tests
 nor changes PopTracker support.
@@ -120,6 +122,13 @@ Phone Batteries and Copy Ability Room Access. Observed results:
   **30 (CLIENT_GOAL)**. This is protocol/core goal validation, not observation of
   the GUI's Go Mode label or a native game win.
 
-Graphical acceptance remains untested: this environment has no isolated Xvfb
-executable, and the active desktop/emulator belongs to another task. The test
-never launches a GUI or touches that session.
+The committed live test remains headless. A separate local acceptance run on
+`19ca38eca2cc48e66b00e47b46c21b882043ea10` used real upstream UT with
+Kivy 2.3.2/KivyMD `5ff9d0d`, SDL2 and a private Xvfb display. Actual screenshots
+showed 0/124 and Go mode No initially, then 124/124 and Go mode Yes after
+progression and reconnect. Those checks came from the protocol driver, not an
+emulator. A subsequent Launcher run on that same head used real mouse/keyboard
+input to open UT, enter a slot name and view a new RoomSanity seed (0/379 checks).
+Neither result is a native game-win claim or evidence for later merged logic.
+The PR description records newer acceptance results and outstanding limits.
+Other tasks' emulator sessions and checkpoints were not used.

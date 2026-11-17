@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "combined_source_commit": "648c8825eccaea7a0c39468ff4604537ebf1bf3f",
+  "patch_sha256": "c71f60b7b1649e1ae2566c1a6dc20ecc9208d1a034e629f83f531c13c761e73c",
+  "scope": "Successor native patch replay of the exact Cupid admission schedule; same controlled719 startup, source assignments, profile and eight production configuration writes; no additional gameplay writes or helper calls. Original evidence remains immutable.",
+  "cases": [
+    {
+      "name": "hp6-nofood-positive",
+      "rom_sha256": "150cb96020deef15174f02a39d5f1640f3af4ff2950fefb42d3aa8cb3c168455",
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "trace_identical_to_original_admission": true,
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hp6-nofood-repeat",
+      "rom_sha256": "150cb96020deef15174f02a39d5f1640f3af4ff2950fefb42d3aa8cb3c168455",
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "trace_identical_to_original_admission": true,
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hp6-nofood-no-upper",
+      "rom_sha256": "150cb96020deef15174f02a39d5f1640f3af4ff2950fefb42d3aa8cb3c168455",
+      "trace_sha256": "edfd4cb41282b14759144a423dd64d14899855048dd490d87ce61b4235e2dc26",
+      "trace_identical_to_original_admission": true,
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 166.0,
+        "y": 40.99609375,
+        "upper": 241,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": []
+    },
+    {
+      "name": "hp6-nofood-no-lower",
+      "rom_sha256": "150cb96020deef15174f02a39d5f1640f3af4ff2950fefb42d3aa8cb3c168455",
+      "trace_sha256": "1e46e5ff4c79eeb1627f7fdd091aef137508c596a63c4f64ec2452b8a7934861",
+      "trace_identical_to_original_admission": true,
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 296.58984375,
+        "y": 120.99609375,
+        "upper": 0,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": []
+    },
+    {
+      "name": "hp6-roomoff-positive",
+      "rom_sha256": "45ae9bb1744f323ac61528378a025ef52009f24e27a4309a4ad237dc2b3656d6",
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "trace_identical_to_original_admission": true,
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": "No general policy, health, gate, source, upstream719 access or Normal+Phone qualification; no full-run acceptance."
+}

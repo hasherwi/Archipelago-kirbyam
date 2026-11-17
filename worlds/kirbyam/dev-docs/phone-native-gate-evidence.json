@@ -1,0 +1,5710 @@
+{
+  "schema_version": 2,
+  "status": "native permission/receipt/tutorial evidence; no helper traversal certification",
+  "base_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "runtime_writes": "Only the logged Phone protocol grant in gate147-final. No runtime writes, state loads, pose changes or ability injection in either tutorial replay.",
+  "input_format": "GBA held-key bitmask: A1 B2 Select4 Start8 Right16 Left32 Up64 Down128 R256 L512; start and frames are cumulative video frames from cold boot. Checkpoints follow the corresponding input segment.",
+  "tutorial_control": "Both runs use exactly the same 245 input segments and 31,422 frames. Room, position, HP, ability, AI state, battery, function state and CPU room snapshots agree through frame 30,992. At 31,052 the enabled, unowned run remains at battery 2 in native float state; the disabled control spends one battery and enters native call state. No Phone grant occurs in either run.",
+  "runs": [
+    {
+      "identity": {
+        "rom_sha256": "361bb0c18c80657bcd047e7f24bf1f7464be349e9c1b63f6681f97a6fde38a8b",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2308,
+          "frames": 100,
+          "keys": 0
+        },
+        {
+          "start": 2408,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 2410,
+          "frames": 1,
+          "keys": 256
+        },
+        {
+          "start": 2411,
+          "frames": 59,
+          "keys": 256
+        },
+        {
+          "start": 2470,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 3070,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 3190,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4690,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "writes": [
+        {
+          "frame": 2408,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        },
+        {
+          "frame": 2408,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "phone_protocol.sync_phone_ownership"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "fresh",
+          "frame": 2248,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "locked-r",
+          "frame": 2408,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "granted",
+          "frame": 2410,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "unlocked-r-first",
+          "frame": 2411,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "unlocked-r-held",
+          "frame": 2470,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 2,
+          "caller": 0,
+          "num": 4,
+          "state": "0x8057ad1",
+          "kirby_unkC": "0x0",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "unlocked-r",
+          "frame": 3070,
+          "room": 147,
+          "x": 61.609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 2,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1001010",
+          "cpu_rooms": [
+            147,
+            147,
+            147,
+            147
+          ]
+        },
+        {
+          "label": "l-hub",
+          "frame": 4690,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 2,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            801,
+            147,
+            147,
+            147
+          ]
+        },
+        {
+          "label": "l-control",
+          "frame": 4720,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "battery": 2,
+          "caller": 255,
+          "num": 4,
+          "state": "0x80412ad",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            801,
+            147,
+            147,
+            147
+          ]
+        }
+      ],
+      "name": "gate147-final",
+      "fixture": {
+        "auth": "synthetic bytes 1 through 16",
+        "initial_save": "blank native save, loaded before first frame",
+        "initial_state": "none",
+        "phone_enabled": true,
+        "initial_rooms": [
+          147,
+          148,
+          148,
+          148
+        ],
+        "initial_positions_pixels": [
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ]
+        ]
+      }
+    },
+    {
+      "identity": {
+        "rom_sha256": "361bb0c18c80657bcd047e7f24bf1f7464be349e9c1b63f6681f97a6fde38a8b",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2308,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 2318,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2378,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 2388,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 2448,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 2458,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 2578,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 4078,
+          "frames": 30,
+          "keys": 16
+        }
+      ],
+      "writes": [],
+      "checkpoints": [
+        {
+          "label": "locked-before",
+          "frame": 2248,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "locked-repeated-r",
+          "frame": 2458,
+          "room": 147,
+          "x": 68.609375,
+          "y": 136.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 0,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            147,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "locked-l-hub",
+          "frame": 4078,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x803ff65",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            801,
+            148,
+            148,
+            148
+          ]
+        },
+        {
+          "label": "locked-l-control",
+          "frame": 4108,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_context": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "caller": 255,
+          "num": 4,
+          "state": "0x80412ad",
+          "kirby_unkC": "0x1010",
+          "cpu_rooms": [
+            801,
+            148,
+            148,
+            148
+          ]
+        }
+      ],
+      "name": "locked-l-settle147",
+      "fixture": {
+        "auth": "synthetic bytes 1 through 16",
+        "initial_save": "blank native save, loaded before first frame",
+        "initial_state": "none",
+        "phone_enabled": true,
+        "initial_rooms": [
+          147,
+          148,
+          148,
+          148
+        ],
+        "initial_positions_pixels": [
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ],
+          [
+            96,
+            112
+          ]
+        ]
+      }
+    },
+    {
+      "identity": {
+        "rom_sha256": "76dbe6d5e6ba80081d96b9b2f24d85126e6bc7eb91a8be7af3a65d7d28d5b2ed",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 240,
+          "keys": 16
+        },
+        {
+          "start": 2488,
+          "frames": 90,
+          "keys": 2
+        },
+        {
+          "start": 2578,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 2758,
+          "frames": 1200,
+          "keys": 0
+        },
+        {
+          "start": 3958,
+          "frames": 45,
+          "keys": 17
+        },
+        {
+          "start": 4003,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 4004,
+          "frames": 45,
+          "keys": 17
+        },
+        {
+          "start": 4049,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 4069,
+          "frames": 5,
+          "keys": 0
+        },
+        {
+          "start": 4074,
+          "frames": 6,
+          "keys": 2
+        },
+        {
+          "start": 4080,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 4125,
+          "frames": 45,
+          "keys": 16
+        },
+        {
+          "start": 4170,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 4171,
+          "frames": 6,
+          "keys": 2
+        },
+        {
+          "start": 4177,
+          "frames": 150,
+          "keys": 80
+        },
+        {
+          "start": 4327,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 4507,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 4687,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 4697,
+          "frames": 45,
+          "keys": 0
+        },
+        {
+          "start": 4742,
+          "frames": 15,
+          "keys": 17
+        },
+        {
+          "start": 4757,
+          "frames": 25,
+          "keys": 0
+        },
+        {
+          "start": 4782,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4792,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 4972,
+          "frames": 18,
+          "keys": 64
+        },
+        {
+          "start": 4990,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 5010,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 5060,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 5070,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5250,
+          "frames": 14,
+          "keys": 32
+        },
+        {
+          "start": 5264,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 5294,
+          "frames": 5,
+          "keys": 64
+        },
+        {
+          "start": 5299,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5479,
+          "frames": 8,
+          "keys": 1
+        },
+        {
+          "start": 5487,
+          "frames": 8,
+          "keys": 64
+        },
+        {
+          "start": 5495,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5675,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 5705,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5885,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 5900,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 5930,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 5960,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 5990,
+          "frames": 18,
+          "keys": 32
+        },
+        {
+          "start": 6008,
+          "frames": 15,
+          "keys": 0
+        },
+        {
+          "start": 6023,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 6038,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 6048,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 6228,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 6268,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 6328,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 6353,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 6354,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 6364,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 6544,
+          "frames": 700,
+          "keys": 80
+        },
+        {
+          "start": 7244,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 7544,
+          "frames": 300,
+          "keys": 80
+        },
+        {
+          "start": 7844,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 8144,
+          "frames": 300,
+          "keys": 80
+        },
+        {
+          "start": 8444,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 8744,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 8764,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 8864,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 8884,
+          "frames": 200,
+          "keys": 0
+        },
+        {
+          "start": 9084,
+          "frames": 35,
+          "keys": 32
+        },
+        {
+          "start": 9119,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 9134,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 9254,
+          "frames": 160,
+          "keys": 16
+        },
+        {
+          "start": 9414,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 9534,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 9714,
+          "frames": 100,
+          "keys": 32
+        },
+        {
+          "start": 9814,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 9834,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 9984,
+          "frames": 200,
+          "keys": 16
+        },
+        {
+          "start": 10184,
+          "frames": 180,
+          "keys": 2
+        },
+        {
+          "start": 10364,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 10464,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 10472,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 10502,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 10532,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 10712,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 10727,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 10747,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 10777,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 10807,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 10987,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 11017,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 11047,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 11077,
+          "frames": 14,
+          "keys": 16
+        },
+        {
+          "start": 11091,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 11121,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 11151,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 11331,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 11391,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 11991,
+          "frames": 100,
+          "keys": 17
+        },
+        {
+          "start": 12091,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 12131,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 12221,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12251,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 12252,
+          "frames": 60,
+          "keys": 17
+        },
+        {
+          "start": 12312,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12342,
+          "frames": 35,
+          "keys": 65
+        },
+        {
+          "start": 12377,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 12379,
+          "frames": 70,
+          "keys": 80
+        },
+        {
+          "start": 12449,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 12489,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 12499,
+          "frames": 55,
+          "keys": 32
+        },
+        {
+          "start": 12554,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 12614,
+          "frames": 100,
+          "keys": 80
+        },
+        {
+          "start": 12714,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 12724,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12754,
+          "frames": 80,
+          "keys": 16
+        },
+        {
+          "start": 12834,
+          "frames": 25,
+          "keys": 2
+        },
+        {
+          "start": 12859,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 12869,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 12879,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 12894,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 12984,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13014,
+          "frames": 40,
+          "keys": 64
+        },
+        {
+          "start": 13054,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 13069,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 13169,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 13189,
+          "frames": 75,
+          "keys": 16
+        },
+        {
+          "start": 13264,
+          "frames": 60,
+          "keys": 18
+        },
+        {
+          "start": 13324,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13354,
+          "frames": 90,
+          "keys": 64
+        },
+        {
+          "start": 13444,
+          "frames": 75,
+          "keys": 16
+        },
+        {
+          "start": 13519,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 13529,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 13579,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13609,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 13669,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 14269,
+          "frames": 400,
+          "keys": 2
+        },
+        {
+          "start": 14669,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 14759,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 14789,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 14790,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 14805,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 14806,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 14926,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 14936,
+          "frames": 80,
+          "keys": 16
+        },
+        {
+          "start": 15016,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 15041,
+          "frames": 75,
+          "keys": 64
+        },
+        {
+          "start": 15116,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 15131,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 15181,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 15182,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 15302,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 15312,
+          "frames": 16,
+          "keys": 16
+        },
+        {
+          "start": 15328,
+          "frames": 5,
+          "keys": 0
+        },
+        {
+          "start": 15333,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 15453,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 15473,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 15573,
+          "frames": 60,
+          "keys": 16
+        },
+        {
+          "start": 15633,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 15663,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 15763,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 15773,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 15823,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 15903,
+          "frames": 50,
+          "keys": 80
+        },
+        {
+          "start": 15953,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 15973,
+          "frames": 45,
+          "keys": 32
+        },
+        {
+          "start": 16018,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 16033,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 16063,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 16123,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 16303,
+          "frames": 65,
+          "keys": 64
+        },
+        {
+          "start": 16368,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 16369,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 16370,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 16610,
+          "frames": 600,
+          "keys": 16
+        },
+        {
+          "start": 17210,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 17450,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 17570,
+          "frames": 200,
+          "keys": 80
+        },
+        {
+          "start": 17770,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 17830,
+          "frames": 600,
+          "keys": 80
+        },
+        {
+          "start": 18430,
+          "frames": 180,
+          "keys": 80
+        },
+        {
+          "start": 18610,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 18630,
+          "frames": 650,
+          "keys": 80
+        },
+        {
+          "start": 19280,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 19380,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 19440,
+          "frames": 400,
+          "keys": 80
+        },
+        {
+          "start": 19840,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 20020,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 20035,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 20095,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 20125,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 20145,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 20205,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 20805,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 20925,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 22425,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 22455,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 22485,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 22545,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 22665,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 22666,
+          "frames": 65,
+          "keys": 16
+        },
+        {
+          "start": 22731,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 22771,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 22851,
+          "frames": 1200,
+          "keys": 0
+        },
+        {
+          "start": 24051,
+          "frames": 60,
+          "keys": 80
+        },
+        {
+          "start": 24111,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 24121,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 24201,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 24801,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 24811,
+          "frames": 14,
+          "keys": 32
+        },
+        {
+          "start": 24825,
+          "frames": 15,
+          "keys": 0
+        },
+        {
+          "start": 24840,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 24900,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 26700,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 26701,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 28501,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 28531,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 28591,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 28651,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 28771,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 28772,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 30572,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 30632,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 30692,
+          "frames": 70,
+          "keys": 16
+        },
+        {
+          "start": 30762,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 30782,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 30812,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 30992,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 31052,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 31172,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 31182,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 31242,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 31302,
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "writes": [],
+      "checkpoints": [
+        {
+          "label": "step-5885",
+          "frame": 5885,
+          "room": 803,
+          "x": 726.66796875,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x83",
+          "base_c": "0x1010",
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            803,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "step-11151",
+          "frame": 11151,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 64,
+          "keys": 959,
+          "movement": 64,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "step-11331",
+          "frame": 11331,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "step-11391",
+          "frame": 11391,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 256,
+          "keys": 767,
+          "movement": 256,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x0",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "step-11991",
+          "frame": 11991,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1001010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            804,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "step-12131",
+          "frame": 12131,
+          "room": 804,
+          "x": 191.96875,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1001010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            804,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "step-16610",
+          "frame": 16610,
+          "room": 805,
+          "x": 49.0,
+          "y": 104.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "step-17210",
+          "frame": 17210,
+          "room": 805,
+          "x": 169.99609375,
+          "y": 136.99609375,
+          "hp": 2,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 16,
+          "keys": 1007,
+          "movement": 16,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-17570",
+          "frame": 17570,
+          "room": 805,
+          "x": 144.90234375,
+          "y": 85.89453125,
+          "hp": 1,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 64,
+          "keys": 959,
+          "movement": 64,
+          "edge": 0,
+          "base_flags": "0x24",
+          "base_c": "0x5010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8044fd5",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-18430",
+          "frame": 18430,
+          "room": 805,
+          "x": 362.3125,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 80,
+          "keys": 943,
+          "movement": 80,
+          "edge": 0,
+          "base_flags": "0x44",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-20205",
+          "frame": 20205,
+          "room": 805,
+          "x": 1082.70703125,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 64,
+          "keys": 959,
+          "movement": 64,
+          "edge": 0,
+          "base_flags": "0xa05",
+          "base_c": "0x0",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x804ba11",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-20805",
+          "frame": 20805,
+          "room": 805,
+          "x": 1082.70703125,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x5",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-24900",
+          "frame": 24900,
+          "room": 805,
+          "x": 1154.51953125,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 64,
+          "keys": 959,
+          "movement": 64,
+          "edge": 0,
+          "base_flags": "0xb01",
+          "base_c": "0x480000",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8055c15",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-26700",
+          "frame": 26700,
+          "room": 805,
+          "x": 1154.51953125,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 64,
+          "edge": 0,
+          "base_flags": "0xb01",
+          "base_c": "0x480000",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8055c15",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "step-28501",
+          "frame": 28501,
+          "room": 801,
+          "x": 95.0,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-28531",
+          "frame": 28531,
+          "room": 801,
+          "x": 141.53125,
+          "y": 103.18359375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 16,
+          "keys": 1007,
+          "movement": 16,
+          "edge": 0,
+          "base_flags": "0x24",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8044fd5",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-28591",
+          "frame": 28591,
+          "room": 801,
+          "x": 202.28125,
+          "y": 218.33984375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x8000020",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8045a35",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-30632",
+          "frame": 30632,
+          "room": 801,
+          "x": 305.328125,
+          "y": 232.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 256,
+          "keys": 767,
+          "movement": 256,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-30992",
+          "frame": 30992,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x44",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-31052",
+          "frame": 31052,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 256,
+          "keys": 767,
+          "movement": 256,
+          "edge": 0,
+          "base_flags": "0x44",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-31172",
+          "frame": 31172,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x44",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-31242",
+          "frame": 31242,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x4",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-31302",
+          "frame": 31302,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 256,
+          "keys": 767,
+          "movement": 256,
+          "edge": 0,
+          "base_flags": "0x2",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "step-31422",
+          "frame": 31422,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "held": 0,
+          "keys": 1023,
+          "movement": 0,
+          "edge": 0,
+          "base_flags": "0x2",
+          "base_c": "0x1010",
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        }
+      ],
+      "name": "tutorial-retail-debug",
+      "fixture": {
+        "auth": "synthetic bytes 1 through 16",
+        "initial_save": "blank native save, loaded before first frame",
+        "initial_state": "none",
+        "phone_enabled": true,
+        "initial_rooms": "unchanged retail rooms 803,803,803,803",
+        "initial_positions": "unchanged retail positions"
+      },
+      "checkpoint_selection": "Milestones and control comparison. All input segments retained; exploratory intermediate screenshots and snapshots omitted."
+    },
+    {
+      "identity": {
+        "rom_sha256": "b0ef20759b0f1d54db61016323313778f08b0f6e0ef50b1e8922fb51138018fe",
+        "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+      },
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1145,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 1325,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 1326,
+          "frames": 300,
+          "keys": 0
+        },
+        {
+          "start": 1626,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 1627,
+          "frames": 500,
+          "keys": 0
+        },
+        {
+          "start": 2127,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 2128,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 2248,
+          "frames": 240,
+          "keys": 16
+        },
+        {
+          "start": 2488,
+          "frames": 90,
+          "keys": 2
+        },
+        {
+          "start": 2578,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 2758,
+          "frames": 1200,
+          "keys": 0
+        },
+        {
+          "start": 3958,
+          "frames": 45,
+          "keys": 17
+        },
+        {
+          "start": 4003,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 4004,
+          "frames": 45,
+          "keys": 17
+        },
+        {
+          "start": 4049,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 4069,
+          "frames": 5,
+          "keys": 0
+        },
+        {
+          "start": 4074,
+          "frames": 6,
+          "keys": 2
+        },
+        {
+          "start": 4080,
+          "frames": 45,
+          "keys": 2
+        },
+        {
+          "start": 4125,
+          "frames": 45,
+          "keys": 16
+        },
+        {
+          "start": 4170,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 4171,
+          "frames": 6,
+          "keys": 2
+        },
+        {
+          "start": 4177,
+          "frames": 150,
+          "keys": 80
+        },
+        {
+          "start": 4327,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 4507,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 4687,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 4697,
+          "frames": 45,
+          "keys": 0
+        },
+        {
+          "start": 4742,
+          "frames": 15,
+          "keys": 17
+        },
+        {
+          "start": 4757,
+          "frames": 25,
+          "keys": 0
+        },
+        {
+          "start": 4782,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 4792,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 4972,
+          "frames": 18,
+          "keys": 64
+        },
+        {
+          "start": 4990,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 5010,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 5060,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 5070,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5250,
+          "frames": 14,
+          "keys": 32
+        },
+        {
+          "start": 5264,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 5294,
+          "frames": 5,
+          "keys": 64
+        },
+        {
+          "start": 5299,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5479,
+          "frames": 8,
+          "keys": 1
+        },
+        {
+          "start": 5487,
+          "frames": 8,
+          "keys": 64
+        },
+        {
+          "start": 5495,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5675,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 5705,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 5885,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 5900,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 5930,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 5960,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 5990,
+          "frames": 18,
+          "keys": 32
+        },
+        {
+          "start": 6008,
+          "frames": 15,
+          "keys": 0
+        },
+        {
+          "start": 6023,
+          "frames": 15,
+          "keys": 1
+        },
+        {
+          "start": 6038,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 6048,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 6228,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 6268,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 6328,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 6353,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 6354,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 6364,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 6544,
+          "frames": 700,
+          "keys": 80
+        },
+        {
+          "start": 7244,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 7544,
+          "frames": 300,
+          "keys": 80
+        },
+        {
+          "start": 7844,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 8144,
+          "frames": 300,
+          "keys": 80
+        },
+        {
+          "start": 8444,
+          "frames": 300,
+          "keys": 16
+        },
+        {
+          "start": 8744,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 8764,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 8864,
+          "frames": 20,
+          "keys": 64
+        },
+        {
+          "start": 8884,
+          "frames": 200,
+          "keys": 0
+        },
+        {
+          "start": 9084,
+          "frames": 35,
+          "keys": 32
+        },
+        {
+          "start": 9119,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 9134,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 9254,
+          "frames": 160,
+          "keys": 16
+        },
+        {
+          "start": 9414,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 9534,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 9714,
+          "frames": 100,
+          "keys": 32
+        },
+        {
+          "start": 9814,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 9834,
+          "frames": 150,
+          "keys": 0
+        },
+        {
+          "start": 9984,
+          "frames": 200,
+          "keys": 16
+        },
+        {
+          "start": 10184,
+          "frames": 180,
+          "keys": 2
+        },
+        {
+          "start": 10364,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 10464,
+          "frames": 8,
+          "keys": 32
+        },
+        {
+          "start": 10472,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 10502,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 10532,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 10712,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 10727,
+          "frames": 20,
+          "keys": 2
+        },
+        {
+          "start": 10747,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 10777,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 10807,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 10987,
+          "frames": 30,
+          "keys": 2
+        },
+        {
+          "start": 11017,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 11047,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 11077,
+          "frames": 14,
+          "keys": 16
+        },
+        {
+          "start": 11091,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 11121,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 11151,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 11331,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 11391,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 11991,
+          "frames": 100,
+          "keys": 17
+        },
+        {
+          "start": 12091,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 12131,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 12221,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12251,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 12252,
+          "frames": 60,
+          "keys": 17
+        },
+        {
+          "start": 12312,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12342,
+          "frames": 35,
+          "keys": 65
+        },
+        {
+          "start": 12377,
+          "frames": 2,
+          "keys": 0
+        },
+        {
+          "start": 12379,
+          "frames": 70,
+          "keys": 80
+        },
+        {
+          "start": 12449,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 12489,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 12499,
+          "frames": 55,
+          "keys": 32
+        },
+        {
+          "start": 12554,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 12614,
+          "frames": 100,
+          "keys": 80
+        },
+        {
+          "start": 12714,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 12724,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 12754,
+          "frames": 80,
+          "keys": 16
+        },
+        {
+          "start": 12834,
+          "frames": 25,
+          "keys": 2
+        },
+        {
+          "start": 12859,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 12869,
+          "frames": 10,
+          "keys": 64
+        },
+        {
+          "start": 12879,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 12894,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 12984,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13014,
+          "frames": 40,
+          "keys": 64
+        },
+        {
+          "start": 13054,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 13069,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 13169,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 13189,
+          "frames": 75,
+          "keys": 16
+        },
+        {
+          "start": 13264,
+          "frames": 60,
+          "keys": 18
+        },
+        {
+          "start": 13324,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13354,
+          "frames": 90,
+          "keys": 64
+        },
+        {
+          "start": 13444,
+          "frames": 75,
+          "keys": 16
+        },
+        {
+          "start": 13519,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 13529,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 13579,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 13609,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 13669,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 14269,
+          "frames": 400,
+          "keys": 2
+        },
+        {
+          "start": 14669,
+          "frames": 90,
+          "keys": 16
+        },
+        {
+          "start": 14759,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 14789,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 14790,
+          "frames": 15,
+          "keys": 32
+        },
+        {
+          "start": 14805,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 14806,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 14926,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 14936,
+          "frames": 80,
+          "keys": 16
+        },
+        {
+          "start": 15016,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 15041,
+          "frames": 75,
+          "keys": 64
+        },
+        {
+          "start": 15116,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 15131,
+          "frames": 50,
+          "keys": 0
+        },
+        {
+          "start": 15181,
+          "frames": 1,
+          "keys": 16
+        },
+        {
+          "start": 15182,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 15302,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 15312,
+          "frames": 16,
+          "keys": 16
+        },
+        {
+          "start": 15328,
+          "frames": 5,
+          "keys": 0
+        },
+        {
+          "start": 15333,
+          "frames": 120,
+          "keys": 2
+        },
+        {
+          "start": 15453,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 15473,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 15573,
+          "frames": 60,
+          "keys": 16
+        },
+        {
+          "start": 15633,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 15663,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 15763,
+          "frames": 10,
+          "keys": 0
+        },
+        {
+          "start": 15773,
+          "frames": 50,
+          "keys": 16
+        },
+        {
+          "start": 15823,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 15903,
+          "frames": 50,
+          "keys": 80
+        },
+        {
+          "start": 15953,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 15973,
+          "frames": 45,
+          "keys": 32
+        },
+        {
+          "start": 16018,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 16033,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 16063,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 16123,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 16303,
+          "frames": 65,
+          "keys": 64
+        },
+        {
+          "start": 16368,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 16369,
+          "frames": 1,
+          "keys": 64
+        },
+        {
+          "start": 16370,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 16610,
+          "frames": 600,
+          "keys": 16
+        },
+        {
+          "start": 17210,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 17450,
+          "frames": 120,
+          "keys": 64
+        },
+        {
+          "start": 17570,
+          "frames": 200,
+          "keys": 80
+        },
+        {
+          "start": 17770,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 17830,
+          "frames": 600,
+          "keys": 80
+        },
+        {
+          "start": 18430,
+          "frames": 180,
+          "keys": 80
+        },
+        {
+          "start": 18610,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 18630,
+          "frames": 650,
+          "keys": 80
+        },
+        {
+          "start": 19280,
+          "frames": 100,
+          "keys": 16
+        },
+        {
+          "start": 19380,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 19440,
+          "frames": 400,
+          "keys": 80
+        },
+        {
+          "start": 19840,
+          "frames": 180,
+          "keys": 16
+        },
+        {
+          "start": 20020,
+          "frames": 15,
+          "keys": 2
+        },
+        {
+          "start": 20035,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 20095,
+          "frames": 30,
+          "keys": 32
+        },
+        {
+          "start": 20125,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 20145,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 20205,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 20805,
+          "frames": 120,
+          "keys": 512
+        },
+        {
+          "start": 20925,
+          "frames": 1500,
+          "keys": 0
+        },
+        {
+          "start": 22425,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 22455,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 22485,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 22545,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 22665,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 22666,
+          "frames": 65,
+          "keys": 16
+        },
+        {
+          "start": 22731,
+          "frames": 40,
+          "keys": 0
+        },
+        {
+          "start": 22771,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 22851,
+          "frames": 1200,
+          "keys": 0
+        },
+        {
+          "start": 24051,
+          "frames": 60,
+          "keys": 80
+        },
+        {
+          "start": 24111,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 24121,
+          "frames": 80,
+          "keys": 64
+        },
+        {
+          "start": 24201,
+          "frames": 600,
+          "keys": 0
+        },
+        {
+          "start": 24801,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 24811,
+          "frames": 14,
+          "keys": 32
+        },
+        {
+          "start": 24825,
+          "frames": 15,
+          "keys": 0
+        },
+        {
+          "start": 24840,
+          "frames": 60,
+          "keys": 64
+        },
+        {
+          "start": 24900,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 26700,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 26701,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 28501,
+          "frames": 30,
+          "keys": 16
+        },
+        {
+          "start": 28531,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 28591,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 28651,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 28771,
+          "frames": 1,
+          "keys": 0
+        },
+        {
+          "start": 28772,
+          "frames": 1800,
+          "keys": 0
+        },
+        {
+          "start": 30572,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 30632,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 30692,
+          "frames": 70,
+          "keys": 16
+        },
+        {
+          "start": 30762,
+          "frames": 20,
+          "keys": 0
+        },
+        {
+          "start": 30782,
+          "frames": 30,
+          "keys": 64
+        },
+        {
+          "start": 30812,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 30992,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 31052,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 31172,
+          "frames": 10,
+          "keys": 2
+        },
+        {
+          "start": 31182,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 31242,
+          "frames": 60,
+          "keys": 256
+        },
+        {
+          "start": 31302,
+          "frames": 120,
+          "keys": 0
+        }
+      ],
+      "writes": [],
+      "checkpoints": [
+        {
+          "label": "control-5885",
+          "frame": 5885,
+          "room": 803,
+          "x": 726.66796875,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            803,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "control-11151",
+          "frame": 11151,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "control-11331",
+          "frame": 11331,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 3,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "control-11391",
+          "frame": 11391,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            804,
+            803,
+            803,
+            803
+          ]
+        },
+        {
+          "label": "control-11991",
+          "frame": 11991,
+          "room": 804,
+          "x": 24.0,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            804,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "control-12131",
+          "frame": 12131,
+          "room": 804,
+          "x": 191.96875,
+          "y": 72.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            804,
+            804,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "control-16610",
+          "frame": 16610,
+          "room": 805,
+          "x": 49.0,
+          "y": 104.99609375,
+          "hp": 4,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            804,
+            804
+          ]
+        },
+        {
+          "label": "control-17210",
+          "frame": 17210,
+          "room": 805,
+          "x": 169.99609375,
+          "y": 136.99609375,
+          "hp": 2,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-17570",
+          "frame": 17570,
+          "room": 805,
+          "x": 144.90234375,
+          "y": 85.89453125,
+          "hp": 1,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8044fd5",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-18430",
+          "frame": 18430,
+          "room": 805,
+          "x": 362.3125,
+          "y": 16.0,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-20205",
+          "frame": 20205,
+          "room": 805,
+          "x": 1082.70703125,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x804ba11",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-20805",
+          "frame": 20805,
+          "room": 805,
+          "x": 1082.70703125,
+          "y": 104.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-24900",
+          "frame": 24900,
+          "room": 805,
+          "x": 1154.51953125,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8055c15",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-26700",
+          "frame": 26700,
+          "room": 805,
+          "x": 1154.51953125,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 100,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8055c15",
+          "cpu_rooms": [
+            805,
+            805,
+            805,
+            805
+          ]
+        },
+        {
+          "label": "control-28501",
+          "frame": 28501,
+          "room": 801,
+          "x": 95.0,
+          "y": 72.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-28531",
+          "frame": 28531,
+          "room": 801,
+          "x": 141.53125,
+          "y": 103.18359375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8044fd5",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-28591",
+          "frame": 28591,
+          "room": 801,
+          "x": 202.28125,
+          "y": 218.33984375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x8045a35",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-30632",
+          "frame": 30632,
+          "room": 801,
+          "x": 305.328125,
+          "y": 232.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-30992",
+          "frame": 30992,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 2,
+          "owned": 0,
+          "state": "0x80488e1",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-31052",
+          "frame": 31052,
+          "room": 801,
+          "x": 411.34375,
+          "y": 280.99609375,
+          "hp": 5,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 1,
+          "owned": 0,
+          "state": "0x8057ad1",
+          "cpu_rooms": [
+            801,
+            101,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-31172",
+          "frame": 31172,
+          "room": 801,
+          "x": 417.84375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 1,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-31242",
+          "frame": 31242,
+          "room": 801,
+          "x": 418.34375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 1,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-31302",
+          "frame": 31302,
+          "room": 801,
+          "x": 418.84375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 1,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        },
+        {
+          "label": "control-31422",
+          "frame": 31422,
+          "room": 801,
+          "x": 418.34375,
+          "y": 280.99609375,
+          "hp": 6,
+          "ability": 0,
+          "flags": 0,
+          "ai": 300,
+          "humans": 1,
+          "slot": 0,
+          "world18": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "copy_context": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            50338348,
+            0,
+            1129333554,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery": 1,
+          "owned": 0,
+          "state": "0x803ff65",
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ]
+        }
+      ],
+      "name": "tutorial-retail-control",
+      "fixture": {
+        "auth": "synthetic bytes 1 through 16",
+        "initial_save": "blank native save, loaded before first frame",
+        "initial_state": "none",
+        "phone_enabled": false,
+        "initial_rooms": "unchanged retail rooms 803,803,803,803",
+        "initial_positions": "unchanged retail positions"
+      },
+      "checkpoint_selection": "Milestones and control comparison. All input segments retained; exploratory intermediate screenshots and snapshots omitted."
+    }
+  ],
+  "field_semantics": {
+    "kirby_unkC": "32-bit Kirby base + 0x0C. Previously mislabeled kirby_flags; this is not base.flags at +0x08. No recorded value changed.",
+    "flags": "Global word at 0x0203AD10, not the per-Kirby base.flags field."
+  }
+}

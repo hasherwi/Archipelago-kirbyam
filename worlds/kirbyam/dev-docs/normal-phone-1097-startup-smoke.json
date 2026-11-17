@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "scope": "Isolated Normal startup smoke only; not #1097 acceptance or baseline inheritance",
+  "archive_seed": 1097,
+  "inventory_checks": 379,
+  "accepted_checks": 0,
+  "inherited_checks": 0,
+  "source_patch_sha256": "c3fca0d4b550130d6ff65e7679aca4950a88ae8d36a036d9371be918f79cd630",
+  "client_base_commit": "190cbf3dbebf1222d707fc232ce6db1bc63b6b47",
+  "rom_sha256": "017a5f20561a3302d0013bf22554727754c75c500042eeb3397a8c48571dadc5",
+  "trace_sha256": "097badb825d34757b87d2b64b806eadafcea090680509df2553a91172eb24e60",
+  "emulator": "mGBA 0.10.5 resetcore; controller-driven cold boot from blank battery",
+  "rom_edits": [],
+  "runtime_writes": [],
+  "input_schedule": [
+    [
+      180,
+      0
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      100,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      160,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      300,
+      0
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      300,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      500,
+      0
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      120,
+      0
+    ],
+    [
+      400,
+      16
+    ],
+    [
+      1,
+      64
+    ],
+    [
+      200,
+      0
+    ]
+  ],
+  "observed_rooms": [
+    0,
+    803
+  ],
+  "observed_equipment": [
+    0
+  ],
+  "final": {
+    "frame": 2267,
+    "room": 803,
+    "ability": 0,
+    "hp": 5,
+    "x": 68095,
+    "y": 35071
+  },
+  "client_location_checks": [],
+  "helpers_called": false,
+  "infinite_health": false,
+  "baseline": "#1059 remains open with no completed compatible Normal result; stop acceptance here",
+  "limits": [
+    "Startup stays in native tutorial803; no enabled location is physically completed or reported.",
+    "Direct real-client polling is checked, not a server delivery/reconnect or full run.",
+    "Uses the prepared historical seed archive; does not claim successor-patch gameplay."
+  ]
+}

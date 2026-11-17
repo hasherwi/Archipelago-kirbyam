@@ -1,0 +1,7081 @@
+{
+  "schema": "kirbyam-native-full-watcher-evidence-v1",
+  "production_build_commit": "c235d1d07f2de0574467ed42f054ab7c43bfbb1b",
+  "audit_commit": "333013402704496befad41698d57676fc4b833af",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "claim": "Unmodified KirbyAmClient.game_watcher running on native mGBA memory through a local audited request adapter; complete synthetic AP histories and captured outbound messages. Not a live AP server or BizHawk Lua/connector witness.",
+  "identity_and_source": {
+    "production_archive_sha256": "e78c664d1a78984e2a3dd891d90b17233a54f4c6d3405ac4a4c1cb3dc2030eb6",
+    "production_rom_sha256": "f0c563f99c6b98843e2b273112c9aa28efc783abf4bb1adc8cb135b6d989a2a5",
+    "fixture_rom_sha256": "aaf65aa86066374eff1cbee648742b57c02a0633befc62e9e0cac2d361e972af",
+    "production_slot_sha256": "af7e6625f34c33524cf1975c6f6a53c452497075708f7992dff2898d12aad043",
+    "source_unowned_save_sha256": "ce9b1fd646bdb182648431c91423c47f14b1ab4ccc0706512185d372ee9b2342",
+    "source_unowned_native_records": [
+      {
+        "native_file": 0,
+        "checksums_valid": true,
+        "redundant_records_byte_identical": true,
+        "ownership_word": "0x43500000"
+      },
+      {
+        "native_file": 1,
+        "checksums_valid": true,
+        "redundant_records_byte_identical": true,
+        "ownership_word": "0x0"
+      },
+      {
+        "native_file": 2,
+        "checksums_valid": true,
+        "redundant_records_byte_identical": true,
+        "ownership_word": "0x0"
+      }
+    ],
+    "source_packet": "phone-mini-lifecycle-evidence.json, accepted-unowned native end save after ordinary L and first Central Circle cutscene",
+    "new_preboot_rom_changes": [],
+    "source_files": {
+      "worlds/kirbyam/client.py": "e75dd286c39a40f54cd7613e4772db3547dc970282e64475657d02f21b0e5b36",
+      "worlds/kirbyam/phone_protocol.py": "5df59cd342414411b899d0bf8b7af115c2b344469db9887d09ca159c4e752d6c",
+      "worlds/kirbyam/copy_room_protocol.py": "3989bb59c169cb195f2db993fea72c879c191f67126bd80ede688ae6346c95a3",
+      "worlds/kirbyam/receipts.py": "34b90a289c8c2623ecd2dda14f94d6ceedd67d13431d712b8c8e62b39f169334",
+      "worlds/kirbyam/kirby_ap_payload/ap_payload.c": "4ba83b6cfc74069b845035a53e9c46b680a22b04c39bb9c0ee50101e72229bae",
+      "worlds/kirbyam/kirby_ap_payload/phone.c": "4ecf424e53ffa7a4112f7497083c064c64de81afb766f983684ea1f236da680a",
+      "worlds/kirbyam/kirby_ap_payload/copy_room.c": "c30faef819f292aa428641d13cac18d0fa8c71d66201c2d71c773e6841c70e8d",
+      "worlds/kirbyam/kirby_ap_payload/ap_hook.s": "53c4785e825ba84254ea427e2528fc2a50743297339e678e2731de6b6c768995",
+      "worlds/kirbyam/data/addresses.json": "b54549bfb72012b510fd7adc92a8da0145e85fd3d6e9197db525cae8975bf545",
+      "worlds/kirbyam/data/base_patch.bsdiff4": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea"
+    },
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "bridge_source_sha256": "02362d78b1aa3b33ebc5569cdec77c7d3de33c22a8b548deb799b8cf6bede8da",
+    "transport_helper_sha256": "d65b82733820fdf7c39ad6a61cf629415727b1e3d7f617d959f63de6ecd12e73",
+    "inherited_fixture_changes": {
+      "changed_byte_count": 5,
+      "changed_offsets": [
+        "0x2d8cb8",
+        "0x2d8cb9",
+        "0x2d8cd1",
+        "0x2d8cd5",
+        "0x100ffd0"
+      ],
+      "changes_by_allowed_range": {
+        "player_initial_room": 2,
+        "player_initial_position": 2,
+        "experimental_phone_enable": 1
+      },
+      "source_packet": "phone-mini-lifecycle-evidence.json"
+    }
+  },
+  "policy": {
+    "mode": 2,
+    "normal_weight": 100,
+    "ability_gating": true,
+    "fixed_Minny_and_statues": true,
+    "area_keys": false,
+    "health": [
+      6,
+      6
+    ],
+    "enemy_health_percent": 100,
+    "Phone_production_enabled": false
+  },
+  "substitutions": [
+    "Faithful local SimpleNamespace context provides synthetic server/socket identities, authenticated fixture identity, real NetUtils.NetworkItem objects, empty server checked-location sets, send_msgs capture and update_death_link capture. No external network is used.",
+    "Actual validate_rom initializes the client; production initialize_client, on_package, game_watcher, reconciliation, delivery and both ownership synchronizers are not replaced or monkeypatched.",
+    "Slot copy adds phone_protocol_version=1 and starting_phone_access=false for the already enabled isolated fixture. Production generated slot and ROM keep Phone disabled. Notification options enable_receive_notifications=false and enable_send_notifications=false are consumed by the ordinary settings loader; normal INFO logger configuration leaves debug probes quiet.",
+    "Utils.user_path.cached_path selects an isolated private receipt journal. Persistence run copies the successful journal together with its matching native end save.",
+    "Transport READ maps ROM offsets to 0x08000000+offset and System Bus addresses directly to libmGBA busRead8. GUARD compares exact native bytes; WRITE is logged before guarded application through busWrite8. DISPLAY_MESSAGE is captured and acknowledged but not displayed.",
+    "Import environment uses AP_TEST_WORLDS=kirbyam, SKIP_REQUIREMENTS_UPDATE=1, unittest before worlds, and disables optional pyximport loading. This restricts unrelated world/dependency loading without changing the production client methods.",
+    "Existing mGBA bridge uses its normal no-external-BIOS startup, discards audio buffers, and reads native video for private screenshots. No save state is loaded; initial battery_restore is the copied native save before frame zero.",
+    "Native execution advances only by recorded controller frames between watcher polls; transport batches do not advance emulator time. This is a deterministic same-process adapter, not asynchronous network-race or BizHawk transport coverage.",
+    "Incomplete-history control changes the socket and supplies an index-one ReceivedItems event before a complete replay, without a Connected callback at that boundary. Later reconnect controls use the real Connected callback and event-loop drain: omitted ReceivedItems clears the stale list, while same-batch index-zero replay wins.",
+    "Captured LocationChecks are not acknowledged by a simulated server, so their retries are expected; no server acceptance or roundtrip is claimed."
+  ],
+  "source_references": [
+    {
+      "path": "worlds/kirbyam/client.py",
+      "sections": [
+        "validate_rom and initialize_client",
+        "game_watcher lines 2171-2373",
+        "_hub_connection_item_history_ready and on_package",
+        "_runtime_gameplay_state",
+        "_deliver_items and _persist_u32"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/phone_protocol.py",
+      "sections": [
+        "sync_phone_ownership exact config/native-file/session fencing"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/copy_room_protocol.py",
+      "sections": [
+        "sync_copy_room_ownership authenticated native-file fencing"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/kirby_ap_payload/ap_payload.c",
+      "sections": [
+        "ap_apply_item lines 1980-1983 gates Phone/Copy mailbox acceptance on native ownership",
+        "ap_poll_mailbox_c lines 2160-2162 polls Copy and Phone queues before mailbox processing"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/kirby_ap_payload/copy_room.c",
+      "sections": [
+        "ap_copy_room_start and ap_copy_room_poll validate/store native-file ownership and persist dirty records"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/kirby_ap_payload/phone.c",
+      "sections": [
+        "ap_phone_poll validates epoch and records native ACK/owned fields"
+      ]
+    },
+    {
+      "path": "worlds/kirbyam/receipts.py",
+      "sections": [
+        "ReceiptJournal reserve/acknowledge and receipt identity retain transient outcome"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "index": 0,
+      "item_id": 3860123,
+      "label": "Mini Ability",
+      "player": 1,
+      "location": 0,
+      "flags": 1
+    },
+    {
+      "index": 1,
+      "item_id": 3860500,
+      "label": "Copy Ability Room Access",
+      "player": 1,
+      "location": 0,
+      "flags": 1
+    },
+    {
+      "index": 2,
+      "item_id": 3860501,
+      "label": "Phone a Friend",
+      "player": 1,
+      "location": 0,
+      "flags": 1
+    },
+    {
+      "index": 3,
+      "item_id": 3860401,
+      "label": "Rainbow Route East - Hub Connection",
+      "player": 1,
+      "location": 0,
+      "flags": 1
+    },
+    {
+      "index": 4,
+      "item_id": 3860026,
+      "label": "Small Food",
+      "player": 1,
+      "location": 0,
+      "flags": 1
+    }
+  ],
+  "transport_fields": {
+    "incoming_flag": "0x0203B004",
+    "incoming_item": "0x0203B008",
+    "incoming_player": "0x0203B00C",
+    "physical_receipt_counter": "0x0203B010",
+    "last_item": "0x0203B014",
+    "native_frame_counter": "0x0203B01C",
+    "client_history_cursor": "0x0203B020",
+    "copy_request_epoch_value_ack_epoch_ack_owned": "0x0203B160..0x0203B16C",
+    "phone_request_epoch_value_ack_epoch_ack_owned": "0x0203B180..0x0203B18C",
+    "saved_ownership": "0x02028C78",
+    "copy_owned_mask": 1,
+    "phone_owned_mask": 2,
+    "copy_owned_bit_index": 0,
+    "phone_owned_bit_index": 1
+  },
+  "write_allowlist": {
+    "_sync_enemy_copy_ability_runtime_config": [
+      "0x203b064",
+      "0x203b068",
+      "0x203b06c",
+      "0x203b070",
+      "0x203b074",
+      "0x203b078",
+      "0x203b0b0",
+      "0x203b0b4"
+    ],
+    "_sync_challenge_runtime_config": [
+      "0x203b054",
+      "0x203b058"
+    ],
+    "_sync_hub_connection_item_ownership": [
+      "0x203b134"
+    ],
+    "_sync_starting_kirby_color_runtime_config": [
+      "0x203b050"
+    ],
+    "_persist_u32": [
+      "0x203b020"
+    ],
+    "_deliver_items": [
+      "0x203b004",
+      "0x203b008",
+      "0x203b00c"
+    ],
+    "sync_copy_room_ownership": [
+      "0x203b160",
+      "0x203b164"
+    ],
+    "sync_phone_ownership": [
+      "0x203b180",
+      "0x203b184"
+    ]
+  },
+  "results": {
+    "fresh_runs_identical_native_traces_and_saves": true,
+    "first_grant_poll_frame": 1087,
+    "native_both_owned_ACK_frame": 1088,
+    "native_save_dirty_clear_frame": 1090,
+    "ownership_transition": [
+      "0x43500000",
+      "0x43500003"
+    ],
+    "fresh_physical_count_and_history_cursor": [
+      5,
+      5
+    ],
+    "cold_persistence_physical_count_and_history_cursor": [
+      4,
+      5
+    ],
+    "cold_persistence_skips_journaled_food": true,
+    "native_checksums_per_final_run": 6,
+    "total_final_native_frames": 9301
+  },
+  "runs": [
+    {
+      "case": "accepted",
+      "accepted": true,
+      "native_frames": 4031,
+      "watcher_polls": 22,
+      "transport_batches": 729,
+      "transport_request_counts": {
+        "READ": 1268,
+        "WRITE": 84,
+        "DISPLAY_MESSAGE": 2,
+        "GUARD": 8
+      },
+      "write_count": 84,
+      "write_count_by_production_routine": {
+        "_sync_enemy_copy_ability_runtime_config": 32,
+        "_sync_challenge_runtime_config": 6,
+        "_sync_hub_connection_item_ownership": 21,
+        "_sync_starting_kirby_color_runtime_config": 1,
+        "sync_copy_room_ownership": 2,
+        "sync_phone_ownership": 2,
+        "_deliver_items": 15,
+        "_persist_u32": 5
+      },
+      "observed_production_functions": [
+        "_color_catalog_ready",
+        "_deliver_items",
+        "_display_client_message",
+        "_enforce_health_range",
+        "_get_room_visit_flags_view",
+        "_health_protocol_ready",
+        "_load_persistent_state",
+        "_persist_u32",
+        "_poll_area_visit_locations",
+        "_poll_boss_defeat_locations",
+        "_poll_enemy_ability_reroll_events",
+        "_poll_hub_switch_locations",
+        "_poll_lever_locations",
+        "_poll_major_chest_locations",
+        "_poll_minor_chest_event_locations",
+        "_poll_minor_chest_locations",
+        "_poll_room_entry_logging",
+        "_poll_saved_chest_locations",
+        "_poll_sound_player_chest_locations",
+        "_poll_transition_attempt_events",
+        "_poll_vitality_chest_locations",
+        "_probe_boss_defeat_candidates",
+        "_reconcile_native_map_ownership",
+        "_reconcile_native_shard_ownership",
+        "_reconcile_vitality_ownership",
+        "_runtime_gameplay_state",
+        "_sync_area_key_runtime_config",
+        "_sync_challenge_runtime_config",
+        "_sync_enemy_copy_ability_runtime_config",
+        "_sync_hub_connection_item_ownership",
+        "_sync_starting_kirby_color_runtime_config",
+        "game_watcher",
+        "sync_copy_room_ownership",
+        "sync_phone_ownership",
+        "validate_rom"
+      ],
+      "phases": [
+        {
+          "phase": "menu-complete-history-deferred",
+          "frame": 180,
+          "native_ai": 0,
+          "history_ready": true,
+          "new_write_count": 12,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1,
+            "_sync_starting_kirby_color_runtime_config": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-incomplete-history",
+          "frame": 1085,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-mismatched-pairing",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-complete-0",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 8,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "sync_copy_room_ownership": 2,
+            "sync_phone_ownership": 2,
+            "_deliver_items": 3
+          },
+          "client_cursor": 0,
+          "pending_receipt": true,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-complete-1",
+          "frame": 1089,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 1,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-2",
+          "frame": 1091,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 2,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-3",
+          "frame": 1093,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 6,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 2,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 3,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-4",
+          "frame": 1095,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 4,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-5",
+          "frame": 1097,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 2,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-6",
+          "frame": 1099,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-7",
+          "frame": 1101,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-0",
+          "frame": 1223,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-1",
+          "frame": 1225,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-2",
+          "frame": 1227,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "disconnected",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-empty-history",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 9,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-0",
+          "frame": 1231,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-1",
+          "frame": 1233,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-2",
+          "frame": 1235,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-3",
+          "frame": 1237,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "watcher-after-ordinary-door",
+          "frame": 1717,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "watcher-after-L-return",
+          "frame": 4029,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        }
+      ],
+      "guarded_batches": [
+        {
+          "frame": 1087,
+          "routine": "sync_copy_room_ownership",
+          "guards": [
+            {
+              "address": "0x203b13c",
+              "domain": "System Bus",
+              "size": 12,
+              "passed": true
+            },
+            {
+              "address": "0xf00000",
+              "domain": "ROM",
+              "size": 16,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b164",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b160",
+              "value_u32": 1
+            }
+          ]
+        },
+        {
+          "frame": 1087,
+          "routine": "sync_phone_ownership",
+          "guards": [
+            {
+              "address": "0x203b13c",
+              "domain": "System Bus",
+              "size": 12,
+              "passed": true
+            },
+            {
+              "address": "0x203b170",
+              "domain": "System Bus",
+              "size": 16,
+              "passed": true
+            },
+            {
+              "address": "0xf00000",
+              "domain": "ROM",
+              "size": 16,
+              "passed": true
+            },
+            {
+              "address": "0x100ffc8",
+              "domain": "ROM",
+              "size": 12,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b184",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b180",
+              "value_u32": 1
+            }
+          ]
+        },
+        {
+          "frame": 1093,
+          "routine": "_deliver_items",
+          "guards": [
+            {
+              "address": "0x203b134",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            },
+            {
+              "address": "0x203b004",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b008",
+              "value_u32": 3860401
+            },
+            {
+              "address": "0x203b00c",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b004",
+              "value_u32": 1
+            }
+          ]
+        }
+      ],
+      "physical_receipts": [
+        {
+          "history_index": 0,
+          "item_id": 3860123,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1087,
+          "native_ACK_frame": 1088,
+          "physical_counter": 1,
+          "client_cursor_write_frame": 1089,
+          "client_cursor": 1
+        },
+        {
+          "history_index": 1,
+          "item_id": 3860500,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1089,
+          "native_ACK_frame": 1090,
+          "physical_counter": 2,
+          "client_cursor_write_frame": 1091,
+          "client_cursor": 2
+        },
+        {
+          "history_index": 2,
+          "item_id": 3860501,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1091,
+          "native_ACK_frame": 1092,
+          "physical_counter": 3,
+          "client_cursor_write_frame": 1093,
+          "client_cursor": 3
+        },
+        {
+          "history_index": 3,
+          "item_id": 3860401,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1093,
+          "native_ACK_frame": 1094,
+          "physical_counter": 4,
+          "client_cursor_write_frame": 1095,
+          "client_cursor": 4
+        },
+        {
+          "history_index": 4,
+          "item_id": 3860026,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1095,
+          "native_ACK_frame": 1096,
+          "physical_counter": 5,
+          "client_cursor_write_frame": 1097,
+          "client_cursor": 5
+        }
+      ],
+      "transient_receipt": {
+        "item": 3860026,
+        "state": "acked",
+        "offered_this_boot": true,
+        "history_index": 4,
+        "cursor_after_skip_or_ACK": 5
+      },
+      "native_records": [
+        {
+          "native_file": 0,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x43500003"
+        },
+        {
+          "native_file": 1,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        },
+        {
+          "native_file": 2,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        }
+      ],
+      "other_two_native_files_unchanged": true,
+      "source_save_sha256": "ce9b1fd646bdb182648431c91423c47f14b1ab4ccc0706512185d372ee9b2342",
+      "artifact_sha256": {
+        "runtime.json": "1782de3b1c46434342c43aa8e2fce24dcc0970901f4c2407e7d7151a87cb1b1c",
+        "trace.json": "9c99aa3cea10eeffbc72b983e72e4925c82f32e88362d83bc3741a4658c400e3",
+        "commands.json": "3b87690b82ea6a057dd91efd23e8bddaa3ce9dee579e571bec69f96c452f0c20",
+        "transport.json": "c1a732443c4de0dad61acd8029faeb130b1e66cabbe80e86e964932535d1851f",
+        "polls.json": "00295694376c0d5ca430a4a543cae88231acb339f1a94e0f6184f9985509a0a4",
+        "outbound.json": "dbdb923df987f2cb55423dc3818bf91b1e6a1ec4ca1d5d370c918417c0b33795",
+        "packages.json": "2ff479b273d3ffd36fbc3091bb2940e06d4195872c49d40e2ea5b3ac7efcf461",
+        "outcome.json": "c9ca8495c13685abaef20e824e3e25f412b9f03fa52292c3a1139e0303fc55c0",
+        "end.sav": "f67ab2ffda86a904f5d01a052d8a0f81c0fedefe83227907c8285969e08b787f"
+      },
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0,
+          "label": "cold boot"
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start"
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0,
+          "label": "title settle"
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start file menu"
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0,
+          "label": "file menu settle"
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1,
+          "label": "A file1"
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0,
+          "label": "file selection settle"
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1,
+          "label": "A adventure"
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0,
+          "label": "adventure settle"
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1,
+          "label": "A resume"
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0,
+          "label": "resume settle"
+        },
+        {
+          "start": 1085,
+          "frames": 2,
+          "keys": 0,
+          "label": "incomplete history guard"
+        },
+        {
+          "start": 1087,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 0"
+        },
+        {
+          "start": 1089,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 1"
+        },
+        {
+          "start": 1091,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 2"
+        },
+        {
+          "start": 1093,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 3"
+        },
+        {
+          "start": 1095,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 4"
+        },
+        {
+          "start": 1097,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 5"
+        },
+        {
+          "start": 1099,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 6"
+        },
+        {
+          "start": 1101,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 7"
+        },
+        {
+          "start": 1103,
+          "frames": 120,
+          "keys": 0,
+          "label": "native save settle"
+        },
+        {
+          "start": 1223,
+          "frames": 6,
+          "keys": 0,
+          "label": "repeated poll settle"
+        },
+        {
+          "start": 1229,
+          "frames": 2,
+          "keys": 0,
+          "label": "empty reconnect settle"
+        },
+        {
+          "start": 1231,
+          "frames": 8,
+          "keys": 0,
+          "label": "complete reconnect settle"
+        },
+        {
+          "start": 1239,
+          "frames": 136,
+          "keys": 80,
+          "label": "fly east toward received hub door"
+        },
+        {
+          "start": 1375,
+          "frames": 1,
+          "keys": 2,
+          "label": "B deflate"
+        },
+        {
+          "start": 1376,
+          "frames": 160,
+          "keys": 0,
+          "label": "land by east door"
+        },
+        {
+          "start": 1536,
+          "frames": 1,
+          "keys": 64,
+          "label": "Up east hub door"
+        },
+        {
+          "start": 1537,
+          "frames": 180,
+          "keys": 0,
+          "label": "east door transition"
+        },
+        {
+          "start": 1717,
+          "frames": 2,
+          "keys": 0,
+          "label": "door watcher settle"
+        },
+        {
+          "start": 1719,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal R in east hub"
+        },
+        {
+          "start": 1779,
+          "frames": 600,
+          "keys": 0,
+          "label": "R helper arrival settle"
+        },
+        {
+          "start": 2379,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal L return"
+        },
+        {
+          "start": 2499,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L return settle"
+        },
+        {
+          "start": 3999,
+          "frames": 30,
+          "keys": 16,
+          "label": "movement after return"
+        },
+        {
+          "start": 4029,
+          "frames": 2,
+          "keys": 0,
+          "label": "final watcher settle"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "menu-deferred",
+          "frame": 180,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start",
+          "frame": 181,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "title-settle",
+          "frame": 301,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start-file-menu",
+          "frame": 302,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-menu-settle",
+          "frame": 422,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-file1",
+          "frame": 423,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-selection-settle",
+          "frame": 663,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-adventure",
+          "frame": 664,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "adventure-settle",
+          "frame": 844,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-resume",
+          "frame": 845,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "resume-settle",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "native-ready",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "incomplete-history-no-grant",
+          "frame": 1087,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 4294967295,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-0",
+          "frame": 1089,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 1,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 1,
+          "mailbox_last_item_id": 3860123,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-1",
+          "frame": 1091,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 2,
+          "mailbox_last_item_id": 3860500,
+          "history_cursor": 1
+        },
+        {
+          "label": "after-complete-2",
+          "frame": 1093,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 3,
+          "mailbox_last_item_id": 3860501,
+          "history_cursor": 2
+        },
+        {
+          "label": "after-complete-3",
+          "frame": 1095,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 3
+        },
+        {
+          "label": "after-complete-4",
+          "frame": 1097,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 4
+        },
+        {
+          "label": "after-complete-5",
+          "frame": 1099,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-6",
+          "frame": 1101,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-7",
+          "frame": 1103,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "ownership-save-settled",
+          "frame": 1223,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "reconnect-empty",
+          "frame": 1231,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 0,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-reconnect",
+          "frame": 1239,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "east-door-position",
+          "frame": 1536,
+          "room": 801,
+          "x": 390.28125,
+          "y": 200.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "genuine-east-hub-entry",
+          "frame": 1717,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "R-started",
+          "frame": 1779,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 0,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "R-helpers-arrived",
+          "frame": 2379,
+          "room": 190,
+          "x": 148.5,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "L-returned",
+          "frame": 3999,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "post-L-movement",
+          "frame": 4029,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "final",
+          "frame": 4031,
+          "room": 801,
+          "x": 273.15625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        }
+      ],
+      "outbound": [
+        {
+          "frame": 180,
+          "phase": "menu-complete-history-deferred",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1089,
+          "phase": "gameplay-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1091,
+          "phase": "gameplay-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1093,
+          "phase": "gameplay-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1095,
+          "phase": "gameplay-complete-4",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1097,
+          "phase": "gameplay-complete-5",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1099,
+          "phase": "gameplay-complete-6",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1101,
+          "phase": "gameplay-complete-7",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1223,
+          "phase": "repeated-poll-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1225,
+          "phase": "repeated-poll-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1227,
+          "phase": "repeated-poll-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1231,
+          "phase": "reconnected-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1233,
+          "phase": "reconnected-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1235,
+          "phase": "reconnected-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1237,
+          "phase": "reconnected-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1717,
+          "phase": "watcher-after-ordinary-door",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1717,
+          "phase": "watcher-after-ordinary-door",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 190,
+                "doorsIdx": 32,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+                "roomLabel": "Area 1 - Hub Room 1"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 4029,
+          "phase": "watcher-after-L-return",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 4029,
+          "phase": "watcher-after-L-return",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "accepted-repeat",
+      "accepted": true,
+      "native_frames": 4031,
+      "watcher_polls": 22,
+      "transport_batches": 729,
+      "transport_request_counts": {
+        "READ": 1268,
+        "WRITE": 84,
+        "DISPLAY_MESSAGE": 2,
+        "GUARD": 8
+      },
+      "write_count": 84,
+      "write_count_by_production_routine": {
+        "_sync_enemy_copy_ability_runtime_config": 32,
+        "_sync_challenge_runtime_config": 6,
+        "_sync_hub_connection_item_ownership": 21,
+        "_sync_starting_kirby_color_runtime_config": 1,
+        "sync_copy_room_ownership": 2,
+        "sync_phone_ownership": 2,
+        "_deliver_items": 15,
+        "_persist_u32": 5
+      },
+      "observed_production_functions": [
+        "_color_catalog_ready",
+        "_deliver_items",
+        "_display_client_message",
+        "_enforce_health_range",
+        "_get_room_visit_flags_view",
+        "_health_protocol_ready",
+        "_load_persistent_state",
+        "_persist_u32",
+        "_poll_area_visit_locations",
+        "_poll_boss_defeat_locations",
+        "_poll_enemy_ability_reroll_events",
+        "_poll_hub_switch_locations",
+        "_poll_lever_locations",
+        "_poll_major_chest_locations",
+        "_poll_minor_chest_event_locations",
+        "_poll_minor_chest_locations",
+        "_poll_room_entry_logging",
+        "_poll_saved_chest_locations",
+        "_poll_sound_player_chest_locations",
+        "_poll_transition_attempt_events",
+        "_poll_vitality_chest_locations",
+        "_probe_boss_defeat_candidates",
+        "_reconcile_native_map_ownership",
+        "_reconcile_native_shard_ownership",
+        "_reconcile_vitality_ownership",
+        "_runtime_gameplay_state",
+        "_sync_area_key_runtime_config",
+        "_sync_challenge_runtime_config",
+        "_sync_enemy_copy_ability_runtime_config",
+        "_sync_hub_connection_item_ownership",
+        "_sync_starting_kirby_color_runtime_config",
+        "game_watcher",
+        "sync_copy_room_ownership",
+        "sync_phone_ownership",
+        "validate_rom"
+      ],
+      "phases": [
+        {
+          "phase": "menu-complete-history-deferred",
+          "frame": 180,
+          "native_ai": 0,
+          "history_ready": true,
+          "new_write_count": 12,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1,
+            "_sync_starting_kirby_color_runtime_config": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-incomplete-history",
+          "frame": 1085,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-mismatched-pairing",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-complete-0",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 8,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "sync_copy_room_ownership": 2,
+            "sync_phone_ownership": 2,
+            "_deliver_items": 3
+          },
+          "client_cursor": 0,
+          "pending_receipt": true,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-complete-1",
+          "frame": 1089,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 1,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-2",
+          "frame": 1091,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 2,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-3",
+          "frame": 1093,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 6,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 2,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 3,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-4",
+          "frame": 1095,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 4,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-5",
+          "frame": 1097,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 2,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-6",
+          "frame": 1099,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-7",
+          "frame": 1101,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-0",
+          "frame": 1223,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-1",
+          "frame": 1225,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-2",
+          "frame": 1227,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "disconnected",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-empty-history",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 9,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-0",
+          "frame": 1231,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-1",
+          "frame": 1233,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-2",
+          "frame": 1235,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-3",
+          "frame": 1237,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "watcher-after-ordinary-door",
+          "frame": 1717,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "watcher-after-L-return",
+          "frame": 4029,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        }
+      ],
+      "guarded_batches": [
+        {
+          "frame": 1087,
+          "routine": "sync_copy_room_ownership",
+          "guards": [
+            {
+              "address": "0x203b13c",
+              "domain": "System Bus",
+              "size": 12,
+              "passed": true
+            },
+            {
+              "address": "0xf00000",
+              "domain": "ROM",
+              "size": 16,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b164",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b160",
+              "value_u32": 1
+            }
+          ]
+        },
+        {
+          "frame": 1087,
+          "routine": "sync_phone_ownership",
+          "guards": [
+            {
+              "address": "0x203b13c",
+              "domain": "System Bus",
+              "size": 12,
+              "passed": true
+            },
+            {
+              "address": "0x203b170",
+              "domain": "System Bus",
+              "size": 16,
+              "passed": true
+            },
+            {
+              "address": "0xf00000",
+              "domain": "ROM",
+              "size": 16,
+              "passed": true
+            },
+            {
+              "address": "0x100ffc8",
+              "domain": "ROM",
+              "size": 12,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b184",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b180",
+              "value_u32": 1
+            }
+          ]
+        },
+        {
+          "frame": 1093,
+          "routine": "_deliver_items",
+          "guards": [
+            {
+              "address": "0x203b134",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            },
+            {
+              "address": "0x203b004",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b008",
+              "value_u32": 3860401
+            },
+            {
+              "address": "0x203b00c",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b004",
+              "value_u32": 1
+            }
+          ]
+        }
+      ],
+      "physical_receipts": [
+        {
+          "history_index": 0,
+          "item_id": 3860123,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1087,
+          "native_ACK_frame": 1088,
+          "physical_counter": 1,
+          "client_cursor_write_frame": 1089,
+          "client_cursor": 1
+        },
+        {
+          "history_index": 1,
+          "item_id": 3860500,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1089,
+          "native_ACK_frame": 1090,
+          "physical_counter": 2,
+          "client_cursor_write_frame": 1091,
+          "client_cursor": 2
+        },
+        {
+          "history_index": 2,
+          "item_id": 3860501,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1091,
+          "native_ACK_frame": 1092,
+          "physical_counter": 3,
+          "client_cursor_write_frame": 1093,
+          "client_cursor": 3
+        },
+        {
+          "history_index": 3,
+          "item_id": 3860401,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1093,
+          "native_ACK_frame": 1094,
+          "physical_counter": 4,
+          "client_cursor_write_frame": 1095,
+          "client_cursor": 4
+        },
+        {
+          "history_index": 4,
+          "item_id": 3860026,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1095,
+          "native_ACK_frame": 1096,
+          "physical_counter": 5,
+          "client_cursor_write_frame": 1097,
+          "client_cursor": 5
+        }
+      ],
+      "transient_receipt": {
+        "item": 3860026,
+        "state": "acked",
+        "offered_this_boot": true,
+        "history_index": 4,
+        "cursor_after_skip_or_ACK": 5
+      },
+      "native_records": [
+        {
+          "native_file": 0,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x43500003"
+        },
+        {
+          "native_file": 1,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        },
+        {
+          "native_file": 2,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        }
+      ],
+      "other_two_native_files_unchanged": true,
+      "source_save_sha256": "ce9b1fd646bdb182648431c91423c47f14b1ab4ccc0706512185d372ee9b2342",
+      "artifact_sha256": {
+        "runtime.json": "8d35a2ab1ca9f341e39cd9793c090529bc9be3b65868137c8a2906903e116d89",
+        "trace.json": "9c99aa3cea10eeffbc72b983e72e4925c82f32e88362d83bc3741a4658c400e3",
+        "commands.json": "3b87690b82ea6a057dd91efd23e8bddaa3ce9dee579e571bec69f96c452f0c20",
+        "transport.json": "c1a732443c4de0dad61acd8029faeb130b1e66cabbe80e86e964932535d1851f",
+        "polls.json": "00295694376c0d5ca430a4a543cae88231acb339f1a94e0f6184f9985509a0a4",
+        "outbound.json": "dbdb923df987f2cb55423dc3818bf91b1e6a1ec4ca1d5d370c918417c0b33795",
+        "packages.json": "2ff479b273d3ffd36fbc3091bb2940e06d4195872c49d40e2ea5b3ac7efcf461",
+        "outcome.json": "c9ca8495c13685abaef20e824e3e25f412b9f03fa52292c3a1139e0303fc55c0",
+        "end.sav": "f67ab2ffda86a904f5d01a052d8a0f81c0fedefe83227907c8285969e08b787f"
+      },
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0,
+          "label": "cold boot"
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start"
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0,
+          "label": "title settle"
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start file menu"
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0,
+          "label": "file menu settle"
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1,
+          "label": "A file1"
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0,
+          "label": "file selection settle"
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1,
+          "label": "A adventure"
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0,
+          "label": "adventure settle"
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1,
+          "label": "A resume"
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0,
+          "label": "resume settle"
+        },
+        {
+          "start": 1085,
+          "frames": 2,
+          "keys": 0,
+          "label": "incomplete history guard"
+        },
+        {
+          "start": 1087,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 0"
+        },
+        {
+          "start": 1089,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 1"
+        },
+        {
+          "start": 1091,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 2"
+        },
+        {
+          "start": 1093,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 3"
+        },
+        {
+          "start": 1095,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 4"
+        },
+        {
+          "start": 1097,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 5"
+        },
+        {
+          "start": 1099,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 6"
+        },
+        {
+          "start": 1101,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 7"
+        },
+        {
+          "start": 1103,
+          "frames": 120,
+          "keys": 0,
+          "label": "native save settle"
+        },
+        {
+          "start": 1223,
+          "frames": 6,
+          "keys": 0,
+          "label": "repeated poll settle"
+        },
+        {
+          "start": 1229,
+          "frames": 2,
+          "keys": 0,
+          "label": "empty reconnect settle"
+        },
+        {
+          "start": 1231,
+          "frames": 8,
+          "keys": 0,
+          "label": "complete reconnect settle"
+        },
+        {
+          "start": 1239,
+          "frames": 136,
+          "keys": 80,
+          "label": "fly east toward received hub door"
+        },
+        {
+          "start": 1375,
+          "frames": 1,
+          "keys": 2,
+          "label": "B deflate"
+        },
+        {
+          "start": 1376,
+          "frames": 160,
+          "keys": 0,
+          "label": "land by east door"
+        },
+        {
+          "start": 1536,
+          "frames": 1,
+          "keys": 64,
+          "label": "Up east hub door"
+        },
+        {
+          "start": 1537,
+          "frames": 180,
+          "keys": 0,
+          "label": "east door transition"
+        },
+        {
+          "start": 1717,
+          "frames": 2,
+          "keys": 0,
+          "label": "door watcher settle"
+        },
+        {
+          "start": 1719,
+          "frames": 60,
+          "keys": 256,
+          "label": "Normal R in east hub"
+        },
+        {
+          "start": 1779,
+          "frames": 600,
+          "keys": 0,
+          "label": "R helper arrival settle"
+        },
+        {
+          "start": 2379,
+          "frames": 120,
+          "keys": 512,
+          "label": "Normal L return"
+        },
+        {
+          "start": 2499,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L return settle"
+        },
+        {
+          "start": 3999,
+          "frames": 30,
+          "keys": 16,
+          "label": "movement after return"
+        },
+        {
+          "start": 4029,
+          "frames": 2,
+          "keys": 0,
+          "label": "final watcher settle"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "menu-deferred",
+          "frame": 180,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start",
+          "frame": 181,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "title-settle",
+          "frame": 301,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start-file-menu",
+          "frame": 302,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-menu-settle",
+          "frame": 422,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-file1",
+          "frame": 423,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-selection-settle",
+          "frame": 663,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-adventure",
+          "frame": 664,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "adventure-settle",
+          "frame": 844,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-resume",
+          "frame": 845,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "resume-settle",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "native-ready",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "incomplete-history-no-grant",
+          "frame": 1087,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316352,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 4294967295,
+          "world18": 0,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-0",
+          "frame": 1089,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 1,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 1,
+          "mailbox_last_item_id": 3860123,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-1",
+          "frame": 1091,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 2,
+          "mailbox_last_item_id": 3860500,
+          "history_cursor": 1
+        },
+        {
+          "label": "after-complete-2",
+          "frame": 1093,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 3,
+          "mailbox_last_item_id": 3860501,
+          "history_cursor": 2
+        },
+        {
+          "label": "after-complete-3",
+          "frame": 1095,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 3
+        },
+        {
+          "label": "after-complete-4",
+          "frame": 1097,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 4
+        },
+        {
+          "label": "after-complete-5",
+          "frame": 1099,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-6",
+          "frame": 1101,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-7",
+          "frame": 1103,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "ownership-save-settled",
+          "frame": 1223,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "reconnect-empty",
+          "frame": 1231,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 0,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-reconnect",
+          "frame": 1239,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "east-door-position",
+          "frame": 1536,
+          "room": 801,
+          "x": 390.28125,
+          "y": 200.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "genuine-east-hub-entry",
+          "frame": 1717,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "R-started",
+          "frame": 1779,
+          "room": 190,
+          "x": 136.0,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 0,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "R-helpers-arrived",
+          "frame": 2379,
+          "room": 190,
+          "x": 148.5,
+          "y": 120.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            190,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "L-returned",
+          "frame": 3999,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "post-L-movement",
+          "frame": 4029,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        },
+        {
+          "label": "final",
+          "frame": 4031,
+          "room": 801,
+          "x": 273.15625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 2,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "copy_request": [
+            0,
+            1,
+            1,
+            1
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            190,
+            190,
+            190
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 5,
+          "mailbox_last_item_id": 3860026,
+          "history_cursor": 5
+        }
+      ],
+      "outbound": [
+        {
+          "frame": 180,
+          "phase": "menu-complete-history-deferred",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1089,
+          "phase": "gameplay-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1091,
+          "phase": "gameplay-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1093,
+          "phase": "gameplay-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1095,
+          "phase": "gameplay-complete-4",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1097,
+          "phase": "gameplay-complete-5",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1099,
+          "phase": "gameplay-complete-6",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1101,
+          "phase": "gameplay-complete-7",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1223,
+          "phase": "repeated-poll-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1225,
+          "phase": "repeated-poll-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1227,
+          "phase": "repeated-poll-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1231,
+          "phase": "reconnected-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1233,
+          "phase": "reconnected-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1235,
+          "phase": "reconnected-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1237,
+          "phase": "reconnected-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1717,
+          "phase": "watcher-after-ordinary-door",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1717,
+          "phase": "watcher-after-ordinary-door",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 190,
+                "doorsIdx": 32,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+                "roomLabel": "Area 1 - Hub Room 1"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 4029,
+          "phase": "watcher-after-L-return",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 4029,
+          "phase": "watcher-after-L-return",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "accepted-persistence",
+      "accepted": true,
+      "native_frames": 1239,
+      "watcher_polls": 20,
+      "transport_batches": 647,
+      "transport_request_counts": {
+        "READ": 1124,
+        "WRITE": 75,
+        "DISPLAY_MESSAGE": 2,
+        "GUARD": 2
+      },
+      "write_count": 75,
+      "write_count_by_production_routine": {
+        "_sync_enemy_copy_ability_runtime_config": 32,
+        "_sync_challenge_runtime_config": 6,
+        "_sync_hub_connection_item_ownership": 19,
+        "_sync_starting_kirby_color_runtime_config": 1,
+        "_deliver_items": 12,
+        "_persist_u32": 5
+      },
+      "observed_production_functions": [
+        "_color_catalog_ready",
+        "_deliver_items",
+        "_display_client_message",
+        "_enforce_health_range",
+        "_get_room_visit_flags_view",
+        "_health_protocol_ready",
+        "_load_persistent_state",
+        "_persist_u32",
+        "_poll_area_visit_locations",
+        "_poll_boss_defeat_locations",
+        "_poll_enemy_ability_reroll_events",
+        "_poll_hub_switch_locations",
+        "_poll_lever_locations",
+        "_poll_major_chest_locations",
+        "_poll_minor_chest_event_locations",
+        "_poll_minor_chest_locations",
+        "_poll_room_entry_logging",
+        "_poll_saved_chest_locations",
+        "_poll_sound_player_chest_locations",
+        "_poll_transition_attempt_events",
+        "_poll_vitality_chest_locations",
+        "_probe_boss_defeat_candidates",
+        "_reconcile_native_map_ownership",
+        "_reconcile_native_shard_ownership",
+        "_reconcile_vitality_ownership",
+        "_runtime_gameplay_state",
+        "_sync_area_key_runtime_config",
+        "_sync_challenge_runtime_config",
+        "_sync_enemy_copy_ability_runtime_config",
+        "_sync_hub_connection_item_ownership",
+        "_sync_starting_kirby_color_runtime_config",
+        "game_watcher",
+        "sync_copy_room_ownership",
+        "sync_phone_ownership",
+        "validate_rom"
+      ],
+      "phases": [
+        {
+          "phase": "menu-complete-history-deferred",
+          "frame": 180,
+          "native_ai": 0,
+          "history_ready": true,
+          "new_write_count": 12,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1,
+            "_sync_starting_kirby_color_runtime_config": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 0,
+          "copy_owned": 0
+        },
+        {
+          "phase": "gameplay-incomplete-history",
+          "frame": 1085,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-mismatched-pairing",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 0,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-0",
+          "frame": 1087,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 4,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 0,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-1",
+          "frame": 1089,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 1,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-2",
+          "frame": 1091,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 5,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 2,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-3",
+          "frame": 1093,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 6,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 2,
+            "_persist_u32": 1,
+            "_deliver_items": 3
+          },
+          "client_cursor": 3,
+          "pending_receipt": true,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-4",
+          "frame": 1095,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 3,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1,
+            "_persist_u32": 2
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-5",
+          "frame": 1097,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-6",
+          "frame": 1099,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "gameplay-complete-7",
+          "frame": 1101,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-0",
+          "frame": 1223,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-1",
+          "frame": 1225,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "repeated-poll-2",
+          "frame": 1227,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "disconnected",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": false,
+          "new_write_count": 0,
+          "write_routines": {},
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-empty-history",
+          "frame": 1229,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 9,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-0",
+          "frame": 1231,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 11,
+          "write_routines": {
+            "_sync_enemy_copy_ability_runtime_config": 8,
+            "_sync_challenge_runtime_config": 2,
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-1",
+          "frame": 1233,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-2",
+          "frame": 1235,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        },
+        {
+          "phase": "reconnected-complete-3",
+          "frame": 1237,
+          "native_ai": 300,
+          "history_ready": true,
+          "new_write_count": 1,
+          "write_routines": {
+            "_sync_hub_connection_item_ownership": 1
+          },
+          "client_cursor": 5,
+          "pending_receipt": false,
+          "phone_owned": 1,
+          "copy_owned": 1
+        }
+      ],
+      "guarded_batches": [
+        {
+          "frame": 1093,
+          "routine": "_deliver_items",
+          "guards": [
+            {
+              "address": "0x203b134",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            },
+            {
+              "address": "0x203b004",
+              "domain": "System Bus",
+              "size": 4,
+              "passed": true
+            }
+          ],
+          "writes": [
+            {
+              "address": "0x203b008",
+              "value_u32": 3860401
+            },
+            {
+              "address": "0x203b00c",
+              "value_u32": 1
+            },
+            {
+              "address": "0x203b004",
+              "value_u32": 1
+            }
+          ]
+        }
+      ],
+      "physical_receipts": [
+        {
+          "history_index": 0,
+          "item_id": 3860123,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1087,
+          "native_ACK_frame": 1088,
+          "physical_counter": 1,
+          "client_cursor_write_frame": 1089,
+          "client_cursor": 1
+        },
+        {
+          "history_index": 1,
+          "item_id": 3860500,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1089,
+          "native_ACK_frame": 1090,
+          "physical_counter": 2,
+          "client_cursor_write_frame": 1091,
+          "client_cursor": 2
+        },
+        {
+          "history_index": 2,
+          "item_id": 3860501,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1091,
+          "native_ACK_frame": 1092,
+          "physical_counter": 3,
+          "client_cursor_write_frame": 1093,
+          "client_cursor": 3
+        },
+        {
+          "history_index": 3,
+          "item_id": 3860401,
+          "player": 1,
+          "location": 0,
+          "offered_frame": 1093,
+          "native_ACK_frame": 1094,
+          "physical_counter": 4,
+          "client_cursor_write_frame": 1095,
+          "client_cursor": 4
+        }
+      ],
+      "transient_receipt": {
+        "item": 3860026,
+        "state": "acked",
+        "offered_this_boot": false,
+        "history_index": 4,
+        "cursor_after_skip_or_ACK": 5
+      },
+      "native_records": [
+        {
+          "native_file": 0,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x43500003"
+        },
+        {
+          "native_file": 1,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        },
+        {
+          "native_file": 2,
+          "checksums_valid": true,
+          "redundant_records_byte_identical": true,
+          "ownership_word": "0x0"
+        }
+      ],
+      "other_two_native_files_unchanged": true,
+      "source_save_sha256": "f67ab2ffda86a904f5d01a052d8a0f81c0fedefe83227907c8285969e08b787f",
+      "artifact_sha256": {
+        "runtime.json": "fe1b6d5450a306b8d39202beb2695dd95546203cd2063a73af25177f01ff7f0f",
+        "trace.json": "c1311d832dd563bc711cd862ff938ea0d702a8cc009102b0f89ecd9ef6240124",
+        "commands.json": "d59a1c8aba5e3afd6a951c7c69e74fdc1aeb1f45dc045f11fed385eb564a8ee6",
+        "transport.json": "47533f6357ee54bb1d34c93d369691ae77205a388c4459ffe1d8d5849079749a",
+        "polls.json": "618c562c312186de689152c23b69057f4b7faaca01ba770c4df24411f179c554",
+        "outbound.json": "946b1a130ad938920ee76a631d859e88520402ce82dc624d38b8867fed59e68c",
+        "packages.json": "2ff479b273d3ffd36fbc3091bb2940e06d4195872c49d40e2ea5b3ac7efcf461",
+        "outcome.json": "70935789dc7ec9b4cbfd35e32e57fc79147ad5d60215bc89d85f944733566dcf",
+        "end.sav": "f67ab2ffda86a904f5d01a052d8a0f81c0fedefe83227907c8285969e08b787f"
+      },
+      "controller_inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0,
+          "label": "cold boot"
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start"
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0,
+          "label": "title settle"
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8,
+          "label": "Start file menu"
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0,
+          "label": "file menu settle"
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1,
+          "label": "A file1"
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0,
+          "label": "file selection settle"
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1,
+          "label": "A adventure"
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0,
+          "label": "adventure settle"
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1,
+          "label": "A resume"
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0,
+          "label": "resume settle"
+        },
+        {
+          "start": 1085,
+          "frames": 2,
+          "keys": 0,
+          "label": "incomplete history guard"
+        },
+        {
+          "start": 1087,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 0"
+        },
+        {
+          "start": 1089,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 1"
+        },
+        {
+          "start": 1091,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 2"
+        },
+        {
+          "start": 1093,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 3"
+        },
+        {
+          "start": 1095,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 4"
+        },
+        {
+          "start": 1097,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 5"
+        },
+        {
+          "start": 1099,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 6"
+        },
+        {
+          "start": 1101,
+          "frames": 2,
+          "keys": 0,
+          "label": "native receipt ACK 7"
+        },
+        {
+          "start": 1103,
+          "frames": 120,
+          "keys": 0,
+          "label": "native save settle"
+        },
+        {
+          "start": 1223,
+          "frames": 6,
+          "keys": 0,
+          "label": "repeated poll settle"
+        },
+        {
+          "start": 1229,
+          "frames": 2,
+          "keys": 0,
+          "label": "empty reconnect settle"
+        },
+        {
+          "start": 1231,
+          "frames": 8,
+          "keys": 0,
+          "label": "complete reconnect settle"
+        }
+      ],
+      "checkpoints": [
+        {
+          "label": "menu-deferred",
+          "frame": 180,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start",
+          "frame": 181,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "title-settle",
+          "frame": 301,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "Start-file-menu",
+          "frame": 302,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-menu-settle",
+          "frame": 422,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-file1",
+          "frame": 423,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "file-selection-settle",
+          "frame": 663,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-adventure",
+          "frame": 664,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "adventure-settle",
+          "frame": 844,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "A-resume",
+          "frame": 845,
+          "room": 0,
+          "x": 0.0,
+          "y": 0.0,
+          "hp": 0,
+          "max_hp": 0,
+          "ability": 0,
+          "battery": 0,
+          "caller": 0,
+          "ai": 0,
+          "native_slot": 0,
+          "saved_ownership": 0,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 0,
+          "cpu_rooms": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "phone_owned": 0,
+          "copy_owned": 0,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "resume-settle",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "native-ready",
+          "frame": 1085,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "incomplete-history-no-grant",
+          "frame": 1087,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 4294967295,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 0,
+          "mailbox_last_item_id": 0,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-0",
+          "frame": 1089,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 1,
+          "mailbox_last_item_id": 3860123,
+          "history_cursor": 0
+        },
+        {
+          "label": "after-complete-1",
+          "frame": 1091,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 2,
+          "mailbox_last_item_id": 3860500,
+          "history_cursor": 1
+        },
+        {
+          "label": "after-complete-2",
+          "frame": 1093,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 3,
+          "mailbox_last_item_id": 3860501,
+          "history_cursor": 2
+        },
+        {
+          "label": "after-complete-3",
+          "frame": 1095,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 3
+        },
+        {
+          "label": "after-complete-4",
+          "frame": 1097,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-5",
+          "frame": 1099,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-6",
+          "frame": 1101,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-complete-7",
+          "frame": 1103,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "ownership-save-settled",
+          "frame": 1223,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "reconnect-empty",
+          "frame": 1231,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 0,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "after-reconnect",
+          "frame": 1239,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        },
+        {
+          "label": "final",
+          "frame": 1239,
+          "room": 801,
+          "x": 232.0,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "battery": 3,
+          "caller": 255,
+          "ai": 300,
+          "native_slot": 0,
+          "saved_ownership": 1129316355,
+          "phone_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "copy_request": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hub_mask": 2,
+          "world18": 1,
+          "cpu_rooms": [
+            801,
+            801,
+            801,
+            801
+          ],
+          "phone_owned": 1,
+          "copy_owned": 1,
+          "native_save_dirty": 0,
+          "mailbox_flag": 0,
+          "physical_receipt_count": 4,
+          "mailbox_last_item_id": 3860401,
+          "history_cursor": 5
+        }
+      ],
+      "outbound": [
+        {
+          "frame": 180,
+          "phase": "menu-complete-history-deferred",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1087,
+          "phase": "gameplay-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1089,
+          "phase": "gameplay-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1091,
+          "phase": "gameplay-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1093,
+          "phase": "gameplay-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1095,
+          "phase": "gameplay-complete-4",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1097,
+          "phase": "gameplay-complete-5",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1099,
+          "phase": "gameplay-complete-6",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1101,
+          "phase": "gameplay-complete-7",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1223,
+          "phase": "repeated-poll-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1225,
+          "phase": "repeated-poll-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1227,
+          "phase": "repeated-poll-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "update_death_link",
+          "enabled": false
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1229,
+          "phase": "reconnected-empty-history",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "Bounce",
+              "slots": [
+                1
+              ],
+              "data": {
+                "type": "RoomUpdate",
+                "nativeRoomId": 801,
+                "doorsIdx": 0,
+                "roomRegionKey": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+                "roomLabel": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+              }
+            }
+          ]
+        },
+        {
+          "frame": 1231,
+          "phase": "reconnected-complete-0",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1233,
+          "phase": "reconnected-complete-1",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1235,
+          "phase": "reconnected-complete-2",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        },
+        {
+          "frame": 1237,
+          "phase": "reconnected-complete-3",
+          "method": "send_msgs",
+          "messages": [
+            {
+              "cmd": "LocationChecks",
+              "locations": [
+                3960451
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    "Native file 0 only; the two other files remain byte-identical and all six WORLD checksums/redundant copies validate. No identity/file-switch claim is added.",
+    "Inherited fixture has a controlled initial room/position for Kirby 0. This witness resumes its genuine post-tutorial AI 300 native save using ordinary cold menu inputs; no new fixture edits, ownership/pose/HP/AI/cursor injection or save-state load occurs.",
+    "Fresh source history includes its prior synthetic Mini permission. That earlier source packet configured permission but made no mailbox deliveries; this full watcher legitimately delivers that first receipt here.",
+    "Normal configuration writes are allowed during menu deferral and incomplete history. The mismatched enabled-ROM/absent-Phone-slot poll rejects before every write, including configuration. Only Phone/Copy ownership and new mailbox delivery are claimed blocked in the former controls.",
+    "Repeat polls and reconnects retain ownership and do not re-offer items; a cold restart replays permanent items while the retained local durable journal prevents duplicate Small Food delivery. Journal deletion/loss and transient crash ambiguity are not covered.",
+    "Brief ordinary East Hub doorway and R/L lifecycle only, with received Hub item and Area Keys OFF. Not a full hub-to-source route, RoomSanity, helper combat, arbitrary states, multiplayer or other source-policy acceptance.",
+    "Production Phone remains disabled. This evidence does not add a catalog item, pool entry, generation option, slot capability or traversal rule, or change production code or the distributable patch.",
+    "Two successful exploratory calibrations are retained privately and excluded; only the three named accepted runs count."
+  ],
+  "date": "2026-11-11",
+  "ai_assisted": true,
+  "generation_enabled": false,
+  "traversal_witness_added": false,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea"
+}

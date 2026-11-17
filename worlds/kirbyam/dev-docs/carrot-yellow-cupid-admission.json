@@ -1,0 +1,1237 @@
+{
+  "schema_version": 1,
+  "status": "Exact source-policy HP6 witness; Room Sanity on/off physically replayed. No other policy or health profile admitted.",
+  "target": {
+    "location": "MINOR_CHEST_SPRAY_PAINT_02",
+    "id": 3960501,
+    "native_room": 733,
+    "chest_template": "0x088D3DD0",
+    "chest_flag": 80,
+    "upper_tile": [
+      18,
+      2
+    ],
+    "lower_tile": [
+      21,
+      6
+    ]
+  },
+  "provenance": {
+    "source_head": "190cbf3dbebf1222d707fc232ce6db1bc63b6b47",
+    "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+    "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_sha256": "c3fca0d4b550130d6ff65e7679aca4950a88ae8d36a036d9371be918f79cd630",
+    "fixture_rom_sha256": "a9753f54574dd85c43f5ecd1dc44a756300bdc3fde2331b2452531d2fcad22da",
+    "emulator": "mGBA 0.10.5",
+    "bridge_sha256": "38098b8ade534c87c33ed6cd65b0cab42f1a003a96e163413f57ebc32a0254c6"
+  },
+  "profile": {
+    "ability_randomization_mode": 1,
+    "ability_gating": 0,
+    "ability_randomization_statues": 0,
+    "minimum_health": 6,
+    "maximum_health": 6,
+    "enemy_health_multiplier": 100,
+    "one_hit_mode": 0,
+    "area_keys": 0,
+    "advanced_logic": 0,
+    "room_sanity_values": [
+      0,
+      1
+    ]
+  },
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 55,
+    "seed": 5335157914150017498,
+    "mapping_style": "per_enemy_type"
+  },
+  "source_policy_sha256": "1b5321f57d0ed75ed938aaeda8889ab5c9d5439a3cac7c6df5a5b634bdb21ac0",
+  "source_instances": [
+    {
+      "template": "0x088D4FC0",
+      "type": "SPARKY",
+      "position": [
+        344,
+        296
+      ],
+      "grant": "Cupid",
+      "acquired_frame": 5450
+    },
+    {
+      "template": "0x088D4F9C",
+      "type": "SPARKY",
+      "position": [
+        344,
+        664
+      ],
+      "grant": "Cupid",
+      "acquired_frame": 7578
+    }
+  ],
+  "fixture_start": [
+    719,
+    232,
+    56
+  ],
+  "controller_inputs": {
+    "full_positive": [
+      [
+        0,
+        180,
+        0
+      ],
+      [
+        180,
+        1,
+        8
+      ],
+      [
+        181,
+        120,
+        0
+      ],
+      [
+        301,
+        1,
+        8
+      ],
+      [
+        302,
+        120,
+        0
+      ],
+      [
+        422,
+        1,
+        1
+      ],
+      [
+        423,
+        240,
+        0
+      ],
+      [
+        663,
+        1,
+        1
+      ],
+      [
+        664,
+        180,
+        0
+      ],
+      [
+        844,
+        1,
+        1
+      ],
+      [
+        845,
+        240,
+        0
+      ],
+      [
+        1085,
+        40,
+        0
+      ],
+      [
+        1125,
+        10,
+        16
+      ],
+      [
+        1135,
+        25,
+        0
+      ],
+      [
+        1160,
+        1,
+        64
+      ],
+      [
+        1161,
+        60,
+        0
+      ],
+      [
+        1221,
+        100,
+        64
+      ],
+      [
+        1321,
+        235,
+        96
+      ],
+      [
+        1556,
+        25,
+        32
+      ],
+      [
+        1581,
+        50,
+        32
+      ],
+      [
+        1631,
+        5,
+        96
+      ],
+      [
+        1636,
+        20,
+        80
+      ],
+      [
+        1656,
+        50,
+        64
+      ],
+      [
+        1706,
+        87,
+        96
+      ],
+      [
+        1793,
+        20,
+        80
+      ],
+      [
+        1813,
+        50,
+        64
+      ],
+      [
+        1863,
+        80,
+        96
+      ],
+      [
+        1943,
+        20,
+        80
+      ],
+      [
+        1963,
+        50,
+        64
+      ],
+      [
+        2013,
+        61,
+        96
+      ],
+      [
+        2074,
+        20,
+        80
+      ],
+      [
+        2094,
+        50,
+        64
+      ],
+      [
+        2144,
+        61,
+        96
+      ],
+      [
+        2205,
+        20,
+        80
+      ],
+      [
+        2225,
+        50,
+        64
+      ],
+      [
+        2275,
+        1,
+        2
+      ],
+      [
+        2276,
+        70,
+        0
+      ],
+      [
+        2346,
+        90,
+        32
+      ],
+      [
+        2436,
+        100,
+        0
+      ],
+      [
+        2536,
+        40,
+        64
+      ],
+      [
+        2576,
+        50,
+        32
+      ],
+      [
+        2626,
+        45,
+        64
+      ],
+      [
+        2671,
+        100,
+        96
+      ],
+      [
+        2771,
+        180,
+        96
+      ],
+      [
+        2951,
+        20,
+        32
+      ],
+      [
+        2971,
+        1,
+        2
+      ],
+      [
+        2972,
+        25,
+        0
+      ],
+      [
+        2997,
+        80,
+        2
+      ],
+      [
+        3077,
+        1,
+        0
+      ],
+      [
+        3078,
+        1,
+        2
+      ],
+      [
+        3079,
+        20,
+        0
+      ],
+      [
+        3099,
+        80,
+        2
+      ],
+      [
+        3179,
+        10,
+        0
+      ],
+      [
+        3189,
+        50,
+        64
+      ],
+      [
+        3239,
+        180,
+        96
+      ],
+      [
+        3419,
+        14,
+        32
+      ],
+      [
+        3433,
+        1,
+        2
+      ],
+      [
+        3434,
+        80,
+        0
+      ],
+      [
+        3514,
+        30,
+        128
+      ],
+      [
+        3544,
+        60,
+        0
+      ],
+      [
+        3604,
+        90,
+        32
+      ],
+      [
+        3694,
+        40,
+        64
+      ],
+      [
+        3734,
+        42,
+        96
+      ],
+      [
+        3776,
+        12,
+        80
+      ],
+      [
+        3788,
+        1,
+        2
+      ],
+      [
+        3789,
+        90,
+        0
+      ],
+      [
+        3879,
+        140,
+        96
+      ],
+      [
+        4019,
+        22,
+        96
+      ],
+      [
+        4041,
+        12,
+        80
+      ],
+      [
+        4053,
+        1,
+        2
+      ],
+      [
+        4054,
+        70,
+        0
+      ],
+      [
+        4124,
+        1,
+        64
+      ],
+      [
+        4125,
+        60,
+        0
+      ],
+      [
+        4185,
+        86,
+        32
+      ],
+      [
+        4271,
+        30,
+        0
+      ],
+      [
+        4301,
+        1,
+        64
+      ],
+      [
+        4302,
+        55,
+        0
+      ],
+      [
+        4357,
+        200,
+        32
+      ],
+      [
+        4557,
+        30,
+        0
+      ],
+      [
+        4587,
+        120,
+        2
+      ],
+      [
+        4707,
+        40,
+        0
+      ],
+      [
+        4747,
+        3,
+        16
+      ],
+      [
+        4750,
+        120,
+        2
+      ],
+      [
+        4870,
+        40,
+        0
+      ],
+      [
+        4910,
+        8,
+        16
+      ],
+      [
+        4918,
+        30,
+        0
+      ],
+      [
+        4948,
+        100,
+        2
+      ],
+      [
+        5048,
+        50,
+        0
+      ],
+      [
+        5098,
+        20,
+        128
+      ],
+      [
+        5118,
+        1,
+        32
+      ],
+      [
+        5119,
+        80,
+        2
+      ],
+      [
+        5199,
+        3,
+        16
+      ],
+      [
+        5202,
+        120,
+        0
+      ],
+      [
+        5322,
+        25,
+        16
+      ],
+      [
+        5347,
+        80,
+        2
+      ],
+      [
+        5427,
+        30,
+        128
+      ],
+      [
+        5457,
+        30,
+        64
+      ],
+      [
+        5487,
+        13,
+        16
+      ],
+      [
+        5500,
+        130,
+        16
+      ],
+      [
+        5630,
+        160,
+        128
+      ],
+      [
+        5790,
+        200,
+        128
+      ],
+      [
+        5990,
+        25,
+        64
+      ],
+      [
+        6015,
+        50,
+        32
+      ],
+      [
+        6065,
+        80,
+        128
+      ],
+      [
+        6145,
+        25,
+        64
+      ],
+      [
+        6170,
+        100,
+        32
+      ],
+      [
+        6270,
+        50,
+        128
+      ],
+      [
+        6320,
+        22,
+        16
+      ],
+      [
+        6342,
+        30,
+        0
+      ],
+      [
+        6372,
+        1,
+        64
+      ],
+      [
+        6373,
+        60,
+        0
+      ],
+      [
+        6433,
+        1,
+        2
+      ],
+      [
+        6434,
+        60,
+        0
+      ],
+      [
+        6494,
+        14,
+        16
+      ],
+      [
+        6508,
+        15,
+        0
+      ],
+      [
+        6523,
+        1,
+        64
+      ],
+      [
+        6524,
+        60,
+        0
+      ],
+      [
+        6584,
+        180,
+        0
+      ],
+      [
+        6764,
+        20,
+        64
+      ],
+      [
+        6784,
+        64,
+        32
+      ],
+      [
+        6848,
+        25,
+        128
+      ],
+      [
+        6873,
+        20,
+        0
+      ],
+      [
+        6893,
+        60,
+        128
+      ],
+      [
+        6953,
+        1,
+        16
+      ],
+      [
+        6954,
+        80,
+        2
+      ],
+      [
+        7034,
+        30,
+        128
+      ],
+      [
+        7064,
+        70,
+        32
+      ],
+      [
+        7134,
+        60,
+        128
+      ],
+      [
+        7194,
+        1,
+        16
+      ],
+      [
+        7195,
+        100,
+        2
+      ],
+      [
+        7295,
+        30,
+        128
+      ],
+      [
+        7325,
+        28,
+        32
+      ],
+      [
+        7353,
+        100,
+        128
+      ],
+      [
+        7453,
+        1,
+        16
+      ],
+      [
+        7454,
+        100,
+        2
+      ],
+      [
+        7554,
+        30,
+        128
+      ],
+      [
+        7584,
+        110,
+        16
+      ],
+      [
+        7694,
+        1,
+        2
+      ],
+      [
+        7695,
+        50,
+        0
+      ],
+      [
+        7745,
+        15,
+        16
+      ],
+      [
+        7760,
+        15,
+        0
+      ],
+      [
+        7775,
+        1,
+        64
+      ],
+      [
+        7776,
+        55,
+        0
+      ],
+      [
+        7831,
+        10,
+        32
+      ],
+      [
+        7841,
+        25,
+        0
+      ],
+      [
+        7866,
+        1,
+        64
+      ],
+      [
+        7867,
+        55,
+        0
+      ],
+      [
+        7922,
+        60,
+        128
+      ],
+      [
+        7982,
+        12,
+        64
+      ],
+      [
+        7994,
+        130,
+        16
+      ],
+      [
+        8124,
+        35,
+        128
+      ],
+      [
+        8159,
+        10,
+        32
+      ],
+      [
+        8169,
+        25,
+        0
+      ],
+      [
+        8194,
+        1,
+        64
+      ],
+      [
+        8195,
+        55,
+        0
+      ],
+      [
+        8250,
+        72,
+        16
+      ],
+      [
+        8322,
+        30,
+        0
+      ],
+      [
+        8352,
+        30,
+        64
+      ],
+      [
+        8382,
+        1,
+        2
+      ],
+      [
+        8383,
+        80,
+        66
+      ],
+      [
+        8463,
+        1,
+        64
+      ],
+      [
+        8464,
+        120,
+        0
+      ],
+      [
+        8584,
+        95,
+        16
+      ],
+      [
+        8679,
+        15,
+        128
+      ],
+      [
+        8694,
+        15,
+        16
+      ],
+      [
+        8709,
+        1,
+        2
+      ],
+      [
+        8710,
+        80,
+        66
+      ],
+      [
+        8790,
+        1,
+        64
+      ],
+      [
+        8791,
+        100,
+        0
+      ],
+      [
+        8891,
+        12,
+        32
+      ],
+      [
+        8903,
+        25,
+        0
+      ],
+      [
+        8928,
+        1,
+        16
+      ],
+      [
+        8929,
+        1,
+        2
+      ],
+      [
+        8930,
+        80,
+        66
+      ],
+      [
+        9010,
+        1,
+        64
+      ],
+      [
+        9011,
+        90,
+        0
+      ],
+      [
+        9101,
+        28,
+        32
+      ],
+      [
+        9129,
+        90,
+        64
+      ],
+      [
+        9219,
+        40,
+        16
+      ],
+      [
+        9259,
+        35,
+        128
+      ],
+      [
+        9294,
+        1,
+        64
+      ],
+      [
+        9295,
+        60,
+        0
+      ],
+      [
+        9355,
+        90,
+        64
+      ],
+      [
+        9445,
+        15,
+        32
+      ],
+      [
+        9460,
+        30,
+        128
+      ],
+      [
+        9490,
+        20,
+        0
+      ],
+      [
+        9510,
+        1,
+        64
+      ],
+      [
+        9511,
+        60,
+        0
+      ],
+      [
+        9571,
+        4,
+        32
+      ],
+      [
+        9575,
+        20,
+        0
+      ],
+      [
+        9595,
+        1,
+        64
+      ],
+      [
+        9596,
+        60,
+        0
+      ]
+    ],
+    "end_frame": 9656,
+    "no_upper_shot_zero_key_windows": [
+      [
+        8382,
+        8463
+      ]
+    ],
+    "no_lower_shots_zero_key_windows": [
+      [
+        8709,
+        8790
+      ],
+      [
+        8929,
+        9010
+      ]
+    ]
+  },
+  "cases": {
+    "positive": {
+      "room_sanity": 1,
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "minimum_hp": 3,
+      "health_increase_frames": [],
+      "upper_open_frame": 8522,
+      "lower_open_frame": 9017,
+      "chest_frame": 9513
+    },
+    "repeat": {
+      "room_sanity": 1,
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "minimum_hp": 3,
+      "health_increase_frames": [],
+      "upper_open_frame": 8522,
+      "lower_open_frame": 9017,
+      "chest_frame": 9513
+    },
+    "no_upper_shot": {
+      "room_sanity": 1,
+      "trace_sha256": "edfd4cb41282b14759144a423dd64d14899855048dd490d87ce61b4235e2dc26",
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 166.0,
+        "y": 40.99609375,
+        "upper": 241,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "configuration_writes": 8,
+      "minimum_hp": 3,
+      "health_increase_frames": [],
+      "upper_open_frame": null,
+      "lower_open_frame": null,
+      "chest_frame": null
+    },
+    "no_lower_shots": {
+      "room_sanity": 1,
+      "trace_sha256": "1e46e5ff4c79eeb1627f7fdd091aef137508c596a63c4f64ec2452b8a7934861",
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 296.58984375,
+        "y": 120.99609375,
+        "upper": 0,
+        "lower": 241,
+        "chest80": 0,
+        "event_counter": 0
+      },
+      "client_messages": [],
+      "configuration_writes": 8,
+      "minimum_hp": 3,
+      "health_increase_frames": [],
+      "upper_open_frame": 8522,
+      "lower_open_frame": null,
+      "chest_frame": null
+    },
+    "room_sanity_off": {
+      "room_sanity": 0,
+      "trace_sha256": "dc4cdf4f59109956c3a9f41ca4a473e9fdc829eacd1f56225394c5c2107614c7",
+      "final": {
+        "frame": 9656,
+        "room": 733,
+        "ability": 19,
+        "hp": 3,
+        "x": 349.57421875,
+        "y": 56.99609375,
+        "upper": 0,
+        "lower": 0,
+        "chest80": 1,
+        "event_counter": 1
+      },
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960501
+          ]
+        }
+      ],
+      "configuration_writes": 8,
+      "minimum_hp": 3,
+      "health_increase_frames": [],
+      "upper_open_frame": 8522,
+      "lower_open_frame": 9017,
+      "chest_frame": 9513
+    }
+  },
+  "limits": [
+    "Only the complete pinned source policy; even another guaranteed Sparky Cupid policy is not admitted.",
+    "Actual initial/max HP6, enemy health100, ungated, no Area Keys, statues off, Advanced Logic off.",
+    "Controlled real719-to720 door fixture; independent access boundary remains720. No all upstream719 compartments proof.",
+    "Three damage events before the lower acquisition; minimum and final HP3. Revised route avoids native food, no health recovery dependency.",
+    "Two original finite sources, no retries, no dropped-star recovery, no helper calls or ability grants.",
+    "Room Sanity on still fails final generation for unrelated unqualified Foley Burning / Room4-16. This safeguard is unchanged.",
+    "No Normal+Phone ledger acceptance or complete playthrough claim."
+  ],
+  "room_sanity_off_fixture_rom_sha256": "a113f55d7bf5717e5d78963548da8df205ef9545cff2abc3845040f7706a59cc"
+}

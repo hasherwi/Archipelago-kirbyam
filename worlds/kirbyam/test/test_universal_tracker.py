@@ -123,11 +123,12 @@ Kirby & The Amazing Mirror:
   shards: random
   room_sanity: {rooms}
   area_keys: true
-  ability_gating: true
+  ability_gating: {str(mode != "off").lower()}
   exclude_locations:
     - Rainbow Route 1-06 (Lower) - Small Chest
   start_inventory:
     Sword Ability: 2
+    Phone a Friend: 1
     Cell Phone Battery: 2
     Copy Ability Room Access: 1
     Moonlight Mansion - Hub Connection: 1
@@ -178,6 +179,7 @@ Kirby & The Amazing Mirror:
     core.set_items_received(history)
     result = core.updateTracker()
     assert slot['tracker']['precollected_items']['Sword Ability'] == 2
+    assert slot['tracker']['precollected_items']['Phone a Friend'] == 1
     assert result.all_items == Counter(original.worlds[1].item_id_to_name[i.item] for i in history)
     assert result.all_items['Cell Phone Battery'] >= 2
     assert core.multiworld.completion_condition[1](result.state)
@@ -203,3 +205,38 @@ def test_incomplete_resolved_payload_is_rejected(key):
         del slot[key]
     with pytest.raises(ValueError, match="Missing Kirby tracker"):
         reconstruct(slot)
+
+
+@pytest.mark.parametrize('qualified', [False, True])
+@pytest.mark.parametrize('starting_phone', [False, True])
+def test_phone_profile_and_ownership_roundtrip(qualified, starting_phone):
+    """Source graph parity for both Phone route profiles and inventory origins."""
+    from ..phone_traversal import PHONE, ENTRANCE, validate_phone_profile
+    original = setup_multiworld(KirbyAmWorld, seed=1054, options={
+        'ability_randomization_mode': 0 if qualified else 1,
+        'ability_gating': 0 if qualified else 1,
+        'minimum_health': 6, 'maximum_health': 10,
+        'enemy_health_multiplier': 100, 'room_sanity': 1,
+    })
+    if starting_phone:
+        original.worlds[1].push_precollected(original.worlds[1].create_item(PHONE))
+    slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    rebuilt = reconstruct(slot)
+    assert original.worlds[1]._phone_route_signature == rebuilt.worlds[1]._phone_route_signature
+    states = []
+    for mw in (original, rebuilt):
+        world = mw.worlds[1]
+        assert validate_phone_profile(world, require_policy=True) is qualified
+        assert sum(item.name == PHONE for item in mw.precollected_items[1]) == int(starting_phone)
+        state = CollectionState(mw)
+        for item in original.itempool:
+            if item.advancement and item.name != PHONE:
+                state.collect(world.create_item(item.name), True)
+        state.sweep_for_advancements()
+        assert mw.get_entrance(ENTRANCE, 1).can_reach(state) is starting_phone
+        if not starting_phone:
+            state.collect(world.create_item(PHONE), True)
+        assert state.count(PHONE, 1) == 1
+        assert mw.get_entrance(ENTRANCE, 1).can_reach(state)
+        states.append({loc.name for loc in mw.get_reachable_locations(state, 1)})
+    assert states[0] == states[1]

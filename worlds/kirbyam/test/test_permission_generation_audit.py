@@ -43,11 +43,17 @@ HISTORICAL_MAIN_REFUSED = frozenset({(0, 1, 1), (1, 2, 0)})
 # Historical core09 refused this exact sample with 32 stranded checks.
 # Current Beam+Ice ordering accepts it; retain the old error as history.
 COMBINED_CORE09 = (0, 0, 1)
-REQUIRED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REQUIRED | {(0, 1, 1)}
-EXPECTED_REFUSED_MINIMAL_ARCHIVES = HISTORICAL_MAIN_REFUSED - {(0, 1, 1)}
+HISTORICAL_BEAM_ICE_REQUIRED = HISTORICAL_MAIN_REQUIRED | {(0, 1, 1)}
+HISTORICAL_BEAM_ICE_REFUSED = HISTORICAL_MAIN_REFUSED - {(0, 1, 1)}
+# Always-on Phone adds a progression item and an ownership edge. The same
+# numeric seed therefore has a different fill, not a new physical witness.
+# Keep the previous classifications above; require exact current outcomes.
+REQUIRED_MINIMAL_ARCHIVES = (HISTORICAL_BEAM_ICE_REQUIRED - {(0, 1, 1), (0, 2, 1)}) | {(1, 2, 0)}
+EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({(0, 1, 1), (0, 2, 1)})
 # Exact RoomSanity samples with no reviewed Room16 route after #1099.
 # Both accessibility settings must reject rather than emit an unsafe archive.
 ROOM16_SOURCE_REFUSALS = frozenset({(1, 2), (2, 1), (2, 2)})
+
 
 
 def assert_generation_contract(
@@ -65,6 +71,11 @@ def assert_generation_contract(
     placed = Counter(item[0] for locations in decoded["locations"].values()
                      for item in locations.values() if item[1] == player)
     assert not automatic.intersection(placed)
+    # The new progression item is real, balanced and not an automatic grant.
+    assert placed[3860501] == 1 and inventory[3860501] == 0
+    assert decoded["slot_data"][player]["phone_protocol_version"] == 1
+    assert decoded["slot_data"][player]["starting_phone_access"] is False
+    assert "phone_progression" not in decoded["slot_data"][player]
     assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
     assert _gate_words(archive)[player] == expected_gate
@@ -171,15 +182,15 @@ def test_generated_all_check_smoke_matrix(
         assert all(loc.item is not None and loc.can_reach(state) for loc in checks)
         assert multiworld.completion_condition[1](state)
         cutter, = [loc for loc in checks if loc.item and loc.item.name == "Cutter Ability"]
-        assert cutter.name == "Mustard Mountain Map - Big Chest" and cutter.can_reach(state)
+        assert cutter.name == "Carrot Castle Map - Big Chest" and cutter.can_reach(state)
         assert state.has("Cutter Ability", 1)
 
 
 def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
-    # This exact old refusal is intentionally retained as an accepted-output
-    # regression. The new item ordering places Rainbow East here, not Moonlight.
+    # This remains accepted. Pre-Phone Beam+Ice placed Rainbow East here;
+    # the current Phone pool instead places Candy Hub. Neither is a new route proof.
     options = {
         "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 99, "ability_randomization_statues": 1,
@@ -188,48 +199,61 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     }
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105101, [options])
     location = multiworld.get_location("Room 2-05", 1)
-    assert location.item and location.item.name == "Rainbow Route East - Hub Connection"
+    assert location.item and location.item.name == "Candy Constellation - Hub Connection"
     audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
 
 
-def test_seed105103_beam_ice_start_refuses_exact_placed_strands(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+@pytest.mark.parametrize("mode", [1, 2])
+def test_seed105103_phone_pool_accepts_gated_minimal(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int,
 ) -> None:
-    # Previously accepted Beam-only sample; current required shuffled/gated
-    # acceptance is seed105100. This seed must now fail before archive output.
+    # Pre-Phone Beam+Ice refused mode1 with error SHA256
+    # 6b232eafe9e64ce915bde372a8c52484a040ccf380d408d7b0dfd189b5adc029.
+    # Preserve that historical result; require current archives, not either outcome.
     options = {
-        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105103, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+
+
+@pytest.mark.parametrize("mode", [1, 2])
+def test_seed105100_phone_pool_refuses_exact_placed_strand(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int,
+) -> None:
+    # Pre-Phone Beam+Ice mode1 accepted with Smash at Carrot Boss. Phone changes
+    # fill ordering: Radish Hub now lies behind its own check. The unchanged
+    # production guard must refuse this placement, despite all-inventory access.
+    options = {
+        "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
+        "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
+        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
+        "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
+    }
+    original = check_accessibility.validate_all_checks
+    inspected = []
+
+    def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
+        audit = audit_local_checks(multiworld, 1)
+        assert audit == LocalCheckAudit((), ("Radish Ruins Vitality - Big Chest",), ())
+        location = multiworld.get_location("Radish Ruins Vitality - Big Chest", 1)
+        assert location.item and location.item.name == "Radish Ruins - Hub Connection"
+        inspected.append(True)
+        original(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
     with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-        _generate(monkeypatch, tmp_path, 105103, [options])
-    line = str(caught.value).splitlines()[-1]
-    assert "unfilled=[]; unavailable even with all inventory=[]" in line
-    assert hashlib.sha256(line.encode()).hexdigest() == "6b232eafe9e64ce915bde372a8c52484a040ccf380d408d7b0dfd189b5adc029"
+        _generate(monkeypatch, tmp_path, 105100, [options])
+    assert inspected == [True]
+    assert str(caught.value).splitlines()[-1] == (
+        "Player 1 (Cutter Test 1): unfilled=[]; unavailable even with all inventory=[]; "
+        "unreachable from placed progression=['Radish Ruins Vitality - Big Chest']")
     assert not tuple((tmp_path / "output").glob("*.zip"))
-    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} == {
-        (mode, gating) for mode in range(3) for gating in range(2)}
-
-
-def test_seed105100_beam_ice_start_accepts_shuffled_gated_minimal(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
-) -> None:
-    # Beam-only previously stranded Smash behind its own peg. Beam+Ice changes
-    # the deterministic fill; require the new accepted archive, not either result.
-    options = {
-        "ability_randomization_mode": 1, "ability_gating": 1, "accessibility": "minimal",
-        "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
-        "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
-        "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
-    }
-    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105100, [options])
-    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
-    assert audit.inventory_unreachable == audit.progression_unreachable == ()
-    location = multiworld.get_location("Carrot Castle - Boss Defeat", 1)
-    assert location.item and location.item.name == "Smash Ability"
 
 
 def test_historical_native105100_refusal_remains_distinct_from_current_requirement() -> None:
@@ -243,4 +267,9 @@ def test_historical_native105100_refusal_remains_distinct_from_current_requireme
     assert COMBINED_CORE09 not in EXPECTED_REFUSED_MINIMAL_ARCHIVES
     assert HISTORICAL_MAIN_REQUIRED == frozenset({(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 2, 0), (0, 2, 1)})
     assert HISTORICAL_MAIN_REFUSED == frozenset({(0, 1, 1), (1, 2, 0)})
-    assert EXPECTED_REFUSED_MINIMAL_ARCHIVES == frozenset({(1, 2, 0)})
+    assert HISTORICAL_BEAM_ICE_REFUSED == frozenset({(1, 2, 0)})
+    assert HISTORICAL_BEAM_ICE_REQUIRED == HISTORICAL_MAIN_REQUIRED | {(0, 1, 1)}
+    assert EXPECTED_REFUSED_MINIMAL_ARCHIVES == frozenset({(0, 1, 1), (0, 2, 1)})
+    # Dedicated current seed105103 positives retain gated mode1/2 coverage.
+    assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} | {(1, 1), (2, 1)} == {
+        (mode, gating) for mode in range(3) for gating in range(2)}

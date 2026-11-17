@@ -52,9 +52,15 @@ def _make_world(
         options=SimpleNamespace(
             ability_randomization_mode=SimpleNamespace(value=mode),
             ability_randomization_statues=SimpleNamespace(value=randomize_statues),
-            ability_gating=SimpleNamespace(value=ability_gating),
+            ability_gating=SimpleNamespace(value=int(ability_gating)),
+            minimum_health=SimpleNamespace(value=6),
+            maximum_health=SimpleNamespace(value=10),
+            room_sanity=SimpleNamespace(value=0),
             enemy_health_multiplier=SimpleNamespace(value=enemy_health_multiplier),
         ),
+    )
+    world._enemy_copy_ability_policy = build_enemy_copy_ability_policy(
+        random.Random(20260324), mode, include_boss_spawns=True, include_minibosses=True,
     )
     world._get_resolved_starting_kirby_color = lambda: (
         starting_color_id,
@@ -120,7 +126,8 @@ def test_write_tokens_rejects_missing_policy_for_non_vanilla_mode() -> None:
     world = _make_world(AbilityRandomizationMode.option_shuffled)
     patch = _DummyPatch()
 
-    with pytest.raises(ValueError, match="enemy_copy_ability_policy must be initialized"):
+    del world._enemy_copy_ability_policy
+    with pytest.raises(ValueError, match="Phone route requires resolved source policy"):
         write_tokens(cast(Any, world), cast(Any, patch))
 
 

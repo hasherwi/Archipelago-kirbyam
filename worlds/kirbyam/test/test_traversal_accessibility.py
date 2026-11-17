@@ -298,14 +298,16 @@ def test_exact_fuzz_69_minimal_refuses_placed_strands_and_preserves_source_polic
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
     # Beam+Ice starts change this exact fill. All inventory remains feasible;
-    # require the exact current sixteen stranded checks, not the old placement.
+    # require the exact current eighteen stranded checks, not the old placement.
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert len(audit.progression_unreachable) == 16
-    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "149c5b36d029a34d9543b0ce91343cf2e34fc612de5df296d394d49e30f7bc3c"
-    assert "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest" in audit.progression_unreachable
+    # Historical pre-Phone count 16, SHA 149c5b36d029a34d9543b0ce91343cf2e34fc612de5df296d394d49e30f7bc3c; current fill below.
+    assert len(audit.progression_unreachable) == 18
+    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "d04a4169e70d3972397f3f874923a50d11b96080c132d8e90a5b340e1009e548"
+    assert "Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest" not in audit.progression_unreachable
+    assert "Candy Constellation - Big Switch" in audit.progression_unreachable
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
@@ -430,8 +432,9 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
-    assert len(audit.progression_unreachable) == 214
-    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "91c42c41d2fe3e18cba2fd2cbee5e79ec5b59bc44c88b600908b7838fe5de2c0"
+    # Historical pre-Phone count 214, SHA 91c42c41d2fe3e18cba2fd2cbee5e79ec5b59bc44c88b600908b7838fe5de2c0; current fill below.
+    assert len(audit.progression_unreachable) == 163
+    assert sha256(repr(audit.progression_unreachable).encode()).hexdigest() == "84dbb59819617b0c984399f604298c649b228fde52c8b9eca238114f6704dd8d"
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     policy_json = json.dumps(world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":"))
     assert sha256(policy_json.encode()).hexdigest() == expected["master719_source_policy_sha256"]
@@ -460,8 +463,10 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
     assert all(cast(Item, loc.item).location is loc for loc in locations)
     historical = audit_local_checks(multiworld, 1)
     assert historical.unfilled == historical.inventory_unreachable == ()
-    assert len(historical.progression_unreachable) == 368
-    assert sha256(repr(historical.progression_unreachable).encode()).hexdigest() == "a01999bdc8f6187f63a982ea08f39ae95c91aacea2d9f3fe13b84354542a1c5f"
+    # The same balanced six-slot counterfactual now has 301 strands; pre-Phone
+    # count 368/SHA a01999bdc8f6187f63a982ea08f39ae95c91aacea2d9f3fe13b84354542a1c5f remains historical.
+    assert len(historical.progression_unreachable) == 301
+    assert sha256(repr(historical.progression_unreachable).encode()).hexdigest() == "2c33cb19de780fcd9900c0fb860dec5b0c5abed70183306ac486231aaf7e2155"
     # The prior placement-specific Master cause is historical, not this new fill.
     from ..check_accessibility import KirbyAmCheckAccessibilityError, validate_all_checks
     with pytest.raises(KirbyAmCheckAccessibilityError, match="unreachable from placed progression"):

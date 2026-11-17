@@ -440,6 +440,7 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     advanced_logic: AdvancedLogic
 
+
     ability_gating: AbilityGating
 
     enable_traps: EnableTraps

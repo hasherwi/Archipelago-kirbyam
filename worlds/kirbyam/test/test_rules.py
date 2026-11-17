@@ -30,6 +30,16 @@ from ..rules import (
 class _FakeOptions:
     goal_value: int
     configured_area_boss_value: int = 7
+    ability_randomization_mode: int = 0
+    ability_gating: int = 1
+    minimum_health: int = 6
+    maximum_health: int = 10
+    enemy_health_multiplier: int = 100
+    room_sanity: int = 0
+
+    @property
+    def ability_randomization_statues(self):
+        return SimpleNamespace(value=0)
 
     @property
     def goal(self):
@@ -67,6 +77,13 @@ class _FakeMultiWorld:
         self.completion_condition: dict[int, object] = {}
         self.entrances: dict[tuple[str, int], _FakeEntrance] = {}
         self.locations: dict[tuple[str, int], _FakeLocation] = {}
+        self.indirect_conditions = []
+
+    def get_region(self, name, player):
+        return (name, player)
+
+    def register_indirect_condition(self, region, entrance):
+        self.indirect_conditions.append((region, entrance))
 
     def get_entrance(self, name: str, player: int):
         key = (name, player)
@@ -97,9 +114,17 @@ class _FakeState:
 
 
 class _FakeWorld:
+    def _ability_gating_enabled(self):
+        return True
+
+    def _area_keys_enabled(self):
+        return True
+
     def __init__(self, goal_value: int, player: int = 1) -> None:
         self.player = player
         self.options = _FakeOptions(goal_value)
+        from .test_traversal import policy
+        self._enemy_copy_ability_policy = policy(0).policy
         self.multiworld = _FakeMultiWorld()
 
 
@@ -666,8 +691,13 @@ def _make_collection_state_room_graph() -> tuple[MultiWorld, CollectionState]:
     multiworld.worlds[1] = world
     world.options = SimpleNamespace(
         goal=SimpleNamespace(value=Goal.option_dark_mind),
-        room_sanity=SimpleNamespace(value=False),
+        room_sanity=SimpleNamespace(value=0),
+        ability_randomization_mode=0, ability_gating=1, minimum_health=6,
+        maximum_health=10, enemy_health_multiplier=100,
+        ability_randomization_statues=SimpleNamespace(value=0),
     )
+    from .test_traversal import policy
+    world._enemy_copy_ability_policy = policy(0).policy
     create_regions(world)
     set_rules(world)
     return multiworld, CollectionState(multiworld)
@@ -707,10 +737,22 @@ def test_collection_state_gates_hub_shortcuts_and_preserves_overland_routes() ->
         assert entrance.access_rule(state), entrance_name
         state.remove_item(item_name, 1)
 
-    # Existing overland passages remain traversable without a hub item; these
-    # are separate room connections, not the world-map hub shortcuts above.
+    # Isolate hub ownership from the now-installed source/ability route rules.
+    # The old mock omitted resolved source policy and skipped those rules.
+    from ..data import data
+    for item in data.items.values():
+        if "Hub Connection" not in item.label and "Mirror Shard" not in item.label:
+            state.add_item(item.label, 1)
+    # Moonlight overland is available with no hubs. Candy needs an upstream
+    # route under the real source rules, but not its own destination shortcut.
     assert state.can_reach("REGION_MOONLIGHT_MANSION/ROOM_2_HUB", "Region", 1)
+    assert not state.can_reach("REGION_CANDY_CONSTELLATION/ROOM_9_HUB", "Region", 1)
+    state.collect(multiworld.worlds[1].create_item("Rainbow Route West - Hub Connection"))
     assert state.can_reach("REGION_CANDY_CONSTELLATION/ROOM_9_HUB", "Region", 1)
+    direct = multiworld.get_entrance(
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS -> "
+        "REGION_CANDY_CONSTELLATION/ROOM_9_HUB", 1)
+    assert not direct.access_rule(state)
 
 
 def test_logical_exit_overrides_reference_declared_exits() -> None:

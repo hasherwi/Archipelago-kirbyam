@@ -317,6 +317,21 @@ def test_classified_rejection_does_not_hide_other_failure_timeout_or_crash(
     assert launcher.report_result(args, report, 1) == 1
 
 
+@pytest.mark.parametrize("room_sanity", ("false", "true"))
+def test_unconditional_phone_does_not_override_fuzz_profiles(room_sanity: str) -> None:
+    import yaml
+    from Generate import roll_triggers
+
+    game = "Kirby & The Amazing Mirror"
+    meta = yaml.safe_load(load_launcher().FUZZER_META_PATH.read_text(encoding="utf-8"))
+    original = {"minimum_health": 2,
+                "maximum_health": 1, "enemy_health_multiplier": 200,
+                "ability_gating": "true", "ability_randomization_mode": "shuffled",
+                "one_hit_mode": "include_vitality_counters", "room_sanity": room_sanity}
+    resolved = roll_triggers({game: original}, meta["triggers"], set())[game]
+    assert resolved == {**original, "maximum_health": "random-range-2-6"}
+
+
 def room16_artifact(launcher: ModuleType, root: Path, *, ability: str | None = None,
                     advanced: int = 0, accessibility: int = 0, placed: list[str] | None = None,
                     weight: int = 0) -> tuple[dict[str, object], dict[str, object]]:

@@ -1,0 +1,5485 @@
+{
+  "schema_version": 1,
+  "status": "Qualified native UFO Phone lifecycle evidence; no production activation or traversal binding",
+  "ai_assisted": true,
+  "date": "2026-11-11",
+  "production_commit": "c235d1d07f2de0574467ed42f054ab7c43bfbb1b",
+  "native_source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "result": "Six bounded UFO R/L lifecycle cases pass, including one exact cold repeat and matched disabled controls. Production Phone remains disabled.",
+  "options": {
+    "ability_randomization_mode": 1,
+    "ability_gating": 0,
+    "ability_randomization_no_ability_weight": 0,
+    "area_keys": 0,
+    "enemy_health_multiplier": 100,
+    "minimum_health": 6,
+    "maximum_health": 6
+  },
+  "source_policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Beam",
+      "Bomb",
+      "Burning",
+      "Cook",
+      "Crash",
+      "Cupid",
+      "Cutter",
+      "Fighter",
+      "Fire",
+      "Hammer",
+      "Ice",
+      "Laser",
+      "Magic",
+      "Mini",
+      "Missile",
+      "Parasol",
+      "Sleep",
+      "Smash",
+      "Spark",
+      "Stone",
+      "Sword",
+      "Throw",
+      "Tornado",
+      "UFO",
+      "Wheel"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 5662892934360856578,
+    "mapping_style": "per_enemy_type"
+  },
+  "source_witness": {
+    "original_template": "0x088D4FC0",
+    "original_room": 730,
+    "original_position": [
+      344,
+      296
+    ],
+    "observed_frame": 2234,
+    "observations": [
+      {
+        "frame": 2234,
+        "address": "0x20004d8",
+        "template": "0x088d4fc0",
+        "room": 730,
+        "type": 25,
+        "copy_field": 14,
+        "hp": 4,
+        "x": 344.0,
+        "y": 295.99609375,
+        "flags": "0x10004005"
+      }
+    ],
+    "actual720_to730_entry_frame": 1200,
+    "actual730_entry_position": [
+      456,
+      56.99609375
+    ],
+    "genuine_UFO_acquisition_frame": 2337,
+    "equipment_injection": false
+  },
+  "fixture": {
+    "startup_rooms": [
+      720,
+      101,
+      101,
+      101
+    ],
+    "startup_positions": [
+      [
+        168,
+        120
+      ],
+      [
+        48,
+        80
+      ],
+      [
+        48,
+        80
+      ],
+      [
+        48,
+        80
+      ]
+    ],
+    "production_byte_change_count": 16,
+    "allowed_changed_ranges": [
+      {
+        "offset_start": "0x2d8cb8",
+        "offset_end_exclusive": "0x2d8cc0",
+        "purpose": "preboot rooms"
+      },
+      {
+        "offset_start": "0x2d8cd0",
+        "offset_end_exclusive": "0x2d8cf0",
+        "purpose": "preboot positions"
+      },
+      {
+        "offset_start": "0x100ffd0",
+        "offset_end_exclusive": "0x100ffd4",
+        "purpose": "isolated experimental Phone enable = 1"
+      }
+    ],
+    "disabled_control_only_difference": "Phone enable word = 0, one changed byte at 0x100FFD0",
+    "isolated_client_slot_additions": {
+      "phone_protocol_version": 1,
+      "starting_phone_access": false
+    },
+    "sha256": {
+      "production.apkirbyam": "2a87250fff257fc848d0f21424aff0c3880b73ce10a231004007ee4b2642c827",
+      "production.gba": "83d1e56099a7b9385eb26950d11e48186a795890a9d20112670d5ab58efaa76c",
+      "fixture.gba": "628fae8d96ff0a8f0cd03685ac50d265d6edbba4f9f1bfe13a07504b0080188f",
+      "disabled-fixture.gba": "755607761f0fa59413ef980cdeff89de51420f57f90e21f1e9b74a950a656cbe",
+      "slot.json": "15779ec29400b94e0c8cd1c3f764246b7ac03f1615afbbcfefadf2cb1e506212",
+      "blank.sav": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc"
+    }
+  },
+  "key_masks": {
+    "A": 1,
+    "B": 2,
+    "Select": 4,
+    "Start": 8,
+    "Right": 16,
+    "Left": 32,
+    "Up": 64,
+    "Down": 128,
+    "R": 256,
+    "L": 512
+  },
+  "input_prefix": [
+    {
+      "start": 0,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 180,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 181,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 301,
+      "frames": 1,
+      "keys": 8
+    },
+    {
+      "start": 302,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 422,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 423,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 663,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 664,
+      "frames": 180,
+      "keys": 0
+    },
+    {
+      "start": 844,
+      "frames": 1,
+      "keys": 1
+    },
+    {
+      "start": 845,
+      "frames": 240,
+      "keys": 0
+    },
+    {
+      "start": 1085,
+      "frames": 70,
+      "keys": 32
+    },
+    {
+      "start": 1155,
+      "frames": 33,
+      "keys": 0
+    },
+    {
+      "start": 1188,
+      "frames": 1,
+      "keys": 64
+    },
+    {
+      "start": 1189,
+      "frames": 55,
+      "keys": 0
+    },
+    {
+      "start": 1244,
+      "frames": 200,
+      "keys": 32
+    },
+    {
+      "start": 1444,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 1474,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 1594,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 1634,
+      "frames": 3,
+      "keys": 16
+    },
+    {
+      "start": 1637,
+      "frames": 120,
+      "keys": 2
+    },
+    {
+      "start": 1757,
+      "frames": 40,
+      "keys": 0
+    },
+    {
+      "start": 1797,
+      "frames": 8,
+      "keys": 16
+    },
+    {
+      "start": 1805,
+      "frames": 30,
+      "keys": 0
+    },
+    {
+      "start": 1835,
+      "frames": 100,
+      "keys": 2
+    },
+    {
+      "start": 1935,
+      "frames": 50,
+      "keys": 0
+    },
+    {
+      "start": 1985,
+      "frames": 20,
+      "keys": 128
+    },
+    {
+      "start": 2005,
+      "frames": 1,
+      "keys": 32
+    },
+    {
+      "start": 2006,
+      "frames": 80,
+      "keys": 2
+    },
+    {
+      "start": 2086,
+      "frames": 3,
+      "keys": 16
+    },
+    {
+      "start": 2089,
+      "frames": 120,
+      "keys": 0
+    },
+    {
+      "start": 2209,
+      "frames": 25,
+      "keys": 16
+    },
+    {
+      "start": 2234,
+      "frames": 80,
+      "keys": 2
+    },
+    {
+      "start": 2314,
+      "frames": 30,
+      "keys": 128
+    },
+    {
+      "start": 2344,
+      "frames": 30,
+      "keys": 64
+    },
+    {
+      "start": 2374,
+      "frames": 82,
+      "keys": 16
+    },
+    {
+      "start": 2456,
+      "frames": 30,
+      "keys": 0
+    }
+  ],
+  "runtime_write_contract": {
+    "source_config_frame": 1085,
+    "source_config_writes_per_run": 8,
+    "source_config_guarded": false,
+    "phone_writes_per_owned_run": 2,
+    "phone_writes_guarded": true,
+    "gameplay_state_injections": 0,
+    "state_loads": 0,
+    "live_server": false
+  },
+  "determinism": {
+    "R_cold_repeat_trace_and_save_identical": true,
+    "unowned_L_vs_disabled_L_gameplay_identical_excluding_Phone_context": true,
+    "unowned_L_vs_disabled_L_save_identical": true
+  },
+  "native_byte_checks": [
+    {
+      "name": "L_entry_and_call_states",
+      "offset_start": "0x56e40",
+      "offset_end_exclusive": "0x578e4",
+      "retail_and_fixture_sha256": "73d6ac232300355a3d69012d2fc2e06aff888ff878e5a2f933838583c18dc9e3",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "room_entry_UFO_clear",
+      "offset_start": "0x55d9c",
+      "offset_end_exclusive": "0x56128",
+      "retail_and_fixture_sha256": "615410b6445792f2f6872aceca0b875a16e081f0b1db5da8518527f8b6686d2b",
+      "unchanged_from_retail": true
+    },
+    {
+      "name": "original_Sparky_full_template",
+      "offset_start": "0x8d4fc0",
+      "offset_end_exclusive": "0x8d4fe4",
+      "retail_and_fixture_sha256": "be05905f905fee70074c1488c2b7e65bde9c903eaf9d15a5f88f37fa5e1f115f",
+      "unchanged_from_retail": true
+    }
+  ],
+  "existing_production_UFO_button_transition_hooks": [
+    {
+      "offset": "0x6aa10",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6b3e8",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6bd8c",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6c768",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6d2a0",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6d69c",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6d8d4",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6db24",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    },
+    {
+      "offset": "0x6dd78",
+      "retail_target": "0x0805bc78",
+      "production_target": "0x0815f368"
+    }
+  ],
+  "native_source_references": [
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "7020-7071",
+      "symbol": "Macro_0803FF64_7",
+      "finding": "R uses native room, session, caller, battery, human and all-Kirbys-same-room conditions. Mini is excluded, but UFO is not."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "21752-21802",
+      "symbol": "sub_0806A85C",
+      "finding": "Ordinary UFO movement calls the common R macro and the native L path. L requires room priority 0x40 and ordinary session/single-player conditions."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "13071-13318",
+      "symbol": "sub_08056C2C / sub_08056E40 / sub_0805701C / sub_080572A0 / sub_080573D0",
+      "finding": "R and L explicitly support UFO call animations. R initiation decrements battery. Holding L uses the separate return path."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "12700-12727",
+      "symbol": "sub_08055D9C",
+      "finding": "Room-entry processing clears UFO when destination is 0x321, native 801. This is independent of Phone ownership."
+    },
+    {
+      "repository": "katam",
+      "path": "src/kirby.c",
+      "lines": "13363-13437",
+      "symbol": "sub_08057774 / sub_080578E4 / sub_080579F4",
+      "finding": "L sets destination 801 and native warp-star return/control states."
+    },
+    {
+      "repository": "katam",
+      "path": "include/data.h",
+      "lines": "711-725",
+      "symbol": "AIKirbyState",
+      "finding": "300 is AI_KIRBY_STATE_NORMAL, a native progression state, not human-player count."
+    },
+    {
+      "repository": "katam",
+      "path": "src/code_0814A828.c",
+      "lines": "460-473",
+      "symbol": "sub_0814AF04",
+      "finding": "The native Central Circle cutscene advances AI progression to 300 and saves WORLD state."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/kirby_ap_payload/ap_hook.s",
+      "lines": "185-215",
+      "symbol": "ap_phone_call_entry",
+      "finding": "The experimental hook guards only R entry 0x08056C2C. Native L entry 0x08056E40 is separate."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/kirby_ap_payload/phone.c",
+      "lines": "1-39",
+      "symbol": "gApPhoneConfig / ap_phone_call_blocked",
+      "finding": "Production enable remains 0. The isolated fixture sets 1 before boot."
+    },
+    {
+      "repository": "Archipelago-kirbyam",
+      "path": "worlds/kirbyam/phone_protocol.py",
+      "lines": "47-103",
+      "symbol": "sync_phone_ownership",
+      "finding": "The real ownership queue requires complete history, compatible capability, ROM identity and stable native-file fences."
+    }
+  ],
+  "runs": [
+    {
+      "name": "accepted-r-grant-r",
+      "mode": "r-grant-r",
+      "accepted": true,
+      "trace_frames": 3984,
+      "final_frame": 5068,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": 2789,
+      "first_all_helpers_in730_frame": 2962,
+      "L_start_frame": 3418,
+      "first_801_frame": 3621,
+      "first_normal_frame": 3630,
+      "AI_normal_frame": 4736,
+      "final_battery": 2,
+      "final_phone_owned": 1,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 2756,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2756,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "sha256": {
+        "commands.json": "3b37c613f8648bb0290d13152b75fe471ef4052abc965de4c0e826a895539a80",
+        "runtime.json": "802cb41339e6373a597c2e6e73d5d9983d3e7a7d34babed942b7558002dcea63",
+        "trace.json": "4403feca5b3435db57be92a6a5c9c4e2ff54723f6aea5f85c196abb70a758835",
+        "transport.json": "0afe3ed08044a2373b5b168a1021983ce6b95c6c5b721e054e56ceadf4538bc5",
+        "end.sav": "17d0e748aca935551f1458f34f5a1b7a74eeed5ef115e29d714a6e95c53617b3",
+        "outcome.json": "27a09ac0c6c7cbbd26d6a23ac11241d5a9c5c642c518ec93b32dff72b92846b5"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2546,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2576,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2636,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2666,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2726,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2756,
+          "frames": 2,
+          "keys": 0,
+          "label": "apply-phone-queue"
+        },
+        {
+          "start": 2758,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-R"
+        },
+        {
+          "start": 2818,
+          "frames": 600,
+          "keys": 0,
+          "label": "owned-R-settle"
+        },
+        {
+          "start": 3418,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 3538,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 5038,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2546,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 1,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2576,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 7,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2636,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 2,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2666,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 0,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2726,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 4,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2756,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 2,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2758,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2789,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 52,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2818,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2962,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3418,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "state": "0x806a85d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3538,
+          "keys": 512,
+          "room": 730,
+          "x": 465.234375,
+          "y": 269.50390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3621,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3630,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4736,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 5038,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 5068,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    },
+    {
+      "name": "accepted-r-grant-r-repeat",
+      "mode": "r-grant-r",
+      "accepted": true,
+      "trace_frames": 3984,
+      "final_frame": 5068,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": 2789,
+      "first_all_helpers_in730_frame": 2962,
+      "L_start_frame": 3418,
+      "first_801_frame": 3621,
+      "first_normal_frame": 3630,
+      "AI_normal_frame": 4736,
+      "final_battery": 2,
+      "final_phone_owned": 1,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 2756,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2756,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "sha256": {
+        "commands.json": "3b37c613f8648bb0290d13152b75fe471ef4052abc965de4c0e826a895539a80",
+        "runtime.json": "802cb41339e6373a597c2e6e73d5d9983d3e7a7d34babed942b7558002dcea63",
+        "trace.json": "4403feca5b3435db57be92a6a5c9c4e2ff54723f6aea5f85c196abb70a758835",
+        "transport.json": "0afe3ed08044a2373b5b168a1021983ce6b95c6c5b721e054e56ceadf4538bc5",
+        "end.sav": "17d0e748aca935551f1458f34f5a1b7a74eeed5ef115e29d714a6e95c53617b3",
+        "outcome.json": "27a09ac0c6c7cbbd26d6a23ac11241d5a9c5c642c518ec93b32dff72b92846b5"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2546,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2576,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2636,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2666,
+          "frames": 60,
+          "keys": 256,
+          "label": "locked-R"
+        },
+        {
+          "start": 2726,
+          "frames": 30,
+          "keys": 0,
+          "label": "release-locked-R"
+        },
+        {
+          "start": 2756,
+          "frames": 2,
+          "keys": 0,
+          "label": "apply-phone-queue"
+        },
+        {
+          "start": 2758,
+          "frames": 60,
+          "keys": 256,
+          "label": "owned-R"
+        },
+        {
+          "start": 2818,
+          "frames": 600,
+          "keys": 0,
+          "label": "owned-R-settle"
+        },
+        {
+          "start": 3418,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 3538,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 5038,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2546,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 1,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2576,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 7,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2636,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 2,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2666,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 0,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2726,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 4,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2756,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 2,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2758,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2789,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 52,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2818,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2962,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3418,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 3,
+          "state": "0x806a85d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3538,
+          "keys": 512,
+          "room": 730,
+          "x": 465.234375,
+          "y": 269.50390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3621,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3630,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4736,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 5038,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 5068,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    },
+    {
+      "name": "accepted-l-unowned",
+      "mode": "l-unowned",
+      "accepted": true,
+      "trace_frames": 3052,
+      "final_frame": 4136,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": null,
+      "first_all_helpers_in730_frame": null,
+      "L_start_frame": 2486,
+      "first_801_frame": 2689,
+      "first_normal_frame": 2697,
+      "AI_normal_frame": 3803,
+      "final_battery": 3,
+      "final_phone_owned": 0,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "sha256": {
+        "commands.json": "95d348b5ec975d8d0233fb030f164817fee94ba35842167752374be617543a22",
+        "runtime.json": "dc1a3ec085fb6de9139f87a52a48c8006ec062c7f1cadfdf0710a3c924c20c27",
+        "trace.json": "46a4a58716ab497d011766a42c1f70107f990037176732e66881ec72c288d304",
+        "transport.json": "1df245caffaa3f5a92de69c3480a3687bf4bf892e085b348f0da860344d3b6f5",
+        "end.sav": "8df8591c35e4c49d991b0e06d4ccc7c53cf990ccc0dfe5782373970e3d7c65d7",
+        "outcome.json": "e420fa6e32a16c0c9ac9f3bc9d3338cb98573bd24559fc8201eb78dd5f50bed8"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 2606,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 4106,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2606,
+          "keys": 512,
+          "room": 730,
+          "x": 465.234375,
+          "y": 269.50390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2689,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2697,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3803,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4106,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4136,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    },
+    {
+      "name": "accepted-l-owned",
+      "mode": "l-owned",
+      "accepted": true,
+      "trace_frames": 3054,
+      "final_frame": 4138,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": null,
+      "first_all_helpers_in730_frame": null,
+      "L_start_frame": 2488,
+      "first_801_frame": 2692,
+      "first_normal_frame": 2700,
+      "AI_normal_frame": 3806,
+      "final_battery": 3,
+      "final_phone_owned": 1,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 2486,
+          "address": "0x203b184",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        },
+        {
+          "frame": 2486,
+          "address": "0x203b180",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "production-phone-ownership-queue"
+        }
+      ],
+      "sha256": {
+        "commands.json": "c76dc70865f524e1612fd1a1d6309e815c36ed7cf58b171d683cb79f9b31585a",
+        "runtime.json": "f1e1a932754957c79e3a1cf86f0b4004f3723f883c292ae4b753d787fcf12c93",
+        "trace.json": "0d25fa8e8058127e06d9c42de51f5e3045eef2c9ddddd23d6d64834832ead108",
+        "transport.json": "53f5498fbda0d2bdbdc9d7bc85ae1dd38c766061ef8a56e3e5a2abaafd873564",
+        "end.sav": "17d0e748aca935551f1458f34f5a1b7a74eeed5ef115e29d714a6e95c53617b3",
+        "outcome.json": "2f5a8a688f510a9ca4a64e955d48aaa332a6bb2f6e350875f430a0f1920b0686"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 2,
+          "keys": 0,
+          "label": "apply-phone-queue"
+        },
+        {
+          "start": 2488,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 2608,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 4108,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2488,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2608,
+          "keys": 512,
+          "room": 730,
+          "x": 466.234375,
+          "y": 269.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2692,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2700,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3806,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4108,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4138,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            1,
+            0,
+            1,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    },
+    {
+      "name": "accepted-disabled-r",
+      "mode": "disabled-r",
+      "accepted": true,
+      "trace_frames": 3712,
+      "final_frame": 4796,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": 2516,
+      "first_all_helpers_in730_frame": 2648,
+      "L_start_frame": 3146,
+      "first_801_frame": 3349,
+      "first_normal_frame": 3358,
+      "AI_normal_frame": 4464,
+      "final_battery": 2,
+      "final_phone_owned": 0,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "sha256": {
+        "commands.json": "99d089a9fb2021db616b721b55383acf6bcccf2b84ab3674d1fd80d7911e389b",
+        "runtime.json": "2fd71e95f5c63cb338819829e6e52c96a2fe966eb889aeb806b3bd6e76a6f719",
+        "trace.json": "4d388927dfb4f5a01d53bd35fac20b606cbf9565897c82c326f8847038aada01",
+        "transport.json": "48ca74682cccb19c5f1a0e4a6eb9f8a5630aa09bd9b1a3449347db54270d1205",
+        "end.sav": "8df8591c35e4c49d991b0e06d4ccc7c53cf990ccc0dfe5782373970e3d7c65d7",
+        "outcome.json": "434dc7c5b036c183ef69e3a5f2a9a94fff66a9d87e9d13f226364276b611478a"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 60,
+          "keys": 256,
+          "label": "disabled-unowned-R"
+        },
+        {
+          "start": 2546,
+          "frames": 600,
+          "keys": 0,
+          "label": "disabled-R-settle"
+        },
+        {
+          "start": 3146,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 3266,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 4766,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2516,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 52,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2546,
+          "keys": 256,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2648,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 54,
+          "state": "0x8057ad1",
+          "battery": 2,
+          "caller": 0,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3146,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 2,
+          "state": "0x806a85d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 3266,
+          "keys": 512,
+          "room": 730,
+          "x": 465.234375,
+          "y": 269.50390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 3349,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 3358,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 4464,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 4766,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 4796,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 2,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            730,
+            730,
+            730
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            16,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    },
+    {
+      "name": "accepted-disabled-l",
+      "mode": "disabled-l",
+      "accepted": true,
+      "trace_frames": 3052,
+      "final_frame": 4136,
+      "first_ufo_frame": 2337,
+      "first_battery2_frame": null,
+      "first_all_helpers_in730_frame": null,
+      "L_start_frame": 2486,
+      "first_801_frame": 2689,
+      "first_normal_frame": 2697,
+      "AI_normal_frame": 3803,
+      "final_battery": 3,
+      "final_phone_owned": 0,
+      "control_x_before": 236.7421875,
+      "control_x_after": 270.7265625,
+      "writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "02f8a5d9",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "1ea3964e",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "sha256": {
+        "commands.json": "95d348b5ec975d8d0233fb030f164817fee94ba35842167752374be617543a22",
+        "runtime.json": "070ef2e78f44c1d7c9b1dae9d49bfd37b1e130bac1b3ea8648ad93c47e1889dd",
+        "trace.json": "c55666c77c8024b3e805aa45e485cafae02dfca48f88cf45b852d5cb7ebf0528",
+        "transport.json": "48ca74682cccb19c5f1a0e4a6eb9f8a5630aa09bd9b1a3449347db54270d1205",
+        "end.sav": "8df8591c35e4c49d991b0e06d4ccc7c53cf990ccc0dfe5782373970e3d7c65d7",
+        "outcome.json": "7aafd0d8eb1cddd75642dd8ce42b13148e784802cad9bb1eac060490f9dee29c"
+      },
+      "input_suffix": [
+        {
+          "start": 2486,
+          "frames": 120,
+          "keys": 512,
+          "label": "L-return"
+        },
+        {
+          "start": 2606,
+          "frames": 1500,
+          "keys": 0,
+          "label": "L-settle"
+        },
+        {
+          "start": 4106,
+          "frames": 30,
+          "keys": 16,
+          "label": "post-return-control"
+        }
+      ],
+      "lifecycle_samples": [
+        {
+          "frame": 1085,
+          "keys": 0,
+          "room": 720,
+          "x": 152.0,
+          "y": 105.44140625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 17,
+          "state": "0x8044fd5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 0,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            720,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 1200,
+          "keys": 0,
+          "room": 730,
+          "x": 456.0,
+          "y": 56.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2234,
+          "keys": 16,
+          "room": 730,
+          "x": 291.5,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2314,
+          "keys": 2,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2337,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2344,
+          "keys": 128,
+          "room": 730,
+          "x": 306.234375,
+          "y": 296.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 56,
+          "state": "0x805ceed",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2486,
+          "keys": 0,
+          "room": 730,
+          "x": 470.234375,
+          "y": 261.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 5,
+          "state": "0x806a85d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2606,
+          "keys": 512,
+          "room": 730,
+          "x": 465.234375,
+          "y": 269.50390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8057775",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            730,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2689,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 14,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            14,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 2697,
+          "keys": 0,
+          "room": 801,
+          "x": -8.0,
+          "y": -39.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x8055d9d",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 0,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 3803,
+          "keys": 0,
+          "room": 801,
+          "x": -6.0,
+          "y": -36.00390625,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 90,
+          "state": "0x80579f5",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4106,
+          "keys": 0,
+          "room": 801,
+          "x": 236.7421875,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 0,
+          "state": "0x803ff65",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        },
+        {
+          "frame": 4136,
+          "keys": 16,
+          "room": 801,
+          "x": 270.7265625,
+          "y": 232.99609375,
+          "hp": 6,
+          "max_hp": 6,
+          "ability": 0,
+          "animation": 11,
+          "state": "0x80412ad",
+          "battery": 3,
+          "caller": 255,
+          "phone": [
+            0,
+            4294967295,
+            0,
+            1346915889
+          ],
+          "copy_dirty": 0,
+          "copy_owned": 0,
+          "ai": 300,
+          "humans": 1,
+          "mode": 1,
+          "gate": 0,
+          "slot": 0,
+          "cpu_rooms": [
+            801,
+            101,
+            101,
+            101
+          ],
+          "cpu_abilities": [
+            0,
+            0,
+            0,
+            9
+          ]
+        }
+      ],
+      "native_save_checksums": "All six WORLD checksums valid; redundant records agree; selected-file ownership tag has Phone mask 0x2 (bit 1) only for owned cases; Copy bit 0 remains clear."
+    }
+  ],
+  "limits": [
+    "This is a qualified native file 0 fixture, not a complete Central Circle-to-source progression route. Startup uses the decoded 734-to-720 left-arrival compartment; actual inputs then enter 730 through the original top door.",
+    "Every run begins from a blank native battery with AI progression 0. The first return to 801 triggers the ordinary Central Circle cutscene and advances AI progression to 300. This is explicitly not a post-tutorial AI 300 source approach.",
+    "The source policy is one current production full 25-ability per-enemy-type shuffle, seed 8, policy seed 5662892934360856578, no-ability weight 0. Ability gating and Area Keys are OFF; health is minimum = maximum = 6 and enemy health 100%. No arbitrary seed, ability, health or RoomSanity matrix is claimed.",
+    "R proves permission, battery use, UFO preservation and helper arrival under these conditions. It does not prove a helper attack, switch, block, collectible or route, nor that Phone is necessary for a target.",
+    "Only eight production source-configuration writes and, in owned cases, two guarded Phone queue writes occur. No runtime pose, HP, ability, helper equipment, battery, direct ownership or selected-file injection occurs; no state loads occur.",
+    "Validation uses a real native mGBA bridge with a transport adapter and complete synthetic server histories. No live AP server, full watcher or native BizHawk Lua transport is claimed.",
+    "Production Phone stays absent from generated slot capability and item pool/catalog. The experiment adds compatible Phone capability only to its isolated client context and changes the fixture enable word before boot.",
+    "The native L/return state range and room-entry UFO-clearing range are byte-identical to retail. UFO movement also retains existing production button-transition hooks; the entire UFO code range is not claimed to be pristine retail.",
+    "Two preliminary assertions were corrected: first-hub settle needed 1,500 rather than 300 frames, and native AI progression must be allowed to advance to 300. A preliminary telemetry label confused Copy dirty with owned; all six final accepted runs were cold-replayed with separate correct fields. Only final accepted-* runs are included.",
+    "ROMs, saves, screenshots, full traces, complete transport reads and generated archives remain private. This document contains only sanitized metadata and telemetry."
+  ],
+  "artifact_hashes": {
+    "build.py": "53af521a79e06802429381c5581af4f0cbb9895674dcd5f78053a1601eab23dd",
+    "replay.py": "d586767aec8bfa11ed91a2849d40b0faae118acc99b31821d20ad409856d2915",
+    "verify_packet.py": "4e22916c01e6a55a1c63ac57ead9fdf861572be034db6d345c2475d692687e4d",
+    "source-inputs.json": "e700045f1aad96bf35f8628fd0861a43566b7e406a683db13a96ea0fdcd16c85"
+  },
+  "generation_enabled": false,
+  "traversal_witness_added": false,
+  "original_usa_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "2d224293a1504b3d532debbfe3f0b4fb9290a486c598a3b1290ccfe9ad7ba4ea",
+  "emulator": {
+    "core": "native mGBA through existing ARM64 bridge",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+  }
+}
