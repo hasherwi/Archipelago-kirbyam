@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "scope": "Current combined-patch native Moonlight lever physical pull, cold persistence and real AP reconnect; bounded startup fixture, not positive full-completion or route feasibility",
+  "source_head": "510fc333be48664932a7bf19c7769c820bbc64c5",
+  "generation_seed": 1016001,
+  "patch_sha256": "55f02a37f3483bffc1eaa4922cae6783061a2d84b306d796d4bf7980f41d678b",
+  "fixture_rom_sha256": "8db9b6b9878682f452ae45b97e31809d65fba3ecc3057d62e0699150a84f46d1",
+  "setup": {
+    "fresh_generated_full_completion_seed": true,
+    "room_sanity": true,
+    "ability_gating": false,
+    "area_keys": false,
+    "advanced_logic": false,
+    "native_file": 0,
+    "startup_room": 743,
+    "startup_position": [
+      166,
+      112
+    ],
+    "rom_override_offsets": [
+      "0x002D8CB8",
+      "0x002D8CD0"
+    ],
+    "startup_override_only": true,
+    "runtime_route_or_completion_writes": 0,
+    "logged_current_hp_refills": 1,
+    "transport": "shipping client and real MultiServer through isolated mGBA BizHawk-protocol adapter"
+  },
+  "results": {
+    "physical_up_interaction": true,
+    "record_before": "0x00000000",
+    "record_after": "0x48408000",
+    "lever_mask": 1,
+    "native_chest18_before_after": [
+      0,
+      0
+    ],
+    "fresh_process_cold_reload": {
+      "record_word": "0x48408000",
+      "full_auth_and_record_equal_to_physical_pull": true,
+      "lever_mask": 1,
+      "native_file": 0,
+      "input_battery_sha256": "4fca13b53f5db752ebd77bfbb7bbccf60a3f2995ac53956da96e102a3ea4bf1d",
+      "writes": 0,
+      "exit_code": 0
+    },
+    "native_L_return_to_Central_Circle": true,
+    "reporting_deferred_during_native_tutorial_state": true,
+    "native_normal_state_after_return": 300,
+    "actual_server_acknowledged_lever": 3960415,
+    "actual_server_checked_locations": [
+      3960415,
+      3960451,
+      3961000
+    ],
+    "received_history_count": 5,
+    "second_reconnect_new_checks": [],
+    "second_reconnect_history_identical": true,
+    "server_lever_reward_lines": 1,
+    "runtime_exit_codes": {
+      "physical_pull_return_reporting": 0,
+      "cold_reload": 0,
+      "own_state_duplicate_reconnect": 0
+    },
+    "reconnect_phase": "Fresh process resumes its own preceding same-ROM state and copied real server save; then disconnects/reconnects again."
+  },
+  "private_artifact_sha256": {
+    "physical/run.py": "a505f95ca1df6b033d457d44a0edb4e0d30bbb7681f08c463277644e124c177c",
+    "physical/cold.py": "f461517aed504bcd4016d4489bd52e9e3ffec301f0d270e5af88955c81376114",
+    "physical/cold-result.json": "edcc64804432d0d3a2505ebc997a6ca8f7c81f99b3f9770a1c2cb9ba69b70a0a",
+    "physical/evidence/reports.json": "68abff04f7e19dd26ec12923b9e70d8d9ebb32223435786e80cfeb2e53179219",
+    "physical/evidence/inputs.json": "ebabe6a243dbc2487514781efa9654da244ae240721a6b42723d7848c95926aa",
+    "physical/evidence/health-writes.jsonl": "a81144860007184235db6eafae646cf5bc200678b968ce53d3e623f51da2d79d",
+    "physical/private/client-writes.jsonl": "a0b3a3dc20e0b9f95b6031f688f3632b4d0d14b8868cd029eba8633997e18104",
+    "physical/private/server.log": "34fd2a9f6f231e1e3f9e210c643ea47d29e7dfb7c14bee58643fdd2880c79bfc",
+    "physical/private/final.ss": "cbb6f01a8f69d70bb38aba5436b294e38c4c963d992bd63107c42fb94c359d7d",
+    "reconnect/run.py": "aa9899e334bb5579da99a959adb6e3699de77d17dfb781ab049ac736c3d9814f",
+    "reconnect/evidence/reports.json": "1812332d94bf25628dc1feed7dac08b6a3a35427c097fea84b9d7a838a78e7fb",
+    "reconnect/evidence/inputs.json": "01d37c5b729b63cf4a7980aa429596536a3f431557c70c732bfdf5a4e842a812",
+    "reconnect/private/server.log": "c7bef4083b8e14e1071c3074492c935dc7ccca8b9d520637925063285a7bf278"
+  },
+  "limits": [
+    "Startup override skips natural access; no Normal/no-Phone feasibility conclusion",
+    "Only Moonlight lever and native file0 covered by this successor test",
+    "One current-HP refill; no manual completion/ownership writes",
+    "Not a positive 100-percent goal, all-file/all-order matrix or BizHawk GUI acceptance",
+    "First harness attempt ended on stdin EOF; preserved separately, not counted as full run",
+    "No full ROM, save, placements, auth bytes or screenshot published",
+    "Earlier harness teardown waited on an open bridge client and required interruption; final repeat explicitly closes bridge clients. Earlier evidence is preserved and not counted as a clean exit.",
+    "Clean reruns emitted a subprocess pipe ResourceWarning at shutdown; native/client scripts exited0 and server logs confirm closure."
+  ]
+}

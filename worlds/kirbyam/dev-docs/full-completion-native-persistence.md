@@ -317,3 +317,23 @@ The third server check is an area visit, not a required physical check. Cold
 persistence and eligible-room delivery are separately identified observations;
 resuming the room-190 state is not described as a cold load. See
 [the scoped Map Chest evidence](full-completion-map-chest-20261113.json).
+
+## Current combined-patch successor (2026-11-17)
+
+A fresh full-completion seed on patch `55f02a37…` now has a bounded
+current-patch Moonlight lever result. A disclosed startup-room fixture begins
+beside the actual room743 lever; ordinary Up interaction records the physical
+pull while wall ownership stays unset. A separate native cold boot preserves
+the full authenticated record and lever mask in file0.
+
+The native L return completes into normal gameplay. The shipping client and
+real local AP server acknowledge location3960415; a second reconnect preserves
+the same three checks and five-item history without another lever reward.
+Reporting remains deferred while the fixture is still in tutorial state.
+One current-HP refill is logged; no completion or route fields are manually set.
+
+[Successor evidence](full-completion-current-lever-20261117.json) preserves exact
+source/patch hashes and limitations. This establishes current physical-save and
+reporting behavior for this source/file only. It does not establish natural
+route feasibility, positive full completion or the remaining native matrix.
+The existing feature changelog entry remains applicable.
