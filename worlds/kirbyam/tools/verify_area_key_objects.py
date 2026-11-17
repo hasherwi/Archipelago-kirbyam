@@ -146,7 +146,7 @@ def main():
         run('ap_area_hub_mirror_main')
         assert calls == ([0x08099B80] if disabled else [0x0808B62C, 0x08099B80])
         if not disabled:
-            assert r(effect + 0x26, '<B') == 6
+            assert r(effect + 0x26, '<B') == 11
         w(0x0203B0C0, '<I', 4)
         run('ap_area_hub_mirror_main')
         assert r(obj + 0xB4, '<I') == 0

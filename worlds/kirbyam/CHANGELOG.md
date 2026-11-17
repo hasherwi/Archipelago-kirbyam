@@ -14,6 +14,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Add the default-off `Advanced Logic` toggle under `Make the game harder`; enabling it allows reviewed Crash and Magic traversal routes (PR #1092).
 
 ### Improvements
+- Use the original in-game wooden boards over locked themed hub mirrors, preserving their native frames (issue #1027).
 - Include the reviewed guaranteed-Foley Ice route through Mustard Room 15 in normal logic (issue #1099).
 - Improved Logic for Item Placement and Accessible Locations (PR #1092).
 
