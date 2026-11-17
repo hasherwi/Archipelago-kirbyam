@@ -1,0 +1,1482 @@
+{
+  "implementation_commit": "ae51c4d1d659c0d2138fc236d635de67576e9603",
+  "base_commit": "5fe94b87172416ef4fefef37df1179816d1e3a60",
+  "base_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "patch_sha256": "1ef550080f039ecec92a169e06f956111a5accdd7d102afdcadca3993cc530f5",
+  "emulator": "mGBA 0.10.5, isolated headless native core",
+  "setup": "Cold blank save; only player0 startup records changed. Hub/Area items delivered through native AP mailbox. Player x/y held for 35 frames per visual setup. Key mask cleared for controlled relock. Savestate reload scoped test.",
+  "records": [
+    {
+      "room": 190,
+      "template": "0x88b7d10",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      }
+    },
+    {
+      "room": 190,
+      "template": "0x88b7d10",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      }
+    },
+    {
+      "room": 191,
+      "template": "0x88cb110",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 191,
+      "template": "0x88cb134",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      }
+    },
+    {
+      "room": 191,
+      "template": "0x88cb110",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      }
+    },
+    {
+      "room": 191,
+      "template": "0x88cb134",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      }
+    },
+    {
+      "room": 192,
+      "template": "0x88bb3e4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      }
+    },
+    {
+      "room": 192,
+      "template": "0x88bb408",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 192,
+      "template": "0x88bb3e4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      }
+    },
+    {
+      "room": 192,
+      "template": "0x88bb408",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      }
+    },
+    {
+      "room": 193,
+      "template": "0x88d2ed4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      }
+    },
+    {
+      "room": 193,
+      "template": "0x88d2ed4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      }
+    },
+    {
+      "room": 194,
+      "template": "0x88b85dc",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 194,
+      "template": "0x88b8600",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      }
+    },
+    {
+      "room": 194,
+      "template": "0x88b85dc",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      }
+    },
+    {
+      "room": 194,
+      "template": "0x88b8600",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      }
+    },
+    {
+      "room": 290,
+      "template": "0x88c0f18",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      }
+    },
+    {
+      "room": 290,
+      "template": "0x88c0f3c",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 290,
+      "template": "0x88c0f18",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      }
+    },
+    {
+      "room": 290,
+      "template": "0x88c0f3c",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 291,
+      "template": "0x88c2618",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      }
+    },
+    {
+      "room": 291,
+      "template": "0x88c2618",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      }
+    },
+    {
+      "room": 390,
+      "template": "0x88c5620",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 390,
+      "template": "0x88c5620",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 490,
+      "template": "0x88c8bac",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      }
+    },
+    {
+      "room": 490,
+      "template": "0x88c8bac",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      }
+    },
+    {
+      "room": 590,
+      "template": "0x88b68c0",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      }
+    },
+    {
+      "room": 590,
+      "template": "0x88b68e4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 590,
+      "template": "0x88b68c0",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      }
+    },
+    {
+      "room": 590,
+      "template": "0x88b68e4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 7
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      }
+    },
+    {
+      "room": 591,
+      "template": "0x88cb0c4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      }
+    },
+    {
+      "room": 591,
+      "template": "0x88cb0c4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      }
+    },
+    {
+      "room": 592,
+      "template": "0x88cef38",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 592,
+      "template": "0x88cef5c",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      }
+    },
+    {
+      "room": 592,
+      "template": "0x88cef38",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 592,
+      "template": "0x88cef5c",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      }
+    },
+    {
+      "room": 690,
+      "template": "0x88d14e4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 690,
+      "template": "0x88d14e4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 12
+      }
+    },
+    {
+      "room": 790,
+      "template": "0x88bdd60",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 3
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      }
+    },
+    {
+      "room": 790,
+      "template": "0x88bdd60",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 3
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4afc",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b20",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b44",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b68",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b8c",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bb0",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bd4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bf8",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4c1c",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4c40",
+      "keys_disabled": false,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4afc",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b20",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b44",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b68",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 8
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 3
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4b8c",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 140,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bb0",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 11
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 5
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bd4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 13
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 2
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4bf8",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 1
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4c1c",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 6
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      }
+    },
+    {
+      "room": 801,
+      "template": "0x88b4c40",
+      "keys_disabled": true,
+      "locked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 9
+      },
+      "unlocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 14
+      },
+      "relocked": {
+        "type": 140,
+        "anim": 719,
+        "variant": 0,
+        "frame": 10
+      }
+    },
+    {
+      "room": 805,
+      "template": "0x88b51a0",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      }
+    },
+    {
+      "room": 805,
+      "template": "0x88b51a0",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      }
+    },
+    {
+      "room": 890,
+      "template": "0x88ce1e4",
+      "keys_disabled": false,
+      "locked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": null,
+        "variant": null,
+        "frame": null
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 660,
+        "variant": 11,
+        "frame": 56
+      }
+    },
+    {
+      "room": 890,
+      "template": "0x88ce1e4",
+      "keys_disabled": true,
+      "locked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 4
+      },
+      "unlocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 15
+      },
+      "relocked": {
+        "type": 151,
+        "anim": 719,
+        "variant": 0,
+        "frame": 0
+      }
+    }
+  ]
+}

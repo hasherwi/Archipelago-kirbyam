@@ -146,10 +146,36 @@ def main():
         run('ap_area_hub_mirror_main')
         assert calls == ([0x08099B80] if disabled else [0x0808B62C, 0x08099B80])
         if not disabled:
-            assert r(effect + 0x26, '<B') == 6
+            assert r(effect + 0x26, '<B') == 11
         w(0x0203B0C0, '<I', 4)
         run('ap_area_hub_mirror_main')
         assert r(obj + 0xB4, '<I') == 0
+        # DoorToHub owns its themed base separately from the lock overlay.
+        # Repeat loaded updates: never replace/free the base or duplicate boards.
+        w(obj + 0x82, '<B', 0x97)
+        w(obj + 0xB4, '<I', 0)
+        w(obj + 0xB8, '<I', 0)
+        w(obj + 0x40, '<I', 136 << 8)
+        w(obj + 0x44, '<I', 144 << 8)
+        w(obj + 0x56, '<B', 0)
+        w(0x0203B0C0, '<I', 0)
+        run('ap_area_hub_mirror_main')
+        assert r(obj + 0xB8, '<I') == 0  # native gate still closed
+        w(obj + 0xB4, '<I', effect + 0x100)
+        for keys in [0, 0, 4, 4, 0, 4]:
+            w(0x0203B0C0, '<I', keys)
+            prior = r(obj + 0xB8, '<I')
+            run('ap_area_hub_mirror_main')
+            assert r(obj + 0xB4, '<I') == effect + 0x100
+            locked = not disabled and keys == 0
+            assert r(obj + 0xB8, '<I') == (effect if locked else 0)
+            assert calls.count(0x0808B62C) == int(locked and not prior)
+            if locked:
+                assert r(effect + 0x26, '<B') == 11
+                assert r(effect + 0x34, '<I') == 136 << 8
+                assert r(effect + 0x38, '<I') == 144 << 8
+            rows.append({'family': 'DoorToHub', 'disabled': disabled,
+                         'keys': keys, 'locked': locked})
         # Reconciliation during an already authorized flight must not free the
         # native passenger-owning object. The separate boarding guard remains.
         w(obj + 0xB5, '<B', 1)

@@ -19,3 +19,16 @@ charges and helper history must be recorded when each check is actually tested.
 Any future inheritance must name its compatible Normal baseline and evidence;
 failed or uncertain checks remain visible. This preparation does not close
 #1059 or #1097, change progression rules, or assert restricted-run beatability.
+
+## Isolated follow-up
+
+A controller-only cold boot of the retained seed1097 archive is recorded in
+`normal-phone-1097-startup-smoke.json`. The human remained Normal in tutorial803,
+with no runtime writes, helper calls or infinite health. Real-client polling
+returned no location checks. This is startup smoke, not a completed check; the
+379-row inventory remains unchanged with zero accepted and zero inherited rows.
+
+The live #1059 issue still supplies no completed compatible Normal baseline.
+Active acceptance therefore stops at that prerequisite. A qualifying baseline
+must establish the matching build, topology, settings, non-ability inventory
+and allowed health assistance before any #1097 inheritance or full-run claim.
