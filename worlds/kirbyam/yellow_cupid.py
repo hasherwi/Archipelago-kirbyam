@@ -37,7 +37,7 @@ def validate_profile(world: Any, *, install: bool = False) -> bool:
     serialized = json.dumps(raw, sort_keys=True, separators=(",", ":"))
     signature = (tuple((type(value).__name__, value) for value in values), serialized)
     qualified = (bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
-                 and all(type(value) is int and value in ((0, 1) if name == "room_sanity" else (expected,))
+                 and all(type(value) is int and value in ((0, 1) if name in ("room_sanity", "ability_gating") else (expected,))
                          for name, value, expected in zip(PROFILE, values, PROFILE.values()))
                  and hashlib.sha256(serialized.encode()).hexdigest() == POLICY_SHA256
                  and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Cupid"}))
