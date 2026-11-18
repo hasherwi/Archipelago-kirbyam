@@ -16,18 +16,18 @@ CLI supporting attestation verification. The only release assets are
 `kirbyam.apworld`, `kirbyam.provenance.json` and `kirbyam.attestation.jsonl`.
 Never upload a full ROM, credentials or private runner details.
 
-## v0.5.2 preparation
+## v0.6.0 preparation
 
-The source manifest and representative slot-data snapshot target `0.5.2`, with
-release notes under `## v0.5.2` in `CHANGELOG.md`. Runtime slot data, generated
+The source manifest and representative slot-data snapshot target `0.6.0`, with
+release notes under `## v0.6.0` in `CHANGELOG.md`. Runtime slot data, generated
 YAML requirements and packaged metadata derive their world version from the
 manifest. APContainer and gameplay protocol versions are separate and unchanged.
-Harrison's simplified v0.5.2 changelog is preserved unchanged. This preparation
+The existing changelog content is preserved under the updated version heading. This preparation
 does not create a tag, draft release or published release. Pending milestone
 acceptance and final source-head CI remain separate from this version update.
 
 After this preparation is reviewed and merged, select the exact reviewed main commit as
-SOURCE and use `kirbyam-v0.5.2` as TAG in the steps below. Do not use a PR build
+SOURCE and use `kirbyam-v0.6.0` as TAG in the steps below. Do not use a PR build
 or an uncommitted checkout as release provenance. Run source preflight against
 that commit before any separately authorized draft/tag operation, then verify
 the three attested assets before separately authorized publication.
