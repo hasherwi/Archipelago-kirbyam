@@ -1,0 +1,681 @@
+{
+  "version": 1,
+  "target": "bomb_617_radish_map",
+  "owner": "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+  "location": 3960207,
+  "native_room": 617,
+  "entrance": {
+    "from_room": 502,
+    "source_tile": [
+      49,
+      16
+    ],
+    "arrival_xy": [
+      56,
+      136.99609375
+    ]
+  },
+  "positive": [
+    {
+      "hp": 6,
+      "gated": false,
+      "omission": null,
+      "minimum_hp": 6,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        },
+        {
+          "frame": 1725,
+          "field": "upper_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2085,
+          "field": "lower_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2340,
+          "field": "native_chest73",
+          "value": true
+        },
+        {
+          "frame": 2340,
+          "field": "major_check8",
+          "value": true
+        }
+      ],
+      "final_flags": {
+        "native_chest73": true,
+        "major_check8": true,
+        "native_map8": false,
+        "upper_bomb": 0,
+        "lower_bomb": 0
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960207
+          ]
+        }
+      ],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "e33815a3366b3dbe2a08f8f36f438e306717e79286037547a51b47ef1e10f381",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "ungated6-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 6,
+        "ability": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "f557e16db4bac2cbc01e8062ef5180cbf1f3932d012caede126948c4fc37b614",
+      "runtime_sha256": "3e43d0a7776230304961fb24c3f7dca16509e5760654c136894a5a23ca17a932"
+    },
+    {
+      "hp": 6,
+      "gated": true,
+      "omission": null,
+      "minimum_hp": 6,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        },
+        {
+          "frame": 1725,
+          "field": "upper_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2085,
+          "field": "lower_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2340,
+          "field": "native_chest73",
+          "value": true
+        },
+        {
+          "frame": 2340,
+          "field": "major_check8",
+          "value": true
+        }
+      ],
+      "final_flags": {
+        "native_chest73": true,
+        "major_check8": true,
+        "native_map8": false,
+        "upper_bomb": 0,
+        "lower_bomb": 0
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960207
+          ]
+        }
+      ],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "41ec5111ffbc27c4ba27a38af2dd88f6560139b8c63f1a0daf0ef2240def786c",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "gated6-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 6,
+        "ability": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "9d1cbf71dfdbac257795d601ca48b3d86f684029df2f250275821cbc962fe001",
+      "runtime_sha256": "d15a513e410dacece3d59adf2d2890d6792ce275a5a7664aa55168e3dc72b900"
+    },
+    {
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        },
+        {
+          "frame": 1725,
+          "field": "upper_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2085,
+          "field": "lower_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2340,
+          "field": "native_chest73",
+          "value": true
+        },
+        {
+          "frame": 2340,
+          "field": "major_check8",
+          "value": true
+        }
+      ],
+      "final_flags": {
+        "native_chest73": true,
+        "major_check8": true,
+        "native_map8": false,
+        "upper_bomb": 0,
+        "lower_bomb": 0
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960207
+          ]
+        }
+      ],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "3ab3e1479c63474a53bd5512890f2e7c4e85a9ea80690c3d6b4d28e3ec110868",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "ungated1-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 1,
+        "ability": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "01b9389702a3015b4b621f7ea0706f771e24220190a9340cd1f009b706f921ae",
+      "runtime_sha256": "010e040cc401663d1368f49f5ae3b57017c007a525387544d292d507f5af3ccf"
+    },
+    {
+      "hp": 1,
+      "gated": true,
+      "omission": null,
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        },
+        {
+          "frame": 1725,
+          "field": "upper_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2085,
+          "field": "lower_bomb",
+          "value": 0
+        },
+        {
+          "frame": 2340,
+          "field": "native_chest73",
+          "value": true
+        },
+        {
+          "frame": 2340,
+          "field": "major_check8",
+          "value": true
+        }
+      ],
+      "final_flags": {
+        "native_chest73": true,
+        "major_check8": true,
+        "native_map8": false,
+        "upper_bomb": 0,
+        "lower_bomb": 0
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960207
+          ]
+        }
+      ],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "67bdef3ab28db07c2a8a2808ee835ea33587de7203526f79ae86755cf940f5da",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "gated1-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 1,
+        "ability": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "364b16b94ae23ea775b43b6fbf7f13f1a3126e7093d6d6efd5bf2f2c238326aa",
+      "runtime_sha256": "934c16272fefcce2c94adc5b38060f09ac7727701e4da13ed0430f3cd1d990a2"
+    }
+  ],
+  "controls": [
+    {
+      "hp": 6,
+      "gated": false,
+      "omission": "upper_puff",
+      "minimum_hp": 6,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        }
+      ],
+      "final_flags": {
+        "native_chest73": false,
+        "major_check8": false,
+        "native_map8": false,
+        "upper_bomb": 242,
+        "lower_bomb": 241
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "e33815a3366b3dbe2a08f8f36f438e306717e79286037547a51b47ef1e10f381",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "omit-upper-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 6,
+        "ability": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "77ae06ab73d98b49f93da7d0ada8ff3575bf1dcaed9f1cea4a9c7c85ee84a740",
+      "runtime_sha256": "bbe0bf4d039c29200c0fe4971ed58211a3a13096287ddcab22167ed8eecda513"
+    },
+    {
+      "hp": 6,
+      "gated": false,
+      "omission": "lower_slide",
+      "minimum_hp": 4,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "events": [
+        {
+          "frame": 1086,
+          "field": "native_chest73",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "major_check8",
+          "value": false
+        },
+        {
+          "frame": 1086,
+          "field": "native_map8",
+          "value": false
+        },
+        {
+          "frame": 1269,
+          "field": "upper_bomb",
+          "value": 242
+        },
+        {
+          "frame": 1269,
+          "field": "lower_bomb",
+          "value": 241
+        },
+        {
+          "frame": 1725,
+          "field": "upper_bomb",
+          "value": 0
+        }
+      ],
+      "final_flags": {
+        "native_chest73": false,
+        "major_check8": false,
+        "native_map8": false,
+        "upper_bomb": 0,
+        "lower_bomb": 241
+      },
+      "runtime_writes": [],
+      "captured_client_messages": [],
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "fixture_sha256": "e33815a3366b3dbe2a08f8f36f438e306717e79286037547a51b47ef1e10f381",
+      "fixture_ranges": [
+        [
+          2985144,
+          8
+        ],
+        [
+          2985168,
+          32
+        ],
+        [
+          15728640,
+          16
+        ],
+        [
+          1439376,
+          4
+        ],
+        [
+          1439384,
+          4
+        ],
+        [
+          1439368,
+          4
+        ]
+      ],
+      "run": "omit-lower-v2",
+      "final": {
+        "frame": 2547,
+        "room": 617,
+        "hp": 4,
+        "ability": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "private_evidence_sha256": "d73993a2b94e69a056c0432cb42527d8d6c0f3e8041582e9c23bdd39bd245dff",
+      "runtime_sha256": "8c13f6e5c91f937c978cb5dfd38b4e12b04ec5564c56bb11f1815232cdbae9c3"
+    }
+  ]
+}

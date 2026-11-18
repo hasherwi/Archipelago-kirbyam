@@ -54,6 +54,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_110_upper_normal_spit": frozenset({"Normal"}),
     "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
+    "bomb_617_normal_puff_slide": frozenset({"Normal"}),
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
@@ -95,6 +96,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9_underwater_sword": 110,
     "bomb_110_upper_normal_spit": 110,
     "bomb_110_room9_underwater_normal_spray": 110,
+    "bomb_617_normal_puff_slide": 617,
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
     "bomb_538_beam_left_crossover": 538,
@@ -462,6 +464,12 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     or route.source != "bomb_138_green:normal_lower_slide"
                     or route.target != "bomb_138_green:normal_chest"):
                 raise ValueError("Green138 Normal slide is an exact chest-only local action")
+        if route.capability == "bomb_617_normal_puff_slide":
+            if (route.required_equipment != frozenset({"Normal"}) or route.opens is not None
+                    or route.room_transition or route.items or route.recover_dropped_ability
+                    or route.source != "bomb_617_radish_map:arrival"
+                    or route.target != "bomb_617_radish_map:chest"):
+                raise ValueError("Radish617 Normal puff/slide is an exact chest-only local action")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")

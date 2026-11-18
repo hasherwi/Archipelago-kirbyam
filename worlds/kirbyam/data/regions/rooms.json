@@ -15532,10 +15532,58 @@
         "location_id": 3961218,
         "bit_index": 237
       },
-      "MAJOR_CHEST_RADISH_RUINS": "can_get_rr_map_chest"
+      "MAJOR_CHEST_RADISH_RUINS": null
     },
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_16": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_617_radish_map",
+          "kind": "block",
+          "native_room": 617,
+          "location": "MAJOR_CHEST_RADISH_RUINS",
+          "graphs": {
+            "normal_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_617_radish_map:arrival",
+                  "native_room": 617
+                },
+                {
+                  "id": "bomb_617_radish_map:chest",
+                  "native_room": 617
+                }
+              ],
+              "starts": [
+                "bomb_617_radish_map:arrival"
+              ],
+              "required_targets": [
+                "bomb_617_radish_map:chest"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "bomb_617_radish_map:arrival",
+                  "to": "bomb_617_radish_map:chest",
+                  "capability": "bomb_617_normal_puff_slide",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/radish617-normal-witness.md; four fresh native runs, 1/6 HP, gating on/off, no permissions, helpers or acquisition."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_1": {

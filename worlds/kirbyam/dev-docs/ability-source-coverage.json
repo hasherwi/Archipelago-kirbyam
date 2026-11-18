@@ -3559,10 +3559,6 @@
       "token": "can_cut_ropes"
     },
     {
-      "path": "rooms/REGION_RADISH_RUINS/ROOM_8_CHEST_2/locations/MAJOR_CHEST_RADISH_RUINS",
-      "token": "can_get_rr_map_chest"
-    },
-    {
       "path": "rooms/REGION_RADISH_RUINS/ROOM_8_03/exits/REGION_RADISH_RUINS/ROOM_8_CHEST_1",
       "token": "can_pound_pegs"
     },

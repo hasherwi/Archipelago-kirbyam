@@ -117,7 +117,6 @@ _PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
     "can_wheel",
     "can_mirra",
     "can_hit_far_switch",
-    "can_get_rr_map_chest",
 })
 
 

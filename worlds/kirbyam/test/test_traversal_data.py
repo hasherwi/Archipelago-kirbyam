@@ -167,6 +167,7 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
         "bomb_110_upper_normal_spit": frozenset({"Normal"}),
         "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
+        "bomb_617_normal_puff_slide": frozenset({"Normal"}),
         "bomb_138_green": frozenset({"Spark"}),
         "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
         "bomb_538_beam_left_crossover": frozenset({"Beam"}),
