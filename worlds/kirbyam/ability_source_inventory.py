@@ -74,6 +74,9 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         lifetime = record['parent_placement']
         if result.get('lifetime', lifetime) != lifetime:
             raise ValueError(f'Generated source lifetime mismatch: {identity}')
+        if (record.get('configured_child_capacity') == 1
+                and record.get('reclaims_destroyed_slots') is False and result.get('renewable')):
+            raise ValueError(f'Finite non-reclaiming spawner cannot be renewable: {identity}')
         result['lifetime'] = lifetime
     result['source_key'] = key
     return result

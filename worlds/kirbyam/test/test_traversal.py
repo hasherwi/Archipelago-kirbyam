@@ -312,12 +312,13 @@ def test_equipment_loss_requires_a_live_reacquisition_source(renewable):
 
 
 @pytest.mark.parametrize("revive", [False, True])
-def test_room_reset_does_not_implicitly_revive_encounter(revive):
-    source = Placement("post", "ROCKY", identity="rock", renewable=True, lifetime="encounter")
+@pytest.mark.parametrize("renewable", [False, True])
+def test_room_reset_does_not_implicitly_revive_encounter(revive, renewable):
+    source = Placement("post", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
     routes = [Route("pre", "post", room_transition=True, resets_room_instance=True,
                     revives_lifetimes=frozenset({"encounter"}) if revive else frozenset()),
               Route("post", "other", required_equipment=frozenset({"Stone"}))]
-    result = run(routes, [source], starts=[Position("pre", expired=frozenset({"encounter"}))], gating=False)
+    result = run(routes, [source], starts=[Position("pre", consumed=frozenset({"rock"}), expired=frozenset({"encounter"}))], gating=False)
     assert result.reaches("other") == revive
 
 
@@ -327,3 +328,18 @@ def test_lifetime_effects_reject_unknown_or_unevidenced_reset():
     with pytest.raises(ValueError, match="explicit room-instance reset"):
         run([Route("pre", "post", revives_lifetimes=frozenset({"encounter"}))],
             [Placement("pre", "ROCKY", lifetime="encounter")])
+
+
+
+def test_revival_cannot_use_a_reset_annotation_without_a_transition():
+    with pytest.raises(ValueError, match='actual room-reset transition'):
+        run([Route('pre', 'post', resets_room_instance=True,
+                   revives_lifetimes=frozenset({'encounter'}))],
+            [Placement('pre', 'ROCKY', lifetime='encounter')])
+
+
+def test_ending_source_lifetime_preserves_equipment_already_acquired():
+    result = run([Route('pre', 'post', ends_lifetimes=frozenset({'encounter'})),
+                  Route('post', 'other', required_equipment=frozenset({'Stone'}))],
+                 [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False)
+    assert result.reaches('other')

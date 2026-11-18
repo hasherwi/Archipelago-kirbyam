@@ -69,7 +69,9 @@ The existing traversal state now tracks expired source lifetimes alongside one
 equipped ability and consumed objects. Evidenced routes can lose equipment or
 end an encounter lifetime. Loss requires actual reacquisition from a still-live
 source. A room reset clears finite uses as before but does not revive an expired
-encounter; revival needs an explicit reset and its own evidence. These fields
+encounter; revival needs an actual room-reset transition and its own evidence. Capacity-one
+spawners without destroyed-slot reclamation cannot be declared renewable; a
+renewal claim cannot override that decoded native limit. These fields
 extend the existing solver and preserve previous routes when absent.
 
 ## Reproduction

@@ -525,6 +525,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         ):
             raise ValueError("Allowed abilities must narrow the route capability providers")
         transitions = route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room
+        if route.revives_lifetimes and not transitions:
+            raise ValueError("Source lifetime revival requires an actual room-reset transition")
         if route.resets_room_instance and route.preserves_room_instance:
             raise ValueError("A room instance cannot be both reset and preserved")
         if route.opens and transitions:

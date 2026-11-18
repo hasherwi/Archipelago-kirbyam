@@ -236,3 +236,19 @@ def test_serialized_lifetime_effect_requires_evidence(effect, evidence, value):
         graph['routes'][0].update(room_instance='reset', room_transition=True, reset_evidence='fixture reset')
     compiled = compile_room_graph(graph, {})
     assert getattr(compiled.routes[0], effect) == (value if isinstance(value, bool) else frozenset(value))
+
+
+
+def test_native_non_reclaiming_spawner_cannot_supply_unlimited_random_retries():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    for record in inventory['spawner_outputs']:
+        if record['source_key'] is None:
+            continue
+        source = {'inventory_id': record['id'], 'generation_evidence': 'fixture activation',
+                  'lifetime_evidence': 'fixture encounter', 'renewable': True,
+                  'renewable_evidence': 'unsupported retry claim', 'retry_evidence': 'retry'}
+        with pytest.raises(ValueError, match='Finite non-reclaiming spawner'):
+            resolve_inventory_source(source, record['native_room'], advanced=True)
+        source.update(renewable=False)
+        source.pop('retry_evidence')
+        assert not resolve_inventory_source(source, record['native_room'], advanced=True)['renewable']
