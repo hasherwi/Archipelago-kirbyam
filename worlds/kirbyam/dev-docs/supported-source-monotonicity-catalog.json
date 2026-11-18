@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "8b6dee2f0886c5b58aa1cacadebb40ddf345bc4128156733c12ba755e27f1caf",
-    "worlds/kirbyam/traversal_data.py": "a3a1f0e7506924148cd0b1f6844f6fa00fb590a5436cd14a42dcd088dc632647",
+    "worlds/kirbyam/traversal.py": "ebffe7a6c995715bfc93e753dba848ab5fa04c3a6d27414e2f49f5ea7bedf8af",
+    "worlds/kirbyam/traversal_data.py": "020d09d38cfa5896df650219017e51ebd65a22fc2972a55d694ed73af013b26b",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "478f1cb6e819da7436b14c93428aae070142ab17b4b05e5aae40e7d32fb56591",
+    "worlds/kirbyam/data/regions/rooms.json": "75cb3a18b7f10d88900c082be1398740706b5904a4354afddf237ad5d8eea7aa",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
     "worlds/kirbyam/ability_source_inventory.py": "d045c57eae1fc65d2467a2ed4ac42b025471161cf759838a1d4989353d4e6b28",
     "worlds/kirbyam/data/ability_source_inventory.json": "8f1f0c83dd2c8a52facc393fc1d7929bc110f894e5514e0dff49e622ade3205f"
   },
-  "witnesses": 150,
-  "variants": 300,
+  "witnesses": 151,
+  "variants": 302,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -119,6 +119,9 @@
       "Normal"
     ],
     "mirra_141_top_normal_puff": [
+      "Normal"
+    ],
+    "mirra_141_east_normal_puff": [
       "Normal"
     ],
     "bomb_138_green": [
@@ -14221,6 +14224,72 @@
         {
           "from": "mirra_141_top_mustard:arrival",
           "to": "mirra_141_top_mustard:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_east_moonlight",
+      "witness": "normal_east_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "capability": "mirra_141_east_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_east_moonlight",
+      "witness": "normal_east_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "capability": "mirra_141_east_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
           "required_equipment": [
             "Normal"
           ]

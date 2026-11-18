@@ -7,7 +7,7 @@
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 156
+    "unresolved_action_context": 155
   },
   "surfaces": [
     {
@@ -4969,20 +4969,6 @@
       "installed_targets": [
         "metal_141_left_reverse"
       ]
-    },
-    {
-      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
-      "kind": "exit",
-      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_16",
-      "requirement": "can_mirra",
-      "room_sanity": false,
-      "tokens": [
-        {
-          "token": "can_mirra",
-          "category": "unresolved_action_context"
-        }
-      ],
-      "installed_targets": []
     },
     {
       "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42",

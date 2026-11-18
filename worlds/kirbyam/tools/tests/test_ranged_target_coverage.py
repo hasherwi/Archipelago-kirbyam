@@ -29,7 +29,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 59)
+        self.assertEqual(len(targets), 60)
         self.assertEqual(targets["mirra_141_top_mustard"]["owner"],
                          "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD")
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))

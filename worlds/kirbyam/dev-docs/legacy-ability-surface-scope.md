@@ -1,15 +1,15 @@
 # Remaining ability fallback scope (#1119)
 
 The normalized audit preserves each exact owner, directed exit or location and
-its original Boolean requirement. It enumerates 291 requirement-bearing surfaces
-with 405 action/movement tokens plus eight lever-item tokens:
+its original Boolean requirement. It enumerates 290 requirement-bearing surfaces
+with 404 action/movement tokens plus eight lever-item tokens:
 
 | Classification | Tokens | Meaning |
 | --- | ---: | --- |
 | Normal movement | 218 | Fly, swim and climb do not require a Copy Ability |
 | Installed traversal witness | 29 | Exact surface has an existing traversal target |
 | Policy-scoped witness | 2 | Mustard map tokens whose target still has unsupported-policy fallback |
-| Unresolved action context | 156 | 135 block, 18 floating-block and three Mirra tokens lack an exact installed target |
+| Unresolved action context | 155 | 135 block, 18 floating-block and two Mirra tokens lack an exact installed target |
 
 Normal movement now has an explicit dispatch independent of the pending ability
 fallback. This does not certify arbitrary geometry or allow equipped abilities
@@ -44,5 +44,9 @@ full closure of #1114 or #1119.
 
 The top room141 Mirra now has a bounded source-free Normal puff witness and an
 actual native545 transition. Its removed legacy token is not counted as an
-unresolved action. See `mirra141-normal-witness.md`; the other three Mirra
-surfaces remain unresolved.
+unresolved action. See `mirra141-normal-witness.md`; the other Mirra surfaces require their own evidence.
+
+The east room141 Mirra now has a separately scoped Normal puff witness with
+eight positive local/actual-entry fixtures and two wrong-facing controls.
+See `mirra141-east-normal-witness.md`; only the room117 and811 Mirra tokens
+remain unresolved. Failed timing variants are retained as limits.

@@ -56,6 +56,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
     "bomb_617_normal_puff_slide": frozenset({"Normal"}),
     "mirra_141_top_normal_puff": frozenset({"Normal"}),
+    "mirra_141_east_normal_puff": frozenset({"Normal"}),
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
@@ -100,6 +101,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9_underwater_normal_spray": 110,
     "bomb_617_normal_puff_slide": 617,
     "mirra_141_top_normal_puff": 141,
+    "mirra_141_east_normal_puff": 141,
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
     "bomb_538_beam_left_crossover": 538,
@@ -537,6 +539,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             capability="mirra_141_top_normal_puff", required_equipment=frozenset({"Normal"}),
         ):
             raise ValueError("Mirra141 Normal puff is an exact top-compartment clearance")
+        if route.capability == "mirra_141_east_normal_puff" and route != Route(
+            "mirra_141_east_moonlight:arrival", "mirra_141_east_moonlight:cleared",
+            capability="mirra_141_east_normal_puff", required_equipment=frozenset({"Normal"}),
+        ):
+            raise ValueError("Mirra141 Normal puff is an exact east-compartment clearance")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
