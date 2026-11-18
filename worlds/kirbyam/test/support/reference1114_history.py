@@ -1,10 +1,66 @@
-"""Reverse only reviewed phase-cache, finite-grant and destination-reset extensions.
+"""Reverse only reviewed phase-cache, finite-grant, encounter and destination-reset extensions.
 
 The remaining search bytes retain the pre-1114 hash; source expansion stays
 unoptimized. Exact replacements also reject mutations inside these extensions.
 """
 
 REVIEWED_TRANSFERS = (
+    (
+        """            if route.loses_equipment:
+                ability = "Normal"
+            expired = position.expired.union(route.ends_lifetimes).difference(route.revives_lifetimes)
+            active = set(position.active)
+            crosses_room = route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room
+            if crosses_room and (not route.preserves_room_instance or route.resets_room_instance):
+                active.clear()
+            active.difference_update(route.ends_lifetimes, route.revives_lifetimes)
+            active.update(lifetime for lifetime in route.activates_lifetimes if lifetime not in expired)
+            queue.append(Position(route.target, ability, opened, consumed, expired, frozenset(active)))""",
+        """            queue.append(Position(route.target, ability, opened, consumed))""",
+    ),
+    (
+        """                        or not objects[route.uses_object][0].requirements <= owned
+                        or (objects[route.uses_object][0].lifetime is not None
+                            and objects[route.uses_object][0].lifetime not in position.active)):""",
+        """                        or not objects[route.uses_object][0].requirements <= owned):""",
+    ),
+    (
+        """queue.append(Position(position.node, grant.abilities, position.opened, consumed,
+                                      position.expired, position.active))""",
+        """queue.append(Position(position.node, grant.abilities, position.opened, consumed))""",
+    ),
+    (
+        """queue.append(Position(position.node, granted_ability, position.opened, consumed,
+                                      position.expired, position.active))""",
+        """queue.append(Position(position.node, granted_ability, position.opened, consumed))""",
+    ),
+    (
+        """            grant = source_grant(source.source_key, source.native_grants)
+            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            if source.source_choices:
+                grant = policy.grant_choice(source.source_choices, permitted)
+                unrestricted = policy.grant_choice(source.source_choices, lambda _: True)""",
+        """            grant = source_grant(source.source_key, source.native_grants)
+            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))""",
+    ),
+    (
+        """            if not source.requirements <= owned:
+                continue
+            if source.lifetime is not None and source.lifetime not in position.active:
+                continue
+            identity""",
+        """            if not source.requirements <= owned:
+                continue
+            identity""",
+    ),
+    (
+        """queue.append(Position(position.node, "Normal", position.opened, position.consumed,
+                                      position.expired, position.active))""",
+        """queue.append(Position(position.node, "Normal", position.opened, position.consumed))""",
+    ),
+
     (
         """            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
                             if source.native_grants else policy.grant(source.source_key, lambda _: True))

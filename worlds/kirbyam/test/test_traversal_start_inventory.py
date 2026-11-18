@@ -115,19 +115,20 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
     multiworld.push_precollected(ready)
     early = [world.create_item(f'{ability} Ability') for _ in range(2)]
     early_ice = ability == 'Ice' and scenario != 'gating_off'
-    assert all(item.classification == (ItemClassification.progression if early_ice else ItemClassification.useful)
+    early_chocolate = ability in ('Missile', 'Parasol') and scenario in ('enabled', 'absent')
+    assert all(item.classification == (ItemClassification.progression if early_ice or early_chocolate else ItemClassification.useful)
                for item in early)
     for item in early:
         multiworld.push_precollected(item)
     unrelated = world.create_item('Magic Ability')
     assert unrelated.classification == ItemClassification.useful
     multiworld.push_precollected(unrelated)
-    assert multiworld.state.count(f'{ability} Ability', 1) == (4 if ability == 'Ice' else 1)
+    assert multiworld.state.count(f'{ability} Ability', 1) == (4 if ability == 'Ice' else (3 if early_chocolate else 1))
     world.create_regions()
-    expected = 4 if ability == 'Ice' else (3 if scenario == 'enabled' else 1)
+    expected = 4 if ability == 'Ice' else (3 if scenario == 'enabled' or early_chocolate else 1)
     assert multiworld.state.count(f'{ability} Ability', 1) == expected
     assert CollectionState(multiworld).count(f'{ability} Ability', 1) == expected
-    assert all(item.advancement is (early_ice or scenario == 'enabled') for item in early)
+    assert all(item.advancement is (early_ice or early_chocolate or scenario == 'enabled') for item in early)
     assert ready.classification == ItemClassification.progression
     assert unrelated.classification == ItemClassification.useful
     assert not multiworld.state.has('Magic Ability', 1)

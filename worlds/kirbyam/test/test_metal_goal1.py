@@ -190,6 +190,7 @@ def test_finite_smash_pool_gate_filter_is_distinct_from_mixed_uncertainty() -> N
     graph = room_traversal_graph(TARGET, 'local')
     resolver = policy(2, pool=['Smash', 'Burning'], weight=0)
     target, = graph.required_targets
-    assert graph.evaluate(resolver, frozenset({'Smash Ability'}), True).reaches(target)
+    # A temporarily filtered singleton is not a monotone finite guarantee.
+    assert not graph.evaluate(resolver, frozenset({'Smash Ability'}), True).reaches(target)
     assert not graph.evaluate(resolver, frozenset({'Smash Ability', 'Burning Ability'}), True).reaches(target)
     assert not graph.evaluate(resolver, frozenset(), True).reaches(target)

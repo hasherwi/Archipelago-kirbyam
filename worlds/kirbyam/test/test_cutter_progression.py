@@ -343,7 +343,13 @@ def test_advanced_seed1042_with_goal_games_preserves_historical_refusal(monkeypa
 def _assert_goal_phone_refusal(monkeypatch, tmp_path, case, seed, options):
     from .. import check_accessibility
     from .support.check_accessibility import audit_local_checks
-    expected, = json.loads((Path(__file__).parent / "data/goal-phone-generation-contract.json").read_text())["cases"][case]
+    historical = (Path(__file__).parent / "data/goal-phone-generation-contract.json").read_bytes()
+    current = json.loads((Path(__file__).parent / "data/chocolate-generation-contract.json").read_text())
+    assert hashlib.sha256(historical).hexdigest() == current["historical_sha256"]
+    expected, = current["cases"][case]
+    prior, = json.loads(historical)["cases"][case]
+    assert expected["seed"] == prior["seed"] and expected["policies"] == prior["policies"]
+    assert prior["accepted"] is False
     assert expected["accepted"] is False
     original = check_accessibility.validate_all_checks
     inspected = []

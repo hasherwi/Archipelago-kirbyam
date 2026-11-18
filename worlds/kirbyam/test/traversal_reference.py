@@ -157,9 +157,12 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         visited.add(position)
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
-            queue.append(Position(position.node, "Normal", position.opened, position.consumed))
+            queue.append(Position(position.node, "Normal", position.opened, position.consumed,
+                                      position.expired, position.active))
         for source in sources[position.node]:
             if not source.requirements <= owned:
+                continue
+            if source.lifetime is not None and source.lifetime not in position.active:
                 continue
             identity = source.identity or f"{source.node}:{source.source_key}"
             if identity in position.consumed:
@@ -168,6 +171,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             grant = source_grant(source.source_key, source.native_grants)
             unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
                             if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            if source.source_choices:
+                grant = policy.grant_choice(source.source_choices, permitted)
+                unrestricted = policy.grant_choice(source.source_choices, lambda _: True)
             bounded = not unrestricted.can_fail and unrestricted.abilities == grant.abilities
             abilities = grant.guaranteed if bounded else frozenset()
             if (allow_documented_retries and source.renewable and source.retry_evidence
@@ -175,11 +181,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 abilities = grant.abilities
                 assumptions.add(source.retry_evidence)
             for granted_ability in abilities:
-                queue.append(Position(position.node, granted_ability, position.opened, consumed))
+                queue.append(Position(position.node, granted_ability, position.opened, consumed,
+                                      position.expired, position.active))
             if bounded and not grant.can_fail and grant.abilities and not abilities:
                 # Player receives one of these, not all of them. Retain the
                 # uncertainty: a subsequent edge must work for EVERY outcome.
-                queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+                queue.append(Position(position.node, grant.abilities, position.opened, consumed,
+                                      position.expired, position.active))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -204,7 +212,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
-                        or not objects[route.uses_object][0].requirements <= owned):
+                        or not objects[route.uses_object][0].requirements <= owned
+                        or (objects[route.uses_object][0].lifetime is not None
+                            and objects[route.uses_object][0].lifetime not in position.active)):
                     continue
             if route.recover_dropped_ability:
                 if not all(
@@ -246,5 +256,14 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:
                     ability = (ability - {"Mini"}) | {"Normal"}
-            queue.append(Position(route.target, ability, opened, consumed))
+            if route.loses_equipment:
+                ability = "Normal"
+            expired = position.expired.union(route.ends_lifetimes).difference(route.revives_lifetimes)
+            active = set(position.active)
+            crosses_room = route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room
+            if crosses_room and (not route.preserves_room_instance or route.resets_room_instance):
+                active.clear()
+            active.difference_update(route.ends_lifetimes, route.revives_lifetimes)
+            active.update(lifetime for lifetime in route.activates_lifetimes if lifetime not in expired)
+            queue.append(Position(route.target, ability, opened, consumed, expired, frozenset(active)))
     return TraversalResult(frozenset(visited), frozenset(assumptions))

@@ -70,8 +70,7 @@ def test_batafire_policy_and_permission_binding(
                             can_reach_region=lambda region, player: False)
     assert not target.access_rule(state)  # Burning permission is now gated in production.
     owned.add("Burning Ability")
-    assert target.access_rule(state) is ("Burning" in resolver.grant(
-        "BATAFIRE", lambda ability: ability == "Burning").guaranteed)
+    assert target.access_rule(state) is applies  # Raw finite outcomes must also be guaranteed.
     owned.add("Smash Ability")
     assert target.access_rule(state) is applies  # Mixed finite outcomes remain uncertain.
     state.base_rule = False

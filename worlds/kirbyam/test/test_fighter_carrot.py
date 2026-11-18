@@ -15,6 +15,7 @@ from ..traversal_data import room_traversal_graph, room_traversal_targets, load_
 from .test_mini_traversal import make_world
 from .support.master719_history import before_master719
 from .test_traversal import policy
+from .support.cabbage_statues import chocolate_policy_applies
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
 OWNER = 'REGION_CARROT_CASTLE/ROOM_5_07'
@@ -66,7 +67,7 @@ def test_source_scope_and_progression(mode, pool, weight, applies, promotes, sta
     cabbage = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_517_chocolate')
     # Chocolate has its own later finite Fighter witness; neither graph grants the other's attack.
     if pool and 'Fighter' in pool:
-        assert rules.target_applies(cabbage, resolver) is promotes
+        assert rules.target_applies(cabbage, resolver) is chocolate_policy_applies(resolver)
     carrot_graph = room_traversal_graph('bomb_719_room13', 'room5_fighter_entry')
     cabbage_graph = room_traversal_graph('bomb_517_chocolate', 'hub2_fighter_entry')
     assert carrot_graph.routes[-1].capability == 'bomb_719_fighter_first_combo'
