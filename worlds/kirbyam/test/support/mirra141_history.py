@@ -11,7 +11,11 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
-        if row['target']['id'] == EAST_TARGET:
+        if row['target']['id'] == 'mirra_117_carrot':
+            assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_24'
+            assert row['target'].get('region', row['owner']) == row['owner']
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'a9e9497463f5d4924b8b355fba0570cd91be06c5945bfbf9f176215a7591f26f'
+        elif row['target']['id'] == EAST_TARGET:
             assert row['owner'] == EAST_OWNER
             assert digest(row['target']) == '020e2c9b461897ee37349d474a340458b0fa47d781d955b1a7f1fd396146d48f'
         elif row['target']['id'] == TARGET:
@@ -25,6 +29,9 @@ def before_mirra141_targets(rows):
 def before_mirra141_surfaces(rows):
     result = deepcopy(rows)
     for row in result:
+        if (row['owner'], row['kind'], row['target']) == ('REGION_RAINBOW_ROUTE/ROOM_1_24', 'exit', 'REGION_CARROT_CASTLE/ROOM_5_02'):
+            assert row['requirement'] is None
+            row['requirement'] = {'all': ['can_break_block', 'can_mirra']}
         if (row['owner'], row['kind'], row['target']) == (EAST_OWNER, 'exit', 'REGION_MOONLIGHT_MANSION/ROOM_2_16'):
             assert row['requirement'] is None
             row['requirement'] = 'can_mirra'
@@ -36,7 +43,14 @@ def before_mirra141_surfaces(rows):
 
 def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (151, 302)
+    assert (result['witnesses'], result['variants']) == (152, 304)
+    added117 = [r for r in result['graphs'] if r['target'] == 'mirra_117_carrot']
+    assert digest(added117) == 'cfb56b1b78ab4a4e97379176dd68b4c3317e695a81b76584736a3de1e9328297'
+    result['graphs'] = [r for r in result['graphs'] if r['target'] != 'mirra_117_carrot']
+    for capability in ('mirra_117_upper_payload', 'mirra_117_lower_payload', 'mirra_117_normal_clearance'):
+        assert result['capability_providers'].pop(capability) == ['Normal']
+    assert result['sources'].pop('WADDLE_DOO@0x088B9904') == [{'source_key': 'WADDLE_DOO', 'identity': '0x088B9904', 'renewable': False, 'documented_retry': False}]
+    assert result['sources'].pop('WADDLE_DEE@0x088B9874') == [{'source_key': 'WADDLE_DEE', 'identity': '0x088B9874', 'renewable': False, 'documented_retry': False}]
     east = [r for r in result['graphs'] if r['target'] == EAST_TARGET]
     assert digest(east) == '506e57b0add54cc3ca9049108938910ba86320ef50c50ffe5c9fc9ae9e6e7bf8'
     assert result['capability_providers'].pop('mirra_141_east_normal_puff') == ['Normal']

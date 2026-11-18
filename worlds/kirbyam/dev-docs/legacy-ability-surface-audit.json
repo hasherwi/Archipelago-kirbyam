@@ -7,7 +7,7 @@
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 155
+    "unresolved_action_context": 153
   },
   "surfaces": [
     {
@@ -4338,29 +4338,6 @@
         {
           "token": "can_fly",
           "category": "normal_movement"
-        }
-      ],
-      "installed_targets": []
-    },
-    {
-      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_24",
-      "kind": "exit",
-      "target": "REGION_CARROT_CASTLE/ROOM_5_02",
-      "requirement": {
-        "all": [
-          "can_break_block",
-          "can_mirra"
-        ]
-      },
-      "room_sanity": false,
-      "tokens": [
-        {
-          "token": "can_break_block",
-          "category": "unresolved_action_context"
-        },
-        {
-          "token": "can_mirra",
-          "category": "unresolved_action_context"
         }
       ],
       "installed_targets": []

@@ -57,6 +57,10 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_617_normal_puff_slide": frozenset({"Normal"}),
     "mirra_141_top_normal_puff": frozenset({"Normal"}),
     "mirra_141_east_normal_puff": frozenset({"Normal"}),
+    "mirra_117_upper_payload": frozenset({"Normal"}),
+    "mirra_117_lower_payload": frozenset({"Normal"}),
+    "mirra_117_normal_clearance": frozenset({"Normal"}),
+
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
@@ -102,6 +106,10 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_617_normal_puff_slide": 617,
     "mirra_141_top_normal_puff": 141,
     "mirra_141_east_normal_puff": 141,
+    "mirra_117_upper_payload": 117,
+    "mirra_117_lower_payload": 117,
+    "mirra_117_normal_clearance": 117,
+
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
     "bomb_538_beam_left_crossover": 538,
@@ -510,11 +518,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 raise ValueError("An ordinary-block attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload"}) != (
             route.uses_object is not None
         ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload"} \
                 and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
@@ -544,6 +554,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             capability="mirra_141_east_normal_puff", required_equipment=frozenset({"Normal"}),
         ):
             raise ValueError("Mirra141 Normal puff is an exact east-compartment clearance")
+        mirra117_actions = {
+            "mirra_117_upper_payload": ("arrival", "ladder", "0x088B9904"),
+            "mirra_117_lower_payload": ("ladder", "corridor", "0x088B9874"),
+            "mirra_117_normal_clearance": ("corridor", "cleared", None),
+        }
+        if route.capability in mirra117_actions:
+            start, end, payload = mirra117_actions[route.capability]
+            if route != Route("mirra_117_carrot:" + start, "mirra_117_carrot:" + end,
+                              capability=route.capability, uses_object=payload,
+                              required_equipment=frozenset({"Normal"})):
+                raise ValueError("Mirra117 requires its exact finite Normal sequence")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
@@ -796,6 +817,8 @@ def _validate_projectile_evidence(row: Mapping[str, Any]) -> None:
         "frozen_enemy_hit": "frozen_enemy_evidence", "metal_throw": "throw_evidence",
         # One atomic capture/carry/spit witness uses the existing evidence field.
         "bomb_110_upper_normal_spit": "evidence",
+        "mirra_117_upper_payload": "evidence",
+        "mirra_117_lower_payload": "evidence",
     }.get(row.get("capability", ""))
     if row.get("uses_object") is not None:
         if evidence_key is None:

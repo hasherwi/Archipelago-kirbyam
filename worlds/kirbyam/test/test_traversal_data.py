@@ -170,6 +170,10 @@ def test_target_catalog_counts_and_provider_separation():
         "bomb_617_normal_puff_slide": frozenset({"Normal"}),
         "mirra_141_top_normal_puff": frozenset({"Normal"}),
         "mirra_141_east_normal_puff": frozenset({"Normal"}),
+        "mirra_117_upper_payload": frozenset({"Normal"}),
+        "mirra_117_lower_payload": frozenset({"Normal"}),
+        "mirra_117_normal_clearance": frozenset({"Normal"}),
+
         "bomb_138_green": frozenset({"Spark"}),
         "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
         "bomb_538_beam_left_crossover": frozenset({"Beam"}),

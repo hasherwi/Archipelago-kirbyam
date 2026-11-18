@@ -276,6 +276,21 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
             "REGION_MOONLIGHT_MANSION/ROOM_2_16"):
         raise ValueError("Mirra141 Normal clearance belongs only to the east Moonlight exit")
+    if any(route.get("capability", "").startswith("mirra_117_")
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_117_carrot", "block", 117, "REGION_RAINBOW_ROUTE/ROOM_1_24",
+            "REGION_CARROT_CASTLE/ROOM_5_02"):
+        raise ValueError("Mirra117 Normal clearance belongs only to the Carrot exit")
+    if row.get("id") == "mirra_117_carrot":
+        for graph in row.get("graphs", {}).values():
+            if graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"}:
+                raise ValueError("Mirra117 requires independent native192 access")
+            if [(source.get("id"), source.get("inventory_id"), source.get("node"))
+                for source in graph.get("sources", ())] != [
+                    ("0x088B9904", "room:117/template:0x088B9904", "mirra_117_carrot:arrival"),
+                    ("0x088B9874", "room:117/template:0x088B9874", "mirra_117_carrot:ladder")]:
+                raise ValueError("Mirra117 requires its original two finite payloads")
     _validate_new_connection(row)
     if not isinstance(row.get("fail_closed", False), bool):
         raise ValueError("fail_closed must be a boolean")

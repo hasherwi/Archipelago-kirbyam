@@ -70,11 +70,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError("A metal attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload"}) != (
             route.uses_object is not None
         ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload"} \
                 and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:

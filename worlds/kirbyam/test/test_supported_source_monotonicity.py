@@ -115,7 +115,7 @@ def test_installed_beam_routes_require_raw_source_scope_or_source_free_water_gun
         ('bomb_719_room13', 'room5_entry', 'bomb_719_room13'),
     }
     assert recovery == {'mini_321_cross_to_right', 'mini_134_ocean_spray'}
-    assert len(seen) == 302  # All151 witnesses, both key modes, including logical subregions.
+    assert len(seen) == 304  # All152 witnesses, both key modes, including logical subregions.
 
 
 @pytest.mark.parametrize('target,witness', [('metal_176_goal2_drink', 'local'),
@@ -210,8 +210,8 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
     actual = {(target['id'], witness, keys): room_traversal_graph(target['id'], witness, keys)
               for target in _room_catalog()[0] for witness in target['graphs'] for keys in (False, True)}
     saved = {(row['target'], row['witness'], row['area_keys']): row for row in record['graphs']}
-    assert len(saved) == len(record['graphs']) == record['variants'] == 302
-    assert record['witnesses'] == 151 and set(saved) == set(actual)
+    assert len(saved) == len(record['graphs']) == record['variants'] == 304
+    assert record['witnesses'] == 152 and set(saved) == set(actual)
     assert record['ungated_pool_abilities'] == ['Beam']
     assert record['capability_providers'] == {key: sorted(values) for key, values in CAPABILITY_ABILITIES.items()}
     source_ids = set()
@@ -250,7 +250,7 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
                 'normal_accepted': attack_provider('Normal', route.water_state) in allowed,
                 'recover_dropped_ability': route.recover_dropped_ability})
         assert saved[identity]['capability_routes'] == expected_routes
-    assert source_ids == set(record['sources']) and len(source_ids) == 111
+    assert source_ids == set(record['sources']) and len(source_ids) == 113
 
 
 def test_saved_catalog_is_reproducible_and_hashes_current_sources() -> None:

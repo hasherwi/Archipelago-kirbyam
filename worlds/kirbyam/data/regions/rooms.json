@@ -2323,12 +2323,98 @@
           "can_fly"
         ]
       },
-      "REGION_CARROT_CASTLE/ROOM_5_02": {
-        "all": [
-          "can_break_block",
-          "can_mirra"
-        ]
-      }
+      "REGION_CARROT_CASTLE/ROOM_5_02": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mirra_117_carrot",
+          "kind": "block",
+          "native_room": 117,
+          "exit": "REGION_CARROT_CASTLE/ROOM_5_02",
+          "graphs": {
+            "normal_upper_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"
+              },
+              "nodes": [
+                {
+                  "id": "mirra_117_carrot:arrival",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:ladder",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:corridor",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:cleared",
+                  "native_room": 117
+                }
+              ],
+              "starts": [
+                "mirra_117_carrot:arrival"
+              ],
+              "required_targets": [
+                "mirra_117_carrot:cleared"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9904",
+                  "inventory_id": "room:117/template:0x088B9904",
+                  "node": "mirra_117_carrot:arrival",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/mirra117-normal-witness.md: actual192 entry and recorded approach reach this original finite enemy. Normal intake and B-only spit; no Down swallow, copied equipment or retry is assumed."
+                },
+                {
+                  "id": "0x088B9874",
+                  "inventory_id": "room:117/template:0x088B9874",
+                  "node": "mirra_117_carrot:ladder",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/mirra117-normal-witness.md: actual192 entry and recorded approach reach this original finite enemy. Normal intake and B-only spit; no Down swallow, copied equipment or retry is assumed."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mirra_117_carrot:arrival",
+                  "to": "mirra_117_carrot:ladder",
+                  "capability": "mirra_117_upper_payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action.",
+                  "uses_object": "0x088B9904"
+                },
+                {
+                  "from": "mirra_117_carrot:ladder",
+                  "to": "mirra_117_carrot:corridor",
+                  "capability": "mirra_117_lower_payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action.",
+                  "uses_object": "0x088B9874"
+                },
+                {
+                  "from": "mirra_117_carrot:corridor",
+                  "to": "mirra_117_carrot:cleared",
+                  "capability": "mirra_117_normal_clearance",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER": {

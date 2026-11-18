@@ -2,14 +2,14 @@
 
 The normalized audit preserves each exact owner, directed exit or location and
 its original Boolean requirement. It enumerates 290 requirement-bearing surfaces
-with 404 action/movement tokens plus eight lever-item tokens:
+with 402 action/movement tokens plus eight lever-item tokens:
 
 | Classification | Tokens | Meaning |
 | --- | ---: | --- |
 | Normal movement | 218 | Fly, swim and climb do not require a Copy Ability |
 | Installed traversal witness | 29 | Exact surface has an existing traversal target |
 | Policy-scoped witness | 2 | Mustard map tokens whose target still has unsupported-policy fallback |
-| Unresolved action context | 155 | 135 block, 18 floating-block and two Mirra tokens lack an exact installed target |
+| Unresolved action context | 153 | 134 block, 18 floating-block and one Mirra tokens lack an exact installed target |
 
 Normal movement now has an explicit dispatch independent of the pending ability
 fallback. This does not certify arbitrary geometry or allow equipped abilities
@@ -50,3 +50,9 @@ The east room141 Mirra now has a separately scoped Normal puff witness with
 eight positive local/actual-entry fixtures and two wrong-facing controls.
 See `mirra141-east-normal-witness.md`; only the room117 and811 Mirra tokens
 remain unresolved. Failed timing variants are retained as limits.
+
+The room117 Carrot exit now has a finite Normal route from independently reachable
+native192, consuming the original Waddle Doo and Waddle Dee payloads. Four complete
+entry-to-exit variants pass; the wrong-facing control remains blocked. See
+`mirra117-normal-witness.md`. Its block and Mirra tokens leave the unresolved count;
+the distinct upper-room Carrot exit and room811 remain unresolved.

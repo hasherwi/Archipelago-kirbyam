@@ -132,6 +132,10 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
             if row['id'] == TARGET:
                 assert before_radish617_targets([{'owner': region, 'target': row}]) == []
                 continue
+            if row['id'] == 'mirra_117_carrot':
+                from .support.mirra141_history import before_mirra141_targets
+                assert before_mirra141_targets([{'owner': region, 'target': {'region': region, **row}}]) == []
+                continue
             assert row['id'] not in catalogs['targets']
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.
