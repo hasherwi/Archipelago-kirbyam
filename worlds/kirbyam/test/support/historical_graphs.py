@@ -1,6 +1,6 @@
 """Strict projections for pinned pre-union main graph fingerprints.
 
-The two added compiled fields are checked before projecting the old shape.
+Added compiled fields are checked before projecting the old shape.
 The825 singleton is a reviewed semantic refinement, not byte identity. Raw
 physical hashes additionally account for one exact accepted documentation edit.
 """
@@ -31,6 +31,13 @@ def historical_main_compiled(graph: TraversalGraph, target: str, witness: str) -
     for route in payload['routes']:
         assert route['required_equipment'] is None
         del route['required_equipment']
+        assert route.pop('loses_equipment') is False
+        assert route.pop('ends_lifetimes') == frozenset()
+        assert route.pop('revives_lifetimes') == frozenset()
+    for placement in payload['placements']:
+        assert placement.pop('lifetime') is None
+    for start in payload['starts']:
+        assert start.pop('expired') == frozenset()
     return payload
 
 

@@ -156,3 +156,24 @@ def test_compiled_green_catalog_projection_rejects_removed_semantic_mutations(mu
         catalog['witnesses'] += 1
     with pytest.raises(AssertionError):
         catalog_before_green138(catalog)
+
+
+@pytest.mark.parametrize('field,value', [
+    ('loses_equipment', True), ('ends_lifetimes', frozenset({'encounter'})),
+    ('revives_lifetimes', frozenset({'encounter'})),
+])
+def test_compiled_projection_rejects_new_lifetime_route_effects(field, value):
+    graph = room_traversal_graph('fuse_126', 'local')
+    routes = (replace(graph.routes[0], **{field: value}), *graph.routes[1:])
+    with pytest.raises(AssertionError):
+        historical_main_compiled(replace(graph, routes=routes), 'fuse_126', 'local')
+
+
+def test_compiled_projection_rejects_source_lifetime_and_expired_start():
+    graph = room_traversal_graph('fuse_126', 'local')
+    placements = (replace(graph.placements[0], lifetime='encounter'), *graph.placements[1:])
+    with pytest.raises(AssertionError):
+        historical_main_compiled(replace(graph, placements=placements), 'fuse_126', 'local')
+    starts = (replace(graph.starts[0], expired=frozenset({'encounter'})), *graph.starts[1:])
+    with pytest.raises(AssertionError):
+        historical_main_compiled(replace(graph, starts=starts), 'fuse_126', 'local')
