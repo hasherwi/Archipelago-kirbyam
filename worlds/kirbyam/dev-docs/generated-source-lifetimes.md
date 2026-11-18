@@ -340,3 +340,28 @@ Initial parent-expiry callbacks are recorded where reviewed. Wiz's Bronto Burt
 child expiry remains explicitly unreviewed; parent attachment alone is not a
 callback. Later phase lifetimes, safe contact, root access and repeatability
 remain unresolved throughout this batch. No production target is added.
+
+King Golem's child source additionally requires the boss's HP to be at most half
+the native multiplayer health-table value, the random/`unk85` attack branch, and
+an empty tracked-enemy slot. Merely entering the arena at full boss health does
+not satisfy this. The child's custom destructor clears that slot, but does not
+prove another favorable attack or safe reacquisition. The threshold remains an
+expression tied to the actual runtime health table, not a hard-coded HP value.
+
+`generated-king-golem710-native-observations.json` binds six fresh local fixtures.
+The full-health control never produces a golem. The damage-and-copy sequence
+uses Normal rock spits to reach 30 HP out of 60, then observes the original
+controller create type31, its single-object intake and the resulting ability.
+Vanilla yields Stone; owned shuffled Ice and singleton live Ice yield Ice;
+unowned Ice and 100% no-ability controls remain Normal. All damage-and-copy
+fixtures retain at least 3 HP, and the original boss remains alive at 30 HP.
+The swallowed object's native ability field is Stone even in the shuffled case;
+the production swallow hook correctly restores the configured Ice assignment.
+
+These observations do not certify a one-HP route, other health settings or
+arrivals, other golem variants, arena entry, boss defeat, exit carry, reset or
+repeatability. No target graph is installed. Negative fixtures continue past
+the positive fixtures' first grant; comparison uses the common frame3645
+endpoint as well as each recorded full trace. The controller's literal30-HP
+input switch belongs only to this 100%-health fixture; production metadata
+keeps the native health-table expression.

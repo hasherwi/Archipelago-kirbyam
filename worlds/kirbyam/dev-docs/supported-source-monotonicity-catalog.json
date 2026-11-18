@@ -14,7 +14,7 @@
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
     "worlds/kirbyam/ability_source_inventory.py": "95718be040974cc850061a490af3c46fd841d9d70e995512b50d6795ddd74bdf",
-    "worlds/kirbyam/data/ability_source_inventory.json": "e0866a548aacb02303d43537d23f3bd1e835c1884e0e514b8d880f221c5e057d"
+    "worlds/kirbyam/data/ability_source_inventory.json": "186708ee37c88ea69e537ed4aad24d33c92eaa3b26200594cedd5f7c6b043e5f"
   },
   "witnesses": 150,
   "variants": 300,

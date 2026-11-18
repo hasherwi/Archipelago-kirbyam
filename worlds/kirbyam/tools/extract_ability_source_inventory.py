@@ -440,6 +440,8 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
     elif file == 'king_golem':
         result.update(selection='Rand16() & 3 retries value3, then adds OBJ_GOLEM_1',
             native_alternative_types=[31, 32, 33], child_subtype1=128,
+            entry_prerequisites='sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy',
+            tracked_child_release='golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy',
             initial_parent_expiry_condition='golem.c:CreateGolem subtype1 mask0x80')
     elif file == 'kracko':
         result.update(selection='first Rand16() & 1 selects Waddle Doo; otherwise second Rand16() & 3 selects Flamer, zero selects Twister',

@@ -148658,6 +148658,8 @@
           33
         ],
         "child_subtype1": 128,
+        "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
+        "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
       }
     },
@@ -148711,6 +148713,8 @@
           33
         ],
         "child_subtype1": 128,
+        "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
+        "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
       }
     },
@@ -148764,6 +148768,8 @@
           33
         ],
         "child_subtype1": 128,
+        "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
+        "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
       }
     },
