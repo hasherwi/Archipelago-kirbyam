@@ -365,3 +365,20 @@ the positive fixtures' first grant; comparison uses the common frame3645
 endpoint as well as each recorded full trace. The controller's literal30-HP
 input switch belongs only to this 100%-health fixture; production metadata
 keeps the native health-table expression.
+
+## Separately observed finite occurrences
+
+An encounter inventory record describes a native output prototype. A reviewed
+fixture may distinguish successive physical occurrences with `generation_instance`
+and `instance_evidence`. The resulting consumption and lifetime identity appends
+`/instance:<name>` to the prototype ID. Each occurrence still needs its own
+activation, generation, lifetime and acquisition evidence. Naming an occurrence
+neither spawns it nor establishes its attack branch or a safe retry.
+
+A graph cannot mix implicit and named occurrences of one prototype, give one
+occurrence multiple consumption identities, or share a consumption identity
+between occurrences. Ordinary placements and non-reclaiming spawners cannot
+use named occurrences to multiply their supply. A finite second occurrence can
+therefore support reacquisition only after its separately evidenced activation;
+room travel, loss of equipment and reactivating a spent occurrence cannot
+manufacture it. These schema tests install no new world route.

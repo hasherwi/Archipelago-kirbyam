@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import pkgutil
+import re
 from functools import lru_cache
 from typing import Any, Mapping
 
@@ -29,6 +30,19 @@ def source_inventory() -> Mapping[str, Mapping[str, Any]]:
     return result
 
 
+def generation_instance_suffix(source: Mapping[str, Any]) -> str:
+    """Name an explicitly evidenced finite occurrence of a generated prototype."""
+    if 'generation_instance' not in source:
+        return ''
+    instance = source['generation_instance']
+    if not isinstance(instance, str) or re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', instance) is None:
+        raise ValueError('Generated instance requires a simple nonempty identity')
+    evidence = source.get('instance_evidence')
+    if not isinstance(evidence, str) or not evidence.strip():
+        raise ValueError('Generated instance requires instance_evidence')
+    return '/instance:' + instance
+
+
 def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
                              *, advanced: bool = False, require_inventory: bool = False) -> dict[str, Any]:
     """Join a reviewed compartment witness to physical facts without adding access.
@@ -38,10 +52,13 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
     cannot construct a Placement or justify a retry of a finite random source.
     """
     result = dict(source)
+    instance_suffix = generation_instance_suffix(result)
     identity = result.pop('inventory_id', None)
     if identity is None:
         identity = _inventory_payload()['reviewed_bindings'].get(f"{native_room}:{source.get('id')}")
     if identity is None:
+        if instance_suffix:
+            raise ValueError('Generated instance requires a physical inventory reference')
         legacy_id = source.get('id')
         if legacy_id is not None and any(
             key.partition(':')[2] == legacy_id for key in _inventory_payload()['reviewed_bindings']
@@ -60,6 +77,10 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         raise ValueError(f'Physical ability placement belongs to another room: {identity}')
     if require_inventory and record.get('world_access', {}).get('status') == 'outside_adventure':
         raise ValueError(f'Physical ability placement is outside Adventure: {identity}')
+    if instance_suffix and 'parent_placement' not in record:
+        raise ValueError('Only a generated prototype can declare generation instances')
+    if instance_suffix and record.get('reclaims_destroyed_slots') is False:
+        raise ValueError('Non-reclaiming spawner cannot declare additional generation instances')
     key = record['source_key']
     if key is None:
         choices = record.get('possible_source_keys')
@@ -87,7 +108,7 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         # Generation ownership is not object lifetime: statue controllers die
         # immediately, while their outputs persist. Each output needs an explicit
         # activation and expiry contract; sharing the controller ID was unsound.
-        lifetime = record['id']
+        lifetime = record['id'] + instance_suffix
         if result.get('lifetime', lifetime) != lifetime:
             raise ValueError(f'Generated source lifetime mismatch: {identity}')
         if (record.get('configured_child_capacity') == 1

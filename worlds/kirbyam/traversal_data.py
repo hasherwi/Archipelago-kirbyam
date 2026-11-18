@@ -12,7 +12,7 @@ from typing import Any, Mapping
 
 from Options import Accessibility
 
-from .ability_source_inventory import resolve_inventory_source
+from .ability_source_inventory import generation_instance_suffix, resolve_inventory_source
 from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
@@ -110,16 +110,23 @@ def compile_room_graph(
             sources.append(source)
     physical_identities: dict[str, str] = {}
     identity_placements: dict[str, str] = {}
+    prototype_instance_modes: dict[str, bool] = {}
     for source in sources:
         inventory_id = source.get("inventory_id")
         if inventory_id is not None:
-            identity = source.get("id") or inventory_id
-            if inventory_id in physical_identities and physical_identities[inventory_id] != identity:
+            suffix = generation_instance_suffix(source)
+            explicit = bool(suffix)
+            if inventory_id in prototype_instance_modes and prototype_instance_modes[inventory_id] != explicit:
+                raise ValueError("Generated prototype cannot mix implicit and explicit instances")
+            prototype_instance_modes[inventory_id] = explicit
+            physical_id = inventory_id + suffix
+            identity = source.get("id") or physical_id
+            if physical_id in physical_identities and physical_identities[physical_id] != identity:
                 raise ValueError("One physical source cannot have multiple consumption identities")
-            if identity in identity_placements and identity_placements[identity] != inventory_id:
+            if identity in identity_placements and identity_placements[identity] != physical_id:
                 raise ValueError("Different physical sources cannot share one consumption identity")
-            identity_placements[identity] = inventory_id
-            physical_identities[inventory_id] = identity
+            identity_placements[identity] = physical_id
+            physical_identities[physical_id] = identity
             source["id"] = identity
     expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced,
                                                       require_inventory=require_inventory)
