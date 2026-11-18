@@ -306,6 +306,41 @@ def boxy_output_contract(source_hash: str, type_id: int, callsite: str) -> dict 
     return result
 
 
+DARK_MIND_REVIEW_SHA256 = '841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158'
+OBJECT_REVIEW_SHA256 = 'a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645'
+
+DARK_MIND_ENEMY_TABLES = {
+    'src/dark_mind.c:8365': (10, [18, 18, 18, 18, 20, 22, 24, 25, 37, 37]),
+    'src/dark_mind.c:8377': (16, [18, 20, 22, 24, 25, 37, 29, 29, 34, 34]),
+    'src/dark_mind.c:8391': (22, [18, 20, 21, 21, 22, 24, 25, 37, 37, 29, 27]),
+}
+
+
+def dark_mind_enemy_contract(source_hash: str, object_hash: str, type_id: int, callsite: str) -> dict | None:
+    entry = DARK_MIND_ENEMY_TABLES.get(callsite)
+    if (source_hash != DARK_MIND_REVIEW_SHA256 or object_hash != OBJECT_REVIEW_SHA256
+            or entry is None or type_id not in entry[1]):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'object_source_sha256': object_hash,
+        'generation_function': 'DarkMindForm2CreateRandomEnemies',
+        'immediate_controller': 'DarkMindMirror attached to DarkMindForm2',
+        'root_to_phase_lineage': 'unresolved; translation-unit candidate is not phase access',
+        'activation': f'parent unk12E clear and mirror counter == {entry[0]}',
+        'sweep_counter_initial': 36,
+        'selection_table': entry[1], 'initial_random_index_range': [0, 9],
+        'selection_override': ('selected Wheelie and Rand16() & 3 == 0 redirects to index10 (UFO)'
+                               if entry[0] == 22 else None),
+        'output_relationship': 'one selected enemy at each of three separate counter events',
+        'parent_attachment': 'not assigned by Macro_081059A8_2',
+        'tracked_by': f'form2 enemy{3 if entry[0] == 10 else 2 if entry[0] == 16 else 1}',
+        'cleanup': 'sub_0810CBE8 marks tracked enemy unkC0x2000 unless interaction flag0x400 set; ObjectMain converts this to destruction flag0x1000',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+
+
 MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
 # Reviewed waiting callbacks and macro anchors, pinned independently per file.
 MINIBOSS_ACTIVATION = {
@@ -612,6 +647,11 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 record['native_contract'] = contract
         if record['generation']['controller_type'] == 63:
             contract = bombar_output_contract(source_hashes.get('src/bombar.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] in (79, 80, 81):
+            contract = dark_mind_enemy_contract(source_hashes.get('src/dark_mind.c', ''),
+                source_hashes.get('src/object.c', ''), record['type_id'], record['generation']['callsite'])
             if contract is not None:
                 record['native_contract'] = contract
     for room in native_rooms:

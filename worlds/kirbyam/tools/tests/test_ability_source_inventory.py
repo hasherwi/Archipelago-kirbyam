@@ -272,3 +272,40 @@ class BoxyNativeContractTests(unittest.TestCase):
                 inventory['decomp_file_sha256']['src/boxy.c'], row['type_id'], row['generation']['callsite']))
             self.assertFalse(row['native_contract']['attack_entry_guaranteed'])
             self.assertEqual(row['native_contract']['repeatability'], 'not_certified')
+
+
+class DarkMindEnemyContractTests(unittest.TestCase):
+    def test_weighted_tables_and_conditional_ufo_override_are_preserved(self):
+        def contract(typ, line):
+            return extract.dark_mind_enemy_contract(extract.DARK_MIND_REVIEW_SHA256,
+                extract.OBJECT_REVIEW_SHA256, typ, f'src/dark_mind.c:{line}')
+        third = contract(18, 8365)
+        self.assertEqual(third['selection_table'].count(18), 4)
+        self.assertIsNone(third['selection_override'])
+        first = contract(27, 8391)
+        self.assertEqual(first['initial_random_index_range'], [0, 9])
+        self.assertEqual(first['selection_table'][10], 27)
+        self.assertIn('selected Wheelie', first['selection_override'])
+        self.assertIsNone(contract(27, 8365))
+        self.assertIsNone(extract.dark_mind_enemy_contract('changed', extract.OBJECT_REVIEW_SHA256,
+                                                          18, 'src/dark_mind.c:8365'))
+        self.assertIsNone(extract.dark_mind_enemy_contract(extract.DARK_MIND_REVIEW_SHA256,
+                                                          'changed', 18, 'src/dark_mind.c:8365'))
+
+    def test_all_candidate_lineages_remain_unresolved_despite_shared_callback_review(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        rows = [r for r in inventory['encounter_sources']
+                if r['generation']['callsite'] in extract.DARK_MIND_ENEMY_TABLES]
+        self.assertEqual(len(rows), 253)
+        for row in rows:
+            contract = row['native_contract']
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(row['logic'], 'advanced')
+            self.assertIn('unresolved', contract['root_to_phase_lineage'])
+            self.assertFalse(contract['attack_entry_guaranteed'])
+            self.assertIn('not assigned', contract['parent_attachment'])
+            self.assertIn('interaction flag0x400', contract['cleanup'])
+            self.assertEqual(contract, extract.dark_mind_enemy_contract(
+                inventory['decomp_file_sha256']['src/dark_mind.c'],
+                inventory['decomp_file_sha256']['src/object.c'], row['type_id'], row['generation']['callsite']))

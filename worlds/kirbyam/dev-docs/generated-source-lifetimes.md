@@ -258,3 +258,26 @@ These contracts establish neither a favorable content branch nor safe repeated
 acquisition. No source, carry route or retry guarantee is installed from them.
 The existing per-output lifetime model remains necessary: defeating Boxy,
 opening a present and destroying its contents are different events.
+
+## Dark Mind mirror enemy selection and cleanup
+
+The three native `DarkMindForm2CreateRandomEnemies` call sites now have shared
+hash-bound contracts across their 253 root/call/output candidates. Their actual
+controller is a Form2 mirror, not whichever root happens to share the source
+file. Root-to-phase access remains unresolved. A mirror sweep starts its counter
+at 36 and emits one selected enemy at each of 22, 16 and 10, provided the
+parent's `unk12E` flag is clear.
+
+The contracts retain repeated entries in the native selection tables. The
+first event samples indices 0–9; its UFO at index10 requires selecting Wheelie
+and a second random check. It is not an ordinary eleventh equally selected
+outcome. Different alternatives at one event cannot all be acquired from that
+single event. The three events also occur at different positions/times.
+
+The construction macro does not attach these ordinary enemies to the mirror.
+Form2 tracks three enemy pointers and `sub_0810CBE8` marks each for destruction,
+except while interaction flag0x400 is set. `ObjectMain` processes that mark;
+this differs from attached-projectile parent expiry. The exception does not
+prove safe swallowing or survival across a phase. Neither entry into the sweep,
+contact, cleanup timing, phase transitions nor repeatability is admitted as a
+world route by this metadata.
