@@ -78,8 +78,8 @@
     "statue": 95
   },
   "unknown_inventory_references": [],
-  "reviewed_inventory_references": 115,
-  "distinct_referenced_placements": 111,
+  "reviewed_inventory_references": 120,
+  "distinct_referenced_placements": 112,
   "unbound_source_or_encounter_placements": [
     "room:101/template:0x088B6950",
     "room:101/template:0x088B6974",
@@ -1276,7 +1276,6 @@
     "room:533/template:0x088C2780",
     "room:533/template:0x088C2810",
     "room:533/template:0x088C287C",
-    "room:534/template:0x088B596C",
     "room:534/template:0x088B5990",
     "room:534/template:0x088B59D8",
     "room:534/template:0x088B59FC",
@@ -2315,14 +2314,6 @@
     },
     {
       "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_34/exits/REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
-      "token": "can_break_block"
-    },
-    {
-      "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_34/exits/REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
-      "token": "can_break_block"
-    },
-    {
-      "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_34/exits/REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
       "token": "can_break_block"
     },
     {
