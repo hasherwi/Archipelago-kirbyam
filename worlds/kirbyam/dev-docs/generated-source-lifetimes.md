@@ -506,3 +506,21 @@ The acquisition controls alone do not install a world graph. The subsequent
 to the existing Normal831 entrance and retained-Ice suffix. Its Advanced-only
 graph uses one exhaustive finite cube group and leaves the four Standard
 witnesses intact. It makes no fixed-delay or uninterrupted-replay claim.
+
+## Two finite outputs without a room reset
+
+`frosty825-finite-occurrences.json` records two separate large cubes from the
+same original live room825 Frosty. The first exists at frames1829–1944 and is
+inhaled at1933–1944. It is absent before the second appears at2041; the second
+is inhaled at2205–2226. Both use the same recycled memory address, which is not
+continuous object identity. Original Frosty stays at30HP, the room never changes,
+and the final Waddle spawn bit stays clear in every slot. Permission is locked;
+both contacts leave Kirby Normal. Observed damage does not define eligibility.
+
+This supports named **finite** occurrences, not unlimited renewal or a guaranteed
+randomized result. The shared compiler tests keep their consumption and
+activation distinct: a second occurrence may supply equipment after loss only
+if separately activated; two finite mixed-pool draws still cannot guarantee Ice.
+The native recording establishes successive physical intakes, not a held-ability
+loss/recovery sequence. No new target or renewable-source flag is added by this
+supplement.

@@ -106,3 +106,45 @@ def test_exhaustive_group_requires_the_grant_from_every_native_branch(monkeypatc
     assert g.evaluate(policy(1, pool=['Ice']), frozenset(), False).reaches('goal')
     assert not g.evaluate(policy(2, pool=['Ice', 'Sword']), frozenset(), False,
                           allow_documented_retries=True).reaches('goal')
+
+
+@pytest.mark.parametrize('activate_second', [False, True])
+def test_named_exclusive_occurrences_preserve_consumption_after_loss(activate_second):
+    p = payload()
+    p['nodes'] = [{'id': n, 'native_room': 825} for n in ('pre', 'first', 'second', 'goal')]
+    lives = [GROUP + '/instance:' + n for n in ('first', 'second')]
+    p['sources'] = [{**source(), 'node': n, 'generation_instance': n,
+                     'instance_evidence': 'isolated two finite generation events'}
+                    for n in ('first', 'second')]
+    p['routes'] = [
+        {'from': 'pre', 'to': 'first', 'activates_lifetimes': [lives[0]],
+         'activation_evidence': 'isolated first event', 'evidence': 'isolated entry'},
+        {'from': 'first', 'to': 'second', 'required_equipment': ['Ice'],
+         'loses_equipment': True, 'loss_evidence': 'isolated equipment loss',
+         'ends_lifetimes': [lives[0]], 'lifetime_evidence': 'first occurrence ended',
+         'activates_lifetimes': [lives[1]] if activate_second else [],
+         'activation_evidence': 'isolated second event', 'evidence': 'isolated later phase'},
+        {'from': 'second', 'to': 'goal', 'required_equipment': ['Ice'], 'evidence': 'isolated goal'},
+    ]
+    g = compile_room_graph(p, {}, advanced=True, require_inventory=True)
+    result = g.evaluate(policy(1, pool=['Ice']), frozenset({'Ice Ability'}), True)
+    assert result.reaches('goal') is activate_second
+    assert all(set(lives) <= pos.consumed for pos in result.positions if pos.node == 'goal')
+    assert not g.evaluate(policy(1, pool=['Ice']), frozenset(), True).reaches('goal')
+    # Two draws do not guarantee a desired result from a mixed live pool.
+    assert not g.evaluate(policy(2, pool=['Ice', 'Sword']), frozenset(), False,
+                          allow_documented_retries=True).reaches('goal')
+
+
+def test_native_second_occurrence_is_separate_from_address_reuse_and_permission():
+    import json
+    from pathlib import Path
+    d = json.loads((Path(__file__).resolve().parents[1] /
+                    'dev-docs/frosty825-finite-occurrences.json').read_text())
+    assert d['prototype_group'] == GROUP and d['status'] == 'two_finite_occurrences_only'
+    assert d['rooms'] == [825] and d['parent_hp_observed'] == [30]
+    assert d['gating'] and not d['permission_owned'] and d['abilities_observed'] == [0]
+    first, second = d['large_cube_presence_intervals']
+    assert first['object'] == second['object'] and first['last_frame'] < second['first_frame'] - 1
+    assert [(r['first_frame'], r['last_frame']) for r in d['intakes']] == [(1933, 1944), (2205, 2226)]
+    assert d['waddle_bit_clear_all_slots'] and d['runtime_write_frames'] == [1085]
