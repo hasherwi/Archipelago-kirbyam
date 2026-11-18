@@ -213,6 +213,34 @@ def test_spawner_prototypes_are_censused_without_becoming_acquisition_witnesses(
             resolve_inventory_source({'inventory_id': row['id']}, row['native_room'], advanced=True)
 
 
+def test_spawner_counter_dependencies_remain_conditional_and_room_local():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    records = {row['id']: row for row in inventory['placements'] + inventory['spawner_outputs']}
+    for output in inventory['spawner_outputs']:
+        conditions = output['spawn_conditions']
+        assert conditions['counter_access_certified'] is False
+        contributors = [records[key] for key in conditions['candidate_counter_contributors']]
+        assert contributors
+        assert all(row['native_room'] == output['native_room'] for row in contributors)
+        assert all(any(event['bank'] == conditions['room_counter_bank']
+                       for event in row['conditional_room_counter_events']) for row in contributors)
+    # Room526 outputs depend on Boxy, not mere room access or any enemy defeat.
+    room526 = [row for row in inventory['spawner_outputs'] if row['native_room'] == 526]
+    assert len(room526) == 4
+    assert all(row['logic'] == 'advanced' for row in room526)
+    for row in room526:
+        with pytest.raises(ValueError, match='Advanced Logic'):
+            resolve_inventory_source({'inventory_id': row['id']}, 526)
+    assert all({records[key]['native_name'] for key in row['spawn_conditions']['candidate_counter_contributors']}
+               == {'OBJ_BOXY'} for row in room526)
+    # A generated Boss Endurance boss can feed the next counter threshold;
+    # these conditional chains do not admit the room into Adventure logic.
+    endurance = [row for row in inventory['spawner_outputs'] if row['native_room'] == 955]
+    assert any(any(key.endswith('/spawner-output') for key in row['spawn_conditions']['candidate_counter_contributors'])
+               for row in endurance)
+    assert all(row['world_access']['status'] == 'outside_adventure' for row in endurance)
+
+
 def test_generated_boss_phases_retain_candidate_roots_without_becoming_sources():
     inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
     for typ in (0x4C, 0x4D):

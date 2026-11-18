@@ -17,6 +17,10 @@ reset-plus-activation bypass without treating a surviving held ability as lost.
 Cross-room travel also drops live-output activation unless the route explicitly
 preserves the room instance. Unknown retention cannot certify a projectile is
 still there on return; held equipment remains independent.
+Activation and revival must enter the output's native room; one output lifetime
+cannot span native rooms, and one consumption identity cannot alias incompatible
+lifetimes. These checks reject remote activation and reset bookkeeping aliases
+without adding access to any room.
 
 Native `level.c` room loading reuses another Kirby's room slot if it remains
 occupied. A newly allocated slot clears room-local object bits and room-local
@@ -42,6 +46,27 @@ counter state and physical acquisition paths remain unresolved. All 37 have
 capacity one and no destroyed-slot reclamation;
 none supplies an unlimited retry guarantee. These native predicates are data,
 not automatically satisfied AP requirements.
+
+Spawner counter prerequisites now link to candidate contributors in the same
+native room. Bank 0 increments on `ObjectDestroy` only for table-1 types 0–100,
+with template flag `0x22 & 1`, nonpositive HP and an assigned room slot. Bank 1
+uses qualifying bonus collection or chest callbacks; ordinary enemy defeat is
+not a substitute. Native dynamic bonuses with state `(0, 31)` do not contribute
+through `BonusSetFunc`. Generated boss templates carry flags 5, so their defeats
+can contribute to a later spawner; ordinary spawner children carry flags 0.
+These are conditional events, not satisfied prerequisites. Outputs whose nonzero
+counter prerequisite has only encounter-defeat contributors are Advanced-only
+(including the post-Boxy spawners); ordinary spawners are not all classified as
+encounter attacks. Runtime chest contents and ownership remain conditions. The production
+`ap_on_chest_popup_room_counter` hook suppresses physical AP lever pulls and
+AP-owned ordinary bonus popups; fixed collection rewards retain their increment.
+`ap_update_lever_wall` applies the wall item's contribution once per room instance,
+including a live item delivery. Existing executable chest/lever lifecycle tests
+cover these branches. Thus collecting an AP lever is not wall ownership, and an
+output unlocked by collecting a chest cannot establish access to that same chest. Both counters clear when
+`level.c` allocates a new room slot; entering a room occupied by another Kirby
+reuses its slot and counters. Leaving and returning does not by itself prove a
+reset, respawn, or safe retry. Extractor input hashes include these native files.
 
 The two room951 random-statue slots preserve all 19 native selections. A fixed
 selection is evaluated using every alternative's actual runtime SourcePolicy

@@ -54,6 +54,7 @@ def decode_records(rom: bytes, index: int) -> list[dict]:
             'spawn_table': table, 'type_id': rom[cursor + 12],
             'position_pixels': list(unpack(rom, '<hh', cursor + 6)),
             'subtype1': rom[cursor + 14], 'subtype2': rom[cursor + 16],
+            'template_flags_22': unpack(rom, '<H', cursor + 0x22)[0],
             'spawn_conditions': {'state_bank': rom[cursor + 2],
                                  'bit_index': rom[cursor + 3],
                                  'test': 'bit_clear' if rom[cursor + 2] <= 2 else 'unconditional',
@@ -80,6 +81,8 @@ def spawner_output(rom: bytes, parent: dict) -> dict:
         'position_pixels': list(parent['position_pixels']),
         'subtype1': parent['subtype1'], 'subtype2': parent['subtype2'],
         'configured_child_capacity': capacity,
+        'template_flags_22': 5 if 0x38 <= typ <= 0x52 else 0,
+        'native_state_identity': {'state_bank': 0, 'bit_index': 31},
         'reclaims_destroyed_slots': not bool(flags & 1),
         'status': 'unresolved',
         'spawn_conditions': {
@@ -100,6 +103,39 @@ def spawner_output(rom: bytes, parent: dict) -> dict:
         'evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
                      + '/asm/object_spawner.s#L364-L455'),
     }
+
+
+
+def counter_contributions(record: dict) -> list[dict]:
+    """Conditional native counter events, not AP access or repeatability proofs.
+
+    Keep destruction separate from collection and never count a template twice
+    merely because it supports both callbacks. Chest branches require runtime
+    contents and patch evidence, so their contributions remain unresolved.
+    """
+    if record['spawn_table'] != 1:
+        return []
+    typ = record['type_id']
+    result = []
+    if typ <= 0x64 and record['template_flags_22'] & 1:
+        result.append({'bank': 0, 'amount': 1, 'event': 'ObjectDestroy',
+                       'requires': ['assigned room slot', 'object HP <= 0'],
+                       'evidence': 'src/object.c:ObjectDestroy'})
+    state = record.get('native_state_identity', record.get('spawn_conditions', {}))
+    if 0x5E <= typ <= 0x64 and (state.get('state_bank'), state.get('bit_index')) != (0, 31):
+        result.append({'bank': 1, 'amount': 1, 'event': 'BonusSetFunc',
+                       'requires': ['living Kirby contact', 'Macro_0810B1F4 returns false'],
+                       'evidence': 'src/bonus.c:BonusSetFunc'})
+    if typ in (0x80, 0x81):
+        result.append({'bank': 1, 'amount': 1, 'event': 'chest callback',
+                       'requires': ['already collected chest or qualifying popup branch',
+                                    'AP lever wall ownership or unsuppressed native popup contribution'],
+                       'status': 'unresolved',
+                       'evidence': 'src/chest.c:sub_0800B97C/sub_0800BD4C',
+                       'runtime_evidence': 'kirby_ap_payload/ap_payload.c:ap_on_initialize_chest/ap_on_chest_popup_room_counter/ap_update_lever_wall',
+                       'excludes': ['physical AP lever pull without wall item',
+                                    'suppressed AP ordinary bonus popup']})
+    return result
 
 
 def macro_calls(text: str, pattern: str = r'CreateObjTemplateAndObj(?:WithSettingParent)?'):
@@ -318,12 +354,31 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             if child['type_id'] in ENCOUNTERS:
                 encounter_types.add(child['type_id'])
     controllers = placements + spawner_outputs
+    for record in controllers:
+        events = counter_contributions(record)
+        if events:
+            record['conditional_room_counter_events'] = events
+    for child in spawner_outputs:
+        bank = child['spawn_conditions']['room_counter_bank']
+        child['spawn_conditions']['candidate_counter_contributors'] = [
+            record['id'] for record in controllers
+            if record['native_room'] == child['native_room']
+            and any(event['bank'] == bank for event in record.get('conditional_room_counter_events', []))]
+        child['spawn_conditions']['counter_reset'] = 'new room slot clears both banks; occupied room slot is reused'
+        child['spawn_conditions']['counter_access_certified'] = False
+        contributors = [record for record in controllers
+                        if record['id'] in child['spawn_conditions']['candidate_counter_contributors']]
+        if (child['spawn_conditions']['room_counter_at_least'] > 0 and contributors
+                and all(record['source_type'] in ('boss', 'miniboss') for record in contributors)):
+            child['logic'] = 'advanced'
+            child['logic_reason'] = 'Native counter contributors are encounter defeats; access remains unresolved.'
     for room in native_rooms:
         room['spawner_outputs'] = [p['id'] for p in spawner_outputs
                                    if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
-    for relative in ('include/data.h', 'src/code_080023A4.c', 'src/ability_objects.c'):
+    for relative in ('include/data.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+                     'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
     pending_types = set(encounter_types)

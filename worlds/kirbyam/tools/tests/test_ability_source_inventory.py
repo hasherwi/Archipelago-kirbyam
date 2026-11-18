@@ -67,6 +67,25 @@ class InventoryDecoderTests(unittest.TestCase):
         data[0x22] = 0
         self.assertTrue(extract.spawner_output(data, parent)['reclaims_destroyed_slots'])
 
+    def test_counter_events_distinguish_defeat_collection_and_dynamic_outputs(self):
+        record = {'spawn_table': 1, 'type_id': 0x5E, 'template_flags_22': 1,
+                  'spawn_conditions': {'state_bank': 0, 'bit_index': 3}}
+        events = extract.counter_contributions(record)
+        self.assertEqual([event['bank'] for event in events], [0, 1])
+        self.assertIn('object HP <= 0', events[0]['requires'])
+        record['template_flags_22'] = 0
+        self.assertEqual([event['bank'] for event in extract.counter_contributions(record)], [1])
+        record['native_state_identity'] = {'state_bank': 0, 'bit_index': 31}
+        self.assertEqual(extract.counter_contributions(record), [])
+        record.update(type_id=0x39, template_flags_22=5)
+        self.assertEqual([event['bank'] for event in extract.counter_contributions(record)], [0])
+        record['spawn_table'] = 2
+        self.assertEqual(extract.counter_contributions(record), [])
+        record.update(spawn_table=1, type_id=0x80)
+        self.assertEqual(extract.counter_contributions(record)[0]['status'], 'unresolved')
+        record['type_id'] = 0xA6
+        self.assertEqual(extract.counter_contributions(record), [])
+
     def test_nested_expressions_are_preserved_not_evaluated(self):
         calls = list(extract.macro_calls('CreateObjTemplateAndObj(a, f(1, 2), (x + y));'))
         self.assertEqual(calls, [(1, ['a', 'f(1, 2)', '(x + y)'])])

@@ -83,6 +83,32 @@ def test_unknown_room_retention_preserves_acquired_equipment():
     assert run([travel, NEEDS_STONE], [SOURCE], starts=[start], gating=False).reaches('other')
 
 
+@pytest.mark.parametrize('effect', ['activation', 'revival'])
+def test_generated_output_cannot_be_activated_or_revived_from_another_room(effect):
+    route = Route('pre', 'other', activates_lifetimes=LIFE if effect == 'activation' else frozenset(),
+                  revives_lifetimes=LIFE if effect == 'revival' else frozenset(),
+                  resets_room_instance=effect == 'revival')
+    with pytest.raises(ValueError, match='must enter its native room'):
+        run([route], [SOURCE])
+
+
+def test_one_generated_output_lifetime_cannot_alias_two_native_rooms():
+    with pytest.raises(ValueError, match='cannot span native rooms'):
+        run([], [SOURCE, replace(SOURCE, node='other', identity='second-name')])
+
+
+def test_activation_can_accompany_entry_into_output_native_room():
+    route = Route('other', 'post', activates_lifetimes=LIFE)
+    result = run([route], [SOURCE], starts=[Position('other')], gating=False)
+    assert any(p.node == 'post' and p.equipped == 'Stone' for p in result.positions)
+
+
+@pytest.mark.parametrize('other_lifetime', [None, 'different-output'])
+def test_consumption_identity_cannot_alias_incompatible_lifetimes(other_lifetime):
+    with pytest.raises(ValueError, match='conflicting output lifetimes'):
+        run([], [SOURCE, replace(SOURCE, node='pre', lifetime=other_lifetime)])
+
+
 def test_expiry_preserves_equipment_but_prevents_loss_reacquisition():
     source = replace(SOURCE, node='pre')
     start = Position('pre', active=LIFE)

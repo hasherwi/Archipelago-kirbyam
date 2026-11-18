@@ -451,14 +451,28 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError('Fixed native source choices require distinct valid keys')
         identity = source.identity or f"{source.node}:{source.source_key}"
         objects[identity].append(source)
+    if any(len({source.lifetime for source in candidates}) > 1 for candidates in objects.values()):
+        raise ValueError("One physical source cannot have conflicting output lifetimes")
     node_by_key = {node.key: node for node in node_list}
     if len(node_by_key) != len(node_list):
         raise ValueError("Duplicate traversal compartment")
+    lifetime_rooms: dict[str, int] = {}
+    for source in placement_list:
+        if source.node not in node_by_key:
+            raise ValueError(f"Unknown source compartment: {source.node}")
+        if source.lifetime is not None:
+            room = node_by_key[source.node].room
+            if source.lifetime in lifetime_rooms and lifetime_rooms[source.lifetime] != room:
+                raise ValueError("Generated output lifetime cannot span native rooms")
+            lifetime_rooms[source.lifetime] = room
     outgoing: dict[str, list[Route]] = defaultdict(list)
     sources: dict[str, list[Placement]] = defaultdict(list)
     for route in route_list:
         if route.source not in node_by_key or route.target not in node_by_key:
             raise ValueError(f"Unknown traversal endpoint: {route}")
+        if any(lifetime_rooms[key] != node_by_key[route.target].room
+               for key in route.activates_lifetimes | route.revives_lifetimes):
+            raise ValueError("Generated activation or revival must enter its native room")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
         if route.capability is not None and route.capability in ROOM_SCOPED_CAPABILITIES:
