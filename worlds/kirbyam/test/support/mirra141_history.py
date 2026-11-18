@@ -11,7 +11,10 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
-        if row['target']['id'] == 'normal_534_room15_entry':
+        if row['target']['id'] == 'normal_815_vitality':
+            assert row['owner'] == 'REGION_OLIVE_OCEAN/ROOM_6_CHEST_1'
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'f90ff17ad62d31b79812b6281f725386cd2c6665766a9c0b7c6319f6404335d0'
+        elif row['target']['id'] == 'normal_534_room15_entry':
             assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_34'
             assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'c278b3911a413023b1862cf1ee7ecdf3b9bdcd8880b47e7e2f99847793e91eb9'
         elif row['target']['id'] == 'normal_534_mustard_entry':
@@ -40,6 +43,9 @@ def before_mirra141_targets(rows):
 def before_mirra141_surfaces(rows):
     result = deepcopy(rows)
     for row in result:
+        if (row['owner'], row['kind'], row['target']) == ('REGION_OLIVE_OCEAN/ROOM_6_CHEST_1', 'location', 'VITALITY_CHEST_OLIVE_OCEAN'):
+            assert row['requirement'] is None
+            row['requirement'] = 'can_break_block'
         if (row['owner'], row['kind'], row['target']) == ('REGION_RAINBOW_ROUTE/ROOM_1_34', 'exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_15'):
             assert row['requirement'] is None
             row['requirement'] = 'can_break_block'
@@ -63,7 +69,11 @@ def before_mirra141_surfaces(rows):
 
 def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (155, 310)
+    assert (result['witnesses'], result['variants']) == (156, 312)
+    normal815 = [r for r in result['graphs'] if r['target'] == 'normal_815_vitality']
+    assert digest(normal815) == '7e61b2b084c7826fa2e46dbe6e25beeca1a19f1baa5e3a0ae62aa091980ebda9'
+    result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_815_vitality']
+    assert result['capability_providers'].pop('normal_815_vitality_sequence') == ['Normal']
     prefix533 = [r for r in result['graphs'] if r['target'] == 'normal_534_room15_entry']
     assert digest(prefix533) == '32463a805c69b9957be9e243137ec4d9cdd95d18a6165a1425fee8c0c132f8be'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_534_room15_entry']

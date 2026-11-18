@@ -3245,10 +3245,6 @@
       "token": "can_fly"
     },
     {
-      "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_CHEST_1/locations/VITALITY_CHEST_OLIVE_OCEAN",
-      "token": "can_break_block"
-    },
-    {
       "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_CHEST_1/exits/REGION_OLIVE_OCEAN/ROOM_6_16/any/0",
       "token": "can_break_block"
     },

@@ -209,12 +209,12 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 remains 144; later Master, Green, Ice, Radish, Kibble and two Mirra witnesses add seven.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 155,
-                                'normalized_targets': 64, 'installed_target_definitions': 64,
+    assert status['counts'] == {**contract['counts'], 'witnesses': 156,
+                                'normalized_targets': 65, 'installed_target_definitions': 65,
                                 'locations': 401, 'surfaces': 1108,
                                 'regions': 386, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 64, 155)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 65, 156)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']

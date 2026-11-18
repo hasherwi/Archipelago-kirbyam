@@ -153,7 +153,7 @@ def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() ->
     for path in (ROOT / "data").rglob("*.json"):
         visit(json.loads(path.read_text()))
     assert counts == audit["counts"]
-    assert counts == {"CanBreakBlocks": 0, "can_break_block": 135,
+    assert counts == {"CanBreakBlocks": 0, "can_break_block": 134,
                       "can_break_floating_block": 20, "can_break_metal": 6, "can_break_metal_throw": 0}
 
 

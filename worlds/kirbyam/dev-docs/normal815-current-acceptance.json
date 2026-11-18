@@ -1,0 +1,820 @@
+{
+  "scope": "Current production patch, fresh configured late551 approach and actual door into815; independent815 access required by the location graph.",
+  "comparison": {
+    "identical_observations_through_frame": 3525,
+    "omitted_input_bit": 2,
+    "input_start_frame": 3525
+  },
+  "limitations": [
+    "No unqualified551/new-game access, arbitrary arrivals, general block-pushing/puff capability, permanent switch latch or underwater553 path is inferred.",
+    "Original silver block remains physical and unconsumed; it is terrain used by this bounded recipe, not copied equipment or a consumable mouth payload.",
+    "Original historical815 evidence is unchanged; this is an additional current-patch replay."
+  ],
+  "cases": [
+    {
+      "case": "normal815-current-100",
+      "positive": true,
+      "health_percent": 100,
+      "gated": false,
+      "omission": null,
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "rooms": [
+        551,
+        815
+      ],
+      "endpoint": {
+        "frame": 3945,
+        "room": 815,
+        "x": 432.63671875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "vitality_bits": 2,
+      "event_counter": 1,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "block": {
+        "inventory_id": "room:815/template:0x088CCCFC",
+        "first": {
+          "frame": 1297,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 184.0,
+          "y": 136.0,
+          "state": "0x811f0e9",
+          "flags": "0x92c08000"
+        },
+        "last": {
+          "frame": 3893,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x2020ee0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 182.75,
+          "y": 135.99609375,
+          "state": "0x811f0e9",
+          "flags": "0x92c08002"
+        }
+      },
+      "observed_human_intakes": 0,
+      "provenance": {
+        "private_evidence_sha256": "6f4f3417b7ee9ff46918d886f5dea59781876585c358eb2b1be6953a96e69ccf",
+        "script_sha256": "bfe7811f8ce70167f7cffdf00f4cf084d88f6bb6a2bacfca2e650fa14f2ccb26",
+        "fixture_sha256": "c1497c1757dc3ad7a296fdaffc60d6ec46a75d7dab19954fdc573ef4cccc6acf",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+        "runtime_writes": []
+      }
+    },
+    {
+      "case": "normal815-current-500",
+      "positive": true,
+      "health_percent": 500,
+      "gated": false,
+      "omission": null,
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "rooms": [
+        551,
+        815
+      ],
+      "endpoint": {
+        "frame": 3945,
+        "room": 815,
+        "x": 432.63671875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "vitality_bits": 2,
+      "event_counter": 1,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "block": {
+        "inventory_id": "room:815/template:0x088CCCFC",
+        "first": {
+          "frame": 1297,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 184.0,
+          "y": 136.0,
+          "state": "0x811f0e9",
+          "flags": "0x92c08000"
+        },
+        "last": {
+          "frame": 3893,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x2020ee0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 182.75,
+          "y": 135.99609375,
+          "state": "0x811f0e9",
+          "flags": "0x92c08002"
+        }
+      },
+      "observed_human_intakes": 0,
+      "provenance": {
+        "private_evidence_sha256": "5f259a847fcb01f891602ce8c805c3ab094fa1ff93ea767b47011be98686296e",
+        "script_sha256": "bfe7811f8ce70167f7cffdf00f4cf084d88f6bb6a2bacfca2e650fa14f2ccb26",
+        "fixture_sha256": "8a199530f0c49574aaf850cb6b961bf617ba27cf0f2182fd82a3c7d130271b7c",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+        "runtime_writes": []
+      }
+    },
+    {
+      "case": "normal815-current-shuffled",
+      "positive": true,
+      "health_percent": 100,
+      "gated": true,
+      "omission": "permission",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Stone"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "rooms": [
+        551,
+        815
+      ],
+      "endpoint": {
+        "frame": 3945,
+        "room": 815,
+        "x": 432.63671875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "vitality_bits": 2,
+      "event_counter": 1,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "block": {
+        "inventory_id": "room:815/template:0x088CCCFC",
+        "first": {
+          "frame": 1297,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 184.0,
+          "y": 136.0,
+          "state": "0x811f0e9",
+          "flags": "0x92c08000"
+        },
+        "last": {
+          "frame": 3893,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x2020ee0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 182.75,
+          "y": 135.99609375,
+          "state": "0x811f0e9",
+          "flags": "0x92c08002"
+        }
+      },
+      "observed_human_intakes": 0,
+      "provenance": {
+        "private_evidence_sha256": "98b1c2c6381d9304b6150d2fd956814de1f4cf6181f3bfa5b71756f911c8cac6",
+        "script_sha256": "bfe7811f8ce70167f7cffdf00f4cf084d88f6bb6a2bacfca2e650fa14f2ccb26",
+        "fixture_sha256": "36ea171507e056d88329a8d37fa5677406ddd5d8a60bcd6e7425addbbc6d99bc",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "a01202fabed22477694a9c138192dd8fe9d8ff331e24925c50631d5cc649f5ae",
+        "runtime_writes": [
+          {
+            "frame": 1085,
+            "address": "0x203b064",
+            "size": 4,
+            "value": "01000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b068",
+            "size": 4,
+            "value": "291ae629",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b06c",
+            "size": 4,
+            "value": "186b009d",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b070",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b074",
+            "size": 4,
+            "value": "00010000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b0",
+            "size": 4,
+            "value": "7effff03",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b4",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b078",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          }
+        ]
+      }
+    },
+    {
+      "case": "normal815-current-live",
+      "positive": true,
+      "health_percent": 100,
+      "gated": true,
+      "omission": "permission",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Stone"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "rooms": [
+        551,
+        815
+      ],
+      "endpoint": {
+        "frame": 3945,
+        "room": 815,
+        "x": 432.63671875,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "vitality_bits": 2,
+      "event_counter": 1,
+      "client_messages": [
+        {
+          "cmd": "LocationChecks",
+          "locations": [
+            3960301
+          ]
+        }
+      ],
+      "block": {
+        "inventory_id": "room:815/template:0x088CCCFC",
+        "first": {
+          "frame": 1297,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 184.0,
+          "y": 136.0,
+          "state": "0x811f0e9",
+          "flags": "0x92c08000"
+        },
+        "last": {
+          "frame": 3893,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x2020ee0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 182.75,
+          "y": 135.99609375,
+          "state": "0x811f0e9",
+          "flags": "0x92c08002"
+        }
+      },
+      "observed_human_intakes": 0,
+      "provenance": {
+        "private_evidence_sha256": "ad4885d275414506082c71232d14d14b93c2ec67c101bb4534b49fcbf65731b6",
+        "script_sha256": "bfe7811f8ce70167f7cffdf00f4cf084d88f6bb6a2bacfca2e650fa14f2ccb26",
+        "fixture_sha256": "36ea171507e056d88329a8d37fa5677406ddd5d8a60bcd6e7425addbbc6d99bc",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "a01202fabed22477694a9c138192dd8fe9d8ff331e24925c50631d5cc649f5ae",
+        "runtime_writes": [
+          {
+            "frame": 1085,
+            "address": "0x203b064",
+            "size": 4,
+            "value": "02000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b068",
+            "size": 4,
+            "value": "291ae629",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b06c",
+            "size": 4,
+            "value": "186b009d",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b070",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b074",
+            "size": 4,
+            "value": "00010000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b0",
+            "size": 4,
+            "value": "7effff03",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b4",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b078",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          }
+        ]
+      }
+    },
+    {
+      "case": "normal815-current-no-puff",
+      "positive": false,
+      "health_percent": 100,
+      "gated": false,
+      "omission": "final_shot",
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "rooms": [
+        551,
+        815
+      ],
+      "endpoint": {
+        "frame": 3945,
+        "room": 815,
+        "x": 242.734375,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "vitality_bits": 0,
+      "event_counter": 0,
+      "client_messages": [],
+      "block": {
+        "inventory_id": "room:815/template:0x088CCCFC",
+        "first": {
+          "frame": 1297,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 184.0,
+          "y": 136.0,
+          "state": "0x811f0e9",
+          "flags": "0x92c08000"
+        },
+        "last": {
+          "frame": 3945,
+          "template": "0x88cccfc",
+          "kind": 1,
+          "parent": "0x0",
+          "contact": "0x2020ee0",
+          "bounds": [
+            -7,
+            -8,
+            7,
+            8
+          ],
+          "object": "0x3003de4",
+          "type_id": 121,
+          "native_ability": 0,
+          "hp": 0,
+          "x": 182.75,
+          "y": 135.99609375,
+          "state": "0x811f0e9",
+          "flags": "0x92c08002"
+        }
+      },
+      "observed_human_intakes": 0,
+      "provenance": {
+        "private_evidence_sha256": "85a0f61106fcb9b89670d17a441631ab6aadfaa1902d936f6441a89c2c4466fe",
+        "script_sha256": "bfe7811f8ce70167f7cffdf00f4cf084d88f6bb6a2bacfca2e650fa14f2ccb26",
+        "fixture_sha256": "c1497c1757dc3ad7a296fdaffc60d6ec46a75d7dab19954fdc573ef4cccc6acf",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+        "runtime_writes": []
+      }
+    }
+  ]
+}

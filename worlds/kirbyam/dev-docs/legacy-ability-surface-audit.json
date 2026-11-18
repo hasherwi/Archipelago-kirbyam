@@ -8,7 +8,7 @@
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 144
+    "unresolved_action_context": 143
   },
   "surfaces": [
     {
@@ -3079,20 +3079,6 @@
         {
           "token": "can_swim",
           "category": "normal_movement"
-        }
-      ],
-      "installed_targets": []
-    },
-    {
-      "owner": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
-      "kind": "location",
-      "target": "VITALITY_CHEST_OLIVE_OCEAN",
-      "requirement": "can_break_block",
-      "room_sanity": false,
-      "tokens": [
-        {
-          "token": "can_break_block",
-          "category": "unresolved_action_context"
         }
       ],
       "installed_targets": []

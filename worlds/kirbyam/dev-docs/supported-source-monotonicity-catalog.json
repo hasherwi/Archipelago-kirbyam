@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "652819f1ce5b5f1932e7463affa0fd09b9d9858825720cbbe36aa9cc95a2e851",
-    "worlds/kirbyam/traversal_data.py": "027262f0652d9415a39ff6772ecafd304a1a4fc8e2463a3c2251cde0ddf7f54f",
+    "worlds/kirbyam/traversal.py": "0842bd31d970ca76caf0cc0098ec173a7ba921fa42d31325e1f49097dd107deb",
+    "worlds/kirbyam/traversal_data.py": "fbde6f9c643162a38ce4e309d2b05f856d546621f28a825b3f425f877fb9a6c2",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "368d83a7df2251101a9406f3d57396ffd1c39607ed36c9e0590b643020a3f432",
+    "worlds/kirbyam/data/regions/rooms.json": "9bd8aea769a081bf3438ddef7d0bf9c70fbbf6111dcc1a9609a2dc28bd036487",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
-    "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
+    "worlds/kirbyam/rules.py": "7afff4b83e12775debcdd9896ca07683d52d7db332cd057de6c621b7e110f5e2",
     "worlds/kirbyam/ability_source_inventory.py": "3b876f9da8bba2691d65b823e0e16262fd4c3009523d94b7db0f28a919bc1700",
     "worlds/kirbyam/data/ability_source_inventory.json": "edab34b2455126f1fa3b11338f882fe55de89e456a831957b44e249c22eb3a8d"
   },
-  "witnesses": 155,
-  "variants": 310,
+  "witnesses": 156,
+  "variants": 312,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -134,6 +134,9 @@
       "Normal"
     ],
     "mirra_811_normal_puff": [
+      "Normal"
+    ],
+    "normal_815_vitality_sequence": [
       "Normal"
     ],
     "normal_534_twister_payload": [
@@ -14830,6 +14833,72 @@
         {
           "from": "normal_534_mustard_entry:lower_clear",
           "to": "normal_534_mustard_entry:room15_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_815_vitality",
+      "witness": "normal_arrival",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "capability": "normal_815_vitality_sequence",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_815_vitality",
+      "witness": "normal_arrival",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "capability": "normal_815_vitality_sequence",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
           "required_equipment": [
             "Normal"
           ]

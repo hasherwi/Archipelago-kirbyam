@@ -61,6 +61,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "mirra_117_lower_payload": frozenset({"Normal"}),
     "mirra_117_normal_clearance": frozenset({"Normal"}),
     "mirra_811_normal_puff": frozenset({"Normal"}),
+    "normal_815_vitality_sequence": frozenset({"Normal"}),
     "normal_534_twister_payload": frozenset({"Normal"}),
     "normal_534_dee_payload": frozenset({"Normal"}),
 
@@ -113,6 +114,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "mirra_117_lower_payload": 117,
     "mirra_117_normal_clearance": 117,
     "mirra_811_normal_puff": 811,
+    "normal_815_vitality_sequence": 815,
     "normal_534_twister_payload": 534,
     "normal_534_dee_payload": 534,
 
@@ -586,6 +588,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                               capability=route.capability, uses_object=payload,
                               required_equipment=frozenset({"Normal"})):
                 raise ValueError("Mirra117 requires its exact finite Normal sequence")
+        if route.capability == "normal_815_vitality_sequence":
+            if route != Route("normal_815_vitality:arrival", "normal_815_vitality:chest",
+                              capability=route.capability, required_equipment=frozenset({"Normal"})):
+                raise ValueError("Normal815 requires its exact unconsumed-block and timed-puff sequence")
         normal534_actions = {
             "normal_534_twister_payload": ("rainbow34", "lower_payload", "0x088B59B4"),
             "normal_534_dee_payload": ("lower_payload", "lower_clear", "0x088B596C"),

@@ -11532,7 +11532,7 @@
         "location_id": 3961152,
         "bit_index": 200
       },
-      "VITALITY_CHEST_OLIVE_OCEAN": "can_break_block"
+      "VITALITY_CHEST_OLIVE_OCEAN": null
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_16": {
@@ -11541,6 +11541,54 @@
           "can_swim"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_815_vitality",
+          "kind": "block",
+          "native_room": 815,
+          "location": "VITALITY_CHEST_OLIVE_OCEAN",
+          "graphs": {
+            "normal_arrival": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+              },
+              "nodes": [
+                {
+                  "id": "normal_815_vitality:arrival",
+                  "native_room": 815
+                },
+                {
+                  "id": "normal_815_vitality:chest",
+                  "native_room": 815
+                }
+              ],
+              "starts": [
+                "normal_815_vitality:arrival"
+              ],
+              "required_targets": [
+                "normal_815_vitality:chest"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "normal_815_vitality:arrival",
+                  "to": "normal_815_vitality:chest",
+                  "capability": "normal_815_vitality_sequence",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal815-traversal-witness.md; original unconsumed silver block0x088CCCFC maintains lower-switch contact, intrinsic air puff triggers the timed upper switch, Normal crosses and collects chest0x088CCC90. No Copy Ability, mouth payload, persistent opens event or retry."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": {

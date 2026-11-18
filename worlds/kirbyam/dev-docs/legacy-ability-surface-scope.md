@@ -1,8 +1,8 @@
 # Remaining ability fallback scope (#1119)
 
 The normalized audit preserves each exact owner, directed exit or location and
-its original Boolean requirement. It enumerates 287 requirement-bearing surfaces
-with 398 action/movement tokens plus eight lever-item tokens:
+its original Boolean requirement. It enumerates 286 requirement-bearing surfaces
+with 397 action/movement tokens plus eight lever-item tokens:
 
 | Classification | Tokens | Meaning |
 | --- | ---: | --- |
@@ -10,7 +10,7 @@ with 398 action/movement tokens plus eight lever-item tokens:
 | Installed traversal witness | 29 | Exact surface has an existing traversal target |
 | Policy-scoped witness | 2 | Mustard map tokens whose target still has unsupported-policy fallback |
 | Declared Normal alternative | 5 | Existing OR expressions already permit swimming or climbing |
-| Unresolved action context | 144 | 126 block and 18 floating-block tokens lack an exact installed target or unconditional Normal alternative |
+| Unresolved action context | 143 | 125 block and 18 floating-block tokens lack an exact installed target or unconditional Normal alternative |
 
 Normal movement now has an explicit dispatch independent of the pending ability
 fallback. This does not certify arbitrary geometry or allow equipped abilities
@@ -73,6 +73,13 @@ climbing. Evaluation recognizes that alternative before consulting a pending
 ability branch, independent of branch order. Nested item requirements remain
 required, and separately installed traversal targets are not bypassed. The
 original expressions and physical witness counts are unchanged. This is Boolean
-rule simplification, not new native route evidence; 144 action tokens remain
+rule simplification, not new native route evidence; that step left 144 action tokens
 unresolved. The audit lists all five exact directed surfaces and retains their
 original expressions.
+
+The Olive Vitality chest now has a separate room815-scoped Normal target. Five
+fresh current-patch fixtures verify its original moved block and timed air-puff
+recipe after the actual551 door arrival. Independent815 access remains required;
+no upstream551 access, generic block capability or persistent latch is inferred.
+This removes one further block fallback, leaving143 unresolved action tokens
+and156 physical witnesses across65 targets. See `normal815-traversal-witness.md`.

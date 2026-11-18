@@ -42,7 +42,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 64 current traversal target definitions (155 witnesses) bind to exact normalized surfaces. The top-level union catalog has 60 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (156 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -663,3 +663,10 @@ one separately verified graph, preserving all four Twister alternatives. The
 [acceptance record](mustard-map-kibble-source-witness.md) covers finite first
 acquisition, carried Cutter and setting-specific timed crossings; unsupported
 source policies still require the separate #1119 work.
+
+The subsequent #1119 binding adds `normal_815_vitality` after independent Olive
+chest-room access, preserving the historical551 boundary and original fixtures.
+Five additional current-patch replays cover the moved-block/timed-puff recipe;
+the no-puff control stays alive and collects nothing. See
+`normal815-traversal-witness.md`. This changes the current local rule to the exact
+Normal target, without asserting global access or a generic block capability.

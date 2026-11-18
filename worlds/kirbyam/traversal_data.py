@@ -253,6 +253,23 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    if row.get("id") == "normal_815_vitality":
+        owner = "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+        prefix = "normal_815_vitality:"
+        if tuple(row.get(key) for key in ("kind", "native_room", "region", "location", "exit")) != (
+                "block", 815, owner, "VITALITY_CHEST_OLIVE_OCEAN", None):
+            raise ValueError("Normal815 belongs only to the Olive Vitality chest")
+        if set(row.get("graphs", {})) != {"normal_arrival"}:
+            raise ValueError("Normal815 requires its reviewed arrival graph")
+        graph = row["graphs"]["normal_arrival"]
+        if (graph.get("access") != {"region": owner}
+                or graph.get("sources") != [] or graph.get("source_sets") or graph.get("graph_parts")
+                or graph.get("starts") != [prefix + "arrival"]
+                or graph.get("required_targets") != [prefix + "chest"]
+                or graph.get("nodes") != [{"id": prefix + n, "native_room": 815} for n in ("arrival", "chest")]
+                or len(graph.get("routes", [])) != 1
+                or graph["routes"][0].get("capability") != "normal_815_vitality_sequence"):
+            raise ValueError("Normal815 requires independent room access and its bounded Normal sequence")
     if row.get("id") in {"normal_534_mustard_entry", "normal_534_room15_entry"}:
         destination_room, destination_region, arrival = (
             (310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST", "arrival")
