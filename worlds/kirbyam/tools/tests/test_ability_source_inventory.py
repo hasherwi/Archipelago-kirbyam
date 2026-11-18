@@ -172,3 +172,36 @@ class BonkersNativeContractTests(unittest.TestCase):
             self.assertEqual(row['native_grant'], 'Normal')
             self.assertEqual(row['native_contract'], extract.bonkers_nut_contract(
                 inventory['decomp_file_sha256']['src/bonkers.c'], row['type_id']))
+
+
+class BombarNativeContractTests(unittest.TestCase):
+    def test_pair_and_subtype_are_not_a_branch_union_or_expiry_timer(self):
+        bomb = extract.bombar_output_contract(extract.BOMBAR_REVIEW_SHA256, 178)
+        missile = extract.bombar_output_contract(extract.BOMBAR_REVIEW_SHA256, 179)
+        self.assertEqual(bomb['constructor_calls_per_helper_invocation'], 1)
+        self.assertEqual(missile['constructor_calls_per_helper_invocation'], 2)
+        self.assertIn('simultaneous', missile['output_relationship'])
+        self.assertFalse(missile['behavior_counter_is_expiry'])
+        self.assertEqual(missile['behavior_counter_initial'], 256)
+        self.assertEqual(missile['homing_speed_caps'], {'subtype0': 416, 'subtype1': 512})
+        for contract in (bomb, missile):
+            self.assertFalse(contract['attack_entry_guaranteed'])
+            self.assertEqual(contract['repeatability'], 'not_certified')
+        self.assertIsNone(extract.bombar_output_contract('changed', 179))
+        self.assertIsNone(extract.bombar_output_contract(extract.BOMBAR_REVIEW_SHA256, 168))
+
+    def test_static_activation_rectangles_and_twelve_outputs_stay_conditional(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        controllers = [r for r in inventory['placements'] if r.get('native_activation')]
+        self.assertEqual({r['native_room'] for r in controllers}, {232, 326, 539})
+        record = next(r for r in controllers if r['native_room'] == 232)
+        self.assertEqual(record['native_activation']['rectangle_offsets'], [-24, -48, 240, 144])
+        self.assertTrue(all(not r['native_activation']['access_certified'] for r in controllers))
+        outputs = [r for r in inventory['encounter_sources'] if r['generation']['controller_type'] == 63]
+        self.assertEqual(len(outputs), 12)
+        for row in outputs:
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(row['logic'], 'advanced')
+            self.assertEqual(row['native_contract'], extract.bombar_output_contract(
+                inventory['decomp_file_sha256']['src/bombar.c'], row['type_id']))

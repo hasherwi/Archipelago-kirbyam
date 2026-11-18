@@ -225,6 +225,44 @@ def bonkers_nut_contract(source_hash: str, type_id: int) -> dict | None:
     }
 
 
+BOMBAR_REVIEW_SHA256 = 'd148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28'
+
+
+def bombar_output_contract(source_hash: str, type_id: int) -> dict | None:
+    """Distinguish paired missiles and subtype selection from output expiry."""
+    if source_hash != BOMBAR_REVIEW_SHA256 or type_id not in (178, 179):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'parent_attachment': 'creating Bombar',
+        'parent_expiry_callback': 'sub_0809F840',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'repeatability': 'not_certified',
+        'acquisition': 'unresolved; attack presence and native grant do not prove safe contact or swallowing',
+    }
+    if type_id == 178:
+        result.update(
+            generation_function='sub_080D95A4', attack_callback='sub_080D8F34',
+            activation='direction/subtype-specific horizontal threshold during bomb attack',
+            constructor_calls_per_helper_invocation=1,
+            collision_expiry='sub_080D9708: collision mask0x4 triggers destruction',
+            native_grant_source_key='BOMBAR_BOMB',
+        )
+    else:
+        result.update(
+            generation_function='sub_080D9764', attack_callback='sub_080D9388',
+            activation='animation6 and header.unk1 == 3',
+            constructor_calls_per_helper_invocation=2,
+            output_relationship='two simultaneous objects at separate offsets, not alternative outputs',
+            native_subtype_branch='Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles',
+            retarget_interval=16, homing_speed_caps={'subtype0': 416, 'subtype1': 512},
+            behavior_counter_initial=256, behavior_counter_is_expiry=False,
+            counter_transition='at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34',
+            native_grant_source_key='BOMBAR_MISSILE',
+        )
+    return result
+
+
 def encounter_calls(text: str, filename: str):
     for line, args in macro_calls(text):
         if 'typeVal' not in args[9]:  # Macro definition, not an instantiated call.
@@ -378,6 +416,21 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             spawner_outputs.append(child)
             if child['type_id'] in ENCOUNTERS:
                 encounter_types.add(child['type_id'])
+    # Bombar's waiting callback tests a live-parent-relative native rectangle;
+    # being somewhere in the same AP room does not activate the encounter.
+    bombar_hash = hashlib.sha256((decomp / 'src/bombar.c').read_bytes()).hexdigest()
+    if bombar_hash == BOMBAR_REVIEW_SHA256:
+        for record in placements:
+            if record['spawn_table'] == 1 and record['type_id'] == 63:
+                offset = int(record['template_address'], 16) - 0x08000000
+                record['native_activation'] = {
+                    'status': 'conditional_native_contract', 'source_sha256': bombar_hash,
+                    'callback': 'sub_080D7A6C', 'rectangle_anchor': 'live Bombar position',
+                    'rectangle_offsets': list(unpack(rom, '<hhhh', offset + 0x1A)),
+                    'requires': ['selected target in same native room', 'target unkC mask0x8000 clear',
+                                 'Macro_08039430_1 target hitbox intersection'],
+                    'access_certified': False,
+                }
     controllers = placements + spawner_outputs
     for record in controllers:
         events = counter_contributions(record)
@@ -471,6 +524,10 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 record['native_contract'] = contract
         if record['generation']['controller_type'] == 57:
             contract = bonkers_nut_contract(source_hashes.get('src/bonkers.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 63:
+            contract = bombar_output_contract(source_hashes.get('src/bombar.c', ''), record['type_id'])
             if contract is not None:
                 record['native_contract'] = contract
     for room in native_rooms:

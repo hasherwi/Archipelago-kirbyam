@@ -168,3 +168,31 @@ neither patch their copy-table entries nor enable their live source bits. They
 remain in the comprehensive physical inventory but cannot silently become
 random ability grants. Changing runtime eligibility would require revisiting
 this contract. No world route or retry guarantee is installed from this review.
+
+## Bombar activation and paired missiles
+
+Three static Bombar placements now record the native waiting callback's
+live-Bombar-relative rectangle and target restrictions. Room membership alone
+is insufficient. The room232 record's offsets are `(-24,-48,240,144)` relative
+to Bombar at `(136,48)`. All 12 Bombar output candidates have source-hash-bound
+conditional generation/lifetime contracts. The bomb helper creates one object;
+the missile helper creates two simultaneous objects at separate offsets. A
+random subtype is shared by both missiles and changes their homing speed cap.
+Constructor-call counts do not certify allocation success when the global
+32-slot template pool is exhausted.
+The 256-tick behavior counter switches to the trail callback after a velocity
+condition; it is not an expiry timer. Both types retain native parent expiry.
+Attack entry, contact, defeat, reset and repeatability remain separate questions.
+
+`generated-bombar232-native-observations.json` records three fresh local fixtures.
+The stationary control remains outside the activation boundary and the boss
+stays in its waiting callback. Walking into the rectangle activates the boss.
+The longer activated sequence takes three hits. Two native Missile objects
+enter intake together before Parasol appears; that observation cannot certify
+an individual source's grant. A later single-missile intake yields Missile.
+These observations show why a paired attack cannot be reduced to an assumed
+safe single-source pickup. They do not certify a one-HP route, other timings,
+health settings, randomization policies, or independently reachable entry.
+A one-HP retreat variant dies at frame1672 before acquiring an ability; its
+later healthy respawn is not counted as success. No production traversal graph
+is installed from these fixtures.

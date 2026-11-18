@@ -56393,7 +56393,25 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "callback": "sub_080D7A6C",
+        "rectangle_anchor": "live Bombar position",
+        "rectangle_offsets": [
+          -24,
+          -48,
+          240,
+          144
+        ],
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "Macro_08039430_1 target hitbox intersection"
+        ],
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C0DA8",
@@ -63626,7 +63644,25 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "callback": "sub_080D7A6C",
+        "rectangle_anchor": "live Bombar position",
+        "rectangle_offsets": [
+          -232,
+          -56,
+          272,
+          152
+        ],
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "Macro_08039430_1 target hitbox intersection"
+        ],
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C5564",
@@ -90707,7 +90743,25 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "callback": "sub_080D7A6C",
+        "rectangle_anchor": "live Bombar position",
+        "rectangle_offsets": [
+          -240,
+          -56,
+          304,
+          152
+        ],
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "Macro_08039430_1 target hitbox intersection"
+        ],
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C2938",
@@ -146441,7 +146495,23 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D95A4",
+        "attack_callback": "sub_080D8F34",
+        "activation": "direction/subtype-specific horizontal threshold during bomb attack",
+        "constructor_calls_per_helper_invocation": 1,
+        "collision_expiry": "sub_080D9708: collision mask0x4 triggers destruction",
+        "native_grant_source_key": "BOMBAR_BOMB"
+      }
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1212/type:178",
@@ -146467,7 +146537,23 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D95A4",
+        "attack_callback": "sub_080D8F34",
+        "activation": "direction/subtype-specific horizontal threshold during bomb attack",
+        "constructor_calls_per_helper_invocation": 1,
+        "collision_expiry": "sub_080D9708: collision mask0x4 triggers destruction",
+        "native_grant_source_key": "BOMBAR_BOMB"
+      }
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1212/type:178",
@@ -146493,7 +146579,23 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D95A4",
+        "attack_callback": "sub_080D8F34",
+        "activation": "direction/subtype-specific horizontal threshold during bomb attack",
+        "constructor_calls_per_helper_invocation": 1,
+        "collision_expiry": "sub_080D9708: collision mask0x4 triggers destruction",
+        "native_grant_source_key": "BOMBAR_BOMB"
+      }
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1212/type:178",
@@ -146520,6 +146622,22 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D95A4",
+        "attack_callback": "sub_080D8F34",
+        "activation": "direction/subtype-specific horizontal threshold during bomb attack",
+        "constructor_calls_per_helper_invocation": 1,
+        "collision_expiry": "sub_080D9708: collision mask0x4 triggers destruction",
+        "native_grant_source_key": "BOMBAR_BOMB"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146551,7 +146669,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1260/type:179",
@@ -146577,7 +146720,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1260/type:179",
@@ -146603,7 +146771,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1260/type:179",
@@ -146630,6 +146823,31 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146661,7 +146879,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1269/type:179",
@@ -146687,7 +146930,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1269/type:179",
@@ -146713,7 +146981,32 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      }
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1269/type:179",
@@ -146740,6 +147033,31 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "parent_attachment": "creating Bombar",
+        "parent_expiry_callback": "sub_0809F840",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "repeatability": "not_certified",
+        "acquisition": "unresolved; attack presence and native grant do not prove safe contact or swallowing",
+        "generation_function": "sub_080D9764",
+        "attack_callback": "sub_080D9388",
+        "activation": "animation6 and header.unk1 == 3",
+        "constructor_calls_per_helper_invocation": 2,
+        "output_relationship": "two simultaneous objects at separate offsets, not alternative outputs",
+        "native_subtype_branch": "Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles",
+        "retarget_interval": 16,
+        "homing_speed_caps": {
+          "subtype0": 416,
+          "subtype1": 512
+        },
+        "behavior_counter_initial": 256,
+        "behavior_counter_is_expiry": false,
+        "counter_transition": "at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34",
+        "native_grant_source_key": "BOMBAR_MISSILE"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
