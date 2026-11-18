@@ -219,3 +219,21 @@ This batch binds activation facts to physical identities without making them
 AP access rules. It does not imply a reachable entry, an attack choice, an
 output, a swallow opportunity, or a safe repeat. Spawner-produced miniboss
 instances retain their separate generated-template and counter prerequisites.
+
+## Complete encounter runtime eligibility boundary
+
+A batch check now covers all 731 candidate records against the production
+assignment boundary. Of these, 300 records across 32 native types have no
+configured source key; none receives a copy-table patch or live-source bit
+under maximally enabled vanilla, shuffled or Completely Random policies in the
+three regression seeds. All 300 are rejected when presented as direct ability
+sources, even with an invented grant key and activation/lifetime evidence.
+The remaining 431 candidates have configured keys, which still require actual
+policy grants, ownership, activation and physical acquisition evidence.
+
+This partition is not an interaction or reachability classification. In
+particular, 33 Dark Mind Star Mix candidates retain their native `Wait` effect;
+the check does not turn mixing into Normal or certify a mix result. Unconfigured
+projectiles, effects and controller objects remain in the inventory. Runtime
+eligibility changes must update this regression and revisit the associated
+physical contracts. No candidate gains a traversal edge from this batch.
