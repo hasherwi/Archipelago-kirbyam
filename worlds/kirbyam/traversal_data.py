@@ -255,6 +255,13 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
     ):
         raise ValueError("Central Master belongs only to the reviewed Carrot entry")
+    if any(route.get("capability") == "mirra_141_top_normal_puff"
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_141_top_mustard", "block", 141,
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_07"):
+        raise ValueError("Mirra141 Normal clearance belongs only to the top Mustard exit")
     _validate_new_connection(row)
     if not isinstance(row.get("fail_closed", False), bool):
         raise ValueError("fail_closed must be a boolean")

@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "1058354c6748cac4aea18bfcf4ba9009f9336e778740270e864e201359583f35",
-    "worlds/kirbyam/traversal_data.py": "20eb14f22055237e744d769078a39d03fce9244b48e123812cd8197d1ecd520d",
+    "worlds/kirbyam/traversal.py": "9808e52f66beffc3641110fac0277d35e0a06ed5be0134c0c1b2604fc0262c30",
+    "worlds/kirbyam/traversal_data.py": "3460a1f5485f3fafddcff68bcec511b2a8929765e5ca388035459dd8460e9e4e",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "05a0a7580041d272d114e6e742bd80a7067db1f5fb8d9a6c931d8b4ad28964ff",
+    "worlds/kirbyam/data/regions/rooms.json": "478f1cb6e819da7436b14c93428aae070142ab17b4b05e5aae40e7d32fb56591",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
     "worlds/kirbyam/ability_source_inventory.py": "0823a9dccc17bb54a29306089aa3763ef8be615bbaf210daca1e22295442788e",
     "worlds/kirbyam/data/ability_source_inventory.json": "ed624eb7650e7fb3edefa72227bf3d48733730621676dd22b69822c201698c76"
   },
-  "witnesses": 149,
-  "variants": 298,
+  "witnesses": 150,
+  "variants": 300,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -116,6 +116,9 @@
       "Normal"
     ],
     "bomb_617_normal_puff_slide": [
+      "Normal"
+    ],
+    "mirra_141_top_normal_puff": [
       "Normal"
     ],
     "bomb_138_green": [
@@ -14154,6 +14157,72 @@
           "to": "switch_310_mustard_map:kibble_chest",
           "required_equipment": [
             "Cutter"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_top_mustard",
+      "witness": "normal_top_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "capability": "mirra_141_top_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_top_mustard",
+      "witness": "normal_top_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "capability": "mirra_141_top_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "required_equipment": [
+            "Normal"
           ]
         }
       ]

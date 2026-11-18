@@ -129,7 +129,7 @@ def test_native_incoming_overrides_and_unaccepted_door_boundaries() -> None:
     assert EAST not in data.regions[TOP].exits  # No unproved downward0x0F route.
     assert data.regions[INNER].exit_requirements[TOP] == "can_break_floating_block"
     assert data.regions[EAST].exit_requirements["REGION_MOONLIGHT_MANSION/ROOM_2_16"] == "can_mirra"
-    assert data.regions[TOP].exit_requirements["REGION_MUSTARD_MOUNTAIN/ROOM_4_07"] == "can_mirra"
+    assert "REGION_MUSTARD_MOUNTAIN/ROOM_4_07" not in data.regions[TOP].exit_requirements
     assert {row_for(identity)["exit"] for identity in TARGETS} == {LOWER, INNER, EAST}
 
 

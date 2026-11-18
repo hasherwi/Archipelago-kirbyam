@@ -3734,9 +3734,57 @@
         "locations": [],
         "exits": {
           "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER": null,
-          "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": "can_mirra"
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": null
         },
-        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual545 entry lands536,56.996 above the banks; Normal crouch/Down+A activates right Bomb trigger25,4 and reaches upper-left pocket, then open x12 leads inner. Return Mirra/545 door keeps its prior ordinary requirement; not a newly accepted transition."
+        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual545 entry lands536,56.996 above the banks; Normal crouch/Down+A activates right Bomb trigger25,4 and reaches upper-left pocket, then open x12 leads inner. Return Mirra/545 clearance is now independently verified by dev-docs/mirra141-normal-witness.md; the prior Burning acceptance did not establish that return.",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "mirra_141_top_mustard",
+              "kind": "block",
+              "native_room": 141,
+              "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+              "graphs": {
+                "normal_top_entry": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD"
+                  },
+                  "nodes": [
+                    {
+                      "id": "mirra_141_top_mustard:arrival",
+                      "native_room": 141
+                    },
+                    {
+                      "id": "mirra_141_top_mustard:cleared",
+                      "native_room": 141
+                    }
+                  ],
+                  "starts": [
+                    "mirra_141_top_mustard:arrival"
+                  ],
+                  "required_targets": [
+                    "mirra_141_top_mustard:cleared"
+                  ],
+                  "sources": [],
+                  "routes": [
+                    {
+                      "from": "mirra_141_top_mustard:arrival",
+                      "to": "mirra_141_top_mustard:cleared",
+                      "capability": "mirra_141_top_normal_puff",
+                      "required_equipment": [
+                        "Normal"
+                      ],
+                      "evidence": "dev-docs/mirra141-normal-witness.md; independent top-compartment entry, leftward Normal setup, dry air puff clearing original Mirra 0x088B7780, and actual545 door verification. This graph models local clearance; the entrance retains its Area Key/base transition rule."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       },
       "EAST_MOONLIGHT": {
         "locations": [],
