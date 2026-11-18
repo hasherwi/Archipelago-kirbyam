@@ -47,8 +47,9 @@ The native random-statue controller in room 951 creates two physical slots with
 19 possible native statue selections and prevents the two native indices from
 matching. Those slots are recorded separately with native coordinates. A fixed
 selection lasts for that instance; retouch does not redraw the native index.
-Their grants remain unresolved for traversal, rather than turning the union of
-possible selections into guaranteed finite acquisition.
+A reviewed contact witness evaluates every possible native selection through
+SourcePolicy; the union is not a guaranteed chosen ability. Independent AP access
+to these slots remains unresolved.
 
 The 37 native object spawners also have separate child prototypes: 31 enemies
 and six minibosses. These include normally non-ability enemies. Their child
@@ -63,14 +64,16 @@ The common registry also indexes 731 root/controller/call/output combinations,
 with explicit per-room references. These preserve candidate branch sets and
 unresolved access rather than manufacturing a guaranteed output. A generated
 reference requires generation, lifetime and acquisition evidence. Its lifetime
-identity is pinned to its parent placement. Encounter-generated ordinary enemies
+identity is pinned to the output record, separately from its parent placement. Encounter-generated ordinary enemies
 are Advanced-only too; their ordinary source type cannot bypass this restriction.
 
-The existing traversal state now tracks expired source lifetimes alongside one
-equipped ability and consumed objects. Evidenced routes can lose equipment or
+The existing traversal state tracks active and expired source lifetimes alongside
+one equipped ability and consumed objects. Generated outputs require an evidenced
+activation edge before acquisition. Evidenced routes can lose equipment or
 end an encounter lifetime. Loss requires actual reacquisition from a still-live
 source. A room reset clears finite uses as before but does not revive an expired
-encounter; revival needs an actual room-reset transition and its own evidence. Capacity-one
+encounter; revival needs an actual room-reset transition and its own evidence,
+followed by explicit generation. Capacity-one
 spawners without destroyed-slot reclamation cannot be declared renewable; a
 renewal claim cannot override that decoded native limit. These fields
 extend the existing solver and preserve previous routes when absent.
@@ -99,8 +102,8 @@ lists unbound placements, compact ability tokens and policy-scoped targets.
 Presence alone cannot prove arbitrary room geometry or acquisition. Remaining
 work includes reviewed compartment access/carry for unbound placements;
 encounter branches, indirect spawn helpers and lifetime prerequisites; object
-spawner activation, acquisition and lifetime; random-statue acquisition/retry
-routes; and systematic replacement of
+spawner acquisition and lifetime; safe AP access and reset routes for random
+statues; and systematic replacement of
 legacy permissive gates with accepted source routes or established Normal
 alternatives. `_allow_pending_ability_gate` and unsupported-policy fallback
 behavior are still present. The draft neither invents those witnesses nor

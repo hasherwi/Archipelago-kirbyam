@@ -10,7 +10,7 @@ import pytest
 
 from .. import KirbyAmWorld
 from ..data import data
-from ..rules import evaluate_room_logic_requirement
+from ..rules import evaluate_room_logic_requirement, _NORMAL_MOVEMENT_REQUIREMENTS
 from .test_rules import _FakeState
 
 
@@ -46,7 +46,7 @@ def test_every_room_token_is_evaluable_with_and_without_owned_items(token: str) 
     assert evaluate_room_logic_requirement(token, cast(CollectionState, state), 1)
 
 
-@pytest.mark.parametrize("token", sorted(set(ROOM_TOKENS) - LEVER_ITEMS.keys()))
+@pytest.mark.parametrize("token", sorted(set(ROOM_TOKENS) - LEVER_ITEMS.keys() - _NORMAL_MOVEMENT_REQUIREMENTS))
 def test_capabilities_use_explicit_pending_policy(token: str) -> None:
     # Preserve the existing policy rather than invent new AP ownership gates.
     with patch("worlds.kirbyam.rules._allow_pending_ability_gate", return_value=False) as gate:

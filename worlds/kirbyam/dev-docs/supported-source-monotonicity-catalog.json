@@ -12,7 +12,7 @@
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
     "worlds/kirbyam/data/regions/rooms.json": "05a0a7580041d272d114e6e742bd80a7067db1f5fb8d9a6c931d8b4ad28964ff",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
-    "worlds/kirbyam/rules.py": "7c21059da144662d641b9cbe09efdb75c47b6999d03084b02b4d5fe15a3bd180",
+    "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
     "worlds/kirbyam/ability_source_inventory.py": "a6cdd8da5917bd6f54382b5761e92ee52182941f9f960d60300b8f2f0cc91600",
     "worlds/kirbyam/data/ability_source_inventory.json": "de79aa34077480efb899244820f83264c224b23d21c58bdae2b8bf56229a8ede"
   },
