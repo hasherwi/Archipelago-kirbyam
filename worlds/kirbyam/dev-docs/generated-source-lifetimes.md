@@ -382,3 +382,13 @@ use named occurrences to multiply their supply. A finite second occurrence can
 therefore support reacquisition only after its separately evidenced activation;
 room travel, loss of equipment and reactivating a spent occurrence cannot
 manufacture it. These schema tests install no new world route.
+
+The supplementary `generated-king-golem710-onehp-observations.json` records six
+fresh fixtures from the left-margin arrival. Vanilla Stone and shuffled/live
+singleton Ice succeed with one HP at 100% enemy health. The shuffled path uses
+one type31 as a spit projectile, then swallows a separate type33 for Ice; the
+last intake preceding the grant is recorded explicitly. The unowned and
+no-ability controls remain alive and Normal at their matched positive endpoints,
+but die later. The 500% health fixture dies before acquisition. These failures
+remain part of the evidence: neither universal safe acquisition nor repeatable
+reacquisition, world entry, a defeat suffix or onward carry is established.
