@@ -5,6 +5,7 @@
   "decomp_file_sha256": {
     "include/constants/object_types.h": "b4faa1b6ca67d6f70b7be0aba5e1fd37e8529acf6b0b4ecfe88331df862a4fc3",
     "include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
+    "include/object.h": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
     "src/code_080023A4.c": "4f78b2f2a24dbed8aa18f7f74569d8dc6cc02b33c49733809f275f5d3edf3d56",
     "src/ability_objects.c": "9d4083a4db5d2a1eb13e7c3427575592a82d228445562e2e55901f29cfe040a7",
     "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645",
@@ -34912,7 +34913,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D571C",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -40,
+          "top_offset": -96,
+          "width": 224,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BBF88",
@@ -39302,7 +39324,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C939C",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -29,
+          "top_offset": -59,
+          "width": 240,
+          "height": 139
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BAE74",
@@ -39659,7 +39702,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C72CC",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -72,
+          "top_offset": -112,
+          "width": 240,
+          "height": 160
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BB008",
@@ -46137,7 +46201,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -152,
+          "top_offset": -104,
+          "width": 176,
+          "height": 104
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BF754",
@@ -46322,7 +46407,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C72CC",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -24,
+          "top_offset": -96,
+          "width": 176,
+          "height": 104
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BF808",
@@ -51555,7 +51661,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CD6C0",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -48,
+          "top_offset": -112,
+          "width": 240,
+          "height": 136
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C1F90",
@@ -55254,7 +55381,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CB7E8",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -200,
+          "top_offset": -104,
+          "width": 240,
+          "height": 176
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C08D8",
@@ -56397,19 +56545,22 @@
       "native_activation": {
         "status": "conditional_native_contract",
         "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
         "callback": "sub_080D7A6C",
-        "rectangle_anchor": "live Bombar position",
-        "rectangle_offsets": [
-          -24,
-          -48,
-          240,
-          144
-        ],
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -24,
+          "top_offset": -48,
+          "width": 240,
+          "height": 144
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
         "requires": [
           "selected target in same native room",
           "target unkC mask0x8000 clear",
-          "Macro_08039430_1 target hitbox intersection"
+          "sub_08039430 coordinate predicate"
         ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
         "access_certified": false
       }
     },
@@ -61150,7 +61301,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CD6C0",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -56,
+          "top_offset": -80,
+          "width": 208,
+          "height": 88
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C4A24",
@@ -61390,7 +61562,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C72CC",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -128,
+          "top_offset": -96,
+          "width": 192,
+          "height": 104
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C4B4C",
@@ -62775,7 +62968,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C939C",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -208,
+          "top_offset": -80,
+          "width": 224,
+          "height": 136
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C516C",
@@ -63648,19 +63862,22 @@
       "native_activation": {
         "status": "conditional_native_contract",
         "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
         "callback": "sub_080D7A6C",
-        "rectangle_anchor": "live Bombar position",
-        "rectangle_offsets": [
-          -232,
-          -56,
-          272,
-          152
-        ],
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -232,
+          "top_offset": -56,
+          "width": 272,
+          "height": 152
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
         "requires": [
           "selected target in same native room",
           "target unkC mask0x8000 clear",
-          "Macro_08039430_1 target hitbox intersection"
+          "sub_08039430 coordinate predicate"
         ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
         "access_certified": false
       }
     },
@@ -65931,7 +66148,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CD6C0",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -56,
+          "top_offset": -112,
+          "width": 240,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C5FA0",
@@ -69008,7 +69246,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C72CC",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -48,
+          "top_offset": -72,
+          "width": 256,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C6DC0",
@@ -70200,7 +70459,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D1780",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -208,
+          "top_offset": -64,
+          "width": 240,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C7300",
@@ -72702,7 +72982,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -208,
+          "top_offset": -96,
+          "width": 240,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C7E18",
@@ -78915,7 +79216,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -120,
+          "top_offset": -88,
+          "width": 176,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C8EC8",
@@ -81150,7 +81472,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C939C",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -16,
+          "top_offset": -40,
+          "width": 224,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C9D04",
@@ -81794,7 +82137,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -112,
+          "top_offset": -88,
+          "width": 208,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C9FD8",
@@ -84714,6 +85078,27 @@
       },
       "repeatability": "unresolved",
       "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D571C",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -176,
+          "top_offset": -112,
+          "width": 256,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      },
       "conditional_room_counter_events": [
         {
           "bank": 0,
@@ -86602,7 +86987,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C72CC",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -32,
+          "top_offset": -96,
+          "width": 176,
+          "height": 112
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088CAACC",
@@ -90747,19 +91153,22 @@
       "native_activation": {
         "status": "conditional_native_contract",
         "source_sha256": "d148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
         "callback": "sub_080D7A6C",
-        "rectangle_anchor": "live Bombar position",
-        "rectangle_offsets": [
-          -240,
-          -56,
-          304,
-          152
-        ],
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -240,
+          "top_offset": -56,
+          "width": 304,
+          "height": 152
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
         "requires": [
           "selected target in same native room",
           "target unkC mask0x8000 clear",
-          "Macro_08039430_1 target hitbox intersection"
+          "sub_08039430 coordinate predicate"
         ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
         "access_certified": false
       }
     },
@@ -94518,7 +94927,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D571C",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -168,
+          "top_offset": -88,
+          "width": 208,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088C3694",
@@ -97891,7 +98321,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D1780",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -200,
+          "top_offset": -56,
+          "width": 240,
+          "height": 104
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088B937C",
@@ -103557,7 +104008,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D1780",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -232,
+          "top_offset": -104,
+          "width": 288,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088D0844",
@@ -107647,7 +108119,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -184,
+          "top_offset": -104,
+          "width": 224,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088D0354",
@@ -111873,6 +112366,27 @@
       },
       "repeatability": "unresolved",
       "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D571C",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -32,
+          "top_offset": -104,
+          "width": 208,
+          "height": 112
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      },
       "conditional_room_counter_events": [
         {
           "bank": 0,
@@ -118614,7 +119128,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CD6C0",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -48,
+          "top_offset": -80,
+          "width": 208,
+          "height": 96
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088D4404",
@@ -119547,7 +120082,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CB7E8",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -144,
+          "top_offset": -56,
+          "width": 208,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BD71C",
@@ -120366,7 +120922,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -56,
+          "top_offset": -104,
+          "width": 192,
+          "height": 112
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BDAA4",
@@ -121992,7 +122569,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C939C",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -224,
+          "top_offset": -64,
+          "width": 256,
+          "height": 128
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088BE454",
@@ -127231,7 +127829,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "BonkersWaitForKirby",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -176,
+          "top_offset": -96,
+          "width": 240,
+          "height": 112
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088CE920",
@@ -129890,7 +130509,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CB7E8",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -120,
+          "top_offset": -88,
+          "width": 240,
+          "height": 104
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088CD414",
@@ -130387,7 +131027,28 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080D571C",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -200,
+          "top_offset": -80,
+          "width": 256,
+          "height": 88
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      }
     },
     {
       "template_address": "0x088CD65C",
@@ -135580,6 +136241,27 @@
       },
       "repeatability": "unresolved",
       "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080CB7E8",
+        "rectangle_anchor": "template position",
+        "rectangle": {
+          "left_offset": -192,
+          "top_offset": -120,
+          "width": 256,
+          "height": 152
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      },
       "conditional_room_counter_events": [
         {
           "bank": 0,
@@ -135707,6 +136389,27 @@
       },
       "repeatability": "unresolved",
       "can_be_swallowed": true,
+      "native_activation": {
+        "status": "conditional_native_contract",
+        "source_sha256": "40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a",
+        "header_sha256": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
+        "callback": "sub_080C939C",
+        "rectangle_anchor": "live controller position",
+        "rectangle": {
+          "left_offset": -224,
+          "top_offset": -80,
+          "width": 256,
+          "height": 160
+        },
+        "coordinate_test": "integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height",
+        "requires": [
+          "selected target in same native room",
+          "target unkC mask0x8000 clear",
+          "sub_08039430 coordinate predicate"
+        ],
+        "predicate_evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/code_08032E98.s#L12052-L12108",
+        "access_certified": false
+      },
       "conditional_room_counter_events": [
         {
           "bank": 0,

@@ -196,3 +196,26 @@ health settings, randomization policies, or independently reachable entry.
 A one-HP retreat variant dies at frame1672 before acquiring an ability; its
 later healthy respawn is not counted as success. No production traversal graph
 is installed from these fixtures.
+
+## Shared static miniboss activation predicates
+
+The same review now covers all 36 static placements of the eight miniboss types.
+Each record pins its own native callback and file hash, plus `include/object.h`.
+Frosty, Bonkers, Phan Phan, Box Boxer and Boxy anchor the test to the template
+position. Batafire, Master Hand and Bombar anchor it to the live controller.
+These anchors must not be interchanged if a waiting controller moves.
+
+The pinned `sub_08039430` assembly checks the selected target's **integer origin**,
+not its collision hitbox. Its arguments are signed left/top offsets and unsigned
+width/height. After native fixed-point coordinates are shifted right by eight,
+the accepted ranges are `left-1 <= x <= left+width` and
+`top-1 <= y <= top+height`. Earlier Bombar metadata called this a hitbox
+intersection; that description is corrected. Room232's parameter tuple remains
+`(-24,-48,240,144)`: with the observed Bombar position, x111 is the inclusive
+left boundary and x352 the right boundary. Room equality and the selected
+target's `unkC & 0x8000` restriction are separate conditions.
+
+This batch binds activation facts to physical identities without making them
+AP access rules. It does not imply a reachable entry, an attack choice, an
+output, a swallow opportunity, or a safe repeat. Spawner-produced miniboss
+instances retain their separate generated-template and counter prerequisites.

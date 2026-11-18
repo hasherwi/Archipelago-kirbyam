@@ -193,10 +193,11 @@ class BombarNativeContractTests(unittest.TestCase):
     def test_static_activation_rectangles_and_twelve_outputs_stay_conditional(self):
         import json
         inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
-        controllers = [r for r in inventory['placements'] if r.get('native_activation')]
+        controllers = [r for r in inventory['placements'] if r.get('native_activation') and r['type_id'] == 63]
         self.assertEqual({r['native_room'] for r in controllers}, {232, 326, 539})
         record = next(r for r in controllers if r['native_room'] == 232)
-        self.assertEqual(record['native_activation']['rectangle_offsets'], [-24, -48, 240, 144])
+        self.assertEqual(record['native_activation']['rectangle'],
+                         {'left_offset': -24, 'top_offset': -48, 'width': 240, 'height': 144})
         self.assertTrue(all(not r['native_activation']['access_certified'] for r in controllers))
         outputs = [r for r in inventory['encounter_sources'] if r['generation']['controller_type'] == 63]
         self.assertEqual(len(outputs), 12)
@@ -205,3 +206,37 @@ class BombarNativeContractTests(unittest.TestCase):
             self.assertEqual(row['logic'], 'advanced')
             self.assertEqual(row['native_contract'], extract.bombar_output_contract(
                 inventory['decomp_file_sha256']['src/bombar.c'], row['type_id']))
+
+
+class MinibossActivationContractTests(unittest.TestCase):
+    def test_signed_offsets_unsigned_extents_and_distinct_anchors(self):
+        raw = bytearray(36)
+        struct.pack_into('<hhHH', raw, 0x1A, -24, -48, 40000, 65000)
+        for typ, anchor in ((56, 'template position'), (63, 'live controller position')):
+            source = {'spawn_table': 1, 'type_id': typ, 'template_address': '0x08000000'}
+            native_hash = extract.MINIBOSS_ACTIVATION[typ][1]
+            contract = extract.miniboss_activation(raw, source, native_hash,
+                                                   extract.MINIBOSS_ACTIVATION_HEADER_SHA256)
+            self.assertEqual(contract['rectangle'], {'left_offset': -24, 'top_offset': -48,
+                                                      'width': 40000, 'height': 65000})
+            self.assertEqual(contract['rectangle_anchor'], anchor)
+            self.assertIn('integer target origin', contract['coordinate_test'])
+            self.assertFalse(contract['access_certified'])
+            self.assertIsNone(extract.miniboss_activation(raw, source, 'changed',
+                                                          extract.MINIBOSS_ACTIVATION_HEADER_SHA256))
+            self.assertIsNone(extract.miniboss_activation(raw, source, native_hash, 'changed'))
+
+    def test_all_static_minibosses_bind_their_own_reviewed_callback(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        records = [r for r in inventory['placements'] if r.get('native_activation')]
+        self.assertEqual(len(records), 36)
+        self.assertEqual({r['type_id'] for r in records}, set(range(56, 64)))
+        for row in records:
+            contract = row['native_activation']
+            file, source_hash, callback, macro = extract.MINIBOSS_ACTIVATION[row['type_id']]
+            self.assertEqual(contract['source_sha256'], inventory['decomp_file_sha256']['src/' + file + '.c'])
+            self.assertEqual(contract['callback'], callback)
+            self.assertFalse(contract['access_certified'])
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(contract['header_sha256'], inventory['decomp_file_sha256']['include/object.h'])

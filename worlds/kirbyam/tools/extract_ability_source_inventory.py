@@ -263,6 +263,49 @@ def bombar_output_contract(source_hash: str, type_id: int) -> dict | None:
     return result
 
 
+MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
+# Reviewed waiting callbacks and macro anchors, pinned independently per file.
+MINIBOSS_ACTIVATION = {
+    56: ('mr_frosty', '6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209',
+         'sub_080CB7E8', 2),
+    57: ('bonkers', '10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97',
+         'BonkersWaitForKirby', 2),
+    58: ('phan_phan', '647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09',
+         'sub_080CD6C0', 2),
+    59: ('batafire', '40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a',
+         'sub_080C939C', 1),
+    60: ('box_boxer', 'e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8',
+         'sub_080C72CC', 2),
+    61: ('boxy', '79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be',
+         'sub_080D571C', 2),
+    62: ('master_hand', 'daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e',
+         'sub_080D1780', 1),
+    63: ('bombar', 'd148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28',
+         'sub_080D7A6C', 1),
+}
+
+
+def miniboss_activation(rom: bytes, record: dict, source_hash: str, header_hash: str) -> dict | None:
+    entry = MINIBOSS_ACTIVATION.get(record.get('type_id'))
+    if (record.get('spawn_table') != 1 or entry is None or source_hash != entry[1]
+            or header_hash != MINIBOSS_ACTIVATION_HEADER_SHA256):
+        return None
+    offset = int(record['template_address'], 16) - 0x08000000
+    dx, dy, width, height = unpack(rom, '<hhHH', offset + 0x1A)
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'header_sha256': header_hash, 'callback': entry[2],
+        'rectangle_anchor': 'live controller position' if entry[3] == 1 else 'template position',
+        'rectangle': {'left_offset': dx, 'top_offset': dy, 'width': width, 'height': height},
+        'coordinate_test': 'integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height',
+        'requires': ['selected target in same native room', 'target unkC mask0x8000 clear',
+                     'sub_08039430 coordinate predicate'],
+        'predicate_evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
+                               + '/asm/code_08032E98.s#L12052-L12108'),
+        'access_certified': False,
+    }
+
+
 def encounter_calls(text: str, filename: str):
     for line, args in macro_calls(text):
         if 'typeVal' not in args[9]:  # Macro definition, not an instantiated call.
@@ -416,21 +459,14 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             spawner_outputs.append(child)
             if child['type_id'] in ENCOUNTERS:
                 encounter_types.add(child['type_id'])
-    # Bombar's waiting callback tests a live-parent-relative native rectangle;
-    # being somewhere in the same AP room does not activate the encounter.
-    bombar_hash = hashlib.sha256((decomp / 'src/bombar.c').read_bytes()).hexdigest()
-    if bombar_hash == BOMBAR_REVIEW_SHA256:
-        for record in placements:
-            if record['spawn_table'] == 1 and record['type_id'] == 63:
-                offset = int(record['template_address'], 16) - 0x08000000
-                record['native_activation'] = {
-                    'status': 'conditional_native_contract', 'source_sha256': bombar_hash,
-                    'callback': 'sub_080D7A6C', 'rectangle_anchor': 'live Bombar position',
-                    'rectangle_offsets': list(unpack(rom, '<hhhh', offset + 0x1A)),
-                    'requires': ['selected target in same native room', 'target unkC mask0x8000 clear',
-                                 'Macro_08039430_1 target hitbox intersection'],
-                    'access_certified': False,
-                }
+    activation_header_hash = hashlib.sha256((decomp / 'include/object.h').read_bytes()).hexdigest()
+    for record in placements:
+        entry = MINIBOSS_ACTIVATION.get(record.get('type_id'))
+        if record['spawn_table'] == 1 and entry is not None:
+            native_hash = hashlib.sha256((decomp / 'src' / (entry[0] + '.c')).read_bytes()).hexdigest()
+            contract = miniboss_activation(rom, record, native_hash, activation_header_hash)
+            if contract is not None:
+                record['native_activation'] = contract
     controllers = placements + spawner_outputs
     for record in controllers:
         events = counter_contributions(record)
@@ -455,7 +491,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                                    if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
-    for relative in ('include/data.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+    for relative in ('include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
                      'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
