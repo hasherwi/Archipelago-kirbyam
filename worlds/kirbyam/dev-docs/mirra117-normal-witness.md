@@ -27,3 +27,8 @@ arrival phases, enemy replacements, repeatability, the separate upper-room Carro
 exit, or room811. No copied equipment is needed, and gating off does not manufacture
 payloads. All post-startup observations are read-only; only production-client guarded
 startup writes configure options. The Normal-only #1059 playthrough remains paused.
+
+[WiKirby Room24](https://wikirby.com/wiki/Rainbow_Route_-_Room_24)
+corroborates Hub3 at the upper-left and the Mirra-guarded Carrot Room2 door
+at the lower-left. This is layout context, not proof of runtime grants or
+health-scaled traversal; the native fixtures supply that evidence.

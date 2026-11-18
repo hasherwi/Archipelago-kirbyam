@@ -1,4 +1,4 @@
-"""Reverse only the pinned top and east Mirra additions in frozen historical contracts."""
+"""Reverse only the pinned Mirra additions in frozen historical contracts."""
 from copy import deepcopy
 from .kibble310_history import digest
 
@@ -11,7 +11,11 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
-        if row['target']['id'] == 'mirra_117_carrot':
+        if row['target']['id'] == 'mirra_811_olive':
+            assert row['owner'] == 'REGION_OLIVE_OCEAN/ROOM_6_10'
+            assert row['target'].get('region', row['owner']) == row['owner']
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == '6b909bdbf7974e628b643dbad8cd139462bb0eab92429503feb01657fb5c31bc'
+        elif row['target']['id'] == 'mirra_117_carrot':
             assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_24'
             assert row['target'].get('region', row['owner']) == row['owner']
             assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == '0baa3f5839ea311b821629ee68d32b9b0570045d1e90012b2b58e9b511380f1d'
@@ -29,6 +33,9 @@ def before_mirra141_targets(rows):
 def before_mirra141_surfaces(rows):
     result = deepcopy(rows)
     for row in result:
+        if (row['owner'], row['kind'], row['target']) == ('REGION_OLIVE_OCEAN/ROOM_6_10', 'exit', 'REGION_OLIVE_OCEAN/ROOM_6_15'):
+            assert row['requirement'] == 'can_swim'
+            row['requirement'] = {'all': ['can_swim', 'can_break_block', 'can_mirra']}
         if (row['owner'], row['kind'], row['target']) == ('REGION_RAINBOW_ROUTE/ROOM_1_24', 'exit', 'REGION_CARROT_CASTLE/ROOM_5_02'):
             assert row['requirement'] is None
             row['requirement'] = {'all': ['can_break_block', 'can_mirra']}
@@ -43,7 +50,11 @@ def before_mirra141_surfaces(rows):
 
 def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (152, 304)
+    assert (result['witnesses'], result['variants']) == (153, 306)
+    added811 = [r for r in result['graphs'] if r['target'] == 'mirra_811_olive']
+    assert digest(added811) == '944ebdddbfcc9881bfd9a219e5d30f4e2d258436a0252c9c9d836bc6270e9509'
+    result['graphs'] = [r for r in result['graphs'] if r['target'] != 'mirra_811_olive']
+    assert result['capability_providers'].pop('mirra_811_normal_puff') == ['Normal']
     added117 = [r for r in result['graphs'] if r['target'] == 'mirra_117_carrot']
     assert digest(added117) == 'cfb56b1b78ab4a4e97379176dd68b4c3317e695a81b76584736a3de1e9328297'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'mirra_117_carrot']

@@ -1,0 +1,975 @@
+{
+  "version": 1,
+  "scope": "Actual829 entry through the right-side811 water/flight approach and Normal air puff to551; no acquired ability or mouth payload.",
+  "positive": [
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        829,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "45d5fe57e18330340c7b4ce9d06dc0b19e16323240500ac6483750e3baef3fe4",
+      "case": "mirra811-actual829-puff",
+      "private_evidence_sha256": "a2208a35fd61d7842d888a9f71774b14d08f9ed1b5cb9447fcc949433cf70dbc",
+      "runtime_sha256": "df4c46ff6b93bd686330fc9c1d5aee3c1e522d340985ccdd58669300b7b7ae26",
+      "fixture_rom_sha256": "9721fb76c380c98eec77ece3746e3be6c171540f301a6bf81c37b87780e36f82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 829,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 57.02734375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 904.0,
+        "y": 104.99609375
+      },
+      "final": {
+        "frame": 1419,
+        "room": 551,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 56.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 829,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 57.02734375
+        },
+        {
+          "frame": 1097,
+          "room": 811,
+          "hp": 1,
+          "ability": 0,
+          "x": 904.0,
+          "y": 104.99609375
+        },
+        {
+          "frame": 1326,
+          "room": 551,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        }
+      ],
+      "objects": {
+        "0x88cc730": [
+          {
+            "frame": 1106,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 904.0,
+            "y": 104.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 1264,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 882.05859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 1276,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 869.44921875,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 820.5,
+              "y": 46.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 1295,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 844.80859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 768.1875,
+              "y": 34.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 1296,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 843.51171875,
+            "y": 56.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 500,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        829,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "45d5fe57e18330340c7b4ce9d06dc0b19e16323240500ac6483750e3baef3fe4",
+      "case": "mirra811-actual829-health500",
+      "private_evidence_sha256": "319f4f84b9d01c7e3383fe4312e70e23a9fe818407b1efb9f2ac5ea8902b7c6c",
+      "runtime_sha256": "b41b064e289cd70d1a80a57ba7364183e823b85ef79c44cae469f6c77156a2ae",
+      "fixture_rom_sha256": "dcdf85557509d29acfa007579b2f65616dde5cd9f55dd2a7ad34cb94743e1b6f",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 829,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 57.02734375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 904.0,
+        "y": 104.99609375
+      },
+      "final": {
+        "frame": 1419,
+        "room": 551,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 56.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 829,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 57.02734375
+        },
+        {
+          "frame": 1097,
+          "room": 811,
+          "hp": 1,
+          "ability": 0,
+          "x": 904.0,
+          "y": 104.99609375
+        },
+        {
+          "frame": 1326,
+          "room": 551,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        }
+      ],
+      "objects": {
+        "0x88cc730": [
+          {
+            "frame": 1106,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 904.0,
+            "y": 104.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 1264,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 882.05859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 1276,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 869.44921875,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 820.5,
+              "y": 46.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 1295,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 844.80859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 768.1875,
+              "y": 34.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 1296,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 843.51171875,
+            "y": 56.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        829,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "69d6614554a4ff6759cfbe3b3299d662185c26b8901101c970e8075292244463",
+      "script_sha256": "45d5fe57e18330340c7b4ce9d06dc0b19e16323240500ac6483750e3baef3fe4",
+      "case": "mirra811-actual829-shuffled",
+      "private_evidence_sha256": "9ce2840c6800131c374f4dfd70901f3b0e501bd0fa05886dca4b687664de21c7",
+      "runtime_sha256": "34c4d47d9cf8d75b46f513cdcdc1ce6eca8696bf10e47be20a87e95d2acc2492",
+      "fixture_rom_sha256": "9fec02a4ba28c03922a2e18799b34266967a0fde4e0cc3d7267b5ea8f6b8e737",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "09e985fd641243dee24d20d2bfdcb63595665fac58fb9d01180e7ef1f4f97730",
+      "initial": {
+        "frame": 1085,
+        "room": 829,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 57.02734375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 904.0,
+        "y": 104.99609375
+      },
+      "final": {
+        "frame": 1419,
+        "room": 551,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 56.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "80000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 829,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 57.02734375
+        },
+        {
+          "frame": 1097,
+          "room": 811,
+          "hp": 1,
+          "ability": 0,
+          "x": 904.0,
+          "y": 104.99609375
+        },
+        {
+          "frame": 1326,
+          "room": 551,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        }
+      ],
+      "objects": {
+        "0x88cc730": [
+          {
+            "frame": 1106,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 904.0,
+            "y": 104.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 1264,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 882.05859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 1276,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 869.44921875,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 820.5,
+              "y": 46.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 1295,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 844.80859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 768.1875,
+              "y": 34.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 1296,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 843.51171875,
+            "y": 56.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        829,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "1cbf7938ec4dcf0710b1cd93ffcfa3509027234d85d306afe18947fa0518d0d8",
+      "script_sha256": "45d5fe57e18330340c7b4ce9d06dc0b19e16323240500ac6483750e3baef3fe4",
+      "case": "mirra811-actual829-live",
+      "private_evidence_sha256": "89fa3a4cb3f44936ff3f13e65068217c98f94b7e4a54dc4fd76c572842482699",
+      "runtime_sha256": "29b44298f9cbdad72445ecb7159ac255f0ce8a47060cccf8c73e8a59dc835b9d",
+      "fixture_rom_sha256": "d232433fc98e15d48fbf53278790da816f83abb61ae19076253a6d1006f26d69",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "2f17d2946b875d921e647714e392a8ae365f4d1c2e2ecd1b34bcc139a67b47fd",
+      "initial": {
+        "frame": 1085,
+        "room": 829,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 57.02734375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 904.0,
+        "y": 104.99609375
+      },
+      "final": {
+        "frame": 1419,
+        "room": 551,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 56.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 829,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 57.02734375
+        },
+        {
+          "frame": 1097,
+          "room": 811,
+          "hp": 1,
+          "ability": 0,
+          "x": 904.0,
+          "y": 104.99609375
+        },
+        {
+          "frame": 1326,
+          "room": 551,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        }
+      ],
+      "objects": {
+        "0x88cc730": [
+          {
+            "frame": 1106,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 904.0,
+            "y": 104.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 1264,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 882.05859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 1276,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 869.44921875,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 820.5,
+              "y": 46.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 1295,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 844.80859375,
+            "y": 56.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 768.1875,
+              "y": 34.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 1296,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 843.51171875,
+            "y": 56.99609375,
+            "object": null
+          }
+        ]
+      }
+    }
+  ],
+  "controls": [
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        829,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "85b22d67189e56c19ce2b585754630f6e63d84a751e88ce326e7e9e5270d3566",
+      "case": "mirra811-actual829-negative",
+      "private_evidence_sha256": "c14e2317f263d97da6b40e60e040062fb539bca18cbd126802635a162666f058",
+      "runtime_sha256": "962873b37577d7a56e0b77d8dead68ab62110f197b01eaf6b2eaeb12bc5d4648",
+      "fixture_rom_sha256": "9721fb76c380c98eec77ece3746e3be6c171540f301a6bf81c37b87780e36f82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 829,
+        "hp": 1,
+        "ability": 0,
+        "x": 40.0,
+        "y": 57.02734375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 904.0,
+        "y": 104.99609375
+      },
+      "final": {
+        "frame": 1419,
+        "room": 811,
+        "hp": 1,
+        "ability": 0,
+        "x": 820.91796875,
+        "y": 56.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 829,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 57.02734375
+        },
+        {
+          "frame": 1097,
+          "room": 811,
+          "hp": 1,
+          "ability": 0,
+          "x": 904.0,
+          "y": 104.99609375
+        }
+      ],
+      "objects": {
+        "0x88cc730": [
+          {
+            "frame": 1106,
+            "room": 811,
+            "hp": 1,
+            "ability": 0,
+            "x": 904.0,
+            "y": 104.99609375,
+            "object": {
+              "template": "0x88cc730",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 824.0,
+              "y": 48.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Independent room829 access and recorded arrival/timing required.",
+    "No arbitrary approach, generic scared-Mirra clearance or other room811 barrier is certified."
+  ]
+}

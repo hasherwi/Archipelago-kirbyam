@@ -7,7 +7,7 @@
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 153
+    "unresolved_action_context": 151
   },
   "surfaces": [
     {
@@ -2831,29 +2831,17 @@
       "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",
       "kind": "exit",
       "target": "REGION_OLIVE_OCEAN/ROOM_6_15",
-      "requirement": {
-        "all": [
-          "can_swim",
-          "can_break_block",
-          "can_mirra"
-        ]
-      },
+      "requirement": "can_swim",
       "room_sanity": false,
       "tokens": [
         {
           "token": "can_swim",
           "category": "normal_movement"
-        },
-        {
-          "token": "can_break_block",
-          "category": "unresolved_action_context"
-        },
-        {
-          "token": "can_mirra",
-          "category": "unresolved_action_context"
         }
       ],
-      "installed_targets": []
+      "installed_targets": [
+        "mirra_811_olive"
+      ]
     },
     {
       "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",

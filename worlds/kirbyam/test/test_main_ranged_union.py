@@ -132,7 +132,7 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
             if row['id'] == TARGET:
                 assert before_radish617_targets([{'owner': region, 'target': row}]) == []
                 continue
-            if row['id'] == 'mirra_117_carrot':
+            if row['id'] in {'mirra_117_carrot', 'mirra_811_olive'}:
                 from .support.mirra141_history import before_mirra141_targets
                 assert before_mirra141_targets([{'owner': region, 'target': {'region': region, **row}}]) == []
                 continue

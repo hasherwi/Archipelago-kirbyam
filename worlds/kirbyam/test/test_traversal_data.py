@@ -173,6 +173,7 @@ def test_target_catalog_counts_and_provider_separation():
         "mirra_117_upper_payload": frozenset({"Normal"}),
         "mirra_117_lower_payload": frozenset({"Normal"}),
         "mirra_117_normal_clearance": frozenset({"Normal"}),
+        "mirra_811_normal_puff": frozenset({"Normal"}),
 
         "bomb_138_green": frozenset({"Spark"}),
         "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),

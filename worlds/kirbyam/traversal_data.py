@@ -291,6 +291,16 @@ def _validate_target(row: Mapping[str, Any]) -> None:
                     ("0x088B9904", "room:117/template:0x088B9904", "mirra_117_carrot:arrival"),
                     ("0x088B9874", "room:117/template:0x088B9874", "mirra_117_carrot:ladder")]:
                 raise ValueError("Mirra117 requires its original two finite payloads")
+    if any(route.get("capability") == "mirra_811_normal_puff"
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_811_olive", "block", 811, "REGION_OLIVE_OCEAN/ROOM_6_10",
+            "REGION_OLIVE_OCEAN/ROOM_6_15"):
+        raise ValueError("Mirra811 Normal clearance belongs only to the Olive15 exit")
+    if row.get("id") == "mirra_811_olive" and any(
+            graph.get("access") != {"region": "REGION_OLIVE_OCEAN/ROOM_6_11"}
+            or graph.get("sources") for graph in row.get("graphs", {}).values()):
+        raise ValueError("Mirra811 requires independent native829 access without acquired equipment")
     _validate_new_connection(row)
     if not isinstance(row.get("fail_closed", False), bool):
         raise ValueError("fail_closed must be a boolean")

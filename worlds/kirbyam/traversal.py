@@ -60,6 +60,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "mirra_117_upper_payload": frozenset({"Normal"}),
     "mirra_117_lower_payload": frozenset({"Normal"}),
     "mirra_117_normal_clearance": frozenset({"Normal"}),
+    "mirra_811_normal_puff": frozenset({"Normal"}),
 
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
@@ -109,6 +110,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "mirra_117_upper_payload": 117,
     "mirra_117_lower_payload": 117,
     "mirra_117_normal_clearance": 117,
+    "mirra_811_normal_puff": 811,
 
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
@@ -554,6 +556,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             capability="mirra_141_east_normal_puff", required_equipment=frozenset({"Normal"}),
         ):
             raise ValueError("Mirra141 Normal puff is an exact east-compartment clearance")
+        if route.capability == "mirra_811_normal_puff" and route != Route(
+            "mirra_811_olive:arrival", "mirra_811_olive:cleared",
+            capability="mirra_811_normal_puff", required_equipment=frozenset({"Normal"}),
+        ):
+            raise ValueError("Mirra811 requires its exact right-side Normal sequence")
         mirra117_actions = {
             "mirra_117_upper_payload": ("arrival", "ladder", "0x088B9904"),
             "mirra_117_lower_payload": ("ladder", "corridor", "0x088B9874"),

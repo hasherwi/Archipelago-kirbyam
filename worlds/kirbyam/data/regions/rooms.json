@@ -12564,19 +12564,61 @@
           "can_break_block"
         ]
       },
-      "REGION_OLIVE_OCEAN/ROOM_6_15": {
-        "all": [
-          "can_swim",
-          "can_break_block",
-          "can_mirra"
-        ]
-      },
+      "REGION_OLIVE_OCEAN/ROOM_6_15": "can_swim",
       "REGION_OLIVE_OCEAN/ROOM_6_18": {
         "all": [
           "can_swim",
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mirra_811_olive",
+          "kind": "block",
+          "native_room": 811,
+          "exit": "REGION_OLIVE_OCEAN/ROOM_6_15",
+          "graphs": {
+            "normal_right_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_11"
+              },
+              "nodes": [
+                {
+                  "id": "mirra_811_olive:arrival",
+                  "native_room": 811
+                },
+                {
+                  "id": "mirra_811_olive:cleared",
+                  "native_room": 811
+                }
+              ],
+              "starts": [
+                "mirra_811_olive:arrival"
+              ],
+              "required_targets": [
+                "mirra_811_olive:cleared"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "mirra_811_olive:arrival",
+                  "to": "mirra_811_olive:cleared",
+                  "capability": "mirra_811_normal_puff",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra811-normal-witness.md: actual829 entry, right-side water-to-flight setup and dry air puff clear original Mirra0x088CC730, then actual551 transition. Independent room829 access; no source, copied ability or arbitrary phase assumed."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_11": {
