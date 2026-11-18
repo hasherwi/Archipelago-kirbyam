@@ -16,8 +16,9 @@ def test_prefix_needs_no_owned_or_obtainable_copy(mode,pool,weight,gating):
     graph = room_traversal_graph(TARGET,'normal_hub4_entry')
     result = graph.evaluate(policy(mode,pool=pool,weight=weight),frozenset(),gating)
     assert all(result.reaches(n) for n in graph.required_targets)
-    assert not graph.placements and not result.retry_assumptions
-    assert all(p.equipped == 'Normal' for p in result.positions)
+    assert len(graph.placements)==2 and not result.retry_assumptions
+    ends=[p for p in result.positions if p.node in graph.required_targets]
+    assert ends and all(p.equipped == 'Normal' and p.consumed >= {'0x088B59B4','0x088B596C'} for p in ends)
 
 @pytest.mark.parametrize('change', ['access','equipment','endpoint','source'])
 def test_prefix_cannot_be_generalized(change):
@@ -70,3 +71,35 @@ def test_destination_key_and_other_room34_exits_remain(monkeypatch):
     exits=rooms['REGION_RAINBOW_ROUTE/ROOM_1_34']['exits']
     assert all(value=='can_break_block' for key,value in exits.items()
                if key!='REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
+
+@pytest.mark.parametrize('identity', ['0x088B59B4','0x088B596C'])
+def test_consumed_payload_after_arrival_cannot_be_reused(identity):
+    from dataclasses import replace
+    from ..traversal import Position
+    graph=room_traversal_graph(TARGET,'normal_hub4_entry')
+    graph=replace(graph, starts=(Position(TARGET+':rainbow34', consumed=frozenset({identity})),))
+    result=graph.evaluate(policy(0),frozenset(),False)
+    assert not any(result.reaches(n) for n in graph.required_targets)
+
+@pytest.mark.parametrize('index', [1,2])
+def test_payload_action_cannot_be_replaced_with_permission(index):
+    from dataclasses import replace
+    graph=room_traversal_graph(TARGET,'normal_hub4_entry')
+    routes=list(graph.routes)
+    routes[index]=replace(routes[index],uses_object=None)
+    graph=replace(graph,routes=tuple(routes))
+    with pytest.raises(ValueError): graph.evaluate(policy(0),frozenset({'Tornado Ability'}),False)
+
+def test_native_payload_intake_and_omission_controls():
+    evidence=json.loads((ROOT/'dev-docs/normal534-payload-acceptance.json').read_text())
+    assert len(evidence['cases'])==6
+    for row in evidence['cases']:
+        assert row['abilities']==[0] and row['helper_rooms']==[[101,101,101]]
+        assert all(w['frame']==1085 and not w['guard_failed'] for w in row['provenance']['runtime_writes'])
+        if row['positive']:
+            assert row['minimum_hp']==1 and row['endpoint']['room']==310
+            assert [p['template'] for p in row['payloads']]==['0x88b59b4','0x88b596c']
+            assert [p['intake']['frame'] for p in row['payloads']]==[1282,1390]
+            assert all(p['intake']['contact']=='0x2020ee0' and p['intake']['state']=='0x809c48d' for p in row['payloads'])
+        else:
+            assert row['minimum_hp']==0 and row['endpoint']['room']==534

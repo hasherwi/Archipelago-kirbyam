@@ -1,0 +1,1362 @@
+{
+  "scope": "Configured fresh single-player Hub4 entry; no existing emulator/save/playthrough touched. Prefix only, not map chest or arbitrary arrival.",
+  "limitations": [
+    "No ability was acquired; finite original enemies were inhaled and spat.",
+    "Omission controls die before the endpoint; they establish failure of this recipe, not impossibility of another route.",
+    "No room-wide source access, repeated payload supply, or copied equipment is inferred."
+  ],
+  "cases": [
+    {
+      "case": "normal534-payload-100",
+      "positive": true,
+      "health_percent": 100,
+      "gated": false,
+      "omission": null,
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1282,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 0,
+            "x": 144.0,
+            "y": 278.24609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b45"
+          },
+          "last": {
+            "frame": 1284,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 144.3671875,
+            "y": 278.890625,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1390,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 251.0,
+            "y": 294.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b44"
+          },
+          "last": {
+            "frame": 1405,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 232.3671875,
+            "y": 296.71875,
+            "state": "0x809c48d",
+            "flags": "0x10001b42"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "5d8e11172e8edd342b3e2cee99640f4486ca70583d7643821ee0180edb652c37",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "ef86d4cf16cc867e1042f4bb361fca40d689e6e22cfc0707d3b1d29a7ec81e6d",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+        "runtime_writes": []
+      }
+    },
+    {
+      "case": "normal534-payload-500",
+      "positive": true,
+      "health_percent": 500,
+      "gated": false,
+      "omission": null,
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 20,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1282,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 0,
+            "x": 144.0,
+            "y": 278.24609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b45"
+          },
+          "last": {
+            "frame": 1284,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 144.3671875,
+            "y": 278.890625,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 10,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1390,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 251.0,
+            "y": 294.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b44"
+          },
+          "last": {
+            "frame": 1405,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 232.3671875,
+            "y": 296.71875,
+            "state": "0x809c48d",
+            "flags": "0x10001b42"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "2855a7d5987877d3edd0ef8356edadd6834342f3eb5c6b55599ef38d373f266f",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "28859ec811263e59d05bde9d01ade55e5d1d1dc6f0ead8353a651829700b0daf",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+        "runtime_writes": []
+      }
+    },
+    {
+      "case": "normal534-payload-shuffled",
+      "positive": true,
+      "health_percent": 100,
+      "gated": true,
+      "omission": "permission",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Stone"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 8,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1282,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 8,
+            "hp": 0,
+            "x": 144.0,
+            "y": 278.24609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b45"
+          },
+          "last": {
+            "frame": 1284,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 144.3671875,
+            "y": 278.890625,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 8,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1390,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 8,
+            "hp": 0,
+            "x": 251.0,
+            "y": 294.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b44"
+          },
+          "last": {
+            "frame": 1405,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 232.3671875,
+            "y": 296.71875,
+            "state": "0x809c48d",
+            "flags": "0x10001b42"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "787f110dd58041d01bc49bdfc4c646772e0cf910830ae46093329dca500ad7b0",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "ace5d39351697aabd2ab7aab599f909d1a6639e395165053d141f9fb69560ea4",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "a01202fabed22477694a9c138192dd8fe9d8ff331e24925c50631d5cc649f5ae",
+        "runtime_writes": [
+          {
+            "frame": 1085,
+            "address": "0x203b064",
+            "size": 4,
+            "value": "01000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b068",
+            "size": 4,
+            "value": "291ae629",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b06c",
+            "size": 4,
+            "value": "186b009d",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b070",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b074",
+            "size": 4,
+            "value": "00010000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b0",
+            "size": 4,
+            "value": "7effff03",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b4",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b078",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          }
+        ]
+      }
+    },
+    {
+      "case": "normal534-payload-live",
+      "positive": true,
+      "health_percent": 100,
+      "gated": true,
+      "omission": "permission",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Stone"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 8,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1282,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 8,
+            "hp": 0,
+            "x": 144.0,
+            "y": 278.24609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b45"
+          },
+          "last": {
+            "frame": 1284,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 144.3671875,
+            "y": 278.890625,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 8,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1390,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 8,
+            "hp": 0,
+            "x": 251.0,
+            "y": 294.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b44"
+          },
+          "last": {
+            "frame": 1405,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 232.3671875,
+            "y": 296.71875,
+            "state": "0x809c48d",
+            "flags": "0x10001b42"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "3b3795b5bac0b6e4835eb772ae4dd6859ada809c245366d5f3f98398b080f3aa",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "ace5d39351697aabd2ab7aab599f909d1a6639e395165053d141f9fb69560ea4",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "a01202fabed22477694a9c138192dd8fe9d8ff331e24925c50631d5cc649f5ae",
+        "runtime_writes": [
+          {
+            "frame": 1085,
+            "address": "0x203b064",
+            "size": 4,
+            "value": "02000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b068",
+            "size": 4,
+            "value": "291ae629",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b06c",
+            "size": 4,
+            "value": "186b009d",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b070",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b074",
+            "size": 4,
+            "value": "00010000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b0",
+            "size": 4,
+            "value": "7effff03",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b0b4",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          },
+          {
+            "frame": 1085,
+            "address": "0x203b078",
+            "size": 4,
+            "value": "00000000",
+            "guard_failed": false,
+            "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+          }
+        ]
+      }
+    },
+    {
+      "case": "normal534-no-first",
+      "positive": false,
+      "health_percent": 100,
+      "gated": false,
+      "omission": "first_payload",
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 534,
+        "x": 40.0,
+        "y": 296.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": null,
+          "last": {
+            "frame": 2520,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": null,
+          "last": {
+            "frame": 2520,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "1c669c37adcb4b76325f42dc28c5f23c626fb7cf0866741e183b74742f0d5c41",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "ef86d4cf16cc867e1042f4bb361fca40d689e6e22cfc0707d3b1d29a7ec81e6d",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+        "runtime_writes": []
+      }
+    },
+    {
+      "case": "normal534-no-second",
+      "positive": false,
+      "health_percent": 100,
+      "gated": false,
+      "omission": "second_payload",
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "helper_rooms": [
+        [
+          101,
+          101,
+          101
+        ]
+      ],
+      "endpoint": {
+        "frame": 2520,
+        "room": 534,
+        "x": 57.99609375,
+        "y": 282.46484375,
+        "hp": 1,
+        "ability": 0
+      },
+      "payloads": [
+        {
+          "template": "0x88b59b4",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 4,
+            "x": 144.0,
+            "y": 280.0,
+            "state": "0x80bbe09",
+            "flags": "0x10000005"
+          },
+          "intake": {
+            "frame": 1282,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x2020ee0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 0,
+            "x": 144.0,
+            "y": 278.24609375,
+            "state": "0x809c48d",
+            "flags": "0x10040b45"
+          },
+          "last": {
+            "frame": 2520,
+            "template": "0x88b59b4",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -7,
+              6,
+              7
+            ],
+            "object": "0x20000c4",
+            "type_id": 28,
+            "native_ability": 16,
+            "hp": 4,
+            "x": -16.359375,
+            "y": 288.24609375,
+            "state": "0x80bbf55",
+            "flags": "0x10000144"
+          }
+        },
+        {
+          "template": "0x88b596c",
+          "first": {
+            "frame": 1168,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 256.0,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          },
+          "intake": null,
+          "last": {
+            "frame": 2520,
+            "template": "0x88b596c",
+            "kind": 1,
+            "parent": "0x0",
+            "contact": "0x0",
+            "bounds": [
+              -6,
+              -5,
+              6,
+              9
+            ],
+            "object": "0x2000008",
+            "type_id": 0,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 263.49609375,
+            "y": 294.99609375,
+            "state": "0x80a4455",
+            "flags": "0x10000005"
+          }
+        }
+      ],
+      "provenance": {
+        "private_evidence_sha256": "ea39a97a4e5f488f6b063c731c5b938d1ccb6c747fcdf19df8a550559daae53d",
+        "script_sha256": "eaa8e316ac61bb2aed70dad7576a7e6b77f54596ab6420bc1954d88e7a64bc5d",
+        "fixture_sha256": "ef86d4cf16cc867e1042f4bb361fca40d689e6e22cfc0707d3b1d29a7ec81e6d",
+        "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+        "production_scaled_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+        "runtime_writes": []
+      }
+    }
+  ]
+}

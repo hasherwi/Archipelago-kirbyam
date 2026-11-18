@@ -250,7 +250,7 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
                 'normal_accepted': attack_provider('Normal', route.water_state) in allowed,
                 'recover_dropped_ability': route.recover_dropped_ability})
         assert saved[identity]['capability_routes'] == expected_routes
-    assert source_ids == set(record['sources']) and len(source_ids) == 113
+    assert source_ids == set(record['sources']) and len(source_ids) == 114
 
 
 def test_saved_catalog_is_reproducible_and_hashes_current_sources() -> None:

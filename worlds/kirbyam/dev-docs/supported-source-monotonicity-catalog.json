@@ -7,14 +7,14 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "3a5c4fe5d9f9cac6507af92c1b613648b7f829cf2c51f9ffece255a4d49ae3f8",
-    "worlds/kirbyam/traversal_data.py": "b913aef6c90431637bed011757c09d703b3530de8f68605c6f6f5af7b068ec55",
+    "worlds/kirbyam/traversal.py": "652819f1ce5b5f1932e7463affa0fd09b9d9858825720cbbe36aa9cc95a2e851",
+    "worlds/kirbyam/traversal_data.py": "e59f9b5dfbaba28cbd2f835c98805b60684d6824a217e35f1a3ce81c37f9c7ab",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "173a7a933394b4ff252c041d50773e04b970295c72e97cf05217b75d79721bf5",
+    "worlds/kirbyam/data/regions/rooms.json": "c4aa74c26f95dbe68fb6139d2d88e50bda4c21c46b33433aad3e3a61a035bf01",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
     "worlds/kirbyam/ability_source_inventory.py": "3b876f9da8bba2691d65b823e0e16262fd4c3009523d94b7db0f28a919bc1700",
-    "worlds/kirbyam/data/ability_source_inventory.json": "315ad1c56decd850b3ff69e666e622ac380e163cf80efa456b8fea128e1ee85d"
+    "worlds/kirbyam/data/ability_source_inventory.json": "a58fea2dc1f3ee1466fd1b98a65f1d753d11f685009639bd55788b96ecb030fb"
   },
   "witnesses": 154,
   "variants": 308,
@@ -134,6 +134,12 @@
       "Normal"
     ],
     "mirra_811_normal_puff": [
+      "Normal"
+    ],
+    "normal_534_twister_payload": [
+      "Normal"
+    ],
+    "normal_534_dee_payload": [
       "Normal"
     ],
     "bomb_138_green": [
@@ -738,6 +744,22 @@
         "documented_retry": false
       }
     ],
+    "TWISTER@0x088B59B4": [
+      {
+        "source_key": "TWISTER",
+        "identity": "0x088B59B4",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "WADDLE_DEE@0x088B596C": [
+      {
+        "source_key": "WADDLE_DEE",
+        "identity": "0x088B596C",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
     "WADDLE_DOO@0x088B6138": [
       {
         "source_key": "WADDLE_DOO",
@@ -790,14 +812,6 @@
       {
         "source_key": "WADDLE_DOO",
         "identity": "0x088CA04C",
-        "renewable": false,
-        "documented_retry": false
-      }
-    ],
-    "TWISTER@0x088B59B4": [
-      {
-        "source_key": "TWISTER",
-        "identity": "0x088B59B4",
         "renewable": false,
         "documented_retry": false
       }
@@ -14546,8 +14560,38 @@
       "target": "normal_534_mustard_entry",
       "witness": "normal_hub4_entry",
       "area_keys": false,
-      "source_ids": [],
-      "capability_routes": [],
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
       "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": null,
@@ -14561,6 +14605,20 @@
         },
         {
           "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
           "to": "normal_534_mustard_entry:arrival",
           "required_equipment": [
             "Normal"
@@ -14572,8 +14630,38 @@
       "target": "normal_534_mustard_entry",
       "witness": "normal_hub4_entry",
       "area_keys": true,
-      "source_ids": [],
-      "capability_routes": [],
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
       "target_source_condition": null,
       "target_source_alternatives": null,
       "graph_source_condition": null,
@@ -14587,6 +14675,20 @@
         },
         {
           "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
           "to": "normal_534_mustard_entry:arrival",
           "required_equipment": [
             "Normal"

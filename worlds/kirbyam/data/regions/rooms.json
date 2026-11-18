@@ -3191,6 +3191,14 @@
                   "native_room": 534
                 },
                 {
+                  "id": "normal_534_mustard_entry:lower_payload",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_clear",
+                  "native_room": 534
+                },
+                {
                   "id": "normal_534_mustard_entry:arrival",
                   "native_room": 310
                 }
@@ -3201,7 +3209,22 @@
               "required_targets": [
                 "normal_534_mustard_entry:arrival"
               ],
-              "sources": [],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "inventory_id": "room:534/template:0x088B59B4",
+                  "node": "normal_534_mustard_entry:rainbow34",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                },
+                {
+                  "id": "0x088B596C",
+                  "inventory_id": "room:534/template:0x088B596C",
+                  "node": "normal_534_mustard_entry:lower_payload",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                }
+              ],
               "routes": [
                 {
                   "from": "normal_534_mustard_entry:hub4",
@@ -3216,6 +3239,26 @@
                 },
                 {
                   "from": "normal_534_mustard_entry:rainbow34",
+                  "to": "normal_534_mustard_entry:lower_payload",
+                  "capability": "normal_534_twister_payload",
+                  "uses_object": "0x088B59B4",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_payload",
+                  "to": "normal_534_mustard_entry:lower_clear",
+                  "capability": "normal_534_dee_payload",
+                  "uses_object": "0x088B596C",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_clear",
                   "to": "normal_534_mustard_entry:arrival",
                   "room_transition": true,
                   "room_instance": "reset",

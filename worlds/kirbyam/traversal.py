@@ -61,6 +61,8 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "mirra_117_lower_payload": frozenset({"Normal"}),
     "mirra_117_normal_clearance": frozenset({"Normal"}),
     "mirra_811_normal_puff": frozenset({"Normal"}),
+    "normal_534_twister_payload": frozenset({"Normal"}),
+    "normal_534_dee_payload": frozenset({"Normal"}),
 
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
@@ -111,6 +113,8 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "mirra_117_lower_payload": 117,
     "mirra_117_normal_clearance": 117,
     "mirra_811_normal_puff": 811,
+    "normal_534_twister_payload": 534,
+    "normal_534_dee_payload": 534,
 
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
@@ -529,12 +533,14 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
         if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
-                                "mirra_117_upper_payload", "mirra_117_lower_payload"}) != (
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"}) != (
             route.uses_object is not None
         ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
         if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
-                                "mirra_117_upper_payload", "mirra_117_lower_payload"} \
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"} \
                 and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
@@ -580,6 +586,16 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                               capability=route.capability, uses_object=payload,
                               required_equipment=frozenset({"Normal"})):
                 raise ValueError("Mirra117 requires its exact finite Normal sequence")
+        normal534_actions = {
+            "normal_534_twister_payload": ("rainbow34", "lower_payload", "0x088B59B4"),
+            "normal_534_dee_payload": ("lower_payload", "lower_clear", "0x088B596C"),
+        }
+        if route.capability in normal534_actions:
+            start, end, payload = normal534_actions[route.capability]
+            if route != Route("normal_534_mustard_entry:" + start, "normal_534_mustard_entry:" + end,
+                              capability=route.capability, uses_object=payload,
+                              required_equipment=frozenset({"Normal"})):
+                raise ValueError("Normal534 requires its exact finite payload sequence")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
@@ -836,6 +852,8 @@ def _validate_projectile_evidence(row: Mapping[str, Any]) -> None:
         "bomb_110_upper_normal_spit": "evidence",
         "mirra_117_upper_payload": "evidence",
         "mirra_117_lower_payload": "evidence",
+        "normal_534_twister_payload": "evidence",
+        "normal_534_dee_payload": "evidence",
     }.get(row.get("capability", ""))
     if row.get("uses_object") is not None:
         if evidence_key is None:

@@ -14,7 +14,7 @@ def before_mirra141_targets(rows):
         if row['target']['id'] == 'normal_534_mustard_entry':
             assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_34'
             assert row['target'].get('region', row['owner']) == row['owner']
-            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == '8e979fd05672333e6e706e7b28d1104372f2b9872285073542073225b50141aa'
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'fc15b9ec9af07ecec1d1c938926749300f56e62ffa583f99aa7259486a78458c'
         elif row['target']['id'] == 'mirra_811_olive':
             assert row['owner'] == 'REGION_OLIVE_OCEAN/ROOM_6_10'
             assert row['target'].get('region', row['owner']) == row['owner']
@@ -59,8 +59,11 @@ def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
     assert (result['witnesses'], result['variants']) == (154, 308)
     prefix534 = [r for r in result['graphs'] if r['target'] == 'normal_534_mustard_entry']
-    assert digest(prefix534) == '1c107d2fda7edcd3f8e0814d56181e36c661c4d9df2c88ea74d2022cd32efa80'
+    assert digest(prefix534) == '57b08f4dc6003ee3fdeab99ca6c235822fe0c260a8ff986291bb6f62abd0269a'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_534_mustard_entry']
+    for capability in ('normal_534_twister_payload', 'normal_534_dee_payload'):
+        assert result['capability_providers'].pop(capability) == ['Normal']
+    assert result['sources'].pop('WADDLE_DEE@0x088B596C') == [{'source_key': 'WADDLE_DEE', 'identity': '0x088B596C', 'renewable': False, 'documented_retry': False}]
     added811 = [r for r in result['graphs'] if r['target'] == 'mirra_811_olive']
     assert digest(added811) == '944ebdddbfcc9881bfd9a219e5d30f4e2d258436a0252c9c9d836bc6270e9509'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'mirra_811_olive']
