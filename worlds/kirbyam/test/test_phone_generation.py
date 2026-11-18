@@ -163,7 +163,7 @@ def test_full_generation_phone_progression(
     assert chalk.parent_region.name.endswith("ROOM_2_GOAL_2_UPPER_LEFT")
 
 
-@pytest.mark.parametrize("mutation", ["missing-policy", "source-policy", "health", "mode"])
+@pytest.mark.parametrize("mutation", ["missing-policy", "source-policy", "mode"])
 def test_publication_rechecks_admitted_profile(mutation: str) -> None:
     from test.general import setup_multiworld
     from .. import KirbyAmWorld
@@ -177,8 +177,6 @@ def test_publication_rechecks_admitted_profile(mutation: str) -> None:
         del world._enemy_copy_ability_policy
     elif mutation == "source-policy":
         world._enemy_copy_ability_policy = {"mode": 1}
-    elif mutation == "health":
-        world.options.minimum_health.value = 1
     else:
         world.options.ability_randomization_mode.value = 1
     patch = KirbyAmProcedurePatch()
@@ -187,3 +185,19 @@ def test_publication_rechecks_admitted_profile(mutation: str) -> None:
     assert patch.files == {}  # Rejection precedes archive intent and token output.
     with pytest.raises(ValueError, match="Phone"):
         world.fill_slot_data()
+
+
+@pytest.mark.parametrize("health,one_hit", [(1, False), (10, True)])
+def test_publication_does_not_require_player_health(health: int, one_hit: bool) -> None:
+    from test.general import setup_multiworld
+    from .. import KirbyAmWorld
+    from ..phone_generation import PHONE_CONFIG_FILE
+    from ..rom import KirbyAmProcedurePatch, write_tokens
+    multiworld = setup_multiworld(KirbyAmWorld, seed=1086, options={"ability_gating": 0})
+    world = multiworld.worlds[1]
+    world.options.minimum_health.value = health
+    world.options.one_hit_mode.value = one_hit
+    patch = KirbyAmProcedurePatch()
+    write_tokens(world, patch)
+    assert patch.get_file(PHONE_CONFIG_FILE) == PHONE_ENABLED_CONFIG
+    assert world.fill_slot_data()["phone_protocol_version"] == 1
