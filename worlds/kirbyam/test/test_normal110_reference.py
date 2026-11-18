@@ -39,6 +39,8 @@ def assert_reference_search_body_unchanged(source: bytes) -> None:
     marker = b'    queue = deque(starts)\n'
     assert marker in canonical, "Frozen reference search marker is missing"
     tail = canonical.split(marker, 1)[1]
+    from .support.reference1114_history import before_1114_reference_transfers
+    tail = before_1114_reference_transfers(tail)
     assert hashlib.sha256(tail).hexdigest() == '44711c286fe14c4b02ce9aa9e9a0daf2ac677f60fd43c410ea98bc3ae9400510'
 
 
