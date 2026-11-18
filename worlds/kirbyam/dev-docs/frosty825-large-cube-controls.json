@@ -346,6 +346,55 @@
       "runtime_write_frames": [
         1085
       ]
+    },
+    {
+      "case": "large825-owned-500",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": true,
+      "omitted_permission": null,
+      "enemy_health_percent": 500,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 2
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 150,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "f82381e1909a43f68c1df4d3254b089cc72a2ca4948fcc2d5b6b3d066dbe6556",
+      "evidence_sha256": "d30b9a3ec13f65d0bdbe089982a7eebe49421593df1e46f0a7b6b3b5eda76e9d",
+      "runtime_write_frames": [
+        1085
+      ]
     }
   ]
 }

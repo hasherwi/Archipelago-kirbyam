@@ -78,8 +78,8 @@
     "statue": 95
   },
   "unknown_inventory_references": [],
-  "reviewed_inventory_references": 120,
-  "distinct_referenced_placements": 112,
+  "reviewed_inventory_references": 122,
+  "distinct_referenced_placements": 114,
   "unbound_source_or_encounter_placements": [
     "room:101/template:0x088B6950",
     "room:101/template:0x088B6974",

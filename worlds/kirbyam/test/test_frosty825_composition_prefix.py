@@ -31,12 +31,13 @@ def test_prefix_matches_native_placement_spawn_predicate_and_runtime_grant():
         if r['identity'] == 'carried825/825-retained-ice-scope-addendum.json')
 
 
-def test_prefix_resource_review_does_not_publish_unqualified_world_access():
+def test_native_candidate_alone_does_not_publish_world_access():
     source = source_inventory()[LIFE]
     assert source['native_contract']['attack_entry_guaranteed'] is False
     assert source['access']['status'] == 'unresolved'
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'frozen_825_sound_effects')
-    assert set(row['graphs']) == {'local', 'central_statues', 'peppermint290_statues', 'ufo_entry'}
+    assert row['advanced_graphs'] == ['generated_ice']
+    assert set(row['graphs']) == {'local', 'central_statues', 'peppermint290_statues', 'ufo_entry', 'generated_ice'}
 
 
 def test_large_cube_controls_match_runtime_permission_and_preserve_ammunition():
@@ -45,11 +46,12 @@ def test_large_cube_controls_match_runtime_permission_and_preserve_ammunition():
     assert native['source_key'] == record['source_key'] == 'MR_FROSTY_ICE_CUBE'
     assert record['status'] == 'conditional_acquisition_evidence'
     assert record['physical_prefix_equal_across_cases']
-    expected = [2, 0, 7, 0, 2, 2]
+    expected = [2, 0, 7, 0, 2, 2, 2]
     for case, ability in zip(record['cases'], expected, strict=True):
         assert (case['first_frame'], case['last_frame'], case['audited_frames']) == (1085, 2021, 937)
         assert case['intake_type'] == 167 and case['intake_frames'] == [1933, 1944]
-        assert case['original_parent_hp'] == 30 and case['waddle_bit_clear_all_slots']
+        assert case['original_parent_hp'] == 30 * case['enemy_health_percent'] // 100
+        assert case['waddle_bit_clear_all_slots']
         assert case['final']['room'] == 825 and case['final']['ability'] == ability
         assert case['runtime_write_frames'] == ([] if case['policy']['mode'] == 0 else [1085])
         grant = SourcePolicy(case['policy']).grant(record['source_key'], lambda _: True)

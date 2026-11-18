@@ -10,14 +10,14 @@
     "worlds/kirbyam/traversal.py": "0842bd31d970ca76caf0cc0098ec173a7ba921fa42d31325e1f49097dd107deb",
     "worlds/kirbyam/traversal_data.py": "e1369909b68caec9cceb479f02f4dc96a66fdccfb8703bbe1994e45d4736d804",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "9bd8aea769a081bf3438ddef7d0bf9c70fbbf6111dcc1a9609a2dc28bd036487",
+    "worlds/kirbyam/data/regions/rooms.json": "e41d61794195141d2c053b3d80cba3738a6359a9510f1b8fcf7b15350af98372",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
     "worlds/kirbyam/rules.py": "7afff4b83e12775debcdd9896ca07683d52d7db332cd057de6c621b7e110f5e2",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 156,
-  "variants": 312,
+  "witnesses": 157,
+  "variants": 314,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -935,6 +935,14 @@
       {
         "source_key": "WADDLE_DEE",
         "identity": "0x088CD318",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size": [
+      {
+        "source_key": "MR_FROSTY_ICE_CUBE",
+        "identity": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
         "renewable": false,
         "documented_retry": false
       }
@@ -14901,6 +14909,154 @@
           "to": "normal_815_vitality:chest",
           "required_equipment": [
             "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "generated_ice",
+      "area_keys": false,
+      "source_ids": [
+        "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "WADDLE_DEE@0x088CD318"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "MR_FROSTY_ICE_CUBE",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_generated:entry831",
+          "to": "frozen_825_generated:door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:door831",
+          "to": "frozen_825_generated:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arrival",
+          "to": "frozen_825_generated:arena",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arena",
+          "to": "frozen_825_generated:cube_live",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:cube_live",
+          "to": "frozen_825_generated:launch",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "required_equipment": [
+            "Ice"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "generated_ice",
+      "area_keys": true,
+      "source_ids": [
+        "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "WADDLE_DEE@0x088CD318"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "MR_FROSTY_ICE_CUBE",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_generated:entry831",
+          "to": "frozen_825_generated:door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:door831",
+          "to": "frozen_825_generated:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arrival",
+          "to": "frozen_825_generated:arena",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arena",
+          "to": "frozen_825_generated:cube_live",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:cube_live",
+          "to": "frozen_825_generated:launch",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "required_equipment": [
+            "Ice"
           ]
         }
       ]

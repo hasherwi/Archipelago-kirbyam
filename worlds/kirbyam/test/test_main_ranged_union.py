@@ -29,7 +29,8 @@ def test_one_installed_goal2_rule_ors_all_four_independent_sources(
 ) -> None:
     row, = [r for r in room_traversal_targets('block') if r['id'] == TARGET]
     assert 'requires_guaranteed_source' not in row
-    assert len(row['graphs']) == 4
+    assert len(row['graphs']) == 5
+    assert row['advanced_graphs'] == ['generated_ice']
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     resolver = policy(1, pool=[grant])
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
@@ -136,6 +137,10 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
                 from .support.mirra141_history import before_mirra141_targets
                 assert before_mirra141_targets([{'owner': region, 'target': {'region': region, **row}}]) == []
                 continue
+            if row['id'] == 'frozen_825_sound_effects':
+                from .support.mirra141_history import before_mirra141_targets
+                projected, = before_mirra141_targets([{'owner': region, 'target': row}])
+                row = projected['target']
             assert row['id'] not in catalogs['targets']
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.

@@ -12105,8 +12105,142 @@
                 "source_key": "MR_FROSTY",
                 "ability": "UFO"
               }
+            },
+            "generated_ice": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_14"
+              },
+              "nodes": [
+                {
+                  "id": "frozen_825_generated:entry831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_generated:door831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_generated:arrival",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:arena",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:cube_live",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:launch",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:chest",
+                  "native_room": 825
+                }
+              ],
+              "starts": [
+                "frozen_825_generated:entry831"
+              ],
+              "required_targets": [
+                "frozen_825_generated:chest"
+              ],
+              "routes": [
+                {
+                  "from": "frozen_825_generated:entry831",
+                  "to": "frozen_825_generated:door831",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Native814 doorway enters831 at bottom-left (40,280.996), its sole normalized incoming route. Continuous cold HP1/6 and enemy100/500 runs traverse the complete current/spike maze as Normal and reach the far-right825 door. Independent access is ROOM_6_14, not arbitrary814 arrival."
+                },
+                {
+                  "from": "frozen_825_generated:door831",
+                  "to": "frozen_825_generated:arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Physical native831 far-right door enters825 at (280,296.996), after the verified complete Normal maze traversal."
+                },
+                {
+                  "from": "frozen_825_generated:arrival",
+                  "to": "frozen_825_generated:arena",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Continuous native lower arrival route reaches Frosty arena as Normal without helper attacks or imported equipment."
+                },
+                {
+                  "from": "frozen_825_generated:arena",
+                  "to": "frozen_825_generated:cube_live",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "activates_lifetimes": [
+                    "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size"
+                  ],
+                  "activation_evidence": "dev-docs/frosty825-generated-ice-composition.md; wait for the original live Frosty cube attack, then acquire its single exhaustive small/large output. No favorable-size selection or repeated ability draw.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; existing Normal approach and observed conditional generation."
+                },
+                {
+                  "from": "frozen_825_generated:cube_live",
+                  "to": "frozen_825_generated:launch",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "ends_lifetimes": [
+                    "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size"
+                  ],
+                  "lifetime_evidence": "dev-docs/frosty825-generated-ice-composition.md; original finite child has been swallowed; later parent defeat gives no new child or source. Held Ice persists.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; compose retained Ice in the same arena with the separately qualified original-Frosty fight using Ice and native frozen cubes. Preserve original Waddle for the final projectile; controller streams are not claimed identical."
+                },
+                {
+                  "from": "frozen_825_generated:launch",
+                  "to": "frozen_825_generated:chest",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "capability": "frozen_enemy_hit",
+                  "uses_object": "0x088CD318",
+                  "frozen_enemy_evidence": "dev-docs/frosty825-generated-ice-composition.md; reuse the reviewed finite original Waddle freeze/kick through wall, timed switch crossing and chest66 suffix.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; original finite Waddle, no persistent opens event."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+                  "node": "frozen_825_generated:cube_live",
+                  "source_key": "MR_FROSTY_ICE_CUBE",
+                  "renewable": false,
+                  "generation_evidence": "dev-docs/frosty825-generated-ice-composition.md; original live Frosty cube attack. Timing is reactive, not a fixed-frame or finite-delay assertion; one output is consumed.",
+                  "lifetime_evidence": "dev-docs/frosty825-generated-ice-composition.md; live attached child before swallow; no respawn, reset or reacquisition.",
+                  "acquisition_evidence": "dev-docs/frosty825-generated-ice-composition.md; actual single-cube intake gives runtime Ice, without copying the parent.",
+                  "inventory_alternatives": [
+                    "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+                    "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167"
+                  ],
+                  "alternatives_acquisition_evidence": "dev-docs/frosty825-composition-prefix.json and dev-docs/frosty825-large-cube-controls.json; actual single intakes cover both native sizes, same runtime source key and preserved original ammunition."
+                },
+                {
+                  "id": "0x088CD318",
+                  "node": "frozen_825_generated:launch",
+                  "source_key": "WADDLE_DEE",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/frosty825-generated-ice-composition.md; original Waddle remains unspent through the acquisition prefix and retained-Ice fight; consuming it blocks the final frozen projectile."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY_ICE_CUBE",
+                "ability": "Ice"
+              }
             }
-          }
+          },
+          "advanced_graphs": [
+            "generated_ice"
+          ]
         }
       ],
       "graph_parts": {

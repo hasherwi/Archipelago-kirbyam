@@ -143,7 +143,7 @@ and 100% no-ability controls stay Normal, while the wrong-grant control gains
 Beam. All nine retain 1 HP through the matched 1729-frame endpoint. Gated
 ownership uses only the production client's guarded startup configuration.
 
-This is conditional acquisition evidence, not an installed target. Five tested
+Those original observations were conditional acquisition evidence. Five tested
 arrival delays fail before acquisition; the previously reviewed Ice combat
 controller also fails to compose safely with this new lineage. These earlier observations alone do not establish large-cube acquisition,
 generic attack selection, combat suffix, repeatability or reset. The later
@@ -160,9 +160,10 @@ is random and is not certified to enter this wind-up in a finite bound.
 These records certify the shared mechanics and bounded observations. They do
 not certify all 731 encounter candidates, all branch predicates, phase changes,
 controller defeat sequences, room-reset revival or safe repeatability. Unproved
-candidates remain unresolved and add no automatic world access. No new world
-entrance or target graph is installed from a configured native fixture. Existing
-Normal witnesses and the paused #1059 playthrough are preserved.
+candidates remain unresolved and add no automatic world access. Configured
+fixtures alone do not install world entrances or target graphs. The separately
+reviewed825 composition below also requires the existing Normal entrance and
+retained-Ice suffix. Existing Normal witnesses and #1059 remain preserved.
 
 ## Bonkers nut branches
 
@@ -500,4 +501,8 @@ the final Waddle's spawn bit stays clear in all four room slots throughout.
 The observed one hit is controller execution, not a minimum-health condition.
 These controls establish both cube sizes as physically acquirable. They do not
 establish a new complete chest replay or a finite bound on idle attack choice.
-No new world graph is installed by this evidence batch.
+The acquisition controls alone do not install a world graph. The subsequent
+`frosty825-generated-ice-composition.md` review joins their preserved resources
+to the existing Normal831 entrance and retained-Ice suffix. Its Advanced-only
+graph uses one exhaustive finite cube group and leaves the four Standard
+witnesses intact. It makes no fixed-delay or uninterrupted-replay claim.

@@ -19,10 +19,13 @@ The current source-backed subset includes:
 - Conditional 310 map alternatives: four Twister witnesses (UFO, Crash, Cupid and Cutter)
   and local Sir Kibble Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
-- The 825 Sound Effects target is unconditional, with four OR witnesses: finite
+- The 825 Sound Effects target is unconditional, with four Standard OR witnesses: finite
   Frosty Ice/UFO and independent Central/Peppermint290 statue Ice. Only the finite
   graphs have Frosty source conditions; their native evidence remains individually
-  qualified. See `main-ranged-integration.md` and `olive-sound-effects-ufo.md`.
+  qualified. See `main-ranged-integration.md` and `olive-sound-effects-ufo.md`. Advanced Logic adds
+  one finite exhaustive Frosty-cube Ice acquisition composed with the existing
+  retained-Ice suffix; see `frosty825-generated-ice-composition.md` for the
+  native branch controls, resource invariants and composition limits.
 - An optional, fail-closed native538 Beam left exit from VERTICAL directly to
   Rainbow39/native537, documented in `rainbow-beam538-source-witness.md`. It
   adds no reverse crossover, direct539 route or mandatory Beam requirement. The
@@ -42,7 +45,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (156 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (157 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 

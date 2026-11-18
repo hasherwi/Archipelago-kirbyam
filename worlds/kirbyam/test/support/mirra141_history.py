@@ -11,6 +11,10 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
+        if row['target']['id'] == 'frozen_825_sound_effects':
+            row = deepcopy(row)
+            assert row['target'].pop('advanced_graphs') == ['generated_ice']
+            assert digest(row['target']['graphs'].pop('generated_ice')) == '951c005dbcb4b76d6718ad4ce4d8847a20758ec485f3245f1e01ab0ccae29058'
         if row['target']['id'] == 'normal_815_vitality':
             assert row['owner'] == 'REGION_OLIVE_OCEAN/ROOM_6_CHEST_1'
             assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'f90ff17ad62d31b79812b6281f725386cd2c6665766a9c0b7c6319f6404335d0'
@@ -69,7 +73,11 @@ def before_mirra141_surfaces(rows):
 
 def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (156, 312)
+    assert (result['witnesses'], result['variants']) == (157, 314)
+    generated = [r for r in result['graphs'] if (r['target'], r['witness']) == ('frozen_825_sound_effects', 'generated_ice')]
+    assert digest(generated) == '5c2e2db654b1aa51ff7db9c97c1f058b2fa24c8444afed75914cc3364742eb0a'
+    result['graphs'] = [r for r in result['graphs'] if (r['target'], r['witness']) != ('frozen_825_sound_effects', 'generated_ice')]
+    assert result['sources'].pop('MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size') == [{'source_key': 'MR_FROSTY_ICE_CUBE', 'identity': 'room:825/template:0x088CD3F0/choice:mr_frosty_cube_size', 'renewable': False, 'documented_retry': False}]
     normal815 = [r for r in result['graphs'] if r['target'] == 'normal_815_vitality']
     assert digest(normal815) == '7e61b2b084c7826fa2e46dbe6e25beeca1a19f1baa5e3a0ae62aa091980ebda9'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_815_vitality']
