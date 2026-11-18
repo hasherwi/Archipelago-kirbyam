@@ -635,6 +635,33 @@ def parasol_parent_grant_contract(record: dict, source_hashes: dict) -> dict | N
     }
 
 
+def dark_mind_template_star_selection(parent: dict, record: dict, source_hashes: dict) -> dict | None:
+    """Bind direct Form1 star candidates to template subtype, not inferred phase access."""
+    generation = record.get('generation', {})
+    if (parent.get('spawn_table') != 1 or parent.get('type_id') != 79
+            or generation.get('controller_type') != 79
+            or generation.get('callsite') not in {'src/dark_mind.c:3824', 'src/dark_mind.c:3856', 'src/dark_mind.c:3877'}
+            or record.get('type_id') not in (203, 204, 205, 206)):
+        return None
+    subtype = parent.get('subtype2')
+    if type(subtype) is not int or subtype not in range(4):
+        return None
+    hashes = {'src/dark_mind.c': DARK_MIND_REVIEW_SHA256, 'src/object.c': OBJECT_REVIEW_SHA256}
+    if any(source_hashes.get(name) != digest for name, digest in hashes.items()):
+        raise ValueError('Dark Mind template selection requires the reviewed source hashes')
+    types = list(range(203, 204 + subtype))
+    return {
+        'status': 'conditional_template_phase_selection', 'dependency_sha256': hashes,
+        'parent_template_subtype2': subtype,
+        'subtype_origin': 'object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4',
+        'possible_types_when_mode_flag4_clear': types,
+        'possible_types_when_mode_flag4_set': [203, 204, 205, 206],
+        'candidate_possible_when_mode_flag4_clear': record['type_id'] in types,
+        'selection': 'dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection',
+        'scope': 'Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee.',
+    }
+
+
 def build_ap_region_inventory(rooms: dict, native_rooms: list[dict]) -> list[dict]:
     """List every declared compartment without assigning room-wide source access."""
     aliases = {}
@@ -919,6 +946,13 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'record': 'dev-docs/generated-frosty-native-acceptance.json',
                 'compartment': 'room955 arena, live original Frosty',
                 'scope': 'Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route.'}
+    static_parents = {record['id']: record for record in placements}
+    for record in encounter_sources:
+        selection = dark_mind_template_star_selection(static_parents.get(record['parent_placement'], {}),
+                                                      record, source_hashes)
+        if selection is not None:
+            record['native_phase_selection'] = selection
+            record['native_contract']['root_to_phase_lineage'] = 'Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.'
     for record in placements + spawner_outputs + encounter_sources:
         contract = (golem_grant_contract(record, source_hashes['src/golem.c'])
                     or parasol_parent_grant_contract(record, source_hashes))

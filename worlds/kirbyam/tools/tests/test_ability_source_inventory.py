@@ -343,8 +343,12 @@ class DarkMindProjectileContractTests(unittest.TestCase):
         for row in rows:
             self.assertEqual(row['access']['status'], 'unresolved')
             self.assertEqual(row['logic'], 'advanced')
-            self.assertEqual(row['native_contract'], extract.dark_mind_projectile_contract(
-                inventory['decomp_file_sha256']['src/dark_mind.c'], row['type_id'], row['generation']['callsite']))
+            expected = extract.dark_mind_projectile_contract(
+                inventory['decomp_file_sha256']['src/dark_mind.c'], row['type_id'], row['generation']['callsite'])
+            if 'native_phase_selection' in row:
+                self.assertEqual(row['generation']['controller_type'], 79)
+                expected['root_to_phase_lineage'] = 'Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.'
+            self.assertEqual(row['native_contract'], expected)
 
 
 class RemainingConfiguredEncounterContractTests(unittest.TestCase):
@@ -442,3 +446,24 @@ class APRegionInventoryTests(unittest.TestCase):
     def test_declared_alias_collision_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'Duplicate declared AP compartment'):
             extract.build_ap_region_inventory({'r': {'logical_subregions': {'x': {}}}, 'r__LOGIC__x': {}}, [])
+
+
+class DarkMindTemplatePhaseTests(unittest.TestCase):
+    def test_direct_template_subtype_and_mode_override_are_separate(self):
+        hashes = {'src/dark_mind.c': extract.DARK_MIND_REVIEW_SHA256,
+                  'src/object.c': extract.OBJECT_REVIEW_SHA256}
+        for subtype in range(4):
+            for kind in range(203, 207):
+                parent = {'spawn_table': 1, 'type_id': 79, 'subtype2': subtype}
+                record = {'type_id': kind, 'generation': {'controller_type': 79, 'callsite': 'src/dark_mind.c:3824'}}
+                result = extract.dark_mind_template_star_selection(parent, record, hashes)
+                self.assertEqual(result['possible_types_when_mode_flag4_clear'], list(range(203, 204 + subtype)))
+                self.assertEqual(result['candidate_possible_when_mode_flag4_clear'], kind <= 203 + subtype)
+                self.assertEqual(result['possible_types_when_mode_flag4_set'], [203, 204, 205, 206])
+        with self.assertRaisesRegex(ValueError, 'reviewed source hashes'):
+            extract.dark_mind_template_star_selection(parent, record, {})
+        record['generation']['controller_type'] = 81
+        self.assertIsNone(extract.dark_mind_template_star_selection(parent, record, hashes))
+        record['generation']['controller_type'] = 79
+        parent['subtype2'] = None
+        self.assertIsNone(extract.dark_mind_template_star_selection(parent, record, hashes))

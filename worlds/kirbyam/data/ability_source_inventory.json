@@ -154709,7 +154709,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -154743,6 +154743,27 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -154776,7 +154797,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -154810,6 +154831,27 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -154843,7 +154885,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -154877,6 +154919,27 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -154910,7 +154973,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -154944,6 +155007,27 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -154977,7 +155061,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155011,6 +155095,28 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155044,7 +155150,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155078,6 +155184,28 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155111,7 +155239,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155145,6 +155273,28 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155178,7 +155328,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155212,6 +155362,28 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155245,7 +155417,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155279,6 +155451,29 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155312,7 +155507,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155346,6 +155541,29 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155379,7 +155597,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155413,6 +155631,29 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155446,7 +155687,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155480,6 +155721,29 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155513,7 +155777,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155547,6 +155811,30 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155580,7 +155868,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155614,6 +155902,30 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155647,7 +155959,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155681,6 +155993,30 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155714,7 +156050,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155748,6 +156084,30 @@
         "constructor_calls_per_helper_invocation": 2,
         "output_relationship": "two constructed stars, separately selected types",
         "initial_behavior": "sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155781,7 +156141,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155814,6 +156174,27 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155847,7 +156228,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155880,6 +156261,27 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155913,7 +156315,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -155946,6 +156348,27 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -155979,7 +156402,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156012,6 +156435,27 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156045,7 +156489,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156078,6 +156522,28 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156111,7 +156577,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156144,6 +156610,28 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156177,7 +156665,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156210,6 +156698,28 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156243,7 +156753,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156276,6 +156786,28 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156309,7 +156841,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156342,6 +156874,29 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156375,7 +156930,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156408,6 +156963,29 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156441,7 +157019,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156474,6 +157052,29 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156507,7 +157108,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156540,6 +157141,29 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156573,7 +157197,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156606,6 +157230,30 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156639,7 +157287,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156672,6 +157320,30 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156705,7 +157377,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156738,6 +157410,30 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156771,7 +157467,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156804,6 +157500,30 @@
         "native_mix_type": 206,
         "constructor_calls_per_helper_invocation": 1,
         "initial_behavior": "sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys"
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156837,7 +157557,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156872,6 +157592,27 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156905,7 +157646,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -156940,6 +157681,27 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -156973,7 +157735,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157008,6 +157770,27 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157041,7 +157824,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157076,6 +157859,27 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 0,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157109,7 +157913,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157144,6 +157948,28 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157177,7 +158003,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157212,6 +158038,28 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157245,7 +158093,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157280,6 +158128,28 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157313,7 +158183,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157348,6 +158218,28 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 1,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157381,7 +158273,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157416,6 +158308,29 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157449,7 +158364,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157484,6 +158399,29 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157517,7 +158455,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157552,6 +158490,29 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157585,7 +158546,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157620,6 +158581,29 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 2,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": false,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157653,7 +158637,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157688,6 +158672,30 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157721,7 +158729,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157756,6 +158764,30 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157789,7 +158821,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157824,6 +158856,30 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {
@@ -157857,7 +158913,7 @@
       "native_contract": {
         "status": "conditional_native_contract",
         "source_sha256": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
-        "root_to_phase_lineage": "unresolved; translation-unit candidate is not phase access",
+        "root_to_phase_lineage": "Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
         "acquisition": "not_certified",
@@ -157892,6 +158948,30 @@
         "initial_behavior": "parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8",
         "phase_release": "first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98",
         "phase_transition_is_expiry": false
+      },
+      "native_phase_selection": {
+        "status": "conditional_template_phase_selection",
+        "dependency_sha256": {
+          "src/dark_mind.c": "841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158",
+          "src/object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+        },
+        "parent_template_subtype2": 3,
+        "subtype_origin": "object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4",
+        "possible_types_when_mode_flag4_clear": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "possible_types_when_mode_flag4_set": [
+          203,
+          204,
+          205,
+          206
+        ],
+        "candidate_possible_when_mode_flag4_clear": true,
+        "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
+        "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
       }
     },
     {

@@ -405,3 +405,25 @@ constructor explicitly leaves its secondary callback NULL. Wiz assigns a
 parent pointer without installing `sub_0809F840`, so parent attachment alone
 cannot justify a parent-death expiry edge. Both constructor files are pinned
 for that contract; later-state behavior and safe world access remain unresolved.
+
+### Dark Mind's direct Form 1 placement phases
+
+The four static Form 1 placements in native910/912/914/916 carry template
+`subtype2` values 0/1/2/3. Pinned `object.c:InitObject` copies that field into the
+runtime subtype. `CreateDarkMindForm1` overrides it to 3 when global mode flag4
+is set. `RandomFunction` then selects Fire only, Fire/Ice, Fire/Ice/Spark, or all
+four star types including Mix. The paired-star helper passes the subtype to its
+first child before selecting the second star; it does not reset the second
+selection to phase zero.
+
+The inventory now binds these conditional facts to 48 direct Form 1 star
+candidates. Eighteen are outside the selected type set when flag4 is clear;
+they remain recorded candidates, with that condition explicit. Flag4-set behavior
+is recorded separately. Descendant Form 3/controller81 candidates do not inherit
+the static Form 1 subtype. No attack entry, successful allocation, safe contact,
+Mix outcome, carry or repeatability is admitted by this metadata.
+
+[WiKirby's Dark Mind description](https://wikirby.com/wiki/Dark_Mind) supplied the
+phase-selection lead. Native constructors, subtype propagation and selection
+branches establish the facts above; the wiki is not evidence of randomized grants
+or a usable route through a particular encounter.

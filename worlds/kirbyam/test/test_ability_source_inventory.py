@@ -360,3 +360,20 @@ def test_inventory_explicitly_covers_ap_rooms_and_declared_subrooms():
     # Similar names do not establish physical membership or shared entry access.
     assert rows['REGION_RAINBOW_ROUTE/ROOM_1_24']['native_rooms'] == [117]
     assert rows['REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER']['native_rooms'] == []
+
+
+def test_dark_mind_static_phase_selection_does_not_transfer_to_descendants():
+    records = list(source_inventory().values())
+    selected = [r for r in records if 'native_phase_selection' in r]
+    assert len(selected) == 48
+    assert sum(not r['native_phase_selection']['candidate_possible_when_mode_flag4_clear'] for r in selected) == 18
+    for record in selected:
+        assert record['generation']['controller_type'] == 79
+        phase = record['native_phase_selection']
+        assert phase['parent_template_subtype2'] == {910: 0, 912: 1, 914: 2, 916: 3}[record['native_room']]
+        assert phase['possible_types_when_mode_flag4_clear'] == list(range(203, 204 + phase['parent_template_subtype2']))
+        assert record['logic'] == 'advanced'
+        assert record['access']['status'] == 'unresolved'
+        assert record['native_contract']['attack_entry_guaranteed'] is False
+    assert not any('native_phase_selection' in r for r in records
+                   if r.get('generation', {}).get('controller_type') == 81)
