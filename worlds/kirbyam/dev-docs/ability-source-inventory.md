@@ -64,16 +64,20 @@ The common registry also indexes 731 root/controller/call/output combinations,
 with explicit per-room references. These preserve candidate branch sets and
 unresolved access rather than manufacturing a guaranteed output. A generated
 reference requires generation, lifetime and acquisition evidence. Its lifetime
-identity is pinned to the output record, separately from its parent placement. Encounter-generated ordinary enemies
+identity is pinned to the output record, separately from its parent placement.
+Separately evidenced finite encounter occurrences may append a named instance;
+fixed statue slots and non-reclaiming spawners cannot use this to multiply supply. Encounter-generated ordinary enemies
 are Advanced-only too; their ordinary source type cannot bypass this restriction.
 
 The existing traversal state tracks active and expired source lifetimes alongside
 one equipped ability and consumed objects. Generated outputs require an evidenced
 activation edge before acquisition. Evidenced routes can lose equipment or
 end an encounter lifetime. Loss requires actual reacquisition from a still-live
-source. A room reset clears finite uses as before but does not revive an expired
-encounter; revival needs an actual room-reset transition and its own evidence,
-followed by explicit generation. Capacity-one
+source. A room reset clears only ordinary finite uses in its destination native room
+whose spawn-state bank permits room-local respawn. Remote sources and the ten
+Cookin/Jack placements with persistent banks retain consumption. Generated
+consumption and expired lifetimes require explicit revival on an actual reset
+transition, followed by separately evidenced generation. Capacity-one
 spawners without destroyed-slot reclamation cannot be declared renewable; a
 renewal claim cannot override that decoded native limit. These fields
 extend the existing solver and preserve previous routes when absent.

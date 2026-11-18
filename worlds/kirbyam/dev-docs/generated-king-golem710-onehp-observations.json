@@ -1399,5 +1399,63 @@
     "Shuffled-owned uses an earlier type31 as a spit projectile before acquiring type33. Separate occurrences are not repeatability proof.",
     "No guaranteed random attack branch, boss defeat, departure, carry-to-target, reset or revival follows.",
     "Vanilla used v3 controller; other cases used v4 with observed initial boss half-health threshold. All recorded settings and timings remain part of the evidence."
+  ],
+  "additional_failed_controller_search": [
+    {
+      "inhale_pulse_frames": 20,
+      "release_frames": 1,
+      "script_sha256": "744333c09eb1598335a209bd42e53aed8418e198b08711c19485c9e8e4aca0cf",
+      "private_trace_sha256": "3d24597448b6d96a4d5a77c2cb6f09460670da981dd0b3af5ae81e857bb0210a",
+      "health_percent": 500,
+      "configured_hp": 1,
+      "first_death_frame": 7075,
+      "controller_hp_at_death": 260,
+      "abilities_observed": [
+        0
+      ],
+      "generated_golem_intake_observed": false
+    },
+    {
+      "inhale_pulse_frames": 30,
+      "release_frames": 1,
+      "script_sha256": "744333c09eb1598335a209bd42e53aed8418e198b08711c19485c9e8e4aca0cf",
+      "private_trace_sha256": "161aa0827999871e64a13e18b246022d6d1912e83c9467a8ad3ec4a587fe1385",
+      "health_percent": 500,
+      "configured_hp": 1,
+      "first_death_frame": 2123,
+      "controller_hp_at_death": 290,
+      "abilities_observed": [
+        0
+      ],
+      "generated_golem_intake_observed": false
+    },
+    {
+      "inhale_pulse_frames": 60,
+      "release_frames": 1,
+      "script_sha256": "744333c09eb1598335a209bd42e53aed8418e198b08711c19485c9e8e4aca0cf",
+      "private_trace_sha256": "759c4ecff9a3f2b66a287716620d87855c345e260583d9014f4b571d28a88ca8",
+      "health_percent": 500,
+      "configured_hp": 1,
+      "first_death_frame": 3578,
+      "controller_hp_at_death": 260,
+      "abilities_observed": [
+        0
+      ],
+      "generated_golem_intake_observed": false
+    },
+    {
+      "inhale_pulse_frames": 90,
+      "release_frames": 1,
+      "script_sha256": "744333c09eb1598335a209bd42e53aed8418e198b08711c19485c9e8e4aca0cf",
+      "private_trace_sha256": "31e1d2d7f7e8cf4f3430d34dabae69678b865aba650c3ad633a5a401c0fe0ba2",
+      "health_percent": 500,
+      "configured_hp": 1,
+      "first_death_frame": 3549,
+      "controller_hp_at_death": 270,
+      "abilities_observed": [
+        0
+      ],
+      "generated_golem_intake_observed": false
+    }
   ]
 }
