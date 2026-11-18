@@ -237,3 +237,24 @@ the check does not turn mixing into Normal or certify a mix result. Unconfigured
 projectiles, effects and controller objects remain in the inventory. Runtime
 eligibility changes must update this regression and revisit the associated
 physical contracts. No candidate gains a traversal edge from this batch.
+
+## Boxy present and contents branches
+
+All 36 Boxy candidates now bind to the reviewed native file and exact call site.
+The present's three trajectory subtypes are selected before construction. After
+its first bounce, opening depends on another floor contact and the selected
+target's horizontal distance, or exhaustion of its ground-contact counter. The
+480 counter is not a wall-clock expiry. Opening starts a separate 60 counter;
+contents are chosen at 52, and the present expires at zero.
+
+The content selector produces mutually exclusive food/battery, Minny/Prank Bomb,
+or Prank Bomb branches. Minny requires no tracked Minny and controller template
+flag8 clear. The two Prank Bomb call sites retain distinct predicates despite
+sharing a runtime key. The present attaches to Boxy with native parent expiry;
+Prank Bomb attaches to the present, while the helper does not attach Minny,
+food or battery. Child expiry still requires the child's callback evidence.
+
+These contracts establish neither a favorable content branch nor safe repeated
+acquisition. No source, carry route or retry guarantee is installed from them.
+The existing per-output lifetime model remains necessary: defeating Boxy,
+opening a present and destroying its contents are different events.

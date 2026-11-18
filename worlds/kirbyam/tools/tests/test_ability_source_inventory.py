@@ -240,3 +240,35 @@ class MinibossActivationContractTests(unittest.TestCase):
             self.assertFalse(contract['access_certified'])
             self.assertEqual(row['access']['status'], 'unresolved')
             self.assertEqual(contract['header_sha256'], inventory['decomp_file_sha256']['include/object.h'])
+
+
+class BoxyNativeContractTests(unittest.TestCase):
+    def test_present_trajectory_and_contents_are_separate_selections(self):
+        box = extract.boxy_output_contract(extract.BOXY_REVIEW_SHA256, 176, 'src/boxy.c:666')
+        self.assertFalse(box['counter_is_wall_clock_expiry'])
+        self.assertEqual(box['ground_contact_counter_initial'], 480)
+        self.assertEqual(box['opening_counter_initial'], 60)
+        self.assertEqual(box['parent_expiry_callback'], 'sub_0809F840')
+        first = extract.boxy_output_contract(extract.BOXY_REVIEW_SHA256, 173, 'src/boxy.c:840')
+        second = extract.boxy_output_contract(extract.BOXY_REVIEW_SHA256, 173, 'src/boxy.c:846')
+        self.assertNotEqual(first['branch'], second['branch'])
+        self.assertIn('tracked Minny', first['branch'])
+        self.assertEqual(first['parent_attachment'], 'opening box')
+        minny = extract.boxy_output_contract(extract.BOXY_REVIEW_SHA256, 39, 'src/boxy.c:835')
+        self.assertEqual(minny['parent_attachment'], 'not assigned by generation helper')
+        self.assertIn('mutually exclusive', minny['output_relationship'])
+        self.assertIsNone(extract.boxy_output_contract('changed', 176, 'src/boxy.c:666'))
+        self.assertIsNone(extract.boxy_output_contract(extract.BOXY_REVIEW_SHA256, 39, 'src/boxy.c:840'))
+
+    def test_all_thirty_six_candidates_remain_conditional(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        rows = [r for r in inventory['encounter_sources'] if r['generation']['controller_type'] == 61]
+        self.assertEqual(len(rows), 36)
+        for row in rows:
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(row['logic'], 'advanced')
+            self.assertEqual(row['native_contract'], extract.boxy_output_contract(
+                inventory['decomp_file_sha256']['src/boxy.c'], row['type_id'], row['generation']['callsite']))
+            self.assertFalse(row['native_contract']['attack_entry_guaranteed'])
+            self.assertEqual(row['native_contract']['repeatability'], 'not_certified')

@@ -146116,7 +146116,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:666/type:176",
@@ -146142,7 +146162,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:666/type:176",
@@ -146168,7 +146208,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:666/type:176",
@@ -146194,7 +146254,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:666/type:176",
@@ -146220,7 +146300,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:666/type:176",
@@ -146247,6 +146347,26 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D6E1C",
+        "attack_callback": "sub_080D6D90",
+        "activation": "header.unk1 == 9",
+        "trajectory_branch": "RandLessThan3() selects subtype0/1/2 before construction",
+        "parent_attachment": "creating Boxy",
+        "parent_expiry_callback": "sub_0809F840",
+        "opening": "after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero",
+        "ground_contact_counter_initial": 480,
+        "counter_is_wall_clock_expiry": false,
+        "content_selection": "sub_080D73C8 at opening counter52; independent RandLessThan3()",
+        "opening_counter_initial": 60,
+        "expiry": "opening counter reaches zero and sets flags0x1000"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146278,7 +146398,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:783/type:94",
@@ -146304,7 +146438,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:783/type:94",
@@ -146330,7 +146478,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:783/type:94",
@@ -146356,7 +146518,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:783/type:94",
@@ -146382,7 +146558,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:783/type:94",
@@ -146409,6 +146599,20 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 != 0: small food",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146440,7 +146644,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:828/type:98",
@@ -146466,7 +146684,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:828/type:98",
@@ -146492,7 +146724,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:828/type:98",
@@ -146518,7 +146764,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:828/type:98",
@@ -146544,7 +146804,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:828/type:98",
@@ -146571,6 +146845,20 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector0 and Rand16() & 1 == 0: battery",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146602,7 +146890,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:835/type:39",
@@ -146628,7 +146930,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:835/type:39",
@@ -146654,7 +146970,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:835/type:39",
@@ -146680,7 +147010,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:835/type:39",
@@ -146706,7 +147050,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:835/type:39",
@@ -146733,6 +147091,20 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and no tracked Minny and controller template flag8 clear",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "not assigned by generation helper",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146764,7 +147136,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:840/type:173",
@@ -146790,7 +147176,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:840/type:173",
@@ -146816,7 +147216,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:840/type:173",
@@ -146842,7 +147256,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:840/type:173",
@@ -146868,7 +147296,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:840/type:173",
@@ -146895,6 +147337,20 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector1 and (tracked Minny exists or controller template flag8 set)",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -146926,7 +147382,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:846/type:173",
@@ -146952,7 +147422,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:846/type:173",
@@ -146978,7 +147462,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:846/type:173",
@@ -147004,7 +147502,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:846/type:173",
@@ -147030,7 +147542,21 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:846/type:173",
@@ -147057,6 +147583,20 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be",
+        "attack_entry_guaranteed": false,
+        "allocation_success_certified": false,
+        "acquisition": "not_certified",
+        "repeatability": "not_certified",
+        "generation_function": "sub_080D73C8",
+        "activation": "opening box counter == 52",
+        "branch": "selector2",
+        "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
+        "parent_attachment": "opening box",
+        "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",

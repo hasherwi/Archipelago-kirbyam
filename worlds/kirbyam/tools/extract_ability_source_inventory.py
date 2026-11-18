@@ -263,6 +263,49 @@ def bombar_output_contract(source_hash: str, type_id: int) -> dict | None:
     return result
 
 
+BOXY_REVIEW_SHA256 = '79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be'
+
+
+def boxy_output_contract(source_hash: str, type_id: int, callsite: str) -> dict | None:
+    """Keep present generation distinct from its mutually exclusive contents."""
+    branches = {
+        ('src/boxy.c:783', 94): 'selector0 and Rand16() & 1 != 0: small food',
+        ('src/boxy.c:828', 98): 'selector0 and Rand16() & 1 == 0: battery',
+        ('src/boxy.c:835', 39): 'selector1 and no tracked Minny and controller template flag8 clear',
+        ('src/boxy.c:840', 173): 'selector1 and (tracked Minny exists or controller template flag8 set)',
+        ('src/boxy.c:846', 173): 'selector2',
+    }
+    is_box = (callsite, type_id) == ('src/boxy.c:666', 176)
+    if source_hash != BOXY_REVIEW_SHA256 or (not is_box and (callsite, type_id) not in branches):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+    if is_box:
+        result.update(
+            generation_function='sub_080D6E1C', attack_callback='sub_080D6D90',
+            activation='header.unk1 == 9',
+            trajectory_branch='RandLessThan3() selects subtype0/1/2 before construction',
+            parent_attachment='creating Boxy', parent_expiry_callback='sub_0809F840',
+            opening='after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero',
+            ground_contact_counter_initial=480, counter_is_wall_clock_expiry=False,
+            content_selection='sub_080D73C8 at opening counter52; independent RandLessThan3()',
+            opening_counter_initial=60,
+            expiry='opening counter reaches zero and sets flags0x1000',
+        )
+    else:
+        result.update(
+            generation_function='sub_080D73C8', activation='opening box counter == 52',
+            branch=branches[(callsite, type_id)],
+            output_relationship='mutually exclusive contents of one present, not simultaneous grants',
+            parent_attachment='opening box' if type_id == 173 else 'not assigned by generation helper',
+            child_lifetime='not_certified; box expiry alone does not prove child expiry',
+        )
+    return result
+
+
 MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
 # Reviewed waiting callbacks and macro anchors, pinned independently per file.
 MINIBOSS_ACTIVATION = {
@@ -560,6 +603,11 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 record['native_contract'] = contract
         if record['generation']['controller_type'] == 57:
             contract = bonkers_nut_contract(source_hashes.get('src/bonkers.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 61:
+            contract = boxy_output_contract(source_hashes.get('src/boxy.c', ''), record['type_id'],
+                                           record['generation']['callsite'])
             if contract is not None:
                 record['native_contract'] = contract
         if record['generation']['controller_type'] == 63:
