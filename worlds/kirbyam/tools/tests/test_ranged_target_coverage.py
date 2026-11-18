@@ -29,7 +29,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 57)
+        self.assertEqual(len(targets), 58)
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
         self.assertTrue(targets['fuse_323']['owner'].endswith('__LOGIC__CANNON_LEFT'))
         rainbow = targets['bomb_110_room9']

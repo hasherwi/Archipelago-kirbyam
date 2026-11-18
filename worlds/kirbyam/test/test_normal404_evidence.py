@@ -207,21 +207,23 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     coverage = build_coverage()
     status = build_status()
     contract = evidence()['host_contract']
-    # Frozen404 remains 144; Master719, Green138 and the reviewed Ice route each add one graph.
+    # Frozen404 remains 144; Master719, Green138, Ice533 and Normal617 each add one graph.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 147,
+    assert status['counts'] == {**contract['counts'], 'witnesses': 148,
+                                'normalized_targets': 58, 'installed_target_definitions': 58,
                                 'locations': 401, 'surfaces': 1108,
                                 'regions': 386, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 57, 147)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 58, 148)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green off the unchanged Master-era catalog pin; keep frozen404 evidence.
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
+    from .support.radish617_history import before_radish617_targets
     historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
-                  for row in coverage['installed_targets']]
+                  for row in before_radish617_targets(coverage['installed_targets'])]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     carrot = next(row['target'] for row in coverage['installed_targets']
                   if row['target']['id'] == 'bomb_719_room13')

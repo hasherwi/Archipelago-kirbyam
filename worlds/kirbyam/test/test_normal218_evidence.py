@@ -176,11 +176,11 @@ def test_no_copy_source_field_distinction_and_current_counts() -> None:
         'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
     assert (e['host']['target_count'], e['host']['witness_count']) == (57, 146)
     counts = build_status()['counts']
-    assert counts['witnesses'] == e['host']['witness_count'] + 1  # New Ice533 witness.
+    assert counts['witnesses'] == e['host']['witness_count'] + 2  # Ice533 and Normal617 witnesses.
     assert len(data.regions) == 386  # two lever compartments and their visit sinks
     ledger = (ROOT / 'dev-docs/ranged-coverage-ledger.md').read_text()
     assert 'the three remaining permissive target-wide source-policy fallbacks' in ledger
-    assert 'definitions (147 witnesses)' in ledger
+    assert 'definitions (148 witnesses)' in ledger
     assert 'the five current target-wide' not in ledger
 
 

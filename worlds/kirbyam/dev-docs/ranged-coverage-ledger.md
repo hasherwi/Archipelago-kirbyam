@@ -41,7 +41,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (147 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 58 current traversal target definitions (148 witnesses) bind to exact normalized surfaces. The top-level union catalog has 56 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -642,7 +642,7 @@ proposed fresh15/repeat16 are unrun.
 Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
 unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
 new target, source-policy binding or generic Normal ability gate is added.
-Current counts are 57 targets/147 witnesses/three target-wide fallbacks after the Ice533 extension and #1099 fail-closed rule.
+Current counts are 58 targets/148 witnesses/three target-wide fallbacks after the Ice533 extension, #1099 fail-closed rule and bounded Normal617 map route (#1114).
 
 
 ## Normal-logic Ice at Mustard Room15 (#1099)
