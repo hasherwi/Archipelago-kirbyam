@@ -1,0 +1,97 @@
+"""Physical inventory joins must not turn ownership or presence into equipment."""
+from copy import deepcopy
+import json
+from pathlib import Path
+
+import pytest
+
+from ..ability_source_inventory import resolve_inventory_source, source_inventory
+from ..traversal_data import compile_room_graph
+from .test_traversal import policy
+
+ROOT = Path(__file__).resolve().parents[1]
+ROCK = 'room:401/template:0x088C5840'
+
+
+def payload(node='pre'):
+    return {
+        'version': 1, 'status': 'reviewed',
+        'nodes': [{'id': 'pre', 'native_room': 401}, {'id': 'post', 'native_room': 401}],
+        'routes': [{'from': 'pre', 'to': 'post', 'capability': 'peg', 'evidence': 'test barrier'}],
+        'sources': [{'node': node, 'inventory_id': ROCK, 'id': 'rock',
+                     'acquisition_evidence': 'test acquisition limited to assigned compartment'}],
+        'starts': ['pre'], 'required_targets': ['post'],
+    }
+
+
+def test_native_census_has_explicit_rooms_and_unique_placements():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    assert [room['native_room'] for room in inventory['rooms']] == list(range(983))
+    placements = source_inventory()
+    references = [key for room in inventory['rooms'] for key in room['placements']]
+    assert len(references) == len(set(references)) == len(placements) == 3476
+    assert set(references) == set(placements)
+    assert any(not room['placements'] for room in inventory['rooms'])
+    assert any(row['native_grant'] == 'Normal' and row['source_type'] == 'enemy'
+               for row in placements.values())
+    for row in inventory['encounter_calls'] + inventory['dynamic_grant_types']:
+        assert row['logic'] == 'advanced'
+    assert all(row['status'] == 'unresolved' for row in inventory['encounter_calls'])
+
+
+def test_inventory_reference_checks_room_grant_and_unknowns():
+    source = payload()['sources'][0]
+    assert resolve_inventory_source(source, 401)['source_key'] == 'ROCKY'
+    with pytest.raises(ValueError, match='another room'):
+        resolve_inventory_source(source, 402)
+    with pytest.raises(ValueError, match='grant mismatch'):
+        resolve_inventory_source({**source, 'source_key': 'BONKERS'}, 401)
+    with pytest.raises(ValueError, match='Unknown physical'):
+        resolve_inventory_source({**source, 'inventory_id': 'missing'}, 401)
+
+
+@pytest.mark.parametrize('gating', [False, True])
+def test_native_presence_does_not_bootstrap_own_barrier(gating):
+    graph = compile_room_graph(payload('post'), {})
+    assert not graph.evaluate(policy(), frozenset({'Stone Ability'}), gating).reaches('post')
+    without_source = payload()
+    without_source['sources'] = []
+    assert not compile_room_graph(without_source, {}).evaluate(
+        policy(), frozenset({'Stone Ability'}), gating).reaches('post')
+
+
+def test_physical_grant_preserves_permission_and_random_failure():
+    graph = compile_room_graph(payload(), {})
+    assert not graph.evaluate(policy(), frozenset(), True).reaches('post')
+    assert graph.evaluate(policy(), frozenset({'Stone Ability'}), True).reaches('post')
+    assert graph.evaluate(policy(), frozenset(), False).reaches('post')
+    assert not graph.evaluate(policy(2, pool=['Fire']), frozenset(), False).reaches('post')
+    assert not graph.evaluate(policy(2, pool=['Stone'], weight=100), frozenset(), False).reaches('post')
+    assert not graph.evaluate(policy(2, pool=['Stone'], weight=50), frozenset(), False).reaches('post')
+
+
+def test_encounter_type_requires_advanced_graph_even_without_inventory_reference():
+    graph = payload()
+    graph['sources'] = [{'node': 'pre', 'source_key': 'BOMBAR_BOMB',
+                         'acquisition_evidence': 'test encounter prerequisite', 'items': ['Encounter started']}]
+    with pytest.raises(ValueError, match='Advanced Logic'):
+        compile_room_graph(graph, {})
+    compiled = compile_room_graph(graph, {}, advanced=True)
+    assert compiled.placements[0].requirements == frozenset({'Encounter started'})
+    assert not compiled.evaluate(policy(), frozenset(), False).reaches('post')
+
+
+def test_join_does_not_mutate_witness_or_invent_renewability():
+    original = payload()
+    snapshot = deepcopy(original)
+    graph = compile_room_graph(original, {})
+    assert original == snapshot
+    assert not graph.placements[0].renewable
+    assert graph.placements[0].identity == 'rock'
+
+
+def test_same_physical_source_cannot_be_consumed_under_two_identities():
+    graph = payload()
+    graph['sources'].append({**graph['sources'][0], 'id': 'second-rock'})
+    with pytest.raises(ValueError, match='multiple consumption identities'):
+        compile_room_graph(graph, {})

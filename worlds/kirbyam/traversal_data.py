@@ -12,6 +12,7 @@ from typing import Any, Mapping
 
 from Options import Accessibility
 
+from .ability_source_inventory import resolve_inventory_source
 from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
@@ -82,7 +83,7 @@ def _expand_graph_parts(expanded: dict[str, Any], graph_parts: Mapping[str, Any]
 
 def compile_room_graph(
     payload: Mapping[str, Any], source_sets: Mapping[str, Any], *, area_keys: bool = False,
-    graph_parts: Mapping[str, Any] | None = None,
+    graph_parts: Mapping[str, Any] | None = None, advanced: bool = False,
 ) -> TraversalGraph:
     """Expand physical placements without changing their identity or retry policy."""
     expanded = deepcopy(dict(payload))
@@ -107,6 +108,21 @@ def compile_room_graph(
             if "retry_evidence" in reference:
                 source["retry_evidence"] = reference["retry_evidence"]
             sources.append(source)
+    physical_identities: dict[str, str] = {}
+    for source in sources:
+        inventory_id = source.get("inventory_id")
+        if inventory_id is not None:
+            identity = source.get("id", inventory_id)
+            if inventory_id in physical_identities and physical_identities[inventory_id] != identity:
+                raise ValueError("One physical source cannot have multiple consumption identities")
+            physical_identities[inventory_id] = identity
+            source.setdefault("id", identity)
+    expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced)
+                           for source in sources]
+    if not advanced:
+        encounter_keys = {source.key for source in ABILITY_SOURCES if source.kind == "boss_spawned"}
+        if any(source["source_key"] in encounter_keys for source in expanded["sources"]):
+            raise ValueError("Encounter-generated sources require an Advanced Logic graph")
     graph = compile_traversal_graph(expanded, area_keys=area_keys)
     if graph.access_region is not None and graph.access_region not in data.regions:
         raise ValueError(f"Unknown traversal access region: {graph.access_region}")
@@ -160,7 +176,7 @@ def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[s
         compile_room_graph({
             "version": 1, "status": "reviewed", "nodes": [], "routes": [],
             "starts": [definition["nodes"][0]["id"]], "graph_parts": [key],
-        }, source_sets, graph_parts=graph_parts)
+        }, source_sets, graph_parts=graph_parts, advanced=True)
 
 
 def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any]) -> None:
@@ -170,8 +186,8 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
     if (not isinstance(advanced, list) or any(not isinstance(name, str) for name in advanced)
             or len(set(advanced)) != len(advanced) or any(name not in row["graphs"] for name in advanced)):
         raise ValueError(f"Invalid advanced traversal graph list: {row['id']}")
-    for payload in row["graphs"].values():
-        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
+    for name, payload in row["graphs"].items():
+        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts, advanced=name in advanced)
         from .master_source import CENTRAL_MASTER_SOURCE
         if any(source.source_key == CENTRAL_MASTER_SOURCE for source in graph.placements) and (
             row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
@@ -317,4 +333,5 @@ def room_traversal_targets(kind: str) -> tuple[dict[str, Any], ...]:
 def room_traversal_graph(target_id: str, witness: str, area_keys: bool = False) -> TraversalGraph:
     targets, source_sets, graph_parts = _room_catalog()
     row = next(row for row in targets if row["id"] == target_id)
-    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts)
+    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts,
+                              advanced=witness in row.get("advanced_graphs", ()))
