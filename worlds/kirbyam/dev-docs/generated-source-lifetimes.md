@@ -427,3 +427,16 @@ Mix outcome, carry or repeatability is admitted by this metadata.
 phase-selection lead. Native constructors, subtype propagation and selection
 branches establish the facts above; the wiki is not evidence of randomized grants
 or a usable route through a particular encounter.
+
+### Conditional parent-expiry callback
+
+Pinned `object.c:sub_0809F840` expires a child only when the callback executes,
+the original parent has destruction flag0x1000 or HP≤0, and the child's
+`base.unkC` protection bit0x400 is clear. It then sets child HP0 and destruction
+flag0x1000, invoking the death effect only if that flag was previously clear.
+Parent HP0 alone therefore does not prove immediate child expiry. The inventory
+attaches this predicate only to constructors/wrappers already reviewed as using
+that callback; Wiz's Bronto Burt with its NULL callback is excluded. The condition
+does not prove callback retention in later phases, actual destruction timing,
+slot reclamation, safe reacquisition, reset or revival. No new world route or
+automatic lifetime transfer is installed by this metadata.

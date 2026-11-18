@@ -10,6 +10,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 extract = importlib.import_module('extract_ability_source_inventory')
 
 
+def generation_contract_before_shared_expiry(row, inventory):
+    contract = dict(row['native_contract'])
+    predicate = contract.pop('parent_expiry_predicate', None)
+    assert predicate == extract.parent_expiry_predicate(contract, inventory['decomp_file_sha256'])
+    return contract
+
+
 def rom(records):
     data = bytearray(24)
     struct.pack_into('<I', data, 0, 0x08000008)
@@ -176,7 +183,7 @@ class BonkersNativeContractTests(unittest.TestCase):
             self.assertEqual(row['access']['status'], 'unresolved')
             self.assertIsNone(row['source_key'])
             self.assertEqual(row['native_grant'], 'Normal')
-            self.assertEqual(row['native_contract'], extract.bonkers_nut_contract(
+            self.assertEqual(generation_contract_before_shared_expiry(row, inventory), extract.bonkers_nut_contract(
                 inventory['decomp_file_sha256']['src/bonkers.c'], row['type_id']))
 
 
@@ -210,7 +217,7 @@ class BombarNativeContractTests(unittest.TestCase):
         for row in outputs:
             self.assertEqual(row['access']['status'], 'unresolved')
             self.assertEqual(row['logic'], 'advanced')
-            self.assertEqual(row['native_contract'], extract.bombar_output_contract(
+            self.assertEqual(generation_contract_before_shared_expiry(row, inventory), extract.bombar_output_contract(
                 inventory['decomp_file_sha256']['src/bombar.c'], row['type_id']))
 
 
@@ -274,7 +281,7 @@ class BoxyNativeContractTests(unittest.TestCase):
         for row in rows:
             self.assertEqual(row['access']['status'], 'unresolved')
             self.assertEqual(row['logic'], 'advanced')
-            self.assertEqual(row['native_contract'], extract.boxy_output_contract(
+            self.assertEqual(generation_contract_before_shared_expiry(row, inventory), extract.boxy_output_contract(
                 inventory['decomp_file_sha256']['src/boxy.c'], row['type_id'], row['generation']['callsite']))
             self.assertFalse(row['native_contract']['attack_entry_guaranteed'])
             self.assertEqual(row['native_contract']['repeatability'], 'not_certified')
@@ -348,7 +355,7 @@ class DarkMindProjectileContractTests(unittest.TestCase):
             if 'native_phase_selection' in row:
                 self.assertEqual(row['generation']['controller_type'], 79)
                 expected['root_to_phase_lineage'] = 'Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.'
-            self.assertEqual(row['native_contract'], expected)
+            self.assertEqual(generation_contract_before_shared_expiry(row, inventory), expected)
 
 
 class RemainingConfiguredEncounterContractTests(unittest.TestCase):
@@ -393,7 +400,7 @@ class RemainingConfiguredEncounterContractTests(unittest.TestCase):
                      if r['generation']['callsite'] in extract.OTHER_ENCOUNTER_CALLS]
         self.assertEqual(len(remaining), 26)
         for row in remaining:
-            self.assertEqual(row['native_contract'], extract.other_encounter_contract(
+            self.assertEqual(generation_contract_before_shared_expiry(row, inventory), extract.other_encounter_contract(
                 inventory['decomp_file_sha256'], row['type_id'], row['generation']['callsite']))
 
 
@@ -467,3 +474,28 @@ class DarkMindTemplatePhaseTests(unittest.TestCase):
         record['generation']['controller_type'] = 79
         parent['subtype2'] = None
         self.assertIsNone(extract.dark_mind_template_star_selection(parent, record, hashes))
+
+class ParentExpiryPredicateTests(unittest.TestCase):
+    def test_callback_contract_preserves_child_protection_and_parent_alternatives(self):
+        import json
+        root=Path(__file__).resolve().parents[2]
+        data=json.loads((root/'data/ability_source_inventory.json').read_text())
+        recorded=0
+        for record in data['encounter_sources']:
+            contract=record.get('native_contract',{})
+            expected=extract.parent_expiry_predicate(contract,data['decomp_file_sha256'])
+            self.assertEqual(contract.get('parent_expiry_predicate'),expected)
+            if expected:
+                recorded+=1
+                self.assertTrue(expected['requires_callback_execution'])
+                self.assertEqual(expected['parent_trigger'],{'any':[{'flags_mask_set':4096},{'hp_lte':0}]})
+                self.assertEqual(expected['child_protection'],{'field':'base.unkC','mask':1024,'must_be_clear':True})
+                self.assertIn('spawner slot reclamation',expected['not_certified'])
+        self.assertEqual(recorded,210)
+
+    def test_parent_attachment_without_callback_has_no_expiry_predicate(self):
+        self.assertIsNone(extract.parent_expiry_predicate({'parent_attachment':'Wiz','initial_parent_expiry_callback':None},{}))
+
+    def test_changed_native_source_is_rejected(self):
+        with self.assertRaisesRegex(ValueError,'reviewed object.c'):
+            extract.parent_expiry_predicate({'parent_expiry_callback':'sub_0809F840'},{'src/object.c':'changed'})

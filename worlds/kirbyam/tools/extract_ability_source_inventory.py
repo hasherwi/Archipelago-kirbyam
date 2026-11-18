@@ -472,6 +472,27 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
     return result
 
 
+def parent_expiry_predicate(contract, source_hashes):
+    """Conditional shared callback semantics, never a guaranteed lifetime edge."""
+    callbacks = (contract.get('parent_expiry_callback'), contract.get('initial_parent_expiry_callback'))
+    if not any(isinstance(value, str) and 'sub_0809F840' in value for value in callbacks):
+        return None
+    expected = 'a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645'
+    if source_hashes.get('src/object.c') != expected:
+        raise ValueError('Shared parent-expiry callback requires reviewed object.c')
+    return {
+        'function': 'object.c:sub_0809F840', 'source_sha256': expected,
+        'requires_callback_execution': True,
+        'parent_trigger': {'any': [{'flags_mask_set': 4096}, {'hp_lte': 0}]},
+        'child_protection': {'field': 'base.unkC', 'mask': 1024, 'must_be_clear': True},
+        'effects': {'child_hp': 0, 'child_flags_or': 4096,
+                    'death_effect': 'sub_0809DA30 only if child destruction flag was previously clear'},
+        'scope': 'When this callback executes with its original parent; neither parent HP0 alone nor attachment alone proves expiry.',
+        'not_certified': ['callback retention in later phases', 'physical destruction timing',
+                          'spawner slot reclamation', 'safe reacquisition', 'room reset or revival'],
+    }
+
+
 MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
 # Reviewed waiting callbacks and macro anchors, pinned independently per file.
 MINIBOSS_ACTIVATION = {
@@ -930,6 +951,11 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                            'reason': 'Requires controller spawning and physical contact; no retry route inferred.'},
                 'evidence': 'src/ability_objects.c:sub_080AA6F8/sub_080AA588',
             })
+    for record in encounter_sources:
+        contract = record.get('native_contract', {})
+        predicate = parent_expiry_predicate(contract, source_hashes)
+        if predicate is not None:
+            contract['parent_expiry_predicate'] = predicate
     for record in generated_statues:
         record['bounded_native_evidence'] = {
             'record': 'dev-docs/generated-statue-native-acceptance.json',
