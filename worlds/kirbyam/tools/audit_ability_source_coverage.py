@@ -53,9 +53,11 @@ def audit(inventory: dict, rooms: dict) -> dict:
         'policy_scoped_targets': scoped_targets,
         'blockers': [
             'Static presence is complete; acquisition compartments, spawn-state predicates and carry routes are not.',
-            'Encounter call sites are candidates, not a complete dynamic call graph; indirect helpers, variable types and lifetime prerequisites need review.',
+            ('Encounter call sites are candidates, not a complete dynamic call graph; '
+             'indirect helpers, variable types and lifetime prerequisites need review.'),
             'Object-spawner descendants and random-statue runtime semantics remain unresolved.',
-            'Legacy ability tokens and policy-scoped fallbacks remain; closing them needs accepted source routes or established Normal alternatives, not blanket rejection.',
+            ('Legacy ability tokens and policy-scoped fallbacks remain; closing them needs accepted source routes '
+             'or established Normal alternatives, not blanket rejection.'),
         ],
     }
 

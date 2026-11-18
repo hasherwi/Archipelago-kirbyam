@@ -109,7 +109,10 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             return
         if typ in source_types:
             key, spec = source_types[typ]
-            record.update(source_key=key, native_grant=spec['default_ability'], source_type=spec['kind'],
+            native_grant = ability_names[rom[0x35164E + 24 * typ]]
+            if native_grant != spec['default_ability']:
+                raise ValueError(f'Native grant disagrees with runtime policy table: {key}')
+            record.update(source_key=key, native_grant=native_grant, source_type=spec['kind'],
                           can_be_swallowed=spec.get('can_be_swallowed', True))
             if spec['kind'] == 'boss_spawned':
                 record['logic'] = 'advanced'
@@ -168,7 +171,8 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                           'logic': 'advanced', 'status': 'unresolved',
                           'candidate_encounters': [p['id'] for p in placements
                               if p['spawn_table'] == 1 and p['type_id'] == typ],
-                          'reason': 'Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness.'})
+                          'reason': ('Call-site census requires branch, helper and encounter-lifetime review; '
+                                     'not an acquisition witness.')})
     for room in native_rooms:
         room['encounter_controllers'] = [p['id'] for p in placements
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1

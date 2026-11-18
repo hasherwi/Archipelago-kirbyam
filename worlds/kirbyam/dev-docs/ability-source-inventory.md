@@ -15,7 +15,9 @@ facts, not copied ROM payloads. The source grant key points to the existing
 shuffled and live-random modes. No new random-assignment approximation is used.
 
 All 131 ordinary source rows in existing reviewed source sets and graph parts
-now reference this inventory. Compilation rejects unknown references, room and
+now join this inventory through 107 legacy identity bindings (106 distinct
+placements). The reviewed graph JSON and its fingerprints are unchanged.
+Compilation rejects unknown explicit references, room and
 grant mismatches. It preserves the original acquisition prerequisites, graph
 compartments, consumed-source identities, renewability and retry evidence.
 The special post-clear Master stand retains its separate exact witness contract.

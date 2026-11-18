@@ -95,3 +95,11 @@ def test_same_physical_source_cannot_be_consumed_under_two_identities():
     graph['sources'].append({**graph['sources'][0], 'id': 'second-rock'})
     with pytest.raises(ValueError, match='multiple consumption identities'):
         compile_room_graph(graph, {})
+
+
+def test_reviewed_legacy_identity_joins_without_changing_consumption_contract():
+    source = {'id': '0x088C5840', 'source_key': 'ROCKY', 'node': 'pre',
+              'acquisition_evidence': 'existing reviewed acquisition'}
+    assert resolve_inventory_source(source, 401) == source
+    with pytest.raises(ValueError, match='grant mismatch'):
+        resolve_inventory_source({**source, 'source_key': 'BONKERS'}, 401)
