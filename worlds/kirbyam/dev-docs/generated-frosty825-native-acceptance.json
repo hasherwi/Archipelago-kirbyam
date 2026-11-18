@@ -1,0 +1,2471 @@
+{
+  "version": 1,
+  "scope": "Conditional small-cube acquisition from a configured reviewed room825 lower arrival. No arbitrary arrival, guaranteed attack selection, large-cube acquisition, safe combat suffix, reset/retry or world target is certified.",
+  "inventory_id": "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+  "configured_arrival": {
+    "native_room": 825,
+    "x": 280,
+    "y": 296,
+    "helpers_room": 101,
+    "equipment": "Normal",
+    "cold_save": "blank"
+  },
+  "fixture_changes": [
+    "startup rooms and coordinates",
+    "AP seed identity",
+    "health and enemy health",
+    "ability gating",
+    "area-key config off",
+    "production SourcePolicy writes"
+  ],
+  "cases": [
+    {
+      "case": "adventure825-verified-100-off",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 2,
+        "hp": 30,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        2
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 2
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-verified-100-on",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": true,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 2,
+        "hp": 30,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        2
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 2
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-verified-500-off",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 500,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 2,
+        "hp": 150,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        2
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 2
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-verified-500-on",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 500,
+      "hp": 1,
+      "gated": true,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 2,
+        "hp": 150,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        2
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 2
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-control-live-singleton",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 2,
+        "hp": 30,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        2
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 2
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-control-vanilla",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": null,
+      "frosty_at_copy": null,
+      "abilities": [
+        0
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-control-no-ability",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 100,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "64000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": null,
+      "frosty_at_copy": null,
+      "abilities": [
+        0
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-control-unowned",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": true,
+      "omission": "permission",
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 2,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": null,
+      "frosty_at_copy": null,
+      "abilities": [
+        0
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    },
+    {
+      "case": "adventure825-control-wrong-grant",
+      "script_sha256": "7e20c86d0c87464fc0ac4c9f3288462af6417f5df0ce2ca8e6c4a3b9f3a2796f",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Beam"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "hp": 1,
+      "gated": false,
+      "omission": null,
+      "pause": 0,
+      "approach": 25,
+      "minimum_hp": 1,
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 1085,
+          "frames": 40,
+          "keys": 32
+        },
+        {
+          "start": 1125,
+          "frames": 90,
+          "keys": 65
+        },
+        {
+          "start": 1215,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1216,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1241,
+          "frames": 160,
+          "keys": 65
+        },
+        {
+          "start": 1401,
+          "frames": 25,
+          "keys": 17
+        },
+        {
+          "start": 1426,
+          "frames": 1,
+          "keys": 2
+        },
+        {
+          "start": 1427,
+          "frames": 30,
+          "keys": 0
+        },
+        {
+          "start": 1457,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1557,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1558,
+          "frames": 35,
+          "keys": 0
+        },
+        {
+          "start": 1593,
+          "frames": 100,
+          "keys": 2
+        },
+        {
+          "start": 1693,
+          "frames": 1,
+          "keys": 128
+        },
+        {
+          "start": 1694,
+          "frames": 35,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "80000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false,
+      "approach_normal_only": true,
+      "first_cube": {
+        "frame": 1574,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 7,
+        "hp": 1,
+        "x": 280.0,
+        "y": 110.0,
+        "state": "0x80ccca9",
+        "flags": "0x10000043"
+      },
+      "last_cube": {
+        "frame": 1655,
+        "template": "0x20229e0",
+        "parent": "0x2000344",
+        "object": "0x20000c4",
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "x": 230.9765625,
+        "y": 113.44140625,
+        "state": "0x809c48d",
+        "flags": "0x10001b43"
+      },
+      "first_copy_frame": 1716,
+      "frosty_at_copy": {
+        "template": "0x88cd3f0",
+        "parent": "0x0",
+        "object": "0x2000344",
+        "type_id": 56,
+        "native_ability": 7,
+        "hp": 30,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371",
+        "flags": "0x16200005"
+      },
+      "abilities": [
+        0,
+        7
+      ],
+      "final": {
+        "frame": 1729,
+        "room": 825,
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "hp": 1,
+        "ability": 7
+      },
+      "input_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055"
+    }
+  ],
+  "rejected_timing_variants": [
+    {
+      "arrival_delay_frames": 2,
+      "first_death_frame": 1961,
+      "ability_before_death": [
+        0
+      ]
+    },
+    {
+      "arrival_delay_frames": 3,
+      "first_death_frame": 1733,
+      "ability_before_death": [
+        0
+      ]
+    },
+    {
+      "arrival_delay_frames": 4,
+      "first_death_frame": 1734,
+      "ability_before_death": [
+        0
+      ]
+    },
+    {
+      "arrival_delay_frames": 10,
+      "first_death_frame": 1985,
+      "ability_before_death": [
+        0
+      ]
+    },
+    {
+      "arrival_delay_frames": 15,
+      "first_death_frame": 1856,
+      "ability_before_death": [
+        0
+      ]
+    }
+  ],
+  "combat_suffix_probe": {
+    "accepted": false,
+    "first_death_frame": 2664,
+    "frosty_hp": 28,
+    "reason": "Existing combat controller does not safely compose with this acquisition lineage; no target graph installed."
+  }
+}

@@ -77,6 +77,17 @@ class InventoryDecoderTests(unittest.TestCase):
 
 
 class NativeCandidateTests(unittest.TestCase):
+    def test_frosty_branch_contract_is_conditional_and_hash_bound(self):
+        small = extract.frostys_cube_contract(extract.FROSTY_REVIEW_SHA256, 166)
+        large = extract.frostys_cube_contract(extract.FROSTY_REVIEW_SHA256, 167)
+        self.assertNotEqual(small['branch'], large['branch'])
+        self.assertEqual(small['alternative_types'], large['alternative_types'])
+        self.assertEqual(small['alternative_source_keys'], ['MR_FROSTY_ICE_CUBE'])
+        self.assertFalse(small['attack_entry_guaranteed'])
+        self.assertEqual(small['repeatability'], 'not_certified')
+        self.assertIsNone(extract.frostys_cube_contract('changed', 166))
+        self.assertIsNone(extract.frostys_cube_contract(extract.FROSTY_REVIEW_SHA256, 168))
+
     def test_logical_subroom_traversals_are_not_dropped(self):
         root = {'room': {'traversal': {'version': 1},
                          'logical_regions': {'entry': {'traversal': {'version': 2}}}}}

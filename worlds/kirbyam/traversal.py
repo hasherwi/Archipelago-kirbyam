@@ -239,12 +239,15 @@ class SourcePolicy:
     def grant_choice(self, keys: tuple[str, ...], permitted: Callable[[str], bool]) -> Grant:
         """A fixed native branch must work for every possible selected source.
 
-        Retouch cannot select a more convenient native branch. Keep this group
-        non-retryable even if individual runtime assignments use live RNG.
+        Retouch cannot select a more convenient native branch. It can repeat
+        a live runtime draw when every fixed branch has the identical runtime
+        outcome contract; that does not reroll the native selection itself.
         """
         if not keys:
             return Grant(frozenset(), can_fail=True)
         grants = tuple(self.grant(key, permitted) for key in keys)
+        if grants[0].randomized and all(grant == grants[0] for grant in grants):
+            return grants[0]
         return Grant(frozenset().union(*(grant.abilities for grant in grants)),
                      can_fail=any(grant.can_fail or not grant.abilities for grant in grants))
 
@@ -444,9 +447,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             or source.source_key not in source.source_choices
             or len(set(source.source_choices)) != len(source.source_choices)
             or any(key not in _SOURCE_BY_KEY and key not in _STATUE_DEFAULTS for key in source.source_choices)
-            or source.retry_evidence
         ):
-            raise ValueError('Fixed native source choices require distinct valid keys without branch reroll')
+            raise ValueError('Fixed native source choices require distinct valid keys')
         identity = source.identity or f"{source.node}:{source.source_key}"
         objects[identity].append(source)
     node_by_key = {node.key: node for node in node_list}
@@ -678,6 +680,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 # WITHOUT granting a free source respawn.
                 if not route.preserves_room_instance:
                     opened = frozenset()
+                    # Unknown room retention cannot preserve credit for a
+                    # live encounter output. Held equipment is independent.
+                    active = frozenset()
                 if route.resets_room_instance:
                     # A room reset can recreate ordinary placements, but is
                     # not evidence that a consumed generated output returns.

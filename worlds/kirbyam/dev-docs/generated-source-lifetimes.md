@@ -14,6 +14,9 @@ the output was swallowed without an explicit expiry edge. Only revival of that
 specific lifetime clears its consumption. Revival of a different output does
 not help. Ordinary placement reset behavior is unchanged. This closes the
 reset-plus-activation bypass without treating a surviving held ability as lost.
+Cross-room travel also drops live-output activation unless the route explicitly
+preserves the room instance. Unknown retention cannot certify a projectile is
+still there on return; held equipment remains independent.
 
 Native `level.c` room loading reuses another Kirby's room slot if it remains
 occupied. A newly allocated slot clears room-local object bits and room-local
@@ -45,7 +48,19 @@ selection is evaluated using every alternative's actual runtime SourcePolicy
 grant. One convenient possible branch cannot become a guarantee; an empty or
 unowned branch remains a failure outcome. Explicitly witnessed retouch may be
 renewable, but cannot reroll the native selection. Live runtime randomness and
-native branch selection are separate; no branch retry is admitted.
+native branch selection are separate; no branch retry is admitted. A documented
+safe retouch may retry a Completely Random runtime draw only when every fixed
+native choice has the identical randomized grant contract. This requires the
+existing opt-in retry setting and does not become a finite guarantee. Mixed
+fixed/randomized outcomes or differing branch contracts remain non-retryable.
+
+`generated-statue-live-retry-acceptance.json` verifies this distinction with a
+paired local fixture. Ten contacts preserve both native statue objects and
+their selected indices. With the production live statue mask for Ice/Beam,
+contacts yield both abilities; with that mask deliberately disabled the same
+static table assignment stays Ice. Every recorded drop returns to Normal and
+all contacts retain 6 HP. This verifies per-touch runtime variability, not a
+finite guarantee, native-selector reroll, or Adventure access to room951.
 
 `generated-statue-native-acceptance.json` records four fresh blank-battery checks.
 From a configured lower-floor arrival, vanilla contact grants Beam, dropping it
@@ -76,6 +91,32 @@ and boss-clear return handling are documented in
 The existing native menu checks in `goal-game-evidence.json` separately verify
 inactive AP context in Boss Endurance. An unmapped room alone is not evidence
 of exclusion; only the six specifically identified rooms receive this status.
+
+## Adventure Frosty investigation
+
+`generated-frosty825-native-acceptance.json` records nine fresh cold fixtures
+from the reviewed room825 lower arrival, starting Normal. A Normal air puff
+opens the lower star-block passage; flight reaches the arena. The selected
+timing acquires the small cube while the original Frosty retains full HP.
+Four 1 HP shuffled-Ice cases cover enemy health 100/500% and gating off/on;
+a live-random singleton-Ice case also succeeds. Vanilla, unowned gated Ice
+and 100% no-ability controls stay Normal, while the wrong-grant control gains
+Beam. All nine retain 1 HP through the matched 1729-frame endpoint. Gated
+ownership uses only the production client's guarded startup configuration.
+
+This is conditional acquisition evidence, not an installed target. Five tested
+arrival delays fail before acquisition; the previously reviewed Ice combat
+controller also fails to compose safely with this new lineage. No large-cube
+acquisition, generic attack selection, combat suffix, repeatability or reset
+guarantee follows from these observations.
+
+All eight Frosty cube candidates now include the source-hash-bound conditional
+native contract. The wind-up callback chooses one of three attack callbacks,
+each invokes `sub_080CCEE0`, and its nonzero/zero `RandLessThan3()` branches
+create small/large cubes. Both use the same actual runtime source key, but
+their size, collision and trajectory differ. Parent animation, collision and
+parent-expiry callbacks limit lifetime. The preceding idle attack selection
+is random and is not certified to enter this wind-up in a finite bound.
 
 These records certify the shared mechanics and bounded observations. They do
 not certify all 731 encounter candidates, all branch predicates, phase changes,

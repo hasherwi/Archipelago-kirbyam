@@ -67,8 +67,9 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
             raise ValueError(f'Unresolved physical ability grant: {identity}')
         if result.get('source_choices', choices) != choices:
             raise ValueError(f'Native source choices mismatch: {identity}')
-        if result.get('retry_evidence'):
-            raise ValueError(f'Fixed native selection cannot justify retry: {identity}')
+        # Retry evidence describes physical repeated contact, not a native
+        # selector reroll. SourcePolicy admits a live retry only when ALL
+        # fixed choices have the same randomized runtime outcome contract.
         key = choices[0]
         result['source_choices'] = list(choices)
     if 'source_choices' in result and result['source_choices'] != record.get('possible_source_keys'):

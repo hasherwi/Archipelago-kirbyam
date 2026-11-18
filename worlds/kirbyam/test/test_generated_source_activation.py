@@ -70,6 +70,19 @@ def test_ordinary_source_reset_retains_existing_reacquisition_behavior():
                starts=[start], gating=False).reaches('other')
 
 
+@pytest.mark.parametrize('preserve', [False, True])
+def test_uncertified_room_retention_does_not_keep_generated_output_active(preserve):
+    travel = Route('pre', 'post', room_transition=True, preserves_room_instance=preserve)
+    start = Position('pre', active=LIFE)
+    assert run([travel, NEEDS_STONE], [SOURCE], starts=[start], gating=False).reaches('other') is preserve
+
+
+def test_unknown_room_retention_preserves_acquired_equipment():
+    travel = Route('pre', 'post', room_transition=True)
+    start = Position('pre', equipped='Stone', active=LIFE)
+    assert run([travel, NEEDS_STONE], [SOURCE], starts=[start], gating=False).reaches('other')
+
+
 def test_expiry_preserves_equipment_but_prevents_loss_reacquisition():
     source = replace(SOURCE, node='pre')
     start = Position('pre', active=LIFE)
@@ -130,7 +143,7 @@ def test_native_statue_choice_uses_all_runtime_grants(mode, pool, statues, expec
     assert graph.evaluate(policy(mode, pool=pool, statues=statues), frozenset(), False, True).reaches('target') is expected
 
 
-def test_a_possible_choice_is_not_a_guarantee_and_cannot_be_retried():
+def test_a_possible_native_choice_is_not_a_guarantee_or_native_branch_retry():
     from ..traversal_data import compile_room_graph
     from .test_traversal import policy
     graph = compile_room_graph(statue_graph(), {})
@@ -138,8 +151,38 @@ def test_a_possible_choice_is_not_a_guarantee_and_cannot_be_retried():
     assert 'Cutter' in grant.abilities and not grant.guaranteed and not grant.randomized
     raw = statue_graph()
     raw['sources'][0].update(renewable=True, renewable_evidence='retouch', retry_evidence='reroll')
-    with pytest.raises(ValueError, match='cannot justify retry'):
-        compile_room_graph(raw, {})
+    compiled = compile_room_graph(raw, {})
+    assert not compiled.evaluate(policy(), frozenset(), False, True).reaches('target')
+    assert not compiled.evaluate(policy(1, pool=['Cutter', 'Beam'], statues=True),
+                                 frozenset(), False, True).reaches('target')
+
+
+@pytest.mark.parametrize('renewable,documented,opt_in,expected', [
+    (False, False, True, False), (True, False, True, False),
+    (True, True, False, False), (True, True, True, True),
+])
+def test_fixed_statue_branch_can_repeat_an_identical_live_runtime_draw(renewable, documented, opt_in, expected):
+    from ..traversal_data import compile_room_graph
+    from .test_traversal import policy
+    raw = statue_graph()
+    if renewable:
+        raw['sources'][0].update(renewable=True, renewable_evidence='same statue retouch')
+    if documented:
+        raw['sources'][0]['retry_evidence'] = 'safe retouch; runtime rerolls, native statue stays fixed'
+    graph = compile_room_graph(raw, {})
+    source_policy = policy(2, pool=['Cutter', 'Beam'], statues=True)
+    result = graph.evaluate(source_policy, frozenset(), False, opt_in)
+    assert result.reaches('target') is expected
+    # Locked desired equipment remains unavailable even with valid retries.
+    assert not graph.evaluate(source_policy, frozenset({'Beam Ability'}), True, opt_in).reaches('target')
+
+
+def test_mixed_fixed_and_live_branches_cannot_become_a_live_retry():
+    from ..master_source import CENTRAL_MASTER_SOURCE
+    from .test_traversal import policy
+    grant = policy(2, pool=['Cutter', 'Beam']).grant_choice(
+        ('SIR_KIBBLE', CENTRAL_MASTER_SOURCE), lambda _: True)
+    assert not grant.randomized and not grant.guaranteed
 
 
 def test_choice_group_cannot_filter_unowned_or_empty_native_branches():
@@ -237,12 +280,56 @@ def test_native_frosty_manifest_separates_projectile_from_boss_and_permission():
 def test_bounded_evidence_bindings_do_not_mark_unknown_world_access_reviewed():
     from ..ability_source_inventory import source_inventory
     bound = [record for record in source_inventory().values() if 'bounded_native_evidence' in record]
-    assert len(bound) == 3
+    assert len(bound) == 4
     assert all(record['access']['status'] == 'unresolved' for record in bound)
-    assert all(record['world_access']['status'] == 'outside_adventure' for record in bound)
+    assert {r['native_room'] for r in bound if r.get('world_access', {}).get('status') == 'outside_adventure'} == {951, 955}
+    assert {r['native_room'] for r in bound if 'world_access' not in r} == {825}
 
 
 def test_boss_endurance_statue_fixture_cannot_be_installed_as_adventure_access():
     from ..traversal_data import compile_room_graph
     with pytest.raises(ValueError, match='outside Adventure'):
         compile_room_graph(statue_graph(), {}, require_inventory=True)
+
+
+def test_adventure_cube_native_cases_preserve_failed_branches_and_runtime_controls():
+    import json
+    from pathlib import Path
+    manifest = json.loads((Path(__file__).resolve().parents[1]
+                           / 'dev-docs/generated-frosty825-native-acceptance.json').read_text())
+    expected = {'live-singleton': [0, 2], 'vanilla': [0], 'no-ability': [0],
+                'unowned': [0], 'wrong-grant': [0, 7]}
+    assert len(manifest['cases']) == 9
+    for case in manifest['cases']:
+        key = case['case'].removeprefix('adventure825-control-')
+        assert case['abilities'] == expected.get(key, [0, 2])
+        assert case['minimum_hp'] == case['final']['hp'] == 1
+        assert case['final']['room'] == 825 and case['final']['frame'] == 1729
+        assert case['approach_normal_only'] and not case['restored_state']
+        assert case['first_cube']['type_id'] == 166
+        assert case['first_cube']['parent'] != '0x0'
+        assert all(w['frame'] == 1085 and not w['guard_failed'] for w in case['runtime_writes'])
+        if case['first_copy_frame'] is not None:
+            assert case['frosty_at_copy']['hp'] == 30 * case['health_percent'] // 100
+            assert case['frosty_at_copy']['template'] == '0x88cd3f0'
+    assert len(manifest['rejected_timing_variants']) == 5
+    assert all(r['ability_before_death'] == [0] for r in manifest['rejected_timing_variants'])
+    assert not manifest['combat_suffix_probe']['accepted']
+
+
+def test_native_live_statue_retry_keeps_native_objects_fixed():
+    import json
+    from pathlib import Path
+    evidence = json.loads((Path(__file__).resolve().parents[1]
+                           / 'dev-docs/generated-statue-live-retry-acceptance.json').read_text())
+    assert len(evidence['cases']) == 2
+    for case in evidence['cases']:
+        snapshots = case['snapshots']
+        contacts = [s for s in snapshots if s['label'] == 'contact' or s['label'].startswith('retouchwait')]
+        assert len(contacts) == 10
+        assert all(s['hp'] == 6 and s['room'] == 951 for s in snapshots)
+        assert all(s['statues'] == snapshots[0]['statues'] for s in snapshots)
+        assert all(s['ability'] == 0 for s in snapshots if s['label'].startswith('dropwait'))
+        assert {s['ability'] for s in contacts} == ({2, 7} if case['statue_runtime_mask'] else {2})
+        assert not case['restored_state']
+        assert all(w['frame'] == 1085 and not w['guard_failed'] for w in case['runtime_writes'])

@@ -138,6 +138,31 @@ VARIABLE_TYPES = {
                          tuple(range(0xC1, 0xC8))),
 }
 
+FROSTY_REVIEW_SHA256 = '6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209'
+
+
+def frostys_cube_contract(source_hash: str, type_id: int) -> dict | None:
+    """Conditional native facts, never a guarantee of reaching an attack state."""
+    if source_hash != FROSTY_REVIEW_SHA256 or type_id not in (166, 167):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'generation_function': 'sub_080CCEE0',
+        'attack_callbacks': ['sub_080CD47C', 'sub_080CD4D0', 'sub_080CD524'],
+        'attack_selection': 'sub_080CD3FC: counter > 43, then RandLessThan3()',
+        'attack_entry_guaranteed': False,
+        'branch': 'RandLessThan3() != 0' if type_id == 166 else 'RandLessThan3() == 0',
+        'alternative_types': [166, 167],
+        'alternative_source_keys': ['MR_FROSTY_ICE_CUBE'],
+        'parent_attachment': 'creating Frosty',
+        'parent_expiry_callback': 'sub_0809F840',
+        'phase_expiry': 'parent animation > 16; child collision mask0x1; before throw also collision mask0x4',
+        'throw_transition': 'parent callback sub_080CC4C8 and animation 11',
+        'initial_throw_protection_counter': 4,
+        'repeatability': 'not_certified',
+        'acquisition': 'not_implied_by_shared_grant; size, collision and attack timing differ',
+    }
+
 
 def encounter_calls(text: str, filename: str):
     for line, args in macro_calls(text):
@@ -359,6 +384,11 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             f"{parent['controller_type']}:{parent['evidence']}" for parent in calls
             if any(output['type_id'] == call['controller_type'] for output in parent.get('possible_outputs', []))})
     encounter_sources = generated_encounter_sources(calls, controllers)
+    for record in encounter_sources:
+        if record['generation']['controller_type'] == 56:
+            contract = frostys_cube_contract(source_hashes.get('src/mr_frosty.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
     for room in native_rooms:
         room['encounter_controllers'] = [p['id'] for p in controllers
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
@@ -403,6 +433,11 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             'compartment': 'room951 lower statue floor',
             'scope': 'Configured local contact and retouch in a Boss Endurance room; not Adventure access.'}
     for record in encounter_sources:
+        if record['id'] == 'room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166':
+            record['bounded_native_evidence'] = {
+                'record': 'dev-docs/generated-frosty825-native-acceptance.json',
+                'compartment': 'room825 lower arrival to upper arena, live original Frosty',
+                'scope': 'Nine matched 1 HP cases; conditional small-cube acquisition only. Other attack timings and safe combat/carry suffix remain uncertified.'}
         if record['id'] == 'room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166':
             record['bounded_native_evidence'] = {
                 'record': 'dev-docs/generated-frosty-native-acceptance.json',
