@@ -309,3 +309,69 @@ class DarkMindEnemyContractTests(unittest.TestCase):
             self.assertEqual(contract, extract.dark_mind_enemy_contract(
                 inventory['decomp_file_sha256']['src/dark_mind.c'],
                 inventory['decomp_file_sha256']['src/object.c'], row['type_id'], row['generation']['callsite']))
+
+
+class DarkMindProjectileContractTests(unittest.TestCase):
+    def test_star_selection_and_distinct_expiry_behaviors(self):
+        contracts = [extract.dark_mind_projectile_contract(extract.DARK_MIND_REVIEW_SHA256,
+                     203, f'src/dark_mind.c:{line}') for line in (3824, 3856, 3877)]
+        self.assertEqual([c['constructor_calls_per_helper_invocation'] for c in contracts], [2, 1, 1])
+        for contract in contracts:
+            self.assertEqual(contract['native_selection_by_subtype']['0'], [203])
+            self.assertEqual(contract['native_selection_by_subtype']['other'], [203, 204, 205, 206])
+            self.assertEqual(contract['native_mix_type'], 206)
+            self.assertFalse(contract['attack_entry_guaranteed'])
+        self.assertFalse(contracts[2]['phase_transition_is_expiry'])
+        bomb = extract.dark_mind_projectile_contract(extract.DARK_MIND_REVIEW_SHA256, 48, 'src/dark_mind.c:4172')
+        self.assertFalse(bomb['counter_is_wall_clock_expiry'])
+        self.assertEqual(bomb['initial_counter'], 200)
+        self.assertIsNone(extract.dark_mind_projectile_contract('changed', 203, 'src/dark_mind.c:3824'))
+        self.assertIsNone(extract.dark_mind_projectile_contract(extract.DARK_MIND_REVIEW_SHA256, 48, 'src/dark_mind.c:3824'))
+
+    def test_all_star_and_bomb_lineages_remain_conditional(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        rows = [r for r in inventory['encounter_sources'] if r['generation']['callsite'] in
+                ('src/dark_mind.c:3824', 'src/dark_mind.c:3856', 'src/dark_mind.c:3877', 'src/dark_mind.c:4172')]
+        self.assertEqual(len(rows), 143)
+        for row in rows:
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(row['logic'], 'advanced')
+            self.assertEqual(row['native_contract'], extract.dark_mind_projectile_contract(
+                inventory['decomp_file_sha256']['src/dark_mind.c'], row['type_id'], row['generation']['callsite']))
+
+
+class RemainingConfiguredEncounterContractTests(unittest.TestCase):
+    def test_linked_constructors_and_non_source_branches_are_not_discarded(self):
+        hashes = {'src/' + name + '.c': digest for name, digest in extract.OTHER_ENCOUNTER_REVIEW_SHA256.items()}
+        hand = extract.other_encounter_contract(hashes, 200, 'src/master_hand.c:2456')
+        self.assertIn('src/crazy_hand.c', hand['dependency_sha256'])
+        self.assertEqual(hand['bullet_constructor'], 'crazy_hand.c:CreateMasterHandBullet')
+        changed = dict(hashes, **{'src/crazy_hand.c': 'changed'})
+        self.assertIsNone(extract.other_encounter_contract(changed, 200, 'src/master_hand.c:2456'))
+        golem = extract.other_encounter_contract(hashes, 31, 'src/king_golem.c:439')
+        self.assertEqual(golem['child_subtype1'], 128)
+        self.assertIn('src/golem.c', golem['dependency_sha256'])
+        moley = extract.other_encounter_contract(hashes, 195, 'src/moley.c:754')
+        self.assertEqual(moley['native_alternative_types'], list(range(193, 200)))
+        self.assertIn('unconfigured rock and screw', moley['output_relationship'])
+        bronto = extract.other_encounter_contract(hashes, 1, 'src/wiz.c:1161')
+        self.assertEqual(bronto['initial_parent_expiry_callback'], 'unreviewed')
+        self.assertIsNone(extract.other_encounter_contract(hashes, 200, 'src/wiz.c:1161'))
+
+    def test_all_configured_candidates_have_conditional_generation_facts_not_access(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        configured = [r for r in inventory['encounter_sources'] if r['source_key'] is not None]
+        self.assertEqual(len(configured), 431)
+        for row in configured:
+            self.assertEqual(row['native_contract']['status'], 'conditional_native_contract')
+            self.assertFalse(row['native_contract']['attack_entry_guaranteed'])
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertEqual(row['logic'], 'advanced')
+        remaining = [r for r in inventory['encounter_sources']
+                     if r['generation']['callsite'] in extract.OTHER_ENCOUNTER_CALLS]
+        self.assertEqual(len(remaining), 26)
+        for row in remaining:
+            self.assertEqual(row['native_contract'], extract.other_encounter_contract(
+                inventory['decomp_file_sha256'], row['type_id'], row['generation']['callsite']))

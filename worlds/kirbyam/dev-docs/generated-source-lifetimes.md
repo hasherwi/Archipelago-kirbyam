@@ -304,3 +304,39 @@ a caller cannot override that physical contract. The other reviewed source
 contracts keep their existing behavior. This is not a claim that a source can
 never return under a separately proved session/world reset, nor a grant of
 renewability or new world access.
+
+The 143 Dark Mind star/bomb candidates also retain conditional native contracts.
+Star color selection depends on Form1 subtype: subtype0 is red only, subtype1
+adds blue, subtype2 adds purple, and other subtypes permit the native Mix type.
+One helper creates two separately selected stars; the other two create one.
+Their behavior differs: the bouncing pair has a 128 counter, the linear variant
+checks `unk58 & 0x200`, and the waiting variant releases in response to parent
+phase changes. Release is not expiry. Bombs use parent expiry but their initial
+200 counter advances on floor contact and begins a rising phase at zero, rather
+than expiring. None of these facts proves root-to-phase entry, a favorable branch,
+a safe swallow or repeatability; native Mix remains outside direct ability grants.
+
+## Remaining configured encounter generation contracts
+
+All 431 candidates with configured runtime keys now have at least a hash-bound,
+conditional generation contract. This is a generation-fact denominator, not an
+access, safe-acquisition or complete-lifetime denominator. The remaining batch
+covers 26 records (including Moley's two unconfigured alternatives): Master/Crazy
+Hand bullets, King Golem's three golem types, Kracko's three enemy branches,
+Gobbler's tracked baby slots, Moley's seven possible objects, and six configured
+Wiz outputs.
+
+The hand helpers have different firing animation predicates but share the
+bullet constructor in `crazy_hand.c`; both files are pinned for Master Hand.
+King Golem's rejected random value and subtype0x80 child initialization are
+preserved, with `golem.c` pinned separately. Kracko uses two conditional random
+draws, not three freely available sources. Moley's selection retains rock/screw
+outcomes even though they are not configured grants. Wiz's ten-way selector
+includes football/balloon branches and secondary binary choices; its outputs
+cannot be treated as one convenient guaranteed grant. Gobbler has three tracked
+slots with separate counter events rather than an unlimited always-live baby.
+
+Initial parent-expiry callbacks are recorded where reviewed. Wiz's Bronto Burt
+child expiry remains explicitly unreviewed; parent attachment alone is not a
+callback. Later phase lifetimes, safe contact, root access and repeatability
+remain unresolved throughout this batch. No production target is added.

@@ -341,6 +341,125 @@ def dark_mind_enemy_contract(source_hash: str, object_hash: str, type_id: int, c
     }
 
 
+def dark_mind_projectile_contract(source_hash: str, type_id: int, callsite: str) -> dict | None:
+    helpers = {'src/dark_mind.c:3824': 'sub_08105EC4',
+               'src/dark_mind.c:3856': 'sub_081060C0',
+               'src/dark_mind.c:3877': 'sub_081062B4'}
+    star = callsite in helpers and type_id in (203, 204, 205, 206)
+    bomb = callsite == 'src/dark_mind.c:4172' and type_id == 48
+    if source_hash != DARK_MIND_REVIEW_SHA256 or not (star or bomb):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'root_to_phase_lineage': 'unresolved; translation-unit candidate is not phase access',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+        'parent_attachment': 'creating controller via Macro_081059A8',
+    }
+    if bomb:
+        result.update(generation_function='sub_08107254',
+            parent_expiry_callback='sub_0810A034 calls sub_0809F840',
+            constructor_calls_per_helper_invocation=1,
+            spawn_y_offset='32 pixels for Form2, zero otherwise',
+            initial_counter=200, counter_is_wall_clock_expiry=False,
+            initial_counter_effect='sub_08107408 decrements on floor collision; zero starts rising phase, not destruction')
+    else:
+        result.update(generation_function=helpers[callsite],
+            immediate_controller='DarkMindForm1', parent_expiry_callback='sub_0809F840',
+            native_selection_by_subtype={'0': [203], '1': [203, 204], '2': [203, 204, 205],
+                                         'other': [203, 204, 205, 206]},
+            selection='RandomFunction uses fixed zero, Rand16() & 1, RandLessThan3(), or Rand16() & 3 by subtype',
+            native_mix_type=206,
+            constructor_calls_per_helper_invocation=2 if callsite.endswith(':3824') else 1)
+        if callsite.endswith(':3824'):
+            result.update(output_relationship='two constructed stars, separately selected types',
+                initial_behavior='sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero')
+        elif callsite.endswith(':3856'):
+            result.update(initial_behavior='sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys')
+        else:
+            result.update(initial_behavior='parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8',
+                phase_release='first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98',
+                phase_transition_is_expiry=False)
+    return result
+
+
+OTHER_ENCOUNTER_REVIEW_SHA256 = {
+    'master_hand': 'daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e',
+    'crazy_hand': 'c86577dacbfe3bfd8a5d3422477e35cc7429dfc10534f9e259df4d5ff6f21212',
+    'king_golem': 'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa',
+    'golem': '8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31',
+    'kracko': '6085113c8f08b82b1433723fadfc4aa62d509fe7f36bd1d5653618513895bea8',
+    'gobbler': '76a954ec2b358c4f09e2d505a1a25220982cb1876d29fb0d9559d16d98602396',
+    'moley': 'fbd225320d9f65cf65a8b358deba4144d2b908b17eac4cdb5380e0fd175f65e5',
+    'wiz': '850ead2af3f3eaaa092fa5e3647d18b6685c743eb0374e2eec87995bf0a14102',
+}
+
+OTHER_ENCOUNTER_CALLS = {
+    'src/master_hand.c:2456': ('master_hand', 'sub_080D4DA4', (200,), 'unk83 == 7 and header.unk1 == 8'),
+    'src/crazy_hand.c:2902': ('crazy_hand', 'sub_080E31D4', (200,), 'unk83 == 7 and header.unk1 == 1'),
+    'src/king_golem.c:439': ('king_golem', 'sub_080DB43C', (31, 32, 33), 'sub_080DB6DC incremented counter == 8'),
+    'src/kracko.c:1258': ('kracko', 'sub_080DE064', (18, 19, 28), 'sub_080DCA44 decremented counter == 0'),
+    'src/gobbler.c:2378': ('gobbler', 'sub_080E7848', (159,), 'sub_080E5A20 counters expire in sequence for baby slots0/1/2'),
+    'src/moley.c:754': ('moley', 'sub_080EC650', tuple(range(193, 200)), 'caller mode0/1/2; mode1 additionally needs sprite mask0x800 and unkB4 clear'),
+    'src/wiz.c:783': ('wiz', 'sub_080E9524', (182,), 'selector1 or selector8 with Rand16() & 1 == 0'),
+    'src/wiz.c:957': ('wiz', 'sub_080E9A54', (184,), 'selector3 or selector9 with Rand16() & 1 == 0'),
+    'src/wiz.c:1020': ('wiz', 'sub_080E9C58', (185,), 'selector4'),
+    'src/wiz.c:1107': ('wiz', 'sub_080E9FC0', (186,), 'selector5'),
+    'src/wiz.c:1161': ('wiz', 'sub_080EA1C0', (1,), 'selector6'),
+    'src/wiz.c:1176': ('wiz', 'sub_080EA27C', (187,), 'selector7'),
+}
+
+
+def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -> dict | None:
+    entry = OTHER_ENCOUNTER_CALLS.get(callsite)
+    if entry is None or type_id not in entry[2]:
+        return None
+    file, helper, _, activation = entry
+    dependencies = {file}
+    if file == 'master_hand':
+        dependencies.add('crazy_hand')  # The bullet constructor is in this file.
+    if file == 'king_golem':
+        dependencies.add('golem')
+    hashes = {'src/' + name + '.c': OTHER_ENCOUNTER_REVIEW_SHA256[name] for name in sorted(dependencies)}
+    if any(source_hashes.get(name) != digest for name, digest in hashes.items()):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': hashes['src/' + file + '.c'],
+        'dependency_sha256': hashes,
+        'generation_function': helper, 'activation': activation,
+        'parent_attachment': 'creating encounter controller',
+        'initial_parent_expiry_callback': 'unreviewed' if (file == 'wiz' and type_id == 1) else 'sub_0809F840',
+        'later_phase_lifetime': 'unresolved; initial callback does not certify all later states',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+    if file in ('master_hand', 'crazy_hand'):
+        result.update(bullet_constructor='crazy_hand.c:CreateMasterHandBullet',
+            horizontal_speed_by_subtype={'0': 1408, '1': 1664},
+            release='bullet header.unk1 == 8 clears flags0x800/0x200; this is not expiry')
+    elif file == 'king_golem':
+        result.update(selection='Rand16() & 3 retries value3, then adds OBJ_GOLEM_1',
+            native_alternative_types=[31, 32, 33], child_subtype1=128,
+            initial_parent_expiry_condition='golem.c:CreateGolem subtype1 mask0x80')
+    elif file == 'kracko':
+        result.update(selection='first Rand16() & 1 selects Waddle Doo; otherwise second Rand16() & 3 selects Flamer, zero selects Twister',
+            native_alternative_types=[18, 19, 28],
+            branch='first draw nonzero' if type_id == 18 else 'first draw zero; second draw nonzero' if type_id == 19 else 'both draws zero')
+    elif file == 'gobbler':
+        result.update(output_relationship='three separately tracked baby slots, not one always-live source',
+            child_subtype1='caller baby slot0/1/2')
+    elif file == 'moley':
+        result.update(selection='RandLessThan(7) + OBJ_MOLEY_ROCK', native_alternative_types=list(range(193, 200)),
+            output_relationship='one selected object per helper call; includes unconfigured rock and screw outcomes',
+            trajectory='subtype1 mode1 starts sub_080EC8E8; other modes start sub_080ED8C4; sizes and later behaviors differ by type')
+    else:
+        result.update(attack_callback='sub_080E9034: header.unk1 == 0x28 calls sub_080E921C',
+            selection='sub_080E921C RandLessThan(10); selectors8/9 make a second binary selection',
+            output_relationship='one helper selected per hat event, including unconfigured football/balloon branches',
+            subtype='car/bomb/cloud/apple use health/subtype-conditioned binary parameter; Bronto Burt/Droppy inherit template subtype2')
+    return result
+
+
 MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
 # Reviewed waiting callbacks and macro anchors, pinned independently per file.
 MINIBOSS_ACTIVATION = {
@@ -569,7 +688,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                                    if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
-    for relative in ('include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+    for relative in ('src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
                      'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
@@ -650,10 +769,17 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             if contract is not None:
                 record['native_contract'] = contract
         if record['generation']['controller_type'] in (79, 80, 81):
+            projectile_contract = dark_mind_projectile_contract(source_hashes.get('src/dark_mind.c', ''),
+                record['type_id'], record['generation']['callsite'])
+            if projectile_contract is not None:
+                record['native_contract'] = projectile_contract
             contract = dark_mind_enemy_contract(source_hashes.get('src/dark_mind.c', ''),
                 source_hashes.get('src/object.c', ''), record['type_id'], record['generation']['callsite'])
             if contract is not None:
                 record['native_contract'] = contract
+        contract = other_encounter_contract(source_hashes, record['type_id'], record['generation']['callsite'])
+        if contract is not None:
+            record['native_contract'] = contract
     for room in native_rooms:
         room['encounter_controllers'] = [p['id'] for p in controllers
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
