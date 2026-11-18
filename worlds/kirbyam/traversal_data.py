@@ -109,14 +109,18 @@ def compile_room_graph(
                 source["retry_evidence"] = reference["retry_evidence"]
             sources.append(source)
     physical_identities: dict[str, str] = {}
+    identity_placements: dict[str, str] = {}
     for source in sources:
         inventory_id = source.get("inventory_id")
         if inventory_id is not None:
-            identity = source.get("id", inventory_id)
+            identity = source.get("id") or inventory_id
             if inventory_id in physical_identities and physical_identities[inventory_id] != identity:
                 raise ValueError("One physical source cannot have multiple consumption identities")
+            if identity in identity_placements and identity_placements[identity] != inventory_id:
+                raise ValueError("Different physical sources cannot share one consumption identity")
+            identity_placements[identity] = inventory_id
             physical_identities[inventory_id] = identity
-            source.setdefault("id", identity)
+            source["id"] = identity
     expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced)
                            for source in sources]
     if not advanced:

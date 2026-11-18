@@ -20,7 +20,8 @@ def _inventory_payload() -> dict[str, Any]:
 
 @lru_cache(maxsize=1)
 def source_inventory() -> Mapping[str, Mapping[str, Any]]:
-    records = _inventory_payload()['placements']
+    payload = _inventory_payload()
+    records = payload['placements'] + payload['generated_statue_slots']
     result = {row['id']: row for row in records}
     if len(result) != len(records):
         raise ValueError('Duplicate physical ability placement identity')
@@ -40,6 +41,11 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
     if identity is None:
         identity = _inventory_payload()['reviewed_bindings'].get(f"{native_room}:{source.get('id')}")
     if identity is None:
+        legacy_id = source.get('id')
+        if legacy_id is not None and any(
+            key.partition(':')[2] == legacy_id for key in _inventory_payload()['reviewed_bindings']
+        ):
+            raise ValueError(f'Physical ability placement belongs to another room: {legacy_id}')
         return result  # Isolated solver fixtures and the special Master contract.
     record = source_inventory().get(identity)
     if record is None:

@@ -26,6 +26,9 @@ def audit(inventory: dict, rooms: dict) -> dict:
         elif isinstance(value, str) and value in {
             'CanCutRopes', 'CanBreakBlocks', 'CanUseMini', 'CanLightFuses', 'CanPoundPegs',
             'can_break_block', 'can_cut_ropes', 'can_use_mini', 'can_light_fuses', 'can_pound_pegs',
+            'can_break_floating_block', 'can_break_metal', 'can_break_metal_throw',
+            'can_climb', 'can_fly', 'can_swim', 'can_wheel', 'can_mirra',
+            'can_hit_far_switch', 'can_get_rr_map_chest',
         }:
             compact_requirements.append({'path': path, 'token': value})
 
@@ -49,13 +52,15 @@ def audit(inventory: dict, rooms: dict) -> dict:
         'unbound_source_or_encounter_placements': [p['id'] for p in relevant if p['id'] not in bound],
         'encounter_call_sites': len(inventory['encounter_calls']),
         'known_dynamic_grant_types': len(inventory['dynamic_grant_types']),
+        'generated_statue_slots': len(inventory['generated_statue_slots']),
         'compact_requirements_requiring_target_context_review': compact_requirements,
         'policy_scoped_targets': scoped_targets,
         'blockers': [
             'Static presence is complete; acquisition compartments, spawn-state predicates and carry routes are not.',
             ('Encounter call sites are candidates, not a complete dynamic call graph; '
              'indirect helpers, variable types and lifetime prerequisites need review.'),
-            'Object-spawner descendants and random-statue runtime semantics remain unresolved.',
+            ('Object-spawner descendants and acquisition/retry routes to the two native '
+             'random-statue slots remain unresolved.'),
             ('Legacy ability tokens and policy-scoped fallbacks remain; closing them needs accepted source routes '
              'or established Normal alternatives, not blanket rejection.'),
         ],

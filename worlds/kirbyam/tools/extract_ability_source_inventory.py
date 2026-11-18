@@ -51,8 +51,9 @@ def decode_records(rom: bytes, index: int) -> list[dict]:
             'spawn_table': table, 'type_id': rom[cursor + 12],
             'position_pixels': list(unpack(rom, '<hh', cursor + 6)),
             'subtype1': rom[cursor + 14], 'subtype2': rom[cursor + 16],
-            'spawn_conditions': {'state_index': rom[cursor + 2],
-                                 'state_mask': rom[cursor + 3],
+            'spawn_conditions': {'state_bank': rom[cursor + 2],
+                                 'bit_index': rom[cursor + 3],
+                                 'test': 'bit_clear' if rom[cursor + 2] <= 2 else 'unconditional',
                                  'flags': rom[cursor + 5],
                                  'predicate': 'code_080023A4.c:CreateLevelObjects/sub_080027E8'},
         })
@@ -156,13 +157,17 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             if record['spawn_table'] == 1 and record['type_id'] in ENCOUNTERS:
                 encounter_types.add(record['type_id'])
         native_rooms.append(room)
-    source_hashes = {'include/constants/object_types.h': hashlib.sha256(header.encode()).hexdigest()}
+    source_hashes = {'include/constants/object_types.h':
+                     hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
+    for relative in ('include/data.h', 'src/code_080023A4.c', 'src/ability_objects.c'):
+        source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
     for typ in sorted(encounter_types):
         filename = ENCOUNTERS[typ] + '.c'
         path = decomp / 'src' / filename
         if not path.exists():
-            calls.append({'controller_type': typ, 'status': 'unresolved', 'reason': f'Missing {filename}'})
+            calls.append({'controller_type': typ, 'status': 'unresolved', 'logic': 'advanced',
+                          'reason': f'Missing {filename}'})
             continue
         source_hashes[f'src/{filename}'] = hashlib.sha256(path.read_bytes()).hexdigest()
         for line, args in macro_calls(path.read_text()):
@@ -177,6 +182,35 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
         room['encounter_controllers'] = [p['id'] for p in placements
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
             and p['type_id'] in ENCOUNTERS]
+    generated_statues = []
+    for parent in placements:
+        if parent['source_type'] != 'random_statue':
+            continue
+        offset = int(parent['template_address'], 16) - 0x08000000
+        x, y = parent['position_pixels']
+        first_x = x + unpack(rom, '<h', offset + 0x1A)[0]
+        second_x = first_x + unpack(rom, '<H', offset + 0x1E)[0]
+        alternatives = []
+        for index in range(19):
+            group = rom[0x35390F + index]
+            subtype = index - rom[0x353922 + group]
+            base, count = STATUES[0x92 + group]
+            if not 0 <= subtype < count:
+                raise ValueError('Invalid native random-statue selector table')
+            alternatives.append(f'STATUE:{base + subtype:06X}')
+        for slot, child_x in enumerate((first_x, second_x)):
+            generated_statues.append({
+                'id': f"{parent['id']}/statue-slot:{slot}", 'native_room': parent['native_room'],
+                'parent_placement': parent['id'], 'source_type': 'statue', 'logic': 'standard',
+                'position_pixels': [child_x, y], 'source_key': None, 'native_grant': None,
+                'possible_source_keys': alternatives,
+                'selection': ('Two distinct native statue indices chosen when the controller spawns; '
+                              'fixed for that instance.'),
+                'repeatability': 'Retouch of the selected statue does not reroll its native index.',
+                'access': {'status': 'unresolved',
+                           'reason': 'Requires controller spawning and physical contact; no retry route inferred.'},
+                'evidence': 'src/ability_objects.c:sub_080AA6F8/sub_080AA588',
+            })
     bindings = {}
     by_template = {(p['native_room'], p['template_address'].lower()): p for p in placements}
 
@@ -205,6 +239,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',
             'rooms': native_rooms, 'placements': placements, 'encounter_calls': calls,
             'reviewed_bindings': dict(sorted(bindings.items())),
+            'generated_statue_slots': generated_statues,
             'dynamic_grant_types': [{'source_key': key, 'native_grant': spec['default_ability'],
                                     'logic': 'advanced', 'access': 'unresolved'}
                                    for key, spec in enemies.items() if spec['kind'] == 'boss_spawned']}

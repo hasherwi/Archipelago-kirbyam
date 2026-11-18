@@ -29,8 +29,10 @@ def test_native_census_has_explicit_rooms_and_unique_placements():
     assert [room['native_room'] for room in inventory['rooms']] == list(range(983))
     placements = source_inventory()
     references = [key for room in inventory['rooms'] for key in room['placements']]
-    assert len(references) == len(set(references)) == len(placements) == 3476
-    assert set(references) == set(placements)
+    assert len(references) == len(set(references)) == 3476
+    generated = {row['id'] for row in inventory['generated_statue_slots']}
+    assert len(generated) == 2
+    assert set(references) | generated == set(placements)
     assert any(not room['placements'] for room in inventory['rooms'])
     assert any(row['native_grant'] == 'Normal' and row['source_type'] == 'enemy'
                for row in placements.values())
@@ -103,3 +105,49 @@ def test_reviewed_legacy_identity_joins_without_changing_consumption_contract():
     assert resolve_inventory_source(source, 401) == source
     with pytest.raises(ValueError, match='grant mismatch'):
         resolve_inventory_source({**source, 'source_key': 'BONKERS'}, 401)
+
+
+def test_legacy_binding_cannot_be_evaded_by_changing_its_room():
+    source = {'id': '0x088C5840', 'source_key': 'ROCKY', 'node': 'pre',
+              'acquisition_evidence': 'existing reviewed acquisition'}
+    with pytest.raises(ValueError, match='another room'):
+        resolve_inventory_source(source, 402)
+
+
+def test_normally_empty_enemy_uses_actual_live_random_runtime_eligibility():
+    record = next(row for row in source_inventory().values() if row['source_key'] == 'WADDLE_DEE')
+    graph = payload()
+    for node in graph['nodes']:
+        node['native_room'] = record['native_room']
+    graph['sources'][0]['inventory_id'] = record['id']
+    compiled = compile_room_graph(graph, {})
+    assert not compiled.evaluate(policy(), frozenset(), False).reaches('post')
+    assert compiled.evaluate(policy(2, pool=['Stone']), frozenset(), False).reaches('post')
+    assert not compiled.evaluate(policy(2, pool=['Stone'], weight=100), frozenset(), False).reaches('post')
+
+
+def test_absent_consumption_identity_defaults_to_physical_placement():
+    graph = payload()
+    graph['sources'][0]['id'] = None
+    compiled = compile_room_graph(graph, {})
+    assert compiled.placements[0].identity == ROCK
+
+
+def test_distinct_physical_sources_cannot_alias_consumption():
+    graph = payload()
+    graph['sources'].append({**graph['sources'][0],
+                             'inventory_id': 'room:401/template:0x088C5864'})
+    with pytest.raises(ValueError, match='share one consumption identity'):
+        compile_room_graph(graph, {})
+
+
+def test_native_random_statues_have_physical_slots_but_no_guaranteed_selection():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    slots = inventory['generated_statue_slots']
+    assert len(slots) == 2
+    assert slots[0]['id'] != slots[1]['id']
+    for slot in slots:
+        assert slot['native_room'] == 951
+        assert len(slot['possible_source_keys']) == len(set(slot['possible_source_keys'])) == 19
+        with pytest.raises(ValueError, match='Unresolved physical ability grant'):
+            resolve_inventory_source({'inventory_id': slot['id']}, 951)

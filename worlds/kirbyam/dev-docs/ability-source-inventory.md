@@ -33,6 +33,13 @@ none are automatically added as usable sources. File hashes identify the local
 decompilation inputs; the reference commit identifies the layout reference,
 not a claim that every local source file is unchanged from that commit.
 
+The native random-statue controller in room 951 creates two physical slots with
+19 possible native statue selections and prevents the two native indices from
+matching. Those slots are recorded separately with native coordinates. A fixed
+selection lasts for that instance; retouch does not redraw the native index.
+Their grants remain unresolved for traversal, rather than turning the union of
+possible selections into guaranteed finite acquisition.
+
 ## Reproduction
 
 Run from the repository root with a lawful, unmodified USA ROM and the local
@@ -57,7 +64,7 @@ lists unbound placements, compact ability tokens and policy-scoped targets.
 Presence alone cannot prove arbitrary room geometry or acquisition. Remaining
 work includes reviewed compartment access/carry for unbound placements;
 encounter branches, indirect spawn helpers and lifetime prerequisites; object
-spawner descendants; random-statue semantics; and systematic replacement of
+spawner descendants; random-statue acquisition/retry routes; and systematic replacement of
 legacy permissive gates with accepted source routes or established Normal
 alternatives. `_allow_pending_ability_gate` and unsupported-policy fallback
 behavior are still present. The draft neither invents those witnesses nor
