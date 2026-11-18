@@ -169,3 +169,30 @@ def test_production_graph_rejects_uncatalogued_source_instead_of_inventing_prese
     with pytest.raises(ValueError, match='requires a physical inventory reference'):
         compile_room_graph(graph, {}, require_inventory=True)
     assert compile_room_graph(payload(), {}, require_inventory=True).placements[0].source_key == 'ROCKY'
+
+
+def test_spawner_prototypes_are_censused_without_becoming_acquisition_witnesses():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    outputs = inventory['spawner_outputs']
+    parents = {row['id'] for row in inventory['placements'] if row['source_type'] == 'object_spawner'}
+    assert len(outputs) == len(parents) == 37
+    assert {row['parent_placement'] for row in outputs} == parents
+    assert sum(row['source_type'] == 'miniboss' for row in outputs) == 6
+    candidates = {key for call in inventory['encounter_calls'] for key in call['candidate_encounters']}
+    assert {row['id'] for row in outputs if row['source_type'] == 'miniboss'} <= candidates
+    for row in outputs:
+        assert row['configured_child_capacity'] == 1
+        assert not row['reclaims_destroyed_slots']
+        assert row['status'] == 'unresolved'
+        assert row['id'] not in source_inventory()
+        with pytest.raises(ValueError, match='Unknown physical'):
+            resolve_inventory_source({'inventory_id': row['id']}, row['native_room'], advanced=True)
+
+
+def test_generated_boss_phases_retain_candidate_roots_without_becoming_sources():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    for typ in (0x4C, 0x4D):
+        calls = [call for call in inventory['encounter_calls'] if call['controller_type'] == typ]
+        assert calls
+        assert all(call['candidate_root_encounters'] and call['controller_parent_calls'] for call in calls)
+        assert all(call['logic'] == 'advanced' and call['status'] == 'unresolved' for call in calls)

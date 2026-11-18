@@ -25,7 +25,7 @@ ENCOUNTERS = {
     0x38: "mr_frosty", 0x39: "bonkers", 0x3A: "phan_phan", 0x3B: "batafire",
     0x3C: "box_boxer", 0x3D: "boxy", 0x3E: "master_hand", 0x3F: "bombar",
     0x45: "kracko", 0x46: "king_golem", 0x47: "crazy_hand", 0x48: "gobbler",
-    0x49: "wiz", 0x4A: "moley", 0x4B: "mega_titan", 0x4C: "titan_head",
+    0x49: "wiz", 0x4A: "moley", 0x4B: "mega_titan", 0x4C: "mega_titan",
     0x4D: "crazy_hand", 0x4E: "dark_meta_knight", 0x4F: "dark_mind",
     0x50: "dark_mind", 0x51: "dark_mind", 0x52: "dark_meta_knight",
 }
@@ -61,6 +61,31 @@ def decode_records(rom: bytes, index: int) -> list[dict]:
     raise ValueError('Unterminated object list')
 
 
+def spawner_output(rom: bytes, parent: dict) -> dict:
+    """Decode a child prototype, not an accessible or renewable placement.
+
+    Pinned asm/object_spawner.s:sub_0811BAAC copies coordinates and subtypes,
+    creates a table-1 child from template +0x14's low byte, and tracks at most
+    the high byte's count. sub_0811BE64 reclaims destroyed slots when enabled.
+    """
+    offset = int(parent['template_address'], 16) - 0x08000000
+    typ, capacity = unpack(rom, '<BB', offset + 0x14)
+    flags = unpack(rom, '<H', offset + 0x22)[0]
+    return {
+        'id': f"{parent['id']}/spawner-output", 'native_room': parent['native_room'],
+        'parent_placement': parent['id'], 'spawn_table': 1, 'type_id': typ,
+        'position_pixels': list(parent['position_pixels']),
+        'subtype1': parent['subtype1'], 'subtype2': parent['subtype2'],
+        'configured_child_capacity': capacity,
+        'reclaims_destroyed_slots': not bool(flags & 1),
+        'status': 'unresolved',
+        'spawn_conditions': {'controller': parent['id'], 'status': 'unresolved',
+                             'reason': 'Controller state, delay, room counters and lifetime need a witness.'},
+        'evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
+                     + '/asm/object_spawner.s#L364-L455'),
+    }
+
+
 def macro_calls(text: str, pattern: str = r'CreateObjTemplateAndObj(?:WithSettingParent)?'):
     """Split macro arguments with nesting; do not evaluate native expressions."""
     for match in re.finditer(pattern + r'\s*\(', text):
@@ -91,6 +116,8 @@ VARIABLE_TYPES = {
                               (0x9B, 0x9C)),
     ('king_golem.c', 'r + OBJ_GOLEM_1'): (
         'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa', (0x1F, 0x20, 0x21)),
+    ('dark_mind.c', 'OBJ_DARK_MIND_STAR_FIRE + r3'): (
+        '841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158', (0xCB, 0xCC, 0xCD, 0xCE)),
     ('moley.c', 'type'): ('fbd225320d9f65cf65a8b358deba4144d2b908b17eac4cdb5380e0fd175f65e5',
                          tuple(range(0xC1, 0xC8))),
 }
@@ -212,12 +239,29 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             if record['spawn_table'] == 1 and record['type_id'] in ENCOUNTERS:
                 encounter_types.add(record['type_id'])
         native_rooms.append(room)
+    spawner_outputs = []
+    for parent in placements:
+        if parent['source_type'] == 'object_spawner':
+            child = spawner_output(rom, parent)
+            classify(child)
+            spawner_outputs.append(child)
+            if child['type_id'] in ENCOUNTERS:
+                encounter_types.add(child['type_id'])
+    controllers = placements + spawner_outputs
+    for room in native_rooms:
+        room['spawner_outputs'] = [p['id'] for p in spawner_outputs
+                                   if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
     for relative in ('include/data.h', 'src/code_080023A4.c', 'src/ability_objects.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
-    for typ in sorted(encounter_types):
+    pending_types = set(encounter_types)
+    scanned_types = set()
+    while pending_types:
+        typ = min(pending_types)
+        pending_types.remove(typ)
+        scanned_types.add(typ)
         filename = ENCOUNTERS[typ] + '.c'
         path = decomp / 'src' / filename
         if not path.exists():
@@ -231,21 +275,46 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                      if table_expression == '1' else [])
             outputs = []
             for native_type in types:
+                if native_type in ENCOUNTERS and native_type not in scanned_types:
+                    pending_types.add(native_type)
                 grant_entry = source_types.get(native_type)
+                native_grant_id = rom[0x35164E + 24 * native_type]
+                native_grant = ability_names.get(native_grant_id)
+                if grant_entry is not None and native_grant != grant_entry[1]['default_ability']:
+                    raise ValueError(f'Native encounter grant disagrees with runtime policy: {grant_entry[0]}')
                 outputs.append({'type_id': native_type, 'native_name': names[native_type],
                                 'source_key': grant_entry[0] if grant_entry is not None else None,
-                                'native_grant': ability_names.get(rom[0x35164E + 24 * native_type])})
+                                'native_grant_id': native_grant_id, 'native_grant': native_grant})
             calls.append({'controller_type': typ, 'evidence': f'src/{filename}:{line}',
                           'spawn_table_expression': table_expression, 'type_expression': type_expression,
                           'possible_outputs': outputs,
                           'source_key': outputs[0]['source_key'] if len(outputs) == 1 else None,
                           'logic': 'advanced', 'status': 'unresolved',
-                          'candidate_encounters': [p['id'] for p in placements
+                          'candidate_encounters': [p['id'] for p in controllers
                               if p['spawn_table'] == 1 and p['type_id'] == typ],
                           'reason': ('Call-site census requires branch, helper and encounter-lifetime review; '
                                      'not an acquisition witness.')})
+    # A type-level closure terminates even when a phase file can create its
+    # own controller type. These are possible roots, never acquisition paths.
+    roots = {typ: {p['id'] for p in controllers if p['spawn_table'] == 1 and p['type_id'] == typ}
+             for typ in scanned_types}
+    changed = True
+    while changed:
+        changed = False
+        for call in calls:
+            for output in call.get('possible_outputs', []):
+                child = output['type_id']
+                if child in roots:
+                    before = len(roots[child])
+                    roots[child].update(roots[call['controller_type']])
+                    changed |= len(roots[child]) != before
+    for call in calls:
+        call['candidate_root_encounters'] = sorted(roots[call['controller_type']])
+        call['controller_parent_calls'] = sorted({
+            f"{parent['controller_type']}:{parent['evidence']}" for parent in calls
+            if any(output['type_id'] == call['controller_type'] for output in parent.get('possible_outputs', []))})
     for room in native_rooms:
-        room['encounter_controllers'] = [p['id'] for p in placements
+        room['encounter_controllers'] = [p['id'] for p in controllers
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
             and p['type_id'] in ENCOUNTERS]
     generated_statues = []
@@ -304,7 +373,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',
             'rooms': native_rooms, 'placements': placements, 'encounter_calls': calls,
             'reviewed_bindings': dict(sorted(bindings.items())),
-            'generated_statue_slots': generated_statues,
+            'generated_statue_slots': generated_statues, 'spawner_outputs': spawner_outputs,
             'dynamic_grant_types': [{'source_key': key, 'native_grant': spec['default_ability'],
                                     'logic': 'advanced', 'access': 'unresolved'}
                                    for key, spec in enemies.items() if spec['kind'] == 'boss_spawned']}
@@ -321,7 +390,7 @@ def main():
                              json.loads((ROOT / 'data/enemies.json').read_text()))
     args.output.write_text(json.dumps(result, indent=2) + '\n')
     print(f"{len(result['rooms'])} rooms, {len(result['placements'])} placements, "
-          f"{len(result['encounter_calls'])} encounter call sites")
+          f"{len(result['encounter_calls'])} controller/call-site candidate pairs")
 
 
 if __name__ == '__main__':

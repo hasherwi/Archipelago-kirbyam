@@ -18,6 +18,10 @@ def audit(inventory: dict, rooms: dict) -> dict:
         if isinstance(value, dict):
             if 'inventory_id' in value:
                 references.append({'path': path, 'inventory_id': value['inventory_id']})
+            if 'graphs' in value and (
+                'requires_guaranteed_source' in value or 'requires_any_guaranteed_source' in value
+            ):
+                scoped_targets.append({'id': value['id'], 'fail_closed': value.get('fail_closed', False)})
             for key, child in value.items():
                 walk(child, f'{path}/{key}')
         elif isinstance(value, list):
@@ -33,13 +37,11 @@ def audit(inventory: dict, rooms: dict) -> dict:
             compact_requirements.append({'path': path, 'token': value})
 
     walk(rooms, 'rooms')
-    for room in rooms.values():
-        for target in room.get('traversal', {}).get('targets', []):
-            if 'requires_guaranteed_source' in target or 'requires_any_guaranteed_source' in target:
-                scoped_targets.append({'id': target['id'], 'fail_closed': target.get('fail_closed', False)})
-    bound = set(inventory['reviewed_bindings'].values())
-    references = [{'witness_identity': key, 'inventory_id': value}
-                  for key, value in inventory['reviewed_bindings'].items()]
+    references.extend({'witness_identity': key, 'inventory_id': value}
+                      for key, value in inventory['reviewed_bindings'].items())
+    known = {p['id'] for p in inventory['placements'] + inventory['generated_statue_slots']}
+    referenced = {row['inventory_id'] for row in references}
+    bound = known & referenced
     relevant = [p for p in inventory['placements'] if p['source_type'] != 'other_object']
     return {
         'version': 1, 'issue': 1114, 'complete': False,
@@ -48,6 +50,7 @@ def audit(inventory: dict, rooms: dict) -> dict:
         'empty_static_records': sum(not r['placements'] for r in inventory['rooms']),
         'static_placements': len(inventory['placements']),
         'static_types': dict(sorted(Counter(p['source_type'] for p in inventory['placements']).items())),
+        'unknown_inventory_references': sorted(referenced - known),
         'reviewed_inventory_references': len(references), 'distinct_referenced_placements': len(bound),
         'unbound_source_or_encounter_placements': [p['id'] for p in relevant if p['id'] not in bound],
         'encounter_controller_call_pairs': len(inventory['encounter_calls']),
@@ -55,13 +58,14 @@ def audit(inventory: dict, rooms: dict) -> dict:
                                             if row.get('evidence')}),
         'known_dynamic_grant_types': len(inventory['dynamic_grant_types']),
         'generated_statue_slots': len(inventory['generated_statue_slots']),
+        'object_spawner_outputs': len(inventory['spawner_outputs']),
         'compact_requirements_requiring_target_context_review': compact_requirements,
         'policy_scoped_targets': scoped_targets,
         'blockers': [
             'Static presence is complete; acquisition compartments, spawn-state predicates and carry routes are not.',
             ('Encounter call sites are candidates, not a complete dynamic call graph; '
-             'indirect helpers, variable types and lifetime prerequisites need review.'),
-            ('Object-spawner descendants and acquisition/retry routes to the two native '
+             'indirect helpers, phase-specific branches and lifetime prerequisites need review.'),
+            ('Object-spawner output types are decoded; their acquisition/lifetime and routes to the two native '
              'random-statue slots remain unresolved.'),
             ('Legacy ability tokens and policy-scoped fallbacks remain; closing them needs accepted source routes '
              'or established Normal alternatives, not blanket rejection.'),

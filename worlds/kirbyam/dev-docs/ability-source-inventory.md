@@ -29,8 +29,16 @@ cannot justify reaching it.
 
 Encounter source types are rejected from standard room graphs, including when
 introduced through reusable graph parts or source sets. Advanced graphs still
-need an explicit acquisition witness. The encounter census records 118 controller/call-site candidate pairs and 22 known runtime grant types as **unresolved candidates**;
-none are automatically added as usable sources. File hashes identify the local
+need an explicit acquisition witness. The encounter census records 126
+controller/call-site candidate pairs and 22 known runtime grant types as
+**unresolved candidates**; none are automatically added as usable sources.
+All direct-call type expressions
+are decoded as candidate sets, including subtype-dependent Dark Mind stars.
+Raw native grant IDs remain visible when no runtime source key is known.
+The census follows generated controller types, including Titan Head and the
+second Crazy Hand phase, and retains candidate roots. Translation-unit scans
+can include another phase's branch; this is not a certified controller call graph.
+File hashes identify the local
 decompilation inputs; the reference commit identifies the layout reference,
 not a claim that every local source file is unchanged from that commit.
 
@@ -40,6 +48,15 @@ matching. Those slots are recorded separately with native coordinates. A fixed
 selection lasts for that instance; retouch does not redraw the native index.
 Their grants remain unresolved for traversal, rather than turning the union of
 possible selections into guaranteed finite acquisition.
+
+The 37 native object spawners also have separate child prototypes: 31 enemies
+and six minibosses. These include normally non-ability enemies. Their child
+position, subtype, type, configured capacity and destroyed-slot reclamation
+flag come from the controller template and the [pinned native creation code](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455).
+All native templates have capacity one and disable slot reclamation. This does
+not prove acquisition or repeatability across room instances. These unresolved
+prototypes are excluded from traversal references; their miniboss descendants
+are included in the Advanced-only encounter candidate census.
 
 ## Reproduction
 
@@ -65,7 +82,8 @@ lists unbound placements, compact ability tokens and policy-scoped targets.
 Presence alone cannot prove arbitrary room geometry or acquisition. Remaining
 work includes reviewed compartment access/carry for unbound placements;
 encounter branches, indirect spawn helpers and lifetime prerequisites; object
-spawner descendants; random-statue acquisition/retry routes; and systematic replacement of
+spawner activation, acquisition and lifetime; random-statue acquisition/retry
+routes; and systematic replacement of
 legacy permissive gates with accepted source routes or established Normal
 alternatives. `_allow_pending_ability_gate` and unsupported-policy fallback
 behavior are still present. The draft neither invents those witnesses nor

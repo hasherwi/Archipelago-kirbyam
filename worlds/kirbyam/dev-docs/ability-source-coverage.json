@@ -16,6 +16,7 @@
     "random_statue": 1,
     "statue": 95
   },
+  "unknown_inventory_references": [],
   "reviewed_inventory_references": 109,
   "distinct_referenced_placements": 108,
   "unbound_source_or_encounter_placements": [
@@ -1939,10 +1940,11 @@
     "room:957/template:0x088D5E14",
     "room:957/template:0x088D5E38"
   ],
-  "encounter_controller_call_pairs": 118,
+  "encounter_controller_call_pairs": 126,
   "distinct_encounter_call_sites": 66,
   "known_dynamic_grant_types": 22,
   "generated_statue_slots": 2,
+  "object_spawner_outputs": 37,
   "compact_requirements_requiring_target_context_review": [
     {
       "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE/exits/REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
@@ -3593,8 +3595,8 @@
   ],
   "blockers": [
     "Static presence is complete; acquisition compartments, spawn-state predicates and carry routes are not.",
-    "Encounter call sites are candidates, not a complete dynamic call graph; indirect helpers, variable types and lifetime prerequisites need review.",
-    "Object-spawner descendants and acquisition/retry routes to the two native random-statue slots remain unresolved.",
+    "Encounter call sites are candidates, not a complete dynamic call graph; indirect helpers, phase-specific branches and lifetime prerequisites need review.",
+    "Object-spawner output types are decoded; their acquisition/lifetime and routes to the two native random-statue slots remain unresolved.",
     "Legacy ability tokens and policy-scoped fallbacks remain; closing them needs accepted source routes or established Normal alternatives, not blanket rejection."
   ]
 }

@@ -44,6 +44,20 @@ class InventoryDecoderTests(unittest.TestCase):
         with patch.object(extract, 'OBJECT_LISTS', 0):
             self.assertEqual(extract.decode_records(rom([]), 0), [])
 
+    def test_spawner_type_and_capacity_are_not_confused_with_parent_or_flags(self):
+        data = bytearray(36)
+        data[0x14], data[0x15], data[0x22] = 0x39, 3, 1
+        parent = {'id': 'room:1/template:0x08000000', 'template_address': '0x08000000',
+                  'native_room': 1, 'position_pixels': [-12, 304], 'subtype1': 2, 'subtype2': 4}
+        child = extract.spawner_output(data, parent)
+        self.assertEqual((child['type_id'], child['configured_child_capacity']), (0x39, 3))
+        self.assertEqual(child['position_pixels'], [-12, 304])
+        self.assertEqual((child['subtype1'], child['subtype2']), (2, 4))
+        self.assertFalse(child['reclaims_destroyed_slots'])
+        self.assertEqual(child['status'], 'unresolved')
+        data[0x22] = 0
+        self.assertTrue(extract.spawner_output(data, parent)['reclaims_destroyed_slots'])
+
     def test_nested_expressions_are_preserved_not_evaluated(self):
         calls = list(extract.macro_calls('CreateObjTemplateAndObj(a, f(1, 2), (x + y));'))
         self.assertEqual(calls, [(1, ['a', 'f(1, 2)', '(x + y)'])])
@@ -65,9 +79,31 @@ class NativeCandidateTests(unittest.TestCase):
         self.assertEqual(extract.possible_types('kracko.c', 'type', expected_hash, '', names),
                          list(expected_types))
         self.assertEqual(extract.possible_types('kracko.c', 'type', 'changed', '', names), [])
+        star_expression = 'OBJ_DARK_MIND_STAR_FIRE + r3'
+        star_hash = extract.VARIABLE_TYPES['dark_mind.c', star_expression][0]
+        self.assertEqual(extract.possible_types('dark_mind.c', star_expression, star_hash, '', {}),
+                         [0xCB, 0xCC, 0xCD, 0xCE])
+        self.assertEqual(extract.possible_types('dark_mind.c', star_expression, 'changed', '', {}), [])
 
     def test_dark_mind_wrapper_calls_are_not_mistaken_for_the_macro_definition(self):
         text = ('#define Macro_081059A8(obj, xVal, yVal, typeVal, a, b)\n'
                 'Macro_081059A8(obj, 1, 2, OBJ_SHADOW_KIRBY_BOMB, 0, 0);')
         self.assertEqual(list(extract.encounter_calls(text, 'dark_mind.c')),
                          [(2, '1', 'OBJ_SHADOW_KIRBY_BOMB')])
+
+
+class CoverageAuditTests(unittest.TestCase):
+    def test_nested_policy_targets_and_explicit_references_remain_visible(self):
+        audit = importlib.import_module('audit_ability_source_coverage').audit
+        inventory = {'reviewed_bindings': {}, 'rooms': [],
+                     'placements': [{'id': 'native', 'source_type': 'enemy'}],
+                     'encounter_calls': [], 'dynamic_grant_types': [],
+                     'generated_statue_slots': [], 'spawner_outputs': []}
+        rooms = {'room': {'logical_regions': {'sub': {'traversal': {
+            'targets': [{'id': 'nested', 'graphs': {}, 'requires_guaranteed_source': {}}]}}},
+            'sources': [{'inventory_id': 'native'}, {'inventory_id': 'missing'}]}}
+        report = audit(inventory, rooms)
+        self.assertEqual(report['policy_scoped_targets'], [{'id': 'nested', 'fail_closed': False}])
+        self.assertEqual(report['distinct_referenced_placements'], 1)
+        self.assertEqual(report['unknown_inventory_references'], ['missing'])
+        self.assertEqual(report['unbound_source_or_encounter_placements'], [])
