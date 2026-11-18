@@ -51,3 +51,23 @@ are outside this specific contract; no generic Waddle family behavior, safe
 attachment timing, source access or reacquisition is inferred. Existing runtime
 assignments still override native writes. The ordinary room117 payloads are
 unaffected and remain finite objects used for spitting, not copy grants.
+
+
+## Bounded King Golem phase probes
+
+[Eight native observations](generated-king-golem710-phase-observations.json)
+retain both successes and failed controllers. The vanilla 100% health probe
+acquires Wheel from a type32 child after its rolling state, retaining one HP
+through frame3895. The last observed pre-intake source grant is Wheel, followed
+by Kirby's Wheel equipment at3887. This is a configured local acquisition,
+not a source route in the production graph.
+
+The six-HP probe also observes Fighter state writes but dies without Fighter
+acquisition. Later Wheel equipment transitions in that longer probe are not
+credited as new Golem sources: dropped-star recovery is not another finite enemy.
+The gated shuffled/live Ice variants and unowned control die before acquisition
+at3778; the 500% health probe dies at5576. They do not validate the successful
+vanilla prefix under those settings. All eight fixtures use fresh blank batteries
+and preserve the unsuccessful waits, including the initial wrong-facing probe.
+Native phase access, arbitrary branch selection and safe repeatability remain
+unresolved; no new world route or guarantee is installed.

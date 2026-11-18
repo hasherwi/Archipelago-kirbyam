@@ -104,3 +104,31 @@ def test_attached_parasol_parent_grants_keep_the_actual_native_alternatives(kind
         for mode in (1, 2):
             randomized = policy(mode, pool=['Stone']).grant(record['source_key'], lambda _: True, options)
             assert randomized.guaranteed == frozenset({'Stone'})
+
+
+def test_native_wheel_observation_does_not_promote_failed_phase_variants():
+    evidence = json.loads((Path(__file__).parents[1] / 'dev-docs/generated-king-golem710-phase-observations.json').read_text())
+    assert evidence['status'] == 'mechanics_observations_not_safe_route'
+    cases = evidence['cases']
+    assert len(cases) == 8
+    wheel = cases['king-golem710-wheel-phase-onehp']
+    assert wheel['minimum_hp'] == wheel['final']['hp'] == 1
+    assert wheel['final']['ability'] == 4 and wheel['final']['frame'] == 3895
+    assert wheel['equipment_transitions'][0]['frame'] == 3887
+    intake = wheel['intakes'][0]
+    assert intake['last_observed_source']['native_ability'] == 4
+    assert intake['source']['type_id'] == 32
+    assert intake['source']['parent'] == '0x2000054'
+    assert intake['source']['state'] == '0x809c48d'
+    fighter = cases['king-golem710-fighter-filter-sixhp']
+    assert any(row['source']['native_ability'] == 20 for row in fighter['phase_observations'])
+    assert not any(row['ability'] == 20 for row in fighter['equipment_transitions'])
+    assert fighter['final']['hp'] == 0
+    for suffix in ('shuffled', 'unowned', 'live', 'health500'):
+        failed = cases['king-golem710-wheel-phase-' + suffix]
+        assert failed['final']['hp'] == 0 and not failed['equipment_transitions']
+    for case in cases.values():
+        assert case['initial']['ability'] == 0
+        assert case['configured_start'] == [710, 16, 288]
+        assert all(len(case[key]) == 64 for key in ('private_trace_sha256', 'runtime_sha256',
+                                                   'fixture_rom_sha256', 'script_sha256', 'bridge_sha256'))
