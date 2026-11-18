@@ -137,7 +137,7 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
                 from .support.mirra141_history import before_mirra141_targets
                 assert before_mirra141_targets([{'owner': region, 'target': {'region': region, **row}}]) == []
                 continue
-            if row['id'] == 'frozen_825_sound_effects':
+            if row['id'] in {'frozen_825_sound_effects', 'bomb_517_chocolate'}:
                 from .support.mirra141_history import before_mirra141_targets
                 projected, = before_mirra141_targets([{'owner': region, 'target': row}])
                 row = projected['target']

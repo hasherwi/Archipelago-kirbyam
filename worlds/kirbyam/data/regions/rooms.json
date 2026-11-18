@@ -6876,21 +6876,6 @@
           "kind": "block",
           "native_room": 517,
           "location": "MINOR_CHEST_SPRAY_PAINT_12",
-          "requires_guaranteed_source": {
-            "source_key": "WADDLE_DOO",
-            "abilities": [
-              "Beam",
-              "Smash",
-              "Fire",
-              "Missile",
-              "Parasol",
-              "Spark",
-              "Ice",
-              "Sword",
-              "Fighter",
-              "UFO"
-            ]
-          },
           "graphs": {
             "hub2_entry": {
               "version": 1,
@@ -6953,7 +6938,11 @@
                   ],
                   "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              }
             },
             "hub2_smash_entry": {
               "version": 1,
@@ -7562,8 +7551,201 @@
                 "source_key": "WADDLE_DOO",
                 "ability": "UFO"
               }
+            },
+            "hub2_statues_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_statues:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_statues:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_statues:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_statues:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_statues:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_statues:chest"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_591",
+                  "node": "bomb_517_statues:hub2",
+                  "retry_evidence": "docs/traversal-logic.md#ordinary-hub-statue-network; permanent statue retouch before departure uses the existing documented positive-support fairness assumption, not a finite RNG guarantee."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_statues:hub2",
+                  "to": "bomb_517_statues:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-hub2-statue-composition.md; ordinary movement from the reviewed native591 statue compartment through its517 door to the right-hand source approach. Carry the acquired ability; no Doo inhale is required.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_statues:arrival",
+                  "to": "bomb_517_statues:source",
+                  "evidence": "dev-docs/cabbage-hub2-statue-composition.md; ordinary movement from the reviewed native591 statue compartment through its517 door to the right-hand source approach. Carry the acquired ability; no Doo inhale is required."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; complete Smash-specific carry, rising Up+B opens intended F1 at3129, linked F2 then clear by3179. Physical chest57 opens at4421, event0x088CA0B8 maps through actual client to LocationChecks3960511. HP1/6 \u00d7 enemy100/500%, no damage or ability loss. Other providers do not inherit this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_fire_breath",
+                  "allowed_abilities": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; complete Fire-specific carry to (185.9961,120.9961), neutral B for 30 frames. Traveling packet opens F1 at frame 3341, seven linked F2 clear by 3371. Physical chest 57 opens at 4252 and the production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage or ability loss. No other provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_missile_blast",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; complete Missile-specific carry to dry pose (201.9961,88.9961), B for one frame then down-right for 70 frames. Local detonation opens F1 at frame 3771 and linked F2 by 3801. Physical chest 57 opens at 4885; production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage, Missile retained. Tile scan uses +/-24, not damage bounds or piercing flight. No other provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_parasol_swing",
+                  "allowed_abilities": [
+                    "Parasol"
+                  ],
+                  "evidence": "dev-docs/cabbage-parasol-source-witness.md; Complete Parasol-specific corridor swing and carry to the dry right-facing pose (185.9961,120.9961). Active animation 0x35 uses scan bounds (16,-11,48,11), opening F1 (14,7) at frame 3078 and all seven F2 by 3108. Physical chest 57 opens at 3979; the production client captures check 3960511. Four HP 1/6 and enemy health 100/500% positives and matched full-length no-target-swing controls preserve HP and Parasol. No other move or provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Spark"
+                  ],
+                  "evidence": "dev-docs/cabbage-spark-source-witness.md; Complete Spark-specific source corridor clearing and retained carry to dry pose (201.9961,88.9961), using ordinary attached Spark field to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/cabbage-ice-source-witness.md; Complete Ice-specific source corridor clearing and retained carry to dry pose (185.9961,120.9961), using ordinary right-facing traveling Ice breath to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_sword_first_slash",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Complete Sword-specific corridor clearing and no-damage carry to dry pose (185.9961,120.9961), then one ordinary first slash (animation52/header5), not repeated slash or landing wave. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_fighter_first_combo",
+                  "allowed_abilities": [
+                    "Fighter"
+                  ],
+                  "evidence": "dev-docs/cabbage-fighter-source-witness.md; Complete Fighter-specific corridor clearing, short punches and continuous flight to dry pose (185.9961,120.9961), then one ordinary first combo (Kirby animation53/header1, attached animation0x1FA/0). No charged or HP1 wave appears. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_ufo_top_charge",
+                  "allowed_abilities": [
+                    "UFO"
+                  ],
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous UFO-specific corridor whip (2016), obstacle clearing (2201/2272) and carried flight reach dry right-facing pose (185.9961,120.9961). Maximum counter3/animation23 charge releases the player-owned large shot 0x198; its tile scanner, not damage box, reaches F1 (14,7) at 2873 through the wall. Seven F2 cells finish 2903, physical chest57 opens 3345 and the unchanged client emits local check3960511. Four HP1/6 by enemy100/500 positives and full target omissions; separate low/medium wall-stop and bounded no-permission controls. No source refresh, helper, non-source combat, generic range or intermediate-health claim.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                }
+              ]
             }
-          }
+          },
+          "requires_any_guaranteed_source": [
+            {
+              "source_key": "WADDLE_DOO",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            },
+            {
+              "source_key": "STATUE:353906",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            },
+            {
+              "source_key": "STATUE:353901",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            }
+          ]
         }
       ]
     }

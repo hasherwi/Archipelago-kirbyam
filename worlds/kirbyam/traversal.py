@@ -658,6 +658,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
+    raw_grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
     expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
@@ -704,14 +705,26 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 consumed = position.consumed if source.renewable else position.consumed | {identity}
                 grant = (policy.grant_choice(source.source_choices, permitted) if source.source_choices
                          else source_grant(source.source_key, source.native_grants))
-                abilities = grant.guaranteed
+                # Ownership-filtered live pools can expand on later unlocks.
+                # A finite guarantee must survive that expansion; renewable
+                # documented retries below retain the actual runtime pool.
+                raw_key = (source.source_key, source.native_grants)
+                if source.source_choices:
+                    raw_grant = policy.grant_choice(source.source_choices, lambda _: True)
+                else:
+                    if raw_key not in raw_grants:
+                        raw_grants[raw_key] = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                                              if source.native_grants else policy.grant(source.source_key, lambda _: True))
+                    raw_grant = raw_grants[raw_key]
+                bounded = not raw_grant.can_fail and grant.abilities == raw_grant.abilities
+                abilities = grant.guaranteed if bounded else frozenset()
                 if (allow_documented_retries and source.renewable and source.retry_evidence
                         and grant.randomized and grant.abilities):
                     abilities = grant.abilities
                     assumptions.add(source.retry_evidence)
                 for granted_ability in abilities:
                     queue.append(Position(position.node, granted_ability, position.opened, consumed, position.expired, position.active))
-                if not grant.can_fail and grant.abilities and not abilities:
+                if bounded and not grant.can_fail and grant.abilities and not abilities:
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
                     queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired, position.active))

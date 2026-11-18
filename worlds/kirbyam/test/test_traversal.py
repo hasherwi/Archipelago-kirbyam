@@ -139,10 +139,15 @@ def test_mixed_peg_and_wheel_outputs_cannot_be_union_planned() -> None:
     assert not result.reaches("other")
 
 
-def test_gate_filter_turns_random_peg_pool_into_guaranteed_stone() -> None:
-    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=policy(2, pool=["Hammer", "Stone"]),
+def test_runtime_gate_filter_does_not_create_monotone_finite_guarantee() -> None:
+    resolver = policy(2, pool=["Hammer", "Stone"])
+    assert resolver.grant("ROCKY", lambda a: a == "Stone").guaranteed == frozenset({"Stone"})
+    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver,
                  owned=frozenset({"Stone Ability"}))
-    assert any(p.node == "pre" and p.equipped == "Stone" for p in result.positions)
+    assert not result.reaches("post")
+    # Full permissions retain the common capability without choosing an outcome.
+    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver,
+                 owned=frozenset({"Stone Ability", "Hammer Ability"}))
     assert result.reaches("post")
 
 

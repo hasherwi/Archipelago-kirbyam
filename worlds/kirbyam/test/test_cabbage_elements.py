@@ -6,6 +6,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -61,7 +62,7 @@ def test_raw_guarantee_not_permission_filtered(ability, gating, mixed, weight):
     graph = room_traversal_graph(TARGET, f'hub2_{ability.lower()}_entry')
     pool = [ability, 'Missile'] if mixed else [ability]
     resolver = policy(2, pool=pool, weight=weight)
-    assert not rules.target_applies(cabbage_row(), resolver)
+    assert rules.target_applies(cabbage_row(), resolver)  # Native hub statues remain independent.
     for owned in (frozenset(), frozenset({f'{ability} Ability'}),
                   frozenset({f'{ability} Ability', 'Missile Ability'})):
         assert not graph.evaluate(resolver, owned, gating, allow_documented_retries=True).positions
@@ -111,13 +112,13 @@ def test_actual_world_scope(monkeypatch, ability, gating, area_keys, statues, ro
         assert not chest.access_rule(state)
         state.remove(item)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(world.create_item('Missile Ability'), prevent_sweep=True)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(item, prevent_sweep=True)
         assert chest.access_rule(state)
         state.remove(item)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -213,7 +214,7 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({ability})
     starting_count = max(1, count) if ability == 'Ice' else count
     expected = starting_count if ability == 'Ice' or gating and minor_chests else 0
-    assert before == [expected if ability == 'Ice' else 0] and after == [expected]
+    assert before == [expected] and after == [expected]
     starting = [item for item in multiworld.precollected_items[1] if item.name == name]
     assert len(starting) == starting_count
     assert all(item.classification == (ItemClassification.progression if gating and minor_chests
@@ -226,11 +227,11 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
         state.can_reach_region = lambda name, player: name == OWNER
         assert not chest.access_rule(state)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (bool(starting_count) or not gating)
+        assert chest.access_rule(state) is (bool(starting_count) or not gating or statue_alternative_available(multiworld.worlds[1], state))
         for item in starting:
             state.remove(item)
         assert not state.has(name, 1)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(multiworld.worlds[1], state))
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
@@ -298,7 +299,7 @@ def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypa
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (ability == 'Ice' or not gating)
+    assert chest.access_rule(state) is (ability == 'Ice' or not gating or statue_alternative_available(multiworld.worlds[1], state))
     state.collect(multiworld.worlds[1].create_item(f'{ability} Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -319,27 +320,29 @@ def test_reconciliation_does_not_double_collect_progression(monkeypatch, ability
     multiworld.push_precollected(ready)
     for _ in range(2):
         early = world.create_item(name)
-        assert early.classification == (ItemClassification.progression if ability == 'Ice'
-                                        else ItemClassification.useful)
+        assert early.classification == ItemClassification.progression
         multiworld.push_precollected(early)
-    assert multiworld.state.count(name, 1) == (4 if ability == 'Ice' else 1)
+    assert multiworld.state.count(name, 1) == (4 if ability == 'Ice' else 3)
     world.create_regions()
     assert multiworld.state.count(name, 1) == CollectionState(multiworld).count(name, 1) == (4 if ability == 'Ice' else 3)
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
 @pytest.mark.parametrize('pool,weight', [(['Spark', 'Ice'], 0), (['Spark'], 50), (['Ice'], 100)])
-def test_uncertain_policy_keeps_fallback_and_does_not_promote(monkeypatch, ability, pool, weight):
+def test_uncertain_enemy_policy_uses_native_statue_instead_of_fallback(monkeypatch, ability, pool, weight):
     raw = policy(2, pool=pool, weight=weight).policy
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(2, 1, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     item = world.create_item(f'{ability} Ability')
-    assert item.classification == (ItemClassification.progression if ability == 'Ice'
-                                   else ItemClassification.useful)
-    assert not rules.cabbage_element_is_progression(world, ability)
+    assert item.classification == ItemClassification.progression
+    assert rules.cabbage_element_is_progression(world, ability) is (ability == 'Spark')
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
-    assert world.multiworld.get_location(data.locations[CHEST].label, 1).access_rule(state)
+    chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
+    assert not chest.access_rule(state)
+    state.can_reach_region = lambda name, player: name == UPSTREAM
+    state.collect(world.create_item('Spark Ability'), prevent_sweep=True)
+    assert chest.access_rule(state)
 
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
@@ -350,14 +353,7 @@ def test_chocolate_and_remaining_independent_promotion_reasons(monkeypatch, abil
     world = make_world(1, 1, accessibility='minimal')
     assert rules.cabbage_element_is_progression(world, ability)
     assert world.create_item(f'{ability} Ability').classification == ItemClassification.progression
-    get_location = world.multiworld.get_location
-
-    def without_chocolate(name, player):
-        if name == data.locations[CHEST].label:
-            raise KeyError(name)
-        return get_location(name, player)
-
-    monkeypatch.setattr(world.multiworld, 'get_location', without_chocolate)
+    monkeypatch.setitem(data.locations, CHEST, data.locations[CHEST]._replace(source_rom_offset=None))
     assert not rules.cabbage_element_is_progression(world, ability)
     assert rules.goal2_ice_is_progression(world)
     expected = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
@@ -380,7 +376,6 @@ def test_uncertain_chocolate_preserves_independent_early_ice_progression(monkeyp
     for item in items:
         multiworld.push_precollected(item)
     world.create_regions()
-    classification = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
-    assert all(item.classification == classification for item in items)
-    expected = 4 if ability == 'Ice' else 0
+    assert all(item.classification == ItemClassification.progression for item in items)
+    expected = 4 if ability == 'Ice' else 3
     assert multiworld.state.count(items[0].name, 1) == CollectionState(multiworld).count(items[0].name, 1) == expected

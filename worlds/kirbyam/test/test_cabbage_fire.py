@@ -9,6 +9,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available, chocolate_policy_applies, finite_doo_graphs
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..client import KirbyAmClient
 from ..data import data
@@ -44,10 +45,10 @@ def cabbage_row():
 def test_independent_beam_smash_fire_or_policy(mode, pool, weight, ability, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = cabbage_row()
-    assert rules.target_applies(row, resolver) is (ability is not None)
+    assert rules.target_applies(row, resolver) is chocolate_policy_applies(resolver)
     if ability:
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
-                   for g in rules.target_graphs(row, False)]
+                   for g in finite_doo_graphs(row)]
         assert results == [ability == name for name in
                            ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # Carrot now has its own reviewed Fire graph, not a reuse of the517 effect.
@@ -113,7 +114,8 @@ def test_raw_policy_guard_prevents_permission_narrowing(pool, weight, owned, gat
     {'requires_guaranteed_source': {'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Smash', 'Fire', 'Ice']}},
 ])
 def test_target_condition_cannot_spread(update):
-    row = deepcopy(cabbage_row())
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(cabbage_row())
     row.update(update)
     region = row.pop('region')
     with pytest.raises(ValueError, match='applicability'):
@@ -146,14 +148,14 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
         assert not chest.access_rule(state)  # Permission does not supply Hub2 access.
         state.remove(item)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         for wrong in ('Beam Ability', 'Smash Ability'):
             state.collect(world.create_item(wrong), prevent_sweep=True)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(item, prevent_sweep=True)
         assert state.has('Fire Ability', 1) and chest.access_rule(state)
         state.remove(item)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -172,21 +174,21 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
 
 @pytest.mark.parametrize('mode,pool,weight,ability', POLICIES)
 @pytest.mark.parametrize('gating', [0, 1])
-def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool, weight, ability, gating):
+def test_actual_world_uncertain_enemy_policies_use_native_statues(monkeypatch, mode, pool, weight, ability, gating):
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
-    assert chest.access_rule(state) is (ability is None)
+    assert not chest.access_rule(state)
     for name in ('Beam', 'Smash', 'Fire', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
-    assert chest.access_rule(state) is (ability is None)
+    assert not chest.access_rule(state)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert chest.access_rule(state)
     state.remove(world.create_item('Fire Ability'))
-    assert chest.access_rule(state) is (not (ability == 'Fire' and gating))
+    assert chest.access_rule(state)  # Native Spark/Fighter permissions are still owned.
 
 
 @pytest.mark.parametrize('gating,area_keys,health', [(0, 0, 100), (1, 0, 100), (0, 1, 500), (1, 1, 500)])
@@ -222,7 +224,7 @@ def test_full_seed18_fill_uses_actual_policy_and_progression(tmp_path, monkeypat
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating)
+    assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     state.collect(world.create_item('Fire Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -292,4 +294,4 @@ def test_public_evidence_four_positive_and_four_matched_controls():
             assert not run['client_messages'] and all(int(x, 16) == 0 for x in run['event_ring'])
     owners = [(r['id'], key) for r in room_traversal_targets('block') for key, g in r['graphs'].items()
               if any(route.get('capability') == 'bomb_517_fire_breath' for route in g['routes'])]
-    assert owners == [(TARGET, 'hub2_fire_entry')]
+    assert owners == [(TARGET, 'hub2_fire_entry'), (TARGET, 'hub2_statues_entry')]

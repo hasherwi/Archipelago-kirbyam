@@ -98,7 +98,7 @@ class TestRangedCompletionContract(unittest.TestCase):
 
     def test_chocolate_and_sound_effects_remain_separate_or_witnesses(self) -> None:
         rows = {row["id"]: row for row in REPORT["targets"]}
-        self.assertEqual(len(rows["bomb_517_chocolate"]["witnesses"]), 10)
+        self.assertEqual(len(rows["bomb_517_chocolate"]["witnesses"]), 11)
         sound = rows["frozen_825_sound_effects"]
         self.assertEqual(len(sound["witnesses"]), 5)
         self.assertEqual(sound["target_source_conditions"], [])
@@ -137,7 +137,7 @@ class TestRangedCompletionContract(unittest.TestCase):
         target = TARGETS["bomb_138_green"]
         self.assertEqual(status_tool.source_conditions(target), [])
         self.assertNotIn(target["id"], CONTRACT["policy_fallback_targets"])
-        self.assertEqual(REPORT["counts"]["witnesses"], 157)
+        self.assertEqual(REPORT["counts"]["witnesses"], 158)
         self.assertEqual(len(CONTRACT["policy_fallback_targets"]), 3)
         access = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"})
         wrong = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27",

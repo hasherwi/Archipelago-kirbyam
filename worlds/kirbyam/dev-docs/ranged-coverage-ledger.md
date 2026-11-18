@@ -45,7 +45,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (157 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (158 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -673,3 +673,11 @@ Five additional current-patch replays cover the moved-block/timed-puff recipe;
 the no-puff control stays alive and collects nothing. See
 `normal815-traversal-witness.md`. This changes the current local rule to the exact
 Normal target, without asserting global access or a generic block capability.
+
+## Scoped continuation after Chocolate
+
+PR #1116 finishes the Hub2 statue composition for Chocolate. The remaining
+143 action tokens, policy fallbacks and unbound acquisition/encounter contexts
+are tracked in [v1.0.0 follow-up #1122](https://github.com/hasherwi/Archipelago-kirbyam/issues/1122).
+Review readiness of this scoped PR does not mean the full inventory is a proven
+acquisition map or that the outstanding #1114 goal is complete.

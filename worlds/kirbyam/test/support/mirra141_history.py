@@ -1,6 +1,8 @@
 """Reverse only the pinned Mirra additions in frozen historical contracts."""
 from copy import deepcopy
 from .kibble310_history import digest
+from .frosty825_history import before_frosty825_generated
+from .cabbage_statue_history import before_cabbage_statues_target, before_cabbage_statues_catalog
 
 EAST_TARGET = 'mirra_141_east_moonlight'
 EAST_OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT'
@@ -11,10 +13,7 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
-        if row['target']['id'] == 'frozen_825_sound_effects':
-            row = deepcopy(row)
-            assert row['target'].pop('advanced_graphs') == ['generated_ice']
-            assert digest(row['target']['graphs'].pop('generated_ice')) == '951c005dbcb4b76d6718ad4ce4d8847a20758ec485f3245f1e01ab0ccae29058'
+        row = {**row, 'target': before_frosty825_generated(before_cabbage_statues_target(row['target']))}
         if row['target']['id'] == 'normal_815_vitality':
             assert row['owner'] == 'REGION_OLIVE_OCEAN/ROOM_6_CHEST_1'
             assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'f90ff17ad62d31b79812b6281f725386cd2c6665766a9c0b7c6319f6404335d0'
@@ -72,7 +71,7 @@ def before_mirra141_surfaces(rows):
 
 
 def catalog_before_mirra141(catalog):
-    result = deepcopy(catalog)
+    result = before_cabbage_statues_catalog(catalog)
     assert (result['witnesses'], result['variants']) == (157, 314)
     generated = [r for r in result['graphs'] if (r['target'], r['witness']) == ('frozen_825_sound_effects', 'generated_ice')]
     assert digest(generated) == '5c2e2db654b1aa51ff7db9c97c1f058b2fa24c8444afed75914cc3364742eb0a'

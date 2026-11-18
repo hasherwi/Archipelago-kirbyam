@@ -84,6 +84,10 @@ def before_reviewed_fire719_addition(rooms):
     assert graph['routes'][-1]['capability'] == 'bomb_719_fire_breath'
     target['requires_guaranteed_source']['abilities'].remove('Fire')
     target, = [row for row in raw_targets(previous) if row['id'] == 'bomb_517_chocolate']
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    projected = before_cabbage_statues_target(target)
+    target.clear()
+    target.update(projected)
     assert target['requires_guaranteed_source'] == {
         'source_key': 'WADDLE_DOO',
         'abilities': ['Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO']}
@@ -137,8 +141,12 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     # record historical; compare those targets against the separate pinned union.
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     from .support.kibble310_history import before_kibble310
-    current = {t['id']: before_kibble310(t) for t in raw_targets(rooms)}
-    targets = {t['id']: before_kibble310(t) for t in raw_targets(before_reviewed_fire719_addition(rooms))}
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    from .support.frosty825_history import before_frosty825_generated
+    current = {t['id']: before_kibble310(before_frosty825_generated(before_cabbage_statues_target(t)))
+               for t in raw_targets(rooms)}
+    targets = {t['id']: before_kibble310(before_frosty825_generated(t))
+               for t in raw_targets(before_reviewed_fire719_addition(rooms))}
     assert len(e['preserved_target_sha256']) == 37
     for name, sha256 in e['preserved_target_sha256'].items():
         if name in union['main_changed_targets']:
@@ -321,7 +329,7 @@ def test_historical_reconstruction_does_not_mask_cabbage_edits(ability, mutation
     elif mutation == 'route':
         graph['routes'][-1]['allowed_abilities'] = ['Beam']
     elif mutation == 'applicability':
-        target['requires_guaranteed_source']['abilities'].remove(ability)
+        target['requires_any_guaranteed_source'][0]['abilities'].remove(ability)
     else:
         target['graphs']['hub2_entry']['routes'][-1]['allowed_abilities'] = ['Ice']
         previous = before_reviewed_fire719_addition(rooms)

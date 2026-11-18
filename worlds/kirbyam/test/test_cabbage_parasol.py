@@ -10,6 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available, chocolate_policy_applies, finite_doo_graphs
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -46,10 +47,10 @@ def cabbage_row():
 def test_independent_ten_way_or_policy(mode, pool, weight, ability, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = cabbage_row()
-    assert rules.target_applies(row, resolver) is (ability is not None)
+    assert rules.target_applies(row, resolver) is chocolate_policy_applies(resolver)
     if ability:
         results = [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=False)
-                   for g in rules.target_graphs(row, False)]
+                   for g in finite_doo_graphs(row)]
         assert results == [ability == name for name in
                            ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # The same enemy key does not widen Carrot's independently reviewed alternatives.
@@ -119,7 +120,8 @@ def test_raw_policy_guard_prevents_permission_narrowing(pool, weight, owned, gat
     {'requires_guaranteed_source': {'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'Smash', 'Parasol', 'Ice']}},
 ])
 def test_target_condition_cannot_spread(update):
-    row = deepcopy(cabbage_row())
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(cabbage_row())
     row.update(update)
     region = row.pop('region')
     with pytest.raises(ValueError, match='applicability'):
@@ -153,15 +155,15 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
         assert not chest.access_rule(state)  # Permission does not supply Hub2 access.
         state.remove(item)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         for wrong in ('Beam Ability', 'Smash Ability', 'Fire Ability', 'Missile Ability'):
             state.collect(world.create_item(wrong), prevent_sweep=True)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(item, prevent_sweep=True)
         assert state.has('Parasol Ability', 1) is bool(gating)
         assert chest.access_rule(state)
         state.remove(item)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -180,7 +182,7 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
 
 @pytest.mark.parametrize('mode,pool,weight,ability', POLICIES)
 @pytest.mark.parametrize('gating', [0, 1])
-def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool, weight, ability, gating):
+def test_actual_world_uncertain_enemy_policies_use_native_statues(monkeypatch, mode, pool, weight, ability, gating):
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
@@ -189,14 +191,14 @@ def test_actual_world_uncertain_policies_keep_prior_rule(monkeypatch, mode, pool
         ItemClassification.progression if gating and ability == 'Parasol' else ItemClassification.useful)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
-    assert chest.access_rule(state) is (ability is None)
+    assert not chest.access_rule(state)
     for name in ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO'):
         state.collect(world.create_item(f'{name} Ability'), prevent_sweep=True)
-    assert chest.access_rule(state) is (ability is None)
+    assert not chest.access_rule(state)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert chest.access_rule(state)
     state.remove(world.create_item('Parasol Ability'))
-    assert chest.access_rule(state) is (not (ability == 'Parasol' and gating))
+    assert chest.access_rule(state)  # Native Spark/Fighter permissions are still owned.
 
 
 @pytest.mark.parametrize('gating,area_keys,health', [(0, 0, 100), (1, 0, 100), (0, 1, 500), (1, 1, 500)])
@@ -233,7 +235,7 @@ def test_full_seed29_fill_uses_actual_policy_and_progression(tmp_path, monkeypat
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating)
+    assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     state.collect(world.create_item('Parasol Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -296,7 +298,7 @@ def test_full_seed29_start_inventory_is_reconciled_after_regions(
     for item in starting:
         state.remove(item)
     assert not state.has('Parasol Ability', 1)
-    assert chest.access_rule(state) is (not gating)
+    assert chest.access_rule(state) is (not gating or statue_alternative_available(multiworld.worlds[1], state))
 
 
 def test_reconciliation_does_not_recollect_already_progression_parasol(monkeypatch):
@@ -313,9 +315,9 @@ def test_reconciliation_does_not_recollect_already_progression_parasol(monkeypat
     multiworld.push_precollected(ready)
     for _ in range(2):
         early = world.create_item('Parasol Ability')
-        assert early.classification == ItemClassification.useful
+        assert early.classification == ItemClassification.progression
         multiworld.push_precollected(early)
-    assert multiworld.state.count('Parasol Ability', 1) == 1
+    assert multiworld.state.count('Parasol Ability', 1) == 3
     world.create_regions()
     assert multiworld.state.count('Parasol Ability', 1) == 3
     assert CollectionState(multiworld).count('Parasol Ability', 1) == 3
@@ -323,14 +325,11 @@ def test_reconciliation_does_not_recollect_already_progression_parasol(monkeypat
 
 def test_promotion_requires_actual_chest_and_source_policy():
     raw = json.loads(EVIDENCE.read_text())['source_policy']
-    world = SimpleNamespace(player=1, _enemy_copy_ability_policy=raw, _ability_gating_enabled=lambda: True,
+    world = SimpleNamespace(player=1, ENABLE_MINOR_CHESTS=True, _enemy_copy_ability_policy=raw, _ability_gating_enabled=lambda: True,
                             multiworld=SimpleNamespace(get_location=lambda *args: object()))
     assert rules.cabbage_parasol_is_progression(world)
 
-    def absent(*args):
-        raise KeyError('disabled')
-
-    world.multiworld.get_location = absent
+    world.ENABLE_MINOR_CHESTS = False
     assert not rules.cabbage_parasol_is_progression(world)
     world._enemy_copy_ability_policy = None
     assert not rules.cabbage_parasol_is_progression(world)

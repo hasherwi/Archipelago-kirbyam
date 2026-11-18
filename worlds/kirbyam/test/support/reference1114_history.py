@@ -1,10 +1,21 @@
-"""Reverse only reviewed phase-cache and destination-reset oracle extensions.
+"""Reverse only reviewed phase-cache, finite-grant and destination-reset extensions.
 
 The remaining search bytes retain the pre-1114 hash; source expansion stays
 unoptimized. Exact replacements also reject mutations inside these extensions.
 """
 
 REVIEWED_TRANSFERS = (
+    (
+        """            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            bounded = not unrestricted.can_fail and unrestricted.abilities == grant.abilities
+            abilities = grant.guaranteed if bounded else frozenset()
+""",
+        """            abilities = grant.guaranteed
+""",
+    ),
+    ("            if bounded and not grant.can_fail and grant.abilities and not abilities:\n",
+     "            if not grant.can_fail and grant.abilities and not abilities:\n"),
     (
         """    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
 

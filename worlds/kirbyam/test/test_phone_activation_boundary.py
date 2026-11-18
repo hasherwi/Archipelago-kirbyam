@@ -123,6 +123,7 @@ def test_base_catalog_has_no_generic_phone_helper_provider_or_requirement() -> N
     assert targets  # Exercise the real merged catalog, not an empty stand-in.
     for target in targets:
         assert target["kind"] != "phone"
-        for definition in target["graphs"].values():
-            graph = compile_room_graph(definition, sources, area_keys=True, graph_parts=parts)
+        for name, definition in target["graphs"].items():
+            graph = compile_room_graph(definition, sources, area_keys=True, graph_parts=parts,
+                                       advanced=name in target.get("advanced_graphs", ()))
             assert "Phone a Friend" not in graph_items(graph), target["id"]

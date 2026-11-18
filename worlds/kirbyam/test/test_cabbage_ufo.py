@@ -10,6 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import (
@@ -66,7 +67,7 @@ def test_finite_source_and_own_capability(gating, area_keys):
 @pytest.mark.parametrize('pool,weight', [(['UFO', 'Beam'], 0), (['UFO'], 50), (['UFO'], 100), (None, 0)])
 def test_uncertain_raw_policy_is_not_narrowed_by_permission(gating, pool, weight):
     resolver = policy(2, pool=pool, weight=weight)
-    assert not rules.target_applies(cabbage_row(), resolver)
+    assert rules.target_applies(cabbage_row(), resolver)  # Native hub statues remain independent.
     graph = room_traversal_graph(TARGET, 'hub2_ufo_entry')
     for owned in (frozenset(), frozenset({'UFO Ability'}), frozenset({'UFO Ability', 'Beam Ability'})):
         assert not graph.evaluate(resolver, owned, gating, allow_documented_retries=True).positions
@@ -108,13 +109,13 @@ def test_actual_world_scope_and_existing_progression(
         assert not chest.access_rule(state)
         state.remove(item)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(world.create_item('Missile Ability'), prevent_sweep=True)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(item, prevent_sweep=True)
         assert chest.access_rule(state)
         state.remove(item)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -171,7 +172,7 @@ def test_full_seed52_fill_and_start_inventory(tmp_path, monkeypatch, gating, are
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating or bool(count))
+    assert chest.access_rule(state) is (not gating or bool(count) or statue_alternative_available(world, state))
     state.collect(world.create_item('UFO Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -179,7 +180,8 @@ def test_full_seed52_fill_and_start_inventory(tmp_path, monkeypatch, gating, are
 def test_prior_catalog_and_graphs_unchanged():
     doc = document()
     rooms = json.loads((ROOT / 'data/regions/rooms.json').read_text())
-    row = rooms[OWNER]['traversal']['targets'][0]
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(rooms[OWNER]['traversal']['targets'][0])
 
     def digest(value):
         return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
@@ -187,8 +189,7 @@ def test_prior_catalog_and_graphs_unchanged():
     assert len(doc['prior_graphs_sha256']) == 9
     for name, expected in doc['prior_graphs_sha256'].items():
         assert digest(row['graphs'][name]) == expected
-    stripped = deepcopy(rooms)
-    target = stripped[OWNER]['traversal']['targets'][0]
+    target = deepcopy(row)
     target['graphs'].pop('hub2_ufo_entry')
     target['requires_guaranteed_source']['abilities'].remove('UFO')
     # Whole-catalog hash in native evidence is historical after the main merge.
@@ -196,7 +197,7 @@ def test_prior_catalog_and_graphs_unchanged():
     assert digest(target) == '771bf115d82bba1ea3eefa281675049d2354f4d384df9b95bebcaf04e8272cdf'
     owners = [(row['id'], name) for row in room_traversal_targets('block') for name, graph in row['graphs'].items()
               if any(route.get('capability') == CAPABILITY for route in graph['routes'])]
-    assert owners == [(TARGET, 'hub2_ufo_entry')]
+    assert owners == [(TARGET, 'hub2_ufo_entry'), (TARGET, 'hub2_statues_entry')]
 
 
 @pytest.mark.parametrize('mode,pool,weight,accepted', [
@@ -210,8 +211,10 @@ def test_raw_singleton_only_and_ten_separate_or_graphs(mode, pool, weight, accep
     resolver = policy(mode, pool=pool, weight=weight)
     row = cabbage_row()
     names = ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')
-    assert row['requires_guaranteed_source'] == {'source_key': 'WADDLE_DOO', 'abilities': list(names)}
-    assert len(row['graphs']) == 10
+    assert row['requires_any_guaranteed_source'] == [
+        {'source_key': key, 'abilities': list(names)}
+        for key in ('WADDLE_DOO', 'STATUE:353906', 'STATUE:353901')]
+    assert len(row['graphs']) == 11
     owned = frozenset(f'{name} Ability' for name in names)
     graph = room_traversal_graph(TARGET, 'hub2_ufo_entry')
     chest, = graph.required_targets
@@ -219,7 +222,7 @@ def test_raw_singleton_only_and_ten_separate_or_graphs(mode, pool, weight, accep
     if accepted:
         results = [rules.graph_succeeds(g, resolver, owned, gating, retries=False)
                    for g in rules.target_graphs(row, False)]
-        assert results == [False] * 9 + [True]
+        assert results == [False] * 9 + [True, True]  # Native Spark/Fighter statues are independent.
         carrot = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_719_room13')
         assert rules.target_applies(carrot, resolver)
         # No finite Carrot provider leaks from this assignment; late Master still needs its event.
@@ -255,7 +258,8 @@ def test_compiler_and_kernel_preserve_scoped_dry_attack(mutation):
     {'requires_guaranteed_source': {'source_key': 'WADDLE_DOO', 'abilities': ['Beam', 'UFO']}},
 ])
 def test_target_whitelist_cannot_leak_to_another_target_or_subset(update):
-    row = deepcopy(cabbage_row())
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(cabbage_row())
     row.update(update)
     with pytest.raises(ValueError, match='source applicability|applicability condition'):
         _validate_target(row)

@@ -26,6 +26,9 @@ def before_advanced_crash(target: dict[str, Any]) -> dict[str, Any]:
     result = deepcopy(target)
     if result['id'] in MARKERS:
         assert result.pop('advanced_graphs') == MARKERS[result['id']]
+    elif result['id'] == 'frozen_825_sound_effects' and 'generated_ice' in result['graphs']:
+        assert result['advanced_graphs'] == ['generated_ice']
+        assert hashlib.sha256(json.dumps(result['graphs']['generated_ice'], sort_keys=True, separators=(',', ':')).encode()).hexdigest() == '951c005dbcb4b76d6718ad4ce4d8847a20758ec485f3245f1e01ab0ccae29058'
     else:
         assert 'advanced_graphs' not in result
     if result['id'] == 'switch_533_room16':

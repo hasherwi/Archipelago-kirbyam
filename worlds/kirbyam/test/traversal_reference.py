@@ -3,7 +3,8 @@
 Keep its unoptimized source expansion unchanged when adjusting the optimized
 source loop. The main/ranged union adds only the independently tested per-route
 required_equipment guard to this reference. The later Normal110 addition extends
-only exact action validation. #1114 updates the independently tested destination-room
+only exact action validation. The finite-acquisition extension rejects temporary
+permission-filtered guarantees using an independently evaluated unrestricted pool. #1114 updates the independently tested destination-room
 reset transfer: remote and persistent-bank sources retain consumption. The
 unoptimized source expansion remains frozen. No
 source deduplication is copied. The shared value types and pure policy helpers allow exact full-result comparison.
@@ -165,14 +166,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 continue
             consumed = position.consumed if source.renewable else position.consumed | {identity}
             grant = source_grant(source.source_key, source.native_grants)
-            abilities = grant.guaranteed
+            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            bounded = not unrestricted.can_fail and unrestricted.abilities == grant.abilities
+            abilities = grant.guaranteed if bounded else frozenset()
             if (allow_documented_retries and source.renewable and source.retry_evidence
                     and grant.randomized and grant.abilities):
                 abilities = grant.abilities
                 assumptions.add(source.retry_evidence)
             for granted_ability in abilities:
                 queue.append(Position(position.node, granted_ability, position.opened, consumed))
-            if not grant.can_fail and grant.abilities and not abilities:
+            if bounded and not grant.can_fail and grant.abilities and not abilities:
                 # Player receives one of these, not all of them. Retain the
                 # uncertainty: a subsequent edge must work for EVERY outcome.
                 queue.append(Position(position.node, grant.abilities, position.opened, consumed))

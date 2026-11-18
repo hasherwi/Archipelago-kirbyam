@@ -125,9 +125,7 @@ def test_two_finite_occurrences_preserve_runtime_grants_and_permission(mode, poo
              frozenset({'Stone Ability'}) if owned else frozenset())
     result = graph.evaluate(policy(mode=mode, pool=pool, weight=weight), items, gating=gating,
                             allow_documented_retries=True)
-    # Runtime gating filters the live pool before drawing: only owning Stone
-    # makes a zero-failure Stone/Ice pool a singleton. Owning both restores risk.
-    if mode == 2 and pool == ['Stone', 'Ice'] and gating and owned is True:
-        expected = True
+    # Runtime filtering can temporarily leave only Stone, but bounded logic
+    # must survive later permissions expanding the finite source outcome pool.
     # Enabling random retries cannot turn two finite draws into guaranteed Stone.
     assert result.reaches('goal') is bool(expected and (owned or not gating))

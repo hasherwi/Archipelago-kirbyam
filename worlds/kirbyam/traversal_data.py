@@ -384,6 +384,11 @@ def _validate_target(row: Mapping[str, Any]) -> None:
               {"source_key": "SIR_KIBBLE", "ability": "Cutter"}],
              ("switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
               None, "MAJOR_CHEST_MUSTARD_MOUNTAIN")),
+            ([{"source_key": key,
+               "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}
+              for key in ("WADDLE_DOO", "STATUE:353906", "STATUE:353901")],
+             ("bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
+              None, "MINOR_CHEST_SPRAY_PAINT_12")),
         )
         if not any(alternatives == expected and tuple(row.get(key) for key in (
                 "id", "kind", "native_room", "region", "exit", "location")) == target
