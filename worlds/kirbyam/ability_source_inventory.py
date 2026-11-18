@@ -81,6 +81,8 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         raise ValueError('Only a generated prototype can declare generation instances')
     if instance_suffix and record.get('reclaims_destroyed_slots') is False:
         raise ValueError('Non-reclaiming spawner cannot declare additional generation instances')
+    if instance_suffix and record.get('source_type') != 'encounter_spawn':
+        raise ValueError('Only encounter output prototypes support named generation instances')
     key = record['source_key']
     if key is None:
         choices = record.get('possible_source_keys')

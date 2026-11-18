@@ -377,8 +377,10 @@ neither spawns it nor establishes its attack branch or a safe retry.
 
 A graph cannot mix implicit and named occurrences of one prototype, give one
 occurrence multiple consumption identities, or share a consumption identity
-between occurrences. Ordinary placements and non-reclaiming spawners cannot
-use named occurrences to multiply their supply. A finite second occurrence can
+between occurrences. Ordinary placements, fixed random-statue slots and non-reclaiming spawners
+cannot use named occurrences to multiply their supply. Named occurrences are
+restricted to encounter output prototypes; statue revival still requires the
+existing reset/revival contract and never implies a native-selector reroll. A finite second occurrence can
 therefore support reacquisition only after its separately evidenced activation;
 room travel, loss of equipment and reactivating a spent occurrence cannot
 manufacture it. These schema tests install no new world route.

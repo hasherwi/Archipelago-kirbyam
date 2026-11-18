@@ -100,3 +100,11 @@ def test_single_output_non_reclaiming_spawner_cannot_multiply_instances():
             'inventory_id': 'room:121/template:0x088D2898/spawner-output',
             'generation_instance': 'extra', 'instance_evidence': 'invented',
         }, 121, advanced=True)
+
+
+def test_random_statue_slot_cannot_multiply_its_fixed_native_selection():
+    with pytest.raises(ValueError, match='Only encounter output prototypes'):
+        resolve_inventory_source({
+            'inventory_id': 'room:951/template:0x088D5BF8/statue-slot:0',
+            'generation_instance': 'reroll', 'instance_evidence': 'invented',
+        }, 951, advanced=True)

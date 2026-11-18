@@ -13,7 +13,7 @@
     "worlds/kirbyam/data/regions/rooms.json": "478f1cb6e819da7436b14c93428aae070142ab17b4b05e5aae40e7d32fb56591",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
-    "worlds/kirbyam/ability_source_inventory.py": "a8c47df3b55fcc16ad586aa56d3e3942a0ec0072a74446c69062d11b13ebbad5",
+    "worlds/kirbyam/ability_source_inventory.py": "d045c57eae1fc65d2467a2ed4ac42b025471161cf759838a1d4989353d4e6b28",
     "worlds/kirbyam/data/ability_source_inventory.json": "186708ee37c88ea69e537ed4aad24d33c92eaa3b26200594cedd5f7c6b043e5f"
   },
   "witnesses": 150,
