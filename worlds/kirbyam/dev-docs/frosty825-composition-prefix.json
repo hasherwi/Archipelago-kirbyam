@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "scope": "Mechanical composition review, with fresh finite-acquisition prefix and separately qualified retained-Ice suffix. Different controller/RNG lineages; no complete joined replay claimed.",
+  "inventory_id": "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+  "cases": [
+    {
+      "health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 1729,
+      "audited_frames": 645,
+      "rooms": [
+        825
+      ],
+      "player_hp_observed": 1,
+      "endpoint": {
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "ability": 2
+      },
+      "boss": {
+        "template": "0x88cd3f0",
+        "type_id": 56,
+        "hp": 30,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371"
+      },
+      "waddle_template": "0x088CD318",
+      "waddle_live_observations": 0,
+      "waddle_room_bank_bit": 1,
+      "waddle_bit_clear_in_all_four_slots": true,
+      "mechanisms_unchanged": [
+        {
+          "template": "0x88cd3cc",
+          "type_id": 119,
+          "state": "0x811d509",
+          "flags": "0x12018f48",
+          "x": 280.0,
+          "y": 72.0
+        },
+        {
+          "template": "0x88cd33c",
+          "type_id": 113,
+          "state": "0x811b5b9",
+          "flags": "0x12408942",
+          "x": 600.0,
+          "y": 112.0
+        },
+        {
+          "template": "0x88cd360",
+          "type_id": 109,
+          "state": "0x8119981",
+          "flags": "0x12608002",
+          "x": 656.0,
+          "y": 145.99609375
+        }
+      ],
+      "prefix_audit_sha256": "02f96c07cc23cee75ab0af1ed8de94c25c2bebd5c00ff66ea344bbd6a290bff2",
+      "script_sha256": "af16aa80c596900414ba93ea47e97e2412a80caa3d6e15ebe06b4656e6228b5b",
+      "production_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "runtime_write_frames": [
+        1085
+      ],
+      "scope": "Fresh configured lower-arrival prefix only; no new complete combat/chest replay.",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": false
+    },
+    {
+      "health_percent": 500,
+      "first_frame": 1085,
+      "last_frame": 1729,
+      "audited_frames": 645,
+      "rooms": [
+        825
+      ],
+      "player_hp_observed": 1,
+      "endpoint": {
+        "x": 214.6171875,
+        "y": 120.99609375,
+        "ability": 2
+      },
+      "boss": {
+        "template": "0x88cd3f0",
+        "type_id": 56,
+        "hp": 150,
+        "x": 276.0,
+        "y": 106.99609375,
+        "state": "0x80cd371"
+      },
+      "waddle_template": "0x088CD318",
+      "waddle_live_observations": 0,
+      "waddle_room_bank_bit": 1,
+      "waddle_bit_clear_in_all_four_slots": true,
+      "mechanisms_unchanged": [
+        {
+          "template": "0x88cd3cc",
+          "type_id": 119,
+          "state": "0x811d509",
+          "flags": "0x12018f48",
+          "x": 280.0,
+          "y": 72.0
+        },
+        {
+          "template": "0x88cd33c",
+          "type_id": 113,
+          "state": "0x811b5b9",
+          "flags": "0x12408942",
+          "x": 600.0,
+          "y": 112.0
+        },
+        {
+          "template": "0x88cd360",
+          "type_id": 109,
+          "state": "0x8119981",
+          "flags": "0x12608002",
+          "x": 656.0,
+          "y": 145.99609375
+        }
+      ],
+      "prefix_audit_sha256": "1f491867653eb88d1cb5c7ceaa08f97eba47dada064eb37c509b25adfc84458f",
+      "script_sha256": "af16aa80c596900414ba93ea47e97e2412a80caa3d6e15ebe06b4656e6228b5b",
+      "production_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "runtime_write_frames": [
+        1085
+      ],
+      "scope": "Fresh configured lower-arrival prefix only; no new complete combat/chest replay.",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": false
+    }
+  ],
+  "suffix_addendum_sha256": "a8407e9ce462385f260f5ef06b08cbcf0b719aae96b5d6527a8981e685840bd6",
+  "native_room_bit_predicate": "code_080023A4.c:sub_080027E8; bank0, bit1, bit_clear; original Waddle template0x088CD318",
+  "limitations": [
+    "Not arbitrary room825 entry, generic favorable attack branch, repeatability, reset or revived source.",
+    "Player damage or failed controller timing is not a traversal exclusion.",
+    "Current inference joins equivalent equipment/arena/resource conditions, not identical native RNG/controller state."
+  ],
+  "status": "prefix_resource_audit_only",
+  "installed_world_route": false
+}

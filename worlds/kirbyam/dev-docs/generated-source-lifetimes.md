@@ -458,3 +458,22 @@ automatic lifetime transfer is installed by this metadata.
 ### Spawner slot exhaustion remains unsafe to assume
 
 The [pinned native assembly](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L340-L441), SHA256 `3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47`, does not return when all32 bitmap slots are occupied. It continues template construction at index32. If `CreateObject` returns NULL and a tracked slot is empty, the counter still increments. These conditional control-flow facts do not establish safe memory behavior or allocation recovery. All37 current spawner prototypes remain finite, non-reclaiming and uncertified under exhaustion; no retry or usable child is inferred.
+
+
+## Room825 composition resource audit
+
+`frosty825-composition-prefix.json` adds two fresh, read-only state audits of the
+existing small-cube acquisition prefix at 100/500% enemy health. The original
+Waddle template0x088CD318 is never live during the prefix, and its room-bank bit1
+remains clear in all four slots for every recorded frame. The original scroll
+lock, timed door and switch retain their callbacks, flags and positions. At the
+endpoint Kirby holds Ice in the arena and the original Frosty remains at full
+30/150HP. These facts address resource compatibility with the separately
+reviewed retained-Ice fight and final Waddle projectile suffix.
+
+They do not complete the join's attack-branch qualification. The native small
+cube remains a conditional output; large-cube acquisition and the conditions
+for selecting the joined branch remain unresolved. The proposed graph is not
+installed as automatic world access. Earlier controller failures or player
+damage are not used to deny the route. No health prerequisite, renewed Waddle,
+reset, revival or retry is inferred from this audit.
