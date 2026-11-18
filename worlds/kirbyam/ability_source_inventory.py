@@ -43,6 +43,45 @@ def generation_instance_suffix(source: Mapping[str, Any]) -> str:
     return '/instance:' + instance
 
 
+def inventory_alternative_group(source: Mapping[str, Any]) -> Mapping[str, Any] | None:
+    """Resolve an exhaustive native selection without multiplying its finite supply."""
+    if 'inventory_alternatives' not in source:
+        return None
+    identities = source['inventory_alternatives']
+    if (not isinstance(identities, list) or len(identities) < 2
+            or any(not isinstance(identity, str) for identity in identities)
+            or len(set(identities)) != len(identities) or 'inventory_id' in source):
+        raise ValueError('Native alternatives require distinct exhaustive inventory references')
+    inventory = source_inventory()
+    if any(identity not in inventory for identity in identities):
+        raise ValueError('Unknown native alternative inventory reference')
+    records = [inventory[identity] for identity in identities]
+    if any(record.get('source_type') != 'encounter_spawn' or record.get('logic') != 'advanced'
+           for record in records):
+        raise ValueError('Native alternatives require Advanced encounter outputs')
+    first = records[0]
+    group = first.get('exclusive_generation_group')
+    if (not group or group.get('outputs_per_call') != 1
+            or sorted(identities) != group.get('members')
+            or any(record.get('exclusive_generation_group') != group for record in records)):
+        raise ValueError('Native alternatives must cover one complete exclusive generation group')
+    if any((record.get('native_room'), record.get('parent_placement'), record.get('logic')) !=
+           (first['native_room'], first['parent_placement'], first['logic']) for record in records):
+        raise ValueError('Native alternatives cannot combine different encounters or rooms')
+    if any(record.get('source_key') is None or record.get('native_grant_states') for record in records):
+        raise ValueError('Unresolved native alternative grants cannot be selected favorably')
+    if not isinstance(source.get('alternatives_acquisition_evidence'), str) or not source['alternatives_acquisition_evidence'].strip():
+        raise ValueError('Native alternatives require acquisition evidence for every branch')
+    if source.get('renewable'):
+        raise ValueError('Exclusive native outputs have no reviewed repeatability contract')
+    keys = sorted({record['source_key'] for record in records})
+    result = {**first, 'id': group['id']}
+    if len(keys) > 1:
+        result['source_key'] = None
+        result['possible_source_keys'] = keys
+    return result
+
+
 def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
                              *, advanced: bool = False, require_inventory: bool = False) -> dict[str, Any]:
     """Join a reviewed compartment witness to physical facts without adding access.
@@ -53,7 +92,9 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
     """
     result = dict(source)
     instance_suffix = generation_instance_suffix(result)
-    identity = result.pop('inventory_id', None)
+    alternative = inventory_alternative_group(result)
+    result.pop('inventory_alternatives', None)
+    identity = result.pop('inventory_id', None) if alternative is None else alternative['id']
     if identity is None:
         identity = _inventory_payload()['reviewed_bindings'].get(f"{native_room}:{source.get('id')}")
     if identity is None:
@@ -70,7 +111,7 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
                 raise ValueError(f"Production ability source requires a physical inventory reference: "
                                  f"room={native_room}, id={source.get('id')}, key={source.get('source_key')}")
         return result  # Isolated solver fixtures and the special Master contract.
-    record = source_inventory().get(identity)
+    record = source_inventory().get(identity) if alternative is None else alternative
     if record is None:
         raise ValueError(f'Unknown physical ability placement: {identity}')
     if record['native_room'] != native_room:

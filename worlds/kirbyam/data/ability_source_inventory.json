@@ -149189,6 +149189,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:230/template:0x088C08B4/choice:mr_frosty_cube_size",
+        "members": [
+          "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149275,6 +149287,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:740/template:0x088BD6F8/choice:mr_frosty_cube_size",
+        "members": [
+          "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149366,6 +149390,18 @@
         "record": "dev-docs/generated-frosty825-native-acceptance.json",
         "compartment": "room825 lower arrival to upper arena, live original Frosty",
         "scope": "Nine matched 1 HP cases; conditional small-cube acquisition only. Other attack timings and safe combat/carry suffix remain uncertified."
+      },
+      "exclusive_generation_group": {
+        "id": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "members": [
+          "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149456,7 +149492,19 @@
       "bounded_native_evidence": {
         "record": "dev-docs/generated-frosty-native-acceptance.json",
         "compartment": "room955 arena, live original Frosty",
-        "scope": "Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route."
+        "scope": "Configured Boss Endurance room fixture; observed 6 HP arrival and one hit before finite small-cube acquisition. Damage is execution evidence, not a health prerequisite. Adventure access is not established."
+      },
+      "exclusive_generation_group": {
+        "id": "room:955/template:0x088D5CD0/choice:mr_frosty_cube_size",
+        "members": [
+          "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       },
       "world_access": {
         "status": "outside_adventure",
@@ -149549,6 +149597,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:230/template:0x088C08B4/choice:mr_frosty_cube_size",
+        "members": [
+          "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149635,6 +149695,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:740/template:0x088BD6F8/choice:mr_frosty_cube_size",
+        "members": [
+          "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149721,6 +149793,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "members": [
+          "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       }
     },
     {
@@ -149807,6 +149891,18 @@
             "room reset or revival"
           ]
         }
+      },
+      "exclusive_generation_group": {
+        "id": "room:955/template:0x088D5CD0/choice:mr_frosty_cube_size",
+        "members": [
+          "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166",
+          "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:765/type:167"
+        ],
+        "source_sha256": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+        "constructor": "mr_frosty.c:sub_080CCEE0",
+        "outputs_per_call": 1,
+        "selection": "RandLessThan3() nonzero selects166; zero selects167",
+        "repeatability": "not_certified"
       },
       "world_access": {
         "status": "outside_adventure",

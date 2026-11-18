@@ -145,9 +145,9 @@ ownership uses only the production client's guarded startup configuration.
 
 This is conditional acquisition evidence, not an installed target. Five tested
 arrival delays fail before acquisition; the previously reviewed Ice combat
-controller also fails to compose safely with this new lineage. No large-cube
-acquisition, generic attack selection, combat suffix, repeatability or reset
-guarantee follows from these observations.
+controller also fails to compose safely with this new lineage. These earlier observations alone do not establish large-cube acquisition,
+generic attack selection, combat suffix, repeatability or reset. The later
+matched large-cube controls below extend acquisition evidence.
 
 All eight Frosty cube candidates now include the source-hash-bound conditional
 native contract. The wind-up callback chooses one of three attack callbacks,
@@ -477,3 +477,27 @@ for selecting the joined branch remain unresolved. The proposed graph is not
 installed as automatic world access. Earlier controller failures or player
 damage are not used to deny the route. No health prerequisite, renewed Waddle,
 reset, revival or retry is inferred from this audit.
+
+
+## Exclusive cube outputs and large-cube controls
+
+The inventory now groups the small and large Frosty cubes under their single
+native constructor call: one output per call, four parent placements, eight
+branch records. A graph may bind the exhaustive group with explicit acquisition
+and generation evidence. The common compiler gives the group one finite
+consumption identity, rejects favorable subsets and overlapping member aliases,
+and retains Advanced-only activation and expiry. It does not grant access from
+inventory membership or certify repeated calls/reset. Runtime policy still
+requires a guaranteed grant across the native alternatives.
+
+`frosty825-large-cube-controls.json` adds six matched fresh prefixes from the
+original lower entrance. All 937 audited frames have identical player position,
+room and HP across controls. The single swallowed object is native type167,
+attached to the original Frosty, at frames1933–1944. At frame2021 the vanilla and
+unowned cases remain Normal, wrong assignment yields Beam, and assigned owned
+or singleton live-random Ice yields Ice. Original Frosty remains at full30HP;
+the final Waddle's spawn bit stays clear in all four room slots throughout.
+The observed one hit is controller execution, not a minimum-health condition.
+These controls establish both cube sizes as physically acquirable. They do not
+establish a new complete chest replay or a finite bound on idle attack choice.
+No new world graph is installed by this evidence batch.

@@ -12,7 +12,8 @@ from typing import Any, Mapping
 
 from Options import Accessibility
 
-from .ability_source_inventory import generation_instance_suffix, resolve_inventory_source
+from .ability_source_inventory import (generation_instance_suffix, inventory_alternative_group,
+                                       resolve_inventory_source)
 from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
@@ -112,7 +113,8 @@ def compile_room_graph(
     identity_placements: dict[str, str] = {}
     prototype_instance_modes: dict[str, bool] = {}
     for source in sources:
-        inventory_id = source.get("inventory_id")
+        alternative = inventory_alternative_group(source)
+        inventory_id = source.get("inventory_id") if alternative is None else alternative["id"]
         if inventory_id is not None:
             suffix = generation_instance_suffix(source)
             explicit = bool(suffix)
@@ -126,6 +128,16 @@ def compile_room_graph(
             if identity in identity_placements and identity_placements[identity] != physical_id:
                 raise ValueError("Different physical sources cannot share one consumption identity")
             identity_placements[identity] = physical_id
+            members = ([inventory_id] if alternative is None else
+                       alternative['exclusive_generation_group']['members'])
+            for member in members:
+                if member in prototype_instance_modes and prototype_instance_modes[member] != explicit:
+                    raise ValueError("Generated alternatives cannot mix implicit and explicit instances")
+                prototype_instance_modes[member] = explicit
+                member_id = member + suffix
+                if member_id in physical_identities and physical_identities[member_id] != identity:
+                    raise ValueError("Exclusive native alternatives cannot multiply physical supply")
+                physical_identities[member_id] = identity
             physical_identities[physical_id] = identity
             source["id"] = identity
     expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced,

@@ -18,6 +18,9 @@ def audit(inventory: dict, rooms: dict) -> dict:
         if isinstance(value, dict):
             if 'inventory_id' in value:
                 references.append({'path': path, 'inventory_id': value['inventory_id']})
+            for identity in value.get('inventory_alternatives', []):
+                references.append({'path': path, 'inventory_id': identity,
+                                   'exclusive_alternative': True})
             if 'graphs' in value and (
                 'requires_guaranteed_source' in value or 'requires_any_guaranteed_source' in value
             ):

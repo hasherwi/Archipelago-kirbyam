@@ -980,7 +980,24 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             record['bounded_native_evidence'] = {
                 'record': 'dev-docs/generated-frosty-native-acceptance.json',
                 'compartment': 'room955 arena, live original Frosty',
-                'scope': 'Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route.'}
+                'scope': 'Configured Boss Endurance room fixture; observed 6 HP arrival and one hit before finite small-cube acquisition. Damage is execution evidence, not a health prerequisite. Adventure access is not established.'}
+    # One native constructor call chooses exactly one size, not two available cubes.
+    cube_groups = {}
+    for record in encounter_sources:
+        if (record.get('native_contract', {}).get('generation_function') == 'sub_080CCEE0'
+                and record['type_id'] in (166, 167)):
+            cube_groups.setdefault(record['parent_placement'], []).append(record)
+    for parent, choices in cube_groups.items():
+        if {r['type_id'] for r in choices} != {166, 167} or len(choices) != 2:
+            raise ValueError('Frosty size selection requires both exclusive native branches')
+        group = {'id': parent + '/choice:mr_frosty_cube_size',
+                 'members': sorted(r['id'] for r in choices),
+                 'source_sha256': source_hashes['src/mr_frosty.c'],
+                 'constructor': 'mr_frosty.c:sub_080CCEE0', 'outputs_per_call': 1,
+                 'selection': 'RandLessThan3() nonzero selects166; zero selects167',
+                 'repeatability': 'not_certified'}
+        for record in choices:
+            record['exclusive_generation_group'] = group
     static_parents = {record['id']: record for record in placements}
     for record in encounter_sources:
         selection = dark_mind_template_star_selection(static_parents.get(record['parent_placement'], {}),
