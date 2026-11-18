@@ -133,3 +133,19 @@ Native phase-dependent grants are now explicit for all22 Golem records; the ROM
 table default is not assumed to describe every attack state. See
 `native-phase-grants.md`. Phase alternatives preserve uncertainty in vanilla,
 while eligible shuffled/live behavior retains the production runtime semantics.
+
+### AP room and subroom coverage
+
+`ap_region_inventory` explicitly enumerates all 354 declared AP room/compartment
+records, including 33 generated `__LOGIC__` subregions. There are 263 direct
+native door-list joins, 33 joins through an explicitly declared logical parent,
+and 58 unresolved mappings. An empty `native_rooms` list means **unknown mapping**,
+not an empty physical room. Native empty object lists remain separately recorded
+in `rooms`.
+
+A parent/native-room join does not assign its enemies to every compartment.
+Compartment placement membership remains unresolved until the existing reviewed
+source bindings and acquisition graphs establish it. In particular, similarly
+named legacy regions such as `ROOM_1_24_UPPER` do not inherit the base region's
+sources or the Hub3 entry merely because their names share a prefix. These
+coverage rows add no access rule, carry route, grant or renewable source.

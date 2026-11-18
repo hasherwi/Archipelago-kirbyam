@@ -17096,6 +17096,3078 @@
       "encounter_sources": []
     }
   ],
+  "ap_region_inventory": [
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "parent_region": null,
+      "native_rooms": [
+        523
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "parent_region": null,
+      "native_rooms": [
+        530
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "parent_region": null,
+      "native_rooms": [
+        529
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "native_rooms": [
+        529
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "parent_region": null,
+      "native_rooms": [
+        512
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_05",
+      "parent_region": null,
+      "native_rooms": [
+        511
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+      "parent_region": null,
+      "native_rooms": [
+        517
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_07",
+      "parent_region": null,
+      "native_rooms": [
+        514
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "parent_region": null,
+      "native_rooms": [
+        501
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+      "parent_region": null,
+      "native_rooms": [
+        510
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "parent_region": null,
+      "native_rooms": [
+        509
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "parent_region": null,
+      "native_rooms": [
+        508
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_12",
+      "parent_region": null,
+      "native_rooms": [
+        528
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "parent_region": null,
+      "native_rooms": [
+        513
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "parent_region": null,
+      "native_rooms": [
+        527
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "parent_region": null,
+      "native_rooms": [
+        515
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__FROM_3_13",
+      "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "native_rooms": [
+        515
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
+      "parent_region": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "native_rooms": [
+        515
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_16",
+      "parent_region": null,
+      "native_rooms": [
+        500
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        516
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "parent_region": null,
+      "native_rooms": [
+        531
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+      "parent_region": null,
+      "native_rooms": [
+        191
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+      "parent_region": null,
+      "native_rooms": [
+        591
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3",
+      "parent_region": null,
+      "native_rooms": [
+        592
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+      "parent_region": null,
+      "native_rooms": [
+        404
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_02",
+      "parent_region": null,
+      "native_rooms": [
+        427
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_03",
+      "parent_region": null,
+      "native_rooms": [
+        425
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_04",
+      "parent_region": null,
+      "native_rooms": [
+        409
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_05",
+      "parent_region": null,
+      "native_rooms": [
+        408
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+      "parent_region": null,
+      "native_rooms": [
+        401
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_07",
+      "parent_region": null,
+      "native_rooms": [
+        407
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+      "parent_region": null,
+      "native_rooms": [
+        411
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+      "parent_region": null,
+      "native_rooms": [
+        405
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_10",
+      "parent_region": null,
+      "native_rooms": [
+        418
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_11",
+      "parent_region": null,
+      "native_rooms": [
+        414
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "parent_region": null,
+      "native_rooms": [
+        402
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "parent_region": null,
+      "native_rooms": [
+        419
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_14",
+      "parent_region": null,
+      "native_rooms": [
+        415
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_15",
+      "parent_region": null,
+      "native_rooms": [
+        422
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_16",
+      "parent_region": null,
+      "native_rooms": [
+        424
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_17",
+      "parent_region": null,
+      "native_rooms": [
+        423
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_18",
+      "parent_region": null,
+      "native_rooms": [
+        421
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_19",
+      "parent_region": null,
+      "native_rooms": [
+        416
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_20",
+      "parent_region": null,
+      "native_rooms": [
+        400
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        417
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+      "parent_region": null,
+      "native_rooms": [
+        406
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+      "parent_region": null,
+      "native_rooms": [
+        403
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_01",
+      "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+      "native_rooms": [
+        403
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2__LOGIC__ENTRY_FROM_9_09",
+      "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_2",
+      "native_rooms": [
+        403
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
+      "parent_region": null,
+      "native_rooms": [
+        426
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        413
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        420
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        490
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        412
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "parent_region": null,
+      "native_rooms": [
+        122
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_02",
+      "parent_region": null,
+      "native_rooms": [
+        120
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "parent_region": null,
+      "native_rooms": [
+        121
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_04",
+      "parent_region": null,
+      "native_rooms": [
+        226
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "parent_region": null,
+      "native_rooms": [
+        170
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "native_rooms": [
+        170
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_06",
+      "parent_region": null,
+      "native_rooms": [
+        181
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "parent_region": null,
+      "native_rooms": [
+        719
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_08",
+      "parent_region": null,
+      "native_rooms": [
+        714
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_09",
+      "parent_region": null,
+      "native_rooms": [
+        735
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_10",
+      "parent_region": null,
+      "native_rooms": [
+        736
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_11",
+      "parent_region": null,
+      "native_rooms": [
+        737
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_12",
+      "parent_region": null,
+      "native_rooms": [
+        600
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "parent_region": null,
+      "native_rooms": [
+        734
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "native_rooms": [
+        734
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
+      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "native_rooms": [
+        734
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "native_rooms": [
+        734
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP",
+      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
+      "native_rooms": [
+        734
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "parent_region": null,
+      "native_rooms": [
+        720
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_15",
+      "parent_region": null,
+      "native_rooms": [
+        730
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_16",
+      "parent_region": null,
+      "native_rooms": [
+        733
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_17",
+      "parent_region": null,
+      "native_rooms": [
+        717
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_18",
+      "parent_region": null,
+      "native_rooms": [
+        716
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        738
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+      "parent_region": null,
+      "native_rooms": [
+        739
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+      "parent_region": null,
+      "native_rooms": [
+        732
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        193
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CARROT_CASTLE/ROOM_5_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        731
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_COPY_ABILITY_ROOM/MAIN",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+      "parent_region": null,
+      "native_rooms": [
+        708
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+      "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+      "native_rooms": [
+        708
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "parent_region": null,
+      "native_rooms": [
+        740
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+      "parent_region": null,
+      "native_rooms": [
+        706
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "parent_region": null,
+      "native_rooms": [
+        707
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+      "parent_region": null,
+      "native_rooms": [
+        702
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_06",
+      "parent_region": null,
+      "native_rooms": [
+        744
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
+      "parent_region": null,
+      "native_rooms": [
+        709
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "parent_region": null,
+      "native_rooms": [
+        704
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+      "parent_region": null,
+      "native_rooms": [
+        711
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+      "parent_region": null,
+      "native_rooms": [
+        700
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "parent_region": null,
+      "native_rooms": [
+        743
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
+      "parent_region": null,
+      "native_rooms": [
+        180
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "parent_region": null,
+      "native_rooms": [
+        712
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "parent_region": null,
+      "native_rooms": [
+        741
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "parent_region": null,
+      "native_rooms": [
+        742
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
+      "parent_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "native_rooms": [
+        742
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+      "parent_region": null,
+      "native_rooms": [
+        144
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+      "parent_region": null,
+      "native_rooms": [
+        145
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+      "parent_region": null,
+      "native_rooms": [
+        146
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+      "parent_region": null,
+      "native_rooms": [
+        147
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "parent_region": null,
+      "native_rooms": [
+        149
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        710
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+      "parent_region": null,
+      "native_rooms": [
+        195
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        745
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        148
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        790
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        705
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "parent_region": null,
+      "native_rooms": [
+        539
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "parent_region": null,
+      "native_rooms": [
+        540
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "parent_region": null,
+      "native_rooms": [
+        541
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_04",
+      "parent_region": null,
+      "native_rooms": [
+        304
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "parent_region": null,
+      "native_rooms": [
+        321
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "native_rooms": [
+        321
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "parent_region": null,
+      "native_rooms": [
+        544
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+      "parent_region": null,
+      "native_rooms": [
+        545
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+      "parent_region": null,
+      "native_rooms": [
+        546
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "parent_region": null,
+      "native_rooms": [
+        308
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+      "parent_region": null,
+      "native_rooms": [
+        316
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "parent_region": null,
+      "native_rooms": [
+        322
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "parent_region": null,
+      "native_rooms": [
+        315
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "parent_region": null,
+      "native_rooms": [
+        323
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "native_rooms": [
+        323
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "parent_region": null,
+      "native_rooms": [
+        300
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "parent_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "native_rooms": [
+        300
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+      "parent_region": null,
+      "native_rooms": [
+        533
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+      "parent_region": null,
+      "native_rooms": [
+        325
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "parent_region": null,
+      "native_rooms": [
+        317
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "parent_region": null,
+      "native_rooms": [
+        312
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+      "parent_region": null,
+      "native_rooms": [
+        313
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        324
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+      "parent_region": null,
+      "native_rooms": [
+        310
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        547
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        326
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        390
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        318
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_01",
+      "parent_region": null,
+      "native_rooms": [
+        130
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_02",
+      "parent_region": null,
+      "native_rooms": [
+        131
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_03",
+      "parent_region": null,
+      "native_rooms": [
+        826
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "parent_region": null,
+      "native_rooms": [
+        132
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_05",
+      "parent_region": null,
+      "native_rooms": [
+        133
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
+      "native_rooms": [
+        133
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07",
+      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
+      "native_rooms": [
+        133
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
+      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
+      "native_rooms": [
+        133
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "parent_region": null,
+      "native_rooms": [
+        134
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "parent_region": null,
+      "native_rooms": [
+        827
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "parent_region": null,
+      "native_rooms": [
+        828
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_09",
+      "parent_region": null,
+      "native_rooms": [
+        823
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "parent_region": null,
+      "native_rooms": [
+        811
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "parent_region": null,
+      "native_rooms": [
+        829
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "parent_region": null,
+      "native_rooms": [
+        814
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_12__LOGIC__UPPER_LEFT",
+      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "native_rooms": [
+        814
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_13",
+      "parent_region": null,
+      "native_rooms": [
+        824
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT",
+      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_13",
+      "native_rooms": [
+        824
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_14",
+      "parent_region": null,
+      "native_rooms": [
+        831
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_15",
+      "parent_region": null,
+      "native_rooms": [
+        551
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_16",
+      "parent_region": null,
+      "native_rooms": [
+        553
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_17",
+      "parent_region": null,
+      "native_rooms": [
+        832
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_18",
+      "parent_region": null,
+      "native_rooms": [
+        830
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_19",
+      "parent_region": null,
+      "native_rooms": [
+        810
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_20",
+      "parent_region": null,
+      "native_rooms": [
+        802
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_21",
+      "parent_region": null,
+      "native_rooms": [
+        819
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_22",
+      "parent_region": null,
+      "native_rooms": [
+        821
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_23",
+      "parent_region": null,
+      "native_rooms": [
+        800
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        822
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+      "parent_region": null,
+      "native_rooms": [
+        815
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+      "parent_region": null,
+      "native_rooms": [
+        816
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        135
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        825
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        890
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+      "parent_region": null,
+      "native_rooms": [
+        211
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+      "parent_region": null,
+      "native_rooms": [
+        202
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+      "parent_region": null,
+      "native_rooms": [
+        208
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_04",
+      "parent_region": null,
+      "native_rooms": [
+        222
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "parent_region": null,
+      "native_rooms": [
+        210
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "native_rooms": [
+        210
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "parent_region": null,
+      "native_rooms": [
+        227
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "native_rooms": [
+        227
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "parent_region": null,
+      "native_rooms": [
+        205
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07__LOGIC__WATER_RETURN",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "native_rooms": [
+        205
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+      "parent_region": null,
+      "native_rooms": [
+        206
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "parent_region": null,
+      "native_rooms": [
+        228
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "parent_region": null,
+      "native_rooms": [
+        229
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+      "parent_region": null,
+      "native_rooms": [
+        203
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "parent_region": null,
+      "native_rooms": [
+        204
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_13",
+      "parent_region": null,
+      "native_rooms": [
+        220
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_14",
+      "parent_region": null,
+      "native_rooms": [
+        232
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_15",
+      "parent_region": null,
+      "native_rooms": [
+        225
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_16",
+      "parent_region": null,
+      "native_rooms": [
+        231
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_17",
+      "parent_region": null,
+      "native_rooms": [
+        215
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_18",
+      "parent_region": null,
+      "native_rooms": [
+        212
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_19",
+      "parent_region": null,
+      "native_rooms": [
+        216
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_20",
+      "parent_region": null,
+      "native_rooms": [
+        217
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_21",
+      "parent_region": null,
+      "native_rooms": [
+        223
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_22",
+      "parent_region": null,
+      "native_rooms": [
+        221
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_23",
+      "parent_region": null,
+      "native_rooms": [
+        218
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_24",
+      "parent_region": null,
+      "native_rooms": [
+        200
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        219
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "parent_region": null,
+      "native_rooms": [
+        209
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "native_rooms": [
+        209
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "native_rooms": [
+        209
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "native_rooms": [
+        209
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        214
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        224
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "parent_region": null,
+      "native_rooms": [
+        290
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
+      "parent_region": null,
+      "native_rooms": [
+        291
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        230
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_01",
+      "parent_region": null,
+      "native_rooms": [
+        620
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_02",
+      "parent_region": null,
+      "native_rooms": [
+        621
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_03",
+      "parent_region": null,
+      "native_rooms": [
+        605
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_04",
+      "parent_region": null,
+      "native_rooms": [
+        601
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_05",
+      "parent_region": null,
+      "native_rooms": [
+        611
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_06",
+      "parent_region": null,
+      "native_rooms": [
+        603
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_07",
+      "parent_region": null,
+      "native_rooms": [
+        623
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_04",
+      "parent_region": "REGION_RADISH_RUINS/ROOM_8_07",
+      "native_rooms": [
+        623
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09",
+      "parent_region": "REGION_RADISH_RUINS/ROOM_8_07",
+      "native_rooms": [
+        623
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_08",
+      "parent_region": null,
+      "native_rooms": [
+        606
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_09",
+      "parent_region": null,
+      "native_rooms": [
+        604
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06",
+      "parent_region": "REGION_RADISH_RUINS/ROOM_8_09",
+      "native_rooms": [
+        604
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08",
+      "parent_region": "REGION_RADISH_RUINS/ROOM_8_09",
+      "native_rooms": [
+        604
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_10",
+      "parent_region": null,
+      "native_rooms": [
+        612
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_11",
+      "parent_region": null,
+      "native_rooms": [
+        608
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_12",
+      "parent_region": null,
+      "native_rooms": [
+        619
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "parent_region": "REGION_RADISH_RUINS/ROOM_8_12",
+      "native_rooms": [
+        619
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_13",
+      "parent_region": null,
+      "native_rooms": [
+        613
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_14",
+      "parent_region": null,
+      "native_rooms": [
+        616
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_15",
+      "parent_region": null,
+      "native_rooms": [
+        524
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_16",
+      "parent_region": null,
+      "native_rooms": [
+        502
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_17",
+      "parent_region": null,
+      "native_rooms": [
+        525
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_18",
+      "parent_region": null,
+      "native_rooms": [
+        609
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_19",
+      "parent_region": null,
+      "native_rooms": [
+        614
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_20",
+      "parent_region": null,
+      "native_rooms": [
+        618
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_21",
+      "parent_region": null,
+      "native_rooms": [
+        113
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_22",
+      "parent_region": null,
+      "native_rooms": [
+        102
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_23",
+      "parent_region": null,
+      "native_rooms": [
+        114
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_BOSS",
+      "parent_region": null,
+      "native_rooms": [
+        129
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+      "parent_region": null,
+      "native_rooms": [
+        610
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_CHEST_2",
+      "parent_region": null,
+      "native_rooms": [
+        617
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        622
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        526
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RADISH_RUINS/ROOM_8_HUB",
+      "parent_region": null,
+      "native_rooms": [
+        690
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_01",
+      "parent_region": null,
+      "native_rooms": [
+        101
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "parent_region": null,
+      "native_rooms": [
+        106
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+      "parent_region": null,
+      "native_rooms": [
+        107
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_04",
+      "parent_region": null,
+      "native_rooms": [
+        104
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_05",
+      "parent_region": null,
+      "native_rooms": [
+        103
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+      "parent_region": null,
+      "native_rooms": [
+        108
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_07",
+      "parent_region": null,
+      "native_rooms": [
+        140
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "parent_region": null,
+      "native_rooms": [
+        110
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_09",
+      "parent_region": null,
+      "native_rooms": [
+        554
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_10",
+      "parent_region": null,
+      "native_rooms": [
+        555
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_11",
+      "parent_region": null,
+      "native_rooms": [
+        556
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_12",
+      "parent_region": null,
+      "native_rooms": [
+        503
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "parent_region": null,
+      "native_rooms": [
+        507
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_14",
+      "parent_region": null,
+      "native_rooms": [
+        137
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "parent_region": null,
+      "native_rooms": [
+        127
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_16",
+      "parent_region": null,
+      "native_rooms": [
+        504
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_17",
+      "parent_region": null,
+      "native_rooms": [
+        174
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_18",
+      "parent_region": null,
+      "native_rooms": [
+        173
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_19",
+      "parent_region": null,
+      "native_rooms": [
+        175
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_20",
+      "parent_region": null,
+      "native_rooms": [
+        172
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "parent_region": null,
+      "native_rooms": [
+        171
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_22",
+      "parent_region": null,
+      "native_rooms": [
+        119
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_23",
+      "parent_region": null,
+      "native_rooms": [
+        118
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "parent_region": null,
+      "native_rooms": [
+        117
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_25",
+      "parent_region": null,
+      "native_rooms": [
+        115
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_26",
+      "parent_region": null,
+      "native_rooms": [
+        139
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_26_UPPER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "parent_region": null,
+      "native_rooms": [
+        532
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_28",
+      "parent_region": null,
+      "native_rooms": [
+        138
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_29",
+      "parent_region": null,
+      "native_rooms": [
+        178
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_30",
+      "parent_region": null,
+      "native_rooms": [
+        571
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_31",
+      "parent_region": null,
+      "native_rooms": [
+        136
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "parent_region": null,
+      "native_rooms": [
+        126
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_33",
+      "parent_region": null,
+      "native_rooms": [
+        570
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_34",
+      "parent_region": null,
+      "native_rooms": [
+        534
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_35",
+      "parent_region": null,
+      "native_rooms": [
+        535
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+      "parent_region": null,
+      "native_rooms": [
+        538
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "parent_region": null,
+      "native_rooms": [
+        542
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "parent_region": null,
+      "native_rooms": [
+        536
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "parent_region": null,
+      "native_rooms": [
+        537
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "parent_region": null,
+      "native_rooms": [
+        543
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "parent_region": null,
+      "native_rooms": [
+        141
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+      "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "native_rooms": [
+        141
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+      "parent_region": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "native_rooms": [
+        141
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "parent_region": null,
+      "native_rooms": [
+        143
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "parent_region": null,
+      "native_rooms": [
+        801
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+      "parent_region": null,
+      "native_rooms": [
+        557
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+      "parent_region": null,
+      "native_rooms": [
+        176
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+      "parent_region": null,
+      "native_rooms": [
+        177
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+      "parent_region": null,
+      "native_rooms": [
+        190
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+      "parent_region": null,
+      "native_rooms": [
+        194
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+      "parent_region": null,
+      "native_rooms": [
+        192
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+      "parent_region": null,
+      "native_rooms": [
+        590
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "parent_region": null,
+      "native_rooms": [
+        142
+      ],
+      "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_TUTORIAL/ROOM_0_01",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_TUTORIAL/ROOM_0_02",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_TUTORIAL/ROOM_0_03",
+      "parent_region": null,
+      "native_rooms": [],
+      "mapping_evidence": "unresolved",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    }
+  ],
   "placements": [
     {
       "template_address": "0x088B6950",

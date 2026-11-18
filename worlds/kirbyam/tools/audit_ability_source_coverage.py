@@ -47,6 +47,9 @@ def audit(inventory: dict, rooms: dict) -> dict:
     return {
         'version': 1, 'issue': 1114, 'complete': False,
         'native_rooms': len(inventory['rooms']),
+        'declared_ap_regions': len(inventory.get('ap_region_inventory', [])),
+        'unmapped_ap_regions': [row['region'] for row in inventory.get('ap_region_inventory', [])
+                               if row['mapping_evidence'] == 'unresolved'],
         'unused_native_room_slots': sum(r['unused_room_slot'] for r in inventory['rooms']),
         'empty_static_records': sum(not r['placements'] for r in inventory['rooms']),
         'static_placements': len(inventory['placements']),

@@ -340,3 +340,23 @@ def test_compiled_cookin_retains_consumption_across_same_room_reset():
     assert not spent.evaluate(policy(), frozenset(), gating=False).reaches('goal')
     carried = replace(graph, starts=(replace(initial, equipped='Cook'),))
     assert carried.evaluate(policy(), frozenset(), gating=False).reaches('goal')
+
+
+def test_inventory_explicitly_covers_ap_rooms_and_declared_subrooms():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    rooms = json.loads((ROOT / 'data/regions/rooms.json').read_text())
+    expected = set(rooms) | {f'{parent}__LOGIC__{key}' for parent, definition in rooms.items()
+                             for key in definition.get('logical_subregions', {})}
+    rows = {row['region']: row for row in inventory['ap_region_inventory']}
+    assert len(rows) == len(inventory['ap_region_inventory']) == len(expected) == 354
+    assert set(rows) == expected
+    assert sum(row['mapping_evidence'] == 'unresolved' for row in rows.values()) == 58
+    assert sum(row['parent_region'] is not None for row in rows.values()) == 33
+    aliases = {key: room['native_room'] for room in inventory['rooms'] for key in room['ap_room_keys']}
+    for region, row in rows.items():
+        owner = row['parent_region'] if row['parent_region'] is not None else region
+        assert row['native_rooms'] == ([aliases[owner]] if owner in aliases else [])
+        assert row['compartment_placement_membership'].startswith('unresolved')
+    # Similar names do not establish physical membership or shared entry access.
+    assert rows['REGION_RAINBOW_ROUTE/ROOM_1_24']['native_rooms'] == [117]
+    assert rows['REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER']['native_rooms'] == []

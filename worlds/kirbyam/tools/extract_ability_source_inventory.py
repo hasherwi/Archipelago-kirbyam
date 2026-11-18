@@ -635,6 +635,28 @@ def parasol_parent_grant_contract(record: dict, source_hashes: dict) -> dict | N
     }
 
 
+def build_ap_region_inventory(rooms: dict, native_rooms: list[dict]) -> list[dict]:
+    """List every declared compartment without assigning room-wide source access."""
+    aliases = {}
+    for native in native_rooms:
+        for region in native['ap_room_keys']:
+            aliases.setdefault(region, []).append(native['native_room'])
+    declared = {region: None for region in rooms}
+    for parent, definition in rooms.items():
+        for key in definition.get('logical_subregions', {}):
+            region = f'{parent}__LOGIC__{key}'
+            if region in declared:
+                raise ValueError(f'Duplicate declared AP compartment: {region}')
+            declared[region] = parent
+    return [{
+        'region': region, 'parent_region': parent,
+        'native_rooms': sorted(aliases.get(parent if parent is not None else region, [])),
+        'mapping_evidence': ('declared_logical_parent_door_alias' if parent is not None else 'native_door_list_alias')
+                            if aliases.get(parent if parent is not None else region) else 'unresolved',
+        'compartment_placement_membership': 'unresolved; use separately reviewed physical source bindings',
+    } for region, parent in sorted(declared.items())]
+
+
 def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dict:
     if len(rom) != 0x1000000 or hashlib.sha1(rom).hexdigest() != USA_SHA1:
         raise ValueError('Expected unmodified USA ROM (size and SHA-1 mismatch)')
@@ -933,7 +955,8 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
     return {'version': 1, 'rom_sha1': USA_SHA1, 'decomp_reference_commit': DECOMP_REFERENCE_COMMIT,
             'decomp_file_sha256': source_hashes,
             'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',
-            'rooms': native_rooms, 'placements': placements, 'encounter_calls': calls,
+            'rooms': native_rooms, 'ap_region_inventory': build_ap_region_inventory(rooms, native_rooms),
+            'placements': placements, 'encounter_calls': calls,
             'reviewed_bindings': dict(sorted(bindings.items())),
             'generated_statue_slots': generated_statues, 'spawner_outputs': spawner_outputs,
             'encounter_sources': encounter_sources,

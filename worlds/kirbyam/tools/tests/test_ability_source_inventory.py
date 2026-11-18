@@ -146,6 +146,12 @@ class CoverageAuditTests(unittest.TestCase):
         self.assertEqual(report['distinct_referenced_placements'], 1)
         self.assertEqual(report['unknown_inventory_references'], ['missing'])
         self.assertEqual(report['unbound_source_or_encounter_placements'], [])
+        inventory['ap_region_inventory'] = [
+            {'region': 'mapped', 'mapping_evidence': 'native_door_list_alias'},
+            {'region': 'unknown', 'mapping_evidence': 'unresolved'}]
+        report = audit(inventory, rooms)
+        self.assertEqual(report['declared_ap_regions'], 2)
+        self.assertEqual(report['unmapped_ap_regions'], ['unknown'])
 
 
 class BonkersNativeContractTests(unittest.TestCase):
@@ -415,3 +421,24 @@ class ParasolParentContractTests(unittest.TestCase):
                     extract.parasol_parent_grant_contract(record, dict(hashes, **{name: 'changed'}))
         for kind, subtype in [(0, 0), (0, 1), (0, 2), (18, 0), (18, 2), (18, 3), (17, 4), (37, 4), (18, None)]:
             self.assertIsNone(extract.parasol_parent_grant_contract({'type_id': kind, 'subtype1': subtype}, hashes))
+
+
+class APRegionInventoryTests(unittest.TestCase):
+    def test_all_compartments_are_explicit_without_prefix_inference_or_source_access(self):
+        rooms = {'area/room': {'logical_subregions': {'lower': {}}},
+                 'area/room_UPPER': {}, 'area/empty': {}}
+        native = [{'native_room': 12, 'ap_room_keys': ['area/room']},
+                  {'native_room': 13, 'ap_room_keys': ['area/room']},
+                  {'native_room': 14, 'ap_room_keys': ['area/empty']}]
+        rows = {r['region']: r for r in extract.build_ap_region_inventory(rooms, native)}
+        self.assertEqual(set(rows), {'area/room', 'area/room__LOGIC__lower', 'area/room_UPPER', 'area/empty'})
+        self.assertEqual(rows['area/room']['native_rooms'], [12, 13])
+        self.assertEqual(rows['area/room__LOGIC__lower']['native_rooms'], [12, 13])
+        self.assertEqual(rows['area/room__LOGIC__lower']['parent_region'], 'area/room')
+        self.assertEqual(rows['area/room_UPPER']['native_rooms'], [])
+        self.assertEqual(rows['area/room_UPPER']['mapping_evidence'], 'unresolved')
+        self.assertTrue(all(r['compartment_placement_membership'].startswith('unresolved') for r in rows.values()))
+
+    def test_declared_alias_collision_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'Duplicate declared AP compartment'):
+            extract.build_ap_region_inventory({'r': {'logical_subregions': {'x': {}}}, 'r__LOGIC__x': {}}, [])
