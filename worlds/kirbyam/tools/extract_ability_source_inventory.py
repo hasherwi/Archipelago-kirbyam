@@ -79,8 +79,20 @@ def spawner_output(rom: bytes, parent: dict) -> dict:
         'configured_child_capacity': capacity,
         'reclaims_destroyed_slots': not bool(flags & 1),
         'status': 'unresolved',
-        'spawn_conditions': {'controller': parent['id'], 'status': 'unresolved',
-                             'reason': 'Controller state, delay, room counters and lifetime need a witness.'},
+        'spawn_conditions': {
+            'controller': parent['id'], 'status': 'decoded_predicates',
+            'room_counter_bank': 1 if flags & 2 else 0,
+            'room_counter_at_least': rom[offset + 0x19],
+            'spawned_count_below': capacity,
+            'delay_counter_bits': 8,
+            'delay_counter_at_least': unpack(rom, '<H', offset + 0x12)[0],
+            'startup_counter_initial': 0 if 0x38 <= typ <= 0x52 else 70,
+            'startup_counter_previous_signed_value_above': 64,
+            'free_global_object_slot_required': True,
+            'reason': 'Decoded native predicates do not prove the room counters, free slot or acquisition path.'},
+        'lifetime': {'identity': f"{parent['id']}/spawner-output",
+                     'child_has_native_parent_attachment': False,
+                     'reason': 'Construction has no parent attachment; destruction still needs child-specific evidence.'},
         'evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
                      + '/asm/object_spawner.s#L364-L455'),
     }
@@ -374,10 +386,24 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'selection': ('Two distinct native statue indices chosen when the controller spawns; '
                               'fixed for that instance.'),
                 'repeatability': 'Retouch of the selected statue does not reroll its native index.',
+                'lifetime': {'identity': f"{parent['id']}/statue-slot:{slot}",
+                             'controller_death_implies_child_death': False,
+                             'reason': 'Controller marks itself destroyed after creating two independent statues.'},
                 'access': {'status': 'unresolved',
                            'reason': 'Requires controller spawning and physical contact; no retry route inferred.'},
                 'evidence': 'src/ability_objects.c:sub_080AA6F8/sub_080AA588',
             })
+    for record in generated_statues:
+        record['bounded_native_evidence'] = {
+            'record': 'dev-docs/generated-statue-native-acceptance.json',
+            'compartment': 'room951 lower statue floor',
+            'scope': 'Configured local contact and retouch; independent AP entry remains unresolved.'}
+    for record in encounter_sources:
+        if record['id'] == 'room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166':
+            record['bounded_native_evidence'] = {
+                'record': 'dev-docs/generated-frosty-native-acceptance.json',
+                'compartment': 'room955 arena, live original Frosty',
+                'scope': 'Configured 6 HP arrival; one hit before finite small-cube acquisition. No safe 1 HP route.'}
     bindings = {}
     by_template = {(p['native_room'], p['template_address'].lower()): p for p in placements}
 

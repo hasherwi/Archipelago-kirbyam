@@ -60,7 +60,17 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         raise ValueError(f'Physical ability placement belongs to another room: {identity}')
     key = record['source_key']
     if key is None:
-        raise ValueError(f'Unresolved physical ability grant: {identity}')
+        choices = record.get('possible_source_keys')
+        if not choices:
+            raise ValueError(f'Unresolved physical ability grant: {identity}')
+        if result.get('source_choices', choices) != choices:
+            raise ValueError(f'Native source choices mismatch: {identity}')
+        if result.get('retry_evidence'):
+            raise ValueError(f'Fixed native selection cannot justify retry: {identity}')
+        key = choices[0]
+        result['source_choices'] = list(choices)
+    if 'source_choices' in result and result['source_choices'] != record.get('possible_source_keys'):
+        raise ValueError(f'Native source choices mismatch: {identity}')
     if result.get('source_key', key) != key:
         raise ValueError(f'Physical ability placement grant mismatch: {identity}')
     if record['logic'] == 'advanced' and not advanced:
@@ -71,7 +81,10 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         for field in ('generation_evidence', 'lifetime_evidence'):
             if not isinstance(result.get(field), str) or not result[field].strip():
                 raise ValueError(f'Generated source requires {field}: {identity}')
-        lifetime = record['parent_placement']
+        # Generation ownership is not object lifetime: statue controllers die
+        # immediately, while their outputs persist. Each output needs an explicit
+        # activation and expiry contract; sharing the controller ID was unsound.
+        lifetime = record['id']
         if result.get('lifetime', lifetime) != lifetime:
             raise ValueError(f'Generated source lifetime mismatch: {identity}')
         if (record.get('configured_child_capacity') == 1

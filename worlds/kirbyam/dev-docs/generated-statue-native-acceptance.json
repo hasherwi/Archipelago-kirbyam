@@ -1,0 +1,1461 @@
+{
+  "version": 1,
+  "issue": 1118,
+  "scope": "Native random-statue selection, independent output lifetime, contact and retouch in a configured lower compartment; not AP access or a room-reset witness.",
+  "source_sha256": "9d4083a4db5d2a1eb13e7c3427575592a82d228445562e2e55901f29cfe040a7",
+  "source_reference": "src/ability_objects.c:sub_080AA6F8/sub_080AA588",
+  "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+  "cases": [
+    {
+      "case": "vanilla-d",
+      "startup_compartment": "upper platform",
+      "native_room": 951,
+      "private_evidence_sha256": "13c3927d32b5465fb634d38eaab0dc24842cd724e1972b1cefed74d1ca9c5d1b",
+      "runtime_sha256": "b414bc587a8915775dd6e5dc040c1ee51f620b9277437fb118ef1da37a6bb824",
+      "script_sha256": "1e45983255b99ecb0947c55ee21de7bea43031f16affc474363886ea9d22ec8f",
+      "runtime_write_count": 0,
+      "save": "fresh blank battery",
+      "restored_state": false,
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 25.90625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 25.90625,
+          "y": 84.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 25.90625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 53.40625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 54.6484375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 68.140625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 40.640625,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 25.921875,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "right",
+          "frame": 1633,
+          "room": 951,
+          "x": 228.5,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "rightwait",
+          "frame": 1693,
+          "room": 951,
+          "x": 233.99609375,
+          "y": 88.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "lower-vanilla",
+      "startup_compartment": "lower statue floor",
+      "native_room": 951,
+      "private_evidence_sha256": "2a7595b1e28360ef909c4026b616c9bfbc5e6f9136b7bb005734b1fa0b3e8d5d",
+      "runtime_sha256": "3c0cfa2122588aebe2bbfc6919aa726280478c241fff86b46458d8777e0899a1",
+      "script_sha256": "615a51abaa80ca0293eafae375e6b8c43f741d1a9089a82720be163f9dcd7451",
+      "runtime_write_count": 0,
+      "save": "fresh blank battery",
+      "restored_state": false,
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 40.625,
+          "y": 132.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 68.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 69.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 82.859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 55.359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 40.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "right",
+          "frame": 1633,
+          "room": 951,
+          "x": 222.859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "rightwait",
+          "frame": 1693,
+          "room": 951,
+          "x": 233.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 7,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 15,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "lower-shuffled",
+      "startup_compartment": "lower statue floor",
+      "native_room": 951,
+      "private_evidence_sha256": "c854f55857f947bea581400c1f252ac0e88ff719ba971197b5b101e02cce0edb",
+      "runtime_sha256": "240039df4cc42673d4af99555b23ea84c4b4edc229ea21b5fa1f9810d272417f",
+      "script_sha256": "615a51abaa80ca0293eafae375e6b8c43f741d1a9089a82720be163f9dcd7451",
+      "runtime_write_count": 0,
+      "save": "fresh blank battery",
+      "restored_state": false,
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 40.625,
+          "y": 132.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 68.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 69.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 82.859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 55.359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 40.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "right",
+          "frame": 1633,
+          "room": 951,
+          "x": 230.640625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "rightwait",
+          "frame": 1693,
+          "room": 951,
+          "x": 233.99609375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 6,
+          "ability_gate": 0,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "lower-shuffled-unowned",
+      "startup_compartment": "lower statue floor",
+      "native_room": 951,
+      "private_evidence_sha256": "fc93a9546eab228df226fbe342f2e05ceaea49c6f6cd42db9bfb426b8d2f0674",
+      "runtime_sha256": "26bdb870ff917b595a2b5330c77221023dfafb534d2ce0acf6c5d82e805e5979",
+      "script_sha256": "615a51abaa80ca0293eafae375e6b8c43f741d1a9089a82720be163f9dcd7451",
+      "runtime_write_count": 0,
+      "save": "fresh blank battery",
+      "restored_state": false,
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 27.2421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 27.2421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 27.2421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 41.4453125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 42.46875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 51.5390625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 25.2109375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 22.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "right",
+          "frame": 1633,
+          "room": 951,
+          "x": 217.7421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        },
+        {
+          "label": "rightwait",
+          "frame": 1693,
+          "room": 951,
+          "x": 229.8984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "ability_gate": 67108734,
+          "ability_unlocks": 0,
+          "statues": [
+            {
+              "type_id": 146,
+              "native_ability": 6,
+              "x": 32.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            },
+            {
+              "type_id": 147,
+              "native_ability": 6,
+              "x": 224.0,
+              "y": 128.0,
+              "parent": "0x0",
+              "state": "0x80aa589"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Room951 has no reviewed AP entry binding. Upper-platform arrival did not contact the lower statues.",
+    "Startup room and coordinates are configured in the ROM fixture; they do not prove reaching that compartment from the world.",
+    "No room exit/reentry or repeated native index selection is certified. Retouch retains the selected native statue.",
+    "No encounter or source is automatically installed in world logic by this evidence."
+  ]
+}

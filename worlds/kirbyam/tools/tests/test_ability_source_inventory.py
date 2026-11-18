@@ -46,7 +46,8 @@ class InventoryDecoderTests(unittest.TestCase):
 
     def test_spawner_type_and_capacity_are_not_confused_with_parent_or_flags(self):
         data = bytearray(36)
-        data[0x14], data[0x15], data[0x22] = 0x39, 3, 1
+        data[0x14], data[0x15], data[0x22] = 0x39, 3, 3
+        data[0x12], data[0x19] = 90, 2
         parent = {'id': 'room:1/template:0x08000000', 'template_address': '0x08000000',
                   'native_room': 1, 'position_pixels': [-12, 304], 'subtype1': 2, 'subtype2': 4}
         child = extract.spawner_output(data, parent)
@@ -55,6 +56,13 @@ class InventoryDecoderTests(unittest.TestCase):
         self.assertEqual((child['subtype1'], child['subtype2']), (2, 4))
         self.assertFalse(child['reclaims_destroyed_slots'])
         self.assertEqual(child['status'], 'unresolved')
+        conditions = child['spawn_conditions']
+        self.assertEqual((conditions['room_counter_bank'], conditions['room_counter_at_least'],
+                          conditions['delay_counter_at_least'], conditions['startup_counter_initial']),
+                         (1, 2, 90, 0))
+        self.assertEqual(conditions['spawned_count_below'], 3)
+        self.assertTrue(conditions['free_global_object_slot_required'])
+        self.assertFalse(child['lifetime']['child_has_native_parent_attachment'])
         data[0x22] = 0
         self.assertTrue(extract.spawner_output(data, parent)['reclaims_destroyed_slots'])
 

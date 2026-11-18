@@ -115,6 +115,9 @@ acceptance manifest document bounded claims; earlier failed timings remain in
 the private evidence packets.
 [Generated activation/lifetimes #1118](https://github.com/hasherwi/Archipelago-kirbyam/issues/1118)
 and [remaining legacy fallbacks #1119](https://github.com/hasherwi/Archipelago-kirbyam/issues/1119)
-are being addressed separately in sequence. Catalog coverage alone does not
+are being addressed separately in sequence. The shared generated-source
+[activation, selection and lifetime contract](generated-source-lifetimes.md) now
+includes bounded native statue and Frosty observations. Unresolved AP access and
+other generated branches remain explicit; catalog coverage alone does not
 complete them. The exact requested changelog wording must not be used as evidence
 that every legacy gate is fixed.

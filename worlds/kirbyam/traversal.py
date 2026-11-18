@@ -236,6 +236,18 @@ class SourcePolicy:
         ability = _ID_TO_NAME[self.writes.get(address, ABILITY_NAME_TO_ID[native_name])]
         return Grant(frozenset({ability}) if ability != "Normal" and permitted(ability) else frozenset())
 
+    def grant_choice(self, keys: tuple[str, ...], permitted: Callable[[str], bool]) -> Grant:
+        """A fixed native branch must work for every possible selected source.
+
+        Retouch cannot select a more convenient native branch. Keep this group
+        non-retryable even if individual runtime assignments use live RNG.
+        """
+        if not keys:
+            return Grant(frozenset(), can_fail=True)
+        grants = tuple(self.grant(key, permitted) for key in keys)
+        return Grant(frozenset().union(*(grant.abilities for grant in grants)),
+                     can_fail=any(grant.can_fail or not grant.abilities for grant in grants))
+
     def dropped_star_grant(self, previous_ability: str, permitted: Callable[[str], bool]) -> Grant:
         """Recovery is conditional on a previously acquired ability.
 
@@ -298,6 +310,7 @@ class Route:
     loses_equipment: bool = False
     ends_lifetimes: frozenset[str] = frozenset()
     revives_lifetimes: frozenset[str] = frozenset()
+    activates_lifetimes: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -316,6 +329,7 @@ class Placement:
     identity: str | None = None
     renewable: bool = False
     lifetime: str | None = None
+    source_choices: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -325,6 +339,7 @@ class Position:
     opened: frozenset[str] = frozenset()
     consumed: frozenset[str] = frozenset()
     expired: frozenset[str] = frozenset()
+    active: frozenset[str] = frozenset()
 
     @property
     def equipment_outcomes(self) -> frozenset[str]:
@@ -415,14 +430,23 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         if (not isinstance(route.loses_equipment, bool)
                 or not isinstance(route.ends_lifetimes, frozenset)
                 or not isinstance(route.revives_lifetimes, frozenset)
-                or not (route.ends_lifetimes | route.revives_lifetimes) <= lifetimes
-                or route.ends_lifetimes & route.revives_lifetimes):
+                or not isinstance(route.activates_lifetimes, frozenset)
+                or not (route.ends_lifetimes | route.revives_lifetimes | route.activates_lifetimes) <= lifetimes
+                or route.ends_lifetimes & (route.revives_lifetimes | route.activates_lifetimes)):
             raise ValueError('Invalid source lifetime or equipment-loss effect')
         if route.revives_lifetimes and not route.resets_room_instance:
             raise ValueError('Source lifetime revival requires an explicit room-instance reset')
     _validate_central_master_witness(node_list, route_list, placement_list, start_list)
     objects: dict[str, list[Placement]] = defaultdict(list)
     for source in placement_list:
+        if source.source_choices and (
+            not isinstance(source.source_choices, tuple)
+            or source.source_key not in source.source_choices
+            or len(set(source.source_choices)) != len(source.source_choices)
+            or any(key not in _SOURCE_BY_KEY and key not in _STATUE_DEFAULTS for key in source.source_choices)
+            or source.retry_evidence
+        ):
+            raise ValueError('Fixed native source choices require distinct valid keys without branch reroll')
         identity = source.identity or f"{source.node}:{source.source_key}"
         objects[identity].append(source)
     node_by_key = {node.key: node for node in node_list}
@@ -545,7 +569,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[str, Grant] = {}
-    expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str]]] = set()
+    expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
@@ -563,17 +587,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             continue
         if position.node not in node_by_key:
             raise ValueError(f"Unknown starting compartment: {position.node}")
-        if not position.expired <= lifetimes:
-            raise ValueError('Unknown expired source lifetime')
+        if not (position.expired | position.active) <= lifetimes or position.expired & position.active:
+            raise ValueError('Unknown or conflicting source lifetime state')
         visited.add(position)
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
-            queue.append(Position(position.node, "Normal", position.opened, position.consumed, position.expired))
+            queue.append(Position(position.node, "Normal", position.opened, position.consumed, position.expired, position.active))
         # Acquiring a source replaces equipment; its successors depend only on
         # this physical phase and the fixed policy/permissions, not what is held.
         # Keep both phase sets: finite source use and opened barriers must never
         # be merged. Route, drop and recovery expansion still uses every Position.
-        source_phase = (position.node, position.opened, position.consumed, position.expired)
+        source_phase = (position.node, position.opened, position.consumed, position.expired, position.active)
         if source_phase not in expanded_sources:
             expanded_sources.add(source_phase)
             for source in sources[position.node]:
@@ -581,24 +605,25 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue  # The admitted Normal prefix makes phase deduplication safe.
                 if not source.requirements <= owned:
                     continue
-                if source.lifetime in position.expired:
+                if source.lifetime is not None and source.lifetime not in position.active:
                     continue
                 identity = source.identity or f"{source.node}:{source.source_key}"
                 if identity in position.consumed:
                     continue
                 consumed = position.consumed if source.renewable else position.consumed | {identity}
-                grant = source_grant(source.source_key)
+                grant = (policy.grant_choice(source.source_choices, permitted) if source.source_choices
+                         else source_grant(source.source_key))
                 abilities = grant.guaranteed
                 if (allow_documented_retries and source.renewable and source.retry_evidence
                         and grant.randomized and grant.abilities):
                     abilities = grant.abilities
                     assumptions.add(source.retry_evidence)
                 for granted_ability in abilities:
-                    queue.append(Position(position.node, granted_ability, position.opened, consumed, position.expired))
+                    queue.append(Position(position.node, granted_ability, position.opened, consumed, position.expired, position.active))
                 if not grant.can_fail and grant.abilities and not abilities:
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
-                    queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired))
+                    queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired, position.active))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -623,7 +648,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
-                        or objects[route.uses_object][0].lifetime in position.expired
+                        or (objects[route.uses_object][0].lifetime is not None
+                            and objects[route.uses_object][0].lifetime not in position.active)
                         or not objects[route.uses_object][0].requirements <= owned):
                     continue
             if route.recover_dropped_ability:
@@ -643,6 +669,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 elif ability & spent:
                     ability = (ability - spent) | {"Normal"}
             consumed = position.consumed
+            active = position.active
             if route.uses_object is not None and not already_open:
                 consumed |= {route.uses_object}
             if route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room:
@@ -653,6 +680,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     opened = frozenset()
                 if route.resets_room_instance:
                     consumed = frozenset()
+                    active = frozenset()
                 if ability == "Mini":
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:
@@ -662,7 +690,10 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             # Clearing finite room-instance uses never revives an encounter by
             # itself. Revival is a separately evidenced reset effect.
             expired = (position.expired | route.ends_lifetimes) - route.revives_lifetimes
-            queue.append(Position(route.target, ability, opened, consumed, expired))
+            # A revived controller is eligible to activate again, not already spawned.
+            active = ((active - route.ends_lifetimes - route.revives_lifetimes)
+                      | (route.activates_lifetimes - expired))
+            queue.append(Position(route.target, ability, opened, consumed, expired, active))
     return TraversalResult(frozenset(visited), frozenset(assumptions))
 
 
@@ -758,7 +789,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         "room_instance", "reset_evidence", "water_state", "uses_object",
         "frozen_enemy_evidence", "required_equipment", "heave_ho_evidence", "metal_evidence", "throw_evidence",
         "loses_equipment", "loss_evidence", "ends_lifetimes", "lifetime_evidence",
-        "revives_lifetimes", "revival_evidence",
+        "revives_lifetimes", "revival_evidence", "activates_lifetimes", "activation_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -798,7 +829,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         raise ValueError("Allowed abilities must narrow the route capability providers")
     for field, evidence in (("loses_equipment", "loss_evidence"),
                             ("ends_lifetimes", "lifetime_evidence"),
-                            ("revives_lifetimes", "revival_evidence")):
+                            ("revives_lifetimes", "revival_evidence"),
+                            ("activates_lifetimes", "activation_evidence")):
         value = row.get(field, False if field == 'loses_equipment' else [])
         if field == 'loses_equipment':
             if not isinstance(value, bool):
@@ -819,6 +851,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         None if equipment is None else frozenset(equipment),
         row.get('loses_equipment', False), frozenset(row.get('ends_lifetimes', ())),
         frozenset(row.get('revives_lifetimes', ())),
+        frozenset(row.get('activates_lifetimes', ())),
     )
 
 
@@ -840,7 +873,7 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
         row["node"], row["source_key"], frozenset(row.get("items", ())),
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
-        lifetime=row.get('lifetime'),
+        lifetime=row.get('lifetime'), source_choices=tuple(row.get('source_choices', ())),
     )
 
 

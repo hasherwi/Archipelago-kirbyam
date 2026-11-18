@@ -152,7 +152,7 @@ def test_native_random_statues_have_physical_slots_but_no_guaranteed_selection()
     for slot in slots:
         assert slot['native_room'] == 951
         assert len(slot['possible_source_keys']) == len(set(slot['possible_source_keys'])) == 19
-        with pytest.raises(ValueError, match='Unresolved physical ability grant'):
+        with pytest.raises(ValueError, match='generation_evidence'):
             resolve_inventory_source({'inventory_id': slot['id']}, 951)
 
 
@@ -211,7 +211,7 @@ def test_generated_candidates_require_explicit_generation_and_lifetime_witness(k
             resolve_inventory_source(source, record['native_room'], advanced=True)
         source[field] = 'reviewed fixture'
     resolved = resolve_inventory_source(source, record['native_room'], advanced=True)
-    assert resolved['lifetime'] == record['parent_placement']
+    assert resolved['lifetime'] == record['id']
     if record['logic'] == 'advanced':
         with pytest.raises(ValueError, match='Advanced Logic'):
             resolve_inventory_source(source, record['native_room'])
@@ -224,6 +224,7 @@ def test_generated_candidates_require_explicit_generation_and_lifetime_witness(k
     ('loses_equipment', 'loss_evidence', True),
     ('ends_lifetimes', 'lifetime_evidence', ['encounter']),
     ('revives_lifetimes', 'revival_evidence', ['encounter']),
+    ('activates_lifetimes', 'activation_evidence', ['encounter']),
 ])
 def test_serialized_lifetime_effect_requires_evidence(effect, evidence, value):
     graph = payload()

@@ -34,10 +34,13 @@ def historical_main_compiled(graph: TraversalGraph, target: str, witness: str) -
         assert route.pop('loses_equipment') is False
         assert route.pop('ends_lifetimes') == frozenset()
         assert route.pop('revives_lifetimes') == frozenset()
+        assert route.pop('activates_lifetimes') == frozenset()
     for placement in payload['placements']:
         assert placement.pop('lifetime') is None
+        assert placement.pop('source_choices') == ()
     for start in payload['starts']:
         assert start.pop('expired') == frozenset()
+        assert start.pop('active') == frozenset()
     return payload
 
 

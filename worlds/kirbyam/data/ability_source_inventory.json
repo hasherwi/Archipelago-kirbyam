@@ -131331,11 +131331,21 @@
       ],
       "selection": "Two distinct native statue indices chosen when the controller spawns; fixed for that instance.",
       "repeatability": "Retouch of the selected statue does not reroll its native index.",
+      "lifetime": {
+        "identity": "room:951/template:0x088D5BF8/statue-slot:0",
+        "controller_death_implies_child_death": false,
+        "reason": "Controller marks itself destroyed after creating two independent statues."
+      },
       "access": {
         "status": "unresolved",
         "reason": "Requires controller spawning and physical contact; no retry route inferred."
       },
-      "evidence": "src/ability_objects.c:sub_080AA6F8/sub_080AA588"
+      "evidence": "src/ability_objects.c:sub_080AA6F8/sub_080AA588",
+      "bounded_native_evidence": {
+        "record": "dev-docs/generated-statue-native-acceptance.json",
+        "compartment": "room951 lower statue floor",
+        "scope": "Configured local contact and retouch; independent AP entry remains unresolved."
+      }
     },
     {
       "id": "room:951/template:0x088D5BF8/statue-slot:1",
@@ -131372,11 +131382,21 @@
       ],
       "selection": "Two distinct native statue indices chosen when the controller spawns; fixed for that instance.",
       "repeatability": "Retouch of the selected statue does not reroll its native index.",
+      "lifetime": {
+        "identity": "room:951/template:0x088D5BF8/statue-slot:1",
+        "controller_death_implies_child_death": false,
+        "reason": "Controller marks itself destroyed after creating two independent statues."
+      },
       "access": {
         "status": "unresolved",
         "reason": "Requires controller spawning and physical contact; no retry route inferred."
       },
-      "evidence": "src/ability_objects.c:sub_080AA6F8/sub_080AA588"
+      "evidence": "src/ability_objects.c:sub_080AA6F8/sub_080AA588",
+      "bounded_native_evidence": {
+        "record": "dev-docs/generated-statue-native-acceptance.json",
+        "compartment": "room951 lower statue floor",
+        "scope": "Configured local contact and retouch; independent AP entry remains unresolved."
+      }
     }
   ],
   "spawner_outputs": [
@@ -131397,8 +131417,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:121/template:0x088D2898",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:121/template:0x088D2898/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -131430,8 +131463,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:121/template:0x088D28BC",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:121/template:0x088D28BC/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -131463,8 +131509,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:121/template:0x088D28E0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:121/template:0x088D28E0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -131496,8 +131555,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:121/template:0x088D2928",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:121/template:0x088D2928/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_HEAVY_KNIGHT",
@@ -131529,8 +131601,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:139/template:0x088BA06C",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 90,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:139/template:0x088BA06C/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_CHIP",
@@ -131562,8 +131647,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:139/template:0x088BA1B0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 60,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:139/template:0x088BA1B0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_CHIP",
@@ -131595,8 +131693,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:139/template:0x088BA1D4",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 120,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:139/template:0x088BA1D4/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_SNOOTER_1",
@@ -131628,8 +131739,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC084",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC084/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_MINNY",
@@ -131661,8 +131785,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC0A8",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC0A8/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_MINNY",
@@ -131694,8 +131831,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC0CC",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC0CC/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_MINNY",
@@ -131727,8 +131877,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC0F0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC0F0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_MINNY",
@@ -131760,8 +131923,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC15C",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC15C/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_HOT_HEAD",
@@ -131793,8 +131969,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:148/template:0x088BC180",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:148/template:0x088BC180/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_HOT_HEAD",
@@ -131826,8 +132015,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:149/template:0x088BC218",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:149/template:0x088BC218/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_GIANT_ROCKY",
@@ -131859,8 +132061,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:202/template:0x088BE574",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:202/template:0x088BE574/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -131892,8 +132107,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:202/template:0x088BE598",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:202/template:0x088BE598/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -131925,8 +132153,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:414/template:0x088C6F74",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:414/template:0x088C6F74/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_HEAVY_KNIGHT",
@@ -131958,8 +132199,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:414/template:0x088C6F98",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:414/template:0x088C6F98/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_HEAVY_KNIGHT",
@@ -131991,8 +132245,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:526/template:0x088D1FF0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 60,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:526/template:0x088D1FF0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -132024,8 +132291,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:526/template:0x088D2014",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 50,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:526/template:0x088D2014/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -132057,8 +132337,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:526/template:0x088D2038",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 40,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:526/template:0x088D2038/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -132090,8 +132383,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:526/template:0x088D205C",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 30,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:526/template:0x088D205C/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_LEAP",
@@ -132123,8 +132429,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:712/template:0x088BD660",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 30,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:712/template:0x088BD660/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_SCARFY",
@@ -132156,8 +132475,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:712/template:0x088BD684",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 50,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:712/template:0x088BD684/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_SCARFY",
@@ -132189,8 +132521,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:712/template:0x088BD6A8",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 40,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:712/template:0x088BD6A8/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_SCARFY",
@@ -132222,8 +132567,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CCF68",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CCF68/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132255,8 +132613,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CCFB0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CCFB0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132288,8 +132659,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CD088",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CD088/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132321,8 +132705,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CD0AC",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CD0AC/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132354,8 +132751,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CD0D0",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CD0D0/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132387,8 +132797,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:823/template:0x088CD0F4",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 1,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 0,
+        "startup_counter_initial": 70,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:823/template:0x088CD0F4/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BLIPPER",
@@ -132420,8 +132843,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:955/template:0x088D5CF4",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 24,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:955/template:0x088D5CF4/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_PHAN_PHAN",
@@ -132453,8 +132889,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:955/template:0x088D5D18",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 24,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:955/template:0x088D5D18/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BONKERS",
@@ -132486,8 +132935,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:956/template:0x088D5D84",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 24,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:956/template:0x088D5D84/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BOXY",
@@ -132519,8 +132981,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:956/template:0x088D5DA8",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 24,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:956/template:0x088D5DA8/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_MASTER_HAND",
@@ -132552,8 +133027,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:957/template:0x088D5E14",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 2,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 14,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:957/template:0x088D5E14/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BOX_BOXER",
@@ -132585,8 +133073,21 @@
       "status": "unresolved",
       "spawn_conditions": {
         "controller": "room:957/template:0x088D5E38",
-        "status": "unresolved",
-        "reason": "Controller state, delay, room counters and lifetime need a witness."
+        "status": "decoded_predicates",
+        "room_counter_bank": 0,
+        "room_counter_at_least": 1,
+        "spawned_count_below": 1,
+        "delay_counter_bits": 8,
+        "delay_counter_at_least": 24,
+        "startup_counter_initial": 0,
+        "startup_counter_previous_signed_value_above": 64,
+        "free_global_object_slot_required": true,
+        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+      },
+      "lifetime": {
+        "identity": "room:957/template:0x088D5E38/spawner-output",
+        "child_has_native_parent_attachment": false,
+        "reason": "Construction has no parent attachment; destruction still needs child-specific evidence."
       },
       "evidence": "https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455",
       "native_name": "OBJ_BOMBAR",
@@ -132705,7 +133206,12 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "bounded_native_evidence": {
+        "record": "dev-docs/generated-frosty-native-acceptance.json",
+        "compartment": "room955 arena, live original Frosty",
+        "scope": "Configured 6 HP arrival; one hit before finite small-cube acquisition. No safe 1 HP route."
+      }
     },
     {
       "id": "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:765/type:167",

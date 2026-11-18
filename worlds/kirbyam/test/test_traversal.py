@@ -302,13 +302,13 @@ def test_equipment_loss_requires_a_live_reacquisition_source(renewable):
     source = Placement("pre", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
     routes = [Route("pre", "post", loses_equipment=True),
               Route("post", "other", required_equipment=frozenset({"Stone"}))]
-    assert not run(routes, [source], gating=False).reaches("other")
+    assert not run(routes, [source], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
     at_destination = Placement("post", "ROCKY", identity="next-rock", renewable=renewable,
                                lifetime="encounter")
-    assert run(routes, [source, at_destination], gating=False).reaches("other")
+    assert run(routes, [source, at_destination], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
     expired = [Route("pre", "post", loses_equipment=True,
                      ends_lifetimes=frozenset({"encounter"})), routes[1]]
-    assert not run(expired, [source, at_destination], gating=False).reaches("other")
+    assert not run(expired, [source, at_destination], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
 
 
 @pytest.mark.parametrize("revive", [False, True])
@@ -316,7 +316,8 @@ def test_equipment_loss_requires_a_live_reacquisition_source(renewable):
 def test_room_reset_does_not_implicitly_revive_encounter(revive, renewable):
     source = Placement("post", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
     routes = [Route("pre", "post", room_transition=True, resets_room_instance=True,
-                    revives_lifetimes=frozenset({"encounter"}) if revive else frozenset()),
+                    revives_lifetimes=frozenset({"encounter"}) if revive else frozenset(),
+                    activates_lifetimes=frozenset({"encounter"}) if revive else frozenset()),
               Route("post", "other", required_equipment=frozenset({"Stone"}))]
     result = run(routes, [source], starts=[Position("pre", consumed=frozenset({"rock"}), expired=frozenset({"encounter"}))], gating=False)
     assert result.reaches("other") == revive
@@ -341,5 +342,6 @@ def test_revival_cannot_use_a_reset_annotation_without_a_transition():
 def test_ending_source_lifetime_preserves_equipment_already_acquired():
     result = run([Route('pre', 'post', ends_lifetimes=frozenset({'encounter'})),
                   Route('post', 'other', required_equipment=frozenset({'Stone'}))],
-                 [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False)
+                 [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False,
+                 starts=[Position('pre', active=frozenset({'encounter'}))])
     assert result.reaches('other')
