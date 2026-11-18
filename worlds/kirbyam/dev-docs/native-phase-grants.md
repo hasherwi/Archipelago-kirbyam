@@ -51,6 +51,10 @@ are outside this specific contract; no generic Waddle family behavior, safe
 attachment timing, source access or reacquisition is inferred. Existing runtime
 assignments still override native writes. The ordinary room117 payloads are
 unaffected and remain finite objects used for spitting, not copy grants.
+Excluding passive enemies from randomization leaves attached-Parasol Waddle Dee
+with its native subtype grant, despite its table default being Normal. Waddle
+Doo remains eligible because its table default is Beam; its actual runtime
+assignment continues to override the attachment state.
 
 
 ## Bounded King Golem phase probes

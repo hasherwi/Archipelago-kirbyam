@@ -132,3 +132,19 @@ def test_native_wheel_observation_does_not_promote_failed_phase_variants():
         assert case['configured_start'] == [710, 16, 288]
         assert all(len(case[key]) == 64 for key in ('private_trace_sha256', 'runtime_sha256',
                                                    'fixture_rom_sha256', 'script_sha256', 'bridge_sha256'))
+
+
+@pytest.mark.parametrize('mode', [1, 2])
+def test_excluding_passive_enemies_retains_native_attached_parasol(mode):
+    import random
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    from ..traversal import SourcePolicy
+    raw = build_enemy_copy_ability_policy(random.Random(427), mode, True, True, True,
+                                         include_passive_enemies=False, whitelist=['Stone'])
+    resolver = SourcePolicy(raw)
+    grant = resolver.grant('WADDLE_DEE', lambda _: True, ('Parasol',))
+    assert grant.guaranteed == frozenset({'Parasol'}) and not grant.randomized
+    mixed = resolver.grant('WADDLE_DEE', lambda _: True, ('Parasol', 'Normal'))
+    assert not mixed.guaranteed and mixed.can_fail and not mixed.randomized
+    # Waddle Doo's table grant is non-Normal, so its eligible runtime assignment still wins.
+    assert resolver.grant('WADDLE_DOO', lambda _: True, ('Parasol', 'Beam')).guaranteed == frozenset({'Stone'})
