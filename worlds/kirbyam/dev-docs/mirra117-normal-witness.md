@@ -6,7 +6,7 @@ with gating and no unlocks. The wrong-facing final puff control stays alive in11
 with Mirra uncleared. The manifest records hashes, transitions and object landmarks;
 no ROM, save or raw replay is published.
 
-The route requires independent ROOM_1_24_UPPER access (native192). The actual door
+The route requires independent ROOM_1_HUB_3 access (native192). The actual door
 enters117 at184,40.996. Normal inhales original Waddle Doo0x088B9904, spits without
 swallowing, aligns with the ladder at280 and descends. At the foot it inhales original
 Waddle Dee0x088B9874 and spits left. These are finite physical payloads, not unlocked
@@ -22,7 +22,7 @@ successes. The final wrong-facing control demonstrates that scared Mirra is not
 clearance.
 
 This replaces only ROOM_1_24's Carrot exit requirements. The destination Area Key
-and independent upper-room access remain necessary. It does not certify arbitrary
+and independent Hub 3 access remain necessary. It does not certify arbitrary
 arrival phases, enemy replacements, repeatability, the separate upper-room Carrot
 exit, or room811. No copied equipment is needed, and gating off does not manufacture
 payloads. All post-startup observations are read-only; only production-client guarded

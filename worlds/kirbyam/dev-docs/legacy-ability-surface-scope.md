@@ -52,7 +52,7 @@ See `mirra141-east-normal-witness.md`; only the room117 and811 Mirra tokens
 remain unresolved. Failed timing variants are retained as limits.
 
 The room117 Carrot exit now has a finite Normal route from independently reachable
-native192, consuming the original Waddle Doo and Waddle Dee payloads. Four complete
+Hub 3/native192, consuming the original Waddle Doo and Waddle Dee payloads. Four complete
 entry-to-exit variants pass; the wrong-facing control remains blocked. See
 `mirra117-normal-witness.md`. Its block and Mirra tokens leave the unresolved count;
 the distinct upper-room Carrot exit and room811 remain unresolved.

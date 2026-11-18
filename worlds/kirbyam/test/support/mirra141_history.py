@@ -14,7 +14,7 @@ def before_mirra141_targets(rows):
         if row['target']['id'] == 'mirra_117_carrot':
             assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_24'
             assert row['target'].get('region', row['owner']) == row['owner']
-            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'a9e9497463f5d4924b8b355fba0570cd91be06c5945bfbf9f176215a7591f26f'
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == '0baa3f5839ea311b821629ee68d32b9b0570045d1e90012b2b58e9b511380f1d'
         elif row['target']['id'] == EAST_TARGET:
             assert row['owner'] == EAST_OWNER
             assert digest(row['target']) == '020e2c9b461897ee37349d474a340458b0fa47d781d955b1a7f1fd396146d48f'

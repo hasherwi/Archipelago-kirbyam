@@ -2338,7 +2338,7 @@
               "version": 1,
               "status": "reviewed",
               "access": {
-                "region": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
               },
               "nodes": [
                 {

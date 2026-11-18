@@ -284,7 +284,7 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         raise ValueError("Mirra117 Normal clearance belongs only to the Carrot exit")
     if row.get("id") == "mirra_117_carrot":
         for graph in row.get("graphs", {}).values():
-            if graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER"}:
+            if graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"}:
                 raise ValueError("Mirra117 requires independent native192 access")
             if [(source.get("id"), source.get("inventory_id"), source.get("node"))
                 for source in graph.get("sources", ())] != [

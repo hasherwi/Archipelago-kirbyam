@@ -7,7 +7,7 @@ import pytest
 from ..traversal_data import room_traversal_graph, has_graph_access
 from .test_traversal import policy
 TARGET='mirra_117_carrot'
-ACCESS='REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER'
+ACCESS='REGION_RAINBOW_ROUTE/ROOM_1_HUB_3'
 PAYLOADS=frozenset({'0x088B9904','0x088B9874'})
 
 @pytest.mark.parametrize('mode,pool,weight', [(0,None,0),(1,['Beam'],0),(2,['Spark','Beam'],0),(2,None,100)])
@@ -81,3 +81,8 @@ def test_original_payload_and_entry_contract_cannot_move(mutation):
         key={'inventory':'inventory_id','identity':'id','node':'node'}[mutation]
         graph['sources'][0][key]='other'
     with pytest.raises(ValueError):_validate_target(row)
+
+
+def test_native_entry_region_join_is_hub3():
+    rows=json.loads((Path(__file__).resolve().parents[1]/'dev-docs/native-room-wikirby-map.json').read_text())['rooms']
+    assert ACCESS in next(row['ap_keys'] for row in rows if row['native_id']==192)
