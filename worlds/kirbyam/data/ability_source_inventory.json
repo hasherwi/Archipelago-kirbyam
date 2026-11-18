@@ -146494,6 +146494,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:121/template:0x088D2904"
@@ -146551,6 +146561,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:121/template:0x088D2904"
@@ -146608,6 +146628,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:121/template:0x088D2904"
@@ -146665,6 +146695,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:121/template:0x088D2904",
@@ -146723,6 +146763,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:139/template:0x088BA0D8"
@@ -146780,6 +146830,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:139/template:0x088BA0D8"
@@ -146837,6 +146897,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:139/template:0x088BA0D8"
@@ -146894,6 +146964,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BC060"
@@ -146951,6 +147031,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BC060"
@@ -147008,6 +147098,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BC060"
@@ -147065,6 +147165,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BC060"
@@ -147122,6 +147232,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BBEB0",
@@ -147184,6 +147304,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:148/template:0x088BBEB0",
@@ -147246,6 +147376,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:149/template:0x088BC434"
@@ -147303,6 +147443,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:202/template:0x088BE5E0",
@@ -147363,6 +147513,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:202/template:0x088BE5E0",
@@ -147423,6 +147583,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:414/template:0x088C704C"
@@ -147480,6 +147650,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:414/template:0x088C704C"
@@ -147537,6 +147717,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:526/template:0x088D20EC"
@@ -147595,6 +147785,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:526/template:0x088D20EC"
@@ -147653,6 +147853,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:526/template:0x088D20EC"
@@ -147711,6 +147921,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:526/template:0x088D20EC"
@@ -147769,6 +147989,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:712/template:0x088BD618"
@@ -147827,6 +148057,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:712/template:0x088BD618"
@@ -147885,6 +148125,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:712/template:0x088BD618"
@@ -147943,6 +148193,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148002,6 +148262,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148061,6 +148331,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148120,6 +148400,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148179,6 +148469,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148238,6 +148538,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:823/template:0x088CCEFC",
@@ -148297,6 +148607,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:955/template:0x088D5CD0",
@@ -148375,6 +148695,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:955/template:0x088D5CD0",
@@ -148453,6 +148783,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:956/template:0x088D5D60",
@@ -148531,6 +148871,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:956/template:0x088D5D60",
@@ -148609,6 +148959,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:957/template:0x088D5DF0",
@@ -148687,6 +149047,16 @@
         "startup_counter_previous_signed_value_above": 64,
         "global_slot_search_limit": 32,
         "exhausted_slot_behavior": "not_certified",
+        "slot_boundary_contract": {
+          "source_sha256": "3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47",
+          "evidence": "asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference",
+          "full_bitmap": 4294967295,
+          "exhausted_index": 32,
+          "exhaustion_returns_before_construction": false,
+          "construction_path": "The full search branches to the same template-construction label with index32; no successful allocation is inferred.",
+          "null_child_return": "If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.",
+          "safe_exhaustion_or_recovery_certified": false
+        },
         "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.",
         "candidate_counter_contributors": [
           "room:957/template:0x088D5DF0",

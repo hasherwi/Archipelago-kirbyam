@@ -499,3 +499,20 @@ class ParentExpiryPredicateTests(unittest.TestCase):
     def test_changed_native_source_is_rejected(self):
         with self.assertRaisesRegex(ValueError,'reviewed object.c'):
             extract.parent_expiry_predicate({'parent_expiry_callback':'sub_0809F840'},{'src/object.c':'changed'})
+
+class SpawnerSlotBoundaryTests(unittest.TestCase):
+    def test_all_spawner_outputs_preserve_unproved_exhaustion_and_null_return_boundary(self):
+        import json
+        inventory=json.loads((extract.ROOT/'data/ability_source_inventory.json').read_text())
+        self.assertEqual(len(inventory['spawner_outputs']),37)
+        for row in inventory['spawner_outputs']:
+            conditions=row['spawn_conditions']
+            self.assertEqual(conditions['exhausted_slot_behavior'],'not_certified')
+            contract=conditions['slot_boundary_contract']
+            self.assertEqual(contract['source_sha256'],'3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47')
+            self.assertEqual(contract['full_bitmap'],(1<<conditions['global_slot_search_limit'])-1)
+            self.assertEqual(contract['exhausted_index'],32)
+            self.assertFalse(contract['exhaustion_returns_before_construction'])
+            self.assertFalse(contract['safe_exhaustion_or_recovery_certified'])
+            self.assertEqual(row['configured_child_capacity'],1)
+            self.assertFalse(row['reclaims_destroyed_slots'])

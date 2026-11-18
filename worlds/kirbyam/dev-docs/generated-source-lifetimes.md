@@ -440,3 +440,7 @@ that callback; Wiz's Bronto Burt with its NULL callback is excluded. The conditi
 does not prove callback retention in later phases, actual destruction timing,
 slot reclamation, safe reacquisition, reset or revival. No new world route or
 automatic lifetime transfer is installed by this metadata.
+
+### Spawner slot exhaustion remains unsafe to assume
+
+The [pinned native assembly](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L340-L441), SHA256 `3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47`, does not return when all32 bitmap slots are occupied. It continues template construction at index32. If `CreateObject` returns NULL and a tracked slot is empty, the counter still increments. These conditional control-flow facts do not establish safe memory behavior or allocation recovery. All37 current spawner prototypes remain finite, non-reclaiming and uncertified under exhaustion; no retry or usable child is inferred.
