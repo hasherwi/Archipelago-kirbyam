@@ -33,3 +33,13 @@ def finite_doo_graphs(row):
                    and not g.placements[0].renewable)
     assert len(graphs) == 10
     return graphs
+
+
+def chocolate_permission_is_progression(policy, ability):
+    if not chocolate_policy_applies(policy):
+        return False
+    if ability in policy.grant('WADDLE_DOO', lambda _: True).guaranteed:
+        return True
+    return any(ability in (g.abilities if g.randomized else g.guaranteed)
+               for g in (policy.grant(key, lambda _: True)
+                         for key in ('STATUE:353906', 'STATUE:353901')))

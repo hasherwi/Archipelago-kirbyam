@@ -194,7 +194,7 @@ def test_actual_target_preserves_other_exits_checks_and_keys(gating, keys, room_
 @pytest.mark.parametrize('count', [0, 1, 3])
 @pytest.mark.parametrize('minor', [False, True])
 @pytest.mark.parametrize('gating', [False, True])
-def test_spark_precollection_stays_useful_with_native_chocolate_and_green(monkeypatch, count, minor, gating):
+def test_spark_precollection_counts_native_chocolate_statue_permission(monkeypatch, count, minor, gating):
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor)
     mw = MultiWorld(1)
     mw.game[1] = KirbyAmWorld.game
@@ -209,36 +209,31 @@ def test_spark_precollection_stays_useful_with_native_chocolate_and_green(monkey
     world = mw.worlds[1]
     mw.state = CollectionState(mw)
     world.generate_early()
+    classification = ItemClassification.progression if minor and gating else ItemClassification.useful
+    expected_count = count if minor and gating else 0
     for _ in range(count):
         item = world.create_item('Spark Ability')
-        assert item.classification == ItemClassification.useful
+        assert item.classification == classification
         mw.push_precollected(item)
-    assert mw.state.count('Spark Ability', 1) == 0
+    assert mw.state.count('Spark Ability', 1) == expected_count
     world.create_regions()
     world.set_rules()
-    assert mw.state.count('Spark Ability', 1) == 0
+    assert mw.state.count('Spark Ability', 1) == expected_count
     assert len([i for i in mw.precollected_items[1] if i.name == 'Spark Ability']) == count
-    assert world.create_item('Spark Ability').classification == (
-        ItemClassification.useful)
+    assert world.create_item('Spark Ability').classification == classification
 
 
-def test_green_and_chocolate_spark_reasons_stay_independent():
-    enabled = set()
-
-    def get_location(name, _):
-        if name not in enabled:
-            raise KeyError(name)
-        return SimpleNamespace()
-    world = SimpleNamespace(player=1, _enemy_copy_ability_policy=policy(1, pool=['Spark']).policy,
-                            _ability_gating_enabled=lambda: True,
-                            multiworld=SimpleNamespace(get_location=get_location))
+def test_green_and_chocolate_spark_reasons_stay_independent(monkeypatch):
+    world = SimpleNamespace(player=1, ENABLE_MINOR_CHESTS=False,
+                            _enemy_copy_ability_policy=policy(1, pool=['Spark']).policy,
+                            _ability_gating_enabled=lambda: True)
     assert not rules.cabbage_element_is_progression(world, 'Spark')
-    enabled.add(data.locations['MINOR_CHEST_SPRAY_PAINT_12'].label)
+    world.ENABLE_MINOR_CHESTS = True
     assert rules.cabbage_element_is_progression(world, 'Spark')
-    enabled.clear()
-    enabled.add(data.locations['MINOR_CHEST_SPRAY_PAINT_04'].label)
+    key = 'MINOR_CHEST_SPRAY_PAINT_12'
+    monkeypatch.setitem(data.locations, key, data.locations[key]._replace(source_rom_offset=None))
+    assert data.locations['MINOR_CHEST_SPRAY_PAINT_04'].source_rom_offset is not None
     assert not rules.cabbage_element_is_progression(world, 'Spark')
-    world._enemy_copy_ability_policy = policy(1, pool=['Beam']).policy
 
 
 @pytest.mark.parametrize('witness,field', [

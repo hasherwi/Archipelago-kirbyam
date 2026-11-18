@@ -139,9 +139,9 @@ def test_optional_chest_preserves_exits_room_sanity_and_area_keys(
     else:
         with pytest.raises(KeyError):
             multiworld.get_location(data.locations[CHEST].label, 1)
-    # Neither Room8 nor Green Paint mandates Spark. Native Chocolate uses Beam.
+    # Room8 and Green remain Normal; the native Chocolate statue independently needs Spark permission.
     assert world.create_item("Spark Ability").classification == (
-        ItemClassification.useful)
+        ItemClassification.progression if gating and minor_chests else ItemClassification.useful)
     state.can_reach_region = lambda name, player: name == OWNER
     owner = multiworld.get_region(OWNER, 1)
     assert all(entrance.access_rule(state) for entrance in owner.exits)
