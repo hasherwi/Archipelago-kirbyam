@@ -22,3 +22,16 @@ def before_radish617_surfaces(rows):
     assert row['requirement'] is None
     row['requirement'] = 'can_get_rr_map_chest'
     return result
+
+
+
+def catalog_before_radish617(catalog):
+    result = deepcopy(catalog)
+    assert (result['witnesses'], result['variants']) == (148, 296)
+    added = [row for row in result['graphs'] if row['target'] == TARGET]
+    assert hashlib.sha256(json.dumps(added, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
+        'f94e475e7edd89f3d439477b827b8d98e65956f28e963b5d5b30f7409461567f')
+    assert result['capability_providers'].pop('bomb_617_normal_puff_slide') == ['Normal']
+    result['graphs'] = [row for row in result['graphs'] if row['target'] != TARGET]
+    result['witnesses'], result['variants'] = 147, 294
+    return result

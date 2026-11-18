@@ -139,8 +139,10 @@ def test_green_projection_keeps_original_spark_and_ownership_mutations(mutation:
 @pytest.mark.parametrize('mutation', ['source', 'equipment', 'condition', 'provider', 'count'])
 def test_compiled_green_catalog_projection_rejects_removed_semantic_mutations(mutation: str) -> None:
     from .support.green138_history import catalog_before_green138
+    from .support.radish617_history import catalog_before_radish617
     catalog = json.loads((Path(__file__).parents[1]
                           / 'dev-docs/supported-source-monotonicity-catalog.json').read_text())
+    catalog = catalog_before_radish617(catalog)
     row = next(row for row in catalog['graphs'] if row['witness'] == 'upper_left_normal_slide')
     if mutation == 'source':
         row['source_ids'] = ['unreviewed']
@@ -177,3 +179,21 @@ def test_compiled_projection_rejects_source_lifetime_and_expired_start():
     starts = (replace(graph.starts[0], expired=frozenset({'encounter'})), *graph.starts[1:])
     with pytest.raises(AssertionError):
         historical_main_compiled(replace(graph, starts=starts), 'fuse_126', 'local')
+
+
+@pytest.mark.parametrize('mutation', ['count', 'provider', 'source', 'equipment'])
+def test_radish_catalog_projection_rejects_semantic_changes(mutation):
+    from .support.radish617_history import catalog_before_radish617
+    catalog = json.loads((Path(__file__).parents[1]
+                          / 'dev-docs/supported-source-monotonicity-catalog.json').read_text())
+    row = next(r for r in catalog['graphs'] if r['target'] == 'bomb_617_radish_map')
+    if mutation == 'count':
+        catalog['witnesses'] += 1
+    elif mutation == 'provider':
+        catalog['capability_providers']['bomb_617_normal_puff_slide'].append('Spark')
+    elif mutation == 'source':
+        row['source_ids'] = ['unreviewed']
+    else:
+        row['equipment_routes'] = []
+    with pytest.raises(AssertionError):
+        catalog_before_radish617(catalog)

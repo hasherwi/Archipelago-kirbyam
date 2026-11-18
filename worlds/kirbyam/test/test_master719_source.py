@@ -252,6 +252,8 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     for capability in ('bomb_733_cupid_upper_from_below',
                        'bomb_733_cupid_lower_from_corridor'):
         assert catalog['capability_providers'].pop(capability) == ['Cupid']
+    from .support.radish617_history import catalog_before_radish617
+    catalog = catalog_before_radish617(catalog)
     catalog = catalog_scope_before_phone(catalog)
     catalog = catalog_before_green138(catalog)
     catalog.pop('source_sha256')

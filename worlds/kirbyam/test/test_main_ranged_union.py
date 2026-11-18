@@ -128,6 +128,10 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
     for region, room in rooms.items():
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
+            from .support.radish617_history import TARGET, before_radish617_targets
+            if row['id'] == TARGET:
+                assert before_radish617_targets([{'owner': region, 'target': row}]) == []
+                continue
             assert row['id'] not in catalogs['targets']
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.
