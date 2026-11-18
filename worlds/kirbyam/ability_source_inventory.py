@@ -94,5 +94,13 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
                 and record.get('reclaims_destroyed_slots') is False and result.get('renewable')):
             raise ValueError(f'Finite non-reclaiming spawner cannot be renewable: {identity}')
         result['lifetime'] = lifetime
+    if 'parent_placement' not in record:
+        # A new room slot clears bank0 only. Session/world spawn bits survive;
+        # a room-reset edge cannot by itself recreate those finite placements.
+        room_reset_respawns = record.get('spawn_conditions', {}).get('state_bank') not in (1, 2)
+        if result.get('room_reset_respawns', room_reset_respawns) != room_reset_respawns:
+            raise ValueError(f'Physical source room-reset contract mismatch: {identity}')
+        if not room_reset_respawns:
+            result['room_reset_respawns'] = False
     result['source_key'] = key
     return result

@@ -302,3 +302,41 @@ def test_native_non_reclaiming_spawner_cannot_supply_unlimited_random_retries():
         source.update(renewable=False)
         source.pop('retry_evidence')
         assert not resolve_inventory_source(source, record['native_room'], advanced=True)['renewable']
+
+
+def test_room_reset_cannot_override_session_or_world_spawn_bits():
+    persistent = [row for row in source_inventory().values()
+                  if row.get('source_key') and row.get('spawn_conditions', {}).get('state_bank') in (1, 2)]
+    assert len(persistent) == 10
+    assert {row['source_key'] for row in persistent} == {'COOKIN', 'JACK'}
+    for row in persistent:
+        source = {'inventory_id': row['id']}
+        assert resolve_inventory_source(source, row['native_room'])['room_reset_respawns'] is False
+        with pytest.raises(ValueError, match='room-reset contract mismatch'):
+            resolve_inventory_source(dict(source, room_reset_respawns=True), row['native_room'])
+    assert resolve_inventory_source({'inventory_id': ROCK}, 401).get('room_reset_respawns', True) is True
+
+
+def test_compiled_cookin_retains_consumption_across_same_room_reset():
+    from dataclasses import replace
+    from ..traversal import Position
+    record = source_inventory()['room:133/template:0x088CBAB0']
+    identity = record['id']
+    graph = compile_room_graph({
+        'version': 1, 'status': 'reviewed',
+        'nodes': [{'id': key, 'native_room': 133} for key in ('pre', 'contact', 'goal')],
+        'sources': [{'id': identity, 'inventory_id': identity, 'node': 'contact',
+                     'acquisition_evidence': 'isolated physical acquisition fixture'}],
+        'routes': [{'from': 'pre', 'to': 'contact', 'room_transition': True,
+                    'room_instance': 'reset', 'reset_evidence': 'isolated new room slot',
+                    'evidence': 'isolated return'},
+                   {'from': 'contact', 'to': 'goal', 'required_equipment': ['Cook'],
+                    'evidence': 'isolated equipment observation'}],
+        'starts': ['pre'], 'required_targets': ['goal'],
+    }, {}, require_inventory=True)
+    assert graph.placements[0].room_reset_respawns is False
+    initial = Position('pre', consumed=frozenset({identity}))
+    spent = replace(graph, starts=(initial,))
+    assert not spent.evaluate(policy(), frozenset(), gating=False).reaches('goal')
+    carried = replace(graph, starts=(replace(initial, equipped='Cook'),))
+    assert carried.evaluate(policy(), frozenset(), gating=False).reaches('goal')

@@ -335,6 +335,7 @@ class Placement:
     renewable: bool = False
     lifetime: str | None = None
     source_choices: tuple[str, ...] = ()
+    room_reset_respawns: bool = True
 
 
 @dataclass(frozen=True)
@@ -718,6 +719,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                         if identity not in objects
                         or any(node_by_key[source.node].room != node_by_key[route.target].room
                                for source in objects[identity])
+                        or not all(source.room_reset_respawns for source in objects[identity])
                         or (objects[identity][0].lifetime is not None
                             and objects[identity][0].lifetime not in route.revives_lifetimes)
                     )
@@ -904,6 +906,8 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
             raise ValueError("Unknown Central Master placement field or effect")
     elif row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
         raise ValueError(f"Unknown ability source: {row['source_key']}")
+    if not isinstance(row.get("room_reset_respawns", True), bool):
+        raise ValueError("room_reset_respawns must be a boolean")
     if not isinstance(row.get("renewable", False), bool):
         raise ValueError("renewable must be a boolean")
     if row.get("renewable") and not row.get("renewable_evidence"):
@@ -915,6 +919,7 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
         lifetime=row.get('lifetime'), source_choices=tuple(row.get('source_choices', ())),
+        room_reset_respawns=row.get('room_reset_respawns', True),
     )
 
 

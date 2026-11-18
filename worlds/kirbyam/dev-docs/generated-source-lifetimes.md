@@ -293,3 +293,14 @@ identities retain consumption. Generated identities additionally retain the
 explicit revival requirement. Acquired equipment is unchanged by this correction.
 Positive and negative graph tests cover both gating modes, reset of the actual
 source room, reset elsewhere, and unresolved identities.
+
+The inventory join also prevents a room reset from clearing session/world
+spawn-state consumption. Native `sub_080027E8` reads bank0 from the room slot,
+bank1 from `gUnk_02023368` and bank2 from `gUnk_02028BF0`; `level.c` clears only
+the room bank when allocating a slot. `ObjectDestroy` can retain the bit after
+defeat (including Cookin and Jack). All ten configured static sources with
+persistent-bank predicates now compile with `room_reset_respawns = false`, and
+a caller cannot override that physical contract. The other reviewed source
+contracts keep their existing behavior. This is not a claim that a source can
+never return under a separately proved session/world reset, nor a grant of
+renewability or new world access.

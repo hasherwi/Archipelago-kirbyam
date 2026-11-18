@@ -390,3 +390,12 @@ def test_reset_cannot_choose_a_convenient_room_for_an_aliased_identity():
     route = Route('pre', 'post', room_transition=True, resets_room_instance=True)
     result = run([route, NEEDS_STONE], sources, starts=[initial], gating=False)
     assert not result.reaches('other')
+
+
+def test_same_room_reset_does_not_recreate_source_with_persistent_spawn_state():
+    source = Placement('post', 'ROCKY', identity='persistent-rock', room_reset_respawns=False)
+    start = Position('pre', consumed=frozenset({'persistent-rock'}))
+    reset = Route('pre', 'post', room_transition=True, resets_room_instance=True)
+    assert not run([reset, NEEDS_STONE], [source], starts=[start], gating=False).reaches('other')
+    # The spawn constraint does not erase equipment obtained before this reset.
+    assert run([reset, NEEDS_STONE], [source], starts=[replace(start, equipped='Stone')], gating=False).reaches('other')
