@@ -16,7 +16,7 @@ Archipelago **0.6.8** from that repository; Universal Tracker **v0.3.8**, upstre
 This is source validation of the proposed integration, not a claim that the
 previously released 0.5.1 APWorld contains it.
 
-Current integration base: main `cb356f8b` (Phone progression plus PR #1107
+Later historical integration base: main `cb356f8b` (Phone progression plus PR #1107
 release metadata), KirbyAM APWorld **0.5.2**, Archipelago **0.6.8**, with the
 same pinned UT version. The PR description records the exact tested PR head
 and separates historical evidence from current-head validation.

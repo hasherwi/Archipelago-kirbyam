@@ -26,5 +26,5 @@ It exercises both nightly and multiple release output tags without publishing.
 The shell regression runs on Linux, matching the publication runners; other
 test platforms skip it because their default shells need not support `readarray`.
 
-This is repository CI maintenance; the existing Kirby v0.5.2 player changelog
+This is repository CI maintenance; the existing Kirby player changelog
 is preserved. No native ROM source, patch, gameplay or progression rules change.
