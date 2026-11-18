@@ -51,3 +51,23 @@ class InventoryDecoderTests(unittest.TestCase):
     def test_wrong_rom_is_rejected_before_source_access(self):
         with self.assertRaisesRegex(ValueError, 'USA ROM'):
             extract.build_inventory(b'wrong', Path('/not-needed'), {}, {})
+
+
+class NativeCandidateTests(unittest.TestCase):
+    def test_logical_subroom_traversals_are_not_dropped(self):
+        root = {'room': {'traversal': {'version': 1},
+                         'logical_regions': {'entry': {'traversal': {'version': 2}}}}}
+        self.assertEqual([item['version'] for item in extract.iter_traversals(root)], [1, 2])
+
+    def test_variable_type_review_is_bound_to_native_source_hash(self):
+        names = {0x12: 'OBJ_WADDLE_DOO', 0x13: 'OBJ_FLAMER', 0x1C: 'OBJ_TWISTER'}
+        expected_hash, expected_types = extract.VARIABLE_TYPES['kracko.c', 'type']
+        self.assertEqual(extract.possible_types('kracko.c', 'type', expected_hash, '', names),
+                         list(expected_types))
+        self.assertEqual(extract.possible_types('kracko.c', 'type', 'changed', '', names), [])
+
+    def test_dark_mind_wrapper_calls_are_not_mistaken_for_the_macro_definition(self):
+        text = ('#define Macro_081059A8(obj, xVal, yVal, typeVal, a, b)\n'
+                'Macro_081059A8(obj, 1, 2, OBJ_SHADOW_KIRBY_BOMB, 0, 0);')
+        self.assertEqual(list(extract.encounter_calls(text, 'dark_mind.c')),
+                         [(2, '1', 'OBJ_SHADOW_KIRBY_BOMB')])

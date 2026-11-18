@@ -83,7 +83,7 @@ def _expand_graph_parts(expanded: dict[str, Any], graph_parts: Mapping[str, Any]
 
 def compile_room_graph(
     payload: Mapping[str, Any], source_sets: Mapping[str, Any], *, area_keys: bool = False,
-    graph_parts: Mapping[str, Any] | None = None, advanced: bool = False,
+    graph_parts: Mapping[str, Any] | None = None, advanced: bool = False, require_inventory: bool = False,
 ) -> TraversalGraph:
     """Expand physical placements without changing their identity or retry policy."""
     expanded = deepcopy(dict(payload))
@@ -121,7 +121,8 @@ def compile_room_graph(
             identity_placements[identity] = inventory_id
             physical_identities[inventory_id] = identity
             source["id"] = identity
-    expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced)
+    expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced,
+                                                      require_inventory=require_inventory)
                            for source in sources]
     if not advanced:
         encounter_keys = {source.key for source in ABILITY_SOURCES if source.kind == "boss_spawned"}
@@ -134,7 +135,7 @@ def compile_room_graph(
 
 
 def load_room_traversal(
-    rooms: Mapping[str, Mapping[str, Any]],
+    rooms: Mapping[str, Mapping[str, Any]], *, require_inventory: bool = False,
 ) -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
     """Collect the shared schema and reject invalid or detached AP targets."""
     targets: list[dict[str, Any]] = []
@@ -166,13 +167,14 @@ def load_room_traversal(
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
-    _validate_graph_parts(graph_parts, source_sets)
+    _validate_graph_parts(graph_parts, source_sets, require_inventory=require_inventory)
     for row in targets:
-        _validate_graphs(row, source_sets, graph_parts)
+        _validate_graphs(row, source_sets, graph_parts, require_inventory=require_inventory)
     return tuple(targets), source_sets, graph_parts
 
 
-def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any]) -> None:
+def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any],
+                          *, require_inventory: bool = False) -> None:
     for key, definition in graph_parts.items():
         if not definition.get("nodes"):
             raise ValueError(f"Empty traversal graph part: {key}")
@@ -180,10 +182,11 @@ def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[s
         compile_room_graph({
             "version": 1, "status": "reviewed", "nodes": [], "routes": [],
             "starts": [definition["nodes"][0]["id"]], "graph_parts": [key],
-        }, source_sets, graph_parts=graph_parts, advanced=True)
+        }, source_sets, graph_parts=graph_parts, advanced=True, require_inventory=require_inventory)
 
 
-def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any]) -> None:
+def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any],
+                     *, require_inventory: bool = False) -> None:
     if not row.get("graphs"):
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
     advanced = row.get("advanced_graphs", [])
@@ -191,7 +194,8 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             or len(set(advanced)) != len(advanced) or any(name not in row["graphs"] for name in advanced)):
         raise ValueError(f"Invalid advanced traversal graph list: {row['id']}")
     for name, payload in row["graphs"].items():
-        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts, advanced=name in advanced)
+        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts, advanced=name in advanced,
+                                   require_inventory=require_inventory)
         from .master_source import CENTRAL_MASTER_SOURCE
         if any(source.source_key == CENTRAL_MASTER_SOURCE for source in graph.placements) and (
             row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
@@ -326,7 +330,8 @@ def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -
 
 @lru_cache(maxsize=1)
 def _room_catalog() -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
-    return load_room_traversal({name: {"traversal": region.traversal} for name, region in data.regions.items()})
+    return load_room_traversal({name: {"traversal": region.traversal} for name, region in data.regions.items()},
+                               require_inventory=True)
 
 
 def room_traversal_targets(kind: str) -> tuple[dict[str, Any], ...]:
@@ -338,4 +343,4 @@ def room_traversal_graph(target_id: str, witness: str, area_keys: bool = False) 
     targets, source_sets, graph_parts = _room_catalog()
     row = next(row for row in targets if row["id"] == target_id)
     return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts,
-                              advanced=witness in row.get("advanced_graphs", ()))
+                              advanced=witness in row.get("advanced_graphs", ()), require_inventory=True)

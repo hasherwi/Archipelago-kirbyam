@@ -14,10 +14,12 @@ facts, not copied ROM payloads. The source grant key points to the existing
 `SourcePolicy`, which uses actual runtime writes/configuration in vanilla,
 shuffled and live-random modes. No new random-assignment approximation is used.
 
-All 131 ordinary source rows in existing reviewed source sets and graph parts
-now join this inventory through 107 legacy identity bindings (106 distinct
+All 133 ordinary source rows in existing reviewed source sets and graph parts
+now join this inventory through 109 legacy identity bindings (108 distinct
 placements). The reviewed graph JSON and its fingerprints are unchanged.
-Compilation rejects unknown explicit references, room and
+Production room graphs require an inventory binding; isolated solver fixtures
+retain their explicit synthetic-source API. Compilation rejects unknown
+references, room and
 grant mismatches. It preserves the original acquisition prerequisites, graph
 compartments, consumed-source identities, renewability and retry evidence.
 The special post-clear Master stand retains its separate exact witness contract.
@@ -27,8 +29,7 @@ cannot justify reaching it.
 
 Encounter source types are rejected from standard room graphs, including when
 introduced through reusable graph parts or source sets. Advanced graphs still
-need an explicit acquisition witness. The encounter census records 46 direct
-creation call sites and 22 known runtime grant types as **unresolved candidates**;
+need an explicit acquisition witness. The encounter census records 118 controller/call-site candidate pairs and 22 known runtime grant types as **unresolved candidates**;
 none are automatically added as usable sources. File hashes identify the local
 decompilation inputs; the reference commit identifies the layout reference,
 not a claim that every local source file is unchanged from that commit.

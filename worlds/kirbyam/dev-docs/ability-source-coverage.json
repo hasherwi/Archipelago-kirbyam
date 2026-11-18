@@ -16,8 +16,8 @@
     "random_statue": 1,
     "statue": 95
   },
-  "reviewed_inventory_references": 107,
-  "distinct_referenced_placements": 106,
+  "reviewed_inventory_references": 109,
+  "distinct_referenced_placements": 108,
   "unbound_source_or_encounter_placements": [
     "room:101/template:0x088B6950",
     "room:101/template:0x088B6974",
@@ -741,7 +741,6 @@
     "room:321/template:0x088C4D48",
     "room:321/template:0x088C4D6C",
     "room:321/template:0x088C4D90",
-    "room:321/template:0x088C4DD8",
     "room:321/template:0x088C4E20",
     "room:322/template:0x088C4EB8",
     "room:322/template:0x088C4EDC",
@@ -750,7 +749,6 @@
     "room:322/template:0x088C5020",
     "room:322/template:0x088C5044",
     "room:323/template:0x088C50B8",
-    "room:323/template:0x088C5100",
     "room:323/template:0x088C5148",
     "room:323/template:0x088C516C",
     "room:323/template:0x088C5190",
@@ -1941,7 +1939,8 @@
     "room:957/template:0x088D5E14",
     "room:957/template:0x088D5E38"
   ],
-  "encounter_call_sites": 46,
+  "encounter_controller_call_pairs": 118,
+  "distinct_encounter_call_sites": 66,
   "known_dynamic_grant_types": 22,
   "generated_statue_slots": 2,
   "compact_requirements_requiring_target_context_review": [

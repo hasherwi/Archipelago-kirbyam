@@ -14902,7 +14902,7 @@
       "native_room": 102,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -14965,7 +14965,7 @@
       "native_room": 103,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -14997,7 +14997,7 @@
       "native_room": 103,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -15029,7 +15029,7 @@
       "native_room": 103,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -16362,7 +16362,7 @@
       "native_room": 108,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -16426,7 +16426,7 @@
       "native_room": 108,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17283,7 +17283,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17315,7 +17315,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17347,7 +17347,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17379,7 +17379,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17411,7 +17411,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -17443,7 +17443,7 @@
       "native_room": 113,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -18137,7 +18137,7 @@
       "native_room": 115,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -18294,7 +18294,7 @@
       "native_room": 117,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -19367,7 +19367,7 @@
       "native_room": 119,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -19399,7 +19399,7 @@
       "native_room": 119,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -20885,7 +20885,7 @@
       "native_room": 122,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -21864,7 +21864,7 @@
       "native_room": 130,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -21896,7 +21896,7 @@
       "native_room": 130,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -22753,7 +22753,7 @@
       "native_room": 132,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -22849,7 +22849,7 @@
       "native_room": 132,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -22881,7 +22881,7 @@
       "native_room": 132,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -22913,7 +22913,7 @@
       "native_room": 132,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -22945,7 +22945,7 @@
       "native_room": 132,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -23860,7 +23860,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -23892,7 +23892,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -23924,7 +23924,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -23988,7 +23988,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -24020,7 +24020,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -24052,7 +24052,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -24084,7 +24084,7 @@
       "native_room": 134,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25006,7 +25006,7 @@
       "native_room": 136,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25038,7 +25038,7 @@
       "native_room": 136,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25070,7 +25070,7 @@
       "native_room": 136,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25102,7 +25102,7 @@
       "native_room": 136,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25767,7 +25767,7 @@
       "native_room": 137,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -25799,7 +25799,7 @@
       "native_room": 137,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -27220,7 +27220,7 @@
       "native_room": 141,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -27252,7 +27252,7 @@
       "native_room": 141,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -27727,7 +27727,7 @@
       "native_room": 142,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -30222,7 +30222,7 @@
       "native_room": 147,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32137,7 +32137,7 @@
       "native_room": 171,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32233,7 +32233,7 @@
       "native_room": 171,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32265,7 +32265,7 @@
       "native_room": 171,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32297,7 +32297,7 @@
       "native_room": 171,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32614,7 +32614,7 @@
       "native_room": 172,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -32773,7 +32773,7 @@
       "native_room": 172,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -33753,7 +33753,7 @@
       "native_room": 174,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -34006,7 +34006,7 @@
       "native_room": 175,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -34352,7 +34352,7 @@
       "native_room": 176,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -34384,7 +34384,7 @@
       "native_room": 176,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -34448,7 +34448,7 @@
       "native_room": 176,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -34731,7 +34731,7 @@
       "native_room": 176,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -37700,7 +37700,7 @@
       "native_room": 203,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -37732,7 +37732,7 @@
       "native_room": 203,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -37764,7 +37764,7 @@
       "native_room": 203,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -37924,7 +37924,7 @@
       "native_room": 203,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -39123,7 +39123,7 @@
       "native_room": 206,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -39155,7 +39155,7 @@
       "native_room": 206,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -39187,7 +39187,7 @@
       "native_room": 206,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -39219,7 +39219,7 @@
       "native_room": 206,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -39818,7 +39818,7 @@
       "native_room": 209,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -41167,7 +41167,7 @@
       "native_room": 211,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -41356,7 +41356,7 @@
       "native_room": 211,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -41892,7 +41892,7 @@
       "native_room": 214,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -41987,7 +41987,7 @@
       "native_room": 214,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -42113,7 +42113,7 @@
       "native_room": 214,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -42145,7 +42145,7 @@
       "native_room": 214,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -42177,7 +42177,7 @@
       "native_room": 214,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -42209,7 +42209,7 @@
       "native_room": 214,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -43221,7 +43221,7 @@
       "native_room": 218,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -43253,7 +43253,7 @@
       "native_room": 218,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -43348,7 +43348,7 @@
       "native_room": 218,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -44860,7 +44860,7 @@
       "native_room": 222,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -44956,7 +44956,7 @@
       "native_room": 222,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -45273,7 +45273,7 @@
       "native_room": 223,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -45305,7 +45305,7 @@
       "native_room": 223,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -45337,7 +45337,7 @@
       "native_room": 223,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -45369,7 +45369,7 @@
       "native_room": 223,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -46757,7 +46757,7 @@
       "native_room": 225,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -46789,7 +46789,7 @@
       "native_room": 225,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -46821,7 +46821,7 @@
       "native_room": 225,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -48201,7 +48201,7 @@
       "native_room": 228,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -49240,7 +49240,7 @@
       "native_room": 231,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -49272,7 +49272,7 @@
       "native_room": 231,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -49304,7 +49304,7 @@
       "native_room": 231,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -51311,7 +51311,7 @@
       "native_room": 308,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -51343,7 +51343,7 @@
       "native_room": 308,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -51375,7 +51375,7 @@
       "native_room": 308,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -51657,7 +51657,7 @@
       "native_room": 308,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -51753,7 +51753,7 @@
       "native_room": 308,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -52573,7 +52573,7 @@
       "native_room": 312,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -52605,7 +52605,7 @@
       "native_room": 312,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -52987,7 +52987,7 @@
       "native_room": 313,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -53019,7 +53019,7 @@
       "native_room": 313,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -53051,7 +53051,7 @@
       "native_room": 313,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -53370,7 +53370,7 @@
       "native_room": 315,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -53810,7 +53810,7 @@
       "native_room": 316,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -53842,7 +53842,7 @@
       "native_room": 316,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57273,7 +57273,7 @@
       "native_room": 401,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57337,7 +57337,7 @@
       "native_room": 401,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57401,7 +57401,7 @@
       "native_room": 401,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57528,7 +57528,7 @@
       "native_room": 401,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57937,7 +57937,7 @@
       "native_room": 402,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -57969,7 +57969,7 @@
       "native_room": 402,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -58001,7 +58001,7 @@
       "native_room": 402,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -58255,7 +58255,7 @@
       "native_room": 402,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -58383,7 +58383,7 @@
       "native_room": 402,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -59044,7 +59044,7 @@
       "native_room": 405,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -59076,7 +59076,7 @@
       "native_room": 405,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -59108,7 +59108,7 @@
       "native_room": 405,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -59140,7 +59140,7 @@
       "native_room": 405,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -59489,7 +59489,7 @@
       "native_room": 405,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61074,7 +61074,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61265,7 +61265,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61297,7 +61297,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61329,7 +61329,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61361,7 +61361,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61393,7 +61393,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -61425,7 +61425,7 @@
       "native_room": 412,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62120,7 +62120,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62152,7 +62152,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62184,7 +62184,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62216,7 +62216,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62248,7 +62248,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62280,7 +62280,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62344,7 +62344,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62376,7 +62376,7 @@
       "native_room": 415,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62472,7 +62472,7 @@
       "native_room": 415,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62504,7 +62504,7 @@
       "native_room": 415,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -62882,7 +62882,7 @@
       "native_room": 416,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -63740,7 +63740,7 @@
       "native_room": 418,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -64595,7 +64595,7 @@
       "native_room": 419,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -64627,7 +64627,7 @@
       "native_room": 419,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -65965,7 +65965,7 @@
       "native_room": 422,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -65997,7 +65997,7 @@
       "native_room": 422,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -66666,7 +66666,7 @@
       "native_room": 423,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -66698,7 +66698,7 @@
       "native_room": 423,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -66730,7 +66730,7 @@
       "native_room": 423,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -69710,7 +69710,7 @@
       "native_room": 504,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -69742,7 +69742,7 @@
       "native_room": 504,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -69869,7 +69869,7 @@
       "native_room": 504,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -71259,7 +71259,7 @@
       "native_room": 510,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -71607,7 +71607,7 @@
       "native_room": 511,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -71703,7 +71703,7 @@
       "native_room": 511,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -71797,7 +71797,7 @@
       "native_room": 511,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -72679,7 +72679,7 @@
       "native_room": 514,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -72711,7 +72711,7 @@
       "native_room": 514,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -72807,7 +72807,7 @@
       "native_room": 514,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -72839,7 +72839,7 @@
       "native_room": 514,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73120,7 +73120,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73152,7 +73152,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73184,7 +73184,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73248,7 +73248,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73280,7 +73280,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -73312,7 +73312,7 @@
       "native_room": 515,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -74544,7 +74544,7 @@
       "native_room": 524,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -74702,7 +74702,7 @@
       "native_room": 524,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -74830,7 +74830,7 @@
       "native_room": 524,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -74894,7 +74894,7 @@
       "native_room": 524,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -74926,7 +74926,7 @@
       "native_room": 525,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -75212,7 +75212,7 @@
       "native_room": 525,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -77047,7 +77047,7 @@
       "native_room": 528,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -77079,7 +77079,7 @@
       "native_room": 528,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -77269,7 +77269,7 @@
       "native_room": 528,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -77965,7 +77965,7 @@
       "native_room": 530,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -77997,7 +77997,7 @@
       "native_room": 530,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -78029,7 +78029,7 @@
       "native_room": 530,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -78504,7 +78504,7 @@
       "native_room": 531,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -78536,7 +78536,7 @@
       "native_room": 531,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -79441,7 +79441,7 @@
       "native_room": 532,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -79473,7 +79473,7 @@
       "native_room": 532,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -79662,7 +79662,7 @@
       "native_room": 533,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -79694,7 +79694,7 @@
       "native_room": 533,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -80327,7 +80327,7 @@
       "native_room": 534,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -80359,7 +80359,7 @@
       "native_room": 534,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -81434,7 +81434,7 @@
       "native_room": 538,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -82318,7 +82318,7 @@
       "native_room": 540,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -82350,7 +82350,7 @@
       "native_room": 540,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -82853,7 +82853,7 @@
       "native_room": 541,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -82885,7 +82885,7 @@
       "native_room": 541,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -83707,7 +83707,7 @@
       "native_room": 543,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -83832,7 +83832,7 @@
       "native_room": 543,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -83928,7 +83928,7 @@
       "native_room": 544,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -84500,7 +84500,7 @@
       "native_room": 545,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -84532,7 +84532,7 @@
       "native_room": 545,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -84564,7 +84564,7 @@
       "native_room": 545,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85576,7 +85576,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85608,7 +85608,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85640,7 +85640,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85672,7 +85672,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85831,7 +85831,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -85863,7 +85863,7 @@
       "native_room": 551,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -86432,7 +86432,7 @@
       "native_room": 553,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -86464,7 +86464,7 @@
       "native_room": 553,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -86496,7 +86496,7 @@
       "native_room": 553,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -86655,7 +86655,7 @@
       "native_room": 553,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -86750,7 +86750,7 @@
       "native_room": 553,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -87794,7 +87794,7 @@
       "native_room": 556,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -87826,7 +87826,7 @@
       "native_room": 556,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -87953,7 +87953,7 @@
       "native_room": 556,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -89096,7 +89096,7 @@
       "native_room": 571,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -89128,7 +89128,7 @@
       "native_room": 571,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90061,7 +90061,7 @@
       "native_room": 601,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90093,7 +90093,7 @@
       "native_room": 601,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90250,7 +90250,7 @@
       "native_room": 601,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90625,7 +90625,7 @@
       "native_room": 601,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90689,7 +90689,7 @@
       "native_room": 601,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90753,7 +90753,7 @@
       "native_room": 601,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90848,7 +90848,7 @@
       "native_room": 603,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -90880,7 +90880,7 @@
       "native_room": 603,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -91132,7 +91132,7 @@
       "native_room": 603,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -92235,7 +92235,7 @@
       "native_room": 606,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -92331,7 +92331,7 @@
       "native_room": 606,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -92394,7 +92394,7 @@
       "native_room": 606,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -93929,7 +93929,7 @@
       "native_room": 611,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -95285,7 +95285,7 @@
       "native_room": 616,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -95317,7 +95317,7 @@
       "native_room": 616,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -95884,7 +95884,7 @@
       "native_room": 618,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -95916,7 +95916,7 @@
       "native_room": 618,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -95948,7 +95948,7 @@
       "native_room": 618,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -96106,7 +96106,7 @@
       "native_room": 618,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -96138,7 +96138,7 @@
       "native_room": 618,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -96170,7 +96170,7 @@
       "native_room": 618,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -96577,7 +96577,7 @@
       "native_room": 621,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -97014,7 +97014,7 @@
       "native_room": 622,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -98780,7 +98780,7 @@
       "native_room": 706,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -98812,7 +98812,7 @@
       "native_room": 706,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -98940,7 +98940,7 @@
       "native_room": 706,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -98972,7 +98972,7 @@
       "native_room": 706,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -99004,7 +99004,7 @@
       "native_room": 706,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -99477,7 +99477,7 @@
       "native_room": 707,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -99509,7 +99509,7 @@
       "native_room": 707,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -99698,7 +99698,7 @@
       "native_room": 708,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -99826,7 +99826,7 @@
       "native_room": 708,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -100920,7 +100920,7 @@
       "native_room": 712,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -100952,7 +100952,7 @@
       "native_room": 712,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -101046,7 +101046,7 @@
       "native_room": 712,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -101078,7 +101078,7 @@
       "native_room": 712,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102076,7 +102076,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102108,7 +102108,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102140,7 +102140,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102172,7 +102172,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102204,7 +102204,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102236,7 +102236,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -102268,7 +102268,7 @@
       "native_room": 716,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103192,7 +103192,7 @@
       "native_room": 719,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103224,7 +103224,7 @@
       "native_room": 719,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103413,7 +103413,7 @@
       "native_room": 719,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103445,7 +103445,7 @@
       "native_room": 719,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103541,7 +103541,7 @@
       "native_room": 719,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -103573,7 +103573,7 @@
       "native_room": 719,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -104166,7 +104166,7 @@
       "native_room": 720,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -104198,7 +104198,7 @@
       "native_room": 720,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -104230,7 +104230,7 @@
       "native_room": 720,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -104262,7 +104262,7 @@
       "native_room": 720,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -104986,7 +104986,7 @@
       "native_room": 730,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -105049,7 +105049,7 @@
       "native_room": 730,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -105207,7 +105207,7 @@
       "native_room": 730,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -105527,7 +105527,7 @@
       "native_room": 730,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -105749,7 +105749,7 @@
       "native_room": 731,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -105781,7 +105781,7 @@
       "native_room": 731,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106157,7 +106157,7 @@
       "native_room": 733,
       "native_name": "OBJ_SHADOW_KIRBY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106438,7 +106438,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106470,7 +106470,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106502,7 +106502,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106534,7 +106534,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106566,7 +106566,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106629,7 +106629,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -106661,7 +106661,7 @@
       "native_room": 735,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107192,7 +107192,7 @@
       "native_room": 736,
       "native_name": "OBJ_BLOCKIN",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107317,7 +107317,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107349,7 +107349,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107381,7 +107381,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107413,7 +107413,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107508,7 +107508,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -107540,7 +107540,7 @@
       "native_room": 736,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -109328,7 +109328,7 @@
       "native_room": 742,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -109391,7 +109391,7 @@
       "native_room": 742,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -110114,7 +110114,7 @@
       "native_room": 744,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -110210,7 +110210,7 @@
       "native_room": 744,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -110242,7 +110242,7 @@
       "native_room": 744,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -110305,7 +110305,7 @@
       "native_room": 744,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -111552,7 +111552,7 @@
       "native_room": 802,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -112616,7 +112616,7 @@
       "native_room": 805,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113121,7 +113121,7 @@
       "native_room": 805,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113153,7 +113153,7 @@
       "native_room": 805,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113406,7 +113406,7 @@
       "native_room": 810,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113438,7 +113438,7 @@
       "native_room": 810,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113470,7 +113470,7 @@
       "native_room": 810,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113692,7 +113692,7 @@
       "native_room": 811,
       "native_name": "OBJ_MIRRA",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -113881,7 +113881,7 @@
       "native_room": 811,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -114070,7 +114070,7 @@
       "native_room": 811,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -115799,7 +115799,7 @@
       "native_room": 819,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -118641,7 +118641,7 @@
       "native_room": 828,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -118673,7 +118673,7 @@
       "native_room": 828,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -118705,7 +118705,7 @@
       "native_room": 828,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -118737,7 +118737,7 @@
       "native_room": 828,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -118769,7 +118769,7 @@
       "native_room": 828,
       "native_name": "OBJ_SHOTZO_1",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119085,7 +119085,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119117,7 +119117,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119149,7 +119149,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119181,7 +119181,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119213,7 +119213,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119245,7 +119245,7 @@
       "native_room": 829,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -119626,7 +119626,7 @@
       "native_room": 830,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -121256,7 +121256,7 @@
       "native_room": 913,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -121633,7 +121633,7 @@
       "native_room": 915,
       "native_name": "OBJ_SCARFY",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -121665,7 +121665,7 @@
       "native_room": 915,
       "native_name": "OBJ_GORDO",
       "source_key": null,
-      "native_grant": null,
+      "native_grant": "Normal",
       "source_type": "enemy",
       "logic": "standard",
       "access": {
@@ -123888,6 +123888,15 @@
       "evidence": "src/mr_frosty.c:762",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_MR_FROSTY_ICE_CUBE_SMALL",
+      "possible_outputs": [
+        {
+          "type_id": 166,
+          "native_name": "OBJ_MR_FROSTY_ICE_CUBE_SMALL",
+          "source_key": "MR_FROSTY_ICE_CUBE",
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": "MR_FROSTY_ICE_CUBE",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123903,6 +123912,15 @@
       "evidence": "src/mr_frosty.c:765",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_MR_FROSTY_ICE_CUBE_LARGE",
+      "possible_outputs": [
+        {
+          "type_id": 167,
+          "native_name": "OBJ_MR_FROSTY_ICE_CUBE_LARGE",
+          "source_key": "MR_FROSTY_ICE_CUBE",
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": "MR_FROSTY_ICE_CUBE",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123918,6 +123936,15 @@
       "evidence": "src/bonkers.c:701",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BONKERS_NUT_SMALL",
+      "possible_outputs": [
+        {
+          "type_id": 168,
+          "native_name": "OBJ_BONKERS_NUT_SMALL",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123936,6 +123963,15 @@
       "evidence": "src/bonkers.c:705",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BONKERS_NUT_LARGE",
+      "possible_outputs": [
+        {
+          "type_id": 169,
+          "native_name": "OBJ_BONKERS_NUT_LARGE",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123954,6 +123990,15 @@
       "evidence": "src/phan_phan.c:741",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_APPLE",
+      "possible_outputs": [
+        {
+          "type_id": 170,
+          "native_name": "OBJ_APPLE",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123969,6 +124014,15 @@
       "evidence": "src/batafire.c:905",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BATAFIRE_FIREBALL",
+      "possible_outputs": [
+        {
+          "type_id": 161,
+          "native_name": "OBJ_BATAFIRE_FIREBALL",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -123985,6 +124039,15 @@
       "evidence": "src/box_boxer.c:762",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BOX_BOXER_ENERGY_BALL",
+      "possible_outputs": [
+        {
+          "type_id": 180,
+          "native_name": "OBJ_BOX_BOXER_ENERGY_BALL",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124001,6 +124064,15 @@
       "evidence": "src/boxy.c:666",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BOXY_BOX",
+      "possible_outputs": [
+        {
+          "type_id": 176,
+          "native_name": "OBJ_BOXY_BOX",
+          "source_key": "BOXY_SPAWNED_OBJECT",
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": "BOXY_SPAWNED_OBJECT",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124017,6 +124089,15 @@
       "evidence": "src/boxy.c:783",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_SMALL_FOOD",
+      "possible_outputs": [
+        {
+          "type_id": 94,
+          "native_name": "OBJ_SMALL_FOOD",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124033,6 +124114,15 @@
       "evidence": "src/boxy.c:828",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BATTERY",
+      "possible_outputs": [
+        {
+          "type_id": 98,
+          "native_name": "OBJ_BATTERY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124049,6 +124139,15 @@
       "evidence": "src/boxy.c:835",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_MINNY",
+      "possible_outputs": [
+        {
+          "type_id": 39,
+          "native_name": "OBJ_MINNY",
+          "source_key": "MINNY",
+          "native_grant": "Mini"
+        }
+      ],
+      "source_key": "MINNY",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124065,6 +124164,15 @@
       "evidence": "src/boxy.c:840",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_PRANK_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 173,
+          "native_name": "OBJ_PRANK_BOMB",
+          "source_key": "PRANK_BOMB",
+          "native_grant": "Bomb"
+        }
+      ],
+      "source_key": "PRANK_BOMB",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124081,6 +124189,15 @@
       "evidence": "src/boxy.c:846",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_PRANK_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 173,
+          "native_name": "OBJ_PRANK_BOMB",
+          "source_key": "PRANK_BOMB",
+          "native_grant": "Bomb"
+        }
+      ],
+      "source_key": "PRANK_BOMB",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124097,6 +124214,15 @@
       "evidence": "src/master_hand.c:2456",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_MASTER_HAND_BULLET",
+      "possible_outputs": [
+        {
+          "type_id": 200,
+          "native_name": "OBJ_MASTER_HAND_BULLET",
+          "source_key": "MASTER_CRAZY_HAND_BULLET",
+          "native_grant": "Burning"
+        }
+      ],
+      "source_key": "MASTER_CRAZY_HAND_BULLET",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124111,6 +124237,15 @@
       "evidence": "src/bombar.c:1212",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BOMBAR_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 178,
+          "native_name": "OBJ_BOMBAR_BOMB",
+          "source_key": "BOMBAR_BOMB",
+          "native_grant": "Bomb"
+        }
+      ],
+      "source_key": "BOMBAR_BOMB",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124125,6 +124260,15 @@
       "evidence": "src/bombar.c:1260",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BOMBAR_MISSILE",
+      "possible_outputs": [
+        {
+          "type_id": 179,
+          "native_name": "OBJ_BOMBAR_MISSILE",
+          "source_key": "BOMBAR_MISSILE",
+          "native_grant": "Missile"
+        }
+      ],
+      "source_key": "BOMBAR_MISSILE",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124139,6 +124283,15 @@
       "evidence": "src/bombar.c:1269",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BOMBAR_MISSILE",
+      "possible_outputs": [
+        {
+          "type_id": 179,
+          "native_name": "OBJ_BOMBAR_MISSILE",
+          "source_key": "BOMBAR_MISSILE",
+          "native_grant": "Missile"
+        }
+      ],
+      "source_key": "BOMBAR_MISSILE",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124153,6 +124306,27 @@
       "evidence": "src/kracko.c:1258",
       "spawn_table_expression": "1",
       "type_expression": "type",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 19,
+          "native_name": "OBJ_FLAMER",
+          "source_key": "FLAMER",
+          "native_grant": "Burning"
+        },
+        {
+          "type_id": 28,
+          "native_name": "OBJ_TWISTER",
+          "source_key": "TWISTER",
+          "native_grant": "Tornado"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124165,6 +124339,21 @@
       "evidence": "src/king_golem.c:424",
       "spawn_table_expression": "1",
       "type_expression": "type",
+      "possible_outputs": [
+        {
+          "type_id": 155,
+          "native_name": "OBJ_KING_GOLEM_ROCK",
+          "source_key": null,
+          "native_grant": "Normal"
+        },
+        {
+          "type_id": 156,
+          "native_name": "OBJ_KING_GOLEM_GORDO",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124177,6 +124366,27 @@
       "evidence": "src/king_golem.c:439",
       "spawn_table_expression": "1",
       "type_expression": "r + OBJ_GOLEM_1",
+      "possible_outputs": [
+        {
+          "type_id": 31,
+          "native_name": "OBJ_GOLEM_1",
+          "source_key": "GOLEM",
+          "native_grant": "Stone"
+        },
+        {
+          "type_id": 32,
+          "native_name": "OBJ_GOLEM_2",
+          "source_key": "GOLEM",
+          "native_grant": "Stone"
+        },
+        {
+          "type_id": 33,
+          "native_name": "OBJ_GOLEM_3",
+          "source_key": "GOLEM",
+          "native_grant": "Stone"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124189,6 +124399,15 @@
       "evidence": "src/crazy_hand.c:2902",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_MASTER_HAND_BULLET",
+      "possible_outputs": [
+        {
+          "type_id": 200,
+          "native_name": "OBJ_MASTER_HAND_BULLET",
+          "source_key": "MASTER_CRAZY_HAND_BULLET",
+          "native_grant": "Burning"
+        }
+      ],
+      "source_key": "MASTER_CRAZY_HAND_BULLET",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124201,6 +124420,15 @@
       "evidence": "src/crazy_hand.c:3019",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_CRAZY_HAND_2",
+      "possible_outputs": [
+        {
+          "type_id": 77,
+          "native_name": "OBJ_CRAZY_HAND_2",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124213,6 +124441,15 @@
       "evidence": "src/gobbler.c:2378",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_GOBBLER_BABY",
+      "possible_outputs": [
+        {
+          "type_id": 159,
+          "native_name": "OBJ_GOBBLER_BABY",
+          "source_key": "SNAPPER",
+          "native_grant": "Sword"
+        }
+      ],
+      "source_key": "SNAPPER",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124225,6 +124462,15 @@
       "evidence": "src/wiz.c:732",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_FOOTBALL",
+      "possible_outputs": [
+        {
+          "type_id": 181,
+          "native_name": "OBJ_WIZ_FOOTBALL",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124237,6 +124483,15 @@
       "evidence": "src/wiz.c:783",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_CAR",
+      "possible_outputs": [
+        {
+          "type_id": 182,
+          "native_name": "OBJ_WIZ_CAR",
+          "source_key": "WIZ_CAR",
+          "native_grant": "Wheel"
+        }
+      ],
+      "source_key": "WIZ_CAR",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124249,6 +124504,15 @@
       "evidence": "src/wiz.c:857",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_BALLOON",
+      "possible_outputs": [
+        {
+          "type_id": 183,
+          "native_name": "OBJ_WIZ_BALLOON",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124261,6 +124525,15 @@
       "evidence": "src/wiz.c:866",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_BALLOON",
+      "possible_outputs": [
+        {
+          "type_id": 183,
+          "native_name": "OBJ_WIZ_BALLOON",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124273,6 +124546,15 @@
       "evidence": "src/wiz.c:957",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 184,
+          "native_name": "OBJ_WIZ_BOMB",
+          "source_key": "WIZ_BOMB",
+          "native_grant": "Bomb"
+        }
+      ],
+      "source_key": "WIZ_BOMB",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124285,6 +124567,15 @@
       "evidence": "src/wiz.c:1020",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_CLOUD",
+      "possible_outputs": [
+        {
+          "type_id": 185,
+          "native_name": "OBJ_WIZ_CLOUD",
+          "source_key": "WIZ_CLOUD",
+          "native_grant": "Spark"
+        }
+      ],
+      "source_key": "WIZ_CLOUD",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124297,6 +124588,15 @@
       "evidence": "src/wiz.c:1107",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_APPLE",
+      "possible_outputs": [
+        {
+          "type_id": 186,
+          "native_name": "OBJ_WIZ_APPLE",
+          "source_key": "WIZ_POISON_APPLE",
+          "native_grant": "Sleep"
+        }
+      ],
+      "source_key": "WIZ_POISON_APPLE",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124309,6 +124609,15 @@
       "evidence": "src/wiz.c:1161",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_BRONTO_BURT",
+      "possible_outputs": [
+        {
+          "type_id": 1,
+          "native_name": "OBJ_BRONTO_BURT",
+          "source_key": "BRONTO_BURT",
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": "BRONTO_BURT",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124321,6 +124630,15 @@
       "evidence": "src/wiz.c:1176",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_WIZ_DROPPY",
+      "possible_outputs": [
+        {
+          "type_id": 187,
+          "native_name": "OBJ_WIZ_DROPPY",
+          "source_key": "DROPPY",
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": "DROPPY",
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124333,6 +124651,51 @@
       "evidence": "src/moley.c:754",
       "spawn_table_expression": "1",
       "type_expression": "type",
+      "possible_outputs": [
+        {
+          "type_id": 193,
+          "native_name": "OBJ_MOLEY_ROCK",
+          "source_key": null,
+          "native_grant": "Normal"
+        },
+        {
+          "type_id": 194,
+          "native_name": "OBJ_MOLEY_SCREW",
+          "source_key": null,
+          "native_grant": "Normal"
+        },
+        {
+          "type_id": 195,
+          "native_name": "OBJ_MOLEY_TIRE",
+          "source_key": "MOLEY_TIRE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 196,
+          "native_name": "OBJ_MOLEY_BOMB",
+          "source_key": "MOLEY_BOMB",
+          "native_grant": "Bomb"
+        },
+        {
+          "type_id": 197,
+          "native_name": "OBJ_MOLEY_BIG_ROCK",
+          "source_key": "MOLEY_LARGE_ROCK",
+          "native_grant": "Stone"
+        },
+        {
+          "type_id": 198,
+          "native_name": "OBJ_MOLEY_BARREL",
+          "source_key": "MOLEY_OIL_DRUM",
+          "native_grant": "Burning"
+        },
+        {
+          "type_id": 199,
+          "native_name": "OBJ_MOLEY_SPIKE_BALL",
+          "source_key": "MOLEY_SPINY",
+          "native_grant": "Cutter"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124345,6 +124708,15 @@
       "evidence": "src/mega_titan.c:701",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_ARM_1",
+      "possible_outputs": [
+        {
+          "type_id": 188,
+          "native_name": "OBJ_TITAN_ARM_1",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124357,6 +124729,15 @@
       "evidence": "src/mega_titan.c:2147",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_ARM_3",
+      "possible_outputs": [
+        {
+          "type_id": 190,
+          "native_name": "OBJ_TITAN_ARM_3",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124369,6 +124750,15 @@
       "evidence": "src/mega_titan.c:2711",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_ARM_2",
+      "possible_outputs": [
+        {
+          "type_id": 189,
+          "native_name": "OBJ_TITAN_ARM_2",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124381,6 +124771,15 @@
       "evidence": "src/mega_titan.c:3275",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_ARM_4",
+      "possible_outputs": [
+        {
+          "type_id": 191,
+          "native_name": "OBJ_TITAN_ARM_4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124393,6 +124792,15 @@
       "evidence": "src/mega_titan.c:4135",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_HEAD",
+      "possible_outputs": [
+        {
+          "type_id": 76,
+          "native_name": "OBJ_TITAN_HEAD",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124405,6 +124813,15 @@
       "evidence": "src/mega_titan.c:4581",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_TITAN_HEAD_MISSILE",
+      "possible_outputs": [
+        {
+          "type_id": 192,
+          "native_name": "OBJ_TITAN_HEAD_MISSILE",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124417,6 +124834,15 @@
       "evidence": "src/dark_meta_knight.c:750",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_SCROLL_LOCK",
+      "possible_outputs": [
+        {
+          "type_id": 119,
+          "native_name": "OBJ_SCROLL_LOCK",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124429,6 +124855,15 @@
       "evidence": "src/dark_meta_knight.c:2799",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_CUTSCENE_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 142,
+          "native_name": "OBJ_CUTSCENE_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124438,9 +124873,693 @@
     },
     {
       "controller_type": 79,
-      "evidence": "src/dark_mind.c:3607",
+      "evidence": "src/dark_mind.c:3637",
       "spawn_table_expression": "1",
-      "type_expression": "\\\n        typeVal",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:3644",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:3824",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:3856",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:3877",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:4172",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 48,
+          "native_name": "OBJ_DARK_MIND_BOMB",
+          "source_key": "DARK_MIND_BOMB",
+          "native_grant": "Crash"
+        }
+      ],
+      "source_key": "DARK_MIND_BOMB",
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:4286",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:4292",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:5138",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:6151",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:6263",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 81,
+          "native_name": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:6264",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_CUTSCENE_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 142,
+          "native_name": "OBJ_CUTSCENE_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8012",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8019",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8365",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy3Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8377",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy2Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 34,
+          "native_name": "OBJ_FOLEY_1",
+          "source_key": "FOLEY",
+          "native_grant": "Bomb"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8391",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy1Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 21,
+          "native_name": "OBJ_LASER_BALL",
+          "source_key": "LASER_BALL",
+          "native_grant": "Laser"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 27,
+          "native_name": "OBJ_UFO",
+          "source_key": "UFO",
+          "native_grant": "UFO"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:8952",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER",
+      "possible_outputs": [
+        {
+          "type_id": 209,
+          "native_name": "OBJ_DARK_MIND_LASER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:9077",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER_SHOWER",
+      "possible_outputs": [
+        {
+          "type_id": 210,
+          "native_name": "OBJ_DARK_MIND_LASER_SHOWER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:9486",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:9489",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:9493",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:9496",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:11621",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:910/template:0x088D5230",
+        "room:912/template:0x088D542C",
+        "room:914/template:0x088D55BC",
+        "room:916/template:0x088D57E0"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 79,
+      "evidence": "src/dark_mind.c:11638",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124453,9 +125572,621 @@
     },
     {
       "controller_type": 80,
-      "evidence": "src/dark_mind.c:3607",
+      "evidence": "src/dark_mind.c:3637",
       "spawn_table_expression": "1",
-      "type_expression": "\\\n        typeVal",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:3644",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:3824",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:3856",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:3877",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:4172",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 48,
+          "native_name": "OBJ_DARK_MIND_BOMB",
+          "source_key": "DARK_MIND_BOMB",
+          "native_grant": "Crash"
+        }
+      ],
+      "source_key": "DARK_MIND_BOMB",
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:4286",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:4292",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:5138",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:6151",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:6263",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 81,
+          "native_name": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:6264",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_CUTSCENE_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 142,
+          "native_name": "OBJ_CUTSCENE_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8012",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8019",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8365",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy3Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8377",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy2Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 34,
+          "native_name": "OBJ_FOLEY_1",
+          "source_key": "FOLEY",
+          "native_grant": "Bomb"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8391",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy1Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 21,
+          "native_name": "OBJ_LASER_BALL",
+          "source_key": "LASER_BALL",
+          "native_grant": "Laser"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 27,
+          "native_name": "OBJ_UFO",
+          "source_key": "UFO",
+          "native_grant": "UFO"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:8952",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER",
+      "possible_outputs": [
+        {
+          "type_id": 209,
+          "native_name": "OBJ_DARK_MIND_LASER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:9077",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER_SHOWER",
+      "possible_outputs": [
+        {
+          "type_id": 210,
+          "native_name": "OBJ_DARK_MIND_LASER_SHOWER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:9486",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:9489",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:9493",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:9496",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:11621",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:918/template:0x088D5828"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 80,
+      "evidence": "src/dark_mind.c:11638",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124465,9 +126196,621 @@
     },
     {
       "controller_type": 81,
-      "evidence": "src/dark_mind.c:3607",
+      "evidence": "src/dark_mind.c:3637",
       "spawn_table_expression": "1",
-      "type_expression": "\\\n        typeVal",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:3644",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 202,
+          "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:3824",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:3856",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:3877",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_STAR_FIRE + r3",
+      "possible_outputs": [],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:4172",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_BOMB",
+      "possible_outputs": [
+        {
+          "type_id": 48,
+          "native_name": "OBJ_DARK_MIND_BOMB",
+          "source_key": "DARK_MIND_BOMB",
+          "native_grant": "Crash"
+        }
+      ],
+      "source_key": "DARK_MIND_BOMB",
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:4286",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:4292",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_CF",
+      "possible_outputs": [
+        {
+          "type_id": 207,
+          "native_name": "OBJ_UNKNOWN_CF",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:5138",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:6151",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_SHADOW_KIRBY",
+      "possible_outputs": [
+        {
+          "type_id": 54,
+          "native_name": "OBJ_SHADOW_KIRBY",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:6263",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 81,
+          "native_name": "OBJ_DARK_MIND_FORM_3_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:6264",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_CUTSCENE_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 142,
+          "native_name": "OBJ_CUTSCENE_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8012",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8019",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR",
+      "possible_outputs": [
+        {
+          "type_id": 208,
+          "native_name": "OBJ_DARK_MIND_MIRROR",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8365",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy3Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8377",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy2Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 34,
+          "native_name": "OBJ_FOLEY_1",
+          "source_key": "FOLEY",
+          "native_grant": "Bomb"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8391",
+      "spawn_table_expression": "1",
+      "type_expression": "gDarkMindForm2Enemy1Types[r4]",
+      "possible_outputs": [
+        {
+          "type_id": 18,
+          "native_name": "OBJ_WADDLE_DOO",
+          "source_key": "WADDLE_DOO",
+          "native_grant": "Beam"
+        },
+        {
+          "type_id": 20,
+          "native_name": "OBJ_HOT_HEAD",
+          "source_key": "HOT_HEAD",
+          "native_grant": "Fire"
+        },
+        {
+          "type_id": 21,
+          "native_name": "OBJ_LASER_BALL",
+          "source_key": "LASER_BALL",
+          "native_grant": "Laser"
+        },
+        {
+          "type_id": 22,
+          "native_name": "OBJ_PENGY",
+          "source_key": "PENGY",
+          "native_grant": "Ice"
+        },
+        {
+          "type_id": 24,
+          "native_name": "OBJ_SIR_KIBBLE",
+          "source_key": "SIR_KIBBLE",
+          "native_grant": "Cutter"
+        },
+        {
+          "type_id": 25,
+          "native_name": "OBJ_SPARKY",
+          "source_key": "SPARKY",
+          "native_grant": "Spark"
+        },
+        {
+          "type_id": 27,
+          "native_name": "OBJ_UFO",
+          "source_key": "UFO",
+          "native_grant": "UFO"
+        },
+        {
+          "type_id": 29,
+          "native_name": "OBJ_WHEELIE",
+          "source_key": "WHEELIE",
+          "native_grant": "Wheel"
+        },
+        {
+          "type_id": 37,
+          "native_name": "OBJ_BOXIN",
+          "source_key": "BOXIN",
+          "native_grant": "Fighter"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:8952",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER",
+      "possible_outputs": [
+        {
+          "type_id": 209,
+          "native_name": "OBJ_DARK_MIND_LASER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:9077",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_LASER_SHOWER",
+      "possible_outputs": [
+        {
+          "type_id": 210,
+          "native_name": "OBJ_DARK_MIND_LASER_SHOWER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:9486",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:9489",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:9493",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:9496",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_DARK_MIND_MIRROR_CUTTER",
+      "possible_outputs": [
+        {
+          "type_id": 211,
+          "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:11621",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
+      "logic": "advanced",
+      "status": "unresolved",
+      "candidate_encounters": [
+        "room:919/template:0x088D5870"
+      ],
+      "reason": "Call-site census requires branch, helper and encounter-lifetime review; not an acquisition witness."
+    },
+    {
+      "controller_type": 81,
+      "evidence": "src/dark_mind.c:11638",
+      "spawn_table_expression": "1",
+      "type_expression": "OBJ_UNKNOWN_D4",
+      "possible_outputs": [
+        {
+          "type_id": 212,
+          "native_name": "OBJ_UNKNOWN_D4",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124480,6 +126823,15 @@
       "evidence": "src/dark_meta_knight.c:750",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_SCROLL_LOCK",
+      "possible_outputs": [
+        {
+          "type_id": 119,
+          "native_name": "OBJ_SCROLL_LOCK",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124492,6 +126844,15 @@
       "evidence": "src/dark_meta_knight.c:2799",
       "spawn_table_expression": "1",
       "type_expression": "OBJ_CUTSCENE_TRIGGER",
+      "possible_outputs": [
+        {
+          "type_id": 142,
+          "native_name": "OBJ_CUTSCENE_TRIGGER",
+          "source_key": null,
+          "native_grant": "Normal"
+        }
+      ],
+      "source_key": null,
       "logic": "advanced",
       "status": "unresolved",
       "candidate_encounters": [
@@ -124543,6 +126904,8 @@
     "316:0x088C4774": "room:316/template:0x088C4774",
     "316:0x088C47BC": "room:316/template:0x088C47BC",
     "321:minny_088c4db4": "room:321/template:0x088C4DB4",
+    "321:minny_088c4dd8": "room:321/template:0x088C4DD8",
+    "323:323:0x88c5100": "room:323/template:0x088C5100",
     "390:0x088C56B0": "room:390/template:0x088C56B0",
     "390:0x088C56D4": "room:390/template:0x088C56D4",
     "401:0x088C5840": "room:401/template:0x088C5840",

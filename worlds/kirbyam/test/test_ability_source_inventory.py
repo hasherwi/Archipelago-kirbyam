@@ -151,3 +151,21 @@ def test_native_random_statues_have_physical_slots_but_no_guaranteed_selection()
         assert len(slot['possible_source_keys']) == len(set(slot['possible_source_keys'])) == 19
         with pytest.raises(ValueError, match='Unresolved physical ability grant'):
             resolve_inventory_source({'inventory_id': slot['id']}, 951)
+
+
+def test_encounter_generated_ordinary_enemy_is_still_advanced_only():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    minny = next(call for call in inventory['encounter_calls']
+                 if call.get('source_key') == 'MINNY')
+    assert minny['controller_type'] == 0x3D  # Boxy's generated Minny, not a static Minny.
+    assert minny['logic'] == 'advanced'
+    assert minny['status'] == 'unresolved'
+
+
+def test_production_graph_rejects_uncatalogued_source_instead_of_inventing_presence():
+    graph = payload()
+    graph['sources'][0].pop('inventory_id')
+    graph['sources'][0]['source_key'] = 'ROCKY'
+    with pytest.raises(ValueError, match='requires a physical inventory reference'):
+        compile_room_graph(graph, {}, require_inventory=True)
+    assert compile_room_graph(payload(), {}, require_inventory=True).placements[0].source_key == 'ROCKY'

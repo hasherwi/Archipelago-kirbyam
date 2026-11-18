@@ -61,9 +61,9 @@ def decode_records(rom: bytes, index: int) -> list[dict]:
     raise ValueError('Unterminated object list')
 
 
-def macro_calls(text: str):
+def macro_calls(text: str, pattern: str = r'CreateObjTemplateAndObj(?:WithSettingParent)?'):
     """Split macro arguments with nesting; do not evaluate native expressions."""
-    for match in re.finditer(r'CreateObjTemplateAndObj(?:WithSettingParent)?\s*\(', text):
+    for match in re.finditer(pattern + r'\s*\(', text):
         start = cursor = match.end()
         depth = 1
         args = []
@@ -80,6 +80,60 @@ def macro_calls(text: str):
         if depth:
             raise ValueError('Unterminated native creation macro')
         yield text.count('\n', 0, match.start()) + 1, args
+
+
+# Audited variable-type branches. Hashes prevent applying these facts to changed
+# native code; a different source snapshot stays visibly unresolved.
+VARIABLE_TYPES = {
+    ('kracko.c', 'type'): ('6085113c8f08b82b1433723fadfc4aa62d509fe7f36bd1d5653618513895bea8',
+                          (0x12, 0x13, 0x1C)),
+    ('king_golem.c', 'type'): ('ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa',
+                              (0x9B, 0x9C)),
+    ('king_golem.c', 'r + OBJ_GOLEM_1'): (
+        'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa', (0x1F, 0x20, 0x21)),
+    ('moley.c', 'type'): ('fbd225320d9f65cf65a8b358deba4144d2b908b17eac4cdb5380e0fd175f65e5',
+                         tuple(range(0xC1, 0xC8))),
+}
+
+
+def encounter_calls(text: str, filename: str):
+    for line, args in macro_calls(text):
+        if 'typeVal' not in args[9]:  # Macro definition, not an instantiated call.
+            yield line, args[1], args[9]
+    if filename == 'dark_mind.c':
+        for line, args in macro_calls(text, r'Macro_081059A8(?:_2|_3)?'):
+            if args[3] != 'typeVal':
+                yield line, '1', args[3]
+
+
+def possible_types(filename: str, expression: str, file_hash: str,
+                   text: str, names: dict[int, str]) -> list[int]:
+    by_name = {name: value for value, name in names.items()}
+    if expression in by_name:
+        return [by_name[expression]]
+    audited = VARIABLE_TYPES.get((filename, expression))
+    if audited is not None and file_hash == audited[0]:
+        return list(audited[1])
+    array = re.fullmatch(r'(gDarkMindForm2Enemy[123]Types)\[r4\]', expression)
+    if array is not None and filename == 'dark_mind.c':
+        declaration = re.search(r'static const u8 ' + array[1] + r'\[\]\s*=\s*\{([^}]+)\}', text)
+        if declaration is not None:
+            tokens = [token.strip() for token in declaration[1].split(',') if token.strip()]
+            if all(token in by_name for token in tokens):
+                return sorted({by_name[token] for token in tokens})
+    return []
+
+
+def iter_traversals(value):
+    """Include logical subregions as well as top-level native rooms."""
+    if isinstance(value, dict):
+        if isinstance(value.get('traversal'), dict):
+            yield value['traversal']
+        for child in value.values():
+            yield from iter_traversals(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from iter_traversals(child)
 
 
 def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dict:
@@ -132,6 +186,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             record['source_type'] = 'object_spawner'
         elif typ < 0x38 or typ == 0x70:
             record['source_type'] = 'enemy'
+            record['native_grant'] = ability_names.get(rom[0x35164E + 24 * typ])
             record['grant_status'] = 'runtime source eligibility unresolved'
         else:
             record['source_type'] = 'other_object'
@@ -170,9 +225,20 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                           'reason': f'Missing {filename}'})
             continue
         source_hashes[f'src/{filename}'] = hashlib.sha256(path.read_bytes()).hexdigest()
-        for line, args in macro_calls(path.read_text()):
+        native_text = path.read_text()
+        for line, table_expression, type_expression in encounter_calls(native_text, filename):
+            types = (possible_types(filename, type_expression, source_hashes[f'src/{filename}'], native_text, names)
+                     if table_expression == '1' else [])
+            outputs = []
+            for native_type in types:
+                grant_entry = source_types.get(native_type)
+                outputs.append({'type_id': native_type, 'native_name': names[native_type],
+                                'source_key': grant_entry[0] if grant_entry is not None else None,
+                                'native_grant': ability_names.get(rom[0x35164E + 24 * native_type])})
             calls.append({'controller_type': typ, 'evidence': f'src/{filename}:{line}',
-                          'spawn_table_expression': args[1], 'type_expression': args[9],
+                          'spawn_table_expression': table_expression, 'type_expression': type_expression,
+                          'possible_outputs': outputs,
+                          'source_key': outputs[0]['source_key'] if len(outputs) == 1 else None,
                           'logic': 'advanced', 'status': 'unresolved',
                           'candidate_encounters': [p['id'] for p in placements
                               if p['spawn_table'] == 1 and p['type_id'] == typ],
@@ -223,8 +289,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
         if placement is not None and placement['source_key'] == source['source_key']:
             bindings[f"{native_room}:{source['id']}"] = placement['id']
 
-    for room in rooms.values():
-        traversal = room.get('traversal', {})
+    for traversal in iter_traversals(rooms):
         for definition in traversal.get('source_sets', {}).values():
             for source in definition['sources']:
                 bind(source, definition['native_room'])

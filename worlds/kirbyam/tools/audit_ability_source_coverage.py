@@ -50,7 +50,9 @@ def audit(inventory: dict, rooms: dict) -> dict:
         'static_types': dict(sorted(Counter(p['source_type'] for p in inventory['placements']).items())),
         'reviewed_inventory_references': len(references), 'distinct_referenced_placements': len(bound),
         'unbound_source_or_encounter_placements': [p['id'] for p in relevant if p['id'] not in bound],
-        'encounter_call_sites': len(inventory['encounter_calls']),
+        'encounter_controller_call_pairs': len(inventory['encounter_calls']),
+        'distinct_encounter_call_sites': len({row.get('evidence') for row in inventory['encounter_calls']
+                                            if row.get('evidence')}),
         'known_dynamic_grant_types': len(inventory['dynamic_grant_types']),
         'generated_statue_slots': len(inventory['generated_statue_slots']),
         'compact_requirements_requiring_target_context_review': compact_requirements,

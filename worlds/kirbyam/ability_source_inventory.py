@@ -29,7 +29,7 @@ def source_inventory() -> Mapping[str, Mapping[str, Any]]:
 
 
 def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
-                             *, advanced: bool = False) -> dict[str, Any]:
+                             *, advanced: bool = False, require_inventory: bool = False) -> dict[str, Any]:
     """Join a reviewed compartment witness to physical facts without adding access.
 
     Native spawn state, acquisition, renewability and geometry are separate.
@@ -46,6 +46,11 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
             key.partition(':')[2] == legacy_id for key in _inventory_payload()['reviewed_bindings']
         ):
             raise ValueError(f'Physical ability placement belongs to another room: {legacy_id}')
+        if require_inventory:
+            from .master_source import CENTRAL_MASTER_SOURCE
+            if source.get('source_key') != CENTRAL_MASTER_SOURCE:
+                raise ValueError(f"Production ability source requires a physical inventory reference: "
+                                 f"room={native_room}, id={source.get('id')}, key={source.get('source_key')}")
         return result  # Isolated solver fixtures and the special Master contract.
     record = source_inventory().get(identity)
     if record is None:
