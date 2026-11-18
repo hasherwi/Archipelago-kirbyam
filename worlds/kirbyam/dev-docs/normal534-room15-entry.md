@@ -1,0 +1,5 @@
+# Normal534 entry into Mustard Room15
+
+This separate directed entrance uses the same finite original Twister0x088B59B4 and WaddleDee0x088B596C intake/spit prefix as the room310 entry. The two local payload actions and their consumption identities are shared, followed by a distinct upper air-puff path and the real door into native533. Independent Rainbow Hub4 access and Area Key4 remain required. The installed graph does not acquire Foley or cross the later Room15→Room16 switch gate; that separate rule remains fail-closed outside reviewed source policies.
+
+The original `mustard-room15-bomb-acceptance.json` supplied the complete recorded input sequence. Six fresh private cold-boot fixtures replay only its prefix through the first533 arrival. Four positives cover vanilla100/500% health and gated shuffled/live Stone without copy permissions. They retain Normal and one HP. Both single-inhale omissions die before arrival. Native packet hashes and finite payload landmarks are in `normal534-room15-acceptance.json`. These controls disprove this altered recipe, not every possible route. No existing save/emulator or paused playthrough is used.

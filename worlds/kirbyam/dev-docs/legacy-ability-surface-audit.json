@@ -7,7 +7,7 @@
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 150
+    "unresolved_action_context": 149
   },
   "surfaces": [
     {
@@ -4581,20 +4581,6 @@
       "owner": "REGION_RAINBOW_ROUTE/ROOM_1_34",
       "kind": "exit",
       "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
-      "requirement": "can_break_block",
-      "room_sanity": false,
-      "tokens": [
-        {
-          "token": "can_break_block",
-          "category": "unresolved_action_context"
-        }
-      ],
-      "installed_targets": []
-    },
-    {
-      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_34",
-      "kind": "exit",
-      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
       "requirement": "can_break_block",
       "room_sanity": false,
       "tokens": [

@@ -232,7 +232,7 @@ def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
         'bomb_110_room9', 'bomb_138_green', 'bomb_517_chocolate', 'bomb_719_room13', 'bomb_733_yellow',
         'normal_208_to_209_bottom', 'normal_210_to_209_upper', 'bomb_617_radish_map',
         'mirra_141_top_mustard',
-        'mirra_141_east_moonlight', 'mirra_117_carrot', 'mirra_811_olive', 'normal_534_mustard_entry',
+        'mirra_141_east_moonlight', 'mirra_117_carrot', 'mirra_811_olive', 'normal_534_mustard_entry', 'normal_534_room15_entry',
     }
     items = json.loads(pkgutil.get_data('worlds.kirbyam', 'data/items.json'))
     assert items['ABILITY_UNLOCK_ICE']['classification'] == 'USEFUL'

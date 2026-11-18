@@ -253,10 +253,13 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
-    if row.get("id") == "normal_534_mustard_entry":
+    if row.get("id") in {"normal_534_mustard_entry", "normal_534_room15_entry"}:
+        destination_room, destination_region, arrival = (
+            (310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST", "arrival")
+            if row['id'] == "normal_534_mustard_entry" else
+            (533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15", "room15_arrival"))
         if tuple(row.get(key) for key in ("kind", "native_room", "region", "exit")) != (
-                "block", 310, "REGION_RAINBOW_ROUTE/ROOM_1_34",
-                "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"):
+                "block", destination_room, "REGION_RAINBOW_ROUTE/ROOM_1_34", destination_region):
             raise ValueError("Normal534 prefix belongs only to the Mustard entrance")
         for graph in row.get("graphs", {}).values():
             prefix = "normal_534_mustard_entry:"
@@ -274,16 +277,16 @@ def _validate_target(row: Mapping[str, Any]) -> None:
                             for identity, node in (("0x088B59B4", "rainbow34"),
                                                    ("0x088B596C", "lower_payload"))]
                     or graph.get("starts") != [prefix + "hub4"]
-                    or graph.get("required_targets") != [prefix + "arrival"]
+                    or graph.get("required_targets") != [prefix + arrival]
                     or graph.get("nodes") != [
                         {"id": prefix + key, "native_room": room}
                         for key, room in (("hub4", 590), ("rainbow34", 534),
-                                          ("lower_payload", 534), ("lower_clear", 534), ("arrival", 310))]
+                                          ("lower_payload", 534), ("lower_clear", 534), (arrival, destination_room))]
                     or [(route.get("from"), route.get("to"), route.get("required_equipment"),
                          route.get("room_transition"), route.get("room_instance"))
                         for route in graph.get("routes", ()) if route.get("room_transition")] != [
                             (prefix + a, prefix + b, ["Normal"], True, "reset")
-                            for a, b in (("hub4", "rainbow34"), ("lower_clear", "arrival"))]):
+                            for a, b in (("hub4", "rainbow34"), ("lower_clear", arrival))]):
                 raise ValueError("Normal534 requires the reviewed finite-payload Hub4 prefix")
     from .master_source import MASTER719_CAPABILITY
     if any(route.get("capability") == MASTER719_CAPABILITY

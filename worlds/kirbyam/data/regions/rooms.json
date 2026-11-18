@@ -3163,7 +3163,7 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": "can_break_block",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": "can_break_block",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": null,
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_35": "can_break_block"
     },
@@ -3264,6 +3264,109 @@
                   "room_instance": "reset",
                   "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
                   "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal air puffs, slides and flight through534, entering310 through the upper-right door. No permission or source assumed.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "normal_534_room15_entry",
+          "kind": "block",
+          "native_room": 533,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+          "graphs": {
+            "normal_hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "normal_534_mustard_entry:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "normal_534_mustard_entry:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_payload",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_clear",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:room15_arrival",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "normal_534_mustard_entry:hub4"
+              ],
+              "required_targets": [
+                "normal_534_mustard_entry:room15_arrival"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "inventory_id": "room:534/template:0x088B59B4",
+                  "node": "normal_534_mustard_entry:rainbow34",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                },
+                {
+                  "id": "0x088B596C",
+                  "inventory_id": "room:534/template:0x088B596C",
+                  "node": "normal_534_mustard_entry:lower_payload",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "normal_534_mustard_entry:hub4",
+                  "to": "normal_534_mustard_entry:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "normal_534_mustard_entry:rainbow34",
+                  "to": "normal_534_mustard_entry:lower_payload",
+                  "capability": "normal_534_twister_payload",
+                  "uses_object": "0x088B59B4",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_payload",
+                  "to": "normal_534_mustard_entry:lower_clear",
+                  "capability": "normal_534_dee_payload",
+                  "uses_object": "0x088B596C",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_clear",
+                  "to": "normal_534_mustard_entry:room15_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/normal534-room15-entry.md; actual single forward door, not a retry loop.",
+                  "evidence": "dev-docs/normal534-room15-entry.md; after original finite Twister/Dee payloads, observed Normal air-puff approach and actual534-to-533 door transition; no Foley acquisition or Room16 crossing credit.",
                   "required_equipment": [
                     "Normal"
                   ]

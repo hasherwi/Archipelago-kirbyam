@@ -70,7 +70,7 @@ def test_destination_key_and_other_room34_exits_remain(monkeypatch):
     rooms=json.loads((ROOT/'data/regions/rooms.json').read_text())
     exits=rooms['REGION_RAINBOW_ROUTE/ROOM_1_34']['exits']
     assert all(value=='can_break_block' for key,value in exits.items()
-               if key!='REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST')
+               if key not in {'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST','REGION_MUSTARD_MOUNTAIN/ROOM_4_15'})
 
 @pytest.mark.parametrize('identity', ['0x088B59B4','0x088B596C'])
 def test_consumed_payload_after_arrival_cannot_be_reused(identity):
@@ -103,3 +103,34 @@ def test_native_payload_intake_and_omission_controls():
             assert all(p['intake']['contact']=='0x2020ee0' and p['intake']['state']=='0x809c48d' for p in row['payloads'])
         else:
             assert row['minimum_hp']==0 and row['endpoint']['room']==534
+
+@pytest.mark.parametrize('mode,pool,weight', [(0,None,0),(1,['Sleep'],0),(2,None,0),(2,None,100)])
+@pytest.mark.parametrize('gating', [False,True])
+def test_room15_prefix_reuses_finite_payloads_without_copy_grant(mode,pool,weight,gating):
+    graph=room_traversal_graph('normal_534_room15_entry','normal_hub4_entry')
+    result=graph.evaluate(policy(mode,pool=pool,weight=weight),frozenset(),gating)
+    ends=[p for p in result.positions if p.node in graph.required_targets]
+    assert ends and all(p.equipped=='Normal' and p.consumed >= {'0x088B59B4','0x088B596C'} for p in ends)
+    assert {n.room for n in graph.nodes if n.key in graph.required_targets}=={533}
+    assert not result.retry_assumptions
+
+def test_room15_native_prefix_and_destination_key(monkeypatch):
+    from BaseClasses import CollectionState
+    from ..area_keys import AREA_KEY_LABEL_BY_AREA_ID
+    from .test_mini_traversal import make_world
+    evidence=json.loads((ROOT/'dev-docs/normal534-room15-acceptance.json').read_text())
+    assert len(evidence['cases'])==6
+    for row in evidence['cases']:
+        assert row['abilities']==[0] and row['helper_rooms']==[[101,101,101]]
+        if row['positive']:
+            assert row['minimum_hp']==1 and row['endpoint']=={'frame':2705,'room':533,'x':616.0,'y':264.99609375,'hp':1,'ability':0}
+            assert [p['intake']['frame'] for p in row['payloads']]==[1282,1390]
+        else:
+            assert row['minimum_hp']==0 and row['endpoint']['room']==590
+    world=make_world(0,1,area_keys=1)
+    state=CollectionState(world.multiworld)
+    monkeypatch.setattr(state,'can_reach_region',lambda name,player:name==ACCESS)
+    entrance=world.multiworld.get_entrance('REGION_RAINBOW_ROUTE/ROOM_1_34 -> REGION_MUSTARD_MOUNTAIN/ROOM_4_15',1)
+    assert not entrance.access_rule(state)
+    state.collect(world.create_item(AREA_KEY_LABEL_BY_AREA_ID[4]),prevent_sweep=True)
+    assert entrance.access_rule(state)

@@ -2074,7 +2074,7 @@
     "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Current occurrences include rooms.json directed-exit and location conditions. Goal Game checks reuse their goal-door conditions, adding six can_break_block and two can_break_floating_block occurrences without changing token semantics or native route acceptance.",
     "counts": {
       "CanBreakBlocks": 0,
-      "can_break_block": 136,
+      "can_break_block": 135,
       "can_break_floating_block": 20,
       "can_break_metal": 6,
       "can_break_metal_throw": 0

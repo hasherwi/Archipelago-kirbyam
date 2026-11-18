@@ -11,7 +11,10 @@ OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD'
 def before_mirra141_targets(rows):
     result = []
     for row in rows:
-        if row['target']['id'] == 'normal_534_mustard_entry':
+        if row['target']['id'] == 'normal_534_room15_entry':
+            assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_34'
+            assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'c278b3911a413023b1862cf1ee7ecdf3b9bdcd8880b47e7e2f99847793e91eb9'
+        elif row['target']['id'] == 'normal_534_mustard_entry':
             assert row['owner'] == 'REGION_RAINBOW_ROUTE/ROOM_1_34'
             assert row['target'].get('region', row['owner']) == row['owner']
             assert digest({k: v for k, v in row['target'].items() if k != 'region'}) == 'fc15b9ec9af07ecec1d1c938926749300f56e62ffa583f99aa7259486a78458c'
@@ -37,6 +40,9 @@ def before_mirra141_targets(rows):
 def before_mirra141_surfaces(rows):
     result = deepcopy(rows)
     for row in result:
+        if (row['owner'], row['kind'], row['target']) == ('REGION_RAINBOW_ROUTE/ROOM_1_34', 'exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_15'):
+            assert row['requirement'] is None
+            row['requirement'] = 'can_break_block'
         if (row['owner'], row['kind'], row['target']) == ('REGION_RAINBOW_ROUTE/ROOM_1_34', 'exit', 'REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST'):
             assert row['requirement'] is None
             row['requirement'] = 'can_break_block'
@@ -57,7 +63,10 @@ def before_mirra141_surfaces(rows):
 
 def catalog_before_mirra141(catalog):
     result = deepcopy(catalog)
-    assert (result['witnesses'], result['variants']) == (154, 308)
+    assert (result['witnesses'], result['variants']) == (155, 310)
+    prefix533 = [r for r in result['graphs'] if r['target'] == 'normal_534_room15_entry']
+    assert digest(prefix533) == '32463a805c69b9957be9e243137ec4d9cdd95d18a6165a1425fee8c0c132f8be'
+    result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_534_room15_entry']
     prefix534 = [r for r in result['graphs'] if r['target'] == 'normal_534_mustard_entry']
     assert digest(prefix534) == '57b08f4dc6003ee3fdeab99ca6c235822fe0c260a8ff986291bb6f62abd0269a'
     result['graphs'] = [r for r in result['graphs'] if r['target'] != 'normal_534_mustard_entry']

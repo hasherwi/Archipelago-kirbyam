@@ -1,15 +1,15 @@
 # Remaining ability fallback scope (#1119)
 
 The normalized audit preserves each exact owner, directed exit or location and
-its original Boolean requirement. It enumerates 288 requirement-bearing surfaces
-with 399 action/movement tokens plus eight lever-item tokens:
+its original Boolean requirement. It enumerates 287 requirement-bearing surfaces
+with 398 action/movement tokens plus eight lever-item tokens:
 
 | Classification | Tokens | Meaning |
 | --- | ---: | --- |
 | Normal movement | 218 | Fly, swim and climb do not require a Copy Ability |
 | Installed traversal witness | 29 | Exact surface has an existing traversal target |
 | Policy-scoped witness | 2 | Mustard map tokens whose target still has unsupported-policy fallback |
-| Unresolved action context | 150 | 132 block and 18 floating-block tokens lack an exact installed target |
+| Unresolved action context | 149 | 131 block and 18 floating-block tokens lack an exact installed target |
 
 Normal movement now has an explicit dispatch independent of the pending ability
 fallback. This does not certify arbitrary geometry or allow equipped abilities
@@ -63,3 +63,5 @@ all four former Mirra tokens now have bounded routes. This does not certify the
 western Bomb Block/Gordo approach. See `mirra811-normal-witness.md`.
 
 The Normal590→534→310 prefix is now bound separately to Rainbow Room34’s Mustard chest-room entrance. All 71 retained Sir Kibble fixture prefixes preserve Normal and initial HP before any acquisition. This removes one directed block fallback; the later Mustard map source-policy fallback remains. See `normal534-mustard-entry.md`.
+
+The second directed prefix now binds Rainbow Room34→Mustard Room15/native533, with the same two original finite payloads and a distinct verified upper approach. Four fresh one-HP positives and two failed inhale-omission controls support that entrance only. Both directed entrance replacements together leave149 unresolved action tokens; neither changes the separate Room15→Room16 or map-chest rules.
