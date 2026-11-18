@@ -146,3 +146,29 @@ class CoverageAuditTests(unittest.TestCase):
         self.assertEqual(report['distinct_referenced_placements'], 1)
         self.assertEqual(report['unknown_inventory_references'], ['missing'])
         self.assertEqual(report['unbound_source_or_encounter_placements'], [])
+
+
+class BonkersNativeContractTests(unittest.TestCase):
+    def test_branch_and_collision_contract_does_not_certify_access(self):
+        contracts = [extract.bonkers_nut_contract(extract.BONKERS_REVIEW_SHA256, t) for t in (168, 169)]
+        self.assertNotEqual(contracts[0]['branch'], contracts[1]['branch'])
+        for contract in contracts:
+            self.assertFalse(contract['attack_entry_guaranteed'])
+            self.assertEqual(contract['repeatability'], 'not_certified')
+            self.assertEqual(contract['parent_expiry_callback'], 'sub_0809F840')
+            self.assertIn('one bounce', contract['collision_lifetime'])
+        self.assertIsNone(extract.bonkers_nut_contract('changed', 168))
+        self.assertIsNone(extract.bonkers_nut_contract(extract.BONKERS_REVIEW_SHA256, 166))
+
+    def test_all_sixteen_physical_candidates_retain_non_source_status(self):
+        import json
+        inventory = json.loads((extract.ROOT / 'data/ability_source_inventory.json').read_text())
+        rows = [r for r in inventory['encounter_sources'] if r['generation']['controller_type'] == 57]
+        self.assertEqual(len(rows), 16)
+        for row in rows:
+            self.assertEqual(row['logic'], 'advanced')
+            self.assertEqual(row['access']['status'], 'unresolved')
+            self.assertIsNone(row['source_key'])
+            self.assertEqual(row['native_grant'], 'Normal')
+            self.assertEqual(row['native_contract'], extract.bonkers_nut_contract(
+                inventory['decomp_file_sha256']['src/bonkers.c'], row['type_id']))

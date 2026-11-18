@@ -200,6 +200,31 @@ def frostys_cube_contract(source_hash: str, type_id: int) -> dict | None:
     }
 
 
+BONKERS_REVIEW_SHA256 = '10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97'
+
+
+def bonkers_nut_contract(source_hash: str, type_id: int) -> dict | None:
+    """Shared native branch/lifetime facts; no automatic attack or access credit."""
+    if source_hash != BONKERS_REVIEW_SHA256 or type_id not in (168, 169):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'generation_function': 'BonkersThrowNut',
+        'attack_callback': 'BonkersNutAttack',
+        'activation': 'throwing phase (animation != 0x12) and header.unk1 == 0x44',
+        'attack_entry_guaranteed': False,
+        'branch': 'RandLessThan3() != 0' if type_id == 168 else 'RandLessThan3() == 0',
+        'alternative_types': [168, 169],
+        'parent_attachment': 'creating Bonkers',
+        'parent_expiry_callback': 'sub_0809F840',
+        'collision_lifetime': 'one bounce on collision mask0x4; next such collision or mask0x1 destroys nut',
+        'large_variant': 'larger collision bounds; half horizontal launch and bounce speeds',
+        'repeatability': 'not_certified',
+        'runtime_source': 'no configured source key; native Normal grant; retained as physical encounter output',
+        'acquisition': 'not_certified; native projectile presence is not Copy Ability acquisition',
+    }
+
+
 def encounter_calls(text: str, filename: str):
     for line, args in macro_calls(text):
         if 'typeVal' not in args[9]:  # Macro definition, not an instantiated call.
@@ -442,6 +467,10 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
     for record in encounter_sources:
         if record['generation']['controller_type'] == 56:
             contract = frostys_cube_contract(source_hashes.get('src/mr_frosty.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 57:
+            contract = bonkers_nut_contract(source_hashes.get('src/bonkers.c', ''), record['type_id'])
             if contract is not None:
                 record['native_contract'] = contract
     for room in native_rooms:

@@ -2355,10 +2355,6 @@
       "token": "can_break_metal"
     },
     {
-      "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_41/logical_subregions/TOP_MUSTARD/exits/REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
-      "token": "can_mirra"
-    },
-    {
       "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_41/logical_subregions/EAST_MOONLIGHT/exits/REGION_MOONLIGHT_MANSION/ROOM_2_16",
       "token": "can_mirra"
     },

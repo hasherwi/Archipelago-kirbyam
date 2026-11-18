@@ -144177,7 +144177,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:420/template:0x088C7DCC/encounter:57/src/bonkers.c:701/type:168",
@@ -144203,7 +144223,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:508/template:0x088C8EA4/encounter:57/src/bonkers.c:701/type:168",
@@ -144229,7 +144269,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:515/template:0x088C9FB4/encounter:57/src/bonkers.c:701/type:168",
@@ -144255,7 +144315,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:623/template:0x088D0330/encounter:57/src/bonkers.c:701/type:168",
@@ -144281,7 +144361,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:741/template:0x088BDA80/encounter:57/src/bonkers.c:701/type:168",
@@ -144307,7 +144407,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:816/template:0x088CE8FC/encounter:57/src/bonkers.c:701/type:168",
@@ -144333,7 +144453,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:701/type:168",
@@ -144360,6 +144500,26 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() != 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",
@@ -144391,7 +144551,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:420/template:0x088C7DCC/encounter:57/src/bonkers.c:705/type:169",
@@ -144417,7 +144597,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:508/template:0x088C8EA4/encounter:57/src/bonkers.c:705/type:169",
@@ -144443,7 +144643,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:515/template:0x088C9FB4/encounter:57/src/bonkers.c:705/type:169",
@@ -144469,7 +144689,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:623/template:0x088D0330/encounter:57/src/bonkers.c:705/type:169",
@@ -144495,7 +144735,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:741/template:0x088BDA80/encounter:57/src/bonkers.c:705/type:169",
@@ -144521,7 +144781,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:816/template:0x088CE8FC/encounter:57/src/bonkers.c:705/type:169",
@@ -144547,7 +144827,27 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      }
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:705/type:169",
@@ -144574,6 +144874,26 @@
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
       "repeatability": "unresolved",
+      "native_contract": {
+        "status": "conditional_native_contract",
+        "source_sha256": "10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97",
+        "generation_function": "BonkersThrowNut",
+        "attack_callback": "BonkersNutAttack",
+        "activation": "throwing phase (animation != 0x12) and header.unk1 == 0x44",
+        "attack_entry_guaranteed": false,
+        "branch": "RandLessThan3() == 0",
+        "alternative_types": [
+          168,
+          169
+        ],
+        "parent_attachment": "creating Bonkers",
+        "parent_expiry_callback": "sub_0809F840",
+        "collision_lifetime": "one bounce on collision mask0x4; next such collision or mask0x1 destroys nut",
+        "large_variant": "larger collision bounds; half horizontal launch and bounce speeds",
+        "repeatability": "not_certified",
+        "runtime_source": "no configured source key; native Normal grant; retained as physical encounter output",
+        "acquisition": "not_certified; native projectile presence is not Copy Ability acquisition"
+      },
       "world_access": {
         "status": "outside_adventure",
         "mode": "boss_endurance",

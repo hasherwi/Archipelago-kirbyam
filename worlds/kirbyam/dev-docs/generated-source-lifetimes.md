@@ -149,3 +149,22 @@ controller defeat sequences, room-reset revival or safe repeatability. Unproved
 candidates remain unresolved and add no automatic world access. No new world
 entrance or target graph is installed from a configured native fixture. Existing
 Normal witnesses and the paused #1059 playthrough are preserved.
+
+## Bonkers nut branches
+
+All 16 Bonkers nut candidates now share a hash-bound review of
+`bonkers.c:BonkersNutAttack`, `BonkersThrowNut`, `CreateBonkersNut` and
+`BonkersNutFly`. The throwing animation's `header.unk1 == 0x44` calls the
+constructor; `RandLessThan3()` selects small versus large. Both attach to the
+creating Bonkers and use `sub_0809F840` parent expiry. They allow one floor
+collision bounce; the next floor collision or the wall collision mask destroys
+the nut. The large variant has different bounds and half the horizontal launch
+and bounce speeds. Neither branch proves a safe acquisition or repeatable
+attack entry. These facts cover 16 candidates, not 16 newly accessible sources.
+
+Both native types currently grant Normal and have no configured source key.
+Tests verify that maximally enabled production policies in all three modes
+neither patch their copy-table entries nor enable their live source bits. They
+remain in the comprehensive physical inventory but cannot silently become
+random ability grants. Changing runtime eligibility would require revisiting
+this contract. No world route or retry guarantee is installed from this review.
