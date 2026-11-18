@@ -1,0 +1,7 @@
+# Normal entry from Rainbow Hub4 to Mustard room310
+
+The existing Sir Kibble acceptance fixtures independently establish the prefix before any copy acquisition: native590 → 534 → 310. All 66 positive full-route cases and five full-route controls preserve initial HP and Normal through frame2520, at native310 (56,136.99609375). Each private packet was checked against its already-published SHA256; every per-frame ability/HP/room change through this endpoint was checked. The five controls prevent later chest collection, not this shared prefix.
+
+`normal534-entry-prefix.json` records those bounded endpoints and existing packet hashes. `mustard-map-kibble-acceptance.json` retains the corresponding randomized policy, health, gating, input and fixture provenance. No new emulator run or playthrough was started. The accepted inputs use Normal air puffs, slides and flight through534 and its upper-right door; they do not swallow a source before310.
+
+The installed graph requires independent Rainbow Hub4 access and Normal on both forward transitions. It removes only Rainbow Room34's pending block token toward Mustard's chest room, while preserving the destination Area Key rule. Other Room34 exits and the separate Mustard map chest source-policy condition are unchanged. There is no reverse path, generic room membership claim, copied equipment, source retry or chest collection credit in this graph.

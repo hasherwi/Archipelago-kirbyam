@@ -253,6 +253,26 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    if row.get("id") == "normal_534_mustard_entry":
+        if tuple(row.get(key) for key in ("kind", "native_room", "region", "exit")) != (
+                "block", 310, "REGION_RAINBOW_ROUTE/ROOM_1_34",
+                "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST"):
+            raise ValueError("Normal534 prefix belongs only to the Mustard entrance")
+        for graph in row.get("graphs", {}).values():
+            prefix = "normal_534_mustard_entry:"
+            if (graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"}
+                    or graph.get("sources")
+                    or graph.get("starts") != [prefix + "hub4"]
+                    or graph.get("required_targets") != [prefix + "arrival"]
+                    or graph.get("nodes") != [
+                        {"id": prefix + key, "native_room": room}
+                        for key, room in (("hub4", 590), ("rainbow34", 534), ("arrival", 310))]
+                    or [(route.get("from"), route.get("to"), route.get("required_equipment"),
+                         route.get("room_transition"), route.get("room_instance"))
+                        for route in graph.get("routes", ())] != [
+                            (prefix + a, prefix + b, ["Normal"], True, "reset")
+                            for a, b in (("hub4", "rainbow34"), ("rainbow34", "arrival"))]):
+                raise ValueError("Normal534 requires the reviewed source-free Hub4 prefix")
     from .master_source import MASTER719_CAPABILITY
     if any(route.get("capability") == MASTER719_CAPABILITY
            for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (

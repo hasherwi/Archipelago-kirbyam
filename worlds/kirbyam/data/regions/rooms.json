@@ -3164,8 +3164,73 @@
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": "can_break_block",
       "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": "can_break_block",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": "can_break_block",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_35": "can_break_block"
+    },
+    "traversal": {
+      "targets": [
+        {
+          "id": "normal_534_mustard_entry",
+          "kind": "block",
+          "native_room": 310,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+          "graphs": {
+            "normal_hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "normal_534_mustard_entry:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "normal_534_mustard_entry:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:arrival",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "normal_534_mustard_entry:hub4"
+              ],
+              "required_targets": [
+                "normal_534_mustard_entry:arrival"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "normal_534_mustard_entry:hub4",
+                  "to": "normal_534_mustard_entry:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "normal_534_mustard_entry:rainbow34",
+                  "to": "normal_534_mustard_entry:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal air puffs, slides and flight through534, entering310 through the upper-right door. No permission or source assumed.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "version": 1
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_35": {
