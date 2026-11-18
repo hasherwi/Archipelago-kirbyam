@@ -125,7 +125,8 @@ def test_actual_world_wires_only_map_and_preserves_crash_progression(
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
         assert target.access_rule(state) is (not applies)
         assert world.multiworld.get_entrance(f'{OWNER} -> {SOURCE_ROOM}', 1).access_rule(state)
-        assert world.multiworld.get_entrance(f'{SOURCE_ROOM} -> {OWNER}', 1).access_rule(state)
+        # The separate Normal entrance requires its independent Hub4 payload route.
+        assert not world.multiworld.get_entrance(f'{SOURCE_ROOM} -> {OWNER}', 1).access_rule(state)
         # RoomSanity is normalized into its own sink, never this chest rule.
         owner = world.multiworld.get_region(OWNER, 1)
         room_checks = [location for location in world.multiworld.get_locations(1)
