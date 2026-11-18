@@ -148,3 +148,31 @@ def test_excluding_passive_enemies_retains_native_attached_parasol(mode):
     assert not mixed.guaranteed and mixed.can_fail and not mixed.randomized
     # Waddle Doo's table grant is non-Normal, so its eligible runtime assignment still wins.
     assert resolver.grant('WADDLE_DOO', lambda _: True, ('Parasol', 'Beam')).guaranteed == frozenset({'Stone'})
+
+
+def test_fighter_followup_preserves_failed_control_and_exact_intake_lineage():
+    root = Path(__file__).parents[1] / 'dev-docs'
+    evidence = json.loads((root / 'generated-king-golem710-fighter-acceptance.json').read_text())
+    historical = json.loads((root / 'generated-king-golem710-phase-observations.json').read_text())
+    control = evidence['cases']['king-golem710-fighter-filter-sixhp']
+    positive = evidence['cases']['king-golem710-fighter-filter-swallow']
+    assert control == historical['cases']['king-golem710-fighter-filter-sixhp']
+    assert evidence['comparison'] == {
+        'identical_observations_through_frame': 5800, 'first_different_input_frame': 5801,
+        'control_keys': 2, 'positive_keys': 128, 'same_fixture_rom': True}
+    assert positive['fixture_rom_sha256'] == control['fixture_rom_sha256']
+    assert positive['configured_hp'] == 6 and positive['minimum_hp'] == 1
+    assert positive['final']['frame'] == 5836 and positive['final']['ability'] == 20
+    assert positive['final']['hp'] == 1 and positive['final']['room'] == 710
+    assert positive['health_percent'] == 100 and positive['policy']['mode'] == 0
+    intake = next(row for row in positive['intakes'] if row['frame'] == 5798)
+    assert intake['source']['type_id'] == 33
+    assert intake['source']['parent'] == '0x2000054'
+    assert intake['source']['native_ability'] == intake['last_observed_source']['native_ability'] == 20
+    assert intake['source']['state'] == '0x809c48d'
+    assert positive['equipment_transitions'][-1]['ability'] == 20
+    assert control['final']['hp'] == 0
+    assert not any(row['ability'] == 20 for row in control['equipment_transitions'])
+    assert not positive['runtime_writes']
+    for key in ('private_trace_sha256', 'runtime_sha256', 'fixture_rom_sha256', 'script_sha256', 'bridge_sha256'):
+        assert len(positive[key]) == 64

@@ -75,3 +75,20 @@ vanilla prefix under those settings. All eight fixtures use fresh blank batterie
 and preserve the unsuccessful waits, including the initial wrong-facing probe.
 Native phase access, arbitrary branch selection and safe repeatability remain
 unresolved; no new world route or guarantee is installed.
+
+## Fighter acquisition after the original phase probe
+
+[The matched Fighter follow-up](generated-king-golem710-fighter-acceptance.json)
+uses the same production fixture ROM and reproduces every recorded input and
+state of the failed six-HP probe through frame5800. The original type33 child,
+attached to King Golem, carries native Fighter immediately before intake at5798.
+Starting at5801, the new controller releases attack and holds Down after mouth
+filling. Kirby equips Fighter at5836 with one HP remaining. The original control
+continues holding attack and dies without Fighter. Earlier Wheel recoveries are
+not credited as this new type33 acquisition.
+
+This resolves the bounded local Fighter acquisition gap in the earlier eight-case
+manifest, whose failed observations remain unchanged. Five HP were lost before
+the successful endpoint: it is not a one-hit-mode route. Independent Adventure
+entry, carry to a target, other runtime policies, 500% health, attack selection,
+defeat suffixes and safe repetition remain unverified. No world target is added.
