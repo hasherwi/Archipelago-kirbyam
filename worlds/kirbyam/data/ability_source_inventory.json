@@ -4,6 +4,9 @@
   "decomp_reference_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
   "decomp_file_sha256": {
     "include/constants/object_types.h": "b4faa1b6ca67d6f70b7be0aba5e1fd37e8529acf6b0b4ecfe88331df862a4fc3",
+    "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+    "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+    "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487",
     "src/bronto_burt.c": "4cca38d388ec3bee7d852ba3491b0945581984048e272d77b468a69c9f28fb82",
     "src/golem.c": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
     "include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
@@ -24056,7 +24059,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D2BDC",
@@ -26854,7 +26880,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CB8FC",
@@ -26887,7 +26936,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CB920",
@@ -26920,7 +26992,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CB96C",
@@ -32974,7 +33069,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BB6DC",
@@ -33457,7 +33575,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BB900",
@@ -52942,7 +53083,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C2460",
@@ -53204,7 +53368,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BFFC0",
@@ -55852,7 +56039,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0A20",
@@ -55918,7 +56128,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0A68",
@@ -55951,7 +56184,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0A8C",
@@ -55984,7 +56240,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0AB0",
@@ -89750,7 +90029,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B59FC",
@@ -89783,7 +90085,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B5A20",
@@ -90534,7 +90859,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Normal"
+        ],
+        "native_type": 0,
+        "subtype1": 3,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B5DAC",
@@ -90567,7 +90916,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Normal"
+        ],
+        "native_type": 0,
+        "subtype1": 3,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B5DD0",
@@ -93822,7 +94195,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Beam"
+        ],
+        "native_type": 18,
+        "subtype1": 1,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C309C",
@@ -93888,7 +94285,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C30E4",
@@ -93921,7 +94341,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C3108",
@@ -93954,7 +94397,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C312C",
@@ -105007,7 +105473,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D09D8",
@@ -107414,7 +107903,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Beam"
+        ],
+        "native_type": 18,
+        "subtype1": 1,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D13C0",
@@ -107447,7 +107960,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Beam"
+        ],
+        "native_type": 18,
+        "subtype1": 1,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D13E4",
@@ -107480,7 +108017,31 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol",
+          "Beam"
+        ],
+        "native_type": 18,
+        "subtype1": 1,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D1430",
@@ -116401,7 +116962,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D4B3C",
@@ -132063,7 +132647,30 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "dependency_sha256": {
+          "src/waddle_dee.c": "2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1",
+          "src/waddle_doo.c": "c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77",
+          "src/parasol.c": "fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487"
+        },
+        "options": [
+          "Parasol"
+        ],
+        "native_type": 0,
+        "subtype1": 4,
+        "state_selection": "CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states",
+        "writes": {
+          "Parasol": [
+            "waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8",
+            "waddle_doo.c:sub_080B7460/sub_080B73D8"
+          ],
+          "detached_parent": "parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4"
+        },
+        "scope": "Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.",
+        "phase_acquisition": "unresolved; attachment-phase narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CD85C",

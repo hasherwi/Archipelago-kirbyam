@@ -34,3 +34,20 @@ No current production witness acquires a Golem. Existing King Golem native
 fixtures demonstrate bounded Stone/Ice outcomes at their recorded intake phases,
 not every phase or a safe 500% route. This change prevents future physical joins
 from silently treating the default Stone table entry as unconditional equipment.
+
+
+## Attached Parasol parents
+
+The same native-state audit covers 26 static parent placements. Waddle Dee type 0
+subtype 3 has Parasol/Normal alternatives; subtype 4 retains Parasol. Waddle Doo
+type 18 subtype 1 has Parasol/Beam alternatives. The extractor pins
+`waddle_dee.c`, `waddle_doo.c` and `parasol.c`: the constructors install the attached
+states, and `sub_080C2D44` restores the parent's native grant when its attachment
+ends, explicitly excluding Waddle Dee subtype 4 from the Normal reset.
+
+These are parent grants, not duplicate credit for the detached Parasol object.
+No current reviewed graph binds these 26 placements. Unknown generated subtypes
+are outside this specific contract; no generic Waddle family behavior, safe
+attachment timing, source access or reacquisition is inferred. Existing runtime
+assignments still override native writes. The ordinary room117 payloads are
+unaffected and remain finite objects used for spitting, not copy grants.

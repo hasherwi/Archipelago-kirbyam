@@ -400,3 +400,18 @@ class NativeGolemGrantContractTests(unittest.TestCase):
         self.assertEqual(set(extract.golem_grant_contract(record, sha)['options']), {'Stone', 'Wheel', 'Fighter'})
         del record['native_contract']
         self.assertEqual(set(extract.golem_grant_contract(record, sha)['options']), {'Stone', 'Wheel', 'Fighter'})
+
+
+class ParasolParentContractTests(unittest.TestCase):
+    def test_only_reviewed_template_variants_and_pinned_dependencies(self):
+        hashes = extract.PARASOL_PARENT_HASHES
+        for kind, subtype, expected in [(0, 3, ['Parasol', 'Normal']), (0, 4, ['Parasol']),
+                                        (18, 1, ['Parasol', 'Beam'])]:
+            record = {'type_id': kind, 'subtype1': subtype}
+            contract = extract.parasol_parent_grant_contract(record, hashes)
+            self.assertEqual(contract['options'], expected)
+            for name in hashes:
+                with self.assertRaisesRegex(ValueError, 'reviewed source hashes'):
+                    extract.parasol_parent_grant_contract(record, dict(hashes, **{name: 'changed'}))
+        for kind, subtype in [(0, 0), (0, 1), (0, 2), (18, 0), (18, 2), (18, 3), (17, 4), (37, 4), (18, None)]:
+            self.assertIsNone(extract.parasol_parent_grant_contract({'type_id': kind, 'subtype1': subtype}, hashes))

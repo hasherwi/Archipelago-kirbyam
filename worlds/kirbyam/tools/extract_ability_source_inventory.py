@@ -607,6 +607,34 @@ def golem_grant_contract(record: dict, source_hash: str) -> dict | None:
     }
 
 
+PARASOL_PARENT_HASHES = {
+    'src/waddle_dee.c': '2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1',
+    'src/waddle_doo.c': 'c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77',
+    'src/parasol.c': 'fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487',
+}
+
+
+def parasol_parent_grant_contract(record: dict, source_hashes: dict) -> dict | None:
+    """Only the reviewed attached-Parasol template variants, not arbitrary children."""
+    kind, subtype = record.get('type_id'), record.get('subtype1')
+    if not ((kind == 0 and subtype in (3, 4)) or (kind == 18 and subtype == 1)):
+        return None
+    if any(source_hashes.get(name) != digest for name, digest in PARASOL_PARENT_HASHES.items()):
+        raise ValueError('Attached Parasol grant contract requires the reviewed source hashes')
+    options = ['Parasol'] if kind == 0 and subtype == 4 else ['Parasol', 'Normal' if kind == 0 else 'Beam']
+    return {
+        'status': 'conditional_native_state_contract',
+        'dependency_sha256': dict(PARASOL_PARENT_HASHES),
+        'options': options, 'native_type': kind, 'subtype1': subtype,
+        'state_selection': 'CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states',
+        'writes': {'Parasol': ['waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8',
+                               'waddle_doo.c:sub_080B7460/sub_080B73D8'],
+                   'detached_parent': 'parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4'},
+        'scope': 'Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.',
+        'phase_acquisition': 'unresolved; attachment-phase narrowing requires a separate native acquisition witness',
+    }
+
+
 def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dict:
     if len(rom) != 0x1000000 or hashlib.sha1(rom).hexdigest() != USA_SHA1:
         raise ValueError('Expected unmodified USA ROM (size and SHA-1 mismatch)')
@@ -723,7 +751,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                                    if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
-    for relative in ('src/bronto_burt.c', 'src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+    for relative in ('src/waddle_dee.c', 'src/waddle_doo.c', 'src/parasol.c', 'src/bronto_burt.c', 'src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
                      'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []
@@ -870,7 +898,8 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'compartment': 'room955 arena, live original Frosty',
                 'scope': 'Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route.'}
     for record in placements + spawner_outputs + encounter_sources:
-        contract = golem_grant_contract(record, source_hashes['src/golem.c'])
+        contract = (golem_grant_contract(record, source_hashes['src/golem.c'])
+                    or parasol_parent_grant_contract(record, source_hashes))
         if contract is not None:
             record['native_grant_states'] = contract
     bindings = {}

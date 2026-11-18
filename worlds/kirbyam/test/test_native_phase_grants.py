@@ -83,3 +83,24 @@ def test_inventory_records_native_variants_without_certifying_phase_access():
     ordinary=next(r for r in source_inventory().values() if r['source_key']=='ROCKY')
     with pytest.raises(ValueError,match='no native phase'):
         resolve_inventory_source({'inventory_id':ordinary['id'],'native_grants':['Wheel']},ordinary['native_room'])
+
+
+@pytest.mark.parametrize('kind,subtype,options', [
+    (0, 3, ('Parasol', 'Normal')),
+    (0, 4, ('Parasol',)),
+    (18, 1, ('Parasol', 'Beam')),
+])
+def test_attached_parasol_parent_grants_keep_the_actual_native_alternatives(kind, subtype, options):
+    records = [r for r in source_inventory().values()
+               if r.get('type_id') == kind and r.get('subtype1') == subtype]
+    assert len(records) == {(0, 3): 2, (0, 4): 20, (18, 1): 4}[kind, subtype]
+    for record in records:
+        resolved = resolve_inventory_source({'inventory_id': record['id']}, record['native_room'])
+        assert tuple(resolved['native_grants']) == options
+        vanilla = policy(0).grant(record['source_key'], lambda _: True, options)
+        assert vanilla.guaranteed == (frozenset({'Parasol'}) if options == ('Parasol',) else frozenset())
+        owned_parasol = policy(0).grant(record['source_key'], lambda n: n == 'Parasol', options)
+        assert owned_parasol.can_fail == (len(options) > 1)
+        for mode in (1, 2):
+            randomized = policy(mode, pool=['Stone']).grant(record['source_key'], lambda _: True, options)
+            assert randomized.guaranteed == frozenset({'Stone'})
