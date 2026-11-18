@@ -385,3 +385,18 @@ class RemainingConfiguredEncounterContractTests(unittest.TestCase):
         for row in remaining:
             self.assertEqual(row['native_contract'], extract.other_encounter_contract(
                 inventory['decomp_file_sha256'], row['type_id'], row['generation']['callsite']))
+
+
+class NativeGolemGrantContractTests(unittest.TestCase):
+    def test_unreviewed_native_revision_cannot_assert_phase_outputs(self):
+        with self.assertRaisesRegex(ValueError, 'source hash'):
+            extract.golem_grant_contract({'source_key': 'GOLEM', 'type_id': 32, 'subtype1': 0}, 'unknown')
+
+    def test_constructor_subtype_controls_native_phase_alternatives(self):
+        sha='8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31'
+        record={'source_key': 'GOLEM', 'type_id': 32, 'native_contract': {'child_subtype1': 128}}
+        self.assertEqual(extract.golem_grant_contract(record, sha)['options'], ['Stone', 'Wheel'])
+        record['native_contract']['child_subtype1']=129
+        self.assertEqual(set(extract.golem_grant_contract(record, sha)['options']), {'Stone', 'Wheel', 'Fighter'})
+        del record['native_contract']
+        self.assertEqual(set(extract.golem_grant_contract(record, sha)['options']), {'Stone', 'Wheel', 'Fighter'})

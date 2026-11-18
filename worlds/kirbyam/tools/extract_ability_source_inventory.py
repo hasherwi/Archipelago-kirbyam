@@ -584,6 +584,29 @@ def iter_traversals(value):
             yield from iter_traversals(child)
 
 
+def golem_grant_contract(record: dict, source_hash: str) -> dict | None:
+    """Native state writes, not a promise that any attack phase is safely reachable."""
+    if record.get('source_key') != 'GOLEM':
+        return None
+    if source_hash != '8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31':
+        raise ValueError('Golem native grant contract requires the reviewed source hash')
+    subtype = record.get('subtype1', record.get('native_contract', {}).get('child_subtype1'))
+    if subtype is None or subtype & 0x7F:
+        options = ['Stone', 'Wheel', 'Fighter']
+    else:
+        options = {31: ['Stone'], 32: ['Stone', 'Wheel'], 33: ['Stone', 'Fighter']}[record['type_id']]
+    return {
+        'status': 'conditional_native_state_contract', 'source_sha256': source_hash,
+        'options': options, 'native_type': record['type_id'], 'subtype1': subtype,
+        'state_selection': 'sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions',
+        'writes': {'Stone': ['sub_080C6404', 'sub_080C645C', 'sub_080C65B8', 'sub_080C65F8', 'sub_080C6634', 'sub_080C66DC'],
+                   'Wheel': ['sub_080C64A4', 'sub_080C6528', 'sub_080C6588'],
+                   'Fighter': ['sub_080C6674']},
+        'scope': 'Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.',
+        'phase_acquisition': 'unresolved; narrowing requires a separate native acquisition witness',
+    }
+
+
 def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dict:
     if len(rom) != 0x1000000 or hashlib.sha1(rom).hexdigest() != USA_SHA1:
         raise ValueError('Expected unmodified USA ROM (size and SHA-1 mismatch)')
@@ -846,6 +869,10 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'record': 'dev-docs/generated-frosty-native-acceptance.json',
                 'compartment': 'room955 arena, live original Frosty',
                 'scope': 'Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route.'}
+    for record in placements + spawner_outputs + encounter_sources:
+        contract = golem_grant_contract(record, source_hashes['src/golem.c'])
+        if contract is not None:
+            record['native_grant_states'] = contract
     bindings = {}
     by_template = {(p['native_room'], p['template_address'].lower()): p for p in placements}
 

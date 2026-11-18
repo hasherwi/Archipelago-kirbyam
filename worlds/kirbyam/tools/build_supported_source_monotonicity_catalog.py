@@ -1,6 +1,6 @@
 """Regenerate the current compiled catalog without changing historical provenance.
 
-Run with AP_TEST_WORLDS=kirbyam and import test before importing this module.
+Run with AP_TEST_WORLDS=kirbyam and import unittest before importing this module.
 This enumerates structure only; it does not generate seeds or certify gameplay.
 """
 from copy import deepcopy
@@ -26,7 +26,7 @@ def build_catalog(previous: dict[str, Any]) -> dict[str, Any]:
     result['valid_pool'] = sorted(VALID_ENEMY_COPY_ABILITIES)
     result['ungated_pool_abilities'] = sorted(set(VALID_ENEMY_COPY_ABILITIES) - set(GATEABLE_ENEMY_COPY_ABILITIES))
     result['capability_providers'] = {key: sorted(values) for key, values in CAPABILITY_ABILITIES.items()}
-    sources: dict[str, list[dict[str, str | bool]]] = {}
+    sources: dict[str, list[dict[str, str | bool | list[str]]]] = {}
     rows: list[dict[str, Any]] = []
     for target in _room_catalog()[0]:
         for witness in target['graphs']:
@@ -37,9 +37,11 @@ def build_catalog(previous: dict[str, Any]) -> dict[str, Any]:
                     assert source.identity is not None
                     key = source.source_key + '@' + source.identity
                     source_ids.add(key)
-                    variant: dict[str, str | bool] = {
+                    variant: dict[str, str | bool | list[str]] = {
                         'source_key': source.source_key, 'identity': source.identity,
                         'renewable': source.renewable, 'documented_retry': bool(source.retry_evidence)}
+                    if source.native_grants:
+                        variant['native_grants'] = list(source.native_grants)
                     if variant not in sources.setdefault(key, []):
                         sources[key].append(variant)
                 routes = []

@@ -131,17 +131,19 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(starts)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[str, Grant] = {}
+    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str) -> Grant:
+    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
         # Grants describe deterministic possibilities, not individual RNG draws.
         # Policy, owned permissions and gating are fixed for this evaluation.
-        if key not in grants:
-            grants[key] = policy.grant(key, permitted)
-        return grants[key]
+        cache_key = (key, native_grants)
+        if cache_key not in grants:
+            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
+                                 else policy.grant(key, permitted))
+        return grants[cache_key]
 
     while queue:
         position = queue.popleft()
@@ -160,7 +162,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             if identity in position.consumed:
                 continue
             consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = source_grant(source.source_key)
+            grant = source_grant(source.source_key, source.native_grants)
             abilities = grant.guaranteed
             if (allow_documented_retries and source.renewable and source.retry_evidence
                     and grant.randomized and grant.abilities):

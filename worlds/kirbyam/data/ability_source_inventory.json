@@ -38636,7 +38636,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel"
+        ],
+        "native_type": 32,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BAB9C",
@@ -41742,7 +41773,37 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BC5A4",
@@ -55023,7 +55084,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel"
+        ],
+        "native_type": 32,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0744",
@@ -55056,7 +55148,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C0768",
@@ -55089,7 +55212,37 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C078C",
@@ -59692,7 +59845,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C42C0",
@@ -63057,7 +63241,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088C51B4",
@@ -96719,7 +96934,39 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 1,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B8A44",
@@ -97715,7 +97962,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B90CC",
@@ -97748,7 +98026,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel"
+        ],
+        "native_type": 32,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088B90F0",
@@ -105292,7 +105601,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel"
+        ],
+        "native_type": 32,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D0C88",
@@ -105357,7 +105697,39 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 1,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D0CD0",
@@ -105390,7 +105762,37 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D0CF4",
@@ -105423,7 +105825,39 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 1,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D0D18",
@@ -105456,7 +105890,37 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088D0D3C",
@@ -111810,7 +112274,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BD3D0",
@@ -111843,7 +112338,37 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088BD3F4",
@@ -126994,7 +127519,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CCBB4",
@@ -127027,7 +127583,38 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 0,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
+      }
     },
     {
       "template_address": "0x088CCBD8",
@@ -141967,6 +142554,8 @@
   "reviewed_bindings": {
     "110:0x088B743C": "room:110/template:0x088B743C",
     "110:0x088B74CC": "room:110/template:0x088B74CC",
+    "117:0x088B9874": "room:117/template:0x088B9874",
+    "117:0x088B9904": "room:117/template:0x088B9904",
     "126:126:0x88b9458": "room:126/template:0x088B9458",
     "126:126:0x88b947c": "room:126/template:0x088B947C",
     "126:126:0x88b94a0": "room:126/template:0x088B94A0",
@@ -148662,6 +149251,36 @@
         "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
         "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
+      },
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone"
+        ],
+        "native_type": 31,
+        "subtype1": 128,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
       }
     },
     {
@@ -148717,6 +149336,37 @@
         "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
         "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
+      },
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Wheel"
+        ],
+        "native_type": 32,
+        "subtype1": 128,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
       }
     },
     {
@@ -148772,6 +149422,37 @@
         "entry_prerequisites": "sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy",
         "tracked_child_release": "golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy",
         "initial_parent_expiry_condition": "golem.c:CreateGolem subtype1 mask0x80"
+      },
+      "native_grant_states": {
+        "status": "conditional_native_state_contract",
+        "source_sha256": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
+        "options": [
+          "Stone",
+          "Fighter"
+        ],
+        "native_type": 33,
+        "subtype1": 128,
+        "state_selection": "sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions",
+        "writes": {
+          "Stone": [
+            "sub_080C6404",
+            "sub_080C645C",
+            "sub_080C65B8",
+            "sub_080C65F8",
+            "sub_080C6634",
+            "sub_080C66DC"
+          ],
+          "Wheel": [
+            "sub_080C64A4",
+            "sub_080C6528",
+            "sub_080C6588"
+          ],
+          "Fighter": [
+            "sub_080C6674"
+          ]
+        },
+        "scope": "Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.",
+        "phase_acquisition": "unresolved; narrowing requires a separate native acquisition witness"
       }
     },
     {

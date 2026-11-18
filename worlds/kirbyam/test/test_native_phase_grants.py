@@ -1,0 +1,85 @@
+"""Native attack phases are alternatives, not convenient finite source grants."""
+import json
+from pathlib import Path
+import pytest
+from ..ability_source_inventory import source_inventory,resolve_inventory_source
+from ..traversal import Node,Placement,Position,Route,reachable_positions
+from ..traversal_data import compile_room_graph
+from .test_traversal import policy
+from .traversal_reference import reachable_positions as reference
+
+
+def yellow():
+    return next(r for r in source_inventory().values() if r['source_key']=='GOLEM'
+                and r.get('type_id')==32 and r.get('subtype1')==0)
+
+
+def graph_source(**extra):
+    r=yellow()
+    return {'version':1,'status':'reviewed','nodes':[{'id':n,'native_room':r['native_room']} for n in ('pre','post')],
+            'starts':['pre'],'required_targets':['post'],
+            'sources':[{'id':'golem','inventory_id':r['id'],'node':'pre','acquisition_evidence':'isolated test approach',**extra}],
+            'routes':[{'from':'pre','to':'post','capability':'peg','evidence':'isolated Stone-only obstacle','allowed_abilities':['Stone']}]}
+
+@pytest.mark.parametrize('gating',[False,True])
+def test_unknown_native_phase_cannot_guarantee_stone(gating):
+    graph=compile_room_graph(graph_source(),{},require_inventory=True)
+    assert graph.placements[0].native_grants==('Stone','Wheel')
+    for owned in (frozenset({'Stone Ability'}),frozenset({'Stone Ability','Wheel Ability'})):
+        assert not graph.evaluate(policy(0),owned,gating).reaches('post')
+    grant=policy(0).grant('GOLEM',lambda n:n=='Stone',('Stone','Wheel'))
+    assert grant.abilities==frozenset({'Stone'}) and grant.can_fail and not grant.guaranteed
+
+
+def test_phase_narrowing_requires_evidence_and_real_native_option():
+    with pytest.raises(ValueError,match='phase selection'):
+        compile_room_graph(graph_source(native_grants=['Stone']),{},require_inventory=True)
+    with pytest.raises(ValueError,match='state contract'):
+        compile_room_graph(graph_source(native_grants=['Hammer'],native_grant_evidence='not a native Golem phase'),{},require_inventory=True)
+    graph=compile_room_graph(graph_source(native_grants=['Stone'],native_grant_evidence='isolated reviewed Stone-state acquisition'),{},require_inventory=True)
+    assert graph.evaluate(policy(0),frozenset({'Stone Ability'}),True).reaches('post')
+    assert not graph.evaluate(policy(0),frozenset(),True).reaches('post')
+
+@pytest.mark.parametrize('mode',[1,2])
+def test_runtime_randomization_overrides_native_phase_options(mode):
+    graph=compile_room_graph(graph_source(),{},require_inventory=True)
+    assert graph.evaluate(policy(mode,pool=['Stone']),frozenset({'Stone Ability'}),True).reaches('post')
+    assert not graph.evaluate(policy(mode,pool=['Wheel']),frozenset({'Stone Ability','Wheel Ability'}),True).reaches('post')
+    assert not graph.evaluate(policy(mode,pool=['Stone']),frozenset(),True).reaches('post')
+
+
+def test_live_mixed_and_no_ability_outcomes_remain_uncertain():
+    graph=compile_room_graph(graph_source(),{},require_inventory=True)
+    owned=frozenset({'Stone Ability','Wheel Ability'})
+    for weight in (0,50,100):
+        assert not graph.evaluate(policy(2,pool=['Stone','Wheel'],weight=weight),owned,True).reaches('post')
+    # Native phase alternatives cannot become live rerolls through retry opt-in.
+    graph=compile_room_graph(graph_source(renewable=True,renewable_evidence='isolated reset',retry_evidence='isolated repeat contact'),{},require_inventory=True)
+    result=graph.evaluate(policy(0),owned,True,True)
+    assert not result.reaches('post') and not result.retry_assumptions
+
+
+def test_grant_cache_does_not_transfer_a_phase_between_physical_sources():
+    nodes=[Node(n,1) for n in ('a','b','stone','wheel')]
+    sources=[Placement('a','GOLEM',identity='a',native_grants=('Stone',)),Placement('b','GOLEM',identity='b',native_grants=('Wheel',))]
+    routes=[Route('a','stone','peg'),Route('b','wheel',required_equipment=frozenset({'Wheel'}))]
+    starts=[Position('a'),Position('b')]
+    result=reachable_positions(nodes,routes,sources,starts,policy(0),gating=False)
+    assert result.reaches('stone') and result.reaches('wheel')
+    assert result.positions==reference(nodes,routes,sources,starts,policy(0),gating=False).positions
+
+
+def test_inventory_records_native_variants_without_certifying_phase_access():
+    records=[r for r in source_inventory().values() if r['source_key']=='GOLEM']
+    assert len(records)==22
+    for r in records:
+        contract=r['native_grant_states']
+        assert contract['source_sha256']=='8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31'
+        assert contract['phase_acquisition'].startswith('unresolved')
+        subtype=contract['subtype1']
+        expected={31:{'Stone'},32:{'Stone','Wheel'},33:{'Stone','Fighter'}}[r['type_id']]
+        if subtype is None or subtype&127:expected={'Stone','Wheel','Fighter'}
+        assert set(contract['options'])==expected
+    ordinary=next(r for r in source_inventory().values() if r['source_key']=='ROCKY')
+    with pytest.raises(ValueError,match='no native phase'):
+        resolve_inventory_source({'inventory_id':ordinary['id'],'native_grants':['Wheel']},ordinary['native_room'])

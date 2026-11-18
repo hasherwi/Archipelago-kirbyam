@@ -125,5 +125,19 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
             raise ValueError(f'Physical source room-reset contract mismatch: {identity}')
         if not room_reset_respawns:
             result['room_reset_respawns'] = False
+    native_states = record.get('native_grant_states')
+    if native_states is not None:
+        options = native_states['options']
+        requested = result.get('native_grants', options)
+        if (not isinstance(requested, list) or not requested
+                or any(not isinstance(value, str) for value in requested)
+                or len(set(requested)) != len(requested) or not set(requested) <= set(options)):
+            raise ValueError(f'Native phase grants must narrow the physical state contract: {identity}')
+        if set(requested) != set(options) and not (
+                isinstance(result.get('native_grant_evidence'), str) and result['native_grant_evidence'].strip()):
+            raise ValueError(f'Native phase selection requires acquisition evidence: {identity}')
+        result['native_grants'] = requested
+    elif 'native_grants' in result or 'native_grant_evidence' in result:
+        raise ValueError(f'Physical source has no native phase grant contract: {identity}')
     result['source_key'] = key
     return result

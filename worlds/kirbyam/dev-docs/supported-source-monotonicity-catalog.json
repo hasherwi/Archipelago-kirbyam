@@ -7,14 +7,14 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "9984b590424a0d9e6bcc296220b6d14102184ddb6157454ebcfd6fe0ce3fa0ec",
+    "worlds/kirbyam/traversal.py": "3a5c4fe5d9f9cac6507af92c1b613648b7f829cf2c51f9ffece255a4d49ae3f8",
     "worlds/kirbyam/traversal_data.py": "2d49f5a1ae6e398ca292e0f76a09ed625d74311ad65fc650492a45e087bf19d9",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
     "worlds/kirbyam/data/regions/rooms.json": "542587c2673ee79cfbeae1ed8c62d3ce5cac1b1cb946f7decadadf01db798f6f",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "56600183b56e3eb9374533ba34040b79150934056382f40b05df6f5fdaf2fe2a",
-    "worlds/kirbyam/ability_source_inventory.py": "d045c57eae1fc65d2467a2ed4ac42b025471161cf759838a1d4989353d4e6b28",
-    "worlds/kirbyam/data/ability_source_inventory.json": "8f1f0c83dd2c8a52facc393fc1d7929bc110f894e5514e0dff49e622ade3205f"
+    "worlds/kirbyam/ability_source_inventory.py": "3b876f9da8bba2691d65b823e0e16262fd4c3009523d94b7db0f28a919bc1700",
+    "worlds/kirbyam/data/ability_source_inventory.json": "395e041d9debe9f5404a7772b43c482b153f911f8d73a32fca9f3b04083cf484"
   },
   "witnesses": 153,
   "variants": 306,

@@ -215,7 +215,8 @@ class SourcePolicy:
         self.source_config = build_enemy_source_runtime_config(policy)
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
 
-    def grant(self, key: str, permitted: Callable[[str], bool]) -> Grant:
+    def grant(self, key: str, permitted: Callable[[str], bool],
+              native_grants: tuple[str, ...] = ()) -> Grant:
         if key == CENTRAL_MASTER_SOURCE:
             # Conditional output only. Physical Normal contact and availability
             # are enforced by the bounded witness, not ordinary permission RNG.
@@ -247,6 +248,11 @@ class SourcePolicy:
                 pool = frozenset()
         if randomized:
             return Grant(pool, randomized=True, can_fail=can_fail)
+        if native_grants and address not in self.writes:
+            # Filtering permission cannot turn an unknown native phase into a
+            # convenient singleton. Fixed phase choices are not live RNG retries.
+            return Grant(frozenset(name for name in native_grants if name != "Normal" and permitted(name)),
+                         can_fail=any(name == "Normal" or not permitted(name) for name in native_grants))
         ability = _ID_TO_NAME[self.writes.get(address, ABILITY_NAME_TO_ID[native_name])]
         return Grant(frozenset({ability}) if ability != "Normal" and permitted(ability) else frozenset())
 
@@ -348,6 +354,8 @@ class Placement:
     lifetime: str | None = None
     source_choices: tuple[str, ...] = ()
     room_reset_respawns: bool = True
+    # Witnessed alternatives of native state writes; runtime assignments take precedence.
+    native_grants: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -627,18 +635,20 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(start_list)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[str, Grant] = {}
+    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
     expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str) -> Grant:
+    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
         # Grants describe deterministic possibilities, not individual RNG draws.
         # Policy, owned permissions and gating are fixed for this evaluation.
-        if key not in grants:
-            grants[key] = policy.grant(key, permitted)
-        return grants[key]
+        cache_key = (key, native_grants)
+        if cache_key not in grants:
+            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
+                                 else policy.grant(key, permitted))
+        return grants[cache_key]
 
     while queue:
         position = queue.popleft()
@@ -671,7 +681,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
                 consumed = position.consumed if source.renewable else position.consumed | {identity}
                 grant = (policy.grant_choice(source.source_choices, permitted) if source.source_choices
-                         else source_grant(source.source_key))
+                         else source_grant(source.source_key, source.native_grants))
                 abilities = grant.guaranteed
                 if (allow_documented_retries and source.renewable and source.retry_evidence
                         and grant.randomized and grant.abilities):
@@ -951,12 +961,19 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
         raise ValueError("Renewable source is missing repeatability evidence")
     if row.get("retry_evidence") and not row.get("renewable"):
         raise ValueError("Retry evidence requires a renewable source")
+    native_grants = row.get('native_grants', [])
+    if (not isinstance(native_grants, list) or any(not isinstance(name, str) or name not in _NATIVE_EQUIPMENT for name in native_grants)
+            or len(set(native_grants)) != len(native_grants)):
+        raise ValueError('Native phase grants must be distinct native equipment names')
+    if native_grants and row.get('source_choices'):
+        raise ValueError('Native phases cannot be applied to unrelated fixed source choices')
     return Placement(
         row["node"], row["source_key"], frozenset(row.get("items", ())),
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
         lifetime=row.get('lifetime'), source_choices=tuple(row.get('source_choices', ())),
         room_reset_respawns=row.get('room_reset_respawns', True),
+        native_grants=tuple(native_grants),
     )
 
 

@@ -128,3 +128,8 @@ includes bounded native statue and Frosty observations. Unresolved AP access and
 other generated branches remain explicit; catalog coverage alone does not
 complete them. The exact requested changelog wording must not be used as evidence
 that every legacy gate is fixed.
+
+Native phase-dependent grants are now explicit for all22 Golem records; the ROM
+table default is not assumed to describe every attack state. See
+`native-phase-grants.md`. Phase alternatives preserve uncertainty in vanilla,
+while eligible shuffled/live behavior retains the production runtime semantics.

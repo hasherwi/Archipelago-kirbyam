@@ -17,8 +17,8 @@
     "statue": 95
   },
   "unknown_inventory_references": [],
-  "reviewed_inventory_references": 111,
-  "distinct_referenced_placements": 109,
+  "reviewed_inventory_references": 115,
+  "distinct_referenced_placements": 111,
   "unbound_source_or_encounter_placements": [
     "room:101/template:0x088B6950",
     "room:101/template:0x088B6974",
@@ -109,10 +109,8 @@
     "room:115/template:0x088B972C",
     "room:115/template:0x088B9750",
     "room:117/template:0x088B9808",
-    "room:117/template:0x088B9874",
     "room:117/template:0x088B9898",
     "room:117/template:0x088B98E0",
-    "room:117/template:0x088B9904",
     "room:117/template:0x088B994C",
     "room:117/template:0x088B9970",
     "room:117/template:0x088B99B8",
@@ -2175,14 +2173,6 @@
       "token": "can_fly"
     },
     {
-      "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_24/exits/REGION_CARROT_CASTLE/ROOM_5_02/all/0",
-      "token": "can_break_block"
-    },
-    {
-      "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_24/exits/REGION_CARROT_CASTLE/ROOM_5_02/all/1",
-      "token": "can_mirra"
-    },
-    {
       "path": "rooms/REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER/exits/REGION_RAINBOW_ROUTE/ROOM_1_24/any/0",
       "token": "can_climb"
     },
@@ -3347,16 +3337,8 @@
       "token": "can_break_block"
     },
     {
-      "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_10/exits/REGION_OLIVE_OCEAN/ROOM_6_15/all/0",
+      "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_10/exits/REGION_OLIVE_OCEAN/ROOM_6_15",
       "token": "can_swim"
-    },
-    {
-      "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_10/exits/REGION_OLIVE_OCEAN/ROOM_6_15/all/1",
-      "token": "can_break_block"
-    },
-    {
-      "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_10/exits/REGION_OLIVE_OCEAN/ROOM_6_15/all/2",
-      "token": "can_mirra"
     },
     {
       "path": "rooms/REGION_OLIVE_OCEAN/ROOM_6_10/exits/REGION_OLIVE_OCEAN/ROOM_6_18/all/0",
